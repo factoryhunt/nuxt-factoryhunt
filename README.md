@@ -1,0 +1,2 @@
+# factoryhunt-nuxt
+
