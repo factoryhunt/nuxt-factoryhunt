@@ -1,0 +1,39 @@
+{
+  "name": "Factoryhunt",
+  "version": "0.0.1",
+  "description": "B2B website where manufacturers and suppliers can create website and online catalog for free.",
+  "author": "CTO <peter@factoryhunt.com>",
+  "private": true,
+  "scripts": {
+    "dev": "nodemon server",
+    "build": "nuxt build",
+    "start": "cross-env NODE_ENV=production nodemon server",
+    "generate": "nuxt generate",
+    "lint": "eslint --ext .js,.vue --ignore-path .gitignore .",
+    "precommit": "npm run lint"
+  },
+  "dependencies": {
+    "aws-sdk": "^2.186.0",
+    "axios": "^0.17.1",
+    "body-parser": "^1.18.2",
+    "cookie-parser": "^1.4.3",
+    "cors": "^2.8.4",
+    "express": "^4.16.2",
+    "jsonwebtoken": "^8.1.1",
+    "morgan": "^1.9.0",
+    "multer": "^1.3.0",
+    "multer-s3": "^2.7.0",
+    "mysql": "^2.15.0",
+    "nodemailer": "^4.4.2",
+    "nodemon": "^1.14.11",
+    "nuxt": "^1.0.0"
+  },
+  "devDependencies": {
+    "babel-eslint": "^8.2.1",
+    "cross-env": "^5.1.3",
+    "eslint": "^4.15.0",
+    "eslint-friendly-formatter": "^3.0.0",
+    "eslint-loader": "^1.7.1",
+    "eslint-plugin-vue": "^4.0.0"
+  }
+}
