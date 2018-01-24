@@ -1,7 +1,7 @@
 const mysql = require('../../../../../../mysql')
 const CONFIG_MYSQL = require('../../../../../../mysql/model')
 
-// GET /api/data/domain/:company/:domain
+// GET /api/data/product/domain/:company/:domain
 module.exports = async (req, res) => {
   const company = req.params.company
   const domain = req.params.domain

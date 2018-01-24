@@ -112,7 +112,7 @@
           <span> > </span>
           <span>{{product.secondary_product_category}}</span>
         </div>
-        <p id="vendor-text">by <a @click="routeAccountProfilePage">{{ vendor.account_name_english }}</a></p>
+        <p id="vendor-text">by <a @click="routeAccountProfilePage">{{vendor.account_name_english}}</a></p>
         <!--<div class="list-container">-->
         <!--<div class="left-contents">최소 주문량: {{product.minimum_order_quantity}}</div>-->
         <!--<div class="right-contents">제품 가격: 미정</div>-->
@@ -209,18 +209,20 @@
         ]
       }
     },
-    async asyncData ({params}) {
-      const { data } = await axios.get(`/api/data/product/domain/${params.company}/${params.product}`)
-      return {
-        domain: params.company,
-        productDomain: params.product,
-        vendor: data.account,
-        product: data.product
+    async asyncData ({ params, error }) {
+      try {
+        const { data } = await axios.get(`/api/data/product/domain/${params.company}/${params.product}`)
+        return {
+          vendor: data.account,
+          product: data.product,
+          products: ''
+        }
+      } catch (err) {
+        error({ statusCode: 404, message: 'Page not found' })
       }
     },
     data () {
       return {
-        products: '',
         options: {} || { scale: 1 },
         toggle: {
           isAuthLoaded: false,
@@ -229,38 +231,6 @@
       }
     },
     methods: {
-      async fetchDatas () {
-        try {
-          const vendor = await this.fetchProduct()
-          this.vendor = vendor.account
-          this.product = vendor.product
-          if (!this.product.product_image_url_1) {
-            this.product.product_image_url_1 = '../../static/product_loading_image.png'
-          }
-          this.fetchReletedProducts(this.product.account_id)
-          this.applyJquery()
-        } catch (err) {
-          this.$router.replace('/error')
-        }
-      },
-      fetchProduct () {
-        return new Promise((resolve, reject) => {
-          this.$http.get(`/api/data/product/domain/${this.domain}/${this.productDomain}`)
-            .then(res => {
-              resolve(res.data)
-            })
-            .catch(err => {
-              reject(err.response)
-            })
-        })
-      },
-      fetchReletedProducts (id) {
-        this.$http.get(`/api/data/product/account_id/${id}/approved`)
-          .then(res => {
-            this.products = res.data
-            this.relatedProductImageResize()
-          })
-      },
       onSendInquiry () {
         const pid = this.product.product_id
         const aid = this.vendor.account_id
@@ -395,7 +365,7 @@
           $image.css('height', $image.width() + 'px')
         })
       }
-    },
+    }
   }
 </script>
 

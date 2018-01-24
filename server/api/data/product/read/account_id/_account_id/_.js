@@ -4,7 +4,6 @@ const CONFIG_MYSQL = require('../../../../../mysql/model')
 // GET /api/data/product/account_id/:account_id
 module.exports = async (req, res) => {
   const account_id = req.params.account_id
-  console.log('product get id:', account_id)
 
   const getProducts = () => {
     return new Promise((resolve, reject) => {

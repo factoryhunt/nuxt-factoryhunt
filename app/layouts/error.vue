@@ -1,0 +1,5 @@
+<template>
+  <div>
+    Sorry, 404 Error. Page not found.
+  </div>
+</template>
