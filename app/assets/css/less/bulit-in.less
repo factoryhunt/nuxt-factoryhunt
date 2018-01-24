@@ -1,0 +1,42 @@
+select {
+  width: 100%;
+  background-color: @color-white;
+  border: 1px solid @color-light-grey;
+  border-radius: @border-radius;
+  outline: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  padding: @input-padding;
+}
+iframe {
+  width: 100%;
+}
+
+a {
+  color: @color-link;
+  text-decoration: none;
+  &:hover {
+    color: @color-link;
+    text-decoration: underline;
+  }
+  &:visited {
+    color: @color-link;
+  }
+}
+
+input {
+  .input-basic;
+}
+textarea {
+  .textarea-basic;
+}
+select {
+  .select-basic;
+}
+button {
+  outline: none;
+  &:hover {
+    cursor: pointer;
+  }
+}

@@ -23,9 +23,14 @@ module.exports = {
     ]
   },
   loading: { color: '#f2583d' },
+  css: [
+    '~assets/css/index.less',
+    '~assets/css/libs/font-awesome-4.7.0/css/font-awesome.min.css'
+  ],
   build: {
     vendor: [
-      'axios'
+      'axios',
+      'jquery'
     ],
     extend (config, { isDev, isClient }) {
       if (isDev && isClient) {
