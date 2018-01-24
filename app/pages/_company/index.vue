@@ -170,13 +170,13 @@
       return {
         title: `${this.vendor.account_name_english} | Factory Hunt`,
         meta: [
-          { hid: 'keywords', name: 'keywords', content: `${this.vendor.products_english}, factoryhunt, factory, hunt, factory hunt, quote, bulk, wholesale, supplier, factory hunt, online catalog, supplier directory, free website, international trade` },
+          { hid: 'keywords', name: 'keywords', content: `${this.vendor.account_name_english}, ${this.vendor.products_english}, factoryhunt, factory, hunt, factory hunt, quote, bulk, wholesale, supplier, factory hunt, online catalog, supplier directory, free website, international trade` },
           { hid: 'description', name: 'description', content: `${this.vendor.company_description_english} | Factory Hunt` },
           { hid: 'og-type', property: 'og:type', content: 'website' },
           { hid: 'og-title', property: 'og:title', content: this.vendor.account_name_english },
           { hid: 'og-description', property: 'og:description', content: this.vendor.company_description_english },
           { hid: 'og-image', property: 'og:image', content: this.vendor.account_image_url_1 },
-          { hid: 'og-url', property: 'og:url', content: `https://www.factoryhunt.com/${this.vendor.domain}` }
+          { hid: 'og-url', property: 'og:url', content: `factoryhunt.com/${this.vendor.domain}` }
         ]
       }
     },

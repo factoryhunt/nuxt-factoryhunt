@@ -6,7 +6,7 @@ module.exports = {
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
       { name: 'robots', content: 'index, follow' },
-      { hide: 'keywords', name: 'keywords', content: 'factoryhunt, factory, hunt, factory hunt, quote, bulk, wholesale, supplier, factory hunt, online catalog, supplier directory, free website, international trade' },
+      { hid: 'keywords', name: 'keywords', content: 'factoryhunt, factory, hunt, factory hunt, quote, bulk, wholesale, supplier, factory hunt, online catalog, supplier directory, free website, international trade' },
       { hid: 'description', name: 'description', content: 'Factoryhunt is a B2B website where manufacturers and suppliers can create website and online catalog for free.' },
       { hid: 'og-type', property: 'og:type', content: 'website' },
       { hid: 'og-title', property: 'og:title', content: 'Factory Hunt' },
