@@ -31,7 +31,8 @@
     "nodemailer": "^4.4.2",
     "nodemon": "^1.14.11",
     "nuxt": "^1.0.0",
-    "scrollreveal": "^3.3.6"
+    "scrollreveal": "^3.3.6",
+    "vue2-editor": "^2.3.2"
   },
   "devDependencies": {
     "babel-eslint": "^8.2.1",
@@ -41,6 +42,7 @@
     "eslint-loader": "^1.7.1",
     "eslint-plugin-vue": "^4.0.0",
     "less": "^2.7.3",
-    "less-loader": "^4.0.5"
+    "less-loader": "^4.0.5",
+    "pdfjs-dist": "^2.0.290"
   }
 }

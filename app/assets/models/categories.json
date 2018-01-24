@@ -1,0 +1,3187 @@
+[
+  {
+    "name": "Agriculture",
+    "sub_category": [
+      {
+        "name": "Agricultural Growing Media"
+      },
+      {
+        "name": "Agricultural Waste"
+      },
+      {
+        "name": "Animal Products"
+      },
+      {
+        "name": "Beans"
+      },
+      {
+        "name": "Cocoa Beans"
+      },
+      {
+        "name": "Coffee Beans"
+      },
+      {
+        "name": "Farm Machinery & Equipment"
+      },
+      {
+        "name": "Feed"
+      },
+      {
+        "name": "Fresh Seafood"
+      },
+      {
+        "name": "Fruit"
+      },
+      {
+        "name": "Grain"
+      },
+      {
+        "name": "Herbal Cigars & Cigarettes"
+      },
+      {
+        "name": "Mushrooms & Truffles"
+      },
+      {
+        "name": "Nuts & Kernels"
+      },
+      {
+        "name": "Organic Produce"
+      },
+      {
+        "name": "Ornamental Plants"
+      },
+      {
+        "name": "Other Agriculture Products"
+      },
+      {
+        "name": "Plant & Animal Oil"
+      },
+      {
+        "name": "Plant Seeds & Bulbs"
+      },
+      {
+        "name": "Timber Raw Materials"
+      },
+      {
+        "name": "Vanilla Beans"
+      },
+      {
+        "name": "Vegetables"
+      }
+    ]
+  },
+  {
+    "name": "Food & Beverage",
+    "sub_category": [
+      {
+        "name": "Alcoholic Beverage"
+      },
+      {
+        "name": "Baby Food"
+      },
+      {
+        "name": "Baked Goods"
+      },
+      {
+        "name": "Bean Products"
+      },
+      {
+        "name": "Canned Food"
+      },
+      {
+        "name": "Coffee"
+      },
+      {
+        "name": "Confectionery"
+      },
+      {
+        "name": "Dairy"
+      },
+      {
+        "name": "Drinking Water"
+      },
+      {
+        "name": "Egg & Egg Products"
+      },
+      {
+        "name": "Food Ingredients"
+      },
+      {
+        "name": "Fruit Products"
+      },
+      {
+        "name": "Grain Products"
+      },
+      {
+        "name": "Honey Products"
+      },
+      {
+        "name": "Instant Food"
+      },
+      {
+        "name": "Meat & Poultry"
+      },
+      {
+        "name": "Other Food & Beverage"
+      },
+      {
+        "name": "Seafood"
+      },
+      {
+        "name": "Seasonings & Condiments"
+      },
+      {
+        "name": "Slimming Food"
+      },
+      {
+        "name": "Snack Food"
+      },
+      {
+        "name": "Soft Drinks"
+      },
+      {
+        "name": "Tea"
+      },
+      {
+        "name": "Vegetable Products"
+      }
+    ]
+  },
+  {
+    "name": "Apparel",
+    "sub_category": [
+      {
+        "name": "Apparel Design Services"
+      },
+      {
+        "name": "Apparel Processing Services"
+      },
+      {
+        "name": "Apparel Stock"
+      },
+      {
+        "name": "Boy’s Clothing"
+      },
+      {
+        "name": "Children’s Clothing"
+      },
+      {
+        "name": "Coats"
+      },
+      {
+        "name": "Costumes"
+      },
+      {
+        "name": "Dresses"
+      },
+      {
+        "name": "Ethnic Clothing"
+      },
+      {
+        "name": "Garment Accessories"
+      },
+      {
+        "name": "Girls’ Clothing"
+      },
+      {
+        "name": "Hoodies & Sweatshirts"
+      },
+      {
+        "name": "Hosiery"
+      },
+      {
+        "name": "Infant & Toddlers Clothing"
+      },
+      {
+        "name": "Jackets"
+      },
+      {
+        "name": "Jeans"
+      },
+      {
+        "name": "Ladies’ Blouses & Tops"
+      },
+      {
+        "name": "Mannequins"
+      },
+      {
+        "name": "Maternity Clothing"
+      },
+      {
+        "name": "Men’s Clothing"
+      },
+      {
+        "name": "Men’s Shirts"
+      },
+      {
+        "name": "Organic Cotton Clothing"
+      },
+      {
+        "name": "Other Apparel"
+      },
+      {
+        "name": "Pants & Trousers"
+      },
+      {
+        "name": "Plus Size Clothing"
+      },
+      {
+        "name": "Sewing Supplies"
+      },
+      {
+        "name": "Shorts"
+      },
+      {
+        "name": "Skirts"
+      },
+      {
+        "name": "Sleepwear"
+      },
+      {
+        "name": "Sportswear"
+      },
+      {
+        "name": "Stage & Dance Wear"
+      },
+      {
+        "name": "Suits & Tuxedo"
+      },
+      {
+        "name": "Sweaters"
+      },
+      {
+        "name": "Tag Guns"
+      },
+      {
+        "name": "Tank Tops"
+      },
+      {
+        "name": "T-Shirts"
+      },
+      {
+        "name": "Underwear"
+      },
+      {
+        "name": "Uniforms"
+      },
+      {
+        "name": "Used Clothes"
+      },
+      {
+        "name": "Vests & Waistcoats"
+      },
+      {
+        "name": "Wedding Apparel & Accessories"
+      },
+      {
+        "name": "Women’s Clothing"
+      },
+      {
+        "name": "Workwear"
+      }
+    ]
+  },
+  {
+    "name": "Textile & Leather Product",
+    "sub_category": [
+      {
+        "name": "Down & Feather"
+      },
+      {
+        "name": "Fabric"
+      },
+      {
+        "name": "Fiber"
+      },
+      {
+        "name": "Fur"
+      },
+      {
+        "name": "Grey Fabric"
+      },
+      {
+        "name": "Home Textile"
+      },
+      {
+        "name": "Leather"
+      },
+      {
+        "name": "Leather Product"
+      },
+      {
+        "name": "Other Textiles & Leather Products"
+      },
+      {
+        "name": "Textile Accessories"
+      },
+      {
+        "name": "Textile Processing"
+      },
+      {
+        "name": "Textile Stock"
+      },
+      {
+        "name": "Thread"
+      },
+      {
+        "name": "Yarn"
+      },
+      {
+        "name": "100% Cotton Fabric"
+      },
+      {
+        "name": "100% Polyester Fabric"
+      },
+      {
+        "name": "Bedding Set"
+      },
+      {
+        "name": "Towel"
+      },
+      {
+        "name": "Chair Cover"
+      },
+      {
+        "name": "Genuine Leather"
+      }
+    ]
+  },
+  {
+    "name": "Fashion Accessories",
+    "sub_category": [
+      {
+        "name": "Belt Accessories"
+      },
+      {
+        "name": "Belts"
+      },
+      {
+        "name": "Fashion Accessories Design Services"
+      },
+      {
+        "name": "Fashion Accessories Processing Services"
+      },
+      {
+        "name": "Fashion Accessories Stock"
+      },
+      {
+        "name": "Gloves & Mittens"
+      },
+      {
+        "name": "Headwear"
+      },
+      {
+        "name": "Neckwear"
+      },
+      {
+        "name": "Scarf, Hat & Glove Sets"
+      },
+      {
+        "name": "Hats & Caps"
+      },
+      {
+        "name": "Scarves & Shawls"
+      },
+      {
+        "name": "Hair Accessories"
+      },
+      {
+        "name": "Genuine Leather Belts"
+      },
+      {
+        "name": "Leather Gloves & Mittens"
+      },
+      {
+        "name": "Ties & Accessories"
+      },
+      {
+        "name": "Belt Buckles"
+      },
+      {
+        "name": "PU Belts"
+      },
+      {
+        "name": "Belt Chains"
+      },
+      {
+        "name": "Metal Belts"
+      },
+      {
+        "name": "Suspenders"
+      }
+    ]
+  },
+  {
+    "name": "Timepieces, Jewelry, Eyewear",
+    "sub_category": [
+      {
+        "name": "Eyewear"
+      },
+      {
+        "name": "Jewelry"
+      },
+      {
+        "name": "Watches"
+      },
+      {
+        "name": "Eyeglasses Frames"
+      },
+      {
+        "name": "Sunglasses"
+      },
+      {
+        "name": "Sports Eyewear"
+      },
+      {
+        "name": "Body Jewelry"
+      },
+      {
+        "name": "Bracelets & Bangles"
+      },
+      {
+        "name": "Brooches"
+      },
+      {
+        "name": "Cuff Links & Tie Clips"
+      },
+      {
+        "name": "Earrings"
+      },
+      {
+        "name": "Jewelry Boxes"
+      },
+      {
+        "name": "Jewelry Sets"
+      },
+      {
+        "name": "Jewelry Tools & Equipment"
+      },
+      {
+        "name": "Loose Beads"
+      },
+      {
+        "name": "Loose Gemstone"
+      },
+      {
+        "name": "Necklaces"
+      },
+      {
+        "name": "Pendants & Charms"
+      },
+      {
+        "name": "Rings"
+      },
+      {
+        "name": "Wristwatches"
+      }
+    ]
+  },
+  {
+    "name": "Automobiles & Motorcycles",
+    "sub_category": [
+      {
+        "name": "Air Intakes"
+      },
+      {
+        "name": "ATV"
+      },
+      {
+        "name": "ATV Parts"
+      },
+      {
+        "name": "Auto Chassis Parts"
+      },
+      {
+        "name": "Auto Clutch"
+      },
+      {
+        "name": "Auto Electrical System"
+      },
+      {
+        "name": "Auto Electronics"
+      },
+      {
+        "name": "Auto Engine"
+      },
+      {
+        "name": "Auto Ignition System"
+      },
+      {
+        "name": "Auto Steering System"
+      },
+      {
+        "name": "Automobiles"
+      },
+      {
+        "name": "Axles"
+      },
+      {
+        "name": "Body Parts"
+      },
+      {
+        "name": "Brake System"
+      },
+      {
+        "name": "Car Care & Cleaning"
+      },
+      {
+        "name": "Cooling System"
+      },
+      {
+        "name": "Crank Mechanism"
+      },
+      {
+        "name": "Exhaust System"
+      },
+      {
+        "name": "Exterior Accessories"
+      },
+      {
+        "name": "Fuel System"
+      },
+      {
+        "name": "Interior Accessories"
+      },
+      {
+        "name": "Lubrication System"
+      },
+      {
+        "name": "Motorcycle Accessories"
+      },
+      {
+        "name": "Motorcycle Parts"
+      },
+      {
+        "name": "Motorcycles"
+      },
+      {
+        "name": "Other Auto Parts"
+      },
+      {
+        "name": "Suspension System"
+      },
+      {
+        "name": "Transmission"
+      },
+      {
+        "name": "Tricycles"
+      },
+      {
+        "name": "Universal Parts"
+      },
+      {
+        "name": "UTV"
+      },
+      {
+        "name": "Valve Train"
+      },
+      {
+        "name": "Vehicle Equipment"
+      },
+      {
+        "name": "Vehicle Tools"
+      }
+    ]
+  },
+  {
+    "name": "Transportation",
+    "sub_category": [
+      {
+        "name": "Aircraft"
+      },
+      {
+        "name": "Aviation Accessories"
+      },
+      {
+        "name": "Aviation Parts"
+      },
+      {
+        "name": "Bicycle"
+      },
+      {
+        "name": "Bicycle Accessories"
+      },
+      {
+        "name": "Bicycle Parts"
+      },
+      {
+        "name": "Boats & Ships"
+      },
+      {
+        "name": "Bus"
+      },
+      {
+        "name": "Bus Accessories"
+      },
+      {
+        "name": "Bus Parts"
+      },
+      {
+        "name": "Container"
+      },
+      {
+        "name": "Electric Bicycle"
+      },
+      {
+        "name": "Electric Bicycle Part"
+      },
+      {
+        "name": "Emergency Vehicles"
+      },
+      {
+        "name": "Golf Carts"
+      },
+      {
+        "name": "Locomotive"
+      },
+      {
+        "name": "Marine Supplies"
+      },
+      {
+        "name": "Personal Watercraft"
+      },
+      {
+        "name": "Railway Supplies"
+      },
+      {
+        "name": "Snowmobile"
+      },
+      {
+        "name": "Special Transportation"
+      },
+      {
+        "name": "Trailers"
+      },
+      {
+        "name": "Train Carriage"
+      },
+      {
+        "name": "Train Parts"
+      },
+      {
+        "name": "Truck"
+      },
+      {
+        "name": "Truck Accessories"
+      },
+      {
+        "name": "Truck Parts"
+      }
+    ]
+  },
+  {
+    "name": "Luggage, Bags & Cases",
+    "sub_category": [
+      {
+        "name": "Bag & Luggage Making Materials"
+      },
+      {
+        "name": "Bag Parts & Accessories"
+      },
+      {
+        "name": "Business Bags & Cases"
+      },
+      {
+        "name": "Digital Gear & Camera Bags"
+      },
+      {
+        "name": "Handbags & Messenger Bags"
+      },
+      {
+        "name": "Luggage & Travel Bags"
+      },
+      {
+        "name": "Luggage Cart"
+      },
+      {
+        "name": "Other Luggage, Bags & Cases"
+      },
+      {
+        "name": "Special Purpose Bags & Cases"
+      },
+      {
+        "name": "Sports & Leisure Bags"
+      },
+      {
+        "name": "Wallets & Holders"
+      },
+      {
+        "name": "Carry-on Luggage"
+      },
+      {
+        "name": "Luggage Sets"
+      },
+      {
+        "name": "Trolley Bags"
+      },
+      {
+        "name": "Briefcases"
+      },
+      {
+        "name": "Cosmetic Bags & Cases"
+      },
+      {
+        "name": "Shopping Bags"
+      },
+      {
+        "name": "Handbags"
+      },
+      {
+        "name": "Backpacks"
+      },
+      {
+        "name": "Wallets"
+      }
+    ]
+  },
+  {
+    "name": "Shoes & Accessories",
+    "sub_category": [
+      {
+        "name": "Baby Shoes"
+      },
+      {
+        "name": "Boots"
+      },
+      {
+        "name": "Casual Shoes"
+      },
+      {
+        "name": "Children’s Shoes"
+      },
+      {
+        "name": "Clogs"
+      },
+      {
+        "name": "Dance Shoes"
+      },
+      {
+        "name": "Dress Shoes"
+      },
+      {
+        "name": "Genuine Leather Shoes"
+      },
+      {
+        "name": "Men’s Shoes"
+      },
+      {
+        "name": "Other Shoes"
+      },
+      {
+        "name": "Sandals"
+      },
+      {
+        "name": "Shoe Materials"
+      },
+      {
+        "name": "Shoe Parts & Accessories"
+      },
+      {
+        "name": "Shoe Repairing Equipment"
+      },
+      {
+        "name": "Shoes Design Services"
+      },
+      {
+        "name": "Shoes Processing Services"
+      },
+      {
+        "name": "Shoes Stock"
+      },
+      {
+        "name": "Slippers"
+      },
+      {
+        "name": "Special Purpose Shoes"
+      },
+      {
+        "name": "Sports Shoes"
+      },
+      {
+        "name": "Used Shoes"
+      },
+      {
+        "name": "Women’s Shoes"
+      }
+    ]
+  },
+  {
+    "name": "Computer Hardware & Software",
+    "sub_category": [
+      {
+        "name": "All-In-One PC"
+      },
+      {
+        "name": "Barebone System"
+      },
+      {
+        "name": "Blank Media"
+      },
+      {
+        "name": "Computer Cables & Connectors"
+      },
+      {
+        "name": "Computer Cases & Towers"
+      },
+      {
+        "name": "Computer Cleaners"
+      },
+      {
+        "name": "Desktops"
+      },
+      {
+        "name": "Fans & Cooling"
+      },
+      {
+        "name": "Firewall & VPN"
+      },
+      {
+        "name": "Floppy Drives"
+      },
+      {
+        "name": "Graphics Cards"
+      },
+      {
+        "name": "Hard Drives"
+      },
+      {
+        "name": "HDD Enclosure"
+      },
+      {
+        "name": "Industrial Computer & Accessories"
+      },
+      {
+        "name": "Keyboard Covers"
+      },
+      {
+        "name": "KVM Switches"
+      },
+      {
+        "name": "Laptop Accessories"
+      },
+      {
+        "name": "Laptop Cooling Pads"
+      },
+      {
+        "name": "Laptops"
+      },
+      {
+        "name": "Memory"
+      },
+      {
+        "name": "Modems"
+      },
+      {
+        "name": "Monitors"
+      },
+      {
+        "name": "Motherboards"
+      },
+      {
+        "name": "Mouse & Keyboards"
+      },
+      {
+        "name": "Mouse Pads"
+      },
+      {
+        "name": "Netbooks & UMPC"
+      },
+      {
+        "name": "Network Cabinets"
+      },
+      {
+        "name": "Network Cards"
+      },
+      {
+        "name": "Network Hubs"
+      },
+      {
+        "name": "Network Switches"
+      },
+      {
+        "name": "Networking Storage"
+      },
+      {
+        "name": "Optical Drives"
+      },
+      {
+        "name": "Other Computer Accessories"
+      },
+      {
+        "name": "Other Computer Parts"
+      },
+      {
+        "name": "Other Computer Products"
+      },
+      {
+        "name": "Other Drive & Storage Devices"
+      },
+      {
+        "name": "Other Networking Devices"
+      },
+      {
+        "name": "PC Stations"
+      },
+      {
+        "name": "PDAs"
+      },
+      {
+        "name": "Power Supply Units"
+      },
+      {
+        "name": "Printers"
+      },
+      {
+        "name": "Processors"
+      },
+      {
+        "name": "Routers"
+      },
+      {
+        "name": "Scanners"
+      },
+      {
+        "name": "Servers"
+      },
+      {
+        "name": "Software"
+      },
+      {
+        "name": "Sound Cards"
+      },
+      {
+        "name": "Tablet PC"
+      },
+      {
+        "name": "Tablet PC Stands"
+      },
+      {
+        "name": "Tablet Stylus Pen"
+      },
+      {
+        "name": "USB Flash Drives"
+      },
+      {
+        "name": "USB Gadgets"
+      },
+      {
+        "name": "USB Hubs"
+      },
+      {
+        "name": "Used Computers & Accessories"
+      },
+      {
+        "name": "Webcams"
+      },
+      {
+        "name": "Wire Networking"
+      },
+      {
+        "name": "Workstations"
+      }
+    ]
+  },
+  {
+    "name": "Home Appliance",
+    "sub_category": [
+      {
+        "name": "Air Conditioning Appliances"
+      },
+      {
+        "name": "Cleaning Appliances"
+      },
+      {
+        "name": "Hand Dryers"
+      },
+      {
+        "name": "Home Appliance Parts"
+      },
+      {
+        "name": "Home Appliances Stocks"
+      },
+      {
+        "name": "Home Heaters"
+      },
+      {
+        "name": "Kitchen Appliances"
+      },
+      {
+        "name": "Laundry Appliances"
+      },
+      {
+        "name": "Other Home Appliances"
+      },
+      {
+        "name": "Refrigerators & Freezers"
+      },
+      {
+        "name": "Water Heaters"
+      },
+      {
+        "name": "Water Treatment Appliances"
+      },
+      {
+        "name": "Wet Towel Dispensers"
+      },
+      {
+        "name": "Air Conditioners"
+      },
+      {
+        "name": "Fans"
+      },
+      {
+        "name": "Vacuum Cleaners"
+      },
+      {
+        "name": "Solar Water Heaters"
+      },
+      {
+        "name": "Cooking Appliances"
+      },
+      {
+        "name": "Coffee Makers"
+      },
+      {
+        "name": "Blenders"
+      }
+    ]
+  },
+  {
+    "name": "Consumer Electronic",
+    "sub_category": [
+      {
+        "name": "Accessories & Parts"
+      },
+      {
+        "name": "Camera, Photo & Accessories"
+      },
+      {
+        "name": "Electronic Publications"
+      },
+      {
+        "name": "Home Audio, Video & Accessories"
+      },
+      {
+        "name": "Cell Phone & Accessories"
+      },
+      {
+        "name": "Other Consumer Electronics"
+      },
+      {
+        "name": "Portable Audio, Video & Accessories"
+      },
+      {
+        "name": "Video Game & Accessories"
+      },
+      {
+        "name": "Cell Phones"
+      },
+      {
+        "name": "Earphone & Headphone"
+      },
+      {
+        "name": "Power Banks"
+      },
+      {
+        "name": "Digital Camera"
+      },
+      {
+        "name": "Radio & TV Accessories"
+      },
+      {
+        "name": "Speaker"
+      },
+      {
+        "name": "Television"
+      },
+      {
+        "name": "Cables"
+      },
+      {
+        "name": "Charger"
+      },
+      {
+        "name": "Digital Battery"
+      },
+      {
+        "name": "Digital Photo Frame"
+      },
+      {
+        "name": "3D Glasses"
+      }
+    ]
+  },
+  {
+    "name": "Security & Protection",
+    "sub_category": [
+      {
+        "name": "Access Control Systems & Products"
+      },
+      {
+        "name": "Alarm"
+      },
+      {
+        "name": "CCTV Products"
+      },
+      {
+        "name": "Firefighting Supplies"
+      },
+      {
+        "name": "Key"
+      },
+      {
+        "name": "Lock Parts"
+      },
+      {
+        "name": "Locks"
+      },
+      {
+        "name": "Locksmith Supplies"
+      },
+      {
+        "name": "Other Security & Protection Products"
+      },
+      {
+        "name": "Police & Military Supplies"
+      },
+      {
+        "name": "Roadway Safety"
+      },
+      {
+        "name": "Safes"
+      },
+      {
+        "name": "Security Services"
+      },
+      {
+        "name": "Self Defense Supplies"
+      },
+      {
+        "name": "Water Safety Products"
+      },
+      {
+        "name": "Workplace Safety Supplies"
+      },
+      {
+        "name": "CCTV Camera"
+      },
+      {
+        "name": "Bullet Proof Vest"
+      },
+      {
+        "name": "Alcohol Tester"
+      },
+      {
+        "name": "Fire Alarm"
+      }
+    ]
+  },
+  {
+    "name": "Electrical Equipment & Supplies",
+    "sub_category": [
+      {
+        "name": "Batteries"
+      },
+      {
+        "name": "Circuit Breakers"
+      },
+      {
+        "name": "Connectors & Terminals"
+      },
+      {
+        "name": "Contactors"
+      },
+      {
+        "name": "Electrical Plugs & Sockets"
+      },
+      {
+        "name": "Electronic & Instrument Enclosures"
+      },
+      {
+        "name": "Fuse Components"
+      },
+      {
+        "name": "Fuses"
+      },
+      {
+        "name": "Generators"
+      },
+      {
+        "name": "Other Electrical Equipment"
+      },
+      {
+        "name": "Power Accessories"
+      },
+      {
+        "name": "Power Distribution Equipment"
+      },
+      {
+        "name": "Power Supplies"
+      },
+      {
+        "name": "Professional Audio, Video & Lighting"
+      },
+      {
+        "name": "Relays"
+      },
+      {
+        "name": "Switches"
+      },
+      {
+        "name": "Transformers"
+      },
+      {
+        "name": "Wires, Cables & Cable Assemblies"
+      },
+      {
+        "name": "Wiring Accessories"
+      },
+      {
+        "name": "Solar Cells, Solar Panel"
+      },
+      {
+        "name": "Active Components"
+      },
+      {
+        "name": "EL Products"
+      },
+      {
+        "name": "Electronic Accessories & Supplies"
+      },
+      {
+        "name": "Electronic Data Systems"
+      },
+      {
+        "name": "Electronic Signs"
+      },
+      {
+        "name": "Electronics Production Machinery"
+      },
+      {
+        "name": "Electronics Stocks"
+      },
+      {
+        "name": "Optoelectronic Displays"
+      },
+      {
+        "name": "Other Electronic Components"
+      },
+      {
+        "name": "Passive Components"
+      },
+      {
+        "name": "LCD Modules"
+      },
+      {
+        "name": "LED Displays"
+      },
+      {
+        "name": "PCB & PCBA"
+      },
+      {
+        "name": "Keypads & Keyboards"
+      },
+      {
+        "name": "Insulation Materials & Elements"
+      },
+      {
+        "name": "Integrated Circuits"
+      },
+      {
+        "name": "Diodes"
+      },
+      {
+        "name": "Transistors"
+      },
+      {
+        "name": "Capacitors"
+      },
+      {
+        "name": "Resistors"
+      }
+    ]
+  },
+  {
+    "name": "Telecommunication",
+    "sub_category": [
+      {
+        "name": "Antennas for Communications"
+      },
+      {
+        "name": "Communication Equipment"
+      },
+      {
+        "name": "Telephones & Accessories"
+      },
+      {
+        "name": "Communication Cables"
+      },
+      {
+        "name": "Fiber Optic Equipment"
+      },
+      {
+        "name": "Fixed Wire Terminals"
+      },
+      {
+        "name": "WiFi Finder"
+      },
+      {
+        "name": "Telephone Accessories"
+      },
+      {
+        "name": "Corded Telephones"
+      },
+      {
+        "name": "Cord Telephones"
+      },
+      {
+        "name": "Wire Networking Equipment"
+      },
+      {
+        "name": "Telephone Headsets"
+      },
+      {
+        "name": "VoIP Products"
+      },
+      {
+        "name": "Repeater"
+      },
+      {
+        "name": "PBX"
+      },
+      {
+        "name": "Telecom Parts"
+      },
+      {
+        "name": "Phone Cards"
+      },
+      {
+        "name": "Telephone Cords"
+      },
+      {
+        "name": "Answering Machines"
+      },
+      {
+        "name": "Caller ID Boxes"
+      }
+    ]
+  },
+  {
+    "name": "Sports & Entertainment",
+    "sub_category": [
+      {
+        "name": "Amusement Park"
+      },
+      {
+        "name": "Artificial Grass & Sports Flooring"
+      },
+      {
+        "name": "Fitness & Body Building"
+      },
+      {
+        "name": "Gambling"
+      },
+      {
+        "name": "Golf"
+      },
+      {
+        "name": "Indoor Sports"
+      },
+      {
+        "name": "Musical Instruments"
+      },
+      {
+        "name": "Other Sports & Entertainment Products"
+      },
+      {
+        "name": "Outdoor Sports"
+      },
+      {
+        "name": "Sports Gloves"
+      },
+      {
+        "name": "Sports Safety"
+      },
+      {
+        "name": "Sports Souvenirs"
+      },
+      {
+        "name": "Team Sports"
+      },
+      {
+        "name": "Tennis"
+      },
+      {
+        "name": "Water Sports"
+      },
+      {
+        "name": "Winter Sports"
+      },
+      {
+        "name": "Camping & Hiking"
+      },
+      {
+        "name": "Scooters"
+      },
+      {
+        "name": "Gym Equipment"
+      },
+      {
+        "name": "Swimming & Diving"
+      }
+    ]
+  },
+  {
+    "name": "Gifts & Crafts",
+    "sub_category": [
+      {
+        "name": "Antique Imitation Crafts"
+      },
+      {
+        "name": "Art & Collectible"
+      },
+      {
+        "name": "Artificial Crafts"
+      },
+      {
+        "name": "Arts & Crafts Stocks"
+      },
+      {
+        "name": "Bamboo Crafts"
+      },
+      {
+        "name": "Carving Crafts"
+      },
+      {
+        "name": "Clay Crafts"
+      },
+      {
+        "name": "Cross Stitch"
+      },
+      {
+        "name": "Crystal Crafts"
+      },
+      {
+        "name": "Embroidery Crafts"
+      },
+      {
+        "name": "Feng Shui Crafts"
+      },
+      {
+        "name": "Festive & Party Supplies"
+      },
+      {
+        "name": "Flags, Banners & Accessories"
+      },
+      {
+        "name": "Folk Crafts"
+      },
+      {
+        "name": "Gift Sets"
+      },
+      {
+        "name": "Glass Crafts"
+      },
+      {
+        "name": "Holiday Gifts"
+      },
+      {
+        "name": "Home Decoration"
+      },
+      {
+        "name": "Key Chains"
+      },
+      {
+        "name": "Knitting & Crocheting"
+      },
+      {
+        "name": "Lacquerware"
+      },
+      {
+        "name": "Lanyard"
+      },
+      {
+        "name": "Leather Crafts"
+      },
+      {
+        "name": "Metal Crafts"
+      },
+      {
+        "name": "Money Boxes"
+      },
+      {
+        "name": "Music Boxes"
+      },
+      {
+        "name": "Natural Crafts"
+      },
+      {
+        "name": "Nautical Crafts"
+      },
+      {
+        "name": "Other Gifts & Crafts"
+      },
+      {
+        "name": "Paper Crafts"
+      },
+      {
+        "name": "Plastic Crafts"
+      },
+      {
+        "name": "Pottery & Enamel"
+      },
+      {
+        "name": "Religious Crafts"
+      },
+      {
+        "name": "Resin Crafts"
+      },
+      {
+        "name": "Sculptures"
+      },
+      {
+        "name": "Semi-Precious Stone Crafts"
+      },
+      {
+        "name": "Souvenirs"
+      },
+      {
+        "name": "Stickers"
+      },
+      {
+        "name": "Stone Crafts"
+      },
+      {
+        "name": "Textile & Fabric Crafts"
+      },
+      {
+        "name": "Wedding Decorations & Gifts"
+      },
+      {
+        "name": "Wicker Crafts"
+      },
+      {
+        "name": "Wood Crafts"
+      }
+    ]
+  },
+  {
+    "name": "Toys & Hobbies",
+    "sub_category": [
+      {
+        "name": "Action Figure"
+      },
+      {
+        "name": "Baby Toys"
+      },
+      {
+        "name": "Balloons"
+      },
+      {
+        "name": "Candy Toys"
+      },
+      {
+        "name": "Classic Toys"
+      },
+      {
+        "name": "Dolls"
+      },
+      {
+        "name": "Educational Toys"
+      },
+      {
+        "name": "Electronic Toys"
+      },
+      {
+        "name": "Glass Marbles"
+      },
+      {
+        "name": "Inflatable Toys"
+      },
+      {
+        "name": "Light-Up Toys"
+      },
+      {
+        "name": "Noise Maker"
+      },
+      {
+        "name": "Other Toys & Hobbies"
+      },
+      {
+        "name": "Outdoor Toys & Structures"
+      },
+      {
+        "name": "Plastic Toys"
+      },
+      {
+        "name": "Pretend Play & Preschool"
+      },
+      {
+        "name": "Solar Toys"
+      },
+      {
+        "name": "Toy Accessories"
+      },
+      {
+        "name": "Toy Animal"
+      },
+      {
+        "name": "Toy Guns"
+      },
+      {
+        "name": "Toy Parts"
+      },
+      {
+        "name": "Toy Robots"
+      },
+      {
+        "name": "Toy Vehicle"
+      },
+      {
+        "name": "Wind Up Toys"
+      },
+      {
+        "name": "Wooden Toys"
+      }
+    ]
+  },
+  {
+    "name": "Health & Medical",
+    "sub_category": [
+      {
+        "name": "Animal Extract"
+      },
+      {
+        "name": "Plant Extracts"
+      },
+      {
+        "name": "Body Weight"
+      },
+      {
+        "name": "Health Care Supplement"
+      },
+      {
+        "name": "Health Care Supplies"
+      },
+      {
+        "name": "Crude Medicine"
+      },
+      {
+        "name": "Prepared Drugs In Pieces"
+      },
+      {
+        "name": "Traditional Patented Medicines"
+      },
+      {
+        "name": "Body Fluid-Processing & Circulation Devices"
+      },
+      {
+        "name": "Clinical Analytical Instruments"
+      },
+      {
+        "name": "Dental Equipment"
+      },
+      {
+        "name": "Emergency & Clinics Apparatuses"
+      },
+      {
+        "name": "Equipments of Traditional Chinese Medicine"
+      },
+      {
+        "name": "General Assay & Diagnostic Apparatuses"
+      },
+      {
+        "name": "Implants & Interventional Materials"
+      },
+      {
+        "name": "Medical Consumable"
+      },
+      {
+        "name": "Medical Cryogenic Equipments"
+      },
+      {
+        "name": "Medical Software"
+      },
+      {
+        "name": "Physical Therapy Equipments"
+      },
+      {
+        "name": "Radiology Equipment & Accessories"
+      },
+      {
+        "name": "Sterilization Equipments"
+      },
+      {
+        "name": "Surgical Instrument"
+      },
+      {
+        "name": "Ultrasonic, Optical, Electronic Equipment"
+      },
+      {
+        "name": "Ward Nursing Equipments"
+      },
+      {
+        "name": "Medicines"
+      },
+      {
+        "name": "Veterinary Instrument"
+      },
+      {
+        "name": "Veterinary Medicine"
+      }
+    ]
+  },
+  {
+    "name": "Beauty & Personal Care",
+    "sub_category": [
+      {
+        "name": "Baby Care"
+      },
+      {
+        "name": "Bath Supplies"
+      },
+      {
+        "name": "Beauty Equipment"
+      },
+      {
+        "name": "Body Art"
+      },
+      {
+        "name": "Breast Care"
+      },
+      {
+        "name": "Feminine Hygiene"
+      },
+      {
+        "name": "Fragrance & Deodorant"
+      },
+      {
+        "name": "Hair Care"
+      },
+      {
+        "name": "Hair Extensions & Wigs"
+      },
+      {
+        "name": "Hair Salon Equipment"
+      },
+      {
+        "name": "Makeup"
+      },
+      {
+        "name": "Makeup Tools"
+      },
+      {
+        "name": "Men Care"
+      },
+      {
+        "name": "Nail Supplies"
+      },
+      {
+        "name": "Oral Hygiene"
+      },
+      {
+        "name": "Other Beauty & Personal Care Products"
+      },
+      {
+        "name": "Sanitary Paper"
+      },
+      {
+        "name": "Shaving & Hair Removal"
+      },
+      {
+        "name": "Skin Care"
+      },
+      {
+        "name": "Skin Care Tool"
+      },
+      {
+        "name": "Spa Supplies"
+      },
+      {
+        "name": "Weight Loss"
+      }
+    ]
+  },
+  {
+    "name": "Construction & Real Estate",
+    "sub_category": [
+      {
+        "name": "Aluminum Composite Panels"
+      },
+      {
+        "name": "Balustrades & Handrails"
+      },
+      {
+        "name": "Bathroom"
+      },
+      {
+        "name": "Boards"
+      },
+      {
+        "name": "Building Glass"
+      },
+      {
+        "name": "Ceilings"
+      },
+      {
+        "name": "Corner Guards"
+      },
+      {
+        "name": "Countertops,Vanity Tops & Table Tops"
+      },
+      {
+        "name": "Curtain Walls & Accessories"
+      },
+      {
+        "name": "Decorative Films"
+      },
+      {
+        "name": "Door & Window Accessories"
+      },
+      {
+        "name": "Doors & Windows"
+      },
+      {
+        "name": "Earthwork Products"
+      },
+      {
+        "name": "Elevators & Elevator Parts"
+      },
+      {
+        "name": "Escalators & Escalator Parts"
+      },
+      {
+        "name": "Faucets, Mixers & Taps"
+      },
+      {
+        "name": "Fiberglass Wall Meshes"
+      },
+      {
+        "name": "Fireplaces,Stoves"
+      },
+      {
+        "name": "Fireproofing Materials"
+      },
+      {
+        "name": "Floor Heating Systems & Parts"
+      },
+      {
+        "name": "Flooring & Accessories"
+      },
+      {
+        "name": "Formwork"
+      },
+      {
+        "name": "Gates"
+      },
+      {
+        "name": "Heat Insulation Materials"
+      },
+      {
+        "name": "HVAC Systems & Parts"
+      },
+      {
+        "name": "Kitchen"
+      },
+      {
+        "name": "Ladders & Scaffoldings"
+      },
+      {
+        "name": "Landscaping Stone"
+      },
+      {
+        "name": "Masonry Materials"
+      },
+      {
+        "name": "Metal Building Materials"
+      },
+      {
+        "name": "Mosaics"
+      },
+      {
+        "name": "Mouldings"
+      },
+      {
+        "name": "Multifunctional Materials"
+      },
+      {
+        "name": "Other Construction & Real Estate"
+      },
+      {
+        "name": "Plastic Building Materials"
+      },
+      {
+        "name": "Quarry Stone & Slabs"
+      },
+      {
+        "name": "Real Estate"
+      },
+      {
+        "name": "Soundproofing Materials"
+      },
+      {
+        "name": "Stairs & Stair Parts"
+      },
+      {
+        "name": "Stone Carvings and Sculptures"
+      },
+      {
+        "name": "Sunrooms & Glass Houses"
+      },
+      {
+        "name": "Tiles & Accessories"
+      },
+      {
+        "name": "Timber"
+      },
+      {
+        "name": "Tombstones and Monuments"
+      },
+      {
+        "name": "Wallpapers/Wall Coating"
+      },
+      {
+        "name": "Waterproofing Materials"
+      }
+    ]
+  },
+  {
+    "name": "Home & Garden",
+    "sub_category": [
+      {
+        "name": "Bakeware"
+      },
+      {
+        "name": "Barware"
+      },
+      {
+        "name": "Bathroom Products"
+      },
+      {
+        "name": "Cooking Tools"
+      },
+      {
+        "name": "Cookware"
+      },
+      {
+        "name": "Garden Supplies"
+      },
+      {
+        "name": "Home Decor"
+      },
+      {
+        "name": "Home Storage & Organization"
+      },
+      {
+        "name": "Household Chemicals"
+      },
+      {
+        "name": "Household Cleaning Tools & Accessories"
+      },
+      {
+        "name": "Household Sundries"
+      },
+      {
+        "name": "Kitchen Knives & Accessories"
+      },
+      {
+        "name": "Laundry Products"
+      },
+      {
+        "name": "Pet Products"
+      },
+      {
+        "name": "Tableware"
+      },
+      {
+        "name": "Dinnerware"
+      },
+      {
+        "name": "Drinkware"
+      },
+      {
+        "name": "Baby Supplies & Products"
+      },
+      {
+        "name": "Rain Gear"
+      },
+      {
+        "name": "Lighters & Smoking Accessories"
+      }
+    ]
+  },
+  {
+    "name": "Lights & Lighting",
+    "sub_category": [
+      {
+        "name": "Emergency Lighting"
+      },
+      {
+        "name": "Holiday Lighting"
+      },
+      {
+        "name": "Indoor Lighting"
+      },
+      {
+        "name": "LED Lighting"
+      },
+      {
+        "name": "Lighting Accessories"
+      },
+      {
+        "name": "Lighting Bulbs & Tubes"
+      },
+      {
+        "name": "Other Lights & Lighting Products"
+      },
+      {
+        "name": "Outdoor Lighting"
+      },
+      {
+        "name": "Professional Lighting"
+      },
+      {
+        "name": "LED Residential Lighting"
+      },
+      {
+        "name": "LED Outdoor Lighting"
+      },
+      {
+        "name": "Chandeliers & Pendant Lights"
+      },
+      {
+        "name": "Ceiling Lights"
+      },
+      {
+        "name": "Crystal Lights"
+      },
+      {
+        "name": "Stage Lights"
+      },
+      {
+        "name": "Street Lights"
+      },
+      {
+        "name": "Energy Saving & Fluorescent"
+      },
+      {
+        "name": "LED Landscape Lamps"
+      },
+      {
+        "name": "LED Professional Lighting"
+      },
+      {
+        "name": "LED Encapsulation Series"
+      }
+    ]
+  },
+  {
+    "name": "Furniture",
+    "sub_category": [
+      {
+        "name": "Antique Furniture"
+      },
+      {
+        "name": "Baby Furniture"
+      },
+      {
+        "name": "Bamboo Furniture"
+      },
+      {
+        "name": "Children Furniture"
+      },
+      {
+        "name": "Commercial Furniture"
+      },
+      {
+        "name": "Folding Furniture"
+      },
+      {
+        "name": "Furniture Accessories"
+      },
+      {
+        "name": "Furniture Hardware"
+      },
+      {
+        "name": "Furniture Parts"
+      },
+      {
+        "name": "Glass Furniture"
+      },
+      {
+        "name": "Home Furniture"
+      },
+      {
+        "name": "Inflatable Furniture"
+      },
+      {
+        "name": "Metal Furniture"
+      },
+      {
+        "name": "Other Furniture"
+      },
+      {
+        "name": "Outdoor Furniture"
+      },
+      {
+        "name": "Plastic Furniture"
+      },
+      {
+        "name": "Rattan / Wicker Furniture"
+      },
+      {
+        "name": "Wood Furniture"
+      },
+      {
+        "name": "Living Room Furniture"
+      },
+      {
+        "name": "Bedroom Furniture"
+      }
+    ]
+  },
+  {
+    "name": "Machinery",
+    "sub_category": [
+      {
+        "name": "Agriculture Machinery & Equipment"
+      },
+      {
+        "name": "Apparel & Textile Machinery"
+      },
+      {
+        "name": "Building Material Machinery"
+      },
+      {
+        "name": "Chemical Machinery & Equipment"
+      },
+      {
+        "name": "Electronic Products Machinery"
+      },
+      {
+        "name": "Energy & Mineral Equipment"
+      },
+      {
+        "name": "Engineering & Construction Machinery"
+      },
+      {
+        "name": "Food & Beverage Machinery"
+      },
+      {
+        "name": "General Industrial Equipment"
+      },
+      {
+        "name": "Home Product Making Machinery"
+      },
+      {
+        "name": "Industry Laser Equipment"
+      },
+      {
+        "name": "Machine Tool Equipment"
+      },
+      {
+        "name": "Metal & Metallurgy Machinery"
+      },
+      {
+        "name": "Other Machinery & Industry Equipment"
+      },
+      {
+        "name": "Packaging Machine"
+      },
+      {
+        "name": "Paper Production Machinery"
+      },
+      {
+        "name": "Pharmaceutical Machinery"
+      },
+      {
+        "name": "Plastic & Rubber Machinery"
+      },
+      {
+        "name": "Printing Machine"
+      },
+      {
+        "name": "Refrigeration & Heat Exchange Equipment"
+      },
+      {
+        "name": "Used Machinery & Equipment"
+      },
+      {
+        "name": "Woodworking Machinery"
+      }
+    ]
+  },
+  {
+    "name": "Industrial Parts & Fabrication Services",
+    "sub_category": [
+      {
+        "name": "Ball Valves"
+      },
+      {
+        "name": "Bearing Accessory"
+      },
+      {
+        "name": "Bearings"
+      },
+      {
+        "name": "Brass Valves"
+      },
+      {
+        "name": "Butterfly Valves"
+      },
+      {
+        "name": "Ceramic Valves"
+      },
+      {
+        "name": "Check Valves"
+      },
+      {
+        "name": "Custom Fabrication Services"
+      },
+      {
+        "name": "Diaphragm Valves"
+      },
+      {
+        "name": "Filter Supplies"
+      },
+      {
+        "name": "Flanges"
+      },
+      {
+        "name": "Gaskets"
+      },
+      {
+        "name": "Gate Valves"
+      },
+      {
+        "name": "General Mechanical Components Design Services"
+      },
+      {
+        "name": "General Mechanical Components Stock"
+      },
+      {
+        "name": "Industrial Brake"
+      },
+      {
+        "name": "Linear Motion"
+      },
+      {
+        "name": "Machine Tools Accessory"
+      },
+      {
+        "name": "Manual Valves"
+      },
+      {
+        "name": "Motor Parts"
+      },
+      {
+        "name": "Motors"
+      },
+      {
+        "name": "Moulds"
+      },
+      {
+        "name": "Needle Valves"
+      },
+      {
+        "name": "Other General Mechanical Components"
+      },
+      {
+        "name": "Other Mechanical Parts"
+      },
+      {
+        "name": "Pipe Fittings"
+      },
+      {
+        "name": "Pneumatic & Hydraulic"
+      },
+      {
+        "name": "Power Transmission"
+      },
+      {
+        "name": "Pumps & Parts"
+      },
+      {
+        "name": "Seals"
+      },
+      {
+        "name": "Shafts"
+      },
+      {
+        "name": "Solenoid Valves"
+      },
+      {
+        "name": "Used General Mechanical Components"
+      },
+      {
+        "name": "Vacuum Valves"
+      },
+      {
+        "name": "Valve Parts"
+      },
+      {
+        "name": "Valves"
+      },
+      {
+        "name": "Welding & Soldering Supplies"
+      }
+    ]
+  },
+  {
+    "name": "Tools",
+    "sub_category": [
+      {
+        "name": "Construction Tools"
+      },
+      {
+        "name": "Garden Tools"
+      },
+      {
+        "name": "Hand Tools"
+      },
+      {
+        "name": "Lifting Tools"
+      },
+      {
+        "name": "Material Handling Tools"
+      },
+      {
+        "name": "Other Tools"
+      },
+      {
+        "name": "Power Tool Accessories"
+      },
+      {
+        "name": "Power Tools"
+      },
+      {
+        "name": "Tool Design Services"
+      },
+      {
+        "name": "Tool Parts"
+      },
+      {
+        "name": "Tool Processing Services"
+      },
+      {
+        "name": "Tool Sets"
+      },
+      {
+        "name": "Tool Stock"
+      },
+      {
+        "name": "Tools Packaging"
+      },
+      {
+        "name": "Used Tools"
+      },
+      {
+        "name": "Electric Drill"
+      },
+      {
+        "name": "Knife"
+      },
+      {
+        "name": "Hand Carts & Trolleys"
+      },
+      {
+        "name": "Lawn Mower"
+      },
+      {
+        "name": "Sander"
+      }
+    ]
+  },
+  {
+    "name": "Hardware",
+    "sub_category": [
+      {
+        "name": "Abrasive Tools"
+      },
+      {
+        "name": "Abrasives"
+      },
+      {
+        "name": "Brackets"
+      },
+      {
+        "name": "Chains"
+      },
+      {
+        "name": "Clamps"
+      },
+      {
+        "name": "Fasteners"
+      },
+      {
+        "name": "Hardware Stock"
+      },
+      {
+        "name": "Hooks"
+      },
+      {
+        "name": "Mould Design & Processing Services"
+      },
+      {
+        "name": "Other Hardware"
+      },
+      {
+        "name": "Springs"
+      },
+      {
+        "name": "Used Hardware"
+      },
+      {
+        "name": "Bolts"
+      },
+      {
+        "name": "Screws"
+      },
+      {
+        "name": "Nuts"
+      },
+      {
+        "name": "Nails"
+      },
+      {
+        "name": "Anchors"
+      },
+      {
+        "name": "Rivets"
+      },
+      {
+        "name": "Washers"
+      },
+      {
+        "name": "Other Fasteners"
+      }
+    ]
+  },
+  {
+    "name": "Measurement & Analysis Instruments",
+    "sub_category": [
+      {
+        "name": "Analyzers"
+      },
+      {
+        "name": "Counters"
+      },
+      {
+        "name": "Electrical Instruments"
+      },
+      {
+        "name": "Electronic Measuring Instruments"
+      },
+      {
+        "name": "Flow Measuring Instruments"
+      },
+      {
+        "name": "Instrument Parts & Accessories"
+      },
+      {
+        "name": "Lab Supplies"
+      },
+      {
+        "name": "Level Measuring Instruments"
+      },
+      {
+        "name": "Measuring & Analysing Instrument Design Services"
+      },
+      {
+        "name": "Measuring & Analysing Instrument Processing Services"
+      },
+      {
+        "name": "Measuring & Analysing Instrument Stocks"
+      },
+      {
+        "name": "Measuring & Gauging Tools"
+      },
+      {
+        "name": "Optical Instruments"
+      },
+      {
+        "name": "Other Measuring & Analysing Instruments"
+      },
+      {
+        "name": "Physical Measuring Instruments"
+      },
+      {
+        "name": "Pressure Measuring Instruments"
+      },
+      {
+        "name": "Temperature Instruments"
+      },
+      {
+        "name": "Testing Equipment"
+      },
+      {
+        "name": "Timers"
+      },
+      {
+        "name": "Used Measuring & Analysing Instruments"
+      },
+      {
+        "name": "Weighing Scales"
+      }
+    ]
+  },
+  {
+    "name": "Minerals & Metallurgy",
+    "sub_category": [
+      {
+        "name": "Aluminum"
+      },
+      {
+        "name": "Barbed Wire"
+      },
+      {
+        "name": "Billets"
+      },
+      {
+        "name": "Carbon"
+      },
+      {
+        "name": "Carbon Fiber"
+      },
+      {
+        "name": "Cast & Forged"
+      },
+      {
+        "name": "Cemented Carbide"
+      },
+      {
+        "name": "Ceramic Fiber Products"
+      },
+      {
+        "name": "Ceramics"
+      },
+      {
+        "name": "Copper"
+      },
+      {
+        "name": "Copper Forged"
+      },
+      {
+        "name": "Fiberglass Products"
+      },
+      {
+        "name": "Glass"
+      },
+      {
+        "name": "Graphite Products"
+      },
+      {
+        "name": "Ingots"
+      },
+      {
+        "name": "Iron"
+      },
+      {
+        "name": "Lead"
+      },
+      {
+        "name": "Lime"
+      },
+      {
+        "name": "Magnetic Materials"
+      },
+      {
+        "name": "Metal Scrap"
+      },
+      {
+        "name": "Metal Slabs"
+      },
+      {
+        "name": "Mineral Wool"
+      },
+      {
+        "name": "Molybdenum"
+      },
+      {
+        "name": "Nickel"
+      },
+      {
+        "name": "Non-Metallic Mineral Deposit"
+      },
+      {
+        "name": "Ore"
+      },
+      {
+        "name": "Other Metals & Metal Products"
+      },
+      {
+        "name": "Other Non-Metallic Minerals & Products"
+      },
+      {
+        "name": "Pig Iron"
+      },
+      {
+        "name": "Quartz Products"
+      },
+      {
+        "name": "Rare Earth & Products"
+      },
+      {
+        "name": "Rare Earth Magnets"
+      },
+      {
+        "name": "Refractory"
+      },
+      {
+        "name": "Steel"
+      },
+      {
+        "name": "Titanium"
+      },
+      {
+        "name": "Tungsten"
+      },
+      {
+        "name": "Wire Mesh"
+      },
+      {
+        "name": "Zinc"
+      }
+    ]
+  },
+  {
+    "name": "Chemicals",
+    "sub_category": [
+      {
+        "name": "Gas Disposal"
+      },
+      {
+        "name": "Noise Reduction Device"
+      },
+      {
+        "name": "Other Environmental Products"
+      },
+      {
+        "name": "Other Excess Inventory"
+      },
+      {
+        "name": "Recycling"
+      },
+      {
+        "name": "Sewer"
+      },
+      {
+        "name": "Waste Management"
+      },
+      {
+        "name": "Water Treatment"
+      },
+      {
+        "name": "Textile Waste"
+      },
+      {
+        "name": "Waste Paper"
+      },
+      {
+        "name": "Other Recycling Products"
+      }
+    ]
+  },
+  {
+    "name": "Rubber & Plastics",
+    "sub_category": [
+      {
+        "name": "Plastic Processing Service"
+      },
+      {
+        "name": "Plastic Products"
+      },
+      {
+        "name": "Plastic Projects"
+      },
+      {
+        "name": "Plastic Raw Materials"
+      },
+      {
+        "name": "Plastic Stocks"
+      },
+      {
+        "name": "Recycled Plastic"
+      },
+      {
+        "name": "Recycled Rubber"
+      },
+      {
+        "name": "Rubber Processing Service"
+      },
+      {
+        "name": "Rubber Products"
+      },
+      {
+        "name": "Rubber Projects"
+      },
+      {
+        "name": "Rubber Raw Materials"
+      },
+      {
+        "name": "Rubber Stocks"
+      },
+      {
+        "name": "Plastic Cards"
+      },
+      {
+        "name": "PVC"
+      },
+      {
+        "name": "Plastic Tubes"
+      },
+      {
+        "name": "HDPE"
+      },
+      {
+        "name": "Rubber Hoses"
+      },
+      {
+        "name": "Plastic Sheets"
+      },
+      {
+        "name": "LDPE"
+      },
+      {
+        "name": "Agricultural Rubber"
+      }
+    ]
+  },
+  {
+    "name": "Energy",
+    "sub_category": [
+      {
+        "name": "Biodiesel"
+      },
+      {
+        "name": "Biogas"
+      },
+      {
+        "name": "Charcoal"
+      },
+      {
+        "name": "Coal"
+      },
+      {
+        "name": "Coal Gas"
+      },
+      {
+        "name": "Coke Fuel"
+      },
+      {
+        "name": "Crude Oil"
+      },
+      {
+        "name": "Electricity Generation"
+      },
+      {
+        "name": "Petrochemical Products"
+      },
+      {
+        "name": "Solar Energy Products"
+      },
+      {
+        "name": "Industrial Fuel"
+      },
+      {
+        "name": "Natural Gas"
+      },
+      {
+        "name": "Other Energy Related Products"
+      },
+      {
+        "name": "Wood Pellets"
+      },
+      {
+        "name": "Solar Energy Systems"
+      },
+      {
+        "name": "Lubricant"
+      },
+      {
+        "name": "Diesel Fuel"
+      },
+      {
+        "name": "Solar Chargers"
+      },
+      {
+        "name": "Solar Collectors"
+      },
+      {
+        "name": "Bitumen"
+      }
+    ]
+  },
+  {
+    "name": "Environment",
+    "sub_category": [
+      {
+        "name": "Additives"
+      },
+      {
+        "name": "Adhesives & Sealants"
+      },
+      {
+        "name": "Agrochemicals"
+      },
+      {
+        "name": "Basic Organic Chemicals"
+      },
+      {
+        "name": "Catalysts & Chemical Auxiliary Agents"
+      },
+      {
+        "name": "Chemical Reagent Products"
+      },
+      {
+        "name": "Chemical Waste"
+      },
+      {
+        "name": "Custom Chemical Services"
+      },
+      {
+        "name": "Daily Chemical Raw Materials"
+      },
+      {
+        "name": "Flavour & Fragrance"
+      },
+      {
+        "name": "Inorganic Chemicals"
+      },
+      {
+        "name": "Non-Explosive Demolition Agents"
+      },
+      {
+        "name": "Organic Intermediates"
+      },
+      {
+        "name": "Other Chemicals"
+      },
+      {
+        "name": "Paints & Coatings"
+      },
+      {
+        "name": "Pharmaceuticals"
+      },
+      {
+        "name": "Pigment & Dyestuff"
+      },
+      {
+        "name": "Polymer"
+      },
+      {
+        "name": "Food Additive Products"
+      },
+      {
+        "name": "Fertilizer"
+      }
+    ]
+  },
+  {
+    "name": "Packaging & Printing",
+    "sub_category": [
+      {
+        "name": "Adhesive Tape"
+      },
+      {
+        "name": "Agricultural Packaging"
+      },
+      {
+        "name": "Aluminum Foil"
+      },
+      {
+        "name": "Apparel Packaging"
+      },
+      {
+        "name": "Blister Cards"
+      },
+      {
+        "name": "Bottles"
+      },
+      {
+        "name": "Cans"
+      },
+      {
+        "name": "Chemical Packaging"
+      },
+      {
+        "name": "Composite Packaging Materials"
+      },
+      {
+        "name": "Cosmetics Packaging"
+      },
+      {
+        "name": "Electronics Packaging"
+      },
+      {
+        "name": "Food Packaging"
+      },
+      {
+        "name": "Gift Packaging"
+      },
+      {
+        "name": "Handles"
+      },
+      {
+        "name": "Hot Stamping Foil"
+      },
+      {
+        "name": "Jars"
+      },
+      {
+        "name": "Lids, Bottle Caps, Closures"
+      },
+      {
+        "name": "Media Packaging"
+      },
+      {
+        "name": "Metallized Film"
+      },
+      {
+        "name": "Other Packaging Applications"
+      },
+      {
+        "name": "Other Packaging Materials"
+      },
+      {
+        "name": "Packaging Bags"
+      },
+      {
+        "name": "Packaging Boxes"
+      },
+      {
+        "name": "Packaging Labels"
+      },
+      {
+        "name": "Packaging Product Stocks"
+      },
+      {
+        "name": "Packaging Rope"
+      },
+      {
+        "name": "Packaging Trays"
+      },
+      {
+        "name": "Packaging Tubes"
+      },
+      {
+        "name": "Paper & Paperboard"
+      },
+      {
+        "name": "Paper Packaging"
+      },
+      {
+        "name": "Pharmaceutical Packaging"
+      },
+      {
+        "name": "Plastic Film"
+      },
+      {
+        "name": "Plastic Packaging"
+      },
+      {
+        "name": "Printing Materials"
+      },
+      {
+        "name": "Printing Services"
+      },
+      {
+        "name": "Protective Packaging"
+      },
+      {
+        "name": "Pulp"
+      },
+      {
+        "name": "Shrink Film"
+      },
+      {
+        "name": "Strapping"
+      },
+      {
+        "name": "Stretch Film"
+      },
+      {
+        "name": "Tobacco Packaging"
+      },
+      {
+        "name": "Transport Packaging"
+      }
+    ]
+  },
+  {
+    "name": "Office & School Supplies",
+    "sub_category": [
+      {
+        "name": "Art Supplies"
+      },
+      {
+        "name": "Badge Holder & Accessories"
+      },
+      {
+        "name": "Board"
+      },
+      {
+        "name": "Board Eraser"
+      },
+      {
+        "name": "Book Cover"
+      },
+      {
+        "name": "Books"
+      },
+      {
+        "name": "Calculator"
+      },
+      {
+        "name": "Calendar"
+      },
+      {
+        "name": "Clipboard"
+      },
+      {
+        "name": "Correction Supplies"
+      },
+      {
+        "name": "Desk Organizer"
+      },
+      {
+        "name": "Drafting Supplies"
+      },
+      {
+        "name": "Easels"
+      },
+      {
+        "name": "Educational Supplies"
+      },
+      {
+        "name": "Filing Products"
+      },
+      {
+        "name": "Letter Pad / Paper"
+      },
+      {
+        "name": "Magazines"
+      },
+      {
+        "name": "Map"
+      },
+      {
+        "name": "Notebooks & Writing Pads"
+      },
+      {
+        "name": "Office Adhesives & Tapes"
+      },
+      {
+        "name": "Office Binding Supplies"
+      },
+      {
+        "name": "Office Cutting Supplies"
+      },
+      {
+        "name": "Office Equipment"
+      },
+      {
+        "name": "Office Paper"
+      },
+      {
+        "name": "Other Office & School Supplies"
+      },
+      {
+        "name": "Paper Envelopes"
+      },
+      {
+        "name": "Pencil Cases & Bags"
+      },
+      {
+        "name": "Pencil Sharpeners"
+      },
+      {
+        "name": "Printer Supplies"
+      },
+      {
+        "name": "Stamps"
+      },
+      {
+        "name": "Stationery Set"
+      },
+      {
+        "name": "Stencils"
+      },
+      {
+        "name": "Writing Accessories"
+      },
+      {
+        "name": "Writing Instruments"
+      },
+      {
+        "name": "Yellow Pages"
+      }
+    ]
+  },
+  {
+    "name": "Service Equipment",
+    "sub_category": [
+      {
+        "name": "Advertising Equipment"
+      },
+      {
+        "name": "Cargo & Storage Equipment"
+      },
+      {
+        "name": "Commercial Laundry Equipment"
+      },
+      {
+        "name": "Financial Equipment"
+      },
+      {
+        "name": "Funeral Supplies"
+      },
+      {
+        "name": "Other Service Equipment"
+      },
+      {
+        "name": "Restaurant & Hotel Supplies"
+      },
+      {
+        "name": "Store & Supermarket Supplies"
+      },
+      {
+        "name": "Trade Show Equipment"
+      },
+      {
+        "name": "Vending Machines"
+      },
+      {
+        "name": "Wedding Supplies"
+      },
+      {
+        "name": "Display Racks"
+      },
+      {
+        "name": "Advertising Players"
+      },
+      {
+        "name": "Advertising Light Boxes"
+      },
+      {
+        "name": "Hotel Amenities"
+      },
+      {
+        "name": "POS Systems"
+      },
+      {
+        "name": "Supermarket Shelves"
+      },
+      {
+        "name": "Stacking Racks & Shelves"
+      },
+      {
+        "name": "Refrigeration Equipment"
+      },
+      {
+        "name": "Trade Show Tent"
+      }
+    ]
+  }
+]
+

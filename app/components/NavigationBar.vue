@@ -43,13 +43,13 @@
                 </div>
               </div>
             </li>
-            <li class="button-item-container">
-              <div class="button-item-wrapper">
-                <div class="button-item">
-                  <a href="/signup">Help</a>
-                </div>
-              </div>
-            </li>
+            <!--<li class="button-item-container">-->
+              <!--<div class="button-item-wrapper">-->
+                <!--<div class="button-item">-->
+                  <!--<a href="/signup">Help</a>-->
+                <!--</div>-->
+              <!--</div>-->
+            <!--</li>-->
             <li class="button-item-container">
               <div class="button-item-wrapper">
                 <div class="button-item">

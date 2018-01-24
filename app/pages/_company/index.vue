@@ -295,11 +295,6 @@
       }
     },
     computed: {
-      ...mapGetters([
-        'getContactId',
-        'getAccountId',
-        'isLoggedIn'
-      ]),
       getLocation () {
         const street = this.vendor.mailing_street_address_english ? this.vendor.mailing_street_address_english + ', ' : ''
         const street2 = this.vendor.mailing_street_address_2_english ? this.vendor.mailing_street_address_2_english + ', ' : ''
