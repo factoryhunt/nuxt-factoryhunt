@@ -21,7 +21,8 @@
       SubNavigationBar,
       FooterBar,
       CopyrightBar
-    }
+    },
+    middleware: 'authenticated'
   }
 </script>
 

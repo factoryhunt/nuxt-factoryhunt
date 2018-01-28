@@ -2,37 +2,47 @@
   <div class="page-container">
     <div class="form-contents">
 
+      <!-- Header -->
       <auth-header/>
 
+      <!-- Form -->
       <form class="form-container" @submit.prevent="onLoginButton">
+        <!-- Email -->
         <div class="input-container">
           <input required v-model="value.email" type="email" placeholder="Email">
           <i class="fa fa-envelope-o" aria-hidden="true"></i>
         </div>
 
+        <!-- Password -->
         <div class="input-container">
           <input required minlength="8" v-model="value.password" type="password" placeholder="Password">
           <i id="image-password" class="fa fa-lock" aria-hidden="true"></i>
         </div>
 
+        <!-- Login Button -->
         <div class="login-button-container">
           <loader id="login-loader"></loader>
           <button id="login-button" class="button-orange">Login</button>
         </div>
 
-        <div class="login-container">
-          <a class="text-login" @click="onForgotPassword">Forgot your password?</a>
-          <a class="button-white" @click="onSignUpButton">Sign Up</a>
+        <!-- Bottom -->
+        <div class="sign-up-container">
+          <div class="sign-up-wrapper">
+            <a class="text-login" @click="onForgotPassword">Forgot your password?</a>
+            <nuxt-link to="/signup" class="button-white" id="sign-up-button">Sign Up</nuxt-link>
+          </div>
         </div>
+
       </form> <!--form-container -->
     </div> <!-- form-contents -->
   </div> <!-- page-container -->
 </template>
 
 <script>
+  import $ from 'jquery'
   import AuthHeader from '~/components/AuthHeader'
   import Loader from '~/components/Loader'
-  import { mapGetters } from 'vuex'
+
   export default {
     layout: 'blank',
     head () {
@@ -71,18 +81,9 @@
       }
     },
     computed: {
-      ...mapGetters([
-        'isLoggedIn'
-      ])
     },
     methods: {
-      getLanguage () {
-        const lang = this.$route.query.lang
-        if (lang) {
-          this.language = lang
-        }
-      },
-      onLoginButton () {
+      async onLoginButton () {
         const data = {
           email: this.value.email,
           password: this.value.password
@@ -91,9 +92,9 @@
         const $loginButton = $('#login-button')
         $loader.removeClass().addClass('spinkit-input')
         $loginButton.css('display', 'none')
-        this.$store.dispatch('login', data)
+        this.$store.dispatch('auth/login', data)
           .then(() => {
-            location.href = '/dashboard'
+            this.$router.push('/dashboard')
           })
           .catch((err) => {
             $loader.removeClass().addClass('invisible')
@@ -102,10 +103,7 @@
           })
       },
       onForgotPassword () {
-        alert(this.getComingSoon)
-      },
-      onSignUpButton () {
-        location.href = '/signup'
+        alert('Coming soon.')
       }
     }
   }
@@ -133,6 +131,7 @@
       border-radius: 4px;
       border: 1px solid @color-light-grey;
       margin: 10px 0;
+      .placeholder(200);
 
       input {
         position: relative;
@@ -165,20 +164,24 @@
       }
     }
 
-    .login-container {
-      position: relative;
+    .sign-up-container {
+      border-top: @border-light-grey;
+      margin-top: 20px;
 
-      .text-login {
-        font-size:15px;
-      }
-      .button-white {
-        position: absolute;
-        font-size:16px;
-        color: @color-orange;
-        padding: 4px 12px;
-        top: -7px;
-        right: 0;
-        text-decoration: none;
+      .sign-up-wrapper {
+        padding-top: 10px;
+        display: flex;
+        justify-content: space-between;
+
+        .text-login {
+          display: flex;
+          align-items: center;
+          font-size:15px;
+        }
+        #sign-up-button {
+          padding: 8px 14px;
+          color: @color-orange;
+        }
       }
     }
   }

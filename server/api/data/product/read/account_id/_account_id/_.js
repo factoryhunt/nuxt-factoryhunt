@@ -18,6 +18,6 @@ module.exports = async (req, res) => {
     const products = await getProducts()
     res.status(200).json(products)
   } catch (err) {
-    res.status(200).json({result: false})
+    res.status(403).json({result: false})
   }
 }

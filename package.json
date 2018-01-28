@@ -2,7 +2,7 @@
   "name": "Factoryhunt",
   "version": "0.0.1",
   "description": "B2B website where manufacturers and suppliers can create website and online catalog for free.",
-  "author": "CTO <peter@factoryhunt.com>",
+  "author": "Zerobase Software Inc. <peter@factoryhunt.com>",
   "private": true,
   "scripts": {
     "dev": "nodemon server",
@@ -21,6 +21,7 @@
     "cookie-parser": "^1.4.3",
     "cors": "^2.8.4",
     "express": "^4.16.2",
+    "express-session": "^1.15.6",
     "formidable": "^1.1.1",
     "jquery": "^3.3.1",
     "jsonwebtoken": "^8.1.1",
@@ -32,7 +33,9 @@
     "nodemon": "^1.14.11",
     "nuxt": "^1.0.0",
     "scrollreveal": "^3.3.6",
-    "vue2-editor": "^2.3.2"
+    "slick-carousel": "^1.8.1",
+    "vue2-editor": "^2.3.2",
+    "whatwg-fetch": "^2.0.3"
   },
   "devDependencies": {
     "babel-eslint": "^8.2.1",

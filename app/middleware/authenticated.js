@@ -11,3 +11,8 @@
 //   console.log(getAuthentication())
 //   // context.userAgent = context.isServer ? context.req.headers['x-access-token'] : navigator.userAgent
 // }
+export default ({store, redirect}) => {
+  if (!store.state.auth.token) {
+    redirect('/login')
+  }
+}

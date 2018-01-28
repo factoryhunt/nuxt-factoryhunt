@@ -17,7 +17,7 @@ module.exports = async (req, res) => {
 
   try {
     const products = await getApprovedAllProducts()
-    res.status(403).json(products)
+    res.status(200).json(products)
   } catch (err) {
     res.status(403).json({result: false})
   }

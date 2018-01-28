@@ -1,21 +1,13 @@
 // import cookie from '../../assets/js/cookie'
 import axios from 'axios'
-import store from './index'
+// import store from './index'
 // import router from '../../router'
 
 export const state = () => ({
-  token: null,
-  accountId: null,
-  contactId: null
+  token: null
 })
 
 export const getters = {
-  getAccountId: state => {
-    return state.accountId
-  },
-  getContactId: state => {
-    return state.contactId
-  },
   isLoggedIn: state => {
     return state.token !== null
   }
@@ -24,16 +16,9 @@ export const getters = {
 export const mutations = {
   login (state, payload) {
     state.token = payload.token
-    state.accountId = payload.user.account_id
-    state.contactId = payload.user.contact_id
   },
   clearAuthData (state) {
     state.token = null
-    state.accountId = false
-    state.contactId = false
-  },
-  testMutation () {
-    console.log('test mutation called')
   }
 }
 
@@ -47,10 +32,8 @@ export const actions = {
       axios.post('/api/auth/login', data)
         .then(res => {
           const token = res.data.token
-          const user = res.data.user
           commit('login', {
-            token,
-            user
+            token
           })
           localStorage.setItem('token', token)
           resolve()
@@ -130,11 +113,6 @@ export const actions = {
           reject(err.response)
         })
     })
-  },
-  testAction ({commit}, payload) {
-    console.log('test actions called')
-    console.log('payload: ', payload)
-    commit('testMutation')
   }
 }
 

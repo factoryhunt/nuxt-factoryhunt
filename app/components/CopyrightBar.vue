@@ -13,20 +13,12 @@
               <span><i class="fa fa-copyright"></i> 2018 Factory Hunt</span>
             </div>
           </div>
-          <!--<div class="copyright-container">-->
-          <!--<div class="logo-gray-container">-->
-          <!--<img id="logo" src="/favicon_gray.png">-->
-          <!--</div>-->
-          <!--<div class="text-container">-->
-          <!--<span><i class="fa fa-copyright"></i> 2018 Toast Killer</span>-->
-          <!--</div>-->
-          <!--</div>-->
         </div>
 
         <!-- Right-side -->
         <div class="right-container">
-          <a class="each-button" href="/terms">Terms</a>
-          <a class="each-button" href="/privacy">Privacy</a>
+          <nuxt-link class="each-button" to="/terms">Terms</nuxt-link>
+          <nuxt-link class="each-button" to="/privacy">Privacy</nuxt-link>
           <span class="language-container each-button">
             <select v-model="value.language" @change="onLanguageSelect($event.target.value)" name="languages" id="languages">
               <option value="" disabled>Languages</option>
@@ -68,14 +60,7 @@
         location.reload(() => {
           window.scrollTo(0, 0)
         })
-      },
-      getUserDefaultLanguage () {
-        const language = localStorage.getItem('vue-lang')
-        this.value.language = language
       }
-    },
-    mounted () {
-      this.getUserDefaultLanguage()
     }
   }
 </script>

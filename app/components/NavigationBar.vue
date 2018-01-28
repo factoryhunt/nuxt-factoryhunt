@@ -29,17 +29,17 @@
       <div class="button-container">
         <nav class="button-inner-container">
           <ul class="button-wrapper">
+            <!--<li class="button-item-container">-->
+              <!--<div class="button-item-wrapper">-->
+                <!--<div class="button-item">-->
+                  <!--<a href="/login">Become a buyer</a>-->
+                <!--</div>-->
+              <!--</div>-->
+            <!--</li>-->
             <li class="button-item-container">
               <div class="button-item-wrapper">
                 <div class="button-item">
-                  <a href="/login">Become a buyer</a>
-                </div>
-              </div>
-            </li>
-            <li class="button-item-container">
-              <div class="button-item-wrapper">
-                <div class="button-item">
-                  <a href="/login">Become a seller</a>
+                  <nuxt-link to="/signup">Become a seller</nuxt-link>
                 </div>
               </div>
             </li>
@@ -53,7 +53,7 @@
             <li class="button-item-container">
               <div class="button-item-wrapper">
                 <div class="button-item">
-                  <a href="/login">Login</a>
+                  <nuxt-link to="/login">Login</nuxt-link>
                 </div>
               </div>
             </li>
@@ -171,7 +171,7 @@
       }
 
       .button-container {
-        display: table-cell;
+        display: none;
         vertical-align: middle;
         padding-right: 18px;
 
@@ -226,6 +226,19 @@
               }
             }
           }
+        }
+      }
+    }
+  }
+
+  @media ( min-width: 744px ) {
+
+  }
+  @media ( min-width: 1128px ) {
+    .navigation-container {
+      .navigation-inner-container {
+        .button-container {
+          display: table-cell;
         }
       }
     }

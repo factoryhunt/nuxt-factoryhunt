@@ -89,7 +89,7 @@
         <!-- Company History -->
         <div class="history-container each-container" v-show="vendor.history">
           <h2>History</h2>
-          <textarea title="history" readonly v-model="vendor.histotry"></textarea>
+          <textarea title="history" readonly v-model="vendor.history" />
         </div>
 
         <!-- Company Certification -->
@@ -193,12 +193,7 @@
     },
     data () {
       return {
-        account: {},
-        products: [],
         value: {
-          account: {},
-          contact: {},
-          vendor: {},
           company: this.$route.params.company,
           input: this.$route.query.input ? this.$route.query.input : '',
           email: '',

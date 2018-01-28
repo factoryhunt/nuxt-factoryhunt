@@ -19,8 +19,7 @@ module.exports = {
       { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css?family=Roboto:300,400,500,600,700' }
     ],
     script: [
-      { src: 'https://maps.googleapis.com/maps/api/js?key=AIzaSyBFBRWKvq4CUEkq5XqbGaSAkajRuEfg25M' },
-      { src: '//mozilla.github.io/pdf.js/build/pdf.js' }
+      { src: 'https://maps.googleapis.com/maps/api/js?key=AIzaSyBFBRWKvq4CUEkq5XqbGaSAkajRuEfg25M' }
     ]
   },
   loading: { color: '#f2583d' },
@@ -28,6 +27,9 @@ module.exports = {
     '~assets/css/index.less',
     '~assets/css/libs/font-awesome-4.7.0/css/font-awesome.min.css'
   ],
+  router: {
+    middleware: 'check-authentication'
+  },
   build: {
     vendor: [
       'axios',
