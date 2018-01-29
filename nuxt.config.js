@@ -1,7 +1,8 @@
 module.exports = {
   srcDir: './app',
   head: {
-    title: 'Factory Hunt - Free website and online catalog for manufacturers and suppliers.',
+    title: 'Free website and online catalog for manufacturers and suppliers.',
+    titleTemplate: '%s | Factory Hunt',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
@@ -28,10 +29,14 @@ module.exports = {
     '~assets/css/libs/font-awesome-4.7.0/css/font-awesome.min.css'
   ],
   router: {
-    middleware: 'check-authentication'
+    middleware: [
+      'check-authentication'
+    ]
   },
+  plugins: ['~/plugins/i18n.js'],
   build: {
     vendor: [
+      'vue-i18n',
       'axios',
       'jquery'
     ],

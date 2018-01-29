@@ -17,10 +17,10 @@
 
         <!-- Right-side -->
         <div class="right-container">
-          <nuxt-link class="each-button" to="/terms">Terms</nuxt-link>
-          <nuxt-link class="each-button" to="/privacy">Privacy</nuxt-link>
+          <nuxt-link class="each-button" to="/terms">{{ $t('terms.short') }}</nuxt-link>
+          <nuxt-link class="each-button" to="/privacy">{{ $t('privacy.short') }}</nuxt-link>
           <span class="language-container each-button">
-            <select v-model="value.language" @change="onLanguageSelect($event.target.value)" name="languages" id="languages">
+            <select v-model="language" @change="onLanguageSelect($event.target.value)" name="languages" id="languages">
               <option value="" disabled>Languages</option>
               <option value="eng">English</option>
               <option value="kor">한국어</option>
@@ -38,28 +38,13 @@
   export default {
     data () {
       return {
-        value: {
-          language: ''
-        }
-      }
-    },
-    messages: {
-      eng: {
-        terms: 'Terms',
-        privacy: 'Privacy'
-      },
-      kor: {
-        terms: '이용약관',
-        privacy: '개인정보 보호정책'
+        language: this.$store.state.i18n.locale
       }
     },
     methods: {
-      onLanguageSelect (value) {
-        localStorage.setItem('vue-lang', value)
-        this.language = value
-        location.reload(() => {
-          window.scrollTo(0, 0)
-        })
+      onLanguageSelect (locale) {
+        this.$i18n.locale = locale
+        this.$store.commit('i18n/SET_LANG', locale)
       }
     }
   }

@@ -12,8 +12,8 @@
         <section class="about-container">
           <h4 class="title">Factory Hunt</h4>
           <ul>
-            <li><a href="/about">About Us</a></li>
-            <li><a href="/contact">Contact Us</a></li>
+            <li><nuxt-link to="/about">About Us</nuxt-link></li>
+            <li><nuxt-link to="/contact">Contact Us</nuxt-link></li>
           </ul>
         </section>
 
@@ -21,7 +21,7 @@
         <section class="service-container">
           <h4 class="title">Services</h4>
           <ul>
-            <li><a href="/for-supplier">For supplier</a></li>
+            <li><nuxt-link to="/for-supplier">For supplier</nuxt-link></li>
           </ul>
         </section>
 
