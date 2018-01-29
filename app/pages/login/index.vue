@@ -9,27 +9,27 @@
       <form class="form-container" @submit.prevent="onLoginButton">
         <!-- Email -->
         <div class="input-container">
-          <input required v-model="value.email" type="email" placeholder="Email">
+          <input required v-model="value.email" type="email" :placeholder="$t('login.email')">
           <i class="fa fa-envelope-o" aria-hidden="true"></i>
         </div>
 
         <!-- Password -->
         <div class="input-container">
-          <input required minlength="8" v-model="value.password" type="password" placeholder="Password">
+          <input required minlength="8" v-model="value.password" type="password" :placeholder="$t('login.password')">
           <i id="image-password" class="fa fa-lock" aria-hidden="true"></i>
         </div>
 
         <!-- Login Button -->
         <div class="login-button-container">
           <loader id="login-loader"></loader>
-          <button id="login-button" class="button-orange">Login</button>
+          <button id="login-button" class="button-orange">{{ $t('login.login') }}</button>
         </div>
 
         <!-- Bottom -->
         <div class="sign-up-container">
           <div class="sign-up-wrapper">
-            <a class="text-login" @click="onForgotPassword">Forgot your password?</a>
-            <nuxt-link to="/signup" class="button-white" id="sign-up-button">Sign Up</nuxt-link>
+            <a class="text-login" @click="onForgotPassword">{{ $t('login.forgot') }}</a>
+            <nuxt-link to="/signup" class="button-white" id="sign-up-button">{{ $t('signUp') }}</nuxt-link>
           </div>
         </div>
 
