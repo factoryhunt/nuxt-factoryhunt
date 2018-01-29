@@ -1,4 +1,4 @@
 module.exports = (req, res) => {
-  req.logout()
-  res.send('logout success')
+  delete req.session.auth
+  res.send({result: true, msg: 'Logout succeed.'})
 }

@@ -1,24 +1,28 @@
 // import cookie from '../../assets/js/cookie'
-import axios from 'axios'
+import axios from '~/plugins/axios'
+import { setToken, unsetToken } from '../utils/auth'
 // import store from './index'
 // import router from '../../router'
 
 export const state = () => ({
-  token: null
+  token: null,
+  user: null
 })
 
 export const getters = {
   isLoggedIn: state => {
-    return state.token !== null
+    return state.user !== null
   }
 }
 
 export const mutations = {
   login (state, payload) {
     state.token = payload.token
+    state.user = payload.user
   },
   clearAuthData (state) {
     state.token = null
+    state.user = null
   }
 }
 
@@ -32,10 +36,7 @@ export const actions = {
       axios.post('/api/auth/login', data)
         .then(res => {
           const token = res.data.token
-          commit('login', {
-            token
-          })
-          localStorage.setItem('token', token)
+          setToken(token)
           resolve()
         })
         .catch((err) => {
@@ -89,80 +90,16 @@ export const actions = {
     })
   },
   logout ({commit}) {
-    return new Promise((resolve) => {
-      location.reload()
-      localStorage.removeItem('token')
-      commit('clearAuthData')
-      resolve()
-    })
-  },
-  autoLogin () {
     return new Promise((resolve, reject) => {
-      checkToken()
-        .then(res => {
-          Promise.all([
-            fetchContactDataById(res.cid),
-            fetchAccountDataById(res.id)
-          ]).then(result => {
-            resolve(result)
-          }).catch(err => {
-            reject(err.response)
-          })
+      axios.delete('/api/auth/logout')
+        .then(() => {
+          unsetToken()
+          commit('clearAuthData')
+          resolve()
         })
-        .catch(err => {
-          reject(err.response)
+        .catch(() => {
+          reject()
         })
     })
   }
-}
-
-function checkToken () {
-  return new Promise((resolve, reject) => {
-    const token = localStorage.getItem('token')
-    // if (!token) {
-    //   reject()
-    // }
-    const data = {
-      headers: { 'x-access-token': token }
-    }
-    axios.get('/api/auth/check', data)
-      .then((res) => {
-        const accountId = res.data.info.id
-        const contactId = res.data.info.cid
-        store.commit('login', {
-          token,
-          user: {
-            account_id: accountId,
-            contact_id: contactId
-          }
-        })
-        resolve(res.data.info)
-      })
-      .catch((err) => {
-        reject(err.response)
-      })
-  })
-}
-
-function fetchContactDataById (id) {
-  return new Promise((resolve, reject) => {
-    axios.get(`/api/data/contact/${id}`)
-      .then(res => {
-        resolve(res)
-      })
-      .catch(err => {
-        reject(err.response)
-      })
-  })
-}
-function fetchAccountDataById (id) {
-  return new Promise((resolve, reject) => {
-    axios.get(`/api/data/account/${id}`)
-      .then(res => {
-        resolve(res)
-      })
-      .catch(err => {
-        reject(err.response)
-      })
-  })
 }

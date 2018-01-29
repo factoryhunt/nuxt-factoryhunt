@@ -5,9 +5,9 @@ export const setToken = (token) => {
   window.localStorage.setItem('token', token)
 }
 
-export const unsetToken = (token) => {
+export const unsetToken = () => {
   if (process.server) return
-  window.localStorage.remove('token')
+  window.localStorage.removeItem('token')
 }
 
 export const getToken = () => {
@@ -17,33 +17,13 @@ export const getToken = () => {
 
 export const getTokenFromSession = (req) => {
   if (!req.session.auth) return
-  return {
-    token: req.session.auth.token
-  }
+  return req.session.auth.token
 }
 
 export const decodeToken = (token) => {
-  console.log('decode token starts with', token)
   return new Promise((resolve, reject) => {
     const data = {
       headers: { 'x-access-token': token }
-    }
-    axios.get('/api/auth/check', data)
-      .then(res => {
-        resolve({
-          user: res.data.user
-        })
-      })
-      .catch(err => {
-        reject(err)
-      })
-  })
-}
-
-export const getUserDataFromLocalStorage = () => {
-  return new Promise((resolve, reject) => {
-    const data = {
-      headers: { 'x-access-token': getToken() }
     }
     axios.get('/api/auth/check', data)
       .then(res => {

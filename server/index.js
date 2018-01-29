@@ -1,3 +1,4 @@
+process.env.DEBUG = 'nuxt:*'
 const app = require('express')()
 
 const session = require('express-session')
@@ -14,10 +15,10 @@ const PORT = process.env.PORT || 3000
 
 app.set('jwt-token', CONFIG.jwtSecret)
 app.use(session({
-  secret: 'super-secret-key',
+  secret: CONFIG.sessionKey,
   resave: false,
   saveUninitialized: false,
-  cookie: { maxAge: 60000 }
+  cookie: { maxAge: 60 * 60 * 3600 }
 }))
 app.use(morgan('dev'))
 app.use(cors())

@@ -42,6 +42,7 @@
   import $ from 'jquery'
   import AuthHeader from '~/components/AuthHeader'
   import Loader from '~/components/Loader'
+  import { mapGetters } from 'vuex'
 
   export default {
     layout: 'blank',
@@ -53,6 +54,11 @@
     components: {
       AuthHeader,
       Loader
+    },
+    asyncData ({store, redirect}) {
+      if (store.getters['auth/isLoggedIn']) {
+        redirect('/dashboard')
+      }
     },
     data () {
       return {
@@ -79,8 +85,6 @@
         forgotPassword: '비밀번호가 기억나지 않으세요?',
         comingSoon: '준비중입니다.'
       }
-    },
-    computed: {
     },
     methods: {
       async onLoginButton () {

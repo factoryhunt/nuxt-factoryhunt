@@ -53,7 +53,8 @@
             <li class="button-item-container">
               <div class="button-item-wrapper">
                 <div class="button-item">
-                  <nuxt-link to="/login">Login</nuxt-link>
+                  <nuxt-link v-if="!isLoggedIn" to="/login">Login</nuxt-link>
+                  <a v-else @click="onLogoutButton">Logout</a>
                 </div>
               </div>
             </li>
@@ -68,6 +69,7 @@
 
 <script>
   import $ from 'jquery'
+  import { mapGetters } from 'vuex'
   export default {
     data () {
       return {
@@ -76,7 +78,18 @@
         }
       }
     },
+    computed: {
+      ...mapGetters({
+        isLoggedIn: 'auth/isLoggedIn'
+      })
+    },
     methods: {
+      onLogoutButton () {
+        this.$store.dispatch('auth/logout')
+          .then(() => {
+            location.replace('/')
+          })
+      },
       activateJquery () {
         $(document).ready(() => {
           this.renderSearchBar()

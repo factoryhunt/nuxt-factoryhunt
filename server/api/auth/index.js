@@ -9,7 +9,7 @@ const authMiddleware = require('../middleware/auth')
 
 router.post('/register', register)
 router.post('/login', login)
-router.get('/logout', logout)
+router.delete('/logout', logout)
 
 router.get('/check', authMiddleware, check)
 

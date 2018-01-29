@@ -1,6 +1,6 @@
 module.exports = (req, res) => {
   res.json({
     success: true,
-    user: req.decoded
+    user: req.user
   })
 }
