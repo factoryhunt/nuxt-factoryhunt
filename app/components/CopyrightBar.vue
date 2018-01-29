@@ -45,6 +45,7 @@
       onLanguageSelect (locale) {
         this.$i18n.locale = locale
         this.$store.commit('i18n/SET_LANG', locale)
+        window.scrollTo(0, 0)
       }
     }
   }

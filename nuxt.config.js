@@ -28,12 +28,12 @@ module.exports = {
     '~assets/css/index.less',
     '~assets/css/libs/font-awesome-4.7.0/css/font-awesome.min.css'
   ],
+  plugins: ['~/plugins/i18n.js'],
   router: {
     middleware: [
       'check-authentication'
     ]
   },
-  plugins: ['~/plugins/i18n.js'],
   build: {
     vendor: [
       'vue-i18n',

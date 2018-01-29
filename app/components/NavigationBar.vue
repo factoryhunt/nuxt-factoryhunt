@@ -96,7 +96,13 @@
         })
       },
       renderSearchBar () {
-        if (this.$route.path !== '/') {
+        if (this.$route.path === '/') {
+          $('.search-container').css({
+            'visibility': 'hidden',
+            'border-left': 'none'
+          })
+          $('.navigation-container').css('border-bottom', 'none')
+        } else {
           $('.search-container').css({
             'visibility': 'visible',
             'border-left': '1px solid #dedede'
@@ -113,6 +119,9 @@
       this.activateJquery()
     },
     watch: {
+      '$route' () {
+        this.activateJquery()
+      },
       '$route.query.input' (newValue) {
         this.value.input = newValue
       }

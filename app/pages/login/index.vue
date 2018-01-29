@@ -29,7 +29,7 @@
         <div class="sign-up-container">
           <div class="sign-up-wrapper">
             <a class="text-login" @click="onForgotPassword">{{ $t('login.forgot') }}</a>
-            <nuxt-link to="/signup" class="button-white" id="sign-up-button">{{ $t('signUp') }}</nuxt-link>
+            <nuxt-link to="/signup" class="button-white" id="sign-up-button">{{ $t('login.signUp') }}</nuxt-link>
           </div>
         </div>
 
