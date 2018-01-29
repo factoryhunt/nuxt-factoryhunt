@@ -12,6 +12,15 @@ export const state = () => ({
 export const getters = {
   isLoggedIn: state => {
     return state.user !== null
+  },
+  GET_ACCOUNT: state => {
+    return state.user ? state.user.account : {}
+  },
+  GET_CONTACT: state => {
+    return state.user ? state.user.contact : {}
+  },
+  GET_USER: state => {
+    return state.user
   }
 }
 
