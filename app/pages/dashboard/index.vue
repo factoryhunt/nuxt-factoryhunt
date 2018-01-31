@@ -23,7 +23,7 @@
 
       <!-- Header -->
       <header class="header-container">
-        <p class="sub-title">{{ $t('dashboard.welcome') }}</p>
+        <p class="sub-title">{{ $t('dashboard.welcome', {name: getAccountName}) }}</p>
       </header>
 
       <!-- Link -->
