@@ -94,7 +94,7 @@
   "upload": "Upload",
   "logo": {
     "title": "Edit Logo",
-    "desc": "Your company\'s identity is visually expressed through its logo.",
+    "desc": "Your company's identity is visually expressed through its logo.",
     "caution": "Upload a square image.",
     "button": "Choose File"
   },

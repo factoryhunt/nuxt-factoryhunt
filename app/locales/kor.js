@@ -6,7 +6,8 @@ const about = require('./about/kor'),
   home = require('./home/kor'),
   footerBar = require('./footerBar/kor'),
   dashboard = require('./dashboard/index/kor'),
-  dashboardCompany = require('./dashboard/company/kor')
+  dashboardCompany = require('./dashboard/company/kor'),
+  dashboardProduct = require('./dashboard/product/kor')
 
 export default {
   home,
@@ -17,5 +18,6 @@ export default {
   login,
   navigationBar,
   dashboard,
-  dashboardCompany
+  dashboardCompany,
+  dashboardProduct
 }
