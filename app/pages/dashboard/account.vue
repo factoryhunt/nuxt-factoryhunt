@@ -17,7 +17,7 @@
 
     <!-- Right-side -->
     <div class="right-container">
-      <nuxt-child :contact="contact"></nuxt-child>
+      <nuxt-child :account="account" :contact="contact"></nuxt-child>
     </div>
 
   </section>
@@ -29,6 +29,7 @@
   export default {
     layout: 'dashboard',
     computed: mapGetters({
+      account: 'auth/GET_ACCOUNT',
       contact: 'auth/GET_CONTACT'
     }),
     methods: {
