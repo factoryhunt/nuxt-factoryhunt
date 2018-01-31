@@ -7,9 +7,9 @@
     <div class="logo-image-container">
       <!-- Title -->
       <div class="title-container">
-        <p class="title" v-lang.logo.title></p>
-        <p class="sub-title" v-lang.logo.desc></p>
-        <p class="third-title" v-lang.logo.caution></p>
+        <p class="title">{{ $t('dashboardCompany.logo.title') }}</p>
+        <p class="sub-title">{{ $t('dashboardCompany.logo.desc') }}</p>
+        <p class="third-title">{{ $t('dashboardCompany.logo.caution') }}</p>
       </div>
 
       <!-- Logo Image -->
@@ -17,9 +17,9 @@
 
       <!-- Upload Button -->
       <div class="button-container">
-        <label for="logo-image-input" v-lang.logo.button></label>
+        <label for="logo-image-input">{{ $t('dashboardCompany.logo.button') }}</label>
         <input id="logo-image-input" type="file" @change="onLogoImageChanged($event.target.files)" accept="image/*">
-        <button id="logo-image-upload-button" class="button-orange" @click="imageUpload('logo-image-input')" v-lang.upload></button>
+        <button id="logo-image-upload-button" class="button-orange" @click="imageUpload('logo-image-input')">{{ $t('dashboardCompany.logo.upload') }}</button>
       </div>
     </div>
 
@@ -27,8 +27,8 @@
     <div class="main-image-container">
       <!-- Title -->
       <div class="title-container">
-        <p class="title" v-lang.cover.title></p>
-        <p class="sub-title" v-lang.cover.desc></p>
+        <p class="title">{{ $t('dashboardCompany.cover.title') }}</p>
+        <p class="sub-title">{{ $t('dashboardCompany.cover.desc') }}</p>
       </div>
 
       <!-- Main Image -->
@@ -38,10 +38,10 @@
 
       <!-- Upload Button -->
       <div class="button-container">
-        <p class="caution-text" v-lang.cover.caution></p>
-        <label for="main-image-input" v-lang.cover.button></label>
+        <p class="caution-text">{{ $t('dashboardCompany.cover.caution') }}</p>
+        <label for="main-image-input">{{ $t('dashboardCompany.cover.button') }}</label>
         <input id="main-image-input" type="file" @change="onMainImageChanged($event.target.files)" accept="image/*">
-        <button id="main-image-upload-button" class="button-orange" @click="imageUpload('main-image-input')" v-lang.upload></button>
+        <button id="main-image-upload-button" class="button-orange" @click="imageUpload('main-image-input')">{{ $t('dashboardCompany.cover.upload') }}</button>
       </div>
     </div>
 
