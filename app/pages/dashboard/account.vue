@@ -5,11 +5,11 @@
       <div class="profile-container">
         <div class="profile-inner-container">
           <div class="menu-container">
-            <nuxt-link id="item-company-edit" class="menu" to="/dashboard/company">Edit Company</nuxt-link>
-            <nuxt-link id="item-domain-edit" class="menu" to="/dashboard/company/domain">Edit Domain</nuxt-link>
-            <nuxt-link id="item-image-edit" class="menu" to="/dashboard/company/image">Photos</nuxt-link>
-            <!--<a id="item-certification-upload" class="menu" href="/dashboard/company/certifications">인증서 등록</a>-->
-            <button @click="routeCompanyPage" class="view-button button-white">View Website</button>
+            <nuxt-link id="item-account-edit" class="menu" to="/dashboard/account">Edit Account</nuxt-link>
+            <nuxt-link id="item-password-edit" class="menu" to="/dashboard/account/password">Change Password</nuxt-link>
+            <!--<a id="item-language" class="menu" href="/dashboard/account/language" v-lang.language></a>-->
+            <nuxt-link id="item-management" class="menu" to="/dashboard/account/management">Management</nuxt-link>
+            <!--<button @click="routeCompanyPage" class="view-button button-white">See My Profile</button>-->
           </div>
         </div>
       </div>
@@ -17,7 +17,7 @@
 
     <!-- Right-side -->
     <div class="right-container">
-      <nuxt-child :account="account"></nuxt-child>
+      <nuxt-child :contact="contact"></nuxt-child>
     </div>
 
   </section>
@@ -29,35 +29,28 @@
   export default {
     layout: 'dashboard',
     computed: mapGetters({
-      account: 'auth/GET_ACCOUNT'
+      contact: 'auth/GET_CONTACT'
     }),
     methods: {
-      routeCompanyPage () {
-        location.href = `/${this.account.domain}`
-      },
       highlightNavigationButton () {
         $(document).ready(() => {
           const { name } = this.$route
           this.unhighlightNavigationButton()
-          if (name === 'dashboard-company') {
-            $('#item-company-edit').attr('aria-selected', true)
+          if (name === 'dashboard-account') {
+            $('#item-account-edit').attr('aria-selected', true)
           }
-          if (name === 'dashboard-company-domain') {
-            $('#item-domain-edit').attr('aria-selected', true)
+          if (name === 'dashboard-account-password') {
+            $('#item-password-edit').attr('aria-selected', true)
           }
-          if (name === 'dashboard-company-image') {
-            $('#item-image-edit').attr('aria-selected', true)
-          }
-          if (name === 'dashboard-company-certification') {
-            $('#item-certification-upload').attr('aria-selected', true)
+          if (name === 'dashboard-account-management') {
+            $('#item-management').attr('aria-selected', true)
           }
         })
       },
       unhighlightNavigationButton() {
-        $('#item-company-edit').attr('aria-selected', false)
-        $('#item-domain-edit').attr('aria-selected', false)
-        $('#item-image-edit').attr('aria-selected', false)
-        $('#item-certification-edit').attr('aria-selected', false)
+        $('#item-account-edit').attr('aria-selected', false)
+        $('#item-password-edit').attr('aria-selected', false)
+        $('#item-management').attr('aria-selected', false)
       }
     },
     mounted () {
@@ -65,7 +58,6 @@
     },
     watch: {
       '$route.path' () {
-        console.log(1)
         this.highlightNavigationButton()
       }
     }

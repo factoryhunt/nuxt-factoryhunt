@@ -20,6 +20,7 @@ module.exports = async (req, res) => {
     ContentType: mimetype,
     Body: buffer
   }
+
   const s3 = new AWS.S3()
 
   const uploadToS3 = () => {
