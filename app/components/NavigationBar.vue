@@ -39,7 +39,7 @@
             <li class="button-item-container">
               <div class="button-item-wrapper">
                 <div class="button-item">
-                  <nuxt-link to="/signup">Become a seller</nuxt-link>
+                  <nuxt-link to="/signup">{{ $t('navigationBar.becomeSeller') }}</nuxt-link>
                 </div>
               </div>
             </li>
@@ -53,7 +53,7 @@
             <li v-if="!isLoggedIn" class="button-item-container">
               <div class="button-item-wrapper">
                 <div class="button-item">
-                  <nuxt-link to="/login">Login</nuxt-link>
+                  <nuxt-link to="/login">{{ $t('navigationBar.login') }}</nuxt-link>
                 </div>
               </div>
             </li>
@@ -83,10 +83,10 @@
             <div class="footer-divider"></div>
             <div class="footer">
               <div class="footer-left">
-                <nuxt-link id="my-page-button" to="/dashboard">Dashboard</nuxt-link>
+                <nuxt-link id="my-page-button" to="/dashboard">{{ $t('navigationBar.dashboard') }}</nuxt-link>
               </div>
               <div class="footer-right">
-                <a id="logout-button" @click="onLogoutButton">Logout</a>
+                <a id="logout-button" @click="onLogoutButton">{{ $t('navigationBar.logout') }}</a>
               </div>
             </div>
           </div>

@@ -2,10 +2,12 @@
   <div>
     <navigation-bar></navigation-bar>
     <sub-navigation-bar></sub-navigation-bar>
+    <top-alert-bar></top-alert-bar>
     <div class="body-container">
-      <nuxt/>
+      <div class="dashboard-container">
+        <nuxt/>
+      </div>
     </div>
-    <footer-bar></footer-bar>
     <copyright-bar></copyright-bar>
   </div>
 </template>
@@ -13,13 +15,14 @@
 <script>
   import NavigationBar from '~/components/NavigationBar.vue'
   import SubNavigationBar from '~/components/DashboardNavigationBar.vue'
+  import TopAlertBar from '~/components/Alert/TopAlertBar.vue'
   import FooterBar from '~/components/FooterBar.vue'
   import CopyrightBar from '~/components/CopyrightBar.vue'
   export default {
     components: {
       NavigationBar,
       SubNavigationBar,
-      FooterBar,
+      TopAlertBar,
       CopyrightBar
     },
     middleware: 'authenticated'
@@ -27,4 +30,11 @@
 </script>
 
 <style lang="less" scoped>
+  .body-container {
+    margin-top: 20px;
+  }
+
+  .dashboard-container {
+    height: 100vh;
+  }
 </style>

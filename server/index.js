@@ -13,6 +13,7 @@ const CONFIG = require('./api/.config')
 const HOST = process.env.HOST || '127.0.0.1'
 const PORT = process.env.PORT || 3000
 
+// Middlewares
 app.set('jwt-token', CONFIG.jwtSecret)
 app.use(session({
   secret: CONFIG.sessionKey,
