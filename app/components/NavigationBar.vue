@@ -36,7 +36,7 @@
                 <!--</div>-->
               <!--</div>-->
             <!--</li>-->
-            <li class="button-item-container">
+            <li v-if="!isLoggedIn" class="button-item-container">
               <div class="button-item-wrapper">
                 <div class="button-item">
                   <nuxt-link to="/signup">{{ $t('navigationBar.becomeSeller') }}</nuxt-link>

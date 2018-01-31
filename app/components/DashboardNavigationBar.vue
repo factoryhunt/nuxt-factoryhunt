@@ -11,6 +11,44 @@
   </div>
 </template>
 
+<script>
+  import $ from 'jquery'
+  export default {
+    methods: {
+      highlightNavigationButton () {
+        const { name } = this.$route
+        this.unhighlightNavigationButton()
+        if (name === 'dashboard') {
+          $('#item-dashboard').attr('aria-selected', true)
+        }
+        if (name.indexOf('company') !== -1) {
+          $('#item-company').attr('aria-selected', true)
+        }
+        if (name.indexOf('dashboard-product') !== -1 ) {
+          $('#item-product').attr('aria-selected', true)
+        }
+        if (name.indexOf('dashboard-account') !== -1 ) {
+          $('#item-account').attr('aria-selected', true)
+        }
+      },
+      unhighlightNavigationButton () {
+        $('#item-dashboard').attr('aria-selected', false)
+        $('#item-company').attr('aria-selected', false)
+        $('#item-product').attr('aria-selected', false)
+        $('#item-account').attr('aria-selected', false)
+      }
+    },
+    mounted () {
+      this.highlightNavigationButton()
+    },
+    watch: {
+      '$route' () {
+        this.highlightNavigationButton()
+      }
+    }
+  }
+</script>
+
 <style lang="less" scoped>
   @import "~assets/css/index";
 

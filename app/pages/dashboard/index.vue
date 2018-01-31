@@ -179,14 +179,14 @@
         /* eslint-disable no-unused-vars */
         const clipboard = new Clipboard('#clipboard')
         clipboard.on('success', (e) => {
-          console.info('Action:', e.action)
-          console.info('Text:', e.text)
-          console.info('Trigger:', e.trigger)
+//          console.info('Action:', e.action)
+//          console.info('Text:', e.text)
+//          console.info('Trigger:', e.trigger)
           $('#copied-text').show().delay(1000).fadeOut(500)
           e.clearSelection()
         })
         clipboard.on('error', (e) => {
-          alert('오류 발생. 다시 시도해주세요.')
+          alert('Copied failed. Please try again.')
         })
         /* eslint-enable no-unused-vars */
       },
@@ -200,12 +200,8 @@
         }
         $image.css('background-image', image)
       },
-      trackingDomain () {
-        $('#item-dashboard').attr('aria-selected', true)
-      },
       activateJquery () {
         $(document).ready(() => {
-          this.trackingDomain()
           this.applyImageBackground()
           this.activateClipboardJS()
         })

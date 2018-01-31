@@ -24,10 +24,11 @@ module.exports = async (req, res) => {
   }
 
   try {
-    const account = await getAccount()
-    const products = await getAccountProducts(account.account_id)
+    let products = null
+    let account = await getAccount()
+    if (account) products = await getAccountProducts(account.account_id)
     res.status(200).json({
-      account,
+      account: account || null,
       products
     })
   } catch (err) {
