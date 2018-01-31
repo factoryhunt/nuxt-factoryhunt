@@ -10,24 +10,24 @@
 
         <!-- About -->
         <section class="about-container">
-          <h4 class="title">Factory Hunt</h4>
+          <h4 class="title">{{ $t('footerBar.factoryhunt') }}</h4>
           <ul>
-            <li><nuxt-link to="/about">About Us</nuxt-link></li>
-            <li><nuxt-link to="/contact">Contact Us</nuxt-link></li>
+            <li><nuxt-link to="/about">{{ $t('footerBar.aboutUs') }}</nuxt-link></li>
+            <li><nuxt-link to="/contact">{{ $t('footerBar.contactUs') }}</nuxt-link></li>
           </ul>
         </section>
 
         <!-- Services -->
         <section class="service-container">
-          <h4 class="title">Services</h4>
+          <h4 class="title">{{ $t('footerBar.services') }}</h4>
           <ul>
-            <li><nuxt-link to="/for-supplier">For supplier</nuxt-link></li>
+            <li><nuxt-link to="/for-supplier">{{ $t('footerBar.forSupplier') }}</nuxt-link></li>
           </ul>
         </section>
 
         <!-- Follow Us -->
         <section class="follow-us-container">
-          <h4 class="title">Follow Us</h4>
+          <h4 class="title">{{ $t('footerBar.followUs') }}</h4>
           <ul>
             <li><a href="//www.facebook.com/factoryhunt" target="_blank"><i class="fa fa-facebook-square"></i> Facebook</a></li>
             <li><a href="//www.youtube.com/channel/factoryhunt" target="_blank"><i class="fa fa-youtube-play"></i> Youtube</a></li>

@@ -1,0 +1,23 @@
+{
+  "viewWebsite": "View website",
+  "edit": "Edit",
+  "welcome": "Hello, {name}!",
+  "dashboard": "Dashboard",
+  "domain": {
+    "title": "Customized Domain",
+    "desc": "Customize the page URL. Use the link below as your company website.",
+    "linkCopied": "URL copied"
+  },
+  "company": {
+    "title": "Company information",
+    "desc": "Update company information and create a website in a minute."
+  },
+  "product": {
+    "title": "Product information",
+    "desc": "Update product information and create an online product catalog."
+  },
+  "account": {
+    "title": "Account Information",
+    "desc": "Update your contact information. You will be connected with potential buyers by email."
+  }
+}

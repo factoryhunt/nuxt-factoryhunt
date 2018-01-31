@@ -11,8 +11,8 @@
               <p class="title">{{ account.account_name_english }}</p>
               <p v-if="contact.first_name_english" class="sub-title">{{contact.first_name_english + ' ' + contact.last_name_english}}<small></small></p>
             </div>
-            <button id="view-button" @click="routeCompanyPage" class="view-button button-white">View website</button>
-            <button id="edit-button" @click="routeCompanyEditPage" class="edit-button button-white">Edit</button>
+            <button id="view-button" @click="routeCompanyPage" class="view-button button-white">{{ $t('dashboard.viewWebsite') }}</button>
+            <button id="edit-button" @click="routeCompanyEditPage" class="edit-button button-white">{{ $t('dashboard.edit') }}</button>
           </div>
         </div>
       </div>
@@ -23,7 +23,7 @@
 
       <!-- Header -->
       <header class="header-container">
-        <p class="sub-title">Hello,</p>
+        <p class="sub-title">{{ $t('dashboard.welcome') }}</p>
       </header>
 
       <!-- Link -->
@@ -35,50 +35,50 @@
       <!-- Body -->
       <div class="body-container">
 
-        <p class="title">Dashboard</p>
+        <p class="title">{{ $t('dashboard.dashboard') }}</p>
 
         <div class="box-container">
           <div class="title-container">
-            <nuxt-link to="/dashboard/company/domain" class="button">Edit</nuxt-link>
-            <p class="title">Customized Domain</p>
+            <nuxt-link to="/dashboard/company/domain" class="button">{{ $t('dashboard.edit') }}</nuxt-link>
+            <p class="title">{{ $t('dashboard.domain.title') }}</p>
           </div>
           <div class="text-container">
-            <p class="text">Customize the page URL. Use the link below as your company website.</p>
+            <p class="text">{{ $t('dashboard.domain.desc') }}</p>
             <a id="clipboard" data-clipboard-target="#domain-text">
               <span id="domain-text" class="text">www.factoryhunt.com/{{account.domain}}
               </span>
             </a>
-            <span id="copied-text">URL copied</span>
+            <span id="copied-text">{{ $t('dashboard.domain.linkCopied') }}</span>
           </div>
         </div>
 
         <div class="box-container">
           <div class="title-container">
-            <nuxt-link to="/dashboard/company" class="button">Edit</nuxt-link>
-            <p class="title">Company information</p>
+            <nuxt-link to="/dashboard/company" class="button">{{ $t('dashboard.edit') }}</nuxt-link>
+            <p class="title">{{ $t('dashboard.company.title') }}</p>
           </div>
           <div class="text-container">
-            <p class="text">Update company information and create a website in a minute.</p>
+            <p class="text">{{ $t('dashboard.company.desc') }}</p>
           </div>
         </div>
 
         <div class="box-container">
           <div class="title-container">
-            <a href="/dashboard/product" class="button">Edit</a>
-            <p class="title">Product information</p>
+            <a href="/dashboard/product" class="button">{{ $t('dashboard.edit') }}</a>
+            <p class="title">{{ $t('dashboard.product.title') }}</p>
           </div>
           <div class="text-container">
-            <p class="text">Update product information and create an online product catalog.</p>
+            <p class="text">{{ $t('dashboard.product.desc') }}</p>
           </div>
         </div>
 
         <div class="box-container">
           <div class="title-container">
-            <a href="/dashboard/account" class="button">Edit</a>
-            <p class="title">Account Information</p>
+            <a href="/dashboard/account" class="button">{{ $t('dashboard.edit') }}</a>
+            <p class="title">{{ $t('dashboard.account.title') }}</p>
           </div>
           <div class="text-container">
-            <p class="text">Update your contact information. You will be connected with potential buyers by email.</p>
+            <p class="text">{{ $t('dashboard.account.desc') }}</p>
           </div>
         </div>
 

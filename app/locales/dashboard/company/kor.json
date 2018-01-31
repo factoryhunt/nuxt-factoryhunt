@@ -1,0 +1,88 @@
+{
+  "editCompany": "회사 정보 수정",
+  "editDomain": "도메인 수정",
+  "photos": "이미지 등록",
+  "viewButton": "회사 페이지 보기",
+  "name": {
+    "title": "회사명",
+    "required": "<i class=\"fa fa-circle\" aria-hidden=\"true\"></i> 필수입력",
+    "desc": "사업자등록증의 회사명과 일치시켜주세요.",
+    "placeholder": "Factory Hunt, Co., Ltd.",
+    "inputTitle": "2~50자의 영어와 숫자, 마침표, 쉼표 그리고 소괄호만 입력해주세요."
+  },
+  "slogan": {
+    "title": "슬로건",
+    "desc": "귀사를 한 문장으로 표현해주세요.",
+    "placeholder": "Factory Hunt is a global B2B platform.",
+    "inputTitle": "2~50자의 영어와 숫자, 마침표, 쉼표, 그리고 작은따옴표만 입력해주세요."
+  },
+  "description": {
+    "title": "회사 소개",
+    "desc": "회사를 소개해주세요. 양식은 자유입니다.",
+    "placeholder": "Factory Hunt is a global B2B platform.",
+    "inputTitle": "이 항목은 25000자로 제한됩니다."
+  },
+  "company": {
+    "title": "회사 정보",
+    "desc": "각 항목에 알맞은 정보를 입력해주세요.",
+    "desc2": "주소 - 도로명 주소로 정확히 입력해야 지도에 위치가 표시됩니다.",
+    "products": {
+      "title": "취급 품목",
+      "placeholder": "LED, Light bulbs, ...",
+      "inputTitle": "1~100자의 영어와 숫자, 쉼표, 하이픈, 그리고 작은따옴표만 입력해주세요."
+    },
+    "website": {
+      "title": "웹사이트",
+      "placeholder": "www.factoryhunt.com",
+      "inputTitle": "1~100자의 영어와 숫자, 그리고 마침표만 입력해주세요."
+    },
+    "phone": {
+      "title": "전화번호",
+      "placeholder": "+82-31-123-4567",
+      "inputTitle": "1~21자의 숫자와 더하기, 그리고 하이픈만 입력해주세요."
+    },
+    "year": {
+      "title": "설립일",
+      "placeholder": "YYYY-MM-DD"
+    },
+    "country": {
+      "title": "국가",
+      "defaultValue": "국가를 선택해주세요."
+    },
+    "state": {
+      "title": "도",
+      "placeholder": "Gyeonggi-do",
+      "inputTitle": "1~50자의 영어와 하이픈만 입력해주세요."
+    },
+    "city": {
+      "title": "시, 군",
+      "placeholder": "Bucheon-si",
+      "inputTitle": "1~50자의 영어와 하이픈만 입력해주세요."
+    },
+    "street": {
+      "title": "도로명 주소",
+      "placeholder": "20, Gongdan-daero",
+      "inputTitle": "1~100자의 영어와 숫자, 하이픈, 마침표, 쉼표, 샵, 그리고 소괄호만 입력해주세요."
+    },
+    "street2": {
+      "title": "상세 주소",
+      "placeholder": "Gongdan Building Floor 2",
+      "inputTitle": "1~100자의 영어와 숫자, 하이픈, 마침표, 쉼표, 샵, 그리고 소괄호만 입력해주세요."
+    },
+    "postal": {
+      "title": "우편번호",
+      "placeholder": "12345",
+      "inputTitle": "1~10자의 숫자만 입력해주세요."
+    }
+  },
+  "history": {
+    "title": "연혁",
+    "desc": "회사의 연혁을 입력해주세요.",
+    "placeholder": "1984 : B brand founded<br>2000 : Management buyout from C and merged with D <br>2005 : E leads a management buyout of the Group as CEO, backed by F<br>2009 : Group opens Chinese facility<br>2013 : LED lighting range is launched Group’s Chinese facility expanded<br>2015 : Group achieves sales of $100m for the first time Offices opened in United States<br>2016 : Group’s Chinese facility is expanded to 52,500 square metres Offices opened in Hong Kong and Spain"
+  },
+  "save": {
+    "title": "확인 및 저장",
+    "desc": "저장할 정보를 다시 한 번 확인하고 내용이 맞다면 저장하기 버튼을 눌러주세요. 바로 웹사이트에 반영됩니다!",
+    "button": "저장하기"
+  }
+}

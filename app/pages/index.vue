@@ -4,8 +4,8 @@
     <header class="header-container">
       <!-- Slogan -->
       <div class="slogan-container">
-        <h1 class="title">Factory Hunt</h1>
-        <h4 class="sub-title">Discover reliable suppliers and import high quality products.</h4>
+        <h1 class="title">{{ $t('home.title') }}</h1>
+        <h4 class="sub-title" v-html="$t('home.subTitle')"></h4>
       </div>
 
       <!-- Search Bar -->
@@ -13,10 +13,10 @@
         <div class="search-bar-container">
           <div class="search-bar-wrapper">
             <div class="search-input-container">
-              <input id="search-input" type="text" v-model="value.input" pattern="[A-Za-z0-9]{2,50}" placeholder="Try &quot;Toy&quot;">
+              <input id="search-input" type="text" v-model="value.input" pattern="[A-Za-z0-9]{2,50}" :placeholder="$t('home.input')" :title="$t('home.searchCaution')">
             </div>
             <div class="search-button-container">
-              <button id="search-button" type="submit" class="button-orange">Search</button>
+              <button id="search-button" type="submit" class="button-orange">{{ $t('home.search') }}</button>
             </div>
           </div>
         </div>
@@ -26,7 +26,7 @@
     <!-- Featured Suppliers -->
     <div class="featured-container">
       <!-- Title -->
-      <h2 class="title">Featured Suppliers</h2>
+      <h2 class="title">{{ $t('home.featured') }}</h2>
       <loader v-show="!features" id="featured-loader" class="spinkit-default"></loader>
 
       <!-- Featured Supplier -->
@@ -42,7 +42,7 @@
               <p class="product">{{ feature.products_english }}</p>
               <h2 class="company-name">{{ feature.account_name_english }}</h2>
               <h3 class="slogan">{{ feature.company_short_description }}</h3>
-              <button @click="routeAccountProfilePage(feature)" class="view-more-button">View more</button>
+              <button @click="routeAccountProfilePage(feature)" class="view-more-button">{{ $t('home.viewMore') }}</button>
             </div>
           </div>
         </div>

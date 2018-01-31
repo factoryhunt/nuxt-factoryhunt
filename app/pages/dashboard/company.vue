@@ -5,11 +5,11 @@
       <div class="profile-container">
         <div class="profile-inner-container">
           <div class="menu-container">
-            <nuxt-link id="item-company-edit" class="menu" to="/dashboard/company">Edit Company</nuxt-link>
-            <nuxt-link id="item-domain-edit" class="menu" to="/dashboard/company/domain">Edit Domain</nuxt-link>
-            <nuxt-link id="item-image-edit" class="menu" to="/dashboard/company/image">Photos</nuxt-link>
+            <nuxt-link id="item-company-edit" class="menu" to="/dashboard/company">{{ $t('dashboardCompany.editCompany') }}</nuxt-link>
+            <nuxt-link id="item-domain-edit" class="menu" to="/dashboard/company/domain">{ $t('dashboardCompany.editDomain') }}</nuxt-link>
+            <nuxt-link id="item-image-edit" class="menu" to="/dashboard/company/image">{ $t('dashboardCompany.photos') }}</nuxt-link>
             <!--<a id="item-certification-upload" class="menu" href="/dashboard/company/certifications">인증서 등록</a>-->
-            <button @click="routeCompanyPage" class="view-button button-white">View Website</button>
+            <button @click="routeCompanyPage" class="view-button button-white">{ $t('dashboardCompany.viewButton') }}</button>
           </div>
         </div>
       </div>

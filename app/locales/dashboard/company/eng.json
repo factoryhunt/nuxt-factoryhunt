@@ -1,0 +1,88 @@
+{
+  "editCompany": "Edit Company",
+  "editDomain": "Edit Domain",
+  "photos": "Photos",
+  "viewButton": "View Website",
+  "name": {
+    "title": "Company Name",
+    "required": "<i class=\"fa fa-circle\" aria-hidden=\"true\"></i> Required field",
+    "desc": "Use the official company name from the business registration certificate.",
+    "placeholder": "Factory Hunt, Inc.",
+    "inputTitle": "It must be characters 2-50 and can only contain letters, numbers, periods, comma, and parentheses."
+  },
+  "slogan": {
+    "title": "Slogan",
+    "desc": "Describe your company in 50 characters or less.",
+    "placeholder": "Factory Hunt is a global B2B platform.",
+    "inputTitle": "It must be characters 2-50 and can only contain letters, numbers, periods, comma, and apostrophe."
+  },
+  "description": {
+    "title": "Company Description",
+    "desc": "Describe your company.",
+    "placeholder": "Factory Hunt is a global B2B platform.",
+    "inputTitle": "It must be less than 25000 digits."
+  },
+  "company": {
+    "title": "Company Information",
+    "desc": "Please fill out the information below.",
+    "desc2": "Address Information",
+    "products": {
+      "title": "Products",
+      "placeholder": "LED, Light bulbs, ...",
+      "inputTitle": "It must be 1-100 characters and can only contain letters, numbers, comma, hyphens, and apostrophe."
+    },
+    "website": {
+      "title": "Website",
+      "placeholder": "www.factoryhunt.com",
+      "inputTitle": "It must be 1-100 characters and can only contain letters, numbers and periods."
+    },
+    "phone": {
+      "title": "Phone",
+      "placeholder": "+1-917-1234-5678",
+      "inputTitle": "It must be 1-21 characters and can only contain numbers, plus, and hyphens."
+    },
+    "year": {
+      "title": "Established Date",
+      "placeholder": "YYYY-MM-DD"
+    },
+    "country": {
+      "title": "Country",
+      "defaultValue": "Select a country."
+    },
+    "state": {
+      "title": "State",
+      "placeholder": "California",
+      "inputTitle": "It must be 1-50 characters and can only contain letters and hyphens."
+    },
+    "city": {
+      "title": "City",
+      "placeholder": "San Francisco",
+      "inputTitle": "It must be 1-50 characters and can only contain letters and hyphens."
+    },
+    "street": {
+      "title": "Street Address",
+      "placeholder": "7 Hacker Street",
+      "inputTitle": "It must be 1-100 characters and can only contain letters, numbers, hyphens, periods, comma, hash, and parentheses"
+    },
+    "street2": {
+      "title": "Street Address 2",
+      "placeholder": "Floor 2",
+      "inputTitle": "It must be 1-100 characters and can only contain letters, numbers, hyphens, periods, comma, hash, and parentheses"
+    },
+    "postal": {
+      "title": "Postal Code",
+      "placeholder": "12345",
+      "inputTitle": "It must be 1-10 characters and can only contain letters."
+    }
+  },
+  "history": {
+    "title": "Company History",
+    "desc": "",
+    "placeholder": "1984 : B brand founded<br>2000 : Management buyout from C and merged with D <br>2005 : E leads a management buyout of the Group as CEO, backed by F<br>2009 : Group opens Chinese facility<br>2013 : LED lighting range is launched Group’s Chinese facility expanded<br>2015 : Group achieves sales of $100m for the first time Offices opened in United States<br>2016 : Group’s Chinese facility is expanded to 52,500 square metres Offices opened in Hong Kong and Spain"
+  },
+  "save": {
+    "title": "Confirm and Save",
+    "desc": "Please confirm the information above before you save it. Company information will be updated immediately.",
+    "button": "Save"
+  }
+}
