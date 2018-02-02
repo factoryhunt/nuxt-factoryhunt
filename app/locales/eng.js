@@ -7,7 +7,8 @@ const about = require('./about/eng'),
   footerBar = require('./footerBar/eng'),
   dashboard = require('./dashboard/index/eng'),
   dashboardCompany = require('./dashboard/company/eng'),
-  dashboardProduct = require('./dashboard/product/eng')
+  dashboardProduct = require('./dashboard/product/eng'),
+  dashboardProductEdit = require('./dashboard/productEdit/eng')
 
 export default {
   home,
@@ -19,5 +20,6 @@ export default {
   navigationBar,
   dashboard,
   dashboardCompany,
-  dashboardProduct
+  dashboardProduct,
+  dashboardProductEdit
 }

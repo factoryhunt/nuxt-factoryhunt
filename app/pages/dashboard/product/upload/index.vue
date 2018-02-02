@@ -5,7 +5,7 @@
 
     <!-- Header -->
     <header class="header-container">
-      <p class="title" >{{ $t('dashboardProduct.header.title') }}</p>
+      <p class="title" >{{ $t('dashboardProductEdit.header.title') }}</p>
     </header>
 
     <div class="divider"></div>
@@ -16,7 +16,7 @@
 
         <!-- Category -->
         <div class="category-container input-container">
-          <p class="title" >{{ $t('dashboardProduct.category.title') }}</p>
+          <p class="title" >{{ $t('dashboardProductEdit.category.title') }}</p>
           <div class="category-inner-container">
             <!-- Primary -->
             <div class="primary-category-container">
@@ -31,27 +31,27 @@
               </ul>
             </div>
           </div>
-          <p v-if="value.primaryCategory" class="hidden-text">{{ $t('dashboardProduct.category.select', { category: getCategory }) }}</p>
-          <p class="caution-text" >{{ $t('dashboardProduct.category.caution') }}</p>
+          <p v-if="value.primaryCategory" class="hidden-text">{{ $t('dashboardProductEdit.category.select', { category: getCategory }) }}</p>
+          <p class="caution-text" >{{ $t('dashboardProductEdit.category.caution') }}</p>
         </div>
         <div class="divider"></div>
 
         <!-- Product Name -->
         <div class="name-container input-container">
-          <p class="title" >{{ $t('dashboardProduct.productName.title') }}</p>
-          <span class="required-text" >{{ $t('dashboardProduct.requiredField') }}</span>
-          <input id="name-count-input" required pattern="[A-Za-z0-9 `\/.,&()-]{2,100}" :title="getProductNameInputTitle" minlength="2" maxlength="100" v-model="value.productName" @keyup="countNameLength" :placeholder="getProductNamePlaceholder" type="text" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+          <p class="title" >{{ $t('dashboardProductEdit.productName.title') }}</p>
+          <span class="required-text" v-html="$t('dashboardProductEdit.requiredField')"></span>
+          <input id="name-count-input" required pattern="[A-Za-z0-9 `\/.,&()-]{2,100}" :title="$t('dashboardProductEdit.productName.inputTitle')" minlength="2" maxlength="100" v-model="value.productName" @keyup="countNameLength" :placeholder="$t('dashboardProductEdit.productName.placeholder')" type="text" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
           <p class="count-text">{{ 100 - value.nameCount }}</p>
-          <p class="hidden-text" >{{ $t('dashboardProduct.productName.hidden') }}</p>
-          <p class="caution-text" >{{ $t('dashboardProduct.productName.caution') }}</p>
+          <p class="hidden-text" >{{ $t('dashboardProductEdit.productName.hidden') }}</p>
+          <p class="caution-text" >{{ $t('dashboardProductEdit.productName.caution') }}</p>
         </div>
         <div class="divider"></div>
 
         <!-- Product Image -->
         <div class="image-container input-container">
-          <p class="title" >{{ $t('dashboardProduct.productImage.title') }}</p>
-          <span class="required-text" >{{ $t('dashboardProduct.requiredField') }}</span>
-          <p class="sub-title" >{{ $t('dashboardProduct.productImage.subTitle') }}</p>
+          <p class="title" >{{ $t('dashboardProductEdit.productImage.title') }}</p>
+          <span class="required-text" v-html="$t('dashboardProductEdit.requiredField')"></span>
+          <p class="sub-title" >{{ $t('dashboardProductEdit.productImage.subTitle') }}</p>
           <div class="image-inner-container">
             <div class="image-each-container">
               <ul id="image-container-ul">
@@ -67,16 +67,16 @@
                 </li>
               </ul>
             </div>
-            <span id="thumbnail-text" >{{ $t('dashboardProduct.productImage.mainImage') }}</span>
+            <span id="thumbnail-text" >{{ $t('dashboardProductEdit.productImage.mainImage') }}</span>
           </div>
-          <p class="caution-text" >{{ $t('dashboardProduct.productImage.caution') }}</p>
+          <p class="caution-text" >{{ $t('dashboardProductEdit.productImage.caution') }}</p>
         </div>
         <div class="divider"></div>
 
         <!-- Product Information -->
         <div class="information-container input-container">
-          <p class="title" >{{ $t('dashboardProduct.information.title') }}</p>
-          <p class="sub-title" >{{ $t('dashboardProduct.information.subTitle') }}</p>
+          <p class="title" >{{ $t('dashboardProductEdit.information.title') }}</p>
+          <p class="sub-title" >{{ $t('dashboardProductEdit.information.subTitle') }}</p>
 
           <!--<div class="box-container">-->
           <!--<div class="left-container">Unit price</div>-->
@@ -85,70 +85,70 @@
           <!--</div>-->
           <!--</div>-->
           <div class="box-container">
-            <div class="left-container" >{{ $t('dashboardProduct.information.code') }}</div>
+            <div class="left-container" >{{ $t('dashboardProductEdit.information.code') }}</div>
             <div class="right-container">
               <input placeholder="Factory_Hunt_A_01" maxlength="100" v-model="value.productCode" type="text" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
             </div>
           </div>
           <div class="box-container">
-            <div class="left-container" >{{ $t('dashboardProduct.information.moq') }}</div>
+            <div class="left-container" >{{ $t('dashboardProductEdit.information.moq') }}</div>
             <div class="right-container">
-              <input placeholder="100" maxlength="10" pattern="[0-9,]{1,11}" :title="getMoqInputTitle" v-model="value.moq" type="text" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+              <input placeholder="100" maxlength="10" pattern="[0-9,]{1,11}" :title="$t('dashboardProductEdit.information.inputTitle')" v-model="value.moq" type="text" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
             </div>
           </div>
           <div class="box-container">
-            <div class="left-container" >{{ $t('dashboardProduct.information.origin') }}</div>
+            <div class="left-container" >{{ $t('dashboardProductEdit.information.origin') }}</div>
             <div class="right-container">
               <!--<select required v-model="value.origin">-->
               <select v-model="value.origin">
-                <option id="disabled-option" disabled value="" >{{ $t('dashboardProduct.information.originPlaceholder') }}</option>
+                <option id="disabled-option" disabled value="" >{{ $t('dashboardProductEdit.information.originPlaceholder') }}</option>
                 <option v-for="(country,index) in value.country_list" :key="index" :value="country.country_name">{{country.country_name}}</option>
               </select>
             </div>
           </div>
           <div class="box-container">
-            <div class="left-container" >{{ $t('dashboardProduct.information.size') }}</div>
+            <div class="left-container" >{{ $t('dashboardProductEdit.information.size') }}</div>
             <div class="right-container">
               <input placeholder="100 x 100 x 100mm" maxlength="100" v-model="value.dimension" type="text" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
             </div>
           </div>
           <div class="box-container">
-            <div class="left-container" >{{ $t('dashboardProduct.information.materials') }}</div>
+            <div class="left-container" >{{ $t('dashboardProductEdit.information.materials') }}</div>
             <div class="right-container">
-              <input placeholder="Iron, wood, .." maxlength="100" pattern="[A-Za-z ,-]{1,100}" :title="getMaterialsInputTitle" v-model="value.materialType" type="text" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+              <input placeholder="Iron, wood, .." maxlength="100" pattern="[A-Za-z ,-]{1,100}" :title="$t('dashboardProductEdit.information.inputTitle')" v-model="value.materialType" type="text" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
             </div>
           </div>
-          <p class="caution-text" >{{ $t('dashboardProduct.information.caution') }}</p>
+          <p class="caution-text" >{{ $t('dashboardProductEdit.information.caution') }}</p>
         </div>
         <div class="divider"></div>
 
         <!-- Product Introduction -->
         <div class="description-container input-container">
-          <p class="title" >{{ $t('dashboardProduct.introduction.title') }}</p>
+          <p class="title" >{{ $t('dashboardProductEdit.introduction.title') }}</p>
           <textarea name="" id="" cols="30" rows="10"></textarea>
           <spinkit id="editor-spinkit"></spinkit>
-          <p class="caution-text" >{{ $t('dashboardProduct.introduction.caution') }}</p>
+          <p class="caution-text" >{{ $t('dashboardProductEdit.introduction.caution') }}</p>
         </div>
         <div class="divider"></div>
 
         <!-- Catalog -->
         <div class="catalog-container input-container">
-          <p class="title" >{{ $t('dashboardProduct.catalog.title') }}</p>
-          <p class="sub-title" >{{ $t('dashboardProduct.catalog.subTitle') }}</p>
-          <label for="pdf-input" >{{ $t('dashboardProduct.catalog.button') }}</label>
+          <p class="title" >{{ $t('dashboardProductEdit.catalog.title') }}</p>
+          <p class="sub-title" >{{ $t('dashboardProductEdit.catalog.subTitle') }}</p>
+          <label for="pdf-input" >{{ $t('dashboardProductEdit.catalog.button') }}</label>
           <input name="catalog_pdf" id="pdf-input" type="file" accept="application/pdf" @change="onPDFchanged($event.target.files)">
           <div class="file-information-container">
             <p id="file-information-text">{{msg.pdfText}}</p>
-            <a id="pdf-cancel-button" @click="onPDFcancel" >{{ $t('dashboardProduct.catalog.cancel') }}</a>
+            <a id="pdf-cancel-button" @click="onPDFcancel" >{{ $t('dashboardProductEdit.catalog.cancel') }}</a>
           </div>
         </div>
         <div class="divider"></div>
 
         <!-- Upload Button -->
         <div class="confirm-container input-container">
-          <p class="title" >{{ $t('dashboardProduct.confirm.title') }}</p>
-          <p class="sub-title" >{{ $t('dashboardProduct.confirm.subTitle') }}</p>
-          <button class="button-orange" >{{ $t('dashboardProduct.confirm.button') }}</button>
+          <p class="title" >{{ $t('dashboardProductEdit.confirm.title') }}</p>
+          <p class="sub-title" >{{ $t('dashboardProductEdit.confirm.subTitle') }}</p>
+          <button class="button-orange" >{{ $t('dashboardProductEdit.confirm.button') }}</button>
         </div>
       </form>
     </div>

@@ -19,59 +19,5 @@
     "edit": "Edit",
     "delete": "Delete",
     "view": "View"
-  },
-  "requiredField": "<i class=\"fa fa-circle\" aria-hidden=\"true\"></i> Required field",
-  "uploadSuccess": "Your product has been uploaded.<br>Please allow up to 24 hours for product approval.",
-  "uploadFail": "Product upload failed. please try again.",
-  "header": {
-    "title": "Upload Product"
-  },
-  "category": {
-    "title": "Category",
-    "select": "Selected category: {category}",
-    "caution": "If you register in a category that does not match the product, your product may be forcibly moved, stopped listing, or prohibited from listing."
-  },
-  "productName": {
-    "title": "Product Name",
-    "inputTitle": "It must be 2~100 characters and can only contain letters, numbers, hyphens, slash, periods, parentheses, apostrophe and Ampersand.",
-    "placeholder": "Please enter your product name.",
-    "caution": "If keywords are not directly related to the registered product, the registration can be prohibited by the administrator.",
-    "hidden": "You already have the same product name. Please try another one."
-  },
-  "productImage": {
-    "title": "Product image",
-    "subTitle": "The first photo will be the main product image. You can upload up to 5 images.",
-    "mainImage": "Main image",
-    "caution": "If images are not directly related to the registered product, the registration can be by the administrator.",
-    "alert": "At least one product photo must be uploaded."
-  },
-  "information": {
-    "title": "Product Information",
-    "subTitle": "Please fill out the form correctly.",
-    "code": "Product code",
-    "moq": "MOQ",
-    "moqInputTitle": "It must be 1~11 characters and can only contain numbers.",
-    "origin": "Product of Origin",
-    "originPlaceholder": "Please select where the product is produced.",
-    "size": "Size (mm)",
-    "materials": "Materials",
-    "materialsInputTitle": "It must be 1~100 characters and can only contain letters, numbers, comma, and hyphen.",
-    "caution": "Leave blank for information you do not want to disclose."
-  },
-  "introduction": {
-    "title": "Product Introduction",
-    "caution": "Product details not directly related to the product name may be prohibited by the administrator."
-  },
-  "catalog": {
-    "title": "Catalog",
-    "subTitle": "PDF only. Maximum upload file size :10MB",
-    "button": "Select PDF",
-    "caution": "Maximum file size is 10MB",
-    "cancel": "Cancel"
-  },
-  "confirm": {
-    "title": "Confirm and Upload",
-    "subTitle": "Please confirm the information above before submitting it. The information will be updated immediately.",
-    "button": "Upload"
   }
 }
