@@ -148,6 +148,7 @@
             vertical-align: middle;
             padding: 14px 16px;
             #search-input {
+              padding: 0;
               width: 100%;
               border: none;
               font-size:15px;
@@ -365,6 +366,7 @@
                 font-size: 17px;
                 font-weight: 700;
                 height: 100%;
+                white-space: nowrap;
               }
             }
           }

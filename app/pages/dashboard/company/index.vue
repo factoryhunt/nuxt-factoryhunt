@@ -117,7 +117,7 @@
       <!-- Company History -->
       <div class="history-container input-container">
         <p class="title">{{ $t('dashboardCompany.history.title') }}</p>
-        <p class="sub-title">{{ $t('dashboardCompany.history.desc') }}</p>
+        <p class="sub-title" v-html="$t('dashboardCompany.history.desc')"></p>
         <textarea rows="10" maxlength="25000" :title="$t('dashboardCompany.history.inputTitle')" :placeholder="$t('dashboardCompany.history.placeholder')" v-model="value.history"></textarea>
         <i id="history-mark" class="small-mark" aria-hidden="true"></i>
       </div>
@@ -387,7 +387,7 @@
     display: inline-block;
     font-size: 32px;
     font-weight:700;
-    margin-bottom:0;
+    margin: 0;
   }
   .sub-title {
     font-size: 24px;
@@ -413,9 +413,9 @@
   .required-text {
     display: inline-block;
     vertical-align: top;
-    padding-top: 8px;
+    padding-top: 4px;
     color: @color-orange;
-    font-size: 11px;
+    font-size: 10px;
   }
 
   @media ( min-width: 768px ) {
@@ -459,6 +459,7 @@
 
     /* Global CSS */
     .dashboard-page-container {
+      .placeholder(200);
     }
 
     .input-container {
@@ -468,7 +469,7 @@
     .title {
       font-size: 30px;
       font-weight:600;
-      margin-bottom:18px;
+      margin-top: 0;
     }
     .sub-title {
       font-size: 20px;
@@ -478,7 +479,7 @@
     .third-title {
       font-size: 15px;
       font-weight:600;
-      margin-bottom: 4px;
+      margin: 0;
     }
     input {
       width: 100%;
@@ -546,35 +547,6 @@
       color: @color-font-base;
       right: @small-mark-right-amount
     }
-    /* Global CSS */
-
-    /*<!--.right-container {-->*/
-    /*<!--position: absolute;-->*/
-    /*<!--z-index: 2;-->*/
-    /*<!--width: 310px;-->*/
-    /*<!--right: 0;-->*/
-    /*<!--background-color: @color-white;-->*/
-
-    /*<!--.title {-->*/
-    /*<!--font-size: 28px !important;-->*/
-    /*<!--font-weight:400 !important;-->*/
-    /*<!--margin-bottom:0 !important;-->*/
-    /*<!--}-->*/
-    /*<!--.sub-title {-->*/
-    /*<!--font-size: 18px !important;-->*/
-    /*<!--font-weight:300 !important;-->*/
-    /*<!--margin-bottom: 4px !important;-->*/
-    /*<!--}-->*/
-
-    /*<!--.each-container {-->*/
-    /*<!--margin-bottom: 30px;-->*/
-    /*<!--}-->*/
-
-    /*<!--.caption {-->*/
-    /*<!--margin-top: 60px;-->*/
-    /*<!--font-weight:700;-->*/
-    /*<!--}-->*/
-    /*<!--}-->*/
 
     .account-name-container {
       position: relative;
@@ -582,14 +554,13 @@
       #account-name-mark {
         top: 105px;
         right: -3px;
-        color: red;
+        color: @color-red;
       }
     }
 
     .short-description-container {
       .third-title {
         text-align: right;
-        margin-right: 3px;
       }
     }
 
@@ -658,7 +629,7 @@
         margin-bottom: 0 !important;
       }
       .sub-title {
-        margin-bottom: 40px !important;
+        margin-bottom: 10px !important;
       }
       button {
         font-size: @font-size-button;

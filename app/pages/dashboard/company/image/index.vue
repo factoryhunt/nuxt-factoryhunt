@@ -13,13 +13,14 @@
       </div>
 
       <!-- Logo Image -->
-      <div id="logo-image" class="logo-image"></div>
+      <img v-if="account.thumbnail_url" id="logo-image" class="logo-image" :src="account.thumbnail_url">
+      <img v-else id="logo-image" class="logo-image" src="~assets/img/temp-logo-image_english_512.png">
 
       <!-- Upload Button -->
       <div class="button-container">
         <label for="logo-image-input">{{ $t('dashboardCompany.logo.button') }}</label>
         <input id="logo-image-input" type="file" @change="onLogoImageChanged($event.target.files)" accept="image/*">
-        <button id="logo-image-upload-button" class="button-orange" @click="imageUpload('logo-image-input')">{{ $t('dashboardCompany.logo.upload') }}</button>
+        <button id="logo-image-upload-button" class="button-orange" @click="imageUpload('logo-image-input')">{{ $t('dashboardCompany.upload') }}</button>
       </div>
     </div>
 
@@ -33,15 +34,15 @@
 
       <!-- Main Image -->
       <div class="image-container">
-        <img id="main-image" class="main-image">
+        <div id="main-image" class="main-image"></div>
       </div>
 
       <!-- Upload Button -->
       <div class="button-container">
-        <p class="caution-text">{{ $t('dashboardCompany.cover.caution') }}</p>
+        <p class="third-title">{{ $t('dashboardCompany.cover.caution') }}</p>
         <label for="main-image-input">{{ $t('dashboardCompany.cover.button') }}</label>
         <input id="main-image-input" type="file" @change="onMainImageChanged($event.target.files)" accept="image/*">
-        <button id="main-image-upload-button" class="button-orange" @click="imageUpload('main-image-input')">{{ $t('dashboardCompany.cover.upload') }}</button>
+        <button id="main-image-upload-button" class="button-orange" @click="imageUpload('main-image-input')">{{ $t('dashboardCompany.upload') }}</button>
       </div>
     </div>
 
@@ -234,17 +235,14 @@
       },
       applyMainBackgroundImage () {
         const $image = $('#main-image')
-        var image = this.account.account_image_url_1
+        let image = this.account.account_image_url_1
         if (image) {
           image = 'url(' + image + ')'
-        } else {
-          image = 'url(../../../static/cover_image_english.png)'
+          $image.css('background-image', image)
         }
-        $image.css('background-image', image)
       },
       activateJquery () {
         $(document).ready(() => {
-          this.applyLogoBackgroundImage()
           this.applyMainBackgroundImage()
         })
       }
@@ -283,22 +281,23 @@
     .title {
       font-size: 30px;
       font-weight: 600;
+      margin-top: 0;
     }
     .sub-title {
       font-size: 20px;
       font-weight: 300;
-      margin-bottom: 0;
+      margin-bottom: 3px;
     }
     .third-title {
       font-size: 14px;
       font-weight:600;
-      margin-bottom: 8px;
+      margin-top: 2px;
+      margin-bottom: 18px;
     }
 
     // title
     .title-container {
       display: inline-block;
-      margin-bottom: 10px;
     }
 
     .logo-image-container {
@@ -328,15 +327,14 @@
         #main-image {
           width: 100%;
           height: 280px;
+          background: url(~assets/img/cover_image_english.png);
           background-size: cover;
           background-position: 50%, 50%;
           background-repeat: no-repeat;
         }
       }
-      .caution-text {
-        margin-bottom: 12px;
-      }
     }
+
     .button-container {
       position: relative;
       margin-bottom: 60px;

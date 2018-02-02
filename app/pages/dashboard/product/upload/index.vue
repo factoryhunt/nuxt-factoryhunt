@@ -5,7 +5,7 @@
 
     <!-- Header -->
     <header class="header-container">
-      <p class="title" >{{ $t('dashboardProductEdit.header.title') }}</p>
+      <h1 class="title" >{{ $t('dashboardProduct.header.title') }}</h1>
     </header>
 
     <div class="divider"></div>
@@ -38,9 +38,9 @@
 
         <!-- Product Name -->
         <div class="name-container input-container">
-          <p class="title">{{ $t('dashboardProductEdit.productName.title') }}</p>
-          <span class="required-text" v-html="$t('dashboardProductEdit.requiredField')"></span>
-          <input id="name-count-input" required pattern="[A-Za-z0-9 `\/.,&()-]{2,100}" :title="$t('dashboardProductEdit.productName.inputTitle')" minlength="2" maxlength="100" v-model="value.productName" @keyup="countNameLength" :placeholder="$t('dashboardProductEdit.productName.placeholder')" type="text" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+          <p class="title" >{{ $t('dashboardProduct.productName.title') }}</p>
+          <span class="required-text" v-html="$t('dashboardProduct.requiredField')"></span>
+          <input id="name-count-input" required pattern="[A-Za-z0-9 `\/.,&()-]{2,100}" :title="getProductNameInputTitle" minlength="2" maxlength="100" v-model="value.productName" @keyup="countNameLength" :placeholder="getProductNamePlaceholder" type="text" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
           <p class="count-text">{{ 100 - value.nameCount }}</p>
           <p class="hidden-text">{{ $t('dashboardProductEdit.productName.hidden') }}</p>
           <p class="caution-text">{{ $t('dashboardProductEdit.productName.caution') }}</p>
@@ -49,9 +49,9 @@
 
         <!-- Product Image -->
         <div class="image-container input-container">
-          <p class="title">{{ $t('dashboardProductEdit.productImage.title') }}</p>
-          <span class="required-text" v-html="$t('dashboardProductEdit.requiredField')"></span>
-          <p class="sub-title">{{ $t('dashboardProductEdit.productImage.subTitle') }}</p>
+          <p class="title">{{ $t('dashboardProduct.productImage.title') }}</p>
+          <span class="required-text" v-html="$t('dashboardProduct.requiredField')"></span>
+          <p class="sub-title" >{{ $t('dashboardProduct.productImage.subTitle') }}</p>
           <div class="image-inner-container">
             <div class="image-each-container">
               <ul id="image-container-ul">
@@ -461,7 +461,7 @@
       async checkProductNameIsAlreadyUsed () {
         const getProducts = () => {
           return new Promise((resolve, reject) => {
-            this.$http.get(`/api/data/product/account_id/${this.account.account_id}`)
+            axios.get(`/api/data/product/account_id/${this.account.account_id}`)
               .then((res) => { resolve(res.data) })
               .catch((err) => { reject(err) })
           })
@@ -699,9 +699,9 @@
   .required-text {
     display: inline-block;
     vertical-align: top;
-    padding-top: 8px;
+    padding-top: 4px;
     color: @color-orange;
-    font-size: 11px;
+    font-size: 10px;
   }
 
   @media ( min-width: 768px ) {
@@ -729,6 +729,7 @@
           display: inline-block;
           font-size: 30px;
           font-weight:600;
+          margin-top: 0;
           margin-bottom:18px;
         }
         .sub-title {
@@ -739,6 +740,7 @@
         .caution-text {
           font-size: 14px;
           font-weight: 300;
+          margin: 0;
         }
 
         .category-container {
@@ -761,7 +763,7 @@
             ul {
               list-style: none;
               padding-left: 0;
-              margin-bottom: 0;
+              margin: 0;
               height: 250px;
               overflow: auto;
 
@@ -955,6 +957,7 @@
         .catalog-container {
 
           label {
+            display: inline-block;
             .upload-label-basic;
             border: 1px solid @color-font-base;
             margin-top: 10px;

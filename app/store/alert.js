@@ -24,5 +24,6 @@ export const mutations = {
     } else {
       state.msg = '<i class="fa fa-ban" aria-hidden="true"></i> ' + msg
     }
+    window.scrollTo(0, 0)
   }
 }

@@ -9,7 +9,6 @@
         <!--<p class="title">Domain Address</p>-->
         <!--<i class="fa fa-circle required-circle" aria-hidden="true"><span> Required field</span></i>-->
         <p class="title">{{ $t('dashboardCompany.domain.title') }}</p>
-        <br>
         <p class="sub-title">www.factoryhunt.com/<span id="domain-text">{{ value.domain }}</span></p>
         <input required pattern="[a-z0-9]{3,50}" :title="$t('dashboardCompany.inputTitle')" id="domain-input" type="text" :placeholder="$t('dashboardCompany.domain.placeholder')" v-model="value.domain" @keyup="domainInputPressed" spellcheck="false" autocomplete="off" autocorrect="off" autocapitalize="off">
         <!--<i id="domain-mark" class="big-mark" aria-hidden="true"></i>-->
@@ -104,7 +103,6 @@
             this.updateDomain()
           }
         } catch (err) {
-          console.log(err)
           this.onEditFail()
         }
       },
@@ -119,7 +117,6 @@
       },
       showAlert (alertState, msg) {
         $(document).ready(() => {
-          window.scrollTo(0, 0)
           const $alert = $('#alert')
           this.$store.commit('alert/changeState', {
             msg,
@@ -187,10 +184,9 @@
   /* Global CSS */
 
   .title {
-    display: inline-block;
     font-size: 32px;
     font-weight:700;
-    margin-bottom:0;
+    margin-top: 0;
   }
   .sub-title {
     font-size: 24px;
@@ -290,7 +286,7 @@
     .title {
       font-size: 30px;
       font-weight:600;
-      margin-bottom:18px;
+      margin-top: 0;
     }
     .sub-title {
       font-size: 30px;
@@ -301,6 +297,9 @@
       font-size: 15px;
       font-weight:600;
       margin-bottom: 4px;
+    }
+    .hidden-title {
+      margin: 0;
     }
     #domain-text {
       font-weight: 400;
@@ -367,7 +366,7 @@
         margin-bottom: 0 !important;
       }
       .sub-title {
-        margin-bottom: 40px !important;
+        margin-bottom: 10px;
       }
       button {
         font-size: @font-size-button;

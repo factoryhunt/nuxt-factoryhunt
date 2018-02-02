@@ -5,7 +5,7 @@
 
     <!-- Header -->
     <header class="header-container">
-      <p class="title">{{ $t('dashboardProductEdit.header.titleEdit') }}</p>
+      <h1 class="title" v-lang.header.title></h1>
     </header>
 
     <div class="divider"></div>
@@ -1052,6 +1052,7 @@
             }
             #file-information-text {
               float: left;
+              margin-top: 0;
               font-size: 17px;
               color: @color-font-gray;
             }

@@ -57,6 +57,7 @@
     background-color: @color-font-base;
     width: 100%;
     height: 40px;
+    margin: 0 !important;
   }
 
   .tab-container {
