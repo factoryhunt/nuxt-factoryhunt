@@ -78,6 +78,7 @@
   "history": {
     "title": "Company History",
     "desc": "",
+    "inputTitle": "It must be less than 25000 digits.",
     "placeholder": "1984 : B brand founded<br>2000 : Management buyout from C and merged with D <br>2005 : E leads a management buyout of the Group as CEO, backed by F<br>2009 : Group opens Chinese facility<br>2013 : LED lighting range is launched Group’s Chinese facility expanded<br>2015 : Group achieves sales of $100m for the first time Offices opened in United States<br>2016 : Group’s Chinese facility is expanded to 52,500 square metres Offices opened in Hong Kong and Spain"
   },
   "save": {

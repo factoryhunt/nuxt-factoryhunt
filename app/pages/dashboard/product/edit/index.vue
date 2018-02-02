@@ -5,7 +5,7 @@
 
     <!-- Header -->
     <header class="header-container">
-      <h1 class="title" v-lang.header.title></h1>
+      <h1 class="title">{{ $t('dashboardProductEdit.header.titleEdit') }}</h1>
     </header>
 
     <div class="divider"></div>
@@ -39,7 +39,7 @@
         <!-- Product Name -->
         <div class="name-container input-container">
           <p class="title">{{ $t('dashboardProductEdit.productName.title') }}</p>
-          <span class="required-text" v-lang.requiredField></span>
+          <span class="required-text" v-html="$t('dashboardProductEdit.requiredField')"></span>
           <input id="name-count-input" required pattern="[A-Za-z0-9 `\/.,&()-]{2,100}" :title="$t('dashboardProductEdit.productName.inputTitle')" minlength="2" maxlength="100" v-model="value.productName" @keyup="countNameLength" :placeholder="$t('dashboardProductEdit.productName.placeholder')" type="text" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
           <p class="count-text">{{ 100 - value.nameCount }}</p>
           <p class="hidden-text">{{ $t('dashboardProductEdit.productName.hidden') }}</p>
@@ -779,9 +779,10 @@
   .required-text {
     display: inline-block;
     vertical-align: top;
-    padding-top: 8px;
+    padding-top: 4px;
+    padding-left: 4px;
     color: @color-orange;
-    font-size: 11px;
+    font-size: 10px;
   }
 
   @media ( min-width: 768px ) {
@@ -794,9 +795,9 @@
     .dashboard-page-container {
 
       .header-container {
-
-        .caution-text {
-          margin-left: 14px;
+        .title {
+          font-size: 30px;
+          font-weight: 600;
         }
       }
 
@@ -809,6 +810,7 @@
           display: inline-block;
           font-size: 30px;
           font-weight:600;
+          margin-top: 0;
           margin-bottom:18px;
         }
         .sub-title {
@@ -819,6 +821,7 @@
         .caution-text {
           font-size: 14px;
           font-weight: 300;
+          margin: 0;
         }
 
         .category-container {
@@ -841,7 +844,7 @@
             ul {
               list-style: none;
               padding-left: 0;
-              margin-bottom: 0;
+              margin: 0;
               height: 250px;
               overflow: auto;
 
@@ -1035,6 +1038,7 @@
         .catalog-container {
 
           label {
+            display: inline-block;
             .upload-label-basic;
             border: 1px solid @color-font-base;
             margin-top: 10px;

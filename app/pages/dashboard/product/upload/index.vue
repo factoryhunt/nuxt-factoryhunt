@@ -5,7 +5,7 @@
 
     <!-- Header -->
     <header class="header-container">
-      <h1 class="title" >{{ $t('dashboardProduct.header.title') }}</h1>
+      <h1 class="title" >{{ $t('dashboardProductEdit.header.title') }}</h1>
     </header>
 
     <div class="divider"></div>
@@ -38,9 +38,9 @@
 
         <!-- Product Name -->
         <div class="name-container input-container">
-          <p class="title" >{{ $t('dashboardProduct.productName.title') }}</p>
-          <span class="required-text" v-html="$t('dashboardProduct.requiredField')"></span>
-          <input id="name-count-input" required pattern="[A-Za-z0-9 `\/.,&()-]{2,100}" :title="getProductNameInputTitle" minlength="2" maxlength="100" v-model="value.productName" @keyup="countNameLength" :placeholder="getProductNamePlaceholder" type="text" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+          <p class="title" >{{ $t('dashboardProductEdit.productName.title') }}</p>
+          <span class="required-text" v-html="$t('dashboardProductEdit.requiredField')"></span>
+          <input id="name-count-input" required pattern="[A-Za-z0-9 `\/.,&()-]{2,100}" :title="$t('dashboardProductEdit.productName.inputTitle')" minlength="2" maxlength="100" v-model="value.productName" @keyup="countNameLength" :placeholder="$t('dashboardProductEdit.productName.placeholder')" type="text" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
           <p class="count-text">{{ 100 - value.nameCount }}</p>
           <p class="hidden-text">{{ $t('dashboardProductEdit.productName.hidden') }}</p>
           <p class="caution-text">{{ $t('dashboardProductEdit.productName.caution') }}</p>
@@ -49,9 +49,9 @@
 
         <!-- Product Image -->
         <div class="image-container input-container">
-          <p class="title">{{ $t('dashboardProduct.productImage.title') }}</p>
-          <span class="required-text" v-html="$t('dashboardProduct.requiredField')"></span>
-          <p class="sub-title" >{{ $t('dashboardProduct.productImage.subTitle') }}</p>
+          <p class="title">{{ $t('dashboardProductEdit.productImage.title') }}</p>
+          <span class="required-text" v-html="$t('dashboardProductEdit.requiredField')"></span>
+          <p class="sub-title" >{{ $t('dashboardProductEdit.productImage.subTitle') }}</p>
           <div class="image-inner-container">
             <div class="image-each-container">
               <ul id="image-container-ul">
@@ -93,7 +93,7 @@
           <div class="box-container">
             <div class="left-container">{{ $t('dashboardProductEdit.information.moq') }}</div>
             <div class="right-container">
-              <input placeholder="100" maxlength="10" pattern="[0-9,]{1,11}" :title="$t('dashboardProductEdit.information.inputTitle')" v-model="value.moq" type="text" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+              <input placeholder="100" maxlength="10" pattern="[0-9,]{1,11}" :title="$t('dashboardProductEdit.information.moqInputTitle')" v-model="value.moq" type="text" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
             </div>
           </div>
           <div class="box-container">
@@ -115,7 +115,7 @@
           <div class="box-container">
             <div class="left-container">{{ $t('dashboardProductEdit.information.materials') }}</div>
             <div class="right-container">
-              <input placeholder="Iron, wood, .." maxlength="100" pattern="[A-Za-z ,-]{1,100}" :title="$t('dashboardProductEdit.information.inputTitle')" v-model="value.materialType" type="text" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+              <input placeholder="Iron, wood, .." maxlength="100" pattern="[A-Za-z ,-]{1,100}" :title="$t('dashboardProductEdit.information.materialsInputTitle')" v-model="value.materialType" type="text" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
             </div>
           </div>
           <p class="caution-text">{{ $t('dashboardProductEdit.information.caution') }}</p>
@@ -178,13 +178,7 @@
         default: () => {
           return {}
         }
-      },
-      products: {
-        type: Object,
-        default: () => {
-          return {}
-        }
-      },
+      }
     },
     data () {
       return {
@@ -504,11 +498,11 @@
         this.filterProductDomain(this.value.productName)
 
         if (!this.toggle.productName) {
-          return alert(this.getProductNameAlreadyHave)
+          return alert('failed1')
         }
 
         if (this.value.files.length < 1) {
-          return alert(this.getAtLeastOneImage)
+          return alert('failed2')
         }
 
         $('#modal-spinkit').removeClass().addClass('spinkit-modal')
@@ -533,17 +527,17 @@
         if (document.getElementById('pdf-input').files[0]) {
           formData.append('pdf', document.getElementById('pdf-input').files[0])
         }
-
-        axios.post(`/api/data/product/${this.account.account_id}`, formData, config)
-          .then(() => {
-            $('#modal-spinkit').removeClass()
-            alert(this.getUploadSuccess)
-            location.href = '/dashboard/product'
-          })
-          .catch(() => {
-            $('#modal-spinkit').removeClass()
-            this.showAlert(false)
-          })
+        console.log(formData)
+//        axios.post(`/api/data/product/${this.account.account_id}`, formData, config)
+//          .then(() => {
+//            $('#modal-spinkit').removeClass()
+//            alert('success')
+//            this.$router.push('/dashboard/product')
+//          })
+//          .catch(() => {
+//            $('#modal-spinkit').removeClass()
+//            this.showAlert(false)
+//          })
       },
       editFail () {
         this.showAlert(false)
@@ -700,6 +694,7 @@
     display: inline-block;
     vertical-align: top;
     padding-top: 4px;
+    padding-left: 4px;
     color: @color-orange;
     font-size: 10px;
   }
@@ -714,9 +709,9 @@
     .dashboard-page-container {
 
       .header-container {
-
-        .caution-text {
-          margin-left: 14px;
+        .title {
+          font-size: 30px;
+          font-weight: 600;
         }
       }
 
@@ -975,6 +970,7 @@
             }
             #file-information-text {
               float: left;
+              margin-top: 0;
               font-size: 17px;
               color: @color-font-gray;
             }

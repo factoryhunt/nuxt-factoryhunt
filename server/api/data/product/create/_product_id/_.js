@@ -1,10 +1,11 @@
-const mysql = require('../../../../models/mysql')
-const CONFIG_MYSQL = require('../../../../config/mysql_config')
+const mysql = require('../../../../mysql')
+const CONFIG_MYSQL = require('../../../../mysql/model')
 
 module.exports = async (req, res) => {
   const product_id = req.product_id
 
   const updateTextData = () => new Promise((resolve, reject) => {
+    console.log(req.body)
     let data = {
       product_name,
       product_domain,
@@ -58,9 +59,14 @@ module.exports = async (req, res) => {
   })
 
   try {
-
+    console.log('product create 0')
+    await updateTextData()
+    console.log('product create 1')
+    await updateImageUrl()
+    console.log('product create 2')
+    res.status(200).json({result: true})
   } catch (err) {
-
+    res.status(403).json({result: false})
   }
 }
 

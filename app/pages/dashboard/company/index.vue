@@ -414,6 +414,7 @@
     display: inline-block;
     vertical-align: top;
     padding-top: 4px;
+    padding-left: 4px;
     color: @color-orange;
     font-size: 10px;
   }

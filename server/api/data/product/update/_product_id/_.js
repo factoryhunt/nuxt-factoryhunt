@@ -48,6 +48,7 @@ module.exports = async (req, res) => {
   try {
     await updateProduct()
     await updateImageURL()
+    res.status(200).json({result: true})
   } catch (err) {
     res.status(403).json({result: false})
   }

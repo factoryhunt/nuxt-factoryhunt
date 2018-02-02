@@ -7,19 +7,23 @@ module.exports = async (req, res, next) => {
 
   const createEmptyRecord = () => {
     return new Promise((resolve, reject) => {
+      console.log(req.body)
       let data = {}
       data.account_id = account_id
       data.product_status = 'pending'
 
       mysql.query(`INSERT INTO ${CONFIG_MYSQL.TABLE_PRODUCTS} SET ?`, data, (err, rows) => {
           if (err) reject(err)
+          console.log(rows)
           resolve(rows.insertId)
         })
     })
   }
 
   try {
+    console.log('product_create.')
     const product_id = await createEmptyRecord()
+    console.log('product_create done.')
     req.product_id = product_id
     next()
   } catch (err) {
