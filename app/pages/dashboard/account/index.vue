@@ -7,51 +7,51 @@
       <div class="body-container">
 
         <!-- Title -->
-        <p class="title" v-lang.header.title></p>
-        <p class="sub-title" v-lang.header.subTitle></p>
+        <p class="title">{{ $t('dashboardMyAccount.header.title') }}</p>
+        <p class="sub-title">{{ $t('dashboardMyAccount.header.subTitle') }}</p>
 
         <div class="input-container">
           <!-- Email -->
           <div class="box-container" style="background-color: #eeeeee">
-            <div class="left-contents" v-lang.body.email.title></div>
+            <div class="left-contents">{{ $t('dashboardMyAccount.body.email.title') }}</div>
             <div class="right-contents"><input disabled type="email" v-model="value.email"></div>
           </div>
 
           <!-- First name -->
           <div class="box-container">
-            <div class="left-contents" v-lang.body.firstName.title></div>
-            <div class="right-contents"><input type="text" pattern="[A-Za-z -.]{1,20}" :placeholder="getFirstNamePlaceholder" :title="getFirstNameInputTitle" v-model="value.firstName"></div>
+            <div class="left-contents">{{ $t('dashboardMyAccount.body.firstName.title') }}</div>
+            <div class="right-contents"><input type="text" pattern="[A-Za-z -.]{1,20}" :placeholder="$t('dashboardMyAccount.body.firstName.placeholder')" :title="$t('dashboardMyAccount.body.firstName.inputTitle')" v-model="value.firstName"></div>
           </div>
           <!-- Last name -->
           <div class="box-container">
-            <div class="left-contents" v-lang.body.lastName.title></div>
-            <div class="right-contents"><input type="text" pattern="[A-Za-z]{1,20}" :placeholder="getLastNamePlaceholder" :title="getLastNameInputTitle" v-model="value.lastName"></div>
+            <div class="left-contents">{{ $t('dashboardMyAccount.body.lastName.title') }}</div>
+            <div class="right-contents"><input type="text" pattern="[A-Za-z]{1,20}" :placeholder="$t('dashboardMyAccount.body.lastName.placeholder')" :title="$t('dashboardMyAccount.body.lastName.inputTitle')" v-model="value.lastName"></div>
           </div>
 
           <!-- Title -->
           <div class="box-container">
-            <div class="left-contents" v-lang.body.titles.title></div>
-            <div class="right-contents"><input type="text" pattern="[A-Za-z ,]{1,30}" :placeholder="getTitlesPlaceholder" :title="getTitlesInputTitle" v-model="value.title"></div>
+            <div class="left-contents">{{ $t('dashboardMyAccount.body.titles.title') }}</div>
+            <div class="right-contents"><input type="text" pattern="[A-Za-z ,]{1,30}" :placeholder="$t('dashboardMyAccount.body.titles.placeholder')" :title="$t('dashboardMyAccount.body.titles.inputTitle')" v-model="value.title"></div>
           </div>
 
           <!-- Mobile -->
           <div class="box-container">
-            <div class="left-contents" v-lang.body.mobile.title></div>
-            <div class="right-contents"><input type="text" pattern="[0-9+-]{1,21}" :placeholder="getMobilePlaceholder" :title="getMobileInputTitle" v-model="value.mobile"></div>
+            <div class="left-contents">{{ $t('dashboardMyAccount.body.mobile.title') }}</div>
+            <div class="right-contents"><input type="text" pattern="[0-9+-]{1,21}" :placeholder="$t('dashboardMyAccount.body.mobile.placeholder')" :title="$t('dashboardMyAccount.body.mobile.inputTitle')" v-model="value.mobile"></div>
           </div>
 
           <!-- Phone -->
           <div class="box-container">
-            <div class="left-contents" v-lang.body.officeNumber.title></div>
-            <div class="right-contents"><input type="text" pattern="[0-9+-]{1,21}" :placeholder="getOfficeNumberPlaceholder" :title="getOfficeNumberInputTitle" v-model="value.phone"></div>
+            <div class="left-contents">{{ $t('dashboardMyAccount.body.officeNumber.title') }}</div>
+            <div class="right-contents"><input type="text" pattern="[0-9+-]{1,21}" :placeholder="$t('dashboardMyAccount.body.officeNumber.placeholder')" :title="$t('dashboardMyAccount.body.officeNumber.inputTitle')" v-model="value.phone"></div>
           </div>
         </div>
 
         <!-- Confirm -->
         <div class="confirm-container input-container">
-          <p class="title" v-lang.confirm.title></p>
-          <p class="sub-title" v-lang.confirm.subTitle></p>
-          <button class="button-orange" v-lang.confirm.button></button>
+          <p class="title">{{ $t('dashboardMyAccount.confirm.title') }}</p>
+          <p class="sub-title">{{ $t('dashboardMyAccount.confirm.subTitle') }}</p>
+          <button class="button-orange">{{ $t('dashboardMyAccount.confirm.button') }}</button>
         </div>
 
       </div>

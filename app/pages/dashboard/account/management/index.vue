@@ -4,7 +4,7 @@
     <!-- Before Button Press -->
     <div v-if="!toggle.isShowing" class="body-container">
       <!-- Delete Account Button -->
-      <button id="first-drop-button" class="button-orange" @click="toggle.isShowing = true" v-lang.deleteAccountButton></button>
+      <button id="first-drop-button" class="button-orange" @click="toggle.isShowing = true">{{ $t('dashboardMyAccount.deleteAccountButton') }}</button>
     </div>
 
     <!-- After Button Press -->
@@ -13,30 +13,30 @@
 
         <!-- Account Drop -->
         <div class="drop-container input-container">
-          <p class="title" v-lang.deleteAccountButton></p>
+          <p class="title">{{ $t('dashboardMyAccount.deleteAccountButton') }}</p>
 
           <div class="description-container input-container">
-            <p class="sub-title" v-lang.drop.subTitle></p>
-            <textarea rows="10" :placeholder="getDropPlaceholder" v-model="value.description"></textarea>
+            <p class="sub-title">{{ $t('dashboardMyAccount.drop.subTitle') }}</p>
+            <textarea rows="10" :placeholder="$t('dashboardMyAccount.drop.placeholder')" v-model="value.description"></textarea>
           </div>
         </div>
 
         <!-- Cautions -->
         <div class="caution-container input-container">
-          <p class="title" v-lang.caution.title></p>
+          <p class="title">{{ $t('dashboardMyAccount.caution.title') }}</p>
           <ul>
-            <li><p class="sub-title" v-lang.caution.first></p></li>
-            <li><p class="sub-title" v-lang.caution.second></p></li>
-            <li><p class="sub-title" v-lang.caution.third></p></li>
-            <li><p class="sub-title" v-lang.caution.forth></p></li>
+            <li><p class="sub-title">{{ $t('dashboardMyAccount.caution.first') }}</p></li>
+            <li><p class="sub-title">{{ $t('dashboardMyAccount.caution.second') }}</p></li>
+            <li><p class="sub-title">{{ $t('dashboardMyAccount.caution.third') }}</p></li>
+            <li><p class="sub-title">{{ $t('dashboardMyAccount.caution.forth') }}</p></li>
           </ul>
         </div>
 
         <!-- Confirm -->
         <div class="confirm-container input-container">
-          <p class="sub-title" v-lang.confirm.subTitle></p>
-          <button id="drop-button" class="button-orange" v-lang.confirm.delete></button>
-          <button id="cancel-button" class="button-white" @click="onCancelButton" v-lang.confirm.cancel></button>
+          <p class="sub-title">{{ $t('dashboardMyAccount.deleteConfirm.subTitle') }}</p>
+          <button id="drop-button" class="button-orange">{{ $t('dashboardMyAccount.deleteConfirm.delete') }}</button>
+          <button id="cancel-button" class="button-white" @click="onCancelButton">{{ $t('dashboardMyAccount.deleteConfirm.cancel') }}</button>
         </div>
       </form>
     </div>
