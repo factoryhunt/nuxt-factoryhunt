@@ -3,7 +3,8 @@
   "uploadSuccess": "제품이 성공적으로 업로드 되었습니다. 제품 승인은 24시간까지 소요될 수 있습니다.",
   "uploadFail": "제품 업로드 실패. 다시 시도해주세요.",
   "header": {
-    "title": "제품 업로드"
+    "title": "제품 업로드",
+    "titleEdit": "제품 수정"
   },
   "category": {
     "title": "카테고리",

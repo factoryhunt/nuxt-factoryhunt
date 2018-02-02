@@ -5,7 +5,7 @@
     <div class="product-body-container">
       <div class="products-container">
         <!-- Title -->
-        <h2 class="title">Products<span class="count-text">({{products.length}})</span></h2>
+        <h2 class="title" v-html="$t('search.products', { count: products.length})"></h2>
         <!-- Wrapper -->
         <section class="product-wrapper" v-if="product_count > 0">
           <!-- Product -->
@@ -37,7 +37,7 @@
     <!-- Suppliers -->
     <div class="body-container">
       <div class="supplier-outer-container each-container">
-        <h2 class="title">Suppliers</h2>
+        <h2 class="title">{{ $t('search.suppliers') }}</h2>
         <section class="supplier-container" v-if="account_count > 0">
           <div class="supplier-wrapper" v-for="(account,index) in accounts" :key="index">
             <h1 class="company-name" @click="routeSupplierPage(account)">{{account.account_name_english}}</h1>
@@ -48,7 +48,7 @@
             <h3 class="address">{{account.mailing_country_english}}</h3>
           </div>
           <div v-show="account_count > 10" class="read-more-button-container">
-            <a class="read-more" href="/">Read more ({{account_count}})<i id="angle-right" class="fa fa-angle-right"></i></a>
+            <a class="read-more" href="/">{{ $t('search.readMore') }} ({{account_count}})<i id="angle-right" class="fa fa-angle-right"></i></a>
           </div>
         </section>
         <section v-else>

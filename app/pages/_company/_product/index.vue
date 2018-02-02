@@ -11,15 +11,15 @@
           <div class="detail-container">
             <span class="origin" v-show="product.product_origin">{{product.product_origin}}</span>
             <span class="star"> • <i id="star" class="fa fa-star-o" aria-hidden="true" v-for="index in 5" :key="index"></i></span>
-            <span class="review"> • Review (0)</span>
+            <span class="review" v-html="$t('product.header.reviews', { count: 0})"></span>
           </div>
         </div>
 
         <!-- Product Image -->
         <div class="product-image-container">
           <img class="image" :src="product.product_image_url_1">
-          <p class="quote">Send inquiry to get pricing.</p>
-          <button class="button-orange">Send Inquiry</button>
+          <p class="quote">{{ $t('product.image.quote') }}</p>
+          <button class="button-orange">{{ $t('product.image.button') }}</button>
         </div>
 
         <!-- Profile & Information -->
@@ -46,19 +46,19 @@
           <!-- Product Details -->
           <div class="detail-container">
             <div class="list-container" v-show="product.minimum_order_quantity">
-              <div class="left-contents">MOQ</div>
+              <div class="left-contents">{{ $t('product.information.moq') }}</div>
               <div class="right-contents">{{addComma(product.minimum_order_quantity)}}</div>
             </div>
             <div class="list-container" v-show="product.price">
-              <div class="left-contents">Price</div>
+              <div class="left-contents">{{ $t('product.information.price') }}</div>
               <div class="right-contents">{{product.price}}</div>
             </div>
             <div class="list-container" v-show="product.material_type">
-              <div class="left-contents">Material</div>
+              <div class="left-contents">{{ $t('product.information.material') }}</div>
               <div class="right-contents">{{product.material_type}}</div>
             </div>
             <div class="list-container" v-show="product.item_dimensions">
-              <div class="left-contents">Dimension</div>
+              <div class="left-contents">{{ $t('product.information.dimension') }}</div>
               <div class="right-contents">{{product.item_dimensions}}</div>
             </div>
           </div>
@@ -66,7 +66,7 @@
 
         <!-- Reviews -->
         <div class="review-container each-container">
-          <h2>Reviews<span class="count-text">(0)</span></h2>
+          <h2  v-html="$t('product.reviews.title', { count: 0})"></h2>
           No review
         </div>
 
@@ -76,14 +76,14 @@
     <div class="body-container">
       <!-- Introduction -->
       <div class="introduction-container each-container">
-        <h2>Product introduction</h2>
+        <h2>{{ $t('product.intro.title') }}</h2>
         <div class="introduction" v-html="product.product_description">
         </div>
       </div>
 
       <!-- Catalog -->
       <div v-show="product.product_pdf_url" class="catalog-container each-container" id="catalog-container">
-        <h2>Catalog</h2>
+        <h2>{{ $t('product.catalog.title') }}</h2>
         <img v-show="!toggle.isCatalogLoaded" src="../../../assets/img/product_loading_image_text.png">
         <!--<h3><a href="/static/web/viewer.html?file=http://localhost:8080/static/test.pdf" target="_blank">Catalog</a></h3>-->
         <!--<iframe id="catalog" src="/static/web/viewer.html?file=/static/test.pdf" allowfullscreen webkitallowfullscreen scrolling="no"  name="pdf" width="724" height="300" style="border: none;">-->
@@ -97,7 +97,7 @@
       <!-- Company Products -->
       <div class="products-container">
         <!-- Title -->
-        <h2 class="title">Products<span class="count-text">({{products.length}})</span></h2>
+        <h2 class="title" v-html="$t('product.related.title', { count: products.length})"></h2>
         <!-- Wrapper -->
         <div class="product-wrapper">
           <!-- Product -->

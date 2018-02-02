@@ -1,0 +1,27 @@
+{
+  "header": {
+    "reviews": "평가 (0)"
+  },
+  "image": {
+    "quote": "가격 협상을 위해 문의하세요.",
+    "button": "문의하기"
+  },
+  "information": {
+    "moq": "최소주문량",
+    "price": "가격",
+    "material": "소재 및 재질",
+    "dimension": "규격"
+  },
+  "reviews": {
+    "title": "평가 <small>({count})</small>"
+  },
+  "intro": {
+    "title": "제품 정보"
+  },
+  "catalog": {
+    "title": "카탈로그"
+  },
+  "related": {
+    "title": "연관 제품 <small>({count})</small>"
+  }
+}

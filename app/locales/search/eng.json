@@ -1,0 +1,5 @@
+{
+  "readMore": "Read more",
+  "products": "Products<span class=\"count-text\">({count})</span>",
+  "suppliers": "Suppliers"
+}

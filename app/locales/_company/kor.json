@@ -1,0 +1,37 @@
+{
+  "sticky": {
+    "intro": "회사 소개",
+    "address": "주소",
+    "products": "제품"
+  },
+  "description": {
+    "title": "회사 소개"
+  },
+  "information": {
+    "title": "정보",
+    "products": "품목",
+    "website": "웹사이트",
+    "phone": "연락처",
+    "location": "위치",
+    "establishedYear": "설립연도"
+  },
+  "history": {
+    "title": "연혁"
+  },
+  "reviews": {
+    "title": "평가 <small>{count}</small>"
+  },
+  "address": {
+    "title": "주소"
+  },
+  "products": {
+    "title": "제품<span class=\"count-text\">({count})</span>"
+  },
+  "contact": {
+    "title": "문의",
+    "emailPlaceholder": "이메일",
+    "messagePlaceholder": "내용을 입력해주세요.",
+    "quote": "가격 협상을 위해 문의하세요.",
+    "button": "문의하기"
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "sticky": {
+    "intro": "Intro",
+    "address": "Address",
+    "products": "Products"
+  },
+  "description": {
+    "title": "Company Description"
+  },
+  "information": {
+    "title": "Information",
+    "products": "Products",
+    "website": "Website",
+    "phone": "Phone",
+    "location": "Location",
+    "establishedYear": "Established Year"
+  },
+  "history": {
+    "title": "History"
+  },
+  "reviews": {
+    "title": "Reviews<span class=\"count-text\">({count})</span>"
+  },
+  "address": {
+    "title": "Address"
+  },
+  "products": {
+    "title": "Products<span class=\"count-text\">({count})</span>"
+  },
+  "contact": {
+    "title": "Contact",
+    "emailPlaceholder": "your@email.com",
+    "messagePlaceholder": "Enter your message.",
+    "quote": "Request a quote to get pricing.",
+    "button": "Send Inquiry"
+  }
+}

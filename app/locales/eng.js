@@ -8,7 +8,10 @@ const about = require('./about/eng'),
   dashboard = require('./dashboard/index/eng'),
   dashboardCompany = require('./dashboard/company/eng'),
   dashboardProduct = require('./dashboard/product/eng'),
-  dashboardProductEdit = require('./dashboard/productEdit/eng')
+  dashboardProductEdit = require('./dashboard/productEdit/eng'),
+  company = require('./_company/eng'),
+  product = require('./_company/_product/eng'),
+  search = require('./search/eng')
 
 export default {
   home,
@@ -21,5 +24,8 @@ export default {
   dashboard,
   dashboardCompany,
   dashboardProduct,
-  dashboardProductEdit
+  dashboardProductEdit,
+  company,
+  product,
+  search
 }

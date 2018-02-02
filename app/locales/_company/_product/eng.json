@@ -1,0 +1,27 @@
+{
+  "header": {
+    "reviews": "Reviews<span class=\"count-text\">({count})</span>"
+  },
+  "image": {
+    "quote": "Send inquiry to get pricing.",
+    "button": "Send Inquiry"
+  },
+  "information": {
+    "moq": "MOQ",
+    "price": "Price",
+    "material": "Material",
+    "dimension": "Dimension"
+  },
+  "reviews": {
+    "title": "Reviews<span class=\"count-text\">({count})</span>"
+  },
+  "intro": {
+    "title": "Product introduction"
+  },
+  "catalog": {
+    "title": "Catalog"
+  },
+  "related": {
+    "title": "Related products<span class=\"count-text\">({count})</span>"
+  }
+}

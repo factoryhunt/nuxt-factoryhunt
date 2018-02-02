@@ -18,11 +18,11 @@
             <!-- Left Side -->
             <div class="sticky-container">
               <ul>
-                <li><a href="#INTRO" class="sticky-item">Intro</a></li>
+                <li><a href="#INTRO" class="sticky-item">{{ $t('company.sticky.intro') }}</a></li>
                 <li class="dot">•</li>
-                <li><a href="#ADDRESS" class="sticky-item">Address</a></li>
+                <li><a href="#ADDRESS" class="sticky-item">{{ $t('company.sticky.address') }}</a></li>
                 <li class="dot">•</li>
-                <li><a href="#PRODUCTS" class="sticky-item">Products</a></li>
+                <li><a href="#PRODUCTS" class="sticky-item">{{ $t('company.sticky.products') }}</a></li>
               </ul>
             </div>
             <!-- Right Side -->
@@ -55,32 +55,32 @@
 
         <!-- Company Description -->
         <div id="INTRO" class="description-container each-container">
-          <h2>Company Description</h2>
+          <h2>{{ $t('company.description.title') }}</h2>
           <textarea title="description" readonly v-model="vendor.company_description_english"></textarea>
         </div>
 
         <!-- Company Information -->
         <div class="information-container each-container">
-          <h2>Information</h2>
+          <h2>{{ $t('company.information.title') }}</h2>
           <div class="information-table-container">
             <div class="list-container" v-show="vendor.products_english">
-              <div class="left-contents">Products</div>
+              <div class="left-contents">{{ $t('company.information.products') }}</div>
               <div class="right-contents">{{ vendor.products_english }}</div>
             </div>
             <div class="list-container" v-show="vendor.website">
-              <div class="left-contents">Website</div>
+              <div class="left-contents">{{ $t('company.information.website') }}</div>
               <div class="right-contents"><a :href="checkWebsiteLinkHasHttp(vendor.website)" target="_blank">{{ vendor.website }}</a></div>
             </div>
             <div class="list-container" v-show="vendor.phone">
-              <div class="left-contents">Phone</div>
+              <div class="left-contents">{{ $t('company.information.phone') }}</div>
               <div class="right-contents">{{ vendor.phone }}</div>
             </div>
             <div class="list-container" v-show="getLocation">
-              <div class="left-contents">Location</div>
+              <div class="left-contents">{{ $t('company.information.location') }}</div>
               <div class="right-contents">{{ getLocation }}</div>
             </div>
             <div class="list-container" v-show="vendor.established_date !== '0000-00-00'">
-              <div class="left-contents">Established Year</div>
+              <div class="left-contents">{{ $t('company.information.establishedYear') }}</div>
               <div class="right-contents">{{ getYear(vendor.established_date) }}</div>
             </div>
           </div>
@@ -88,7 +88,7 @@
 
         <!-- Company History -->
         <div class="history-container each-container" v-show="vendor.history">
-          <h2>History</h2>
+          <h2>{{ $t('company.history.title') }}</h2>
           <textarea title="history" readonly v-model="vendor.history" />
         </div>
 
@@ -99,7 +99,7 @@
 
         <!-- Company Review -->
         <div class="review-container each-container">
-          <h2>Reviews<span class="count-text">(0)</span></h2>
+          <h2 v-html="$t('company.reviews.title', { count: 0})"></h2>
           <p>No review</p>
         </div>
         <div class="divider"></div>
@@ -108,25 +108,25 @@
       <!-- Contact Form -->
       <div class="right-container">
         <form @submit.prevent="sendEmail(value.email, value.quiry)" class="form-container">
-          <h2 class="title">Contact</h2>
+          <h2 class="title">{{ $t('company.contact.title') }}</h2>
           <div class="input-container">
-            <input required v-model="value.email" type="email" placeholder="Email">
+            <input required v-model="value.email" type="email" :placeholder="$t('company.contact.emailPlaceholder')">
             <i class="fa fa-envelope-o" aria-hidden="true"></i>
           </div>
 
-          <textarea required v-model="value.quiry" rows="10" placeholder="Enter your message."></textarea>
+          <textarea required v-model="value.quiry" rows="10" :placeholder="$t('company.contact.messagePlaceholder')"></textarea>
 
-          <p class="quote">Request a quote to get pricing.</p>
+          <p class="quote">{{ $t('company.contact.quote') }}</p>
 
           <div class="button-container">
-            <button type="submit" class="button-orange">Send Inquiry</button>
+            <button type="submit" class="button-orange">{{ $t('company.contact.button') }}</button>
           </div>
         </form>
       </div>
 
       <!-- Company Address -->
       <div id="ADDRESS" class="address-container">
-        <h2>Address</h2>
+        <h2>{{ $t('company.address.title') }}</h2>
         <div id="map"></div>
       </div>
     </div>
@@ -135,7 +135,7 @@
       <!-- Company Products -->
       <div id="PRODUCTS" class="products-container">
         <!-- Title -->
-        <h2 class="title">Products<span class="count-text">({{products.length}})</span></h2>
+        <h2 class="title" v-html="$t('company.products.title', { count: products.length})"></h2>
         <!-- Wrapper -->
         <div class="product-wrapper">
           <!-- Product -->

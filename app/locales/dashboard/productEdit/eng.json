@@ -3,7 +3,8 @@
   "uploadSuccess": "Your product has been uploaded.<br>Please allow up to 24 hours for product approval.",
   "uploadFail": "Product upload failed. please try again.",
   "header": {
-    "title": "Upload Product"
+    "title": "Upload Product",
+    "titleEdit": "Edit Product"
   },
   "category": {
     "title": "Category",
