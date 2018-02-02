@@ -125,12 +125,7 @@
         <!-- Product Introduction -->
         <div class="description-container input-container">
           <p class="title" v-lang.introduction.title></p>
-          <vue-editor :editorToolbar="customToolbar"
-                      useCustomImageHandler
-                      @imageAdded="handleImageAdded"
-                      id="html-editor"
-                      v-model="value.editor">
-          </vue-editor>
+          <textarea name="" id="" cols="30" rows="10"></textarea>
           <spinkit id="editor-spinkit"></spinkit>
           <p class="caution-text" v-lang.introduction.caution></p>
         </div>
@@ -175,7 +170,6 @@
     },
     components: {
       VueEditor,
-      Spinkit
     },
     props: {
       account: {
@@ -348,38 +342,6 @@
     computed: {
       getCategory () {
         return this.value.primaryCategory + (this.value.secondaryCategory ? '> ' + this.value.secondaryCategory : '')
-      },
-      // placeholder & title
-      getProductNamePlaceholder () {
-        return this.translate('productName.placeholder')
-      },
-      getProductNameInputTitle () {
-        return this.translate('productName.inputTitle')
-      },
-      getProductOriginPlaceholder () {
-        return this.translate('information.originPlaceholder')
-      },
-      getMoqInputTitle () {
-        return this.translate('information.moqInputTitle')
-      },
-      getMaterialsInputTitle () {
-        return this.translate('information.materialsInputTitle')
-      },
-      // Alert Messages
-      getPDFcaution () {
-        return this.translate('catalog.caution')
-      },
-      getUploadSuccess () {
-        return this.translate('uploadSuccess')
-      },
-      getUploadFail () {
-        return this.translate('uploadFail')
-      },
-      getProductNameAlreadyHave () {
-        return this.translate('productName.hidden')
-      },
-      getAtLeastOneImage () {
-        return this.translate('productImage.alert')
       }
     },
     methods: {
