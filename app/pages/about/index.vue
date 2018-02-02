@@ -9,11 +9,9 @@
     <!-- Body -->
     <div class="body-container">
       <div class="about-container">
-        <h1 class="title-text">Title</h1>
+        <h1 class="title-text">{{ $t('about.title') }}</h1>
         <div class="divider"></div>
-        <div class="description-section">
-          Description
-        </div>
+        <div class="description-section" v-html="$t('about.description')"></div>
       </div>
       <footer-bar></footer-bar>
     </div>

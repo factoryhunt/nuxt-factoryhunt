@@ -1,6 +1,7 @@
 <template>
   <div class="page-container">
-    <p v-lang.privacy></p>
+    <h1>{{ $t('privacy.title') }}</h1>
+    <p v-html="$t('privacy.description')"></p>
   </div>
 </template>
 

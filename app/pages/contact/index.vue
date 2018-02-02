@@ -9,17 +9,17 @@
       <div class="right-container">
         <form @submit.prevent="sendEmail(email, quiry)" class="form-container">
 
-          <h3 class="title" v-lang.contact></h3>
+          <h3 class="title">{{ $t('contact.title') }}</h3>
           <br>
           <div class="input-container">
-            <input required v-model="email" type="email" :placeholder="getEmailPlaceholder">
+            <input required v-model="email" type="email" :placeholder="$t('contact.emailPlaceholder')">
             <i class="fa fa-envelope-o" aria-hidden="true"></i>
           </div>
 
-          <textarea required v-model="quiry" rows="12" :placeholder="getMessagePlaceholder"></textarea>
+          <textarea required v-model="quiry" rows="12" :placeholder="$t('contact.messagePlaceholder')"></textarea>
 
           <div class="button-container">
-            <button type="submit" class="button-orange" v-lang.button></button>
+            <button type="submit" class="button-orange">{{ $t('contact.button') }}</button>
           </div>
         </form>
       </div>
@@ -27,7 +27,7 @@
       <div class="left-container">
         <div class="location-container">
           <hr>
-          <h3 class="title" v-lang.location></h3>
+          <h3 class="title">{{ $t('contact.location') }}</h3>
           <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d22614192.714437235!2d111.92435988534045!3d37.06095545855957!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x357ca3e3561b583f%3A0x6683b2bd9f0703b3!2z7ISc7Jq47Yq567OE7IucIOqwleuCqOq1rCDrtInsnYDsgqzroZwgMTMz!5e0!3m2!1sko!2skr!4v1514872697200" width="600" height="450" frameborder="0" style="border:0" allowfullscreen></iframe>
         </div>
       </div>
