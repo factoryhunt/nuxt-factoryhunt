@@ -65,7 +65,6 @@
     },
     watch: {
       '$route.path' () {
-        console.log(1)
         this.highlightNavigationButton()
       }
     }

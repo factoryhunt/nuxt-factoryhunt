@@ -11,14 +11,6 @@
   import $ from 'jquery'
   import { mapGetters } from 'vuex'
   export default {
-    messages: {
-      eng: {
-        success: 'Your information has been updated successfully.'
-      },
-      kor: {
-        success: '정보가 성공적으로 업데이트 되었습니다.'
-      }
-    },
     computed: {
       ...mapGetters({
         alertState: 'alert/GET_STATE',
@@ -52,13 +44,14 @@
     }
 
     .message {
+      margin: 0;
       line-height: 50px;
-      font-size: 1.6rem;
+      font-size: 1.1rem;
       font-weight: 400;
     }
 
     #hide-button {
-      font-size: 2rem;
+      font-size: 1.1rem;
       font-weight: 100;
       position: absolute;
       line-height: 50px;

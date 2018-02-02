@@ -60,7 +60,8 @@
             <li v-if="isLoggedIn" class="button-item-container">
               <div class="button-item-wrapper">
                 <div class="button-item">
-                  <img :src="account.thumbnail_url" id="user-logo" @click="onProfileImage">
+                  <img v-if="account.thumbnail_url" :src="account.thumbnail_url" id="user-logo" @click="onProfileImage">
+                  <img v-else src="~assets/img/temp-logo-image_english_512.png" id="user-logo" @click="onProfileImage">
                 </div>
               </div>
             </li>

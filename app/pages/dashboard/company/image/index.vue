@@ -13,7 +13,8 @@
       </div>
 
       <!-- Logo Image -->
-      <div id="logo-image" class="logo-image"></div>
+      <img v-if="account.thumbnail_url" id="logo-image" class="logo-image" :src="account.thumbnail_url">
+      <img v-else id="logo-image" class="logo-image" src="~assets/img/temp-logo-image_english_512.png">
 
       <!-- Upload Button -->
       <div class="button-container">
@@ -33,7 +34,7 @@
 
       <!-- Main Image -->
       <div class="image-container">
-        <img id="main-image" class="main-image">
+        <div id="main-image" class="main-image"></div>
       </div>
 
       <!-- Upload Button -->
@@ -234,17 +235,14 @@
       },
       applyMainBackgroundImage () {
         const $image = $('#main-image')
-        var image = this.account.account_image_url_1
+        let image = this.account.account_image_url_1
         if (image) {
           image = 'url(' + image + ')'
-        } else {
-          image = 'url(../../../static/cover_image_english.png)'
+          $image.css('background-image', image)
         }
-        $image.css('background-image', image)
       },
       activateJquery () {
         $(document).ready(() => {
-          this.applyLogoBackgroundImage()
           this.applyMainBackgroundImage()
         })
       }
@@ -328,6 +326,7 @@
         #main-image {
           width: 100%;
           height: 280px;
+          background: url(~assets/img/cover_image_english.png);
           background-size: cover;
           background-position: 50%, 50%;
           background-repeat: no-repeat;

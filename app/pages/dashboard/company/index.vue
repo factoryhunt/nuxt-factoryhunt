@@ -117,7 +117,7 @@
       <!-- Company History -->
       <div class="history-container input-container">
         <p class="title">{{ $t('dashboardCompany.history.title') }}</p>
-        <p class="sub-title">{{ $t('dashboardCompany.history.desc') }}</p>
+        <p class="sub-title" v-html="$t('dashboardCompany.history.desc')"></p>
         <textarea rows="10" maxlength="25000" :title="$t('dashboardCompany.history.inputTitle')" :placeholder="$t('dashboardCompany.history.placeholder')" v-model="value.history"></textarea>
         <i id="history-mark" class="small-mark" aria-hidden="true"></i>
       </div>
