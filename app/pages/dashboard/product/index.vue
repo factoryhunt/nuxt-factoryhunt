@@ -21,7 +21,7 @@
     <!-- Header -->
     <div class="header-container">
       <button v-if="products.length > 0" class="button-orange product-upload-button" @click="onProductUploadButton">{{ $t('dashboardProduct.header.newProduct') }}</button>
-      <p class="title">{{ $t('dashboardProduct.header.title') }}</p>
+      <h1 class="title">{{ $t('dashboardProduct.header.title') }}</h1>
     </div>
 
     <!-- Body -->
@@ -223,6 +223,10 @@
 
     // Header
     .header-container {
+      .title {
+        margin-top: 0;
+        margin-bottom: 40px;
+      }
 
       .product-upload-button {
         font-weight: 600;

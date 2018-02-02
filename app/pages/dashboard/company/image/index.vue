@@ -20,7 +20,7 @@
       <div class="button-container">
         <label for="logo-image-input">{{ $t('dashboardCompany.logo.button') }}</label>
         <input id="logo-image-input" type="file" @change="onLogoImageChanged($event.target.files)" accept="image/*">
-        <button id="logo-image-upload-button" class="button-orange" @click="imageUpload('logo-image-input')">{{ $t('dashboardCompany.logo.upload') }}</button>
+        <button id="logo-image-upload-button" class="button-orange" @click="imageUpload('logo-image-input')">{{ $t('dashboardCompany.upload') }}</button>
       </div>
     </div>
 
@@ -39,10 +39,10 @@
 
       <!-- Upload Button -->
       <div class="button-container">
-        <p class="caution-text">{{ $t('dashboardCompany.cover.caution') }}</p>
+        <p class="third-title">{{ $t('dashboardCompany.cover.caution') }}</p>
         <label for="main-image-input">{{ $t('dashboardCompany.cover.button') }}</label>
         <input id="main-image-input" type="file" @change="onMainImageChanged($event.target.files)" accept="image/*">
-        <button id="main-image-upload-button" class="button-orange" @click="imageUpload('main-image-input')">{{ $t('dashboardCompany.cover.upload') }}</button>
+        <button id="main-image-upload-button" class="button-orange" @click="imageUpload('main-image-input')">{{ $t('dashboardCompany.upload') }}</button>
       </div>
     </div>
 
@@ -281,22 +281,23 @@
     .title {
       font-size: 30px;
       font-weight: 600;
+      margin-top: 0;
     }
     .sub-title {
       font-size: 20px;
       font-weight: 300;
-      margin-bottom: 0;
+      margin-bottom: 3px;
     }
     .third-title {
       font-size: 14px;
       font-weight:600;
-      margin-bottom: 8px;
+      margin-top: 2px;
+      margin-bottom: 18px;
     }
 
     // title
     .title-container {
       display: inline-block;
-      margin-bottom: 10px;
     }
 
     .logo-image-container {
@@ -332,10 +333,8 @@
           background-repeat: no-repeat;
         }
       }
-      .caution-text {
-        margin-bottom: 12px;
-      }
     }
+
     .button-container {
       position: relative;
       margin-bottom: 60px;
