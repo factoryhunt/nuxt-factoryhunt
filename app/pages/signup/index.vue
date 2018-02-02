@@ -40,6 +40,8 @@
 </template>
 
 <script>
+  import $ from 'jquery'
+  import axios from '~/plugins/axios'
   import AuthHeader from '~/components/AuthHeader'
   import Loader from '~/components/Loader'
 
@@ -47,7 +49,7 @@
     layout: 'blank',
     head () {
       return {
-        title: 'Sign Up | Factory Hunt'
+        title: 'Sign Up'
       }
     },
     components: {
@@ -97,8 +99,8 @@
           await this.signUp()
           $loader.removeClass().addClass('invisible')
           $signUpButton.css('display', 'inherit')
-          alert(this.getSuccessMessage)
-          location.href = '/dashboard'
+          alert('Sign up succeed.')
+          this.$router.push('/dashboard')
         } catch (err) {
           $loader.removeClass().addClass('invisible')
           $signUpButton.css('display', 'inherit')
@@ -112,7 +114,7 @@
             email: this.value.email,
             password: this.value.password
           }
-          this.$store.dispatch('signUp', data)
+          this.$store.dispatch('auth/signUp', data)
             .then(() => { resolve() })
             .catch((err) => { reject(err.response) })
         })

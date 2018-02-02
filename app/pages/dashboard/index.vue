@@ -5,7 +5,8 @@
     <div class="left-container">
       <div class="profile-container">
         <div class="profile-inner-container">
-          <div id="company-image"></div>
+          <img v-if="account.thumbnail_url" id="company-image" :src="account.thumbnail_url">
+          <img v-else id="company-image" src="~assets/img/temp-logo-image_english_512.png">
           <div class="contents-container">
             <div class="title-contents">
               <p class="title">{{ account.account_name_english }}</p>
@@ -170,10 +171,10 @@
         })
       },
       routeCompanyPage () {
-        location.href = `/${this.account.domain}`
+        this.$router.push(`/${this.account.domain}`)
       },
       routeCompanyEditPage () {
-        location.href = '/dashboard/company'
+        this.$router.push('/dashboard/company')
       },
       activateClipboardJS () {
         /* eslint-disable no-unused-vars */
@@ -190,19 +191,8 @@
         })
         /* eslint-enable no-unused-vars */
       },
-      applyImageBackground () {
-        const $image = $('#company-image')
-        var image = this.account.thumbnail_url
-        if (image) {
-          image = 'url(' + image + ')'
-        } else {
-          image = 'url(../../../static/temp-logo-image_english_512.png)'
-        }
-        $image.css('background-image', image)
-      },
       activateJquery () {
         $(document).ready(() => {
-          this.applyImageBackground()
           this.activateClipboardJS()
         })
       }

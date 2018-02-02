@@ -2,6 +2,7 @@
   <section id="container">
     <!-- Header -->
     <header class="header-container">
+
       <!-- Slogan -->
       <div class="slogan-container">
         <h1 class="title">{{ $t('home.title') }}</h1>

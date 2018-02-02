@@ -371,9 +371,9 @@
     },
     mounted () {
       this.applyAttributes()
-      for (var i in this.value.country_list) {
-        console.log(this.value.country_list[i])
-      }
+//      for (var i in this.value.country_list) {
+//        console.log(this.value.country_list[i])
+//      }
     }
   }
 </script>

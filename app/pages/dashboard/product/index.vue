@@ -154,11 +154,11 @@
         return product.product_status === 'pending' ? 'pending' : 'approved'
       },
       onProductUploadButton () {
-        location.href = '/dashboard/product/upload'
+        this.$router.push('/dashboard/product/upload')
       },
       onEditButton (index) {
         const productId = this.products[index].product_id
-        location.href = `/dashboard/product/edit?id=${productId}`
+        this.$router.push(`/dashboard/product/edit?id=${productId}`)
       },
       modalToggle () {
         $('.modal-container, .modal-background').toggle()
@@ -172,7 +172,7 @@
         const index = this.value.productIndex
         const productId = this.products[index].product_id
         console.log(index)
-        this.$http.delete(`/api/data/product/${productId}`)
+        axios.delete(`/api/data/product/${productId}`)
           .then(() => {
             location.reload()
           })

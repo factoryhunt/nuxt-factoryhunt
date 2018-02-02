@@ -169,6 +169,7 @@
       title: 'Upload Product | Factory Hunt'
     },
     components: {
+      Spinkit,
       VueEditor,
     },
     props: {
