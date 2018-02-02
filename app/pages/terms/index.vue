@@ -1,6 +1,7 @@
 <template>
   <div class="page-container">
-    <p v-lang.terms></p>
+    <h1>{{ $t('terms.title') }}</h1>
+    <p v-html="$t('terms.description')"></p>
   </div>
 </template>
 
