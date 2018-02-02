@@ -8,12 +8,12 @@
       <div class="domain-container input-container">
         <!--<p class="title">Domain Address</p>-->
         <!--<i class="fa fa-circle required-circle" aria-hidden="true"><span> Required field</span></i>-->
-        <p class="title" v-lang.domain.title></p>
+        <p class="title">{{ $t('dashboardCompany.domain.title') }}</p>
         <br>
         <p class="sub-title">www.factoryhunt.com/<span id="domain-text">{{ value.domain }}</span></p>
-        <input required pattern="[a-z0-9]{3,50}" :title="getCautionPlaceholder" id="domain-input" type="text" :placeholder="getDomainPlaceholder" v-model="value.domain" @keyup="domainInputPressed" spellcheck="false" autocomplete="off" autocorrect="off" autocapitalize="off">
+        <input required pattern="[a-z0-9]{3,50}" :title="$t('dashboardCompany.inputTitle')" id="domain-input" type="text" :placeholder="$t('dashboardCompany.domain.placeholder')" v-model="value.domain" @keyup="domainInputPressed" spellcheck="false" autocomplete="off" autocorrect="off" autocapitalize="off">
         <!--<i id="domain-mark" class="big-mark" aria-hidden="true"></i>-->
-        <p class="hidden-title" v-lang.domain.caution></p>
+        <p class="hidden-title">{{ $t('dashboardCompany.domain.inputTitle') }}</p>
         <!--<spinkit id="domain-spinkit"></spinkit>-->
       </div>
 
@@ -21,7 +21,7 @@
       <div class="confirm-container input-container sticky-stopper">
         <!--<p class="title">Confirm and Save</p>-->
         <!--<p class="sub-title">Please confirm all information above before you click edit button</p>-->
-        <button class="button-orange" v-lang.domain.button></button>
+        <button class="button-orange">{{ $t('dashboardCompany.domain.button') }}</button>
       </div>
     </form>
   </div>

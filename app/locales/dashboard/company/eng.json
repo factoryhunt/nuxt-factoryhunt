@@ -84,5 +84,24 @@
     "title": "Confirm and Save",
     "desc": "Please confirm the information above before you save it. Company information will be updated immediately.",
     "button": "Save"
+  },
+  "domain": {
+    "title": "Customize your domain.",
+    "placeholder": "Domain address",
+    "inputTitle": "It must be 3-50 and can only contain letters, and numbers.",
+    "button": "Save"
+  },
+  "upload": "Upload",
+  "logo": {
+    "title": "Edit Logo",
+    "desc": "Your company's identity is visually expressed through its logo.",
+    "caution": "Upload a square image.",
+    "button": "Choose File"
+  },
+  "cover": {
+    "title": "Edit Company Cover Photo",
+    "desc": "A cover photo is the larger photo at the top of your company website.",
+    "caution": "Optimize your cover photo for the right dimensions: 1280 pixels wide and 460 pixels tall.",
+    "button": "Choose File"
   }
 }

@@ -29,104 +29,104 @@
 
       <!-- Company Name -->
       <div class="account-name-container input-container">
-        <p class="title" v-lang.name.title></p>
-        <span class="required-text" v-lang.name.required></span>
-        <p class="sub-title" v-lang.name.desc></p>
-        <input required pattern="[A-Za-z0-9 ().,]{2,50}" :title="getNameInputTitle" id="account-name-input" type="text" :placeholder="getNamePlaceholder" v-model="value.accountName" spellcheck="false" autocomplete="off" autocorrect="off" autocapitalize="off">
+        <p class="title">{{ $t('dashboardCompany.name.title') }}</p>
+        <span class="required-text" v-html="$t('dashboardCompany.name.required')"></span>
+        <p class="sub-title">{{ $t('dashboardCompany.name.desc') }}</p>
+        <input required pattern="[A-Za-z0-9 ().,]{2,50}" :title="$t('dashboardCompany.name.inputTitle')" id="account-name-input" type="text" :placeholder="$t('dashboardCompany.name.placeholder')" v-model="value.accountName" spellcheck="false" autocomplete="off" autocorrect="off" autocapitalize="off">
         <p class="hidden-title"></p>
         <i id="account-name-mark" class="small-mark" aria-hidden="true"></i>
       </div>
 
       <!-- Company Short Description -->
       <div class="short-description-container input-container">
-        <p class="title" v-lang.slogan.title></p>
-        <p class="sub-title" v-lang.slogan.desc></p>
-        <input id="short-description-input" maxlength="150" :title="getSloganInputTitle" pattern="[A-Za-z0-9 .,']{2,150}" @keyup="countInputLength" :placeholder="getSloganPlaceholder" v-model="value.shortDescription">
+        <p class="title">{{ $t('dashboardCompany.slogan.title') }}</p>
+        <p class="sub-title">{{ $t('dashboardCompany.slogan.desc') }}</p>
+        <input id="short-description-input" maxlength="150" :title="$t('dashboardCompany.slogan.inputTitle')" pattern="[A-Za-z0-9 .,']{2,150}" @keyup="countInputLength" :placeholder="$t('dashboardCompany.slogan.placeholder')" v-model="value.shortDescription">
         <p class="third-title">{{ 150 - value.shortDescriptionCount }}</p>
       </div>
 
       <!-- Company Long Description -->
       <div class="description-container input-container">
-        <p class="title" v-lang.description.title></p>
-        <p class="sub-title" v-lang.description.desc></p>
-        <textarea id="description-input" pattern="[A-Za-z0-9 ().,]{1,25000}" :title="getDescriptionInputTitle" maxlength="25000" rows="10" :placeholder="getDescriptionPlaceholder" v-model="value.description"></textarea>
+        <p class="title">{{ $t('dashboardCompany.description.title') }}</p>
+        <p class="sub-title">{{ $t('dashboardCompany.description.desc') }}</p>
+        <textarea id="description-input" pattern="[A-Za-z0-9 ().,]{1,25000}" :title="$t('dashboardCompany.description.inputTitle')" maxlength="25000" rows="10" :placeholder="$t('dashboardCompany.description.placeholder')" v-model="value.description"></textarea>
       </div>
 
       <!-- Company Information -->
       <div class="information-container input-container">
-        <p class="title" v-lang.company.title></p>
-        <p class="sub-title" v-lang.company.desc></p>
+        <p class="title">{{ $t('dashboardCompany.company.title') }}</p>
+        <p class="sub-title">{{ $t('dashboardCompany.company.desc') }}</p>
         <!-- Products -->
         <div class="box-container">
-          <div class="left-contents" v-lang.company.products.title></div>
-          <div class="right-contents"><input type="text" pattern="[A-Za-z0-9 ',-]{1,100}" :title="getProductsInputTitle" maxlength="100" :placeholder="getProductsPlaceholder" v-model="value.products"></div>
+          <div class="left-contents">{{ $t('dashboardCompany.company.products.title') }}</div>
+          <div class="right-contents"><input type="text" pattern="[A-Za-z0-9 ',-]{1,100}" :title="$t('dashboardCompany.company.products.inputTitle')" maxlength="100" :placeholder="$t('dashboardCompany.company.products.placeholder')" v-model="value.products"></div>
         </div>
         <!-- Website -->
         <div class="box-container">
-          <div class="left-contents" v-lang.company.website.title></div>
-          <div class="right-contents"><input type="text" pattern="[A-Za-z0-9 .]{1,100}" :title="getWebsiteInputTitle" maxlength="100" :placeholder="getWebsitePlaceholder" v-model="value.website" spellcheck="false"></div>
+          <div class="left-contents">{{ $t('dashboardCompany.company.website.title') }}</div>
+          <div class="right-contents"><input type="text" pattern="[A-Za-z0-9 .]{1,100}" :title="$t('dashboardCompany.company.website.inputTitle')" maxlength="100" :placeholder="$t('dashboardCompany.company.website.placeholder')" v-model="value.website" spellcheck="false"></div>
         </div>
         <!-- Phone -->
         <div class="box-container">
-          <div class="left-contents" v-lang.company.phone.title></div>
-          <div class="right-contents"><input type="text" maxlength="21" pattern="[0-9 +-]{1,21}" :title="getPhoneInputTitle" :placeholder="getPhonePlaceholder" v-model="value.phone"></div>
+          <div class="left-contents">{{ $t('dashboardCompany.company.phone.title') }}</div>
+          <div class="right-contents"><input type="text" maxlength="21" pattern="[0-9 +-]{1,21}" :title="$t('dashboardCompany.company.phone.inputTitle')" :placeholder="$t('dashboardCompany.company.phone.placeholder')" v-model="value.phone"></div>
         </div>
         <!-- Established Year -->
         <div class="box-container">
-          <div class="left-contents" v-lang.company.year.title></div>
-          <div class="right-contents"><input type="text" maxlength="10" pattern="[0-9]{4}-(0[1-9]|1[012])-(0[1-9]|1[0-9]|2[0-9]|3[01])" title ="YYYY-MM-DD" :placeholder="getYearPlaceholder" v-model="value.establishedDate"></div>
+          <div class="left-contents">{{ $t('dashboardCompany.company.year.title') }}</div>
+          <div class="right-contents"><input type="text" maxlength="10" pattern="[0-9]{4}-(0[1-9]|1[012])-(0[1-9]|1[0-9]|2[0-9]|3[01])" title ="YYYY-MM-DD" :placeholder="$t('dashboardCompany.company.year.placeholder')" v-model="value.establishedDate"></div>
         </div>
-        <p class="sub-title" style="margin-top: 12px" v-lang.company.desc2></p>
+        <p class="sub-title" style="margin-top: 12px">{{ $t('dashboardCompany.company.desc2') }}</p>
         <!-- Country -->
         <div class="box-container">
-          <div class="left-contents" v-lang.company.country.title></div>
+          <div class="left-contents">{{ $t('dashboardCompany.company.country.title') }}</div>
           <div class="right-contents">
             <select required title="required" v-model="value.country">
-              <option id="disabled-option" disabled value="" v-lang.company.country.defaultValue></option>
+              <option id="disabled-option" disabled value="">{{ $t('dashboardCompany.company.country.defaultValue') }}</option>
               <option v-for="(country,index) in value.country_list" :key="index" :value="country.country_name">{{country.country_name}}</option>
             </select>
           </div>
         </div>
         <!-- State -->
         <div class="box-container">
-          <div class="left-contents" v-lang.company.state.title></div>
-          <div class="right-contents"><input type="text" maxlength="50" pattern="[A-Za-z -]{1,50}" :title="getStateInputTitle" :placeholder="getStatePlaceholder" v-model="value.state"></div>
+          <div class="left-contents">{{ $t('dashboardCompany.company.state.title') }}</div>
+          <div class="right-contents"><input type="text" maxlength="50" pattern="[A-Za-z -]{1,50}" :title="$t('dashboardCompany.company.state.inputTitle')" :placeholder="$t('dashboardCompany.company.state.placeholder')" v-model="value.state"></div>
         </div>
         <!-- City -->
         <div class="box-container">
-          <div class="left-contents" v-lang.company.city.title></div>
-          <div class="right-contents"><input type="text" maxlength="50" pattern="[A-Za-z -]{1,50}" :title="getCityInputTitle" :placeholder="getCityPlaceholder" v-model="value.city"></div>
+          <div class="left-contents">{{ $t('dashboardCompany.company.city.title') }}</div>
+          <div class="right-contents"><input type="text" maxlength="50" pattern="[A-Za-z -]{1,50}" :title="$t('dashboardCompany.company.city.inputTitle')" :placeholder="$t('dashboardCompany.company.city.placeholder')" v-model="value.city"></div>
         </div>
         <!-- Street Address -->
         <div class="box-container">
-          <div class="left-contents" v-lang.company.street.title></div>
-          <div class="right-contents"><input type="text" maxlength="100" pattern="[A-Za-z0-9 -.,#()]{1,50}" :title="getStreetInputTitle" :placeholder="getStreetPlaceholder" v-model="value.streetAddress" @keyup="checkPostalCode(value.postalCode)"></div>
+          <div class="left-contents">{{ $t('dashboardCompany.company.street.title') }}</div>
+          <div class="right-contents"><input type="text" maxlength="100" pattern="[A-Za-z0-9 -.,#()]{1,50}" :title="$t('dashboardCompany.company.street.inputTitle')" :placeholder="$t('dashboardCompany.company.street.placeholder')" v-model="value.streetAddress" @keyup="checkPostalCode(value.postalCode)"></div>
         </div>
         <!-- Street Address Detail -->
         <div class="box-container">
-          <div class="left-contents" v-lang.company.street2.title></div>
-          <div class="right-contents"><input type="text" maxlength="100" pattern="[A-Za-z0-9 -.,#()]{1,50}" :title="getStreetInputTitle" :placeholder="getStreet2Placeholder" v-model="value.streetAddressDetail"></div>
+          <div class="left-contents">{{ $t('dashboardCompany.company.street2.title') }}</div>
+          <div class="right-contents"><input type="text" maxlength="100" pattern="[A-Za-z0-9 -.,#()]{1,50}" :title="$t('dashboardCompany.company.street2.inputTitle')" :placeholder="$t('dashboardCompany.company.street2.placeholder')" v-model="value.streetAddressDetail"></div>
         </div>
         <!-- Postal Code -->
         <div class="box-container">
-          <div class="left-contents" v-lang.company.postal.title></div>
-          <div class="right-contents"><input type="text" pattern="[0-9-]{1,10}" :title="getPostalInputTitle" :placeholder="getPostalPlaceholder" v-model="value.postalCode"></div>
+          <div class="left-contents">{{ $t('dashboardCompany.company.postal.title') }}</div>
+          <div class="right-contents"><input type="text" pattern="[0-9-]{1,10}" :title="$t('dashboardCompany.company.postal.inputTitle')" :placeholder="$t('dashboardCompany.company.postal.placeholder')" v-model="value.postalCode"></div>
         </div>
       </div>
 
       <!-- Company History -->
       <div class="history-container input-container">
-        <p class="title" v-lang.history.title></p>
-        <p class="sub-title" v-lang.history.desc></p>
-        <textarea rows="10" maxlength="25000" :title="getDescriptionInputTitle" :placeholder="getHistoryPlaceholder" v-model="value.history"></textarea>
+        <p class="title">{{ $t('dashboardCompany.history.title') }}</p>
+        <p class="sub-title">{{ $t('dashboardCompany.history.desc') }}</p>
+        <textarea rows="10" maxlength="25000" :title="$t('dashboardCompany.history.inputTitle')" :placeholder="$t('dashboardCompany.history.placeholder')" v-model="value.history"></textarea>
         <i id="history-mark" class="small-mark" aria-hidden="true"></i>
       </div>
 
       <!-- Confirm and Submit -->
       <div class="confirm-container input-container sticky-stopper">
-        <p class="title" v-lang.save.title></p>
-        <p class="sub-title" v-lang.save.desc></p>
-        <button class="button-orange">Save</button>
+        <p class="title">{{ $t('dashboardCompany.save.title') }}</p>
+        <p class="sub-title">{{ $t('dashboardCompany.save.desc') }}</p>
+        <button class="button-orange">{{ $t('dashboardCompany.save.button') }}</button>
       </div>
     </form>
   </div>

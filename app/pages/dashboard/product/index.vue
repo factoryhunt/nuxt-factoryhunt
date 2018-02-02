@@ -5,13 +5,13 @@
     <div class="modal-background" @click="modalToggle">
       <div class="modal-container">
         <div class="modal-contents" @click="modalToggle">
-          <p class="title" v-lang.modal.title></p>
+          <p class="title">{{ $t('dashboardProduct.modal.title') }}</p>
           <div class="button-container">
             <div class="left-button-container">
-              <button class="button-white confirm-button" @click="deleteProduct" v-lang.modal.delete></button>
+              <button class="button-white confirm-button" @click="deleteProduct">{{ $t('dashboardProduct.modal.delete') }}</button>
             </div>
             <div class="right-button-container">
-              <button class="button-orange cancel-button" @click="modalToggle" v-lang.modal.cancel></button>
+              <button class="button-orange cancel-button" @click="modalToggle">{{ $t('dashboardProduct.modal.cancel') }}</button>
             </div>
           </div>
         </div>
@@ -20,8 +20,8 @@
 
     <!-- Header -->
     <div class="header-container">
-      <button v-if="products.length > 0" class="button-orange product-upload-button" @click="onProductUploadButton" v-lang.header.newProduct></button>
-      <p class="title" v-lang.header.title></p>
+      <button v-if="products.length > 0" class="button-orange product-upload-button" @click="onProductUploadButton">{{ $t('dashboardProduct.header.newProduct') }}</button>
+      <p class="title">{{ $t('dashboardProduct.header.title') }}</p>
     </div>
 
     <!-- Body -->
@@ -30,9 +30,9 @@
       <!-- products empty -->
       <div v-if="products.length === 0" class="product-empty-container">
         <div class="empty">
-          <p class="title" v-lang.empty.title></p>
-          <p class="sub-title" v-lang.empty.subTitle></p>
-          <button @click="onProductUploadButton" class="product-upload-button button-orange" v-lang.empty.uploadProduct></button>
+          <p class="title">{{ $t('dashboardProduct.empty.title') }}</p>
+          <p class="sub-title">{{ $t('dashboardProduct.empty.subTitle') }}</p>
+          <button @click="onProductUploadButton" class="product-upload-button button-orange">{{ $t('dashboardProduct.empty.uploadProduct') }}</button>
         </div>
       </div>
 
@@ -56,10 +56,10 @@
               <p class="price-text">{{product.price ? product.price : ''}}</p>
             </div>
             <div class="tool-container">
-              <a class="product-edit-button" @click="onEditButton(index)">Edit</a>
+              <a class="product-edit-button" @click="onEditButton(index)">{{ $t('dashboardProduct.exist.edit') }}</a>
               <span>|</span>
-              <a class="product-remove-button" @click="showProductRemoveModal(index)">Delete</a>
-              <a class="view-product-button" @click="routeProductPage(index)">View</a>
+              <a class="product-remove-button" @click="showProductRemoveModal(index)">{{ $t('dashboardProduct.exist.delete') }}</a>
+              <a class="view-product-button" @click="routeProductPage(index)">{{ $t('dashboardProduct.exist.view') }}</a>
             </div>
           </div>
         </div>
