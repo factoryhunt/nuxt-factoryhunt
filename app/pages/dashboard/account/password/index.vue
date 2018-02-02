@@ -8,31 +8,31 @@
 
         <!-- Required Input Container -->
         <div class="required-container input-container">
-          <p class="title" v-lang.title></p>
-          <p class="sub-title" v-lang.subTitle></p>
+          <p class="title">{{ $t('dashboardMyAccount.password.title') }}</p>
+          <p class="sub-title">{{ $t('dashboardMyAccount.password.subTitle') }}</p>
 
           <!-- Current Password Container -->
           <div class="box-container">
-            <div class="left-contents" v-lang.currentPassword></div>
+            <div class="left-contents">{{ $t('dashboardMyAccount.password.currentPassword') }}</div>
             <div class="right-contents"><input required minlength="8" type="password" placeholder="" v-model="value.currentPassword"></div>
           </div>
           <br>
 
           <!-- New Password Container -->
           <div class="box-container">
-            <div class="left-contents" v-lang.newPassword></div>
+            <div class="left-contents">{{ $t('dashboardMyAccount.password.newPassword') }}</div>
             <div class="right-contents"><input required minlength="8" type="password" placeholder="" v-model="value.newPassword"></div>
           </div>
           <!-- Confirm Password Container -->
           <div class="box-container">
-            <div class="left-contents" v-lang.confirmPassword></div>
+            <div class="left-contents">{{ $t('dashboardMyAccount.password.confirmPassword') }}</div>
             <div class="right-contents"><input required minlength="8" type="password" placeholder="" v-model="value.newPasswordConfirm"></div>
           </div>
         </div>
 
         <!-- Edit Password Container -->
         <div class="confirm-container input-container">
-          <button class="button-orange" v-lang.change></button>
+          <button class="button-orange">{{ $t('dashboardMyAccount.password.change') }}</button>
         </div>
 
       </div>

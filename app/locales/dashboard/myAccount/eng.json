@@ -1,0 +1,81 @@
+{
+  "editAccount": "Edit Account",
+  "changePassword": "Change Password",
+  "management": "Account Management",
+  "language": "Language",
+  "editSuccess": "Your information has been edited.",
+  "editFail": "Edit failed. Please try again.",
+  "header": {
+    "title": "Account Information",
+    "subTitle": "Please upload all information below. It will make easier for buyers to contact you."
+  },
+  "body": {
+    "email": {
+      "title": "Email"
+    },
+    "firstName": {
+      "title": "First Name",
+      "placeholder": "Robert",
+      "inputTitle": "It must be 1-20 characters and can only contain letters, hyphens and periods."
+    },
+    "lastName": {
+      "title": "Last Name",
+      "placeholder": "Smith",
+      "inputTitle": "It must be 1-20 characters and can only contain letters."
+    },
+    "titles": {
+      "title": "Title",
+      "placeholder": "CEO, Manager, ..",
+      "inputTitle": "It must be 1-30 characters and can only contain letters, and comma."
+    },
+    "mobile": {
+      "title": "Mobile Number",
+      "placeholder": "+1-917-1234-5678",
+      "inputTitle": "It must be 1-21 characters and can only contain numbers, plus, and hyphens."
+    },
+    "officeNumber": {
+      "title": "Office Phone",
+      "placeholder": "+1-917-123-4567",
+      "inputTitle": "It must be 1-21 characters and can only contain numbers, plus, and hyphens."
+    }
+  },
+  "confirm": {
+    "title": "Confirm and Save",
+    "subTitle": "Please confirm the information above before you save it. All information will be updated immediately.",
+    "button": "Save"
+  },
+  "password": {
+    "editSuccess": "Your password has been changed.",
+    "editFail": "Change failed. Please try again.",
+    "title": "New password",
+    "subTitle": "Use at least one letter, one numeral, and eight characters.",
+    "currentPassword": "Current password",
+    "newPassword": "New password",
+    "confirmPassword": "Confirm",
+    "change": "Change",
+    "alert": {
+      "success": "Your password has been changed.",
+      "8001": "Your new passwords did not match. Please try again.",
+      "8002": "Your password must at least 8 characters. Please try again.",
+      "8003": "Your old password was incorrect. Please try again.",
+      "8004": "Password update failed\": Internal server error. Please try again."
+    }
+  },
+  "deleteAccountButton": "Delete account",
+  "drop": {
+    "subTitle": "Could you tell us why you want to stop using the service?",
+    "placeholder": "If you tell us the reason why you want to delete the account, we will do our best to improve the service to make users happy."
+  },
+  "caution": {
+    "title": "What happens when a user delete account.",
+    "first": "All information will be deleted.",
+    "second": "No more appears in the search result.",
+    "third": "Your domain could be taken by someone else.",
+    "forth": "There could be some disadvantages when you signup again."
+  },
+  "deleteConfirm": {
+    "subTitle": "Are you sure you want to delete your account?",
+    "delete": "Delete",
+    "cancel": "Cancel"
+  }
+}

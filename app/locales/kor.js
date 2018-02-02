@@ -9,6 +9,7 @@ const about = require('./about/kor'),
   dashboardCompany = require('./dashboard/company/kor'),
   dashboardProduct = require('./dashboard/product/kor'),
   dashboardProductEdit = require('./dashboard/productEdit/kor'),
+  dashboardMyAccount = require('./dashboard/myAccount/kor'),
   company = require('./_company/kor'),
   product = require('./_company/_product/kor'),
   search = require('./search/kor')
@@ -25,6 +26,7 @@ export default {
   dashboardCompany,
   dashboardProduct,
   dashboardProductEdit,
+  dashboardMyAccount,
   company,
   product,
   search
