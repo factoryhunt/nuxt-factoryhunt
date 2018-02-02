@@ -172,7 +172,7 @@
         const index = this.value.productIndex
         const productId = this.products[index].product_id
         console.log(index)
-        this.$http.delete(`/api/data/product/${productId}`)
+        axios.delete(`/api/data/product/${productId}`)
           .then(() => {
             location.reload()
           })
