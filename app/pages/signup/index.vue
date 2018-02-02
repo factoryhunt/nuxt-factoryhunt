@@ -26,7 +26,6 @@
           <button id="sign-up-button" class="button-orange">Sign Up</button>
         </div>
         <p class="terms">By clicking Sign Up, you agree to our <nuxt-link to="/terms">Terms</nuxt-link> and that you have read our <nuxt-link to="/privacy">Privacy Policy</nuxt-link>, including our Cookie Use.</p>
-        <div class="divider"></div>
 
         <div class="login-container">
           <div class="login-wrapper">

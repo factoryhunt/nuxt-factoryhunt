@@ -57,7 +57,7 @@
             </div>
             <div class="tool-container">
               <a class="product-edit-button" @click="onEditButton(index)">{{ $t('dashboardProduct.exist.edit') }}</a>
-              <span>|</span>
+              <span> | </span>
               <a class="product-remove-button" @click="showProductRemoveModal(index)">{{ $t('dashboardProduct.exist.delete') }}</a>
               <a class="view-product-button" @click="routeProductPage(index)">{{ $t('dashboardProduct.exist.view') }}</a>
             </div>
@@ -171,10 +171,9 @@
         this.modalToggle()
         const index = this.value.productIndex
         const productId = this.products[index].product_id
-        console.log(index)
         axios.delete(`/api/data/product/${productId}`)
           .then(() => {
-            location.reload()
+            this.$router.reload()
           })
           .catch((err) => {
             alert(err.response.data.msg)
@@ -191,14 +190,18 @@
       },
       routeProductPage (index) {
         const url = `/${this.account.domain}/${this.products[index].product_domain}`
-        location.href = url
+        this.$router.push(url)
       },
       activateJquery () {
         $(document).ready(() => {
         })
       }
     },
+    created () {
+      console.log('/dashboard/product created')
+    },
     mounted () {
+      console.log('/dashboard/product mounted')
       this.applyAttributes()
     }
   }

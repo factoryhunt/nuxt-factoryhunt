@@ -12,7 +12,8 @@ const about = require('./about/kor'),
   dashboardMyAccount = require('./dashboard/myAccount/kor'),
   company = require('./_company/kor'),
   product = require('./_company/_product/kor'),
-  search = require('./search/kor')
+  search = require('./search/kor'),
+  alert = require('./alert/kor')
 
 export default {
   home,
@@ -29,5 +30,6 @@ export default {
   dashboardMyAccount,
   company,
   product,
-  search
+  search,
+  alert
 }

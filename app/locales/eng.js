@@ -12,7 +12,8 @@ const about = require('./about/eng'),
   dashboardMyAccount = require('./dashboard/myAccount/eng'),
   company = require('./_company/eng'),
   product = require('./_company/_product/eng'),
-  search = require('./search/eng')
+  search = require('./search/eng'),
+  alert = require('./alert/eng')
 
 export default {
   home,
@@ -29,5 +30,6 @@ export default {
   dashboardMyAccount,
   company,
   product,
-  search
+  search,
+  alert
 }

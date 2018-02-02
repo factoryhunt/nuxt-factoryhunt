@@ -93,7 +93,7 @@
           <div class="box-container">
             <div class="left-container">{{ $t('dashboardProductEdit.information.moq') }}</div>
             <div class="right-container">
-              <input placeholder="100" maxlength="10" pattern="[0-9]{1,10}" :title="$t('dashboardProductEdit.information.inputTitle')" v-model="value.moq" type="text" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+              <input placeholder="100" maxlength="10" pattern="[0-9]{1,10}" :title="$t('dashboardProductEdit.information.moqInputTitle')" v-model="value.moq" type="text" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
             </div>
           </div>
           <div class="box-container">
@@ -125,12 +125,7 @@
         <!-- Product Description -->
         <div class="description-container input-container">
           <p class="title">{{ $t('dashboardProductEdit.introduction.title') }}</p>
-          <vue-editor :editorToolbar="customToolbar"
-                      useCustomImageHandler
-                      @imageAdded="handleImageAdded"
-                      id="html-editor"
-                      v-model="value.editor">
-          </vue-editor>
+          <textarea></textarea>
           <spinkit id="editor-spinkit"></spinkit>
           <p class="caution-text">{{ $t('dashboardProductEdit.introduction.caution') }}</p>
         </div>
@@ -526,7 +521,6 @@
       },
       showAlert (result) {
         $(document).ready(() => {
-          window.scrollTo(0, 0)
           const $alert = $('#alert')
           if (result) {
             this.$store.commit('changeAlertState', true)

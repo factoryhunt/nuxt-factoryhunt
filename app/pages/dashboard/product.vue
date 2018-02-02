@@ -1,7 +1,7 @@
 <template>
   <section class="dashboard-page-container">
     <loader id="loader"></loader>
-    <nuxt-child :account="account" :products="products"></nuxt-child>
+    <nuxt-child :account="account" :products="products" v-if="toggle.isProductFetched"></nuxt-child>
   </section>
 </template>
 
@@ -53,7 +53,11 @@
         })
       }
     },
+    created () {
+      console.log('page created')
+    },
     mounted () {
+      console.log('page mounted')
       this.fetchProducts(this.account.account_id)
       this.applyJquery()
     }

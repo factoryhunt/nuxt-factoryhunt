@@ -104,5 +104,15 @@
     "desc": "A cover photo is the larger photo at the top of your company website.",
     "caution": "Optimize your cover photo for the right dimensions: 1280 pixels wide and 460 pixels tall.",
     "button": "Choose File"
+  },
+  "alert": {
+    "domain": {
+      "success": "Your domain has been updated successfully.",
+      "fail": "The domain is taken. Please try another."
+    },
+    "image": {
+      "success": "Your photo has been updated successfully.",
+      "fail": "Photo update failed. Please try again."
+    }
   }
 }

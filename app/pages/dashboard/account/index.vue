@@ -95,102 +95,6 @@
         }
       }
     },
-    messages: {
-      eng: {
-        editSuccess: 'Your information has been edited.',
-        editFail: 'Edit failed. Please try again.',
-        header: {
-          title: 'Account Information',
-          subTitle: 'Please upload all information below. It will make easier for buyers to contact you.'
-        },
-        body: {
-          email: {
-            title: 'Email'
-          },
-          firstName: {
-            title: 'First Name',
-            placeholder: 'Robert',
-            inputTitle: 'It must be 1-20 characters and can only contain letters, hyphens and periods.'
-          },
-          lastName: {
-            title: 'Last Name',
-            placeholder: 'Smith',
-            inputTitle: 'It must be 1-20 characters and can only contain letters.'
-          },
-          titles: {
-            title: 'Title',
-            placeholder: 'CEO, Manager, ..',
-            inputTitle: 'It must be 1-30 characters and can only contain letters, and comma.'
-          },
-          mobile: {
-            title: 'Mobile Number',
-            placeholder: '+1-917-1234-5678',
-            inputTitle: 'It must be 1-21 characters and can only contain numbers, plus, and hyphens.'
-          },
-          officeNumber: {
-            title: 'Office Phone',
-            placeholder: '+1-917-123-4567',
-            inputTitle: 'It must be 1-21 characters and can only contain numbers, plus, and hyphens.'
-          }
-        },
-        confirm: {
-          title: 'Confirm and Save',
-          subTitle: 'Please confirm the information above before you save it. All information will be updated immediately.',
-          button: 'Save'
-        },
-        alert: {
-          success: 'Your information has been updated successfully.',
-          fail: 'Information update failed. Please try again.'
-        }
-      },
-      kor: {
-        editSuccess: '정보가 업데이트 되었습니다.',
-        editFail: '정보 수정 실패. 다시 시도해주세요.',
-        header: {
-          title: '정보 입력하기',
-          subTitle: '모든 정보를 입력하면 바이어가 회원님을 찾는게 좀 더 수월해집니다.'
-        },
-        body: {
-          email: {
-            title: '이메일'
-          },
-          firstName: {
-            title: '이름',
-            placeholder: 'Robert',
-            inputTitle: '1~20자의 문자, 하이픈(-), 그리고 마침표만 입력해주세요.'
-          },
-          lastName: {
-            title: '성',
-            placeholder: 'Smith',
-            inputTitle: '1~20자의 이상의 문자만 입력해주세요.'
-          },
-          titles: {
-            title: '직책',
-            placeholder: 'CEO, Manager, ..',
-            inputTitle: '1~30자의 문자와 마침표(.)만 입력해주세요.'
-          },
-          mobile: {
-            title: '핸드폰 번호',
-            placeholder: '+82-10-1234-5678',
-            inputTitle: '1~21자의 숫자, 더하기, 그리고 하이픈(-)만 입력해주세요.'
-          },
-          officeNumber: {
-            title: '사무실 번호',
-            placeholder: '+82-10-123-4567',
-            inputTitle: '1~21자의 숫자, 더하기, 그리고 하이픈(-)만 입력해주세요.'
-          }
-        },
-        confirm: {
-          title: '확인 및 수정',
-          subTitle: '수정 할 정보를 다시 한 번 확인하고 내용이 맞다면 수정 버튼을 눌러주세요. 웹사이트에 바로 반영됩니다.',
-          button: '수정하기'
-        },
-        alert: {
-          success: '정보가 성공적으로 업데이트 되었습니다.',
-          fail: '정보를 업데이트 실패. 다시 시도해주세요.'
-        }
-      }
-    },
     methods: {
       onEditButton () {
         $('#loader').removeClass().addClass('spinkit-modal')
@@ -253,14 +157,14 @@
         $(document).ready(() => {
           window.scrollTo(0, 0)
           $('#loader').removeClass()
-          this.showAlert(true, this.getSuccessAlert)
+          this.showAlert(true, this.$t('alert.success'))
         })
       },
       onEditFail () {
         $(document).ready(() => {
           window.scrollTo(0, 0)
           $('#loader').removeClass()
-          this.showAlert(false, this.getFailAlert)
+          this.showAlert(false, this.$t('alert.fail'))
         })
       }
     },
@@ -285,6 +189,8 @@
   @mark-bottom-amount: 16px;
   @font-size-button: 22px;
   @font-weight-button: 600;
+
+  .placeholder(200);
 
   .dashboard-page-container {
   }

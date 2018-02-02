@@ -278,7 +278,6 @@
       },
       showAlert (alertState, msg) {
         $(document).ready(() => {
-          window.scrollTo(0, 0)
           const $alert = $('#alert')
           this.$store.commit('alert/changeState', {
             alertState,
@@ -292,11 +291,11 @@
       },
       onEditSuccess () {
         $('#modal-spinkit').removeClass()
-        this.showAlert(true, 'success')
+        this.showAlert(true, this.$t('alert.success'))
       },
       onEditFail () {
         $('#modal-spinkit').removeClass()
-        this.showAlert(false, 'failed')
+        this.showAlert(false, this.$t('alert.fail'))
       },
       // jQuery for CSS
       applyStickyCSS () {
@@ -460,7 +459,6 @@
 
     /* Global CSS */
     .dashboard-page-container {
-      .placeholder(200);
     }
 
     .input-container {

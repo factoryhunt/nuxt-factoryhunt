@@ -10,7 +10,7 @@
         <!--<i class="fa fa-circle required-circle" aria-hidden="true"><span> Required field</span></i>-->
         <p class="title">{{ $t('dashboardCompany.domain.title') }}</p>
         <p class="sub-title">www.factoryhunt.com/<span id="domain-text">{{ value.domain }}</span></p>
-        <input required pattern="[a-z0-9]{3,50}" :title="$t('dashboardCompany.inputTitle')" id="domain-input" type="text" :placeholder="$t('dashboardCompany.domain.placeholder')" v-model="value.domain" @keyup="domainInputPressed" spellcheck="false" autocomplete="off" autocorrect="off" autocapitalize="off">
+        <input required pattern="[a-z0-9]{3,50}" :title="$t('dashboardCompany.domain.inputTitle')" id="domain-input" type="text" :placeholder="$t('dashboardCompany.domain.placeholder')" v-model="value.domain" @keyup="domainInputPressed" spellcheck="false" autocomplete="off" autocorrect="off" autocapitalize="off">
         <!--<i id="domain-mark" class="big-mark" aria-hidden="true"></i>-->
         <p class="hidden-title">{{ $t('dashboardCompany.domain.inputTitle') }}</p>
         <!--<spinkit id="domain-spinkit"></spinkit>-->
@@ -107,11 +107,11 @@
         }
       },
       onEditSuccess () {
-        this.showAlert(true, 'success')
+        this.showAlert(true, this.$t('dashboardCompany.alert.domain.success'))
         $('#modal-spinkit').removeClass()
       },
       onEditFail () {
-        this.showAlert(false, 'fail')
+        this.showAlert(false, this.$t('dashboardCompany.alert.domain.fail'))
         $('#modal-spinkit').removeClass()
         this.toggle.isDomainAvailable = false
       },

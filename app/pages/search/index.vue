@@ -2,37 +2,37 @@
   <section id="container">
 
     <!-- Products -->
-    <div class="product-body-container">
-      <div class="products-container">
-        <!-- Title -->
-        <h2 class="title" v-html="$t('search.products', { count: products.length})"></h2>
-        <!-- Wrapper -->
-        <section class="product-wrapper" v-if="product_count > 0">
-          <!-- Product -->
-          <div class="product-container" v-for="(product, index) in this.products" :key="index">
-            <!-- Image -->
-            <div class="image-container">
-              <img class="product-image" @click="routeProductProfilePage(index)" :src="product.product_image_url_1">
-            </div>
-            <!-- Content -->
-            <div class="content-container">
-              <h2 class="primary-category">{{product.primary_product_category}}</h2>
-              <h1 class="product-name">{{product.product_name}}</h1>
-              <div class="star-container">
-                <i class="fa fa-star-o" aria-hidden="true" v-for="index in 5" :key="index"></i>
-              </div>
-            </div>
-          </div>
-        </section>
-        <section v-else>
-          <div class="product-wrapper">
-            <div class="product-container">
-              No result
-            </div>
-          </div>
-        </section>
-      </div>
-    </div>
+    <!--<div class="product-body-container">-->
+      <!--<div class="products-container">-->
+        <!--&lt;!&ndash; Title &ndash;&gt;-->
+        <!--<h2 class="title" v-html="$t('search.products', { count: products.length})"></h2>-->
+        <!--&lt;!&ndash; Wrapper &ndash;&gt;-->
+        <!--<section class="product-wrapper" v-if="product_count > 0">-->
+          <!--&lt;!&ndash; Product &ndash;&gt;-->
+          <!--<div class="product-container" v-for="(product, index) in this.products" :key="index">-->
+            <!--&lt;!&ndash; Image &ndash;&gt;-->
+            <!--<div class="image-container">-->
+              <!--<img class="product-image" @click="routeProductProfilePage(index)" :src="product.product_image_url_1">-->
+            <!--</div>-->
+            <!--&lt;!&ndash; Content &ndash;&gt;-->
+            <!--<div class="content-container">-->
+              <!--<h2 class="primary-category">{{product.primary_product_category}}</h2>-->
+              <!--<h1 class="product-name">{{product.product_name}}</h1>-->
+              <!--<div class="star-container">-->
+                <!--<i class="fa fa-star-o" aria-hidden="true" v-for="index in 5" :key="index"></i>-->
+              <!--</div>-->
+            <!--</div>-->
+          <!--</div>-->
+        <!--</section>-->
+        <!--<section v-else>-->
+          <!--<div class="product-wrapper">-->
+            <!--<div class="product-container">-->
+              <!--No result-->
+            <!--</div>-->
+          <!--</div>-->
+        <!--</section>-->
+      <!--</div>-->
+    <!--</div>-->
 
     <!-- Suppliers -->
     <div class="body-container">
@@ -46,9 +46,6 @@
             <h3 class="website">{{account.website}}</h3>
             <h3 class="phone">{{account.phone}}</h3>
             <h3 class="address">{{account.mailing_country_english}}</h3>
-          </div>
-          <div v-show="account_count > 10" class="read-more-button-container">
-            <a class="read-more" href="/">{{ $t('search.readMore') }} ({{account_count}})<i id="angle-right" class="fa fa-angle-right"></i></a>
           </div>
         </section>
         <section v-else>
@@ -158,6 +155,11 @@
 
     .supplier-outer-container {
       padding-bottom: 2rem;
+
+      .title {
+        margin-top: 0;
+      }
+
 
       .supplier-container {
 

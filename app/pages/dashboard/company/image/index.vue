@@ -75,46 +75,6 @@
         }
       }
     },
-    messages: {
-      eng: {
-        upload: 'Upload',
-        logo: {
-          title: 'Edit Logo',
-          desc: 'Your company\'s identity is visually expressed through its logo.',
-          caution: 'Upload a square image.',
-          button: 'Choose File'
-        },
-        cover: {
-          title: 'Edit Company Cover Photo',
-          desc: 'A cover photo is the larger photo at the top of your company website.',
-          caution: 'Optimize your cover photo for the right dimensions: 1280 pixels wide and 460 pixels tall.',
-          button: 'Choose File'
-        },
-        alert: {
-          success: 'Your photo has been updated successfully.',
-          fail: 'Photo update failed. Please try again.'
-        }
-      },
-      kor: {
-        upload: '업로드',
-        logo: {
-          title: '로고 이미지 수정',
-          desc: '회사를 상징하는 로고입니다.',
-          caution: '로고 사이즈는 정사각형에 최적화되어 있습니다.',
-          button: '파일 선택'
-        },
-        cover: {
-          title: '대표 이미지 수정',
-          desc: '홈페이지에 가장 먼저 노출되고 강조되는 부분입니다. 가장 멋진 사진을 올려주세요!',
-          caution: '대표 이미지의 사이즈는 가로 1280픽셀과 세로 460픽셀에 최적화 되어있습니다.',
-          button: '파일 선택'
-        },
-        alert: {
-          success: '이미지가 성공적으로 업데이트 되었습니다.',
-          fail: '이미지를 업데이트 하지 못했습니다. 다시 시도해주세요.'
-        }
-      }
-    },
     computed: {
       ...mapGetters([
         'getAccountId'
@@ -126,14 +86,19 @@
 //        fileName = 'https://s3-us-west-1.amazonaws.com/factoryhunt.com/accounts/' + this.getAccountId + '/' + fileName
 //        return fileName
 //      },
-      readURL (image, files) {
+      readURL (image, files, target) {
 //        console.log('files: ', files)
         if (files) {
           var reader = new FileReader()
           reader.onload = function (event) {
 //            console.log('event: ', event)
 //            image.attr('src', event.target.result)
-            image.css('background-image', `url(${event.target.result})`)
+            if (target === 'main') {
+              image.css('background-image', `url(${event.target.result})`)
+            }
+            if (target === 'logo') {
+              image.attr('src', event.target.result)
+            }
           }
           reader.readAsDataURL(files[0])
 //          console.log('reader: ', reader)
@@ -143,13 +108,13 @@
         var image = $('.main-image')
         var uploadButton = $('#main-image-upload-button')
         uploadButton.css({'display': 'inline-block'})
-        this.readURL(image, fileList)
+        this.readURL(image, fileList, 'main')
       },
       onLogoImageChanged (fileList) {
         var image = $('.logo-image')
         var uploadButton = $('#logo-image-upload-button')
         uploadButton.css({'display': 'inline-block'})
-        this.readURL(image, fileList)
+        this.readURL(image, fileList, 'logo')
       },
       async imageUpload (inputId) {
         this.activateLoader()
@@ -165,7 +130,6 @@
       showAlert (alertState, msg) {
         $(document).ready(() => {
           this.deactivateLoader()
-          window.scrollTo(0, 0)
           const $alert = $('#alert')
           this.$store.commit('alert/changeState', {
             alertState,
@@ -178,10 +142,10 @@
         })
       },
       uploadSuccess () {
-        this.showAlert(true, this.getSuccessAlert)
+        this.showAlert(true, this.$t('dashboardCompany.alert.image.success'))
       },
       uploadFail () {
-        this.showAlert(false, this.getFailAlert)
+        this.showAlert(false, this.$t('dashboardCompany.alert.image.fail'))
       },
       imageCompress (file) {
         return new Promise((resolve, reject) => {
@@ -204,10 +168,8 @@
           } else if (inputId === 'main-image-input') {
             formData.append('db_column', 'account_image_url_1')
           }
-          console.log(file)
           axios.put(`/api/data/account/image/${this.account.account_id}`, formData, config)
-            .then((res) => {
-              console.log(res)
+            .then(() => {
               resolve()
             })
             .catch(() => {
@@ -263,6 +225,7 @@
   @mark-bottom-amount: 16px;
   @font-size-button: 22px;
   @font-weight-button: 600;
+
   label {
     .upload-label-basic;
     border: 1px solid @color-font-base;
@@ -308,7 +271,7 @@
         width: 100px;
         height: 100px;
         border-radius: 50%;
-        border: 1px solid @color-light-grey;
+        border: 2px solid @color-light-grey;
         background-size: cover;
         background-position: 50%, 50%;
         background-repeat: no-repeat;

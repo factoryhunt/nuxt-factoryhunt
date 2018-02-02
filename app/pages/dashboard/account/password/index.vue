@@ -46,52 +46,19 @@
   import Spinkit from '~/components/Loader'
   import { mapGetters } from 'vuex'
   export default {
+    head () {
+      return {
+        title: 'Change Password'
+      }
+    },
     components: {
       Spinkit
-    },
-    metaInfo: {
-      title: 'Change Password | Factory Hunt'
     },
     props: {
       contact: {
         type: Object,
         default: () => {
           return {}
-        }
-      }
-    },
-    messages: {
-      eng: {
-        editFail: 'Change failed. Please try again.',
-        title: 'New password',
-        subTitle: 'Use at least one letter, one numeral, and eight characters.',
-        currentPassword: 'Old Password',
-        newPassword: 'New Password',
-        confirmPassword: 'Confirm Password',
-        change: 'Change',
-        alert: {
-          success: 'Your password has been changed.',
-          8001: 'Your new passwords did not match. Please try again.',
-          8002: 'Your password must at least 8 characters. Please try again.',
-          8003: 'Your old password was incorrect. Please try again.',
-          8004: 'Password update failed: Internal server error. Please try again.'
-        }
-      },
-      kor: {
-        editSuccess: '비밀번호가 변경 되었습니다.',
-        editFail: '변경 실패. 다시 시도해주세요.',
-        title: '이전 비밀번호',
-        subTitle: '비밀번호는 문자와 숫자의 조합으로 최소 8문자를 포함해야 합니다.',
-        currentPassword: '현재 비밀번호',
-        newPassword: '새 비밀번호',
-        confirmPassword: '비밀번호 확인',
-        change: '변경하기',
-        alert: {
-          success: '비밀번호가 성공적으로 변경되었습니다.',
-          8001: '새로운 비밀번호가 일치하지 않습니다. 다시 시도해 주세요.',
-          8002: '비밀번호는 8자 이상이어야 합니다. 다시 시도해 주세요.',
-          8003: '이전 비밀번호가 정확하지 않습니다. 다시 입력해 주세요.',
-          8004: '비밀번호 변경 실패: 서버 내부 오류가 발생했습니다. 다시 시도해 주세요.'
         }
       }
     },
@@ -104,26 +71,6 @@
         }
       }
     },
-    computed: {
-      ...mapGetters([
-        'getContactId'
-      ]),
-      getSuccessAlert () {
-        return this.translate('alert.success')
-      },
-      get8001Alert () {
-        return this.translate('alert.8001')
-      },
-      get8002Alert () {
-        return this.translate('alert.8002')
-      },
-      get8003Alert () {
-        return this.translate('alert.8003')
-      },
-      get8004Alert () {
-        return this.translate('alert.8004')
-      }
-    },
     methods: {
       onEditButton () {
         this.activateLoader()
@@ -132,7 +79,9 @@
           new_password: this.value.newPassword,
           new_password_confirm: this.value.newPasswordConfirm
         }
-        this.$http.put(`/api/data/contact/password_change/${this.getContactId}`, data)
+        axios.put(`/api/data/contact/${this.contact.contact_id}/password_change`, {
+          contact_data: data
+        })
           .then(() => {
             this.changeSucceed()
             this.resetLocalData()
@@ -153,31 +102,30 @@
         $('#loader').removeClass()
       },
       changeSucceed () {
-        this.showAlert(true, this.getSuccessAlert)
+        this.showAlert(true, this.$t('dashboardMyAccount.alert.success'))
       },
       changeFailed (code) {
         switch (code) {
           case '8001':
-            this.showAlert(false, this.get8001Alert)
+            this.showAlert(false, this.$t('dashboardMyAccount.alert.8001'))
             break
           case '8002':
-            this.showAlert(false, this.get8002Alert)
+            this.showAlert(false, this.$t('dashboardMyAccount.alert.8002'))
             break
           case '8003':
-            this.showAlert(false, this.get8003Alert)
+            this.showAlert(false, this.$t('dashboardMyAccount.alert.8003'))
             break
           case '8004':
-            this.showAlert(false, this.get8004Alert)
+            this.showAlert(false, this.$t('dashboardMyAccount.alert.8004'))
             break
           default:
-            this.showAlert(false, this.get8004Alert)
+            this.showAlert(false, this.$t('dashboardMyAccount.alert.8004'))
             break
         }
       },
       showAlert (alertState, msg) {
         $(document).ready(() => {
           this.deactivateLoader()
-          window.scrollTo(0, 0)
           const $alert = $('#alert')
           this.$store.commit('alert/changeState', {
             alertState,

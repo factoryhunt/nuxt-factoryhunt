@@ -544,7 +544,6 @@
       },
       showAlert (result) {
         $(document).ready(() => {
-          window.scrollTo(0, 0)
           const $alert = $('#alert')
           if (result) {
             this.$store.commit('alert/changeState', true)
@@ -603,7 +602,11 @@
         $('#pdf-cancel-button').css('display', 'none')
       }
     },
+    created () {
+      console.log('/dashboard/product/upload created')
+    },
     mounted () {
+      console.log('/dashboard/product/upload mounted')
       this.value.categories = categories
       this.activateJquery()
     }

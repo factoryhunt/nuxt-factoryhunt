@@ -1,3 +1,4 @@
 {
-  "success": "Your information has been updated successfully."
+  "success": "Your information has been updated successfully.",
+  "fail": "Information update failed. Please try again."
 }

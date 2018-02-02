@@ -27,7 +27,7 @@
             </div>
             <!-- Right Side -->
             <div class="sticky-company-container">
-              <a href="#app" class="sticky-item">
+              <a href="#container" class="sticky-item">
                 <img v-if="vendor.thumbnail_url" id="sticky-company-logo" :src="vendor.thumbnail_url"/>
                 <img v-else id="sticky-company-logo" src="../../assets/img/temp-logo-image_english_512.png"/>
                 <span id="sticky-company-name">{{vendor.account_name_english}}</span>
@@ -102,7 +102,6 @@
           <h2 v-html="$t('company.reviews.title', { count: 0})"></h2>
           <p>No review</p>
         </div>
-        <div class="divider"></div>
       </div>
 
       <!-- Contact Form -->

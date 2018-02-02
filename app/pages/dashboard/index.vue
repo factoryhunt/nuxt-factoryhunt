@@ -65,7 +65,7 @@
 
         <div class="box-container">
           <div class="title-container">
-            <a href="/dashboard/product" class="button">{{ $t('dashboard.edit') }}</a>
+            <nuxt-link to="/dashboard/product" class="button">{{ $t('dashboard.edit') }}</nuxt-link>
             <p class="title">{{ $t('dashboard.product.title') }}</p>
           </div>
           <div class="text-container">
@@ -75,7 +75,7 @@
 
         <div class="box-container">
           <div class="title-container">
-            <a href="/dashboard/account" class="button">{{ $t('dashboard.edit') }}</a>
+            <nuxt-link to="/dashboard/account" class="button">{{ $t('dashboard.edit') }}</nuxt-link>
             <p class="title">{{ $t('dashboard.account.title') }}</p>
           </div>
           <div class="text-container">
@@ -277,6 +277,7 @@
               color: @color-font-base;
               border: 1px solid @color-input-placeholder;
               width: 100%;
+              font-size: 14px;
               margin-bottom: 8px;
               padding-top: 6px;
               padding-bottom:6px;
