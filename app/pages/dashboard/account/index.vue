@@ -190,8 +190,6 @@
   @font-size-button: 22px;
   @font-weight-button: 600;
 
-  .placeholder(200);
-
   .dashboard-page-container {
   }
 

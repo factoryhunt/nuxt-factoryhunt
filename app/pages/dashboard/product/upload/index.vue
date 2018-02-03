@@ -162,6 +162,7 @@
   import country from '~/assets/models/country.json'
   import categories from '~/assets/models/categories.json'
   import Spinkit from '~/components/Loader'
+  import { topAlert } from '~/utils/alert'
   import { mapGetters } from 'vuex'
   const VueEditor = process.BROWSER_BUILD ? require('vue2-editor') : ''
   export default {
@@ -217,120 +218,6 @@
         },
         msg: {
           pdfText: ''
-        }
-      }
-    },
-    messages: {
-      eng: {
-        requiredField: '<i class="fa fa-circle" aria-hidden="true"></i> Required field',
-        uploadSuccess: 'Your product has been uploaded.\nPlease allow up to 24 hours for product approval.',
-        uploadFail: 'Product upload failed. please try again.',
-        header: {
-          title: 'Upload Product'
-        },
-        category: {
-          title: 'Category',
-          select: 'Selected category: {category}',
-          caution: 'If you register in a category that does not match the product, your product may be forcibly moved, stopped listing, or prohibited from listing.'
-        },
-        productName: {
-          title: 'Product Name',
-          inputTitle: 'It must be 2~100 characters and can only contain letters, numbers, hyphens, slash, periods, parentheses, apostrophe and Ampersand.',
-          placeholder: 'Please enter your product name.',
-          caution: 'If keywords are not directly related to the registered product, the registration can be prohibited by the administrator.',
-          hidden: 'You already have the same product name. Please try another one.'
-        },
-        productImage: {
-          title: 'Product image',
-          subTitle: 'The first photo will be the main product image. You can upload up to 5 images.',
-          mainImage: 'Main image',
-          caution: 'If images are not directly related to the registered product, the registration can be by the administrator.',
-          alert: 'At least one product photo must be uploaded.'
-        },
-        information: {
-          title: 'Product Information',
-          subTitle: 'Please fill out the form correctly.',
-          code: 'Product code',
-          moq: 'MOQ',
-          moqInputTitle: 'It must be 1~11 characters and can only contain numbers.',
-          origin: 'Product of Origin',
-          originPlaceholder: 'Please select where the product is produced.',
-          size: 'Size (mm)',
-          materials: 'Materials',
-          materialsInputTitle: 'It must be 1~100 characters and can only contain letters, numbers, comma, and hyphen.',
-          caution: 'Leave blank for information you do not want to disclose.'
-        },
-        introduction: {
-          title: 'Product Introduction',
-          caution: 'Product details not directly related to the product name may be prohibited by the administrator.'
-        },
-        catalog: {
-          title: 'Catalog',
-          subTitle: 'PDF only. Maximum upload file size :10MB',
-          button: 'Select PDF',
-          caution: 'Maximum file size is 10MB',
-          cancel: 'Cancel'
-        },
-        confirm: {
-          title: 'Confirm and Upload',
-          subTitle: 'Please confirm the information above before submitting it. The information will be updated immediately.',
-          button: 'Upload'
-        }
-      },
-      kor: {
-        requiredField: '<i class="fa fa-circle" aria-hidden="true"></i> 필수입력',
-        uploadSuccess: '제품이 성공적으로 업로드 되었습니다. 제품 승인은 24시간까지 소요될 수 있습니다.',
-        uploadFail: '제품 업로드 실패. 다시 시도해주세요.',
-        header: {
-          title: '제품 업로드'
-        },
-        category: {
-          title: '카테고리',
-          select: '선택한 카테고리: {category}',
-          caution: '상품과 맞지 않는 카테고리에 등록할 경우 강제 이동되거나 중지, 또는 등록금지 될 수 있습니다.'
-        },
-        productName: {
-          title: '제품명',
-          inputTitle: '2~100자의 영어와 숫자, 마침표, 소괄호, 따옴표, 그리고 엠퍼샌드(&), 하이픈(-), 슬래시(/),만 입력해주세요.',
-          placeholder: '제품 이름을 입력해주세요.',
-          caution: '등록 상품과 직접 관련이 없는 다른 상품명, 유명 상품 유사문구, 스팸성 키워드 입력 시 관리자에 의해 등록 금지 될 수 있습니다.',
-          hidden: '이미 등록된 같은 이름의 제품이 있습니다. 다른 이름을 입력해주세요.'
-        },
-        productImage: {
-          title: '제품 이미지',
-          subTitle: '첫 번째 사진에는 대표 이미지를 올려주세요. 최대 5개까지 등록할 수 있습니다.',
-          mainImage: '대표 이미지',
-          caution: '등록 상품과 관련이 없는 이미지를 올리면 관리자에 의해 등록 금지 될 수 있습니다.',
-          alert: '제품 사진은 하나 이상 등록되어야 합니다.'
-        },
-        information: {
-          title: '제품 정보',
-          subTitle: '양식에 맞게 정확히 입력해주세요.',
-          code: '제품 코드',
-          moq: '최소 주문량 (MOQ)',
-          moqInputTitle: '1~11자의 숫자만 입력해주세요.',
-          origin: '생산지',
-          originPlaceholder: '이 제품이 생산되는 곳을 선택해주세요.',
-          size: '규격 (mm)',
-          materials: '소재 및 재질',
-          materialsInputTitle: '1~100자의 문자와 숫자, 쉼표, 그리고 하이픈(-)만 입력해주세요.',
-          caution: '공개하고 싶지 않은 정보는 칸을 비워두세요.'
-        },
-        introduction: {
-          title: '제품 설명',
-          caution: '상품명과 직접적 관련 없는 상품상세, 외부 링크 입력 시 관리자에 의해 등록 금지 될 수 있습니다.'
-        },
-        catalog: {
-          title: '카탈로그',
-          subTitle: 'PDF 파일만 가능합니다. 최대 업로드 크기 :10MB',
-          button: 'PDF 선택',
-          caution: '파일 크기는 최대 10MB 입니다.',
-          cancel: '취소'
-        },
-        confirm: {
-          title: '확인 및 업로드',
-          subTitle: '업로드 할 정보를 다시 한 번 확인하고 내용이 맞다면 업로드 버튼을 눌러주세요. 바로 웹사이트에 반영됩니다!',
-          button: '업로드'
         }
       }
     },
@@ -527,17 +414,16 @@
         if (document.getElementById('pdf-input').files[0]) {
           formData.append('pdf', document.getElementById('pdf-input').files[0])
         }
-        console.log(formData)
-//        axios.post(`/api/data/product/${this.account.account_id}`, formData, config)
-//          .then(() => {
-//            $('#modal-spinkit').removeClass()
-//            alert('success')
-//            this.$router.push('/dashboard/product')
-//          })
-//          .catch(() => {
-//            $('#modal-spinkit').removeClass()
-//            this.showAlert(false)
-//          })
+        axios.post(`/api/data/product/${this.account.account_id}`, formData, config)
+          .then(() => {
+            $('#modal-spinkit').removeClass()
+            alert('success')
+            this.$router.push('/dashboard/product')
+          })
+          .catch(() => {
+            $('#modal-spinkit').removeClass()
+            this.showAlert(false)
+          })
       },
       editFail () {
         this.showAlert(false)
@@ -602,11 +488,7 @@
         $('#pdf-cancel-button').css('display', 'none')
       }
     },
-    created () {
-      console.log('/dashboard/product/upload created')
-    },
     mounted () {
-      console.log('/dashboard/product/upload mounted')
       this.value.categories = categories
       this.activateJquery()
     }

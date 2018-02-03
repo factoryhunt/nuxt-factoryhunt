@@ -14,16 +14,13 @@ module.exports = async (req, res, next) => {
 
       mysql.query(`INSERT INTO ${CONFIG_MYSQL.TABLE_PRODUCTS} SET ?`, data, (err, rows) => {
           if (err) reject(err)
-          console.log(rows)
           resolve(rows.insertId)
         })
     })
   }
 
   try {
-    console.log('product_create.')
     const product_id = await createEmptyRecord()
-    console.log('product_create done.')
     req.product_id = product_id
     next()
   } catch (err) {

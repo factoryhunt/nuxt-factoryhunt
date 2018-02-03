@@ -167,7 +167,7 @@
     layout: 'minify',
     head () {
       return {
-        title: `${this.vendor.account_name_english} | Factory Hunt`,
+        title: `${this.vendor.account_name_english}`,
         meta: [
           { hid: 'keywords', name: 'keywords', content: `${this.vendor.account_name_english}, ${this.vendor.products_english}, factoryhunt, factory, hunt, factory hunt, quote, bulk, wholesale, supplier, factory hunt, online catalog, supplier directory, free website, international trade` },
           { hid: 'description', name: 'description', content: `${this.vendor.company_description_english} | Factory Hunt` },
@@ -591,7 +591,6 @@
       }
 
       .right-container {
-        .placeholder(100);
         padding-bottom: 1.6rem;
 
         .form-container {

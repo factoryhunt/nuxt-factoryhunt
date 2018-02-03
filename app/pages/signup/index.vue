@@ -143,7 +143,6 @@
       border-radius: 4px;
       border: 1px solid @color-light-grey;
       margin: 10px 0;
-      .placeholder(200);
 
       input {
         position: relative;

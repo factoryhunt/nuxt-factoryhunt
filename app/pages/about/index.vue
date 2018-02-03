@@ -20,7 +20,7 @@
 </template>
 
 <script>
-  import FooterBar from '~/components/FooterBar.vue'
+  import FooterBar from '~/components/FooterBar'
   export default {
     layout: 'minify',
     components: {
@@ -28,7 +28,10 @@
     },
     head () {
       return {
-        title: 'About Us'
+        title: this.$t('about.title'),
+        meta: [
+          { hid: 'description', name: 'description', content: this.$t('about.description') }
+        ]
       }
     },
     data () {

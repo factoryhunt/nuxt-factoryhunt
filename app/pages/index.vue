@@ -133,8 +133,6 @@
       .search-bar-container {
         position: relative;
 
-        .placeholder(300);
-
         .search-bar-wrapper {
           border: 1px solid @color-light-grey;
           border-radius: @border-radius;

@@ -19,6 +19,7 @@ module.exports = async (req, res) => {
       minimum_order_quantity,
       product_description
     } = req.body
+    console.log('data:', data)
 
     mysql.query(`UPDATE ${CONFIG_MYSQL.TABLE_PRODUCTS} SET ? WHERE product_id = ${product_id}`, data,
       (err) => {
@@ -59,11 +60,8 @@ module.exports = async (req, res) => {
   })
 
   try {
-    console.log('product create 0')
     await updateTextData()
-    console.log('product create 1')
     await updateImageUrl()
-    console.log('product create 2')
     res.status(200).json({result: true})
   } catch (err) {
     res.status(403).json({result: false})

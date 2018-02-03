@@ -4,12 +4,23 @@ const CONFIG_MYSQL = require('../../../../mysql/model')
 // PUT /api/data/product/:product_id
 module.exports = async (req, res) => {
   const product_id = req.params.product_id
-  const { product_data } = req.body
 
   // promises
   const updateProduct = () => {
     return new Promise((resolve, reject) => {
-      mysql.query(`UPDATE ${CONFIG_MYSQL.TABLE_PRODUCTS} SET ? WHERE product_id = ${product_id}`, product_data, (err) => {
+      const data = {
+        product_name,
+        product_domain,
+        primary_product_category,
+        secondary_product_category,
+        product_code,
+        product_origin,
+        item_dimensions,
+        material_type,
+        minimum_order_quantity,
+        product_description
+      } = req.body
+      mysql.query(`UPDATE ${CONFIG_MYSQL.TABLE_PRODUCTS} SET ? WHERE product_id = ${product_id}`, data, (err) => {
         if (err) return reject(err)
         resolve()
       })
