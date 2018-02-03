@@ -30,7 +30,7 @@
                       <label class="form-label f5" for="userCompany" v-lang.companyName.title></label>
                     </dt>
                     <dd>
-                      <input type="text" pattern="[A-Za-z0-9 ().,]{2,50}" :title="getCompanyNameCaution" required id="userCompany" v-model="value.company" class="form-control form-control-lg input-block" :placeholder="getCompanyNamePlaceholder" autofocus="">
+                      <input type="text" pattern="[A-Za-z0-9 ().,]{2,50}" required id="userCompany" v-model="value.company" class="form-control form-control-lg input-block" autofocus="">
                     </dd>
                   </dl>
                   <dl class="form-group">
@@ -46,7 +46,7 @@
                       <label class="form-label f5" for="userPassword" v-lang.password.title></label>
                     </dt>
                     <dd>
-                      <input type="password" id="userPassword" v-model="value.password" class="form-control form-control-lg input-block" :placeholder="getPasswordPlaceholder" :title="getPasswordCaution" required minlength="8">
+                      <input type="password" id="userPassword" v-model="value.password" class="form-control form-control-lg input-block" required minlength="8">
                     </dd>
                     <p class="form-control-note1" v-lang.caution></p>
                   </dl>
@@ -126,20 +126,6 @@
         caution: '비밀번호는 문자와 숫자의 조합으로 최소 8문자를 포함해야 합니다.',
         signUpButton: '계정 만들기',
         agreement: '계정 만들기 버튼을 클릭하면, Factory Hunt의 <a href="//www.factoryhunt.com/terms">이용약관</a>에 동의하며 쿠키 사용을 포함한 Factory Hunt의 <a href="//www.factoryhunt.com/privacy">개인정보취급방침</a>을 읽었음을 인정하게 됩니다.'
-      }
-    },
-    computed: {
-      getCompanyNamePlaceholder () {
-        return this.translate('companyName.placeholder')
-      },
-      getPasswordPlaceholder () {
-        return this.translate('password.placeholder')
-      },
-      getPasswordCaution () {
-        return this.translate('password.caution')
-      },
-      getCompanyNameCaution () {
-        return this.translate('companyName.caution')
       }
     },
     methods: {

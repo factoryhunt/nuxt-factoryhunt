@@ -48,6 +48,9 @@
     "eslint-plugin-vue": "^4.0.0",
     "less": "^2.7.3",
     "less-loader": "^4.0.5",
-    "pdfjs-dist": "^2.0.290"
+    "pdfjs-dist": "^2.0.290",
+    "postcss-hexrgba": "^1.0.0",
+    "postcss-nested": "^3.0.0",
+    "postcss-responsive-type": "^1.0.0"
   }
 }

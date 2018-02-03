@@ -41,7 +41,7 @@
             </div>
           </div>
           <div class="col-md-8 scrollRightDelay">
-            <img class="img-responsive" :src="getFeatureItemImage2" alt="download screen">
+            <img class="img-responsive" alt="download screen">
           </div>
         </div>
         <!--Feature item 03-->
@@ -57,7 +57,7 @@
             </div>
           </div>
           <div class="col-md-8 col-md-pull-4 scrollLeftDelay">
-            <img class="img-responsive" :src="getFeatureItemImage3" alt="download screen">
+            <img class="img-responsive" alt="download screen">
           </div>
         </div>
         <!--Feature item 04-->
@@ -127,14 +127,6 @@
           title: '검색 엔진 노출',
           desc: '영어 정보를 업데이트하면 전 세계 바이어를 위한 제조업체 전문 검색엔진 factoryhunt.com에 제품 정보가 자동으로 업데이트 됩니다.'
         }
-      }
-    },
-    computed: {
-      getFeatureItemImage2 () {
-        return this.translate('item2.image')
-      },
-      getFeatureItemImage3 () {
-        return this.translate('item3.image')
       }
     }
   }

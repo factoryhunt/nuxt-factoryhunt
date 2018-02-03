@@ -93,6 +93,7 @@
 </template>
 
 <script>
+  import $ from 'jquery'
   export default {
     data () {
       return {
@@ -150,8 +151,6 @@
     updated () {
     },
     mounted () {
-    },
-    created () {
       $(document).ready(function () {
         // Activate Carousel
         $('#carousel-testimonial').carousel()
