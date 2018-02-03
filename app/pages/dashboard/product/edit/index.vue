@@ -394,12 +394,12 @@
         axios.put(`/api/data/product/${this.productId}`, formData, config)
           .then(() => {
             $('#loader').remove()
-            topAlert(true, 'Product has been edited successfully.')
+            topAlert(this.$store, true, 'Product has been edited successfully.')
             this.$router.push('/dashboard/product')
           })
           .catch(() => {
-            $('#loader').remove()
-            this.editFail()
+            $('#loader').removeClass()
+            topAlert(this.$store, false, 'Failed.')
           })
       },
       editFail () {

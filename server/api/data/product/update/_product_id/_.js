@@ -48,11 +48,14 @@ module.exports = async (req, res) => {
       if (req.files.pdf) {
         imageData.product_pdf_url = req.files.pdf[0].location
       }
-      mysql.query(`UPDATE ${CONFIG_MYSQL.TABLE_PRODUCTS} SET ? WHERE product_id = ${product_id}`, imageData,
-        (err) => {
-          if (err) reject(err)
+      if (imageData !== {}) {
+        mysql.query(`UPDATE ${CONFIG_MYSQL.TABLE_PRODUCTS} SET ? WHERE product_id = ${product_id}`, imageData, (err) => {
+          if (err) return reject(err)
           resolve()
         })
+      } else {
+        resolve()
+      }
     })
   }
 

@@ -53,13 +53,15 @@
         })
       }
     },
-    created () {
-      console.log('page created')
-    },
     mounted () {
-      console.log('page mounted')
-      this.fetchProducts(this.account.account_id)
       this.applyJquery()
+      this.fetchProducts(this.account.account_id)
+    },
+    watch: {
+      '$route' () {
+        this.applyJquery()
+        this.fetchProducts(this.account.account_id)
+      }
     }
   }
 </script>

@@ -17,6 +17,7 @@ const upload = multer({
     key: function (req, file, cb) {
       const product_id = req.params.product_id
       const file_name = file.originalname
+      console.log(file)
       cb(null, `products-eng/${product_id}/thumbnail_images/${file_name}`)
     }
   })

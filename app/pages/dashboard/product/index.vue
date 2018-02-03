@@ -39,7 +39,7 @@
       <!-- products exist -->
       <div v-else class="product-list-container">
         <div class="list-container">
-          <div v-for="(product, index) in getProductReversed" :id="'list-' + index" class="list" :key="index">
+          <div v-for="(product, index) in getReversedProducts" :id="'list-' + index" class="list" :key="index">
             <div class="image-container">
               <img class="product-image" :src="product.product_image_url_1">
             </div>
@@ -72,9 +72,6 @@
   import axios from '~/plugins/axios'
   import $ from 'jquery'
   export default {
-    metaInfo: {
-      title: 'Product | Factory Hunt'
-    },
     props: {
       products: {
         type: Array,
@@ -96,56 +93,8 @@
         }
       }
     },
-    messages: {
-      eng: {
-        modal: {
-          title: 'Are you sure you want to delete?',
-          delete: 'Delete',
-          cancel: 'Cancel'
-        },
-        header: {
-          title: 'Product List',
-          newProduct: 'New Product'
-        },
-        empty: {
-          title: 'Update your product information.',
-          subTitle: 'When you update your product information, it will appear in search results.',
-          uploadProduct: 'Upload Product'
-        },
-        exist: {
-          pending: 'Pending',
-          approved: 'Approved',
-          edit: 'Edit',
-          delete: 'Delete',
-          view: 'View'
-        }
-      },
-      kor: {
-        modal: {
-          title: '정말 삭제하시겠습니까?',
-          delete: '삭제',
-          cancel: '취소'
-        },
-        header: {
-          title: '제품 목록',
-          newProduct: '새로 등록하기'
-        },
-        empty: {
-          title: '등록된 제품이 아직 없습니다.',
-          subTitle: '귀사의 제품 정보를 추가하면 온라인 카탈로그가 만들어지고, 검색 엔진을 통해 노출됩니다.',
-          uploadProduct: '제품 업로드'
-        },
-        exist: {
-          pending: '승인 대기중',
-          approved: '승인됨',
-          edit: '수정',
-          delete: '삭제',
-          view: '보기'
-        }
-      }
-    },
     computed: {
-      getProductReversed () {
+      getReversedProducts () {
         return this.products.slice(0).reverse()
       }
     },
@@ -157,7 +106,7 @@
         this.$router.push('/dashboard/product/upload')
       },
       onEditButton (index) {
-        const productId = this.products[index].product_id
+        const productId = this.getReversedProducts[index].product_id
         this.$router.push(`/dashboard/product/edit?id=${productId}`)
       },
       modalToggle () {
@@ -170,39 +119,37 @@
       deleteProduct () {
         this.modalToggle()
         const index = this.value.productIndex
-        const productId = this.products[index].product_id
+        const productId = this.getReversedProducts[index].product_id
         axios.delete(`/api/data/product/${productId}`)
           .then(() => {
-            this.$router.reload()
+            this.$router.go()
           })
           .catch((err) => {
+            console.log(err)
             alert(err.response.data.msg)
           })
       },
-      applyAttributes () {
-        $(document).ready(() => {
-          this.removeLastBorderBottom()
-        })
-      },
       removeLastBorderBottom () {
         var length = this.products.length - 1
-        $(`#list-${length}`).css('border-bottom', 'none')
+        $(`#list-${length}`).css('border-bottom', '0')
       },
       routeProductPage (index) {
-        const url = `/${this.account.domain}/${this.products[index].product_domain}`
+        const url = `/${this.account.domain}/${this.getReversedProducts[index].product_domain}`
         this.$router.push(url)
       },
       activateJquery () {
         $(document).ready(() => {
+          this.removeLastBorderBottom()
         })
       }
     },
-    created () {
-      console.log('/dashboard/product created')
-    },
     mounted () {
-      console.log('/dashboard/product mounted')
-      this.applyAttributes()
+      this.activateJquery()
+    },
+    watch: {
+      '$route' () {
+        this.activateJquery()
+      }
     }
   }
 </script>
@@ -216,6 +163,9 @@
   p {
     margin: 0;
   }
+  button {
+    font-size: 17px;
+  }
 
   .list-divider {
     height: 1px;
@@ -227,6 +177,8 @@
     // Header
     .header-container {
       .title {
+        font-size: 30px;
+        font-weight: 600;
         margin-top: 0;
         margin-bottom: 40px;
       }
