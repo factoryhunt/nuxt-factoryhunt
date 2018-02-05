@@ -32,6 +32,7 @@ export const decodeToken = (token) => {
         })
       })
       .catch(err => {
+        unsetToken()
         reject(err)
       })
   })

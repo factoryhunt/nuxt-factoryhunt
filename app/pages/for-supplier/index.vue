@@ -1,33 +1,57 @@
 <template>
-  <div class="home-container">
-    <!-- Header -->
-    <home-header></home-header>
-    <!-- About us -->
-    <home-about-us></home-about-us>
-    <!--Testimonials-->
-    <home-testimonials></home-testimonials>
-    <!--Features-->
-    <home-features></home-features>
-    <!--Counters-->
-    <home-counters></home-counters>
+  <div>
+    <navigation-bar />
+    <div class="home-container">
+      <!-- Header -->
+      <home-header></home-header>
+      <!-- About us -->
+      <home-about-us></home-about-us>
+      <!--Testimonials-->
+      <home-testimonials></home-testimonials>
+      <!--Features-->
+      <home-features></home-features>
+      <!--Counters-->
+      <home-counters></home-counters>
+    </div>
+    <footer-bar />
+    <copyright-bar />
   </div>
 </template>
 
 <script>
   // components
   import $ from 'jquery'
+  import NavigationBar from '~/components/NavigationBar'
   import Header from './components/Header.vue'
   import AboutUs from './components/AboutUs.vue'
   import Testimonials from './components/Testimonials.vue'
   import Features from './components/Features.vue'
   import Counters from './components/Counters.vue'
+  import FooterBar from '~/components/FooterBar'
+  import CopyrightBar from '~/components/CopyrightBar'
   export default {
+    layout: 'blank',
+    head () {
+      return {
+        link: [
+          { rel: 'stylesheet', href: 'https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css', integrity: 'sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm', crossorigin: 'anonymous' }
+        ],
+        script: [
+          { rel: 'stylesheet', href: 'https://code.jquery.com/jquery-3.2.1.slim.min.js', integrity: 'sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm', crossorigin: 'anonymous' },
+          { rel: 'stylesheet', href: 'https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js', integrity: 'sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q', crossorigin: 'anonymous' },
+          { rel: 'stylesheet', href: 'https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js', integrity: 'sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl', crossorigin: 'anonymous' }
+        ]
+      }
+    },
     components: {
+      NavigationBar,
       HomeHeader: Header,
       HomeAboutUs: AboutUs,
       HomeTestimonials: Testimonials,
       HomeFeatures: Features,
-      HomeCounters: Counters
+      HomeCounters: Counters,
+      FooterBar,
+      CopyrightBar
     },
     data () {
       return {
@@ -40,14 +64,6 @@
         toggle: {
           isAuthLoaded: false
         }
-      }
-    },
-    messages: {
-      eng: {
-        title: 'Factory Hunt - A Hub for Manufacturer Listings'
-      },
-      kor: {
-        title: 'Factory Hunt - 제조업체를 위한 무료 영어 홈페이지 & 온라인 카탈로그 제작 서비스'
       }
     },
     methods: {
@@ -100,6 +116,7 @@
       applyAddAnimation () {
         //      Add Animation
         $(document).ready(function () {
+          const scrollReveal = require('scrollreveal')
           scrollReveal.reveal('.scrollRight', {
             duration: 1000,
             scale: 1,

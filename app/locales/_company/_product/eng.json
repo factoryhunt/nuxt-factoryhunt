@@ -1,6 +1,6 @@
 {
   "header": {
-    "reviews": "Reviews<span class=\"count-text\">({count})</span>"
+    "reviews": " • Reviews<span class=\"count-text\">({count})</span>"
   },
   "image": {
     "quote": "Send inquiry to get pricing.",

@@ -7,14 +7,13 @@
           <div class="col-md-6">
             <div class="header-text">
               <!-- Title & Description -->
-              <h1 v-lang.header></h1>
-              <p v-lang.p></p>
+              <h1 v-html="$t('forSupplier.header.title')"></h1>
+              <p v-html=" $t('forSupplier.header.p') "></p>
             </div>
             <div class="header-btns scrollLeft">
               <!-- Header buttons -->
-              <a href="/signup" id="startButton" class="btn btn-check" v-lang.buttonLeft></a>
-              <a href="#ABOUT" id="see-more-btn" class="btn btn-tour" v-lang.buttonRight>
-              </a>
+              <a href="/signup" id="startButton" class="btn btn-check">{{  $t('forSupplier.header.buttonLeft') }}</a>
+              <a href="#ABOUT" id="see-more-btn" class="btn btn-tour" v-html="$t('forSupplier.header.buttonRight')"></a>
             </div>
           </div>
           <div class="col-md-5 col-md-offset-1 scrollRight">
@@ -27,15 +26,15 @@
                   </div>
                   <dl class="form-group mt-0">
                     <dt class="input-label">
-                      <label class="form-label f5" for="userCompany" v-lang.companyName.title></label>
+                      <label class="form-label f5" for="userCompany">{{ $t('forSupplier.header.companyName.title') }}</label>
                     </dt>
                     <dd>
-                      <input type="text" pattern="[A-Za-z0-9 ().,]{2,50}" required id="userCompany" v-model="value.company" class="form-control form-control-lg input-block" autofocus="">
+                      <input type="text" pattern="[A-Za-z0-9 ().,]{2,50}" :placeholder="$t('forSupplier.header.companyName.placeholder')" :title="$t('forSupplier.header.companyName.inputTitle')" required id="userCompany" v-model="value.company" class="form-control form-control-lg input-block" autofocus="">
                     </dd>
                   </dl>
                   <dl class="form-group">
                     <dt class="input-label">
-                      <label class="form-label f5" for="userEmail" v-lang.email.title></label>
+                      <label class="form-label f5" for="userEmail">{{ $t('forSupplier.header.email.title') }}</label>
                     </dt>
                     <dd>
                       <input type="email" required id="userEmail" v-model="value.email" class="form-control form-control-lg input-block" placeholder="you@example.com">
@@ -43,16 +42,16 @@
                   </dl>
                   <dl class="form-group form-group-password">
                     <dt class="input-label">
-                      <label class="form-label f5" for="userPassword" v-lang.password.title></label>
+                      <label class="form-label f5" for="userPassword">{{ $t('forSupplier.header.password.title') }}</label>
                     </dt>
                     <dd>
-                      <input type="password" id="userPassword" v-model="value.password" class="form-control form-control-lg input-block" required minlength="8">
+                      <input type="password" id="userPassword" v-model="value.password" :placeholder="$t('forSupplier.header.password.placeholder')" :title="$t('forSupplier.header.password.inputTitle')" class="form-control form-control-lg input-block" required minlength="8">
                     </dd>
-                    <p class="form-control-note1" v-lang.caution></p>
+                    <p class="form-control-note1">{{ $t('forSupplier.header.caution') }}</p>
                   </dl>
                   <spinkit id="sign-up-spinkit"></spinkit>
-                  <button class="btn btn-primary btn-large btn-block btn-signup" v-lang.signUpButton></button>
-                  <p class="form-control-note2 mb-0 text-center" v-lang.agreement>
+                  <button class="btn btn-primary btn-large btn-block btn-signup">{{ $t('forSupplier.header.signUpButton') }}</button>
+                  <p class="form-control-note2 mb-0 text-center" v-html="$t('forSupplier.header.agreement')">
                   </p>
                 </form>
               </div>
@@ -65,6 +64,7 @@
 </template>
 
 <script>
+  import $ from 'jquery'
   import Spinkit from '~/components/Loader'
   export default {
     components: {
@@ -80,52 +80,6 @@
         toggle: {
           isDropdownShown: false
         }
-      }
-    },
-    messages: {
-      eng: {
-        header: '<span style="font-size: 39px;">A Hub for Manufacturer Listings</span>',
-        p: '<span style="font-size: 26px;">Simply share your PDF catalog and<br />promote your business to global buyers.<br />It’s easy and free.</span>',
-        buttonLeft: 'Get Started',
-        buttonRight: 'Learn More <i style="color: #F2583D;" class="fa fa-angle-down"></i>',
-        companyName: {
-          title: 'Company Name',
-          placeholder: 'Enter the official company name.',
-          caution: 'It must be 2 - 50 characters and can only contain letters, numbers, parentheses, periods, and comma.'
-        },
-        email: {
-          title: 'Email'
-        },
-        password: {
-          title: 'Password',
-          placeholder: 'Enter a password',
-          caution: 'It must contain at least one letter, one numeral, and eight characters.'
-        },
-        caution: 'Use at least one letter, one numeral, and eight characters.',
-        signUpButton: 'Create Account',
-        agreement: 'By clicking Create Account, you agree to our <a href="//www.factoryhunt.com/terms">Terms</a> and that you have read our <a href="//www.factoryhunt.com/privacy">Privacy Policy</a>, including our Cookie Use.'
-      },
-      kor: {
-        header: '<span>팩토리헌트에서 영어 홈페이지와 온라인 카탈로그를 무료로 제작하세요. <br />해외 바이어와 연결됩니다.</span>',
-        p: '<span style="font-size: 23px;">PDF 카탈로그만 있으면,<br />단 한번의 클릭으로 온라인 카탈로그가 완성됩니다.</span>',
-        buttonLeft: '시작하기',
-        buttonRight: '자세한 정보 보기 <i style="color: #F2583D;" class="fa fa-angle-down"></i>',
-        companyName: {
-          title: '제조업체 명칭',
-          placeholder: '제조업체 명칭을 영어로 적어주세요.',
-          caution: '2자 이상 50자 이하의 영어로 작성해 주세요. 특수기호는 ( ) . , 만 사용 가능합니다.'
-        },
-        email: {
-          title: '이메일 주소'
-        },
-        password: {
-          title: '비밀번호',
-          placeholder: '비밀번호를 적어 주세요.',
-          caution: '비밀번호는 문자와 숫자의 조합으로 최소 8문자를 포함해야 합니다.'
-        },
-        caution: '비밀번호는 문자와 숫자의 조합으로 최소 8문자를 포함해야 합니다.',
-        signUpButton: '계정 만들기',
-        agreement: '계정 만들기 버튼을 클릭하면, Factory Hunt의 <a href="//www.factoryhunt.com/terms">이용약관</a>에 동의하며 쿠키 사용을 포함한 Factory Hunt의 <a href="//www.factoryhunt.com/privacy">개인정보취급방침</a>을 읽었음을 인정하게 됩니다.'
       }
     },
     methods: {
