@@ -14,7 +14,8 @@ const home = require('./home/eng'),
   company = require('./_company/eng'),
   product = require('./_company/_product/eng'),
   search = require('./search/eng'),
-  alert = require('./alert/eng')
+  alert = require('./alert/eng'),
+  forSupplier = require('./for-supplier/eng')
 
 export default {
   home,
@@ -33,5 +34,6 @@ export default {
   company,
   product,
   search,
-  alert
+  alert,
+  forSupplier
 }

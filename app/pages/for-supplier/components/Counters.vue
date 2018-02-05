@@ -7,21 +7,21 @@
             <div class="counter-item">
               <div><i class="fa fa-database"></i></div>
               <h2><span class="counter-num"> 180,000 </span><span>+</span></h2>
-              <p v-lang.item1></p>
+              <p>{{ $t('forSupplier.counters.item1') }}</p>
             </div>
           </div>
           <div class="col-md-4">
             <div class="counter-item">
               <div><i class="fa fa-users"></i></div>
               <h2><span class="counter-num"> 10,000 </span><span>+</span></h2>
-              <p v-lang.item2></p>
+              <p>{{ $t('forSupplier.counters.item2') }}</p>
             </div>
           </div>
           <div class="col-md-4">
             <div class="counter-item">
               <div><i class="fa fa-cubes"></i></div>
               <h2><span class="counter-num"> 999 </span><span>+</span></h2>
-              <p v-lang.item3></p>
+              <p>{{ $t('forSupplier.counters.item3') }}</p>
             </div>
           </div>
         </div>
@@ -31,20 +31,12 @@
 </template>
 
 <script>
-  import $ from 'jquery'
+  if (process.browser) {
+    require('~/assets/libs/js/jquery-3.3.1.min.js')
+    require('~/assets/libs/js/jquery.counterup.min.js')
+    require('~/assets/libs/js/jquery.waypoints.min.js')
+  }
   export default {
-    messages: {
-      eng: {
-        item1: 'Suppliers Database',
-        item2: 'Global Buyers DB',
-        item3: 'Product Categories'
-      },
-      kor: {
-        item1: '국내 중소 제조업체 DB보유',
-        item2: '북미지역 바이어 확보',
-        item3: '제품 카테고리'
-      }
-    },
     mounted () {
       $(document).ready(() => {
         $('.counter-num').counterUp({

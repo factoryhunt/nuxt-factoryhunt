@@ -23,8 +23,8 @@
                     <i class="fa fa-star"></i>
                   </div>
                   <div class="testimonial-caption">
-                    <h2 v-lang.item1.review></h2>
-                    <h4 v-lang.item1.company></h4>
+                    <h2>{{ $t('forSupplier.testimonials.item1.review') }}</h2>
+                    <h4 v-html="$t('forSupplier.testimonials.item1.company')"></h4>
                   </div>
                 </div>
                 <!--item 02-->
@@ -37,8 +37,8 @@
                     <i class="fa fa-star"></i>
                   </div>
                   <div class="testimonial-caption">
-                    <h2 v-lang.item2.review></h2>
-                    <h4 v-lang.item2.company></h4>
+                    <h2>{{ $t('forSupplier.testimonials.item2.review') }}</h2>
+                    <h4 v-html="$t('forSupplier.testimonials.item2.company')"></h4>
                   </div>
                 </div>
                 <!--item 03-->
@@ -51,8 +51,8 @@
                     <i class="fa fa-star"></i>
                   </div>
                   <div class="testimonial-caption">
-                    <h2 v-lang.item3.review></h2>
-                    <h4 v-lang.item3.company></h4>
+                    <h2>{{ $t('forSupplier.testimonials.item3.review') }}</h2>
+                    <h4 v-html="$t('forSupplier.testimonials.item3.company')"></h4>
                   </div>
                 </div>
                 <!--item 04-->
@@ -65,8 +65,8 @@
                     <i class="fa fa-star"></i>
                   </div>
                   <div class="testimonial-caption">
-                    <h2 v-lang.item4.review></h2>
-                    <h4 v-lang.item4.company></h4>
+                    <h2>{{ $t('forSupplier.testimonials.item4.review') }}</h2>
+                    <h4 v-html="$t('forSupplier.testimonials.item4.company')"></h4>
                   </div>
                 </div>
                 <!--item 05-->
@@ -79,8 +79,8 @@
                     <i class="fa fa-star"></i>
                   </div>
                   <div class="testimonial-caption">
-                    <h2 v-lang.item5.review></h2>
-                    <h4 v-lang.item5.company></h4>
+                    <h2>{{ $t('forSupplier.testimonials.item5.review') }}</h2>
+                    <h4 v-html="$t('forSupplier.testimonials.item5.company')"></h4>
                   </div>
                 </div>
               </div>
@@ -95,61 +95,6 @@
 <script>
   import $ from 'jquery'
   export default {
-    data () {
-      return {
-      }
-    },
-    messages: {
-      eng: {
-        item1: {
-          review: 'I finally have a nice-looking homepage and can\'t belive it\'s free!',
-          company: 'by <span style="color: #F2583D; font-weight: 500;">a packaging material manufacturer</span> in Yeosu, South Korea'
-        },
-        item2: {
-          review: 'It was extremely easy to upload my PDF catalog and have it online!',
-          company: 'by <span style="color: #F2583D; font-weight: 500;">a cosmetic manufacturer</span> in Gyeongsangnam-do, South Korea'
-        },
-        item3: {
-          review: 'It is REALLY easy to use and keep my information updated.',
-          company: 'by <span style="color: #F2583D; font-weight: 500;">an LED manufacturer</span> in Jeollabuk-do, South Korea'
-        },
-        item4: {
-          review: 'I used to share PDF catalog with potential buyers and now just share a link of my online catalog.',
-          company: 'by <span style="color: #F2583D; font-weight: 500;">a auto parts manufacturer</span> in Daejeon, South Korea'
-        },
-        item5: {
-          review: 'Thank you! I now have a better-looking homepage than the paid one.',
-          company: 'by <span style="color: #F2583D; font-weight: 500;">a toy manufacturer</span> in Busan, South Korea'
-        }
-      },
-      kor: {
-        item1: {
-          review: '정말 깔끔한 웹페이지를 가지게 되었는데, 무료라니 놀랍네요!',
-          company: '경기도 소재 <span style="color: #F2583D; font-weight: 500;">포장재 제조업체</span> 후기'
-        },
-        item2: {
-          review: '카탈로그 PDF 파일을 한번에 업로드 할 수 있어서, 너무 편해요~~',
-          company: '경상남도 소재 <span style="color: #F2583D; font-weight: 500;">화장품 제조업체</span> 후기'
-        },
-        item3: {
-          review: '무엇 보다도 회사 정보와 제품 정보를 유지보수하기 쉬워서 너무 좋네요!',
-          company: '전라북도 소재 <span style="color: #F2583D; font-weight: 500;">LED 제조업체</span> 후기'
-        },
-        item4: {
-          review: '해외 바이어와 PDF 파일 공유 대신, 온라인 카탈로그 링크를 공유하니 굉장히 편합니다.',
-          company: '대전 소재 <span style="color: #F2583D; font-weight: 500;">자동차 부품 제조업체</span> 후기'
-        },
-        item5: {
-          review: '비싼 비용을 지불하고 제작한 웹사이트 보다 더 멋진 홈페이지가 생겼어요.',
-          company: '부산 소재 <span style="color: #F2583D; font-weight: 500;">장난감 제조업체</span> 후기'
-        }
-      }
-    },
-    computed: {
-
-    },
-    updated () {
-    },
     mounted () {
       $(document).ready(function () {
         // Activate Carousel

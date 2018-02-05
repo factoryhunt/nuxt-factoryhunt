@@ -28,13 +28,10 @@ module.exports = {
     '~assets/libs/css/font-awesome-4.7.0/css/font-awesome.min.css',
     '~assets/libs/css/animate.css',
     '~assets/libs/css/responsive.css',
-    { src: '~assets/css/index.less', lang: 'less' },
-    { src: '~assets/libs/slick/slick.less', lang: 'less' },
-    { src: '~assets/libs/slick/slick-theme.less', lang: 'less' }
+    { src: '~assets/css/index.less', lang: 'less' }
   ],
   plugins: [
     { src: '~plugins/i18n.js' },
-    { src: '~plugins/libs.js', srr: false},
     { src: '~plugins/vue2editor', ssr: false }
   ],
   router: {

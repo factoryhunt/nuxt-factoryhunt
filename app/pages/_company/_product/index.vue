@@ -16,8 +16,27 @@
         </div>
 
         <!-- Product Image -->
-        <div class="product-image-container">
-          <img class="image" :src="product.product_image_url_1">
+        <div class="product-container">
+          <div class="product-image-container">
+            <div class="item">
+              <img class="image" :src="product.product_image_url_1">
+            </div>
+            <div :class="product.product_image_url_2 ? 'item' : 'disable' " v-if="product.product_image_url_2">
+              <img :src="product.product_image_url_2" alt="...">
+            </div>
+            <div :class="product.product_image_url_3 ? 'item' : 'disable' " v-if="product.product_image_url_3">
+              <img :src="product.product_image_url_3" alt="...">
+            </div>
+            <div :class="product.product_image_url_4 ? 'item' : 'disable' " v-if="product.product_image_url_4">
+              <img :src="product.product_image_url_4" alt="...">
+            </div>
+            <div :class="product.product_image_url_5 ? 'item' : 'disable' " v-if="product.product_image_url_5">
+              <img :src="product.product_image_url_5" alt="...">
+            </div>
+            <div :class="product.product_image_url_6 ? 'item' : 'disable' " v-if="product.product_image_url_6">
+              <img :src="product.product_image_url_6" alt="...">
+            </div>
+          </div>
           <p class="quote">{{ $t('product.image.quote') }}</p>
           <button class="button-orange">{{ $t('product.image.button') }}</button>
         </div>
@@ -84,7 +103,7 @@
       <!-- Catalog -->
       <div v-show="product.product_pdf_url" class="catalog-container each-container" id="catalog-container">
         <h2>{{ $t('product.catalog.title') }}</h2>
-        <img v-show="!toggle.isCatalogLoaded" src="../../../assets/img/product_loading_image_text.png">
+        <img v-show="!toggle.isCatalogLoaded" src="~assets/img/product_loading_image_text.png">
         <!--<h3><a href="/static/web/viewer.html?file=http://localhost:8080/static/test.pdf" target="_blank">Catalog</a></h3>-->
         <!--<iframe id="catalog" src="/static/web/viewer.html?file=/static/test.pdf" allowfullscreen webkitallowfullscreen scrolling="no"  name="pdf" width="724" height="300" style="border: none;">-->
         <!--This browser does not support PDFs. Please download the PDF to view it: <a target="pdf" :href="product.product_image_url_2">Download PDF</a>-->
@@ -97,19 +116,19 @@
       <!-- Company Products -->
       <div class="products-container">
         <!-- Title -->
-        <h2 class="title" v-html="$t('product.related.title', { count: products.length})"></h2>
+        <h2 class="title" v-html="$t('product.related.title', { count: getRelatedProductCount})"></h2>
         <!-- Wrapper -->
         <div class="product-wrapper">
           <!-- Product -->
-          <div class="product-container" v-for="(product, index) in this.products" :key="index">
+          <div class="product-container" v-for="(relatedProduct, index) in this.products" :key="index" v-if="relatedProduct.product_id !== product.product_id" @click="routeProductProfilePage(index)">
             <!-- Image -->
             <div class="image-container">
-              <img class="product-image" :src="product.product_image_url_1">
+              <img class="product-image" :src="relatedProduct.product_image_url_1">
             </div>
             <!-- Content -->
             <div class="content-container">
-              <h2 class="primary-category">{{product.primary_product_category}}</h2>
-              <h1 class="product-name">{{product.product_name}}</h1>
+              <h2 class="primary-category">{{relatedProduct.primary_product_category}}</h2>
+              <h1 class="product-name">{{relatedProduct.product_name}}</h1>
               <div class="star-container">
                 <i class="fa fa-star-o" aria-hidden="true" v-for="index in 5" :key="index"></i>
               </div>
@@ -126,8 +145,8 @@
   import $ from 'jquery'
   import axios from '~/plugins/axios'
   import pdflib from 'pdfjs-dist'
-  if (typeof window !== 'undefined') {
-    const slick = require('slick-carousel')
+  if (process.browser) {
+    require('slick-carousel')
   }
   export default {
     layout: 'minify',
@@ -167,6 +186,12 @@
         }
       }
     },
+    computed: {
+      getRelatedProductCount () {
+        let count = this.products.length - 1
+        return count > 0 ? count : 0
+      }
+    },
     methods: {
       onSendInquiry () {
         const pid = this.product.product_id
@@ -189,6 +214,7 @@
           this.imageResize()
           this.relatedProductImageResize()
           this.renderPDF()
+          this.activateSlick()
           $(window).resize(() => {
             this.imageResize()
           })
@@ -222,14 +248,22 @@
         this.toggle.isCatalogLoaded = true
       },
       routeAccountProfilePage () {
-        location.href = `/${this.domain}`
+        const input = this.$route.query.input
+        const vendor = this.$route.params.company
+        if (input) {
+          location.href = `/${vendor}/?input=${input}`
+        } else {
+          location.href = `/${vendor}/`
+        }
       },
       routeProductProfilePage (index) {
+        const input = this.$route.query.input
+        const vendor = this.$route.params.company
         const productDomain = this.products[index].product_domain
-        if (this.input) {
-          location.href = `/${this.domain}/${productDomain}?input=${this.input}`
+        if (input) {
+          location.href = `/${vendor}/${productDomain}?input=${input}`
         } else {
-          location.href = `/${this.domain}/${productDomain}`
+          location.href = `/${vendor}/${productDomain}`
         }
       },
       activateSlick () {
@@ -247,7 +281,7 @@
           $('.slick-dots li').css('margin', '0')
 
           $('#right-arrow-container').css({
-            'font-size': '3rem',
+            'font-size': '2rem',
             'position': 'absolute',
             'right': '0',
             'top': '0',
@@ -264,7 +298,7 @@
             'top': '50%'
           })
           $('#left-arrow-container').css({
-            'font-size': '3rem',
+            'font-size': '2rem',
             'position': 'absolute',
             'left': '0',
             'top': '0',
@@ -331,6 +365,7 @@
 
     .left-container {
       position: relative;
+
       // Header
       .header-container {
         .title {
@@ -345,16 +380,22 @@
       }
 
       // Product Image
-      .product-image-container {
-        text-align: center;
+      .product-container {
+        position: relative;
         margin-top: 21px;
 
-        .image {
-          width: 100%;
+        .product-image-container {
           box-shadow: @box-shadow;
+
+          .image {
+            width: 100%;
+          }
         }
+
         .quote {
-          margin: 12px 0;
+          font-size: 14px;
+          text-align: center;
+          margin: 16px 0;
           color: @color-font-gray;
         }
         button {
@@ -373,6 +414,7 @@
           font-weight: @font-weight;
 
           img {
+            border: 2px solid @color-light-gray;
             border-radius: 50%;
             width: 56px;
             height: 56px;
@@ -549,6 +591,15 @@
 
       .left-container {
         padding-right: 410px;
+        min-height: 440px;
+
+        .product-container {
+          position: absolute;
+          margin-top: 0;
+          width: 340px;
+          top: 0;
+          right: 0;
+        }
       }
 
       .product-body-container {
