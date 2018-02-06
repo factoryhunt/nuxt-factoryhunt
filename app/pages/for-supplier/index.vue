@@ -120,6 +120,7 @@
       applyAddAnimation () {
         //      Add Animation
         $(document).ready(function () {
+          const scrollReveal = require('scrollreveal')
           scrollReveal.reveal('.scrollRight', {
             duration: 1000,
             scale: 1,
