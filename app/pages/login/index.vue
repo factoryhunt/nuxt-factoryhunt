@@ -48,7 +48,7 @@
     layout: 'blank',
     head () {
       return {
-        title: 'Login | Factory Hunt'
+        title: this.$t('login.login')
       }
     },
     components: {
