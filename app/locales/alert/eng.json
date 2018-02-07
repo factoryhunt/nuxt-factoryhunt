@@ -4,5 +4,11 @@
   "email": {
     "success": "Your inquiry has been sent successfully. We will get back to you as soon as possible.",
     "fail": "Sending inquiry has been failed. Please try again."
+  },
+  "product": {
+    "uploadSuccess": "Your product has been uploaded. \nPlease allow up to 24 hours for product approval.",
+    "saveSuccess": "Your product has been saved.",
+    "uploadFail": "Product upload failed. Please try again.",
+    "saveFail": "Product save failed. Please try again."
   }
 }

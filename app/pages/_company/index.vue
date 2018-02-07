@@ -424,7 +424,6 @@
         const state = this.vendor.mailing_state_english
         const country = this.vendor.mailing_country_english
         const address = state ? street + ', ' + city + ', ' + state + ', ' + country : street + ', ' + city + ', ' + country
-        console.log(address)
         geocoder.geocode({'address': address}, function (results, status) {
           if (status === 'OK') {
             console.log('map ok')
@@ -669,7 +668,7 @@
               }
             }
             .content-container {
-              word-break: break-all;
+              word-brak: break-all;
 
               .primary-category {
                 text-overflow: ellipsis;

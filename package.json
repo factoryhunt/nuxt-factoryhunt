@@ -34,7 +34,6 @@
     "nodemon": "^1.14.11",
     "nuxt": "^1.0.0",
     "vue-i18n": "^7.4.1",
-    "vue2-editor": "^2.3.2",
     "whatwg-fetch": "^2.0.3"
   },
   "devDependencies": {

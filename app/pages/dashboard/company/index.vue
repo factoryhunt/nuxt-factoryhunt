@@ -185,7 +185,6 @@
         // when login user is page admin, keep going
         this.applyLocalData(this.account)
         this.applyInputFocusBlurEvent()
-        this.preventEnterKeySubmit()
       },
       // update server data to local data
       applyLocalData (account) {
@@ -194,7 +193,7 @@
         this.value.accountName = account.account_name_english
         this.value.description = account.company_description_english
         this.value.shortDescription = account.company_short_description_english
-        this.value.shortDescriptionCount = (account.company_short_description).length
+        this.value.shortDescriptionCount = account.company_short_description_english.length
         this.value.products = account.products_english
         this.value.phone = account.phone
         this.value.website = account.website
@@ -369,9 +368,6 @@
     },
     mounted () {
       this.applyAttributes()
-//      for (var i in this.value.country_list) {
-//        console.log(this.value.country_list[i])
-//      }
     }
   }
 </script>

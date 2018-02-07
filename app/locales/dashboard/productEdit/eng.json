@@ -32,7 +32,7 @@
     "moq": "MOQ",
     "moqInputTitle": "It must be 1~11 characters and can only contain numbers.",
     "origin": "Product of Origin",
-    "originPlaceholder": "Please select where the product is produced.",
+    "originPlaceholder": "Please select a country from the drop down menu.",
     "size": "Size (mm)",
     "materials": "Materials",
     "materialsInputTitle": "It must be 1~100 characters and can only contain letters, numbers, comma, and hyphen.",

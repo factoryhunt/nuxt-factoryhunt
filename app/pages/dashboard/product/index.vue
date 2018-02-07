@@ -99,7 +99,7 @@
     },
     methods: {
       getProductStatus (product) {
-        return product.product_status === 'pending' ? 'pending' : 'approved'
+        return product.product_status === 'pending' ? this.$t('dashboardProduct.pending') : this.$t('dashboardProduct.approved')
       },
       onProductUploadButton () {
         this.$router.push('/dashboard/product/upload')
@@ -265,7 +265,7 @@
                 word-wrap: break-word;
               }
               .secondary-text {
-                font-size: 14px;
+                font-size: 15px;
                 font-weight: 300;
                 display: -webkit-box;
                 -webkit-line-clamp: 2; /* 라인수 */
@@ -308,6 +308,7 @@
               padding: 0 8px;
 
               p {
+                font-size: @font-size-small;
                 font-weight: 600;
               }
               i {
@@ -343,6 +344,7 @@
                 font-weight: 300;
               }
               span {
+                font-size: 13px;
                 color: @color-link;
               }
 

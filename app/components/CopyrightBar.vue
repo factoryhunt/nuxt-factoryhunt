@@ -72,12 +72,12 @@
 
         .copyright-container {
           display: table-cell;
-          vertical-align: middle;
+          vertical-align: top;
 
           .logo-container {
             display: table-cell;
             #logo {
-              vertical-align: middle;
+              vertical-align: top;
               width: 22px;
               height: 22px;
             }
@@ -115,7 +115,7 @@
         a {
           font-weight: 400;
           color: @color-font-gray;
-          font-size: 16px;
+          font-size: @font-size-extra-small;
         }
 
         .language-container {
@@ -156,6 +156,7 @@
 
             .logo-container {
               #logo {
+                vertical-align: middle;
               }
             }
 
@@ -180,6 +181,7 @@
           }
 
           a {
+            font-size: @font-size-small;
             vertical-align: middle;
           }
 

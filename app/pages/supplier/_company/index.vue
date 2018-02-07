@@ -298,9 +298,15 @@
           if (status === 'OK') {
             console.log('map ok')
             resultsMap.setCenter(results[0].geometry.location)
-            var marker = new google.maps.Marker({
+            var circle = new google.maps.Circle({
+              strokeColor: '#f2583d',
+              strokeOpacity: 0.8,
+              strokeWeight: 2,
+              fillColor: '#f2583d',
+              fillOpacity: 0.35,
               map: resultsMap,
-              position: results[0].geometry.location
+              center: results[0].geometry.location,
+              radius: 2000
             })
           } else {
             geocoder.geocode({'address': 'united state'}, function (result, status) {

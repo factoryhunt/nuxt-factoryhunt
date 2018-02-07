@@ -17,10 +17,12 @@ module.exports = {
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.png' },
-      { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css?family=Roboto:300,400,500,600,700' }
+      { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css?family=Roboto:300,400,500,600,700' },
+      { rel: 'stylesheet', href: 'https://cdn.quilljs.com/1.0.0/quill.snow.css' }
     ],
     script: [
-      { src: 'https://maps.googleapis.com/maps/api/js?key=AIzaSyBFBRWKvq4CUEkq5XqbGaSAkajRuEfg25M' }
+      { src: 'https://maps.googleapis.com/maps/api/js?key=AIzaSyBFBRWKvq4CUEkq5XqbGaSAkajRuEfg25M' },
+      { src: 'https://cdn.quilljs.com/1.0.0/quill.js' }
     ]
   },
   loading: { color: '#f2583d' },
@@ -30,7 +32,6 @@ module.exports = {
   ],
   plugins: [
     { src: '~plugins/i18n' },
-    { src: '~plugins/vue2editor', ssr: false },
     { src: '~plugins/jquery', ssr: false },
   ],
   router: {

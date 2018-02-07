@@ -4,6 +4,7 @@ const CONFIG_MYSQL = require('../../../../mysql/model')
 // PUT /api/data/product/:product_id
 module.exports = async (req, res) => {
   const product_id = req.params.product_id
+  console.log('req.files:', req.files)
 
   // promises
   const updateProduct = () => {
@@ -61,7 +62,9 @@ module.exports = async (req, res) => {
 
   try {
     await updateProduct()
-    await updateImageURL()
+    if (Object.keys(req.files).length !== 0) {
+      await updateImageURL()
+    }
     res.status(200).json({result: true})
   } catch (err) {
     res.status(403).json({result: false})

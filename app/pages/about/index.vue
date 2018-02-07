@@ -47,6 +47,11 @@
 
 <style lang="less" scoped>
   @import '~assets/css/index';
+
+  .page-container {
+    padding-bottom: 30px;
+  }
+
   .image-container  {
 
     .about-us-image {
@@ -58,7 +63,6 @@
     }
   }
   .about-container {
-    margin-top: 40px !important;
 
     .title-text {
       font-size:32px !important;

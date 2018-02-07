@@ -1,4 +1,4 @@
-import { getTokenFromSession, getToken, decodeToken } from '~/utils/auth'
+import { getTokenFromSession, getToken, unsetToken, decodeToken } from '~/utils/auth'
 
 export default async ({store, req}) => {
   // If nuxt generate, pass this middleware
@@ -14,6 +14,7 @@ export default async ({store, req}) => {
       user
     })
   } catch (err) {
+    unsetToken()
     delete req.session.auth
   }
 }

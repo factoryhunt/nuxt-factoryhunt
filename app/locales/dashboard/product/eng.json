@@ -1,4 +1,6 @@
 {
+  "approved": "Approved",
+  "pending": "Pending",
   "modal": {
     "title": "Are you sure you want to delete?",
     "delete": "Delete",

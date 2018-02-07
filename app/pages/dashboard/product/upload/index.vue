@@ -125,7 +125,7 @@
         <!-- Product Introduction -->
         <div class="description-container input-container">
           <p class="title">{{ $t('dashboardProductEdit.introduction.title') }}</p>
-          <textarea name="" id="" cols="30" rows="10"></textarea>
+          <vue-editor></vue-editor>
           <spinkit id="editor-spinkit"></spinkit>
           <p class="caution-text">{{ $t('dashboardProductEdit.introduction.caution') }}</p>
         </div>
@@ -161,16 +161,15 @@
   import country from '~/assets/models/country.json'
   import categories from '~/assets/models/categories.json'
   import Spinkit from '~/components/Loader'
+  import VueEditor from '~/components/VueEditor'
   import { topAlert } from '~/utils/alert'
-  import { mapGetters } from 'vuex'
-  const VueEditor = process.BROWSER_BUILD ? require('vue2-editor') : ''
   export default {
     metaInfo: {
       title: 'Upload Product | Factory Hunt'
     },
     components: {
       Spinkit,
-      VueEditor,
+      VueEditor
     },
     props: {
       account: {
@@ -403,7 +402,8 @@
         formData.append('item_dimensions', this.value.dimension)
         formData.append('material_type', this.value.materialType)
         formData.append('minimum_order_quantity', this.value.moq)
-        formData.append('product_description', this.value.editor)
+        formData.append('product_description', document.querySelector(".ql-editor").innerHTML)
+        console.log(document.querySelector(".ql-editor").innerHTML)
         for (var i = 0; i < this.value.files.length; i++) {
           formData.append('images', this.value.files[i])
         }
@@ -413,12 +413,12 @@
         axios.post(`/api/data/product/${this.account.account_id}`, formData, config)
           .then(() => {
             $('#modal-spinkit').removeClass()
-            topAlert(this.$store, true, 'Your products has been uploaded successfully.')
+            topAlert(this.$store, true, this.$t('alert.product.uploadSuccess'))
             this.$router.push('/dashboard/product')
           })
           .catch(() => {
             $('#modal-spinkit').removeClass()
-            topAlert(this.$store, false, 'Failed. Please try again.')
+            topAlert(this.$store, false, this.$t('alert.product.upladFail'))
           })
       },
       handleImageAdded (file, Editor, cursorLocation) {
@@ -449,7 +449,7 @@
         // over 15MB
         if (files[0].size > maxSize) {
           this.onPDFcancel()
-          alert(this.getPDFcaution)
+          alert(this.$t('dashboardProductEdit.catalog.caution'))
           return
         }
 
@@ -808,10 +808,6 @@
         }
 
         .description-container {
-
-          .quillWrapper {
-            margin-bottom: 8px;
-          }
         }
 
         .catalog-container {

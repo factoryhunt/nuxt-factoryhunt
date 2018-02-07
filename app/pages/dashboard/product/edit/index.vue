@@ -125,8 +125,7 @@
         <!-- Product Description -->
         <div class="description-container input-container">
           <p class="title">{{ $t('dashboardProductEdit.introduction.title') }}</p>
-          <textarea></textarea>
-          <spinkit id="editor-spinkit"></spinkit>
+          <vue-editor></vue-editor>
           <p class="caution-text">{{ $t('dashboardProductEdit.introduction.caution') }}</p>
         </div>
         <div class="divider"></div>
@@ -160,12 +159,17 @@
   import axios from '~/plugins/axios'
   import country from '~/assets/models/country.json'
   import categories from '~/assets/models/categories.json'
+  import VueEditor from '~/components/VueEditor'
   import Spinkit from '~/components/Loader.vue'
   import pdflib from 'pdfjs-dist'
   import { topAlert } from '~/utils/alert'
   import { mapGetters } from 'vuex'
-  const VueEditor = process.BROWSER_BUILD ? require('vue2-editor') : ''
   export default {
+    head () {
+      return {
+        title: 'Product Edit'
+      }
+    },
     props: {
       account: {
         type: Object,
@@ -175,21 +179,11 @@
       }
     },
     components: {
-      VueEditor,
-      Spinkit
+      Spinkit,
+      VueEditor
     },
     data () {
       return {
-        customToolbar: [
-          ['bold', 'italic', 'underline'],
-          ['image'],
-          [{'list': 'ordered'}, {'list': 'bullet'}],
-          [{'indent': '-1'}, {'indent': '+1'}],
-          [{'header': [1, 2, 3, 4, false]}],
-          [{'color': []}, {'background': []}],
-          [{'align': ''}, {'align': 'center'}, {'align': 'right'}, {'align': 'justify'}],
-          ['clean']
-        ],
         productId: this.$route.query.id,
         value: {
           files: [],
@@ -381,10 +375,11 @@
         formData.append('item_dimensions', this.value.dimension)
         formData.append('material_type', this.value.materialType)
         formData.append('minimum_order_quantity', this.value.moq)
-        formData.append('product_description', this.value.editor)
+        formData.append('product_description', document.querySelector(".ql-editor").innerHTML)
         for (var i = 0; i < this.value.files.length; i++) {
           if (this.value.files[i].size > 0) {
             formData.append(`image_${i + 1}`, this.value.files[i])
+            console.log(this.value.files[i])
           }
         }
         if (document.getElementById('pdf-input').files[0]) {
@@ -393,12 +388,12 @@
         axios.put(`/api/data/product/${this.productId}`, formData, config)
           .then(() => {
             $('#loader').remove()
-            topAlert(this.$store, true, 'Product has been edited successfully.')
+            topAlert(this.$store, true, this.$t('alert.product.saveSuccess'))
             this.$router.push('/dashboard/product')
           })
           .catch(() => {
             $('#loader').removeClass()
-            topAlert(this.$store, false, 'Failed.')
+            topAlert(this.$store, false, this.$t('alert.product.saveFail'))
           })
       },
       editFail () {
@@ -438,6 +433,7 @@
         this.value.dimension = product.item_dimensions
         this.value.materialType = product.material_type
         this.value.editor = product.product_description
+        document.querySelector(".ql-editor").innerHTML = product.product_description
 
         // sub category mapping
         for (const index in this.value.categories) {
@@ -515,7 +511,7 @@
           headers: {'content-type': 'multipart/form-data'}
         }
         formData.append('images', file)
-        axios.post(`/api/data/product/editor/${this.getAccountId}`, formData, config)
+        axios.post(`/api/data/product/editor/${this.account.account_id}`, formData, config)
           .then((result) => {
             console.log(result)
             $('#editor-spinkit').removeClass().addClass('invisible')
@@ -550,7 +546,7 @@
         // over 15MB
         if (files[0].size > maxSize) {
           this.onPDFcancel()
-          alert(this.getPDFcaution)
+          alert(this.$t('dashboardProductEdit.catalog.caution'))
           return
         }
 

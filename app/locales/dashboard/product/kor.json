@@ -1,4 +1,6 @@
 {
+  "approved": "승인",
+  "pending": "승인 대기 중",
   "modal": {
     "title": "정말 삭제하시겠습니까?",
     "delete": "삭제",
