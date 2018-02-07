@@ -153,7 +153,6 @@
               width: 100%;
               border: none;
               font-size:15px;
-              height: 20px;
             }
           }
 
@@ -229,6 +228,7 @@
             }
             .view-more-button {
               width: 100%;
+              background-color: @color-white;
               outline: none;
               color: @color-link;
               font-weight: 700;
@@ -365,7 +365,6 @@
               display: table-cell;
               padding: 10px 10px 10px 0;
               vertical-align: middle;
-              height: 50px;
               #search-button {
                 font-size: 17px;
                 font-weight: 700;
