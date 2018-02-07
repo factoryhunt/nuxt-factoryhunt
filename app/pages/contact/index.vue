@@ -6,28 +6,26 @@
 
     <div class="inner-contents">
 
+      <!-- Contact Form -->
       <div class="right-container">
-        <form @submit.prevent="sendEmail(email, quiry)" class="form-container">
+        <form @submit.prevent="sendInquiry" class="form-container">
 
-          <h3 class="title">{{ $t('contact.title') }}</h3>
-          <br>
+          <h2 class="title">{{ $t('contact.title') }}</h2>
           <div class="input-container">
             <input required v-model="email" type="email" :placeholder="$t('contact.emailPlaceholder')">
             <i class="fa fa-envelope-o" aria-hidden="true"></i>
           </div>
-
-          <textarea required v-model="quiry" rows="12" :placeholder="$t('contact.messagePlaceholder')"></textarea>
-
+          <textarea required v-model="inquiry" rows="12" :placeholder="$t('contact.messagePlaceholder')"></textarea>
           <div class="button-container">
             <button type="submit" class="button-orange">{{ $t('contact.button') }}</button>
           </div>
         </form>
       </div>
 
+      <!-- Address -->
       <div class="left-container">
         <div class="location-container">
-          <hr>
-          <h3 class="title">{{ $t('contact.location') }}</h3>
+          <h2 class="title">{{ $t('contact.location') }}</h2>
           <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d22614192.714437235!2d111.92435988534045!3d37.06095545855957!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x357ca3e3561b583f%3A0x6683b2bd9f0703b3!2z7ISc7Jq47Yq567OE7IucIOqwleuCqOq1rCDrtInsnYDsgqzroZwgMTMz!5e0!3m2!1sko!2skr!4v1514872697200" width="600" height="450" frameborder="0" style="border:0" allowfullscreen></iframe>
         </div>
       </div>
@@ -37,7 +35,8 @@
 </template>
 
 <script>
-  import axios from '~/plugins/axios'
+  import { mapGetters } from 'vuex'
+  import { sendEmail } from '~/utils/email'
   export default {
     head () {
       return {
@@ -51,45 +50,29 @@
           textarea: 'Enter your message'
         },
         email: '',
-        quiry: ''
+        inquiry: ''
       }
     },
-    messages: {
-      eng: {
-        title: 'Contact Us',
-        contact: 'Contact',
-        emailPlaceholder: 'Email',
-        messagePlaceholder: 'Enter your message',
-        button: 'Send inquiry',
-        location: 'Location'
-      },
-      kor: {
-        title: '문의하기',
-        contact: '문의',
-        emailPlaceholder: '이메일',
-        messagePlaceholder: '내용을 입력하세요',
-        button: '문의하기',
-        location: '위치'
-      }
-    },
+    computed: mapGetters({
+      contact: 'auth/GET_CONTACT'
+    }),
     methods: {
-      sendEmail (email, quiry) {
+      async sendInquiry () {
         const data = {
-          email: email,
-          quiry: this.convertEnterToBrTag(quiry),
-          subject: 'inquiry for Factory Hunt'
+          email: this.email,
+          inquiry: this.inquiry,
+          subject: 'inquiry for Factory Hunt.'
         }
-        axios.post('/api/mail/contact', data)
-          .then(() => {
-            alert('Your message has been sent successfully. We will get back to you as soon as possible.')
-          })
-          .catch(() => {
-            alert('Failed. Please try again.')
-          })
-      },
-      convertEnterToBrTag: function (subject) {
-        return subject.replace(/\n/g, '<br />')
+        try {
+          await sendEmail(data)
+          alert(this.$t('alert.email.success'))
+        } catch (err) {
+          alert(this.$t('alert.email.fail'))
+        }
       }
+    },
+    mounted () {
+      this.email = this.contact.contact_email || ''
     }
   }
 </script>
@@ -97,51 +80,52 @@
 <style lang="less" scoped>
   @import '~assets/css/index';
 
-  .body-contents {
-    margin-top: 20px;
+  .page-container {
+    padding-bottom: 30px;
   }
-
   .inner-contents {
     position: relative;
+    margin-top: 30px;
+  }
+
+  .title {
+    margin-top: 0;
+    font-size: @font-size-large;
   }
 
   .left-container {
   }
   .location-container {
-  }
-  .location-container .title {
     margin-top: 30px;
-  }
-  .location-container iframe {
-    margin-top: 30px;
-    width:100%;
-    height:445px;
-    border-radius: 4px;
+    iframe {
+      width:100%;
+      height:350px;
+      border-radius: 4px;
+    }
   }
 
-  .right-container {
-  }
   .form-container {
     font-size: 17px;
   }
   .form-container .input-container {
     position: relative;
     border:1px solid lightgrey;
-    border-radius: 4px;
+    border-radius: @border-radius;
     margin-bottom: 25px;
   }
   .form-container .input-container input {
     width: 100%;
-    border-radius: 4px;
+    border-radius: @border-radius;
     padding: 10px 50px 10px 10px;
-    border: none;
-    box-shadow: none;
-    outline: none;
+    border: none !important;
+    box-shadow: none !important;
+    outline: none !important;
+    font-size: 16px;
   }
   .form-container .input-container i {
     position: absolute;
     right: 20px;
-    top: 32%;
+    top: 26%;
   }
   .form-container textarea {
     font-size: 17px;
@@ -156,6 +140,9 @@
   }
 
   @media ( min-width: 744px ) {
+    .page-container {
+      padding-bottom: 0;
+    }
   }
   @media ( min-width: 1128px ) {
     .left-container {
@@ -166,8 +153,11 @@
 
     .form-container .title {
     }
-    .location-container hr {
-      display: none;
+    .location-container {
+
+      iframe {
+        height:405px;
+      }
     }
     .right-container {
       z-index: 1;

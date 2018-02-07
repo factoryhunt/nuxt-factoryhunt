@@ -46,7 +46,6 @@
 
 <script>
   import axios from '~/plugins/axios'
-  import $ from 'jquery'
   import { mapGetters } from 'vuex'
   export default {
     metaInfo: {

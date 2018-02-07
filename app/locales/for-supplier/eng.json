@@ -1,0 +1,89 @@
+{
+  "header": {
+    "title": "<span style='font-size: 39px;'>A Hub for Manufacturer Listings</span>",
+    "p": "<span style='font-size: 26px;'>Simply share your PDF catalog and<br />promote your business to global buyers.<br />It’s easy and free.</span>",
+    "buttonLeft": "Get Started",
+    "buttonRight": "Learn More <i style='color: #F2583D;' class='fa fa-angle-down'></i>",
+    "companyName": {
+      "title": "Company Name",
+      "placeholder": "Enter the official company name.",
+      "inputTitle": "It must be 2 - 50 characters and can only contain letters, numbers, parentheses, periods, and comma."
+    },
+    "email": {
+      "title": "Email"
+    },
+    "password": {
+      "title": "Password",
+      "placeholder": "Enter a password",
+      "inputTitle": "It must contain at least one letter, one numeral, and eight characters."
+    },
+    "caution": "Use at least one letter, one numeral, and eight characters.",
+    "signUpButton": "Create Account",
+    "agreement": "By clicking Create Account, you agree to our <a href='/terms'>Terms</a> and that you have read our <a href='/privacy'>Privacy Policy</a>, including our Cookie Use."
+  },
+  "aboutUs": {
+    "title": "How Factory Hunt Works",
+    "desc": "Factory Hunt is a supplier search engine and helps connect suppliers to buyers.",
+    "item1": {
+      "title": "Create Your Company Profile",
+      "desc": "Create a company profile in just a few clicks."
+    },
+    "item2": {
+      "title": "Update Product Information",
+      "desc": "Simply upload your PDF catalog to create a web product catalog."
+    },
+    "item3": {
+      "title": "Connecting with buyers",
+      "desc": "Your product information will be automatically collected by search engine bots and appear in search results."
+    }
+  },
+  "features": {
+    "title": "Why Factory Hunt?",
+    "desc": "Factory Hunt is a technology company that makes simple, powerful services for suppliers and buyers.",
+    "item1": {
+      "title": "User-friendly Design",
+      "desc": "Factory Hunt is optimized for desktop and all mobile devices. It also offers an intuitive and distinctive design."
+    },
+    "item2": {
+      "title": "Customized URL",
+      "desc": "Introduce your products to buyers quickly and easily by sharing customized URL.",
+      "image": "/static/img/for_supplier/feature-item-02-eng.png"
+    },
+    "item3": {
+      "title": "Easy to Use",
+      "desc": "It\"s simple and easy to update company profile and product information.",
+      "image": "/static/img/for_supplier/feature-item-03-eng.png"
+    },
+    "item4": {
+      "title": "Search Engine Exposure",
+      "desc": "When you update your product information, it will be automatically collected by search engine bots and appear in search results."
+    }
+  },
+  "testimonials": {
+    "item1": {
+      "review": "I finally have a nice-looking homepage and can't belive it's free!",
+      "company": "by <span style='color: #F2583D; font-weight: 500;'>a packaging material manufacturer</span> in Yeosu, South Korea"
+    },
+    "item2": {
+      "review": "It was extremely easy to upload my PDF catalog and have it online!",
+      "company": "by <span style='color: #F2583D; font-weight: 500;'>a cosmetic manufacturer</span> in Gyeongsangnam-do, South Korea"
+    },
+    "item3": {
+      "review": "It is REALLY easy to use and keep my information updated.",
+      "company": "by <span style='color: #F2583D; font-weight: 500;'>an LED manufacturer</span> in Jeollabuk-do, South Korea"
+    },
+    "item4": {
+      "review": "I used to share PDF catalog with potential buyers and now just share a link of my online catalog.",
+      "company": "by <span style='color: #F2583D; font-weight: 500;'>a auto parts manufacturer</span> in Daejeon, South Korea"
+    },
+    "item5": {
+      "review": "Thank you! I now have a better-looking homepage than the paid one.",
+      "company": "by <span style='color: #F2583D; font-weight: 500;'>a toy manufacturer</span> in Busan, South Korea"
+    }
+  },
+  "counters": {
+    "item1": "Suppliers Database",
+    "item2": "Global Buyers DB",
+    "item3": "Product Categories"
+  }
+}

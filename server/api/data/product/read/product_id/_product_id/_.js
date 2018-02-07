@@ -1,7 +1,7 @@
 const mysql = require('../../../../../mysql')
 const CONFIG_MYSQL = require('../../../../../mysql/model')
 
-// GET /api/data/product/product_id/:account_id
+// GET /api/data/product/product_id/:product_id
 module.exports = async (req, res) => {
   const product_id = req.params.product_id
 

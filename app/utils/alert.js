@@ -1,9 +1,7 @@
-const store = require('~/store')
-
-exports.topAlert = (state, msg) => {
+exports.topAlert = (store, state, msg) => {
   $(document).ready(() => {
     const $alert = $('#alert')
-    this.$store.commit('alert/changeState', {
+    store.commit('alert/changeState', {
       alertState: state,
       msg
     })

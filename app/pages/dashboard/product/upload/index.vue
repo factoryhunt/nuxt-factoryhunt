@@ -158,7 +158,6 @@
 
 <script>
   import axios from '~/plugins/axios'
-  import $ from 'jquery'
   import country from '~/assets/models/country.json'
   import categories from '~/assets/models/categories.json'
   import Spinkit from '~/components/Loader'
@@ -375,21 +374,18 @@
         })
       },
       onUploadButton () {
-//        if (!this.value.primaryCategory) {
-//          return alert('Select the product main category.')
-//        }
-//
-//        if (!this.value.secondaryCategory) {
-//          return alert('Select the product subcategory.')
-//        }
+        if (!this.value.primaryCategory) {
+          return topAlert(this.$store, false, 'Please select the main product category.')
+        }
+
         this.filterProductDomain(this.value.productName)
 
         if (!this.toggle.productName) {
-          return alert('failed1')
+          return topAlert(this.$store, false, 'failed1')
         }
 
         if (this.value.files.length < 1) {
-          return alert('failed2')
+          return topAlert(this.$store, false, 'failed2')
         }
 
         $('#modal-spinkit').removeClass().addClass('spinkit-modal')
@@ -417,30 +413,13 @@
         axios.post(`/api/data/product/${this.account.account_id}`, formData, config)
           .then(() => {
             $('#modal-spinkit').removeClass()
-            alert('success')
+            topAlert(this.$store, true, 'Your products has been uploaded successfully.')
             this.$router.push('/dashboard/product')
           })
           .catch(() => {
             $('#modal-spinkit').removeClass()
-            this.showAlert(false)
+            topAlert(this.$store, false, 'Failed. Please try again.')
           })
-      },
-      editFail () {
-        this.showAlert(false)
-      },
-      showAlert (result) {
-        $(document).ready(() => {
-          const $alert = $('#alert')
-          if (result) {
-            this.$store.commit('alert/changeState', true)
-          } else {
-            this.$store.commit('alert/changeState', false)
-          }
-          setTimeout(() => {
-            $('.alert-container').hide()
-          }, 6000)
-          $alert.show()
-        })
       },
       handleImageAdded (file, Editor, cursorLocation) {
         // An example of using FormData
@@ -655,6 +634,7 @@
             li {
               position: relative;
               padding: 9px 14px;
+              font-size: @font-size-small;
               &:hover {
                 background-color: @color-lightest-grey;
                 cursor: pointer;
@@ -867,7 +847,7 @@
             margin-bottom: 0 !important;
           }
           .sub-title {
-            margin-bottom: 40px !important;
+            margin-bottom: 12px !important;
           }
           button {
             font-size: @font-size-button;

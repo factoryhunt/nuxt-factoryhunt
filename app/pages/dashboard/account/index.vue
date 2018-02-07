@@ -61,7 +61,6 @@
 
 <script>
   import axios from '~/plugins/axios'
-  import $ from 'jquery'
   import Spinkit from '~/components/Loader'
   export default {
     metaInfo: {

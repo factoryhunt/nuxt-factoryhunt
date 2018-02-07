@@ -6,7 +6,6 @@
 </template>
 
 <script>
-  import $ from 'jquery'
   import axios from '~/plugins/axios'
   import { mapGetters } from 'vuex'
   import loader from '~/components/Loader'
@@ -53,13 +52,15 @@
         })
       }
     },
-    created () {
-      console.log('page created')
-    },
     mounted () {
-      console.log('page mounted')
-      this.fetchProducts(this.account.account_id)
       this.applyJquery()
+      this.fetchProducts(this.account.account_id)
+    },
+    watch: {
+      '$route' () {
+        this.applyJquery()
+        this.fetchProducts(this.account.account_id)
+      }
     }
   }
 </script>

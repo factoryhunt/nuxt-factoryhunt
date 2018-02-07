@@ -5,9 +5,9 @@
       <!-- Left Main Logo -->
       <div class="logo-container">
         <div class="logo-inner-container">
-          <nuxt-link to="/">
+          <a href="/">
             <img id="logo" src="~assets/img/logo_white.png">
-          </nuxt-link>
+          </a>
         </div>
       </div>
 
@@ -39,7 +39,7 @@
             <li v-if="!isLoggedIn" class="button-item-container">
               <div class="button-item-wrapper">
                 <div class="button-item">
-                  <nuxt-link to="/signup">{{ $t('navigationBar.becomeSeller') }}</nuxt-link>
+                  <a href="/for-supplier">{{ $t('navigationBar.becomeSeller') }}</a>
                 </div>
               </div>
             </li>
@@ -53,7 +53,7 @@
             <li v-if="!isLoggedIn" class="button-item-container">
               <div class="button-item-wrapper">
                 <div class="button-item">
-                  <nuxt-link to="/login">{{ $t('navigationBar.login') }}</nuxt-link>
+                  <a href="/login">{{ $t('navigationBar.login') }}</a>
                 </div>
               </div>
             </li>
@@ -84,7 +84,7 @@
             <div class="footer-divider"></div>
             <div class="footer">
               <div class="footer-left">
-                <nuxt-link id="my-page-button" to="/dashboard">{{ $t('navigationBar.dashboard') }}</nuxt-link>
+                <a id="my-page-button" href="/dashboard">{{ $t('navigationBar.dashboard') }}</a>
               </div>
               <div class="footer-right">
                 <a id="logout-button" @click="onLogoutButton">{{ $t('navigationBar.logout') }}</a>
@@ -98,7 +98,6 @@
 </template>
 
 <script>
-  import $ from 'jquery'
   import { mapGetters } from 'vuex'
   export default {
     data () {

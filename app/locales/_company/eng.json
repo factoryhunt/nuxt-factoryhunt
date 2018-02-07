@@ -2,6 +2,7 @@
   "meta": {
     "keywords": "{keyword}, 팩토리헌트, 팩토리 헌트, 알리바바"
   },
+  "readMore": "Read more",
   "sticky": {
     "intro": "Intro",
     "address": "Address",
@@ -14,6 +15,8 @@
     "title": "Information",
     "products": "Products",
     "website": "Website",
+    "totalEmployees": "Total Employees",
+    "totalEmployeesWithPeople": "{number} people",
     "phone": "Phone",
     "location": "Location",
     "establishedYear": "Established Year"
@@ -22,13 +25,13 @@
     "title": "History"
   },
   "reviews": {
-    "title": "Reviews<span class=\"count-text\">({count})</span>"
+    "title": "Reviews<span class='count-text'>({count})</span>"
   },
   "address": {
     "title": "Address"
   },
   "products": {
-    "title": "Products<span class=\"count-text\">({count})</span>"
+    "title": "Products<span class='count-text'>({count})</span>"
   },
   "contact": {
     "title": "Contact",

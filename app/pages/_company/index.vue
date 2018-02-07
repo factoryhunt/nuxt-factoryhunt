@@ -55,13 +55,14 @@
 
         <!-- Company Description -->
         <div id="INTRO" class="description-container each-container">
-          <h2>{{ $t('company.description.title') }}</h2>
+          <h2 class="section-title">{{ $t('company.description.title') }}</h2>
           <textarea title="description" readonly v-model="vendor.company_description_english"></textarea>
+          <p @click="descriptionExpand" class="view-details-button">{{$t('company.readMore')}}</p>
         </div>
 
         <!-- Company Information -->
         <div class="information-container each-container">
-          <h2>{{ $t('company.information.title') }}</h2>
+          <h2 class="section-title">{{ $t('company.information.title') }}</h2>
           <div class="information-table-container">
             <div class="list-container" v-show="vendor.products_english">
               <div class="left-contents">{{ $t('company.information.products') }}</div>
@@ -88,8 +89,9 @@
 
         <!-- Company History -->
         <div class="history-container each-container" v-show="vendor.history">
-          <h2>{{ $t('company.history.title') }}</h2>
-          <textarea title="history" readonly v-model="vendor.history" />
+          <h2 class="section-title">{{ $t('company.history.title') }}</h2>
+          <textarea title="history" readonly v-model="vendor.history"></textarea>
+          <p @click="historyExpand" class="view-details-button">{{$t('company.readMore')}}</p>
         </div>
 
         <!-- Company Certification -->
@@ -99,21 +101,21 @@
 
         <!-- Company Review -->
         <div class="review-container each-container">
-          <h2 v-html="$t('company.reviews.title', { count: 0})"></h2>
+          <h2 class="section-title" v-html="$t('company.reviews.title', { count: 0 })"></h2>
           <p>No review</p>
         </div>
       </div>
 
       <!-- Contact Form -->
       <div class="right-container">
-        <form @submit.prevent="sendEmail(value.email, value.quiry)" class="form-container">
+        <form @submit.prevent="sendInquiry" class="form-container">
           <h2 class="title">{{ $t('company.contact.title') }}</h2>
           <div class="input-container">
             <input required v-model="value.email" type="email" :placeholder="$t('company.contact.emailPlaceholder')">
             <i class="fa fa-envelope-o" aria-hidden="true"></i>
           </div>
 
-          <textarea required v-model="value.quiry" rows="10" :placeholder="$t('company.contact.messagePlaceholder')"></textarea>
+          <textarea required v-model="value.inquiry" rows="10" :placeholder="$t('company.contact.messagePlaceholder')"></textarea>
 
           <p class="quote">{{ $t('company.contact.quote') }}</p>
 
@@ -125,7 +127,7 @@
 
       <!-- Company Address -->
       <div id="ADDRESS" class="address-container">
-        <h2>{{ $t('company.address.title') }}</h2>
+        <h2 class="section-title">{{ $t('company.address.title') }}</h2>
         <div id="map"></div>
       </div>
     </div>
@@ -134,7 +136,7 @@
       <!-- Company Products -->
       <div id="PRODUCTS" class="products-container">
         <!-- Title -->
-        <h2 class="title" v-html="$t('company.products.title', { count: products.length})"></h2>
+        <h2 class="section-title" v-html="$t('company.products.title', { count: products.length})"></h2>
         <!-- Wrapper -->
         <div class="product-wrapper">
           <!-- Product -->
@@ -161,8 +163,7 @@
 
 <script>
   import axios from '~/plugins/axios'
-  import $ from 'jquery'
-  import { mapGetters } from 'vuex'
+  import { sendEmail } from '~/utils/email'
   export default {
     layout: 'minify',
     head () {
@@ -171,7 +172,6 @@
         meta: [
           { hid: 'keywords', name: 'keywords', content: `${this.vendor.account_name_english}, ${this.vendor.products_english}, factoryhunt, factory, hunt, factory hunt, quote, bulk, wholesale, supplier, factory hunt, online catalog, supplier directory, free website, international trade` },
           { hid: 'description', name: 'description', content: `${this.vendor.company_description_english} | Factory Hunt` },
-          { hid: 'og-type', property: 'og:type', content: 'website' },
           { hid: 'og-title', property: 'og:title', content: this.vendor.account_name_english },
           { hid: 'og-description', property: 'og:description', content: this.vendor.company_description_english },
           { hid: 'og-image', property: 'og:image', content: this.vendor.account_image_url_1 },
@@ -179,15 +179,16 @@
         ]
       }
     },
-    async asyncData ({ params, error }) {
+    async asyncData ({ params, query, error }) {
       try {
         let { data } = await axios.get(`/api/data/account/domain/${params.company}`)
         return {
+          queryInput: query.input || '',
           vendor: data.account,
           products: data.products
         }
       } catch (err) {
-        error({ statusCode: 404, message: 'Post not found' })
+        error({ statusCode: 404, message: 'Page not found' })
       }
     },
     data () {
@@ -196,7 +197,7 @@
           company: this.$route.params.company,
           input: this.$route.query.input ? this.$route.query.input : '',
           email: '',
-          quiry: '',
+          inquiry: '',
           // for admin editing
           accountName: ''
         },
@@ -212,82 +213,6 @@
         }
       }
     },
-    messages: {
-      eng: {
-        sticky: {
-          intro: 'Intro',
-          address: 'Address',
-          products: 'Products'
-        },
-        description: {
-          title: 'Company Description'
-        },
-        information: {
-          title: 'Information',
-          products: 'Products',
-          website: 'Website',
-          phone: 'Phone',
-          location: 'Location',
-          establishedYear: 'Established Year'
-        },
-        history: {
-          title: 'History'
-        },
-        reviews: {
-          title: 'Reviews <small>({count})</small>'
-        },
-        address: {
-          title: 'Address'
-        },
-        products: {
-          title: 'Products <small>({count})</small>'
-        },
-        contact: {
-          title: 'Contact',
-          emailPlaceholder: 'your@email.com',
-          messagePlaceholder: 'Enter your message.',
-          quote: 'Request a quote to get pricing.',
-          button: 'Send Inquiry'
-        }
-      },
-      kor: {
-        sticky: {
-          intro: '회사 소개',
-          address: '주소',
-          products: '제품'
-        },
-        description: {
-          title: '회사 소개'
-        },
-        information: {
-          title: '정보',
-          products: '품목',
-          website: '웹사이트',
-          phone: '연락처',
-          location: '위치',
-          establishedYear: '설립연도'
-        },
-        history: {
-          title: '연혁'
-        },
-        reviews: {
-          title: '평가 <small>({count})</small>'
-        },
-        address: {
-          title: '주소'
-        },
-        products: {
-          title: '제품 <small>({count})</small>'
-        },
-        contact: {
-          title: '문의',
-          emailPlaceholder: '이메일',
-          messagePlaceholder: '내용을 입력해주세요.',
-          quote: '가격 협상을 위해 문의하세요.',
-          button: '문의하기'
-        }
-      }
-    },
     computed: {
       getLocation () {
         const street = this.vendor.mailing_street_address_english ? this.vendor.mailing_street_address_english + ', ' : ''
@@ -299,15 +224,35 @@
       }
     },
     methods: {
-      convertEnterToBrTag (subject) {
-        return subject.replace(/\n/g, '<br />')
-      },
       routeProductProfilePage (index) {
         const productDomain = this.products[index].product_domain
-        if (this.value.input) {
-          this.$router.push(`/${this.value.company}/${productDomain}?input=${this.value.input}`)
+        if (this.queryInput) {
+          this.$router.push({
+            path: `${this.value.company}/${productDomain}`,
+            query: {
+              input: this.queryInput
+            }
+          })
         } else {
-          this.$router.push(`/${this.value.company}/${productDomain}`)
+          this.$router.push({
+            path: `${this.value.company}/${productDomain}`,
+          })
+        }
+      },
+      async sendInquiry () {
+        const data = {
+          email: this.value.email,
+          company: this.vendor.account_name_english,
+          inquiry: this.value.inquiry,
+          subject: 'Inquiry for verified supplier'
+        }
+        try {
+          await sendEmail(data)
+          alert(this.$t('alert.email.success'))
+          location.reload()
+        } catch (err) {
+          alert(this.$t('alert.email.fail'))
+          location.reload()
         }
       },
       checkWebsiteLinkHasHttp (url) {
@@ -410,20 +355,42 @@
         /* eslint-enable */
       },
       textareaResize () {
-        $(document).ready(() => {
-          const $description = $('.description-container textarea')
-          const $history = $('.history-container textarea')
-          const descriptionHeight = $description[0].scrollHeight
-          const historyHeight = $description[0].scrollHeight
-          $description.css({
-            'height': (descriptionHeight) + 'px',
-            'overflow': 'hidden'
-          })
-          $history.css({
-            'height': (historyHeight) + 'px',
-            'overflow': 'hidden'
-          })
-        })
+        const $description = $('.description-container textarea')
+        const $history = $('.history-container textarea')
+        const $descriptionHeight = $description[0].scrollHeight
+        const $historyHeight = $history[0].scrollHeight
+        const $descriptionButton = $('.description-container .view-details-button')
+        const $historyButton = $('.history-container .view-details-button')
+        if ($descriptionHeight >= 190) {
+          $descriptionButton.show()
+          $description.css('height', '190px')
+        } else if ($descriptionHeight <= 50) {
+//          $description.css('height', '40px') // because of css bug?
+        } else {
+          $description.css('height', `${$descriptionHeight}px`)
+        }
+        if ($historyHeight >= 390) {
+          $historyButton.show()
+          $history.css('height', '390px')
+        } else {
+          $history.css('height', `${$historyHeight}px`)
+        }
+      },
+      descriptionExpand () {
+        const $description = $('.description-container textarea')
+        const $viewDetailsButton = $('.description-container .view-details-button')
+        $viewDetailsButton.hide()
+        $description.animate({
+          'height': ($description[0].scrollHeight) + 'px'
+        }, 200)
+      },
+      historyExpand () {
+        const $history = $('.history-container textarea')
+        const $viewDetailsButton = $('.history-container .view-details-button')
+        $viewDetailsButton.hide()
+        $history.animate({
+          'height': ($history[0].scrollHeight) + 'px'
+        }, 200)
       },
       productImageResize () {
         $(document).ready(() => {
@@ -484,10 +451,11 @@
 <style lang="less" scoped>
   @import '~assets/css/index';
 
-  @font-size: 17px;
-  @font-weight: 300;
-
   #container {
+
+    .section-title {
+      font-size: @font-size-large;
+    }
 
     .main-image-container {
       .main-image {
@@ -511,14 +479,15 @@
           resize: none;
           border: none;
           padding: 0;
-          font-weight: 200;
-          font-size: @font-size;
-          line-height: 1.5em;
+          font-weight: @font-weight-ultra-thin;
+          font-size: @font-size-medium;
+          line-height: 1.2em;
+          overflow: hidden;
         }
         p {
           margin-bottom: 0;
-          font-weight: @font-weight;
-          font-size: @font-size;
+          font-weight: @font-weight-thin;
+          font-size: @font-size-medium;
         }
         .each-container {
           border-bottom: @border-light-grey;
@@ -541,12 +510,12 @@
             border: 2px solid @color-light-grey;
           }
           .address {
-            font-size: 16px;
+            font-size: @font-size-small;
             margin: 0;
             color: @color-font-gray;
             padding-right: 55px;
             word-break: break-all;
-            font-weight: 400;
+            font-weight: @font-weight-bold;
           }
           .company-name {
             margin: 0;
@@ -561,15 +530,26 @@
           }
         }
 
-        .description-container { }
+        .description-container {
+          .view-details-button {
+            display: none;
+            color: @color-link;
+            font-size: 17px;
+            margin-top: 10px;
+            &:hover {
+              cursor: pointer;
+              text-decoration: underline;
+            }
+          }
+        }
 
         .information-container {
           position: relative;
 
           .list-container {
             position: relative;
-            font-weight: @font-weight;
-            font-size:@font-size;
+            font-weight: @font-weight-thin;
+            font-size:@font-size-medium;
             line-height: 1.9em;
 
             .left-contents {
@@ -585,7 +565,18 @@
           }
         }
 
-        .history-container { }
+        .history-container {
+          .view-details-button {
+            display: none;
+            color: @color-link;
+            font-size: 17px;
+            margin-top: 10px;
+            &:hover {
+              cursor: pointer;
+              text-decoration: underline;
+            }
+          }
+        }
 
         .review-container { }
       }
@@ -594,7 +585,7 @@
         padding-bottom: 1.6rem;
 
         .form-container {
-          font-size: @font-size;
+          font-size: @font-size-medium;
 
           .input-container {
             position: relative;
@@ -620,7 +611,7 @@
           }
 
           textarea {
-            font-size: @font-size;
+            font-size: @font-size-medium;
           }
 
           .quote {
@@ -657,7 +648,8 @@
       .products-container {
         outline: none;
         padding-bottom: 1.6rem;
-        .title {
+
+        .section-title {
           margin-top: 0;
           padding-left: 20px;
           padding-right: 20px;
@@ -684,18 +676,18 @@
                 overflow: hidden;
                 white-space: nowrap;
                 margin: 4px 0 0 0;
-                font-size: .9rem;
-                font-weight: 500;
+                font-size: @font-size-extra-small;
+                font-weight: @font-weight-bold;
                 color: @color-font-gray;
               }
               .product-name {
                 margin: 0;
-                font-size: 1.1rem;
-                font-weight: 400;
+                font-size: @font-size-medium;
+                font-weight: @font-weight-medium;
               }
               .star-container {
                 i {
-                  font-size: 0.9rem;
+                  font-size: @font-size-small;
                   color: @color-link;
                 }
               }
@@ -743,7 +735,7 @@
         .products-container {
           padding-bottom: 1.6rem;
 
-          .title {
+          .section-title {
             padding-left: 6px;
             padding-right: 6px;
           }
@@ -763,17 +755,12 @@
               .content-container {
                 .primary-category {
                   margin: 4px 0 0 0;
-                  font-size: .9rem;
-                  font-weight: 500;
-                  color: @color-font-gray;
                 }
                 .product-name {
                   margin: 0;
                 }
                 .star-container {
                   i {
-                    font-size: 0.9rem;
-                    color: @color-link;
                   }
                 }
               }
@@ -895,7 +882,7 @@
 
         .products-container {
           padding-bottom: 1.6rem;
-          .title {
+          .section-title {
             padding-left: 10px;
             padding-right: 10px;
           }
@@ -914,8 +901,6 @@
               }
               .content-container {
                 .primary-category {
-                  font-size: .9rem;
-                  color: @color-font-gray;
                 }
                 .product-name {
                 }

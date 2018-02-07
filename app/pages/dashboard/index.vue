@@ -91,7 +91,6 @@
 </template>
 
 <script>
-  import $ from 'jquery'
   import Clipboard from 'clipboard'
   import { mapGetters } from 'vuex'
   export default {

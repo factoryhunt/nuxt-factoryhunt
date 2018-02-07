@@ -26,6 +26,7 @@
 
     <!-- Featured Suppliers -->
     <div class="featured-container">
+
       <!-- Title -->
       <h2 class="title">{{ $t('home.featured') }}</h2>
       <loader v-show="!features" id="featured-loader" class="spinkit-default"></loader>
@@ -86,7 +87,6 @@
     },
     methods: {
       onSearchInput () {
-        // No empty search
         if (!this.value.input) return
         this.$router.push({
           path: '/search',
@@ -98,6 +98,9 @@
       routeAccountProfilePage (feature) {
         const domain = feature.domain
         this.$router.push(`/${domain}`)
+      },
+      removeLastCardBorder () {
+
       }
     }
   }
@@ -173,7 +176,11 @@
 
         .card-container {
           padding: 20px 0;
-          border-bottom: 1px solid @color-light-grey;
+          border-bottom: 1px solid @color-light-gray;
+
+          &:last-child {
+            border-bottom: 0;
+          }
 
           .image-container {
             display: block;
@@ -278,7 +285,6 @@
             display: table;
             table-layout: fixed;
             padding: 30px 0;
-            border-bottom: 1px solid @color-light-grey;
 
             .image-container {
               display: table-cell;
@@ -378,6 +384,7 @@
         .contents-container {
 
           .card-container {
+            width: 100%;
 
             .image-container {
 

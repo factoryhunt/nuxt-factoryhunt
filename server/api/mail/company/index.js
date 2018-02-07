@@ -3,7 +3,12 @@ const config = require('../.config')
 
 module.exports = async (req, res) => {
   const {
-    email, company, quiry, subject
+    email,
+    company,
+    product,
+    pid:product_id,
+    inquiry,
+    subject
   } = req.body
 
   const transporter = nodemailer.createTransport(config.info)
@@ -11,7 +16,7 @@ module.exports = async (req, res) => {
   const mailOptions = {
     from: 'info@factoryhunt.com', // sender address
     to: 'info@factoryhunt.com', // list of receivers
-    subject: '[Factory Hunt] ' + subject,
+    subject: `[Factory Hunt] ${subject}`,
     // text: 'Sender: ' + fromEmail, // plain text body
     html:
     '<h2>Email</h2>' +
@@ -20,8 +25,11 @@ module.exports = async (req, res) => {
     '<h2>Company</h2>' +
     company +
     '<br><br>' +
+    '<h2>Product' + ' (' + product_id + ')' + '</h2>' +
+    product +
+    '<br><br>' +
     '<h2>Message</h2>' +
-    quiry
+    inquiry
   }
 
   const createTestAccount = () => {

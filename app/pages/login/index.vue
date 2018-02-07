@@ -39,7 +39,6 @@
 </template>
 
 <script>
-  import $ from 'jquery'
   import AuthHeader from '~/components/AuthHeader'
   import Loader from '~/components/Loader'
   import { mapGetters } from 'vuex'
@@ -183,6 +182,7 @@
         }
         #sign-up-button {
           padding: 8px 14px;
+          font-size: @font-size-small;
           color: @color-orange;
         }
       }

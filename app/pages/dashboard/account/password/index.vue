@@ -42,7 +42,6 @@
 
 <script>
   import axios from '~/plugins/axios'
-  import $ from 'jquery'
   import Spinkit from '~/components/Loader'
   import { mapGetters } from 'vuex'
   export default {

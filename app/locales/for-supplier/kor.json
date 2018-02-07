@@ -1,0 +1,89 @@
+{
+  "header": {
+    "title": "<span>팩토리헌트에서 영어 홈페이지와 온라인 카탈로그를 무료로 제작하세요. <br />해외 바이어와 연결됩니다.</span>",
+    "p": "<span style='font-size: 23px;'>PDF 카탈로그만 있으면,<br />단 한번의 클릭으로 온라인 카탈로그가 완성됩니다.</span>",
+    "buttonLeft": "시작하기",
+    "buttonRight": "자세한 정보 보기 <i style='color: #F2583D;' class='fa fa-angle-down'></i>",
+    "companyName": {
+      "title": "제조업체 명칭",
+      "placeholder": "제조업체 명칭을 영어로 적어주세요.",
+      "inputTitle": "2자 이상 50자 이하의 영어로 작성해 주세요. 특수기호는 ( ) . , 만 사용 가능합니다."
+    },
+    "email": {
+      "title": "이메일 주소"
+    },
+    "password": {
+      "title": "비밀번호",
+      "placeholder": "비밀번호를 적어 주세요.",
+      "inputTitle": "비밀번호는 문자와 숫자의 조합으로 최소 8문자를 포함해야 합니다."
+    },
+    "caution": "비밀번호는 문자와 숫자의 조합으로 최소 8문자를 포함해야 합니다.",
+    "signUpButton": "계정 만들기",
+    "agreement": "계정 만들기 버튼을 클릭하면, Factory Hunt의 <a href='//www.factoryhunt.com/terms'>이용약관</a>에 동의하며 쿠키 사용을 포함한 Factory Hunt의 <a href='//www.factoryhunt.com/privacy'>개인정보취급방침</a>을 읽었음을 인정하게 됩니다."
+  },
+  "aboutUs": {
+    "title": "Factory Hunt는 어떤 서비스인가요?",
+    "desc": "Factory Hunt는 제조업체 전문 검색엔진입니다. 제품 정보를 해외 바이어에게 쉽게 노출시킬 수 있습니다.",
+    "item1": {
+      "title": "무료 영어 홈페이지 제작",
+      "desc": "클릭 몇 번으로 영어 웹페이지를 무료로 개설하세요."
+    },
+    "item2": {
+      "title": "제품 정보 업데이트",
+      "desc": "PDF 영문 카탈로그를 가지고 계신가요? 단 한번의 클릭으로 온라인 제품 카탈로그를 쉽게 만들 수 있습니다!"
+    },
+    "item3": {
+      "title": "해외 바이어와 연결",
+      "desc": "영어 정보를 업데이트하면 Factory Hunt 검색 엔진이 자동으로 정보를 수집하여 해외 바이어에게 노출시킵니다."
+    }
+  },
+  "features": {
+    "title": "팩토리헌트를 사용하면 무엇이 좋나요?",
+    "desc": "팩토리헌트는 최고의 개발진이 최신 소프트웨어 기술을 사용하여, 최적화된 사용자 경험을 제공합니다.",
+    "item1": {
+      "title": "사용자 친화적인 디자인",
+      "desc": "팩토리헌트는 데스크탑과 모든 모바일 기기에 최적화 되어있습니다. 또한 직관적이고 차별화된 디자인을 제공합니다."
+    },
+    "item2": {
+      "title": "고유한 웹페이지 도메인",
+      "desc": "맞춤 URL 링크 공유를 통해, 쉽고 빠르게 바이어에게 웹페이지를 소개하세요.",
+      "image": "/static/img/for_supplier/feature-item-02.png"
+    },
+    "item3": {
+      "title": "쉬운 정보 업데이트",
+      "desc": "문자 메세지를 보내는 것 만큼이나 쉽게 기업 정보 및 제품 정보를 업데이트 할 수 있습니다.",
+      "image": "/static/img/for_supplier/feature-item-03.png"
+    },
+    "item4": {
+      "title": "검색 엔진 노출",
+      "desc": "영어 정보를 업데이트하면 전 세계 바이어를 위한 제조업체 전문 검색엔진 factoryhunt.com에 제품 정보가 자동으로 업데이트 됩니다."
+    }
+  },
+  "testimonials": {
+    "item1": {
+      "review": "정말 깔끔한 웹페이지를 가지게 되었는데, 무료라니 놀랍네요!",
+      "company": "경기도 소재 <span style='color: #F2583D; font-weight: 500;'>포장재 제조업체</span> 후기"
+    },
+    "item2": {
+      "review": "카탈로그 PDF 파일을 한번에 업로드 할 수 있어서, 너무 편해요~~",
+      "company": "경상남도 소재 <span style='color: #F2583D; font-weight: 500;'>화장품 제조업체</span> 후기"
+    },
+    "item3": {
+      "review": "무엇 보다도 회사 정보와 제품 정보를 유지보수하기 쉬워서 너무 좋네요!",
+      "company": "전라북도 소재 <span style='color: #F2583D; font-weight: 500;'>LED 제조업체</span> 후기"
+    },
+    "item4": {
+      "review": "해외 바이어와 PDF 파일 공유 대신, 온라인 카탈로그 링크를 공유하니 굉장히 편합니다.",
+      "company": "대전 소재 <span style='color: #F2583D; font-weight: 500;'>자동차 부품 제조업체</span> 후기"
+    },
+    "item5": {
+      "review": "비싼 비용을 지불하고 제작한 웹사이트 보다 더 멋진 홈페이지가 생겼어요.",
+      "company": "부산 소재 <span style='color: #F2583D; font-weight: 500;'>장난감 제조업체</span> 후기"
+    }
+  },
+  "counters": {
+    "item1": "국내 중소 제조업체 DB보유",
+    "item2": "북미지역 바이어 확보",
+    "item3": "제품 카테고리"
+  }
+}
