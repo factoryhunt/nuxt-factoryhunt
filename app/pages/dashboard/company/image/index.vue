@@ -51,7 +51,6 @@
 
 <script>
   import axios from '~/plugins/axios'
-  import $ from 'jquery'
   import Spinkit from '../../../../components/Loader'
 //  import Compressor from '@xkeshi/image-compressor'
   import { mapGetters } from 'vuex'

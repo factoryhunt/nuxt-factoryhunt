@@ -19,7 +19,7 @@
     },
     "caution": "Use at least one letter, one numeral, and eight characters.",
     "signUpButton": "Create Account",
-    "agreement": "By clicking Create Account, you agree to our <a href='//www.factoryhunt.com/terms'>Terms</a> and that you have read our <a href='//www.factoryhunt.com/privacy'>Privacy Policy</a>, including our Cookie Use."
+    "agreement": "By clicking Create Account, you agree to our <a href='/terms'>Terms</a> and that you have read our <a href='/privacy'>Privacy Policy</a>, including our Cookie Use."
   },
   "aboutUs": {
     "title": "How Factory Hunt Works",

@@ -1,5 +1,3 @@
-const $ = require('jquery')
-
 exports.topAlert = (store, state, msg) => {
   $(document).ready(() => {
     const $alert = $('#alert')

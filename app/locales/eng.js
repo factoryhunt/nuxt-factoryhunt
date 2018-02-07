@@ -6,6 +6,7 @@ const home = require('./home/eng'),
   terms = require('./terms/eng'),
   privacy = require('./privacy/eng'),
   login = require('./login/eng'),
+  signUp = require('./signUp/eng'),
   dashboard = require('./dashboard/index/eng'),
   dashboardCompany = require('./dashboard/company/eng'),
   dashboardProduct = require('./dashboard/product/eng'),
@@ -15,7 +16,9 @@ const home = require('./home/eng'),
   product = require('./_company/_product/eng'),
   search = require('./search/eng'),
   alert = require('./alert/eng'),
-  forSupplier = require('./for-supplier/eng')
+  supplier = require('./supplier/eng'),
+  forSupplier = require('./for-supplier/eng'),
+  inquiry = require('./inquiry/eng')
 
 export default {
   home,
@@ -26,6 +29,7 @@ export default {
   terms,
   privacy,
   login,
+  signUp,
   dashboard,
   dashboardCompany,
   dashboardProduct,
@@ -35,5 +39,7 @@ export default {
   product,
   search,
   alert,
-  forSupplier
+  supplier,
+  forSupplier,
+  inquiry
 }

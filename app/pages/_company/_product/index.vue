@@ -38,7 +38,7 @@
             </div>
           </div>
           <p class="quote">{{ $t('product.image.quote') }}</p>
-          <button class="button-orange">{{ $t('product.image.button') }}</button>
+          <button @click="onSendInquiry" class="button-orange">{{ $t('product.image.button') }}</button>
         </div>
 
         <!-- Profile & Information -->
@@ -66,7 +66,7 @@
           <div class="detail-container">
             <div class="list-container" v-show="product.minimum_order_quantity">
               <div class="left-contents">{{ $t('product.information.moq') }}</div>
-              <div class="right-contents">{{addComma(product.minimum_order_quantity)}}</div>
+              <div class="right-contents">{{getMOQ}}</div>
             </div>
             <div class="list-container" v-show="product.price">
               <div class="left-contents">{{ $t('product.information.price') }}</div>
@@ -142,17 +142,15 @@
 </template>
 
 <script>
-  import $ from 'jquery'
   import axios from '~/plugins/axios'
   import pdflib from 'pdfjs-dist'
-  if (process.browser) {
-    require('slick-carousel')
-  }
+  import '~/plugins/slick'
+  const { addComma } = require('~/utils/text')
   export default {
     layout: 'minify',
     head () {
       return {
-        title: `${this.product.product_name} - ${this.vendor.account_name_english} | Factory Hunt`,
+        title: `${this.product.product_name} - ${this.vendor.account_name_english}`,
         meta: [
           { hid: 'keywords', name: 'keywords', content: `${this.product.product_name}, ${this.vendor.account_name_english}, ${this.vendor.products_english}, factoryhunt, factory, hunt, factory hunt, quote, bulk, wholesale, supplier, factory hunt, online catalog, supplier directory, free website, international trade` },
           { hid: 'description', name: 'description', content: `${this.product.product_description} | Factory Hunt` },
@@ -164,17 +162,18 @@
         ]
       }
     },
-    async asyncData ({ params, error }) {
+    async asyncData ({ query, params, error }) {
       try {
         const { data } = await axios.get(`/api/data/product/domain/${params.company}/${params.product}`)
         const { data:products } = await axios.get(`/api/data/product/account_id/${data.account.account_id}/approved`)
         return {
+          queryInput: query.input || '',
           vendor: data.account,
           product: data.product,
           products: products
         }
       } catch (err) {
-        error({ statusCode: 404, message: 'Page not found' })
+        error({ statusCode: 404, message: 'Sorry, page not existed.' })
       }
     },
     data () {
@@ -190,6 +189,9 @@
       getRelatedProductCount () {
         let count = this.products.length - 1
         return count > 0 ? count : 0
+      },
+      getMOQ () {
+        return addComma(this.product.minimum_order_quantity)
       }
     },
     methods: {
@@ -197,24 +199,20 @@
         const pid = this.product.product_id
         const aid = this.vendor.account_id
         this.$router.push({
-          path: '/contact/premium',
+          path: '/inquiry',
           query: {
-            input: this.input,
+            input: this.queryInput,
             pid: pid,
             aid: aid
           }
         })
       },
-      addComma (str) {
-        str = String(str)
-        return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,')
-      },
       activateJquery () {
         $(document).ready(() => {
           this.imageResize()
           this.relatedProductImageResize()
-          this.renderPDF()
           this.activateSlick()
+          this.renderPDF()
           $(window).resize(() => {
             this.imageResize()
           })
@@ -499,18 +497,18 @@
                 overflow: hidden;
                 white-space: nowrap;
                 margin: 4px 0 0 0;
-                font-size: .9rem;
-                font-weight: 500;
+                font-size: @font-size-extra-small;
+                font-weight: @font-weight-bold;
                 color: @color-font-gray;
               }
               .product-name {
                 margin: 0;
-                font-size: 1.1rem;
-                font-weight: 400;
+                font-size: @font-size-medium;
+                font-weight: @font-weight-medium;
               }
               .star-container {
                 i {
-                  font-size: 0.9rem;
+                  font-size: @font-size-small;
                   color: @color-link;
                 }
               }
@@ -564,18 +562,12 @@
               }
               .content-container {
                 .primary-category {
-                  margin: 4px 0 0 0;
-                  font-size: .9rem;
-                  font-weight: 500;
-                  color: @color-font-gray;
                 }
                 .product-name {
                   margin: 0;
                 }
                 .star-container {
                   i {
-                    font-size: 0.9rem;
-                    color: @color-link;
                   }
                 }
               }
@@ -628,8 +620,6 @@
               }
               .content-container {
                 .primary-category {
-                  font-size: .9rem;
-                  color: @color-font-gray;
                 }
                 .product-name {
                 }

@@ -33,8 +33,6 @@
     "nodemailer": "^4.4.2",
     "nodemon": "^1.14.11",
     "nuxt": "^1.0.0",
-    "scrollreveal": "^3.3.6",
-    "slick-carousel": "^1.8.1",
     "vue-i18n": "^7.4.1",
     "vue2-editor": "^2.3.2",
     "whatwg-fetch": "^2.0.3"
@@ -48,9 +46,6 @@
     "eslint-plugin-vue": "^4.0.0",
     "less": "^2.7.3",
     "less-loader": "^4.0.5",
-    "pdfjs-dist": "^2.0.290",
-    "postcss-hexrgba": "^1.0.0",
-    "postcss-nested": "^3.0.0",
-    "postcss-responsive-type": "^1.0.0"
+    "pdfjs-dist": "^2.0.290"
   }
 }

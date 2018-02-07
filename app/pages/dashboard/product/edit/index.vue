@@ -157,7 +157,6 @@
 </template>
 
 <script>
-  import $ from 'jquery'
   import axios from '~/plugins/axios'
   import country from '~/assets/models/country.json'
   import categories from '~/assets/models/categories.json'
@@ -736,6 +735,7 @@
             li {
               position: relative;
               padding: 9px 14px;
+              font-size: @font-size-small;
               &:hover {
                 background-color: @color-lightest-grey;
                 cursor: pointer;
@@ -948,7 +948,7 @@
             margin-bottom: 0;
           }
           .sub-title {
-            margin-bottom: 40px;
+            margin-bottom: 12px;
           }
           button {
             font-size: @font-size-button;

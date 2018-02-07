@@ -158,7 +158,6 @@
 
 <script>
   import axios from '~/plugins/axios'
-  import $ from 'jquery'
   import country from '~/assets/models/country.json'
   import categories from '~/assets/models/categories.json'
   import Spinkit from '~/components/Loader'
@@ -635,6 +634,7 @@
             li {
               position: relative;
               padding: 9px 14px;
+              font-size: @font-size-small;
               &:hover {
                 background-color: @color-lightest-grey;
                 cursor: pointer;
@@ -847,7 +847,7 @@
             margin-bottom: 0 !important;
           }
           .sub-title {
-            margin-bottom: 40px !important;
+            margin-bottom: 12px !important;
           }
           button {
             font-size: @font-size-button;

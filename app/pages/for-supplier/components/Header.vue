@@ -64,7 +64,6 @@
 </template>
 
 <script>
-  import $ from 'jquery'
   import Spinkit from '~/components/Loader'
   export default {
     components: {

@@ -17,8 +17,8 @@
 
         <!-- Right-side -->
         <div class="right-container">
-          <nuxt-link class="each-button" to="/terms">{{ $t('terms.short') }}</nuxt-link>
-          <nuxt-link class="each-button" to="/privacy">{{ $t('privacy.short') }}</nuxt-link>
+          <a class="each-button" href="/terms">{{ $t('terms.short') }}</a>
+          <a class="each-button" href="/privacy">{{ $t('privacy.short') }}</a>
           <span class="language-container each-button">
             <select v-model="language" @change="onLanguageSelect($event.target.value)" name="languages" id="languages">
               <option value="" disabled>Languages</option>

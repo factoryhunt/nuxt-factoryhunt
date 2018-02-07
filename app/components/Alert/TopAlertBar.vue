@@ -1,14 +1,11 @@
 <template>
   <section id="alert" :class="alertState ? 'alert-container success' : 'alert-container fail'">
-    <div>
-      <h5 class="message" v-html="alertMsg"></h5>
-    </div>
+    <h5 class="message" v-html="alertMsg"></h5>
     <i @click="onHideButton" id="hide-button" class="fa fa-times" aria-hidden="true"></i>
   </section>
 </template>
 
 <script>
-  import $ from 'jquery'
   import { mapGetters } from 'vuex'
   export default {
     computed: {
@@ -46,13 +43,13 @@
     .message {
       margin: 0;
       line-height: 50px;
-      font-size: 1.1rem;
-      font-weight: 400;
+      font-size: @font-size-small;
+      font-weight: @font-weight-medium;
     }
 
     #hide-button {
-      font-size: 1.1rem;
-      font-weight: 100;
+      font-size: @font-size-small;
+      font-weight: @font-weight-ultra-thin;
       position: absolute;
       line-height: 50px;
       top: 0;

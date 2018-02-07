@@ -13,7 +13,7 @@
     "dimension": "규격"
   },
   "reviews": {
-    "title": "평가 <small>({count})</small>"
+    "title": "평가<span class='count-text'>({count})</span>"
   },
   "intro": {
     "title": "제품 정보"
@@ -22,6 +22,6 @@
     "title": "카탈로그"
   },
   "related": {
-    "title": "연관 제품 <small>({count})</small>"
+    "title": "연관 제품<span class='count-text'>({count})</span>"
   }
 }

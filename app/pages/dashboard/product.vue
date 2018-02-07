@@ -6,7 +6,6 @@
 </template>
 
 <script>
-  import $ from 'jquery'
   import axios from '~/plugins/axios'
   import { mapGetters } from 'vuex'
   import loader from '~/components/Loader'

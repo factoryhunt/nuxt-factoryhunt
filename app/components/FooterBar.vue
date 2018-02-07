@@ -12,8 +12,8 @@
         <section class="about-container">
           <h4 class="title">{{ $t('footerBar.factoryhunt') }}</h4>
           <ul>
-            <li><nuxt-link to="/about">{{ $t('footerBar.aboutUs') }}</nuxt-link></li>
-            <li><nuxt-link to="/contact">{{ $t('footerBar.contactUs') }}</nuxt-link></li>
+            <li><a href="/about">{{ $t('footerBar.aboutUs') }}</a></li>
+            <li><a href="/contact">{{ $t('footerBar.contactUs') }}</a></li>
           </ul>
         </section>
 
@@ -21,7 +21,7 @@
         <section class="service-container">
           <h4 class="title">{{ $t('footerBar.services') }}</h4>
           <ul>
-            <li><nuxt-link to="/for-supplier">{{ $t('footerBar.forSupplier') }}</nuxt-link></li>
+            <li><a href="/for-supplier">{{ $t('footerBar.forSupplier') }}</a></li>
           </ul>
         </section>
 
@@ -30,7 +30,7 @@
           <h4 class="title">{{ $t('footerBar.followUs') }}</h4>
           <ul>
             <li><a href="//www.facebook.com/factoryhunt" target="_blank"><i class="fa fa-facebook-square"></i> Facebook</a></li>
-            <li><a href="//www.youtube.com/channel/factoryhunt" target="_blank"><i class="fa fa-youtube-play"></i> Youtube</a></li>
+            <li><a href="//www.youtube.com/channel/UCC3c1TvZIsssj5aSTM9qj6A" target="_blank"><i class="fa fa-youtube-play"></i> Youtube</a></li>
           </ul>
         </section>
 
@@ -38,27 +38,6 @@
     </footer>
   </div>
 </template>
-
-<script>
-  export default {
-    messages: {
-      eng: {
-        factoryhunt: 'Factory Hunt',
-        aboutUs: 'About Us',
-        contactUs: 'Contact Us',
-        languages: 'Languages',
-        followUs: 'Follow Us'
-      },
-      kor: {
-        factoryhunt: '팩토리 헌트',
-        aboutUs: '소개',
-        contactUs: '문의하기',
-        languages: '언어',
-        followUs: '팔로잉'
-      }
-    }
-  }
-</script>
 
 <style lang="less" scoped>
   @import '~assets/css/index';
@@ -68,7 +47,8 @@
     padding: 0;
   }
   li {
-    font-size: 15px;
+    font-size: @font-size-small;
+    font-weight: @font-weight-medium;
     line-height: 1.35;
     list-style: none;
     a {
@@ -76,7 +56,8 @@
     }
   }
   .title {
-    font-weight: 500;
+    font-size: @font-size-small;
+    font-weight: @font-weight-bold;
     color: @color-font-black;
     margin: 0;
     padding: 0;

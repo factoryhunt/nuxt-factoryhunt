@@ -133,7 +133,6 @@
 </template>
 
 <script>
-  import $ from 'jquery'
   import axios from '~/plugins/axios'
   import country from '~/assets/models/country.json'
   import Spinkit from '~/components/Loader'

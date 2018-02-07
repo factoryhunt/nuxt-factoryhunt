@@ -26,13 +26,12 @@ module.exports = {
   loading: { color: '#f2583d' },
   css: [
     '~assets/libs/css/font-awesome-4.7.0/css/font-awesome.min.css',
-    '~assets/libs/css/animate.css',
-    '~assets/libs/css/responsive.css',
     { src: '~assets/css/index.less', lang: 'less' }
   ],
   plugins: [
-    { src: '~plugins/i18n.js' },
-    { src: '~plugins/vue2editor', ssr: false }
+    { src: '~plugins/i18n' },
+    { src: '~plugins/vue2editor', ssr: false },
+    { src: '~plugins/jquery', ssr: false },
   ],
   router: {
     middleware: [
@@ -42,13 +41,7 @@ module.exports = {
   build: {
     vendor: [
       'vue-i18n',
-      'axios',
-      'jquery'
-    ],
-    postcss: [
-      require('postcss-nested')(),
-      require('postcss-responsive-type')(),
-      require('postcss-hexrgba')(),
+      'axios'
     ],
     extend (config, { isDev, isClient }) {
       if (isDev && isClient) {

@@ -70,7 +70,6 @@
 
 <script>
   import axios from '~/plugins/axios'
-  import $ from 'jquery'
   export default {
     props: {
       products: {

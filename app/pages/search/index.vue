@@ -40,8 +40,8 @@
         <h2 class="title">{{ $t('search.suppliers') }}</h2>
         <section class="supplier-container" v-if="account_count > 0">
           <div class="supplier-wrapper" v-for="(account,index) in accounts" :key="index">
-            <h1 class="company-name" @click="routeSupplierPage(account)">{{account.account_name_english}}</h1>
-            <i v-show="account.domain" id="verified-mark" class="fa fa-check-circle" aria-hidden="true"></i>
+            <h1 class="company-name" @click="routeSupplierPage(account)">{{account.account_name_english || account.account_name}}</h1>
+            <i v-show="isApprovedAccount(account)" id="verified-mark" class="fa fa-check-circle" aria-hidden="true"></i>
             <h2 class="product">{{account.products_english}}</h2>
             <h3 class="website">{{account.website}}</h3>
             <h3 class="phone">{{account.phone}}</h3>
@@ -49,7 +49,7 @@
           </div>
         </section>
         <section v-else>
-          No result.
+          Sorry, no result.
         </section>
       </div>
     </div>
@@ -63,7 +63,7 @@
     layout: 'minify',
     head () {
       return {
-        title: `${this.queryInput} | Factory Hunt`
+        title: `${this.queryInput}`
       }
     },
     async asyncData ({ query }) {
@@ -77,10 +77,26 @@
       }
     },
     methods: {
-      routeSupplierPage (account) {
-        const url = account.domain || `${account.account_name_english}-${account.account_id}`
-        this.$router.push(`/${url}?input=${this.queryInput}`)
+      isApprovedAccount (account) {
+        return account.account_status === 'approved'
       },
+      routeSupplierPage (account) {
+        if (account.account_status === 'approved') {
+          const url = account.domain
+          this.$router.push(`/${url}?input=${this.queryInput}`)
+        } else {
+          const url = account.account_name_english || account.account_name
+          const id = account.account_id
+          this.$router.push({
+            path: `/supplier/${url}`,
+            query: {
+              id: id,
+              input: this.queryInput
+            }
+          })
+        }
+      },
+      // Deprecated
       routeProductProfilePage (index) {
         const productDomain = this.products[index].product_domain
         if (this.value.input) {

@@ -21,7 +21,7 @@
               </div>
               <!--Feature item title & description-->
               <h3>{{ $t('forSupplier.features.item1.title') }}</h3>
-              <h3>{{ $t('forSupplier.features.item1.desc') }}</h3>
+              <p>{{ $t('forSupplier.features.item1.desc') }}</p>
             </div>
           </div>
           <div class="col-md-8 col-md-pull-4 scrollLeftDelay">
@@ -37,7 +37,7 @@
               </div>
               <!--Feature item title & description-->
               <h3>{{ $t('forSupplier.features.item2.title') }}</h3>
-              <h3>{{ $t('forSupplier.features.item2.desc') }}</h3>
+              <p>{{ $t('forSupplier.features.item2.desc') }}</p>
             </div>
           </div>
           <div class="col-md-8 scrollRightDelay">
@@ -53,7 +53,7 @@
               </div>
               <!--Feature item title & description-->
               <h3>{{ $t('forSupplier.features.item3.title') }}</h3>
-              <h3>{{ $t('forSupplier.features.item3.desc') }}</h3>
+              <p>{{ $t('forSupplier.features.item3.desc') }}</p>
             </div>
           </div>
           <div class="col-md-8 col-md-pull-4 scrollLeftDelay">
@@ -69,7 +69,7 @@
               </div>
               <!--Feature item title & description-->
               <h3>{{ $t('forSupplier.features.item4.title') }}</h3>
-              <h3>{{ $t('forSupplier.features.item4.desc') }}</h3>
+              <p>{{ $t('forSupplier.features.item4.desc') }}</p>
             </div>
           </div>
           <div class="col-md-8 scrollRightDelay">

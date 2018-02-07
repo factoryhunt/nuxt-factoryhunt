@@ -1,6 +1,7 @@
 const mysql = require('../../../mysql')
 const CONFIG_MYSQL = require('../../../mysql/model')
 
+// GET /api/data/search/:input
 module.exports = async (req, res) => {
   let { input } = req.params
   input = input.toLowerCase()
@@ -29,7 +30,9 @@ module.exports = async (req, res) => {
       mysql.query(
         `(SELECT 
 account_id,
-account_name_english, 
+account_name,
+account_name_english,
+account_status,
 domain,
 products_english, 
 website, 
@@ -40,7 +43,9 @@ mailing_state_english,
 mailing_country_english FROM ${CONFIG_MYSQL.TABLE_ACCOUNTS} WHERE lower(products_english) LIKE "%${input}%" limit 3) UNION ALL
  (SELECT 
  lead_id,
- company, 
+ company,
+ company_english,
+ lead_status, 
  notes,
  products_english, 
  website, 
