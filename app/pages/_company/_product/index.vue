@@ -85,7 +85,7 @@
 
         <!-- Reviews -->
         <div class="review-container each-container">
-          <h2  v-html="$t('product.reviews.title', { count: 0})"></h2>
+          <h2 class="section-title" v-html="$t('product.reviews.title', { count: 0})"></h2>
           No review
         </div>
 
@@ -95,7 +95,7 @@
     <div class="body-container">
       <!-- Introduction -->
       <div class="introduction-container each-container">
-        <h2>{{ $t('product.intro.title') }}</h2>
+        <h2 class="section-title">{{ $t('product.intro.title') }}</h2>
         <div class="introduction" v-html="product.product_description">
         </div>
       </div>
@@ -344,8 +344,9 @@
 <style lang="less" scoped>
   @import '~assets/css/index';
 
-  @font-size: 18px;
-  @font-weight: 300;
+  .section-title {
+    font-size: @font-size-large;
+  }
 
   #container {
     position: relative;
@@ -405,11 +406,11 @@
 
       // Profile & Information
       .information-container {
-        font-size: @font-size;
+        font-size: @font-size-medium;
 
         .vendor-logo-container {
           float: right;
-          font-weight: @font-weight;
+          font-weight: @font-weight-thin;
 
           img {
             border: 2px solid @color-light-gray;
@@ -437,18 +438,23 @@
           margin-top: 5px;
         }
 
-        .detail-container {
-          padding-top: 10px;
-          .list-container {
-            padding: 8px 0;
-            .left-contents {
-              font-size: 17px;
-              font-weight: 500;
-            }
-            .right-contents {
-              font-size: 18px;
-              font-weight: 300;
-            }
+        .list-container {
+          position: relative;
+          font-size:@font-size-medium;
+          line-height:1.25;
+          padding-bottom: 16px;
+
+          &:last-child {
+            padding-bottom: 0;
+          }
+
+          .left-contents {
+            position: relative;
+            font-weight: @font-weight-medium;
+          }
+          .right-contents {
+            font-weight: @font-weight-thin;
+            padding-left: 0;
           }
         }
       }
@@ -458,8 +464,8 @@
     .introduction-container {
 
       .introduction {
-        font-size: @font-size;
-        font-weight: @font-weight;
+        font-size: @font-size-medium;
+        font-weight: @font-weight-thin;
       }
     }
 
@@ -490,25 +496,25 @@
               }
             }
             .content-container {
-              word-break: break-all;
+              ;
 
               .primary-category {
                 text-overflow: ellipsis;
                 overflow: hidden;
                 white-space: nowrap;
                 margin: 4px 0 0 0;
-                font-size: @font-size-extra-small;
-                font-weight: @font-weight-bold;
+                font-size: @font-size-medium;
+                font-weight: @font-weight-thin;
                 color: @color-font-gray;
               }
               .product-name {
                 margin: 0;
                 font-size: @font-size-medium;
-                font-weight: @font-weight-medium;
+                font-weight: @font-weight-thin;
               }
               .star-container {
                 i {
-                  font-size: @font-size-small;
+                  font-size: @font-size-medium;
                   color: @color-link;
                 }
               }
@@ -530,6 +536,24 @@
             #vendor-logo {
               width: 64px;
               height: 64px;
+            }
+          }
+
+          .list-container {
+            position: relative;
+            font-size:@font-size-medium;
+            line-height: 1.9em;
+            padding-bottom: 0;
+
+            .left-contents {
+              position: absolute;
+              max-width: 140px;
+              font-weight: @font-weight-medium;
+            }
+            .right-contents {
+              text-align: left;
+              padding-left: 150px;
+              font-weight: @font-weight-thin;
             }
           }
         }

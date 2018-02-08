@@ -1,8 +1,8 @@
 {
   "readMore": "더 보기",
   "sticky": {
-    "intro": "회사 소개",
-    "address": "주소",
+    "overview": "개요",
+    "location": "위치",
     "products": "제품"
   },
   "description": {
@@ -15,6 +15,7 @@
     "totalEmployees": "직원 수",
     "totalEmployeesWithPeople": "{number} 명",
     "phone": "연락처",
+    "address": "주소",
     "location": "위치",
     "establishedYear": "설립연도"
   },
@@ -22,10 +23,10 @@
     "title": "연혁"
   },
   "reviews": {
-    "title": "평가<span class='count-text'>{count}</small>"
+    "title": "평가<span class='count-text'>({count})</small>"
   },
-  "address": {
-    "title": "주소"
+  "location": {
+    "title": "위치"
   },
   "products": {
     "title": "제품<span class='count-text'>({count})</span>"

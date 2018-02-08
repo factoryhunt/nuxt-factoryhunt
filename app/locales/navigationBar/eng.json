@@ -1,9 +1,10 @@
 {
-  "becomeSeller": "Become a seller",
+  "becomeSeller": "Become a supplier",
   "dashboard": "Dashboard",
   "login": "Login",
   "logout": "Logout",
   "company": "Company",
   "product": "Product",
-  "account": "My Account"
+  "account": "My Account",
+  "search": "Search"
 }

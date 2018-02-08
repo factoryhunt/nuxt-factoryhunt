@@ -108,8 +108,7 @@
         vertical-align: middle;
 
         .each-button {
-          margin-left: 6px;
-          vertical-align: top;
+          margin-left: 10px;
         }
 
         a {
@@ -119,6 +118,7 @@
         }
 
         .language-container {
+          margin-top: 10px;
           position: relative;
           border: 1px solid @color-light-grey;
           display: inline-block;
@@ -186,6 +186,7 @@
           }
 
           .language-container {
+            margin-top: 0;
             select {
             }
             #arrow-icon {

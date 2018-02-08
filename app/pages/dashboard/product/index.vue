@@ -262,7 +262,6 @@
                 -webkit-box-orient: vertical;
                 overflow: hidden;
                 text-overflow: ellipsis;
-                word-wrap: break-word;
               }
               .secondary-text {
                 font-size: 15px;
@@ -272,7 +271,6 @@
                 -webkit-box-orient: vertical;
                 overflow: hidden;
                 text-overflow: ellipsis;
-                word-wrap: break-word;
               }
             }
 

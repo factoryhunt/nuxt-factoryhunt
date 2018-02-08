@@ -354,10 +354,10 @@
           .search-bar-wrapper {
 
             .search-input-container {
-              padding: 14px 24px;
+              padding: 13px 24px;
               #search-input {
                 font-size:20px;
-                height: 50px;
+                height: 60px;
               }
             }
 
@@ -367,8 +367,8 @@
               vertical-align: middle;
               #search-button {
                 font-size: 17px;
-                font-weight: 700;
-                height: 100%;
+                font-weight: @font-weight-ultra-bold;
+                height: 60px;
                 white-space: nowrap;
               }
             }

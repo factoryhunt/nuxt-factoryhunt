@@ -19,7 +19,7 @@
               <div class="fa fa-search" id="search-icon"></div>
             </div>
             <div class="search-input-container">
-              <input type="text" placeholder="Search" v-model="value.input">
+              <input type="text" :placeholder="$t('navigationBar.search')" v-model="value.input">
             </div>
           </div>
           </form>
@@ -355,7 +355,6 @@
                 font-weight: 400;
               }
               .user-company-name {
-                word-wrap: break-word;
                 font-size: 22px;
                 font-weight: 500;
                 margin: 0;

@@ -1,7 +1,7 @@
 module.exports = {
   srcDir: './app',
   head: {
-    title: 'A Hub for Manufacturer & Supplier Listings',
+    title: 'Factory Hunt - A Hub for Manufacturer & Supplier Listings',
     titleTemplate: '%s | Factory Hunt',
     meta: [
       { charset: 'utf-8' },

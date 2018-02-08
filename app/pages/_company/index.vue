@@ -18,9 +18,9 @@
             <!-- Left Side -->
             <div class="sticky-container">
               <ul>
-                <li><a href="#INTRO" class="sticky-item">{{ $t('company.sticky.intro') }}</a></li>
+                <li><a href="#OVERVIEW" class="sticky-item">{{ $t('company.sticky.overview') }}</a></li>
                 <li class="dot">•</li>
-                <li><a href="#ADDRESS" class="sticky-item">{{ $t('company.sticky.address') }}</a></li>
+                <li><a href="#LOCATION" class="sticky-item">{{ $t('company.sticky.location') }}</a></li>
                 <li class="dot">•</li>
                 <li><a href="#PRODUCTS" class="sticky-item">{{ $t('company.sticky.products') }}</a></li>
               </ul>
@@ -40,7 +40,7 @@
         <div id="header-container" class="header-container each-container">
           <img v-if="vendor.thumbnail_url" class="logo" :src="vendor.thumbnail_url">
           <img v-else class="logo" src="../../assets/img/temp-logo-image_english_512.png">
-          <p class="address">{{ vendor.mailing_city_english ? vendor.mailing_city_english + ', ' : '' }} {{ vendor.mailing_country_english ? vendor.mailing_country_english : '' }}</p>
+          <p id="OVERVIEW" class="address">{{ vendor.mailing_city_english ? vendor.mailing_city_english + ', ' : '' }} {{ vendor.mailing_country_english ? vendor.mailing_country_english : '' }}</p>
           <h1 class="company-name">{{ vendor.account_name_english }}</h1>
           <div class="short-description-container">
             <p class="short-description">{{ vendor.company_short_description_english ? vendor.company_short_description_english : '' }}</p>
@@ -51,13 +51,6 @@
             <!--•-->
             <!--<h4 class="review-title"> <small>(0)개의 평가</small></h4>-->
           </div>
-        </div>
-
-        <!-- Company Description -->
-        <div id="INTRO" class="description-container each-container">
-          <h2 class="section-title">{{ $t('company.description.title') }}</h2>
-          <textarea title="description" readonly v-model="vendor.company_description_english"></textarea>
-          <p @click="descriptionExpand" class="view-details-button">{{$t('company.readMore')}}</p>
         </div>
 
         <!-- Company Information -->
@@ -77,7 +70,7 @@
               <div class="right-contents">{{ vendor.phone }}</div>
             </div>
             <div class="list-container" v-show="getLocation">
-              <div class="left-contents">{{ $t('company.information.location') }}</div>
+              <div class="left-contents">{{ $t('company.information.address') }}</div>
               <div class="right-contents">{{ getLocation }}</div>
             </div>
             <div class="list-container" v-show="vendor.established_date !== '0000-00-00'">
@@ -87,11 +80,18 @@
           </div>
         </div>
 
+        <!-- Company Description -->
+        <div class="description-container each-container">
+          <h2 class="section-title">{{ $t('company.description.title') }}</h2>
+          <textarea title="description" readonly v-model="vendor.company_description_english"></textarea>
+          <p @click="descriptionExpand" class="view-details-button" v-html="$t('company.readMore')"></p>
+        </div>
+
         <!-- Company History -->
         <div class="history-container each-container" v-show="vendor.history">
           <h2 class="section-title">{{ $t('company.history.title') }}</h2>
           <textarea title="history" readonly v-model="vendor.history"></textarea>
-          <p @click="historyExpand" class="view-details-button">{{$t('company.readMore')}}</p>
+          <p @click="historyExpand" class="view-details-button" v-html="$t('company.readMore')"></p>
         </div>
 
         <!-- Company Certification -->
@@ -126,8 +126,8 @@
       </div>
 
       <!-- Company Address -->
-      <div id="ADDRESS" class="address-container">
-        <h2 class="section-title">{{ $t('company.address.title') }}</h2>
+      <div id="LOCATION" class="address-container">
+        <h2 class="section-title">{{ $t('company.information.location') }}</h2>
         <div id="map"></div>
       </div>
     </div>
@@ -228,14 +228,14 @@
         const productDomain = this.products[index].product_domain
         if (this.queryInput) {
           this.$router.push({
-            path: `${this.value.company}/${productDomain}`,
+            path: `/${this.value.company}/${productDomain}`,
             query: {
               input: this.queryInput
             }
           })
         } else {
           this.$router.push({
-            path: `${this.value.company}/${productDomain}`,
+            path: `/${this.value.company}/${productDomain}`,
           })
         }
       },
@@ -369,9 +369,9 @@
         } else {
           $description.css('height', `${$descriptionHeight}px`)
         }
-        if ($historyHeight >= 390) {
+        if ($historyHeight >= 189) {
           $historyButton.show()
-          $history.css('height', '390px')
+          $history.css('height', '190px')
         } else {
           $history.css('height', `${$historyHeight}px`)
         }
@@ -478,9 +478,9 @@
           resize: none;
           border: none;
           padding: 0;
-          font-weight: @font-weight-ultra-thin;
+          font-weight: @font-weight-thin;
           font-size: @font-size-medium;
-          line-height: 1.2em;
+          line-height: 1.5em;
           overflow: hidden;
         }
         p {
@@ -490,7 +490,7 @@
         }
         .each-container {
           border-bottom: @border-light-grey;
-          padding-bottom: 1.6rem;
+          padding-bottom: 1rem;
         }
         // end of shared
 
@@ -513,18 +513,14 @@
             margin: 0;
             color: @color-font-gray;
             padding-right: 55px;
-            word-break: break-all;
             font-weight: @font-weight-bold;
           }
           .company-name {
             margin: 0;
             padding-right: 55px;
-            word-break: break-all;
           }
           .short-description-container {
             .short-description {
-              font-weight: 300;
-              word-break: break-all;
             }
           }
         }
@@ -547,19 +543,21 @@
 
           .list-container {
             position: relative;
-            font-weight: @font-weight-thin;
             font-size:@font-size-medium;
-            line-height: 1.9em;
+            line-height:1.25;
+            padding-bottom: 16px;
+
+            &:last-child {
+              padding-bottom: 0;
+            }
 
             .left-contents {
-              position: absolute;
-              word-break: break-all;
-              max-width: 140px;
+              position: relative;
+              font-weight: @font-weight-medium;
             }
             .right-contents {
-              text-align: left;
-              padding-left: 140px;
-              word-break: break-all;
+              font-weight: @font-weight-thin;
+              padding-left: 0;
             }
           }
         }
@@ -668,7 +666,6 @@
               }
             }
             .content-container {
-              word-brak: break-all;
 
               .primary-category {
                 text-overflow: ellipsis;
@@ -710,6 +707,27 @@
 
           .header-container {
             padding-top: 24px;
+          }
+          .information-container {
+            position: relative;
+
+            .list-container {
+              position: relative;
+              font-size:@font-size-medium;
+              line-height: 1.9em;
+              padding-bottom: 0;
+
+              .left-contents {
+                position: absolute;
+                max-width: 140px;
+                font-weight: @font-weight-medium;
+              }
+              .right-contents {
+                text-align: left;
+                padding-left: 150px;
+                font-weight: @font-weight-thin;
+              }
+            }
           }
           .description-container {
           }

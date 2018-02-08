@@ -48,10 +48,6 @@
 <style lang="less" scoped>
   @import '~assets/css/index';
 
-  .page-container {
-    padding-bottom: 30px;
-  }
-
   .image-container  {
 
     .about-us-image {

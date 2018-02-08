@@ -1,5 +1,5 @@
 {
   "readMore": "더 보기",
   "products": "추천 제품<span class=\"count-text\">({count})</span>",
-  "suppliers": "제조업체"
+  "suppliers": "총 {count}개의 검색결과."
 }

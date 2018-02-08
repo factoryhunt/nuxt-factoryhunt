@@ -1,4 +1,4 @@
-const mysql = require('../../../../../mysql')
+ const mysql = require('../../../../../mysql')
 const CONFIG_MYSQL = require('../../../../../mysql/model')
 const AWS = require('aws-sdk')
 const config = require('../../../../../.config')

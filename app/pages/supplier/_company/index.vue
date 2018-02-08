@@ -12,9 +12,9 @@
             <!-- Left Side -->
             <div class="sticky-container">
               <ul>
-                <li><a href="#INTRO" class="sticky-item">{{ $t('company.sticky.intro') }}</a></li>
+                <li><a href="#INTRO" class="sticky-item">{{ $t('company.sticky.overview') }}</a></li>
                 <li class="dot">•</li>
-                <li><a href="#ADDRESS" class="sticky-item">{{ $t('company.sticky.address') }}</a></li>
+                <li><a href="#ADDRESS" class="sticky-item">{{ $t('company.sticky.location') }}</a></li>
               </ul>
             </div>
             <!-- Right Side -->
@@ -29,7 +29,7 @@
 
         <!-- Company Header -->
         <div id="header-container" class="header-container each-container">
-          <p class="address">{{ lead.mailing_city_english ? lead.mailing_city_english + ', ' : '' }} {{ lead.mailing_country_english ? lead.mailing_country_english : '' }}</p>
+          <p id="OVERVIEW" class="address">{{ lead.mailing_city_english ? lead.mailing_city_english + ', ' : '' }} {{ lead.mailing_country_english ? lead.mailing_country_english : '' }}</p>
           <h1 class="company-name">{{ lead.company_english || lead.company }}</h1>
         </div>
 
@@ -87,7 +87,7 @@
 
       <!-- Company Address -->
       <div id="ADDRESS" class="address-container">
-        <h2 class="section-title">{{ $t('company.address.title') }}</h2>
+        <h2 class="section-title">{{ $t('company.location.title') }}</h2>
         <div id="map"></div>
       </div>
     </div>
@@ -380,18 +380,15 @@
             margin: 0;
             color: @color-font-gray;
             padding-right: 55px;
-            word-break: break-all;
             font-weight: @font-weight-bold;
           }
           .company-name {
             margin: 0;
             padding-right: 55px;
-            word-break: break-all;
           }
           .short-description-container {
             .short-description {
               font-weight: 300;
-              word-break: break-all;
             }
           }
         }
@@ -414,19 +411,18 @@
 
           .list-container {
             position: relative;
-            font-weight: @font-weight-thin;
             font-size:@font-size-medium;
             line-height: 1.9em;
 
             .left-contents {
               position: absolute;
-              word-break: break-all;
               max-width: 140px;
+              font-weight: @font-weight-medium;
             }
             .right-contents {
               text-align: left;
-              padding-left: 140px;
-              word-break: break-all;
+              padding-left: 150px;
+              font-weight: @font-weight-thin;
             }
           }
         }
@@ -534,7 +530,7 @@
               }
             }
             .content-container {
-              word-break: break-all;
+              ;
 
               .primary-category {
                 text-overflow: ellipsis;
