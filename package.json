@@ -13,6 +13,7 @@
     "precommit": "npm run lint"
   },
   "dependencies": {
+    "@nuxtjs/google-analytics": "^2.0.2",
     "@xkeshi/image-compressor": "^0.5.3",
     "aws-sdk": "^2.186.0",
     "axios": "^0.17.1",

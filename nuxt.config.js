@@ -39,6 +39,11 @@ module.exports = {
       'check-authentication'
     ]
   },
+  modules: [
+    ['@nuxtjs/google-analytics', {
+      id: 'UA-103072288-1'
+    }]
+  ],
   build: {
     vendor: [
       'vue-i18n',
