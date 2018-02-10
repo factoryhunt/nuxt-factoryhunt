@@ -78,6 +78,7 @@
   import Loader from '~/components/Loader'
   import { addComma, removeNullInArray } from '~/utils/text'
   export default {
+    scrollToTop: true,
     layout: 'minify',
     components: {
       Loader
