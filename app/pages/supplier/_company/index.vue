@@ -108,7 +108,14 @@
           { hid: 'description', name: 'description', content: `${this.lead.company} | Factory Hunt` },
           { hid: 'og-title', property: 'og:title', content: this.lead.company_english || this.lead.company },
           { hid: 'og-description', property: 'og:description', content: this.$t('supplier.ogDescription') },
-          { hid: 'og-url', property: 'og:url', content: `factoryhunt.com/${this.lead.domain}` }
+          { hid: 'og-url', property: 'og:url', content: `factoryhunt.com/${this.lead.domain}` },
+          { hid: 'twitter-title', property: 'twitter:title', content: `${this.lead.company_english || this.lead.company} | Factory Hunt` },
+          { hid: 'twitter-description', property: 'twitter:description', content: this.$t('supplier.ogDescription') },
+          { hid: 'twitter-image', property: 'twitter:image', content: 'https://s3-us-west-1.amazonaws.com/factoryhunt.com/logo2.png' },
+          { hid: 'twitter-domain', property: 'twitter:domain', content: `https://www.factoryhunt.com/supplier/${this.lead.company_english || this.lead.company}?id=${this.lead.lead_id}` }
+        ],
+        link: [
+          { hid: 'canonical', rel: 'canonical', href: `https://www.factoryhunt.com/supplier/${this.lead.company_english || this.lead.company}?id=${this.lead.lead_id}` }
         ]
       }
     },

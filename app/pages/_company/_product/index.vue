@@ -159,7 +159,15 @@
           { hid: 'og-title', property: 'og:title', content: this.product.product_name },
           { hid: 'og-description', property: 'og:description', content: `By ${this.vendor.account_name_english}` },
           { hid: 'og-image', property: 'og:image', content: this.product.product_image_url_1 },
-          { hid: 'og-url', property: 'og:url', content: `factoryhunt.com/${this.domain}/${this.productDomain}` }
+          { hid: 'og-url', property: 'og:url', content: `factoryhunt.com/${this.domain}/${this.product.product_domain}` },
+          { hid: 'twitter-card', property: 'twitter:card', content: 'summary' },
+          { hid: 'twitter-title', property: 'twitter:title', content: `${this.product.product_name} - ${this.vendor.account_name_english} | Factory Hunt` },
+          { hid: 'twitter-description', property: 'twitter:description', content: `${this.product.product_description} | Factory Hunt` },
+          { hid: 'twitter-image', property: 'twitter:image', content: 'https://s3-us-west-1.amazonaws.com/factoryhunt.com/logo2.png' },
+          { hid: 'twitter-domain', property: 'twitter:domain', content: `https://www.factoryhunt.com/${this.product.product_domain}/${this.vendor.domain}` }
+        ],
+        link: [
+          { hid: 'canonical', rel: 'canonical', href: `https://www.factoryhunt.com/${this.vendor.domain}/${this.product.product_domain}` }
         ]
       }
     },

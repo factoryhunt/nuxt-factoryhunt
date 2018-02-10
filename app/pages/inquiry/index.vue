@@ -38,6 +38,14 @@
   import { getAccountByAccountId, getProductByProductId } from '~/utils/api'
   import { mapGetters } from 'vuex'
   export default {
+    head () {
+      return {
+        title: `Inquiry for ${this.vendor.account_name_english}`,
+        link: [
+          { hid: 'canonical', rel: 'canonical', href: `https://www.factoryhunt.com/inquiry?pid=${this.product.product_id}&aid=${this.vendor.account_id}` }
+        ]
+      }
+    },
     async asyncData ({query, error}) {
       try {
         const promise = await Promise.all([

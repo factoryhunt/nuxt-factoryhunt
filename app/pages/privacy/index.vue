@@ -9,7 +9,10 @@
   export default {
     head () {
       return {
-        title: 'Privacy Policy'
+        title: this.$t('privacy.title'),
+        link: [
+          { hid: 'canonical', rel: 'canonical', href: `https://www.factoryhunt.com/privacy` }
+        ]
       }
     },
     messages: {

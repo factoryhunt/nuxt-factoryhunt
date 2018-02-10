@@ -85,7 +85,15 @@
     },
     head () {
       return {
-        title: `${this.queryInput}`
+        title: `${this.queryInput}`,
+        meta: [
+          { hid: 'og-title', property: 'og:title', content: `${this.queryInput} | Factory Hunt` },
+          { hid: 'twitter-card', property: 'twitter:card', content: 'summary' },
+          { hid: 'twitter-title', property: 'twitter:title', content: `${this.queryInput} | Factory Hunt` }
+        ],
+        link: [
+          { hid: 'canonical', rel: 'canonical', href: `https://www.factoryhunt.com/search?input=${this.queryInput}` }
+        ]
       }
     },
     async asyncData ({ query }) {

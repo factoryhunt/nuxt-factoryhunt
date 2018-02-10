@@ -30,6 +30,14 @@
   import CopyrightBar from '~/components/CopyrightBar'
   import '~/plugins/for_supplier'
   export default {
+    head () {
+      return {
+        title: this.$t('navigationBar.becomeSeller'),
+        link: [
+          { hid: 'canonical', rel: 'canonical', href: `https://www.factoryhunt.com/for-supplier` }
+        ]
+      }
+    },
     layout: 'blank',
     components: {
       NavigationBar,

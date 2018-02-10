@@ -7,16 +7,21 @@ module.exports = {
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
       { name: 'robots', content: 'index, follow' },
-      { hid: 'keywords', name: 'keywords', content: 'factoryhunt, factory, hunt, factory hunt, quote, bulk, wholesale, supplier, factory hunt, online catalog, supplier directory, free website, international trade' },
+      { hid: 'keywords', name: 'keywords', content: 'factoryhunt, factory, hunt, factory hunt, supplier directory, directory, b2b directory, quote, bulk, wholesale, supplier, factory hunt, online catalog, supplier directory, free website, international trade' },
       { hid: 'description', name: 'description', content: 'factoryhunt.com is a free B2B website that helps manufacturers, suppliers, exporters, wholesalers and importers trade with each other.' },
       { hid: 'og-type', property: 'og:type', content: 'website' },
       { hid: 'og-title', property: 'og:title', content: 'Factory Hunt' },
       { hid: 'og-description', property: 'og:description', content: 'A Hub for Manufacturer & Supplier Listings' },
       { hid: 'og-image', property: 'og:image', content: 'https://s3-us-west-1.amazonaws.com/factoryhunt.com/logo2.png' },
-      { hid: 'og-url', property: 'og:url', content: 'https://www.factoryhunt.com' }
+      { hid: 'og-url', property: 'og:url', content: 'https://www.factoryhunt.com' },
+      { hid: 'twitter-card', property: 'twitter:card', content: 'summary' },
+      { hid: 'twitter-title', property: 'twitter:title', content: 'Factory Hunt' },
+      { hid: 'twitter-description', property: 'twitter:description', content: 'A Hub for Manufacturer & Supplier Listings' },
+      { hid: 'twitter-image', property: 'twitter:image', content: 'https://s3-us-west-1.amazonaws.com/factoryhunt.com/logo2.png' },
+      { hid: 'twitter-domain', property: 'twitter:domain', content: 'https://www.factoryhunt.com' }
     ],
     link: [
-      { rel: 'canonical', href: 'https://www.factoryhunt.com' },
+      { hid: 'canonical', rel: 'canonical', href: 'https://www.factoryhunt.com' },
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.png' },
       { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css?family=Roboto:300,400,500,600,700' },
       { rel: 'stylesheet', href: 'https://cdn.quilljs.com/1.0.0/quill.snow.css' }

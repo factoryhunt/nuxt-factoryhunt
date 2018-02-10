@@ -47,7 +47,10 @@
     layout: 'blank',
     head () {
       return {
-        title: 'Sign Up'
+        title: this.$t('signUp.signUp'),
+        link: [
+          { hid: 'canonical', rel: 'canonical', href: `https://www.factoryhunt.com/signup` }
+        ]
       }
     },
     components: {

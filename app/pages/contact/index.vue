@@ -40,7 +40,10 @@
   export default {
     head () {
       return {
-        title: 'Contact Us'
+        title: this.$t('contact.title'),
+        link: [
+          { hid: 'canonical', rel: 'canonical', href: `https://www.factoryhunt.com/contact` }
+        ]
       }
     },
     data () {

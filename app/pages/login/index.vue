@@ -47,7 +47,10 @@
     layout: 'blank',
     head () {
       return {
-        title: this.$t('login.login')
+        title: this.$t('login.login'),
+        link: [
+          { hid: 'canonical', rel: 'canonical', href: `https://www.factoryhunt.com/login` }
+        ]
       }
     },
     components: {

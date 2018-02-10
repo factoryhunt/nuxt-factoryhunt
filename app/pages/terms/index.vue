@@ -9,7 +9,10 @@
   export default {
     head () {
       return {
-        title: 'Terms of Use'
+        title: this.$t('terms.title'),
+        link: [
+          { hid: 'canonical', rel: 'canonical', href: `https://www.factoryhunt.com/terms` }
+        ]
       }
     },
     messages: {

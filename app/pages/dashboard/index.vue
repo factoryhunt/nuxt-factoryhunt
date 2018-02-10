@@ -94,65 +94,15 @@
   import Clipboard from 'clipboard'
   import { mapGetters } from 'vuex'
   export default {
-    layout: 'dashboard',
-    messages: {
-      eng: {
-        left: {
-          viewWebsite: 'View website',
-          edit: 'Edit'
-        },
-        right: {
-          welcome: 'Hello, {name}!',
-          dashboard: 'Dashboard',
-          edit: 'Edit',
-          domain: {
-            title: 'Customized Domain',
-            desc: 'Customize the page URL. Use the link below as your company website.',
-            linkCopied: 'URL copied'
-          },
-          company: {
-            title: 'Company information',
-            desc: 'Update company information and create a website in a minute.'
-          },
-          product: {
-            title: 'Product information',
-            desc: 'Update product information and create an online product catalog.'
-          },
-          account: {
-            title: 'Account Information',
-            desc: 'Update your contact information. You will be connected with potential buyers by email.'
-          }
-        }
-      },
-      kor: {
-        left: {
-          viewWebsite: '회사 페이지 보기',
-          edit: '정보 수정'
-        },
-        right: {
-          welcome: '안녕하세요, {name}님!',
-          dashboard: '관리자 센터',
-          edit: '수정하기',
-          domain: {
-            title: '도메인 등록',
-            desc: '맞춤형 도메인으로 변경 하세요. 도메인 주소 공유를 통해 기업 홈페이지로 활용이 가능합니다.',
-            linkCopied: 'URL이 복사되었습니다!'
-          },
-          company: {
-            title: '회사 정보 관리',
-            desc: '회사 정보를 업데이트하면, 맞춤형 웹페이지가 생성됩니다.'
-          },
-          product: {
-            title: '제품 정보 관리',
-            desc: '제품 정보를 등록하면, 손쉽게 온라인 카탈로그를 만들 수 있습니다.'
-          },
-          account: {
-            title: '계정 정보 관리',
-            desc: '회사 또는 제품에 관심이 있는 고객(바이어)이 있을 경우, 입력해 주신 연락처로 관련 정보를 받아보게 됩니다.'
-          }
-        }
+    head () {
+      return {
+        title: this.$t('dashboard.dashboard'),
+        link: [
+          { hid: 'canonical', rel: 'canonical', href: `https://www.factoryhunt.com/dashboard` }
+        ]
       }
     },
+    layout: 'dashboard',
     computed: {
       getAccountName () {
         return this.contact.first_name_english ? (this.contact.salutation + ' ' + this.contact.first_name_english + ' ' + this.contact.last_name_english) : this.contact.contact_email

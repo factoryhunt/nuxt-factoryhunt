@@ -176,7 +176,15 @@
           { hid: 'og-title', property: 'og:title', content: this.vendor.account_name_english },
           { hid: 'og-description', property: 'og:description', content: this.vendor.company_description_english },
           { hid: 'og-image', property: 'og:image', content: this.vendor.account_image_url_1 },
-          { hid: 'og-url', property: 'og:url', content: `factoryhunt.com/${this.vendor.domain}` }
+          { hid: 'og-url', property: 'og:url', content: `factoryhunt.com/${this.vendor.domain}` },
+          { hid: 'twitter-card', property: 'twitter:card', content: 'summary' },
+          { hid: 'twitter-title', property: 'twitter:title', content: `${this.vendor.account_name_english} | Factory Hunt` },
+          { hid: 'twitter-description', property: 'twitter:description', content: `${this.vendor.company_description_english} | Factory Hunt` },
+          { hid: 'twitter-image', property: 'twitter:image', content: 'https://s3-us-west-1.amazonaws.com/factoryhunt.com/logo2.png' },
+          { hid: 'twitter-domain', property: 'twitter:domain', content: `https://www.factoryhunt.com/${this.vendor.domain}` }
+        ],
+        link: [
+          { hid: 'canonical', rel: 'canonical', href: `https://www.factoryhunt.com/${this.vendor.domain}` }
         ]
       }
     },

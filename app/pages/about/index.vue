@@ -30,7 +30,10 @@
       return {
         title: this.$t('about.title'),
         meta: [
-          {hid: 'description', name: 'description', content: this.$t('about.description')}
+          { hid: 'description', name: 'description', content: this.$t('about.description') }
+        ],
+        link: [
+          { hid: 'canonical', rel: 'canonical', href: `https://www.factoryhunt.com/about` }
         ]
       }
     },
