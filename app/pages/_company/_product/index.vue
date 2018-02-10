@@ -222,6 +222,7 @@
         })
       },
       renderPDF () {
+        if (!this.product.product_pdf_url) return
         const url = this.product.product_pdf_url
         pdflib.PDFJS.getDocument(url).then((pdf) => {
           for (let i = 1; i <= pdf.numPages; i += 1) {
@@ -469,6 +470,12 @@
       .introduction {
         font-size: @font-size-medium;
         font-weight: @font-weight-thin;
+      }
+    }
+
+    .catalog-container {
+      img {
+        width: 100%;
       }
     }
 
