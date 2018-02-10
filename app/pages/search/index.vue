@@ -133,7 +133,8 @@
           const url = account.domain
           this.$router.push(`/${url}?input=${this.queryInput}`)
         } else {
-          const url = account.account_name_english || account.account_name
+          let url = account.account_name_english || account.account_name
+          ur = url.replace(' ', '-')
           const id = account.account_id
           this.$router.push({
             path: `/supplier/${url}`,
