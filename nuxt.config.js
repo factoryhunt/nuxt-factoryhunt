@@ -16,6 +16,7 @@ module.exports = {
       { hid: 'og-url', property: 'og:url', content: 'https://www.factoryhunt.com' }
     ],
     link: [
+      { rel: 'canonical', href: 'https://www.factoryhunt.com' },
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.png' },
       { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css?family=Roboto:300,400,500,600,700' },
       { rel: 'stylesheet', href: 'https://cdn.quilljs.com/1.0.0/quill.snow.css' }
