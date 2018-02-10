@@ -1,5 +1,5 @@
 <template>
-  <div id="container">
+  <div id="container" v-show="toggle.isLoaded">
     <div class="body-container">
 
       <!-- Body Contents -->
@@ -147,6 +147,7 @@
   import '~/plugins/slick'
   const { addComma } = require('~/utils/text')
   export default {
+    scrollToTop: true,
     layout: 'minify',
     head () {
       return {
@@ -180,6 +181,7 @@
       return {
         options: {} || { scale: 1 },
         toggle: {
+          isLoaded: false,
           isAuthLoaded: false,
           isCatalogLoaded: false
         }
@@ -211,11 +213,12 @@
         $(document).ready(() => {
           this.imageResize()
           this.relatedProductImageResize()
-          this.activateSlick()
           this.renderPDF()
+          this.activateSlick()
           $(window).resize(() => {
             this.imageResize()
           })
+          this.toggle.isLoaded = true
         })
       },
       renderPDF () {

@@ -43,7 +43,7 @@
             <div class="description-contents">
               <p class="product">{{ feature.products_english }}</p>
               <h2 class="company-name">{{ feature.account_name_english }}</h2>
-              <h3 class="slogan">{{ feature.company_short_description }}</h3>
+              <h3 class="slogan">{{ feature.company_short_description_english }}</h3>
               <button @click="routeAccountProfilePage(feature)" class="view-more-button">{{ $t('home.viewMore') }}</button>
             </div>
           </div>
@@ -98,9 +98,6 @@
       routeAccountProfilePage (feature) {
         const domain = feature.domain
         this.$router.push(`/${domain}`)
-      },
-      removeLastCardBorder () {
-
       }
     }
   }
@@ -166,6 +163,8 @@
     }
 
     .featured-container {
+      padding-bottom: 20px;
+
       .title {
         margin-bottom: 0;
       }
@@ -367,7 +366,7 @@
               vertical-align: middle;
               #search-button {
                 font-size: 17px;
-                font-weight: @font-weight-ultra-bold;
+                font-weight: @font-weight-bold;
                 height: 60px;
                 white-space: nowrap;
               }

@@ -165,6 +165,7 @@
   import axios from '~/plugins/axios'
   import { sendEmail } from '~/utils/email'
   export default {
+    scrollToTop: true,
     layout: 'minify',
     head () {
       return {
@@ -543,9 +544,8 @@
 
           .list-container {
             position: relative;
-            font-size:@font-size-medium;
             line-height:1.25;
-            padding-bottom: 16px;
+            padding-bottom: 28px;
 
             &:last-child {
               padding-bottom: 0;
@@ -553,7 +553,8 @@
 
             .left-contents {
               position: relative;
-              font-weight: @font-weight-medium;
+              font-size: @font-size-small;
+              font-weight: @font-weight-bold;
             }
             .right-contents {
               font-weight: @font-weight-thin;
@@ -713,18 +714,19 @@
 
             .list-container {
               position: relative;
-              font-size:@font-size-medium;
               line-height: 1.9em;
               padding-bottom: 0;
 
               .left-contents {
                 position: absolute;
                 max-width: 140px;
+                font-size: @font-size-medium;
                 font-weight: @font-weight-medium;
               }
               .right-contents {
                 text-align: left;
                 padding-left: 150px;
+                font-size: @font-size-medium;
                 font-weight: @font-weight-thin;
               }
             }

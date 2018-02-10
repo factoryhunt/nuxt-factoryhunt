@@ -4,11 +4,14 @@ import { setLocale, getLocale } from '~/utils/i18n'
 
 Vue.use(VueI18n)
 
-export default ({ app, store }) => {
+export default ({ app, store, query }) => {
   // Set i18n instance on app
   // This way we can use it in middleware and pages asyncData/fetch
-  const locale = getLocale() || store.state.i18n.locale
   const { kor, eng } = require('~/locales')
+  const locale = getLocale() || store.state.i18n.locale
+  const lang = query.lang
+  console.log('locale', locale)
+  console.log('lang', lang)
 
   if (!getLocale()) {
     setLocale(locale)
@@ -16,7 +19,7 @@ export default ({ app, store }) => {
 
   store.commit('i18n/SET_LANG', locale)
   app.i18n = new VueI18n({
-    locale: locale,
+    locale: lang || locale,
     fallbackLocale: 'eng',
     messages: {
       eng,

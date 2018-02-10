@@ -12,7 +12,7 @@ module.exports = {
       { hid: 'og-type', property: 'og:type', content: 'website' },
       { hid: 'og-title', property: 'og:title', content: 'Factory Hunt' },
       { hid: 'og-description', property: 'og:description', content: 'A Hub for Manufacturer & Supplier Listings' },
-      { hid: 'og-image', property: 'og:image', content: 'http://www.factoryhunt.com/logo.png' },
+      { hid: 'og-image', property: 'og:image', content: 'https://s3-us-west-1.amazonaws.com/factoryhunt.com/logo2.png' },
       { hid: 'og-url', property: 'og:url', content: 'https://www.factoryhunt.com' }
     ],
     link: [
@@ -30,20 +30,21 @@ module.exports = {
     '~assets/libs/css/font-awesome-4.7.0/css/font-awesome.min.css',
     { src: '~assets/css/index.less', lang: 'less' }
   ],
+  modules: [
+    ['@nuxtjs/google-analytics', {
+      id: 'UA-103072288-1'
+    }]
+  ],
   plugins: [
     { src: '~plugins/i18n' },
     { src: '~plugins/jquery', ssr: false },
   ],
   router: {
     middleware: [
+      'i18n',
       'check-authentication'
     ]
   },
-  modules: [
-    ['@nuxtjs/google-analytics', {
-      id: 'UA-103072288-1'
-    }]
-  ],
   build: {
     vendor: [
       'vue-i18n',

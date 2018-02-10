@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-show="isLoaded">
     <navigation-bar/>
     <div class="home-container">
       <!-- Header -->
@@ -41,6 +41,11 @@
       FooterBar,
       CopyrightBar
     },
+    data () {
+      return {
+        isLoaded: false
+      }
+    },
     methods: {
       initScrollReveal () {
         window.scrollReveal = ScrollReveal()
@@ -49,6 +54,7 @@
         $(document).ready(() => {
           this.applySmoothScrolling()
           this.applyAddAnimation()
+          this.isLoaded = true
         })
       },
       applySmoothScrolling () {

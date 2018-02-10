@@ -1,5 +1,6 @@
+import { setLocale, getLocale } from '~/utils/i18n'
 
-export default function ({ isHMR, query, app, store, error }) {
+export default function ({ isHMR, query, app, store }) {
   // If middleware is called from hot module replacement, ignore it
   if (isHMR) return
   // Get locale from params

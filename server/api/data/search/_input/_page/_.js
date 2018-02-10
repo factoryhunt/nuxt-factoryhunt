@@ -14,31 +14,37 @@ module.exports = async (req, res) => {
     return new Promise((resolve, reject) => {
       mysql.query(
         `(SELECT 
-account_id,
-account_name,
-account_name_english,
-account_status,
-domain,
-products_english, 
-website, 
-phone,
-established_date,
-mailing_city_english, 
-mailing_state_english, 
-mailing_country_english FROM ${CONFIG_MYSQL.TABLE_ACCOUNTS} WHERE lower(products_english) LIKE "%${input}%") UNION ALL
- (SELECT 
- lead_id,
- company,
- company_english,
- lead_status, 
- notes,
- products_english, 
- website, 
- phone, 
- established_date,
- mailing_city_english, 
- mailing_state_english, 
- mailing_country_english FROM ${CONFIG_MYSQL.TABLE_LEADS} WHERE lower(products_english) LIKE "%${input}%" ORDER BY number_of_employees DESC)`, (err, rows) => {
+        account_id,
+        account_name,
+        account_name_english,
+        account_status,
+        domain,
+        products_english, 
+        website, 
+        phone,
+        established_date,
+        mailing_city_english, 
+        mailing_state_english, 
+        mailing_country_english 
+        FROM ${CONFIG_MYSQL.TABLE_ACCOUNTS} 
+        WHERE lower(products_english) LIKE "%${input}%") 
+        UNION ALL(
+        SELECT 
+        lead_id,
+        company,
+        company_english,
+        lead_status, 
+        notes,
+        products_english, 
+        website, 
+        phone, 
+        established_date,
+        mailing_city_english, 
+        mailing_state_english, 
+        mailing_country_english 
+        FROM ${CONFIG_MYSQL.TABLE_LEADS} 
+        WHERE lower(products_english) LIKE "%${input}%") 
+        ORDER BY website > "" DESC, account_name_english > "" DESC`, (err, rows) => {
           if (err) reject(err)
           resolve(rows)
         })

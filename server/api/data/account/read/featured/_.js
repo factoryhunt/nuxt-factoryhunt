@@ -30,6 +30,27 @@ module.exports = async (req, res) => {
     })
   }
 
+  const getAccountByRandom = () => {
+    return new Promise((resolve, reject) => {
+      mysql.query(`SELECT 
+      account_image_url_1,
+      domain,
+      products_english,
+      account_name_english,
+      company_short_description_english
+      FROM ${CONFIG_MYSQL.TABLE_ACCOUNTS} 
+      WHERE 
+      account_status = "approved" 
+      AND account_image_url_1 != ""
+      AND company_short_description_english != ""
+      AND account_name_english != ""
+      ORDER BY rand()`, (err, rows) => {
+        if (err) reject(err)
+        resolve(rows)
+      })
+    })
+  }
+
   try {
     const data = await getAccountsById()
     res.status(200).send(data)

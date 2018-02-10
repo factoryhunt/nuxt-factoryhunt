@@ -12,7 +12,7 @@
             <!-- Left Side -->
             <div class="sticky-container">
               <ul>
-                <li><a href="#INTRO" class="sticky-item">{{ $t('company.sticky.overview') }}</a></li>
+                <li><a href="#OVERVIEW" class="sticky-item">{{ $t('company.sticky.overview') }}</a></li>
                 <li class="dot">•</li>
                 <li><a href="#ADDRESS" class="sticky-item">{{ $t('company.sticky.location') }}</a></li>
               </ul>
@@ -34,7 +34,7 @@
         </div>
 
         <!-- Company Information -->
-        <div id="INTRO" class="information-container each-container">
+        <div class="information-container each-container">
           <h2 class="section-title">{{ $t('company.information.title') }}</h2>
           <div class="information-table-container">
             <div class="list-container" v-show="lead.products">
@@ -98,6 +98,7 @@
   import axios from '~/plugins/axios'
   import { sendEmail } from '~/utils/email'
   export default {
+    scrollToTop: true,
     layout: 'minify',
     head () {
       return {
@@ -411,18 +412,22 @@
 
           .list-container {
             position: relative;
-            font-size:@font-size-medium;
-            line-height: 1.9em;
+            font-size: @font-size-medium;
+            line-height: 1.25;
+            padding-bottom: 28px;
+
+            &:last-child {
+              padding-bottom: 0;
+            }
 
             .left-contents {
-              position: absolute;
-              max-width: 140px;
-              font-weight: @font-weight-medium;
+              position: relative;
+              font-size: @font-size-small;
+              font-weight: @font-weight-bold;
             }
             .right-contents {
-              text-align: left;
-              padding-left: 150px;
               font-weight: @font-weight-thin;
+              padding-left: 0;
             }
           }
         }
@@ -572,6 +577,28 @@
 
           .header-container {
             padding-top: 24px;
+          }
+
+          .information-container {
+            position: relative;
+
+            .list-container {
+              position: relative;
+              line-height: 1.9em;
+              padding-bottom: 0;
+
+              .left-contents {
+                position: absolute;
+                max-width: 140px;
+                font-size: @font-size-medium;
+                font-weight: @font-weight-medium;
+              }
+              .right-contents {
+                text-align: left;
+                padding-left: 150px;
+                font-weight: @font-weight-thin;
+              }
+            }
           }
           .description-container {
           }
