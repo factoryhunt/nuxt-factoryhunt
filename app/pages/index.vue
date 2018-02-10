@@ -25,7 +25,7 @@
     </header>
 
     <!-- Featured Suppliers -->
-    <div class="featured-container">
+    <div class="featured-container" v-show="isLoaded">
 
       <!-- Title -->
       <h2 class="title">{{ $t('home.featured') }}</h2>
@@ -82,7 +82,8 @@
       return {
         value: {
           input: ''
-        }
+        },
+        isLoaded: false
       }
     },
     methods: {
@@ -98,7 +99,19 @@
       routeAccountProfilePage (feature) {
         const domain = feature.domain
         this.$router.push(`/${domain}`)
+      },
+      activateJquery () {
+        $(document).ready(() => {
+          const windowHeight = window.innerHeight * 0.74
+          const $headerContainer = $('.header-container')
+          $headerContainer.css('min-height', `${windowHeight}px`)
+          this.isLoaded = true
+        })
       }
+    },
+    mounted () {
+      this.activateJquery()
+      console.log(navigator.userAgent)
     }
   }
 </script>
@@ -108,7 +121,6 @@
 
   #container {
     .header-container {
-      min-height: 58vh;
 
       .slogan-container {
         padding-top: 54px;
@@ -245,7 +257,6 @@
   @media ( min-width: 744px ) {
     #container {
       .header-container {
-        min-height: 74vh;
 
         .slogan-container {
           .title {

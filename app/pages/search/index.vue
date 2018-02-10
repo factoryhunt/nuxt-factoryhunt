@@ -134,7 +134,8 @@
           this.$router.push(`/${url}?input=${this.queryInput}`)
         } else {
           let url = account.account_name_english || account.account_name
-          url = url.replace('/ /g', '-')
+          url = url.replace('/ /gi', '')
+          console.log(url.replace('/\s/gi', '-'))
           const id = account.account_id
           this.$router.push({
             path: `/supplier/${url}`,
