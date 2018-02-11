@@ -1,3 +1,5 @@
+const axios = require('axios')
+
 module.exports = {
   srcDir: './app',
   head: {
@@ -39,8 +41,24 @@ module.exports = {
   modules: [
     ['@nuxtjs/google-analytics', {
       id: 'UA-103072288-1'
-    }]
+    }],
+    ['@nuxtjs/sitemap']
   ],
+  sitemap: {
+    path: '/sitemap.xml',
+    hostname: 'https://www.factoryhunt.com',
+    cacheTime: 1000 * 60 * 15,
+    generate: false, // Enable me when using nuxt generate
+    exclude: [
+      '/dashboard',
+      '/for-supplier/**',
+      '/dashboard/**'
+    ],
+    routes () {
+      return axios.get('https://factoryhunt.com/api/data/sitemap')
+        .then(res => res.data.map(account => '/' + account.domain))
+    }
+  },
   plugins: [
     { src: '~plugins/i18n' },
     { src: '~plugins/jquery', ssr: false },

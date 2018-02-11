@@ -111,7 +111,6 @@
     },
     mounted () {
       this.activateJquery()
-      console.log(navigator.userAgent)
     }
   }
 </script>
