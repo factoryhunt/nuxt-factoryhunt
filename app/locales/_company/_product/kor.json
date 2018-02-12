@@ -6,7 +6,9 @@
     "quote": "가격 협상을 위해 문의하세요.",
     "button": "문의하기"
   },
-  "information": {
+  "details": {
+    "title": "제품 상세정보",
+    "origin": "원산지",
     "moq": "최소주문량",
     "price": "가격",
     "material": "소재 및 재질",

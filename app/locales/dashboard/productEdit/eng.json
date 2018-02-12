@@ -9,7 +9,7 @@
   "category": {
     "title": "Category",
     "select": "Selected category: {category}",
-    "caution": "If you register in a category that does not match the product, your product may be forcibly moved, stopped listing, or prohibited from listing."
+    "caution": "If you fill in information that does not match the product, your product may be forcibly moved, stopped listing, or prohibited from listing."
   },
   "productName": {
     "title": "Product Name",
@@ -27,7 +27,7 @@
   },
   "information": {
     "title": "Product Information",
-    "subTitle": "Please fill out the form correctly.",
+    "subTitle": "Leave blank for information you do not want to disclose.",
     "code": "Product code",
     "moq": "MOQ",
     "moqInputTitle": "It must be 1~11 characters and can only contain numbers.",
@@ -35,8 +35,7 @@
     "originPlaceholder": "Please select a country from the drop down menu.",
     "size": "Size (mm)",
     "materials": "Materials",
-    "materialsInputTitle": "It must be 1~100 characters and can only contain letters, numbers, comma, and hyphen.",
-    "caution": "Leave blank for information you do not want to disclose."
+    "materialsInputTitle": "It must be 1~100 characters and can only contain letters, numbers, comma, and hyphen."
   },
   "introduction": {
     "title": "Product Introduction",

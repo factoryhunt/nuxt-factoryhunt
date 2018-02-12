@@ -126,7 +126,7 @@
 
           select {
             width: 100%;
-            border: none;
+            border: none !important;
             font-size: 17px;
             padding-right: 20px;
           }

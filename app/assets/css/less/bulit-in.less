@@ -1,18 +1,13 @@
-
 select {
   width: 100%;
   background-color: @color-white;
-  border: 1px solid @color-light-grey;
+  border: 1px solid @color-light-grey !important;
   border-radius: @border-radius;
   outline: none;
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
   padding: @input-padding;
-}
-iframe {
-  width: 100%;
-  height:180px;
 }
 
 a {
@@ -41,16 +36,5 @@ button {
   outline: none;
   &:hover {
     cursor: pointer;
-  }
-}
-
-@media ( min-width: 744px ) {
-  iframe {
-    height:440px;
-  }
-}
-@media ( min-width: 1128px ) {
-  iframe {
-    height:544px;
   }
 }

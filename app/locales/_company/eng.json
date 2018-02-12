@@ -20,7 +20,13 @@
     "phone": "Phone",
     "address": "Address",
     "location": "Location",
+    "businessType": "Business Type",
     "establishedYear": "Established Year"
+  },
+  "document": {
+    "title": "Documents",
+    "pdf": "Catalog",
+    "certification": "Certification"
   },
   "history": {
     "title": "History"

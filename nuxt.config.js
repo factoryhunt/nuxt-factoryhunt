@@ -54,8 +54,8 @@ module.exports = {
       '/dashboard/**',
       '/for-supplier/**'
     ],
-    async routes () {
-      return await axios.get('https://www.factoryhunt.com/api/data/sitemap')
+    routes () {
+      return axios.get('http://127.0.0.1:3000/api/data/sitemap')
         .then(res => res.data.map(account => '/' + account.domain))
     }
   },

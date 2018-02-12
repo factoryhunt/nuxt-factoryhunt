@@ -6,7 +6,9 @@
     "quote": "Send inquiry to get pricing.",
     "button": "Send Inquiry"
   },
-  "information": {
+  "details": {
+    "title": "Product Details",
+    "origin": "Origin",
     "moq": "MOQ",
     "price": "Price",
     "material": "Material",

@@ -25,7 +25,7 @@
     <!--</div>-->
 
     <!-- Left-side UI container -->
-    <form class="form-container" @submit.prevent="onEditButton(value)">
+    <form class="form-container" @submit.prevent="onEditButton">
 
       <!-- Company Name -->
       <div class="account-name-container input-container">
@@ -33,7 +33,6 @@
         <span class="required-text" v-html="$t('dashboardCompany.name.required')"></span>
         <p class="sub-title">{{ $t('dashboardCompany.name.desc') }}</p>
         <input required pattern="[A-Za-z0-9 ().,]{2,50}" :title="$t('dashboardCompany.name.inputTitle')" id="account-name-input" type="text" :placeholder="$t('dashboardCompany.name.placeholder')" v-model="value.accountName" spellcheck="false" autocomplete="off" autocorrect="off" autocapitalize="off">
-        <p class="hidden-title"></p>
         <i id="account-name-mark" class="small-mark" aria-hidden="true"></i>
       </div>
 
@@ -43,13 +42,6 @@
         <p class="sub-title">{{ $t('dashboardCompany.slogan.desc') }}</p>
         <input id="short-description-input" maxlength="150" :title="$t('dashboardCompany.slogan.inputTitle')" pattern="[A-Za-z0-9 .,']{2,150}" @keyup="countInputLength" :placeholder="$t('dashboardCompany.slogan.placeholder')" v-model="value.shortDescription">
         <p class="third-title">{{ 150 - value.shortDescriptionCount }}</p>
-      </div>
-
-      <!-- Company Long Description -->
-      <div class="description-container input-container">
-        <p class="title">{{ $t('dashboardCompany.description.title') }}</p>
-        <p class="sub-title">{{ $t('dashboardCompany.description.desc') }}</p>
-        <textarea id="description-input" pattern="[A-Za-z0-9 ().,]{1,25000}" :title="$t('dashboardCompany.description.inputTitle')" maxlength="25000" rows="10" :placeholder="$t('dashboardCompany.description.placeholder')" v-model="value.description"></textarea>
       </div>
 
       <!-- Company Information -->
@@ -114,6 +106,24 @@
         </div>
       </div>
 
+      <!-- Company Long Description -->
+      <div class="description-container input-container">
+        <p class="title">{{ $t('dashboardCompany.description.title') }}</p>
+        <p class="sub-title">{{ $t('dashboardCompany.description.desc') }}</p>
+        <textarea id="description-input" pattern="[A-Za-z0-9 ().,]{1,25000}" :title="$t('dashboardCompany.description.inputTitle')" maxlength="25000" rows="10" :placeholder="$t('dashboardCompany.description.placeholder')" v-model="value.description"></textarea>
+      </div>
+
+      <!-- Company Catalog -->
+      <div class="catalog-container input-container">
+        <p class="title">{{ $t('dashboardCompany.catalog.title') }}</p>
+        <label for="pdf-input">{{ $t('dashboardProductEdit.catalog.button') }}</label>
+        <input name="catalog_pdf" id="pdf-input" type="file" accept="application/pdf" @change="onPDFchanged($event.target.files)">
+        <div class="file-information-container">
+          <p id="file-information-text">{{msg.pdfText}}</p>
+          <a id="pdf-cancel-button" @click="onPDFcancel">{{ $t('dashboardProductEdit.catalog.cancel') }}</a>
+        </div>
+      </div>
+
       <!-- Company History -->
       <div class="history-container input-container">
         <p class="title">{{ $t('dashboardCompany.history.title') }}</p>
@@ -171,6 +181,9 @@
           isDomainAvailable: null,
           isAccountNameAvailable: null,
           isUserAdmin: false
+        },
+        msg: {
+          pdfText: ''
         }
       }
     },
@@ -205,6 +218,30 @@
         this.value.streetAddress = account.mailing_street_address_english
         this.value.streetAddressDetail = account.mailing_street_address_2_english
         this.value.history = account.history
+      },
+      onPDFchanged (files) {
+        const maxSize = 15 * 1024 * 1024
+        var fileSize = ((files[0].size) / 1024) / 1024
+        fileSize = fileSize.toFixed(1)
+        // over 15MB
+        if (files[0].size > maxSize) {
+          this.onPDFcancel()
+          alert(this.$t('dashboardProductEdit.catalog.caution'))
+          return
+        }
+
+        $('#pdf-cancel-button').css('display', 'inline-block')
+        this.msg.pdfText = `${files[0].name} (${fileSize}MB)`
+        var reader = new FileReader()
+        reader.onload = (event) => {
+          console.log(event)
+        }
+        reader.readAsDataURL(files[0])
+      },
+      onPDFcancel () {
+        $('#pdf-input').val('')
+        this.msg.pdfText = ''
+        $('#pdf-cancel-button').css('display', 'none')
       },
       getYear (date) {
         if (date === '0000-00-00') {
@@ -242,37 +279,51 @@
       checkPostalCode (postalCode) {
         this.value.postalCode = postalCode.replace(/[^0-9]/g, '')
       },
-      onEditButton (value) {
+      async onEditButton () {
         // modal loading start
         $('#modal-spinkit').removeClass().addClass('spinkit-modal')
 
-        // props
-        const data = {
-          account_name_english: value.accountName,
-          company_short_description_english: value.shortDescription,
-          company_description_english: value.description,
-          products_english: value.products,
-          website: value.website,
-          phone: value.phone,
-          established_date: value.establishedDate,
-          mailing_country_english: value.country,
-          mailing_state_english: value.state,
-          mailing_city_english: value.city,
-          mailing_postal_code_english: value.postalCode,
-          mailing_street_address_english: value.streetAddress,
-          mailing_street_address_2_english: value.streetAddressDetail,
-          history: value.history
-        }
         // request
-        axios.put(`/api/data/account/${this.account.account_id}`, {
+        try {
+          await Promise.all([
+            this.uploadCompanyData(),
+            this.uploadPDF()
+          ])
+          this.onEditSuccess()
+        } catch (err) {
+          this.onEditFail()
+        }
+      },
+      uploadCompanyData () {
+        const data = {
+          account_name_english: this.value.accountName,
+          company_short_description_english: this.value.shortDescription,
+          company_description_english: this.value.description,
+          products_english: this.value.products,
+          website: this.value.website,
+          phone: this.value.phone,
+          established_date: this.value.establishedDate,
+          mailing_country_english: this.value.country,
+          mailing_state_english: this.value.state,
+          mailing_city_english: this.value.city,
+          mailing_postal_code_english: this.value.postalCode,
+          mailing_street_address_english: this.value.streetAddress,
+          mailing_street_address_2_english: this.value.streetAddressDetail,
+          history: this.value.history
+        }
+        return axios.put(`/api/data/account/${this.account.account_id}`, {
           account_data: data
         })
-          .then(() => {
-            this.onEditSuccess()
-          })
-          .catch(() => {
-            this.onEditFail()
-          })
+      },
+      uploadPDF () {
+        let formData = new FormData()
+        const config = {
+          headers: {'content-type': 'multipart/form-data'}
+        }
+        if (document.getElementById('pdf-input').files[0]) {
+          formData.append('pdf', document.getElementById('pdf-input').files[0])
+        }
+        return axios.put(`/api/data/account/${this.account.account_id}/pdf`, formData, config)
       },
       showAlert (alertState, msg) {
         $(document).ready(() => {
@@ -495,7 +546,6 @@
     }
     label {
       .upload-label-basic;
-      border: 1px solid @color-font-base;
       margin-top: 10px;
       font-size: @font-size-button;
       font-weight: @font-weight-button;
@@ -520,6 +570,7 @@
       font-weight: 400 !important;
       margin-bottom: 5px !important;
       height: @height !important;
+      border: none !important;
     }
     button {
       font-size: @font-size-button;
@@ -606,6 +657,37 @@
       }
       #street-address-detail-mark {
 
+      }
+    }
+
+    .catalog-container {
+
+      .title {
+        display: block;
+      }
+
+      label {
+        display: inline-block;
+        .upload-label-basic;
+        margin-top: 10px;
+        font-size: @font-size-button;
+        font-weight: @font-weight-button;
+      }
+
+      .file-information-container {
+        margin-top: 8px;
+
+        #pdf-cancel-button {
+          display: none;
+          font-size: 17px;
+          margin-left: 8px;
+        }
+        #file-information-text {
+          float: left;
+          margin-top: 0;
+          font-size: 17px;
+          color: @color-font-gray;
+        }
       }
     }
 

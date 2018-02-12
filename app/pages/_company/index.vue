@@ -1,6 +1,19 @@
 <template>
   <div id="container">
 
+    <div class="modal-background" v-show="vendor.account_pdf_url" @click="onPDFCloseButton">
+      <div class="body-container">
+        <object
+          id="pdf"
+          :data="vendor.account_pdf_url"
+          type="application/pdf"
+          width="100%"
+          height="100%">
+        </object>
+      </div>
+      <a id="close-button" @click="onPDFCloseButton"><i class="fa fa-angle-down"></i></a>
+    </div>
+
     <!-- Main Image -->
     <div class="main-image-container">
       <div class="main-image"></div>
@@ -73,6 +86,10 @@
               <div class="left-contents">{{ $t('company.information.address') }}</div>
               <div class="right-contents">{{ getLocation }}</div>
             </div>
+            <div class="list-container" v-show="vendor.account_type">
+              <div class="left-contents">{{ $t('company.information.businessType') }}</div>
+              <div class="right-contents">{{ vendor.account_type }}</div>
+            </div>
             <div class="list-container" v-show="vendor.established_date !== '0000-00-00'">
               <div class="left-contents">{{ $t('company.information.establishedYear') }}</div>
               <div class="right-contents">{{ getYear(vendor.established_date) }}</div>
@@ -81,10 +98,19 @@
         </div>
 
         <!-- Company Description -->
-        <div class="description-container each-container">
+        <div class="description-container each-container" v-show="vendor.company_description_english">
           <h2 class="section-title">{{ $t('company.description.title') }}</h2>
           <textarea title="description" readonly v-model="vendor.company_description_english"></textarea>
           <p @click="descriptionExpand" class="view-details-button" v-html="$t('company.readMore')"></p>
+        </div>
+
+        <!-- Document -->
+        <div class="document-container each-container" v-show="vendor.account_pdf_url">
+          <h2 class="section-title">{{ $t('company.document.title') }}</h2>
+          <span class="document-item" @click="onCatalog">
+            <i id="pdf-icon" class="fa fa-file-pdf-o"></i>
+            <p class="title">Company<br>Brochure</p>
+          </span>
         </div>
 
         <!-- Company History -->
@@ -100,10 +126,10 @@
         <!--</div>-->
 
         <!-- Company Review -->
-        <div class="review-container each-container">
-          <h2 class="section-title" v-html="$t('company.reviews.title', { count: 0 })"></h2>
-          <p>No review</p>
-        </div>
+        <!--<div class="review-container each-container">-->
+        <!--<h2 class="section-title" v-html="$t('company.reviews.title', { count: 0 })"></h2>-->
+        <!--<p>No review</p>-->
+        <!--</div>-->
       </div>
 
       <!-- Contact Form -->
@@ -132,7 +158,7 @@
       </div>
     </div>
 
-    <div class="product-body-container">
+    <div class="product-body-container" v-show="products.length > 0">
       <!-- Company Products -->
       <div id="PRODUCTS" class="products-container">
         <!-- Title -->
@@ -219,6 +245,9 @@
           kor: {
             edit: '수정하기'
           }
+        },
+        toggle: {
+          isModalOn: false
         }
       }
     },
@@ -233,6 +262,12 @@
       }
     },
     methods: {
+      onCatalog () {
+        $('.modal-background').show()
+      },
+      onPDFCloseButton () {
+        $('.modal-background').hide()
+      },
       routeProductProfilePage (index) {
         const productDomain = this.products[index].product_domain
         if (this.queryInput) {
@@ -458,6 +493,51 @@
 
 <style lang="less" scoped>
   @import '~assets/css/index';
+
+  .modal-background {
+    background: rgba(0, 0, 0, .7) !important;
+
+    .body-container {
+      position: relative;
+
+      #pdf {
+        padding-top: 20px;
+        height: 95vh;
+      }
+    }
+
+    #close-button {
+      position: absolute;
+      right: 22px;
+      top: 0;
+      font-size: 60px;
+      color: @color-white;
+    }
+  }
+
+  .document-item {
+    display: inline-block;
+    border: 1px solid @color-light-gray;
+    border-radius: @border-radius;
+    padding: 17px;
+    cursor: pointer;
+    margin-bottom: 10px;
+    margin-right: 8px;
+
+    &:hover {
+      border: 1px solid @color-font-gray;
+      text-decoration: none;
+    }
+
+    .title {
+      text-align: center;
+      margin-top: 34px !important;
+      font-size: 14px;
+    }
+    #pdf-icon {
+      font-size: 26px;
+    }
+  }
 
   #container {
 

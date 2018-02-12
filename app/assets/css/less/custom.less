@@ -44,5 +44,22 @@
 }
 
 .introduction-container {
-  img { width: 100%; }
+  img {
+    width: 100%;
+  }
+  iframe {
+    width: 100%;
+    height:180px;
+  }
+
+  @media ( min-width: 744px ) {
+    iframe {
+      height:440px;
+    }
+  }
+  @media ( min-width: 1128px ) {
+    iframe {
+      height:544px;
+    }
+  }
 }

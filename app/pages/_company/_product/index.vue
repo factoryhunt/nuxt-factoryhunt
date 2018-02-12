@@ -7,12 +7,32 @@
 
         <!-- Header -->
         <div class="header-container each-container">
-          <h1 class="title">{{product.product_name}}</h1>
-          <div class="detail-container">
-            <span class="origin" v-show="product.product_origin">{{product.product_origin}}</span>
-            <span class="star"> • <i id="star" class="fa fa-star-o" aria-hidden="true" v-for="index in 5" :key="index"></i></span>
-            <span class="review" v-html="$t('product.header.reviews', { count: 0})"></span>
+
+          <!-- Category -->
+          <div class="category-container" v-show="product.primary_product_category">
+            <span>{{product.primary_product_category}}</span>
+            <i id="angle" class="fa fa-angle-right"></i>
+            <span>{{product.secondary_product_category}}</span>
           </div>
+
+          <!-- Vendor Logo -->
+          <div class="vendor-logo-container">
+            <a @click="routeAccountProfilePage">
+              <img v-if="vendor.thumbnail_url" class="vendor-logo-image" :src="vendor.thumbnail_url"/>
+              <img v-else class="vendor-logo-image" src="../../../assets/img/temp-logo-image_english_512.png"/>
+            </a>
+          </div>
+
+          <!-- Title -->
+          <h1 class="title">{{product.product_name}}</h1>
+
+          <!-- Vendor -->
+          <h4 id="vendor-name">by <a @click="routeAccountProfilePage">{{ vendor.account_name_english }}</a></h4>
+          <!--<div class="detail-container">-->
+            <!--<span class="origin" v-show="product.product_origin">{{product.product_origin}}</span>-->
+            <!--<span class="star"> • <i id="star" class="fa fa-star-o" aria-hidden="true" v-for="index in 5" :key="index"></i></span>-->
+            <!--<span class="review" v-html="$t('product.header.reviews', { count: 0})"></span>-->
+          <!--</div>-->
         </div>
 
         <!-- Product Image -->
@@ -44,40 +64,27 @@
         <!-- Profile & Information -->
         <div class="information-container each-container">
 
-          <!-- Vendor Logo -->
-          <div class="vendor-logo-container">
-            <a @click="routeAccountProfilePage">
-              <img v-if="vendor.thumbnail_url" class="vendor-logo-image" :src="vendor.thumbnail_url"/>
-              <img v-else class="vendor-logo-image" src="../../../assets/img/temp-logo-image_english_512.png"/>
-            </a>
-          </div>
-
-          <!-- Category -->
-          <div class="category-container" v-show="product.primary_product_category">
-            <span>{{product.primary_product_category}}</span>
-            <i id="angle" class="fa fa-angle-right"></i>
-            <span>{{product.secondary_product_category}}</span>
-          </div>
-
-          <!-- Vendor -->
-          <h4 id="vendor-name">by <a @click="routeAccountProfilePage">{{ vendor.account_name_english }}</a></h4>
-
           <!-- Product Details -->
+          <h2 class="section-title">{{ $t('product.details.title') }}</h2>
           <div class="detail-container">
+            <div class="list-container" v-show="product.product_origin">
+              <div class="left-contents">{{ $t('product.details.origin') }}</div>
+              <div class="right-contents">{{product.product_origin}}</div>
+            </div>
             <div class="list-container" v-show="product.minimum_order_quantity">
-              <div class="left-contents">{{ $t('product.information.moq') }}</div>
+              <div class="left-contents">{{ $t('product.details.moq') }}</div>
               <div class="right-contents">{{getMOQ}}</div>
             </div>
             <div class="list-container" v-show="product.price">
-              <div class="left-contents">{{ $t('product.information.price') }}</div>
+              <div class="left-contents">{{ $t('product.details.price') }}</div>
               <div class="right-contents">{{product.price}}</div>
             </div>
             <div class="list-container" v-show="product.material_type">
-              <div class="left-contents">{{ $t('product.information.material') }}</div>
+              <div class="left-contents">{{ $t('product.details.material') }}</div>
               <div class="right-contents">{{product.material_type}}</div>
             </div>
             <div class="list-container" v-show="product.item_dimensions">
-              <div class="left-contents">{{ $t('product.information.dimension') }}</div>
+              <div class="left-contents">{{ $t('product.details.dimension') }}</div>
               <div class="right-contents">{{product.item_dimensions}}</div>
             </div>
           </div>
@@ -94,7 +101,7 @@
 
     <div class="body-container">
       <!-- Introduction -->
-      <div class="introduction-container each-container">
+      <div class="introduction-container each-container" v-show="product.product_description">
         <h2 class="section-title">{{ $t('product.intro.title') }}</h2>
         <div class="introduction" v-html="product.product_description">
         </div>
@@ -289,6 +296,9 @@
           $('.item').css('outline', 'none')
           $('.slick-dots').css('bottom', '4px')
           $('.slick-dots li').css('margin', '0')
+          if (!this.product.product_image_url_2) {
+            $('.slick-dots li').css('display', 'none')
+          }
 
           $('#right-arrow-container').css({
             'font-size': '2rem',
@@ -360,8 +370,39 @@
     font-size: @font-size-large;
   }
 
+  #vendor-name {
+    font-weight: 400;
+    padding-right: 70px;
+    margin: 0;
+  }
+
+  .vendor-logo-container {
+    float: right;
+    font-weight: @font-weight-thin;
+
+    img {
+      border: 2px solid @color-light-gray;
+      border-radius: 50%;
+      width: 56px;
+      height: 56px;
+    }
+  }
+
+  .category-container {
+    padding-right: 70px;
+    margin-bottom: 20px;
+    color: @color-font-gray;
+    span {
+      font-weight: 400;
+    }
+    #angle {
+      padding: 0 7px;
+    }
+  }
+
   #container {
     position: relative;
+    padding-top: 20px;
 
     // Global
     a {
@@ -380,7 +421,8 @@
       // Header
       .header-container {
         .title {
-          margin-bottom: 0;
+          margin: 0;
+          padding-right: 70px;
         }
         .detail-container {
           margin: 0;
@@ -419,36 +461,6 @@
       // Profile & Information
       .information-container {
         font-size: @font-size-medium;
-
-        .vendor-logo-container {
-          float: right;
-          font-weight: @font-weight-thin;
-
-          img {
-            border: 2px solid @color-light-gray;
-            border-radius: 50%;
-            width: 56px;
-            height: 56px;
-          }
-        }
-
-        .category-container {
-          padding-right: 70px;
-          margin-top: 20px;
-          color: @color-font-gray;
-          span {
-            font-weight: 400;
-          }
-          #angle {
-            padding: 0 7px;
-          }
-        }
-
-        #vendor-name {
-          font-weight: 400;
-          padding-right: 70px;
-          margin-top: 5px;
-        }
 
         .list-container {
           position: relative;
@@ -514,25 +526,24 @@
               }
             }
             .content-container {
-              ;
 
               .primary-category {
                 text-overflow: ellipsis;
                 overflow: hidden;
                 white-space: nowrap;
                 margin: 4px 0 0 0;
-                font-size: @font-size-medium;
-                font-weight: @font-weight-thin;
+                font-size: @font-size-extra-small;
+                font-weight: @font-weight-bold;
                 color: @color-font-gray;
               }
               .product-name {
                 margin: 0;
                 font-size: @font-size-medium;
-                font-weight: @font-weight-thin;
+                font-weight: @font-weight-medium;
               }
               .star-container {
                 i {
-                  font-size: @font-size-medium;
+                  font-size: @font-size-small;
                   color: @color-link;
                 }
               }
@@ -545,17 +556,18 @@
 
   @media ( min-width: 744px ) {
 
+    .vendor-logo-container {
+
+      #vendor-logo {
+        width: 64px;
+        height: 64px;
+      }
+    }
+
     #container {
 
       .left-container {
         .information-container {
-          .vendor-logo-container {
-
-            #vendor-logo {
-              width: 64px;
-              height: 64px;
-            }
-          }
 
           .list-container {
             position: relative;

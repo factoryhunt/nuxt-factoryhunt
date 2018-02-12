@@ -131,19 +131,12 @@
       routeSupplierPage (account) {
         if (account.account_status === 'approved') {
           const url = account.domain
-          this.$router.push(`/${url}?input=${this.queryInput}`)
+          window.open(`/${url}?input=${this.queryInput}`)
         } else {
           let url = account.account_name_english || account.account_name
-          url = url.replace('/ /gi', '')
-          console.log(url.replace('/\s/gi', '-'))
+          url = url.toLowerCase().replace(/ /g, '-').replace(/\./g, '').replace(/\,/g, '').replace(/\(/g, '').replace(/\)/g, '')
           const id = account.account_id
-          this.$router.push({
-            path: `/supplier/${url}`,
-            query: {
-              id: id,
-              input: this.queryInput
-            }
-          })
+          window.open(`/supplier/${url}?id=${id}&input=${this.queryInput}`)
         }
       },
       // Deprecated

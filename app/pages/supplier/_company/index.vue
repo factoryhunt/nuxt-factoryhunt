@@ -37,7 +37,7 @@
         <div class="information-container each-container">
           <h2 class="section-title">{{ $t('company.information.title') }}</h2>
           <div class="information-table-container">
-            <div class="list-container" v-show="lead.products">
+            <div class="list-container" v-show="lead.products_english || lead.products">
               <div class="left-contents">{{ $t('company.information.products') }}</div>
               <div class="right-contents">{{ lead.products_english || lead.products }}</div>
             </div>
@@ -56,6 +56,10 @@
             <div class="list-container" v-show="getLocation">
               <div class="left-contents">{{ $t('company.information.location') }}</div>
               <div class="right-contents">{{ getLocation }}</div>
+            </div>
+            <div class="list-container" v-show="lead.lead_type">
+              <div class="left-contents">{{ $t('company.information.businessType') }}</div>
+              <div class="right-contents">{{ lead.lead_type }}</div>
             </div>
             <div class="list-container" v-show="lead.established_date !== '0000-00-00'">
               <div class="left-contents">{{ $t('company.information.establishedYear') }}</div>
@@ -681,7 +685,7 @@
 
         .left-container {
           padding-right: 410px;
-          min-height: 500px;
+          min-height: 540px;
 
           .sticky-outer-container {
             display: inherit;

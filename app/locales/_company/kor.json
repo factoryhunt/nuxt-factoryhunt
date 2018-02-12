@@ -17,7 +17,13 @@
     "phone": "연락처",
     "address": "주소",
     "location": "위치",
+    "businessType": "업태",
     "establishedYear": "설립연도"
+  },
+  "document": {
+    "title": "문서",
+    "pdf": "카탈로그",
+    "certification": "인증서"
   },
   "history": {
     "title": "연혁"

@@ -1,7 +1,6 @@
 <template>
   <div>
     <div id="editor">
-      <p>Hello World!</p>
       {{html}}
     </div>
   </div>
@@ -28,7 +27,7 @@
           theme: 'snow'
         })
         editor.on('text-change', function(delta, oldDelta, source) {
-          console.log(document.querySelector(".ql-editor").innerHTML)
+          // console.log(document.querySelector(".ql-editor").innerHTML)
         })
         if (this.html) {
           editor.setContent(this.html)
