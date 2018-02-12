@@ -47,15 +47,15 @@ module.exports = {
   sitemap: {
     path: '/sitemap.xml',
     hostname: 'https://www.factoryhunt.com',
-    cacheTime: 1000 * 60 * 15,
-    generate: false, // Enable me when using nuxt generate
+    cacheTime: 1000 * 60 * 15, // 15 mins
+    generate: false,
     exclude: [
       '/dashboard',
-      '/for-supplier/**',
-      '/dashboard/**'
+      '/dashboard/**',
+      '/for-supplier/**'
     ],
-    routes () {
-      return axios.get('https://factoryhunt.com/api/data/sitemap')
+    async routes () {
+      return await axios.get('https://www.factoryhunt.com/api/data/sitemap')
         .then(res => res.data.map(account => '/' + account.domain))
     }
   },

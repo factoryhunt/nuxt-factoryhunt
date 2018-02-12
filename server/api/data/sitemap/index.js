@@ -11,6 +11,7 @@ router.get('/', async (req, res) => {
       })
     })
   }
+
   try {
     const domain = await getAccount()
     res.status(200).json(domain)

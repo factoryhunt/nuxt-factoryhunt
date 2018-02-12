@@ -25,11 +25,11 @@
     </header>
 
     <!-- Featured Suppliers -->
+    <loader v-show="!isLoaded" id="loader" class="spinkit-default"/>
     <div class="featured-container" v-show="isLoaded">
 
       <!-- Title -->
       <h2 class="title">{{ $t('home.featured') }}</h2>
-      <loader v-show="!features" id="featured-loader" class="spinkit-default"></loader>
 
       <!-- Featured Supplier -->
       <div class="contents-container">
@@ -69,14 +69,19 @@
 <script>
   import axios from '~/plugins/axios'
   import Loader from '~/components/Loader.vue'
-
   export default {
     components: {
       Loader
     },
     async asyncData () {
-      let { data } = await axios.get('/api/data/account/featured')
-      return { features: data }
+      try {
+        let { data } = await axios.get('/api/data/account/featured')
+        return { features: data }
+      } catch (err) {
+        return {
+          features: {}
+        }
+      }
     },
     data () {
       return {
@@ -102,11 +107,19 @@
       },
       activateJquery () {
         $(document).ready(() => {
-          const windowHeight = window.innerHeight * 0.74
-          const $headerContainer = $('.header-container')
-          $headerContainer.css('min-height', `${windowHeight}px`)
+          this.calculateWindowHeight()
+          this.deactivateLoader()
           this.isLoaded = true
         })
+      },
+      calculateWindowHeight () {
+        const windowHeight = window.innerHeight * 0.74
+        const $headerContainer = $('.header-container')
+        $headerContainer.css('min-height', `${windowHeight}px`)
+      },
+      deactivateLoader () {
+        const $loader = $('#loader')
+        $loader.removeClass().addClass('invisible')
       }
     },
     mounted () {

@@ -6,7 +6,6 @@
 </template>
 
 <script>
-  import axios from 'axios'
   export default {
     head () {
       return {
@@ -15,10 +14,6 @@
           { hid: 'canonical', rel: 'canonical', href: `https://www.factoryhunt.com/terms` }
         ]
       }
-    },
-    created () {
-      axios.get('https://jsonplaceholder.typicode.com/users')
-        .then(res => res.data.map(user => console.log(user.username)))
     }
   }
 </script>
