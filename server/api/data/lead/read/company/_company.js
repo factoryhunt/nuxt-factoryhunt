@@ -3,7 +3,7 @@ const CONFIG_MYSQL = require('../../../../mysql/model')
 
 // GET /api/data/lead/company/:company
 module.exports = async (req, res) => {
-  const company = req.params.company.toLowerCase()
+  let company = decodeURI(req.params.company).toLowerCase()
 
   const getLead = () => {
     return new Promise((resolve, reject) => {

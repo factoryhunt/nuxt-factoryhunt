@@ -16,7 +16,6 @@
   import NavigationBar from '~/components/NavigationBar.vue'
   import SubNavigationBar from '~/components/DashboardNavigationBar.vue'
   import TopAlertBar from '~/components/Alert/TopAlertBar.vue'
-  import FooterBar from '~/components/FooterBar.vue'
   import CopyrightBar from '~/components/CopyrightBar.vue'
   export default {
     components: {

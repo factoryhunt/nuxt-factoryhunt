@@ -124,7 +124,7 @@
       }
     },
     async asyncData ({query, params}) {
-      let {data} = await axios.get(`/api/data/lead/company/${params.company}`)
+      let {data} = await axios.get(`/api/data/lead/company/${encodeURI(params.company)}`)
       return {
         queryInput: query.input,
         lead: data

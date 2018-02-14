@@ -141,12 +141,7 @@
           const url = account.domain
           window.open(`/${url}?input=${this.queryInput}`)
         } else {
-          this.$router.push({
-            path: `/supplier/${account.domain}`,
-            query: {
-              input: this.queryInput
-            }
-          })
+          window.open(`/supplier/${account.domain}?input=${this.queryInput}`)
         }
       },
       // Deprecated
