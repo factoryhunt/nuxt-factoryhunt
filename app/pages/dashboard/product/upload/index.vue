@@ -153,8 +153,10 @@
   import VueEditor from '~/components/VueEditor'
   import { topAlert } from '~/utils/alert'
   export default {
-    metaInfo: {
-      title: 'Upload Product | Factory Hunt'
+    head () {
+      return {
+        title: 'Product Upload'
+      }
     },
     components: {
       Spinkit,
@@ -335,17 +337,9 @@
           })
         }
         const checkProductName = (products) => {
-          const thisProductName = (this.value.product.product_name).toLowerCase()
-          const inputName = (this.value.productName).toLowerCase()
-
-          // It is mine.
-          if (thisProductName === inputName) {
-            this.toggle.productName = true
-            return
-          }
-
           for (const i in products) {
             const productName = (products[i].product_name).toLowerCase()
+            const inputName = (this.value.productName).toLowerCase()
             // Do not allowed same product name
             if (inputName === productName) {
               $('.name-container .hidden-text').css('display', 'inherit')
@@ -378,11 +372,11 @@
         this.filterProductDomain(this.value.productName)
 
         if (!this.toggle.productName) {
-          return topAlert(this.$store, false, 'failed1')
+          return topAlert(this.$store, false, this.$t('dashboardProductEdit.productName.hidden'))
         }
 
         if (this.value.files.length < 1) {
-          return topAlert(this.$store, false, 'failed2')
+          return topAlert(this.$store, false, this.$t('dashboardProductEdit.productImage.alert'))
         }
 
         $('#modal-spinkit').removeClass().addClass('spinkit-modal')

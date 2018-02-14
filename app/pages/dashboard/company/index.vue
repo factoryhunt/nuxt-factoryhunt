@@ -114,16 +114,16 @@
       </div>
 
       <!-- Company Catalog -->
-      <div class="catalog-container input-container">
-        <p class="title">{{ $t('dashboardCompany.catalog.title') }}</p>
-        <p class="sub-title">{{ $t('dashboardCompany.catalog.desc') }}</p>
-        <label for="pdf-input">{{ $t('dashboardProductEdit.catalog.button') }}</label>
-        <input name="catalog_pdf" id="pdf-input" type="file" accept="application/pdf" @change="onPDFchanged($event.target.files)">
-        <div class="file-information-container">
-          <p id="file-information-text">{{msg.pdfText}}</p>
-          <a id="pdf-cancel-button" @click="onPDFcancel">{{ $t('dashboardProductEdit.catalog.cancel') }}</a>
-        </div>
-      </div>
+      <!--<div class="catalog-container input-container">-->
+        <!--<p class="title">{{ $t('dashboardCompany.catalog.title') }}</p>-->
+        <!--<p class="sub-title">{{ $t('dashboardCompany.catalog.desc') }}</p>-->
+        <!--<label for="pdf-input">{{ $t('dashboardProductEdit.catalog.button') }}</label>-->
+        <!--<input name="catalog_pdf" id="pdf-input" type="file" accept="application/pdf" @change="onPDFchanged($event.target.files)">-->
+        <!--<div class="file-information-container">-->
+          <!--<p id="file-information-text">{{msg.pdfText}}</p>-->
+          <!--<a id="pdf-cancel-button" @click="onPDFcancel">{{ $t('dashboardProductEdit.catalog.cancel') }}</a>-->
+        <!--</div>-->
+      <!--</div>-->
 
       <!-- Company History -->
       <div class="history-container input-container">
@@ -287,8 +287,8 @@
         // request
         try {
           await Promise.all([
-            this.uploadCompanyData(),
-            this.uploadPDF()
+            this.uploadCompanyData()
+            // this.uploadPDF()
           ])
           this.onEditSuccess()
         } catch (err) {

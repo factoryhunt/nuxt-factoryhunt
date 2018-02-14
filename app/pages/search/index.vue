@@ -141,10 +141,12 @@
           const url = account.domain
           window.open(`/${url}?input=${this.queryInput}`)
         } else {
-          let url = account.account_name || account.account_name
-          url = url.toLowerCase().replace(/ /g, '-').replace(/\./g, '').replace(/\,/g, '').replace(/\(/g, '').replace(/\)/g, '')
-          const id = account.account_id
-          window.open(`/supplier/${url}?id=${id}&input=${this.queryInput}`)
+          this.$router.push({
+            path: `/supplier/${account.domain}`,
+            query: {
+              input: this.queryInput
+            }
+          })
         }
       },
       // Deprecated

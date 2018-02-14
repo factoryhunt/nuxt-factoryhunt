@@ -1,18 +1,19 @@
 <template>
   <div id="container">
 
-    <div class="modal-background" v-show="vendor.account_pdf_url" @click="onPDFCloseButton">
-      <div class="body-container">
-        <object
-          id="pdf"
-          :data="vendor.account_pdf_url"
-          type="application/pdf"
-          width="100%"
-          height="100%">
-        </object>
-      </div>
-      <a id="close-button" @click="onPDFCloseButton"><i class="fa fa-angle-down"></i></a>
-    </div>
+    <!-- PDF Modal -->
+    <!--<div class="modal-background" v-show="vendor.account_pdf_url" @click="onPDFCloseButton">-->
+      <!--<div class="body-container">-->
+        <!--<object-->
+          <!--id="pdf"-->
+          <!--:data="vendor.account_pdf_url"-->
+          <!--type="application/pdf"-->
+          <!--width="100%"-->
+          <!--height="100%">-->
+        <!--</object>-->
+      <!--</div>-->
+      <!--<a id="close-button" @click="onPDFCloseButton"><i class="fa fa-angle-down"></i></a>-->
+    <!--</div>-->
 
     <!-- Main Image -->
     <div class="main-image-container">
@@ -105,13 +106,13 @@
         </div>
 
         <!-- Document -->
-        <div class="document-container each-container" v-show="vendor.account_pdf_url">
-          <h2 class="section-title">{{ $t('company.document.title') }}</h2>
-          <span class="document-item" @click="onCatalog">
-            <i id="pdf-icon" class="fa fa-file-pdf-o"></i>
-            <p class="title">Company<br>Brochure</p>
-          </span>
-        </div>
+        <!--<div class="document-container each-container" v-show="vendor.account_pdf_url">-->
+          <!--<h2 class="section-title">{{ $t('company.document.title') }}</h2>-->
+          <!--<span class="document-item" @click="onCatalog">-->
+            <!--<i id="pdf-icon" class="fa fa-file-pdf-o"></i>-->
+            <!--<p class="title">Company<br>Brochure</p>-->
+          <!--</span>-->
+        <!--</div>-->
 
         <!-- Company History -->
         <div class="history-container each-container" v-show="vendor.history">
