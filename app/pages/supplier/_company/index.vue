@@ -123,8 +123,8 @@
         ]
       }
     },
-    async asyncData ({query}) {
-      let {data} = await axios.get(`/api/data/lead/${query.id}`)
+    async asyncData ({query, params}) {
+      let {data} = await axios.get(`/api/data/lead/company/${params.company}`)
       return {
         queryInput: query.input,
         lead: data
