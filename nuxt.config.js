@@ -52,11 +52,19 @@ module.exports = {
     exclude: [
       '/dashboard',
       '/dashboard/**',
-      '/for-supplier/**'
+      '/for-supplier/**',
+      '/supplier',
+      '/inquiry'
     ],
     async routes () {
-      return await axios.get('https://www.factoryhunt.com/api/data/sitemap')
-        .then(res => res.data.map(account => '/' + account.domain))
+      return await axios.get('http://127.0.0.1:3000/api/data/sitemap')
+        .then(res => res.data.map(account => {
+          if (account.account_status === 'approved') {
+            return '/' + account.domain
+          } else {
+            return '/supplier/' + account.domain
+          }
+        }))
     }
   },
   plugins: [
