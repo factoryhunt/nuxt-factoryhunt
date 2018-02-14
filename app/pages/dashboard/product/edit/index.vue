@@ -6,7 +6,6 @@
     <!-- Header -->
     <header class="header-container">
       <h1 class="title">{{ $t('dashboardProductEdit.header.titleEdit') }}</h1>
-      <p class="caution-text">{{ $t('dashboardProductEdit.category.caution') }}</p>
     </header>
 
     <div class="divider"></div>
@@ -32,8 +31,10 @@
               </ul>
             </div>
           </div>
-          <p v-if="value.primaryCategory" class="hidden-text" v-html="$t('dashboardProductEdit.category.select', { category: getCategory })"></p>
+          <p v-if="value.primaryCategory" class="hidden-text">{{ $t('dashboardProductEdit.category.select', { category: getCategory }) }}</p>
+          <p class="caution-text">{{ $t('dashboardProductEdit.category.caution') }}</p>
         </div>
+        <div class="divider"></div>
 
         <!-- Product Name -->
         <div class="name-container input-container">
@@ -42,7 +43,9 @@
           <input id="name-count-input" required pattern="[A-Za-z0-9 `\/.,&()-]{2,100}" :title="$t('dashboardProductEdit.productName.inputTitle')" minlength="2" maxlength="100" v-model="value.productName" @keyup="countNameLength" :placeholder="$t('dashboardProductEdit.productName.placeholder')" type="text" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
           <p class="count-text">{{ 100 - value.nameCount }}</p>
           <p class="hidden-text">{{ $t('dashboardProductEdit.productName.hidden') }}</p>
+          <p class="caution-text">{{ $t('dashboardProductEdit.productName.caution') }}</p>
         </div>
+        <div class="divider"></div>
 
         <!-- Product Image -->
         <div class="image-container input-container">
@@ -66,7 +69,9 @@
             </div>
             <span id="thumbnail-text">{{ $t('dashboardProductEdit.productImage.mainImage') }}</span>
           </div>
+          <p class="caution-text">{{ $t('dashboardProductEdit.productImage.caution') }}</p>
         </div>
+        <div class="divider"></div>
 
         <!-- Product Information -->
         <div class="information-container input-container">
@@ -113,13 +118,17 @@
               <input placeholder="Iron, wood, .." maxlength="100" v-model="value.materialType" type="text" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
             </div>
           </div>
+          <p class="caution-text">{{ $t('dashboardProductEdit.information.caution') }}</p>
         </div>
+        <div class="divider"></div>
 
         <!-- Product Description -->
         <div class="description-container input-container">
           <p class="title">{{ $t('dashboardProductEdit.introduction.title') }}</p>
           <vue-editor></vue-editor>
+          <p class="caution-text">{{ $t('dashboardProductEdit.introduction.caution') }}</p>
         </div>
+        <div class="divider"></div>
 
         <!-- Catalog -->
         <div class="catalog-container input-container">
@@ -132,6 +141,7 @@
             <a id="pdf-cancel-button" @click="onPDFcancel">{{ $t('dashboardProductEdit.catalog.cancel') }}</a>
           </div>
         </div>
+        <div class="divider"></div>
 
         <!-- Upload Button -->
         <div class="confirm-container input-container">
@@ -570,7 +580,7 @@
   @import '~assets/css/index';
 
   #html-editor {
-    height: 500px !important;
+    height: 300px !important;
   }
 
   @height: 50px;
@@ -608,7 +618,6 @@
   textarea {
     font-size: 20px !important;
     font-weight: 400 !important;
-    min-height: 330px;
 
     &:focus,
     &:active,
@@ -626,7 +635,6 @@
     font-weight: 400 !important;
     margin-bottom: 5px !important;
     height: @height !important;
-    border: none !important;
   }
   button {
     font-size: @font-size-button;
@@ -671,10 +679,6 @@
           font-size: 30px;
           font-weight: 600;
         }
-        .caution-text {
-          font-size: @font-size-medium;
-          font-weight: 300;
-        }
       }
 
       .body-container {
@@ -692,8 +696,12 @@
         .sub-title {
           font-size: 20px;
           font-weight:300;
-          margin-top: 0;
           margin-bottom: 8px;
+        }
+        .caution-text {
+          font-size: 14px;
+          font-weight: 300;
+          margin: 0;
         }
 
         .category-container {
@@ -759,8 +767,8 @@
 
           .hidden-text {
             font-size:17px;
-            font-weight: 400;
-            margin: 0;
+            font-weight: 600;
+            margin-bottom: 2px;
           }
         }
 
@@ -769,16 +777,16 @@
 
           .hidden-text {
             color: @color-red;
-            font-weight: @font-weight-medium;
-            font-size: @font-size-small;
+            font-weight: 500;
+            font-size:17px;
             display: none;
-            margin: 0;
           }
           .count-text {
             float: right;
             font-size: 15px;
             font-weight:600;
-            margin: 0;
+            margin-bottom: 4px;
+            margin-right: 3px;
           }
         }
 
@@ -901,11 +909,19 @@
           }
         }
 
+        .description-container {
+
+          .quillWrapper {
+            margin-bottom: 8px;
+          }
+        }
+
         .catalog-container {
 
           label {
             display: inline-block;
             .upload-label-basic;
+            border: 1px solid @color-font-base;
             margin-top: 10px;
             font-size: @font-size-button;
             font-weight: @font-weight-button;
@@ -930,10 +946,10 @@
 
         .confirm-container {
           .title {
-            margin-bottom: 0 !important;
+            margin-bottom: 0;
           }
           .sub-title {
-            margin-bottom: 12px !important;
+            margin-bottom: 12px;
           }
           button {
             font-size: @font-size-button;
