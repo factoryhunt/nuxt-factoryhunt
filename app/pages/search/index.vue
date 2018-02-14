@@ -42,12 +42,12 @@
         <div v-if="account_count > 0">
           <section class="supplier-container">
             <div class="supplier-wrapper" v-for="(account,index) in accounts" :key="index">
-              <h1 class="company-name" @click="routeSupplierPage(account)">{{account.account_name_english || account.account_name}}</h1>
+              <h1 class="company-name" @click="routeSupplierPage(account)">{{account.account_name || account.account_name}}</h1>
               <i v-show="isApprovedAccount(account)" id="verified-mark" class="fa fa-check-circle" aria-hidden="true"></i>
-              <h2 class="product">{{account.products_english}}</h2>
+              <h2 class="product">{{account.products}}</h2>
               <h3 class="website">{{account.website}}</h3>
               <h3 class="phone">{{account.phone}}</h3>
-              <h3 class="address">{{account.mailing_country_english}}</h3>
+              <h3 class="address">{{account.mailing_country}}</h3>
             </div>
           </section>
           <ul class="pagination">
@@ -97,11 +97,19 @@
       }
     },
     async asyncData ({ query }) {
-      let { data } = await axios.get(`/api/data/search/${query.input}/0`)
-      return {
-        queryInput: query.input,
-        accounts: removeNullInArray(data.accounts),
-        account_count: data.account_count
+      try {
+        let { data } = await axios.get(`/api/data/search/${query.input}/0`)
+        return {
+          queryInput: query.input,
+          accounts: removeNullInArray(data.accounts),
+          account_count: data.account_count
+        }
+      } catch (err) {
+        return {
+          queryInput: query.input,
+          accounts: {},
+          account_count: 0
+        }
       }
     },
     data () {
@@ -133,7 +141,7 @@
           const url = account.domain
           window.open(`/${url}?input=${this.queryInput}`)
         } else {
-          let url = account.account_name_english || account.account_name
+          let url = account.account_name || account.account_name
           url = url.toLowerCase().replace(/ /g, '-').replace(/\./g, '').replace(/\,/g, '').replace(/\(/g, '').replace(/\)/g, '')
           const id = account.account_id
           window.open(`/supplier/${url}?id=${id}&input=${this.queryInput}`)

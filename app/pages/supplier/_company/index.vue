@@ -21,7 +21,7 @@
             <div class="sticky-company-container">
               <a href="#container" class="sticky-item">
                 <!--<img id="sticky-company-logo" src="~assets/img/temp-logo-image_english_512.png"/>-->
-                <span id="sticky-company-name">{{ lead.company_english || lead.company }}</span>
+                <span id="sticky-company-name">{{ lead.company }}</span>
               </a>
             </div>
           </div>
@@ -29,17 +29,17 @@
 
         <!-- Company Header -->
         <div id="header-container" class="header-container each-container">
-          <p id="OVERVIEW" class="address">{{ lead.mailing_city_english ? lead.mailing_city_english + ', ' : '' }} {{ lead.mailing_country_english ? lead.mailing_country_english : '' }}</p>
-          <h1 class="company-name">{{ lead.company_english || lead.company }}</h1>
+          <p id="OVERVIEW" class="address">{{ lead.mailing_city ? lead.mailing_city + ', ' : '' }} {{ lead.mailing_country ? lead.mailing_country : '' }}</p>
+          <h1 class="company-name">{{ lead.company }}</h1>
         </div>
 
         <!-- Company Information -->
         <div class="information-container each-container">
           <h2 class="section-title">{{ $t('company.information.title') }}</h2>
           <div class="information-table-container">
-            <div class="list-container" v-show="lead.products_english || lead.products">
+            <div class="list-container" v-show="lead.products">
               <div class="left-contents">{{ $t('company.information.products') }}</div>
-              <div class="right-contents">{{ lead.products_english || lead.products }}</div>
+              <div class="right-contents">{{ lead.products }}</div>
             </div>
             <div class="list-container" v-show="lead.website">
               <div class="left-contents">{{ $t('company.information.website') }}</div>
@@ -106,20 +106,20 @@
     layout: 'minify',
     head () {
       return {
-        title: `${this.lead.company_english || this.lead.company}`,
+        title: `${this.lead.company}`,
         meta: [
-          { hid: 'keywords', name: 'keywords', content: `${this.lead.company}, ${this.lead.products_english}, factoryhunt, factory, hunt, factory hunt, quote, bulk, wholesale, supplier, factory hunt, online catalog, supplier directory, free website, international trade` },
+          { hid: 'keywords', name: 'keywords', content: `${this.lead.company}, ${this.lead.products}, factoryhunt, factory, hunt, factory hunt, quote, bulk, wholesale, supplier, factory hunt, online catalog, supplier directory, free website, international trade` },
           { hid: 'description', name: 'description', content: `${this.lead.company} | Factory Hunt` },
-          { hid: 'og-title', property: 'og:title', content: this.lead.company_english || this.lead.company },
+          { hid: 'og-title', property: 'og:title', content: this.lead.company },
           { hid: 'og-description', property: 'og:description', content: this.$t('supplier.ogDescription') },
           { hid: 'og-url', property: 'og:url', content: `factoryhunt.com/${this.lead.domain}` },
-          { hid: 'twitter-title', property: 'twitter:title', content: `${this.lead.company_english || this.lead.company} | Factory Hunt` },
+          { hid: 'twitter-title', property: 'twitter:title', content: `${this.lead.company} | Factory Hunt` },
           { hid: 'twitter-description', property: 'twitter:description', content: this.$t('supplier.ogDescription') },
           { hid: 'twitter-image', property: 'twitter:image', content: 'https://s3-us-west-1.amazonaws.com/factoryhunt.com/logo2.png' },
-          { hid: 'twitter-domain', property: 'twitter:domain', content: `https://www.factoryhunt.com/supplier/${this.lead.company_english || this.lead.company}?id=${this.lead.lead_id}` }
+          { hid: 'twitter-domain', property: 'twitter:domain', content: `https://www.factoryhunt.com/supplier/${this.lead.company}?id=${this.lead.lead_id}` }
         ],
         link: [
-          { hid: 'canonical', rel: 'canonical', href: `https://www.factoryhunt.com/supplier/${this.lead.company_english || this.lead.company}?id=${this.lead.lead_id}` }
+          { hid: 'canonical', rel: 'canonical', href: `https://www.factoryhunt.com/supplier/${this.lead.company}?id=${this.lead.lead_id}` }
         ]
       }
     },
@@ -152,9 +152,9 @@
     },
     computed: {
       getLocation () {
-        const city = this.lead.mailing_city_english ? this.lead.mailing_city_english + ', ' : ''
-        const state = this.lead.mailing_state_english ? this.lead.mailing_state_english + ', ' : ''
-        const country = this.lead.mailing_country_english
+        const city = this.lead.mailing_city ? this.lead.mailing_city + ', ' : ''
+        const state = this.lead.mailing_state ? this.lead.mailing_state + ', ' : ''
+        const country = this.lead.mailing_country
         return city + state + country
       },
       getNumberOfEmployees () {

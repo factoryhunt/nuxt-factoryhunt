@@ -43,7 +43,7 @@
               <a href="#container" class="sticky-item">
                 <img v-if="vendor.thumbnail_url" id="sticky-company-logo" :src="vendor.thumbnail_url"/>
                 <img v-else id="sticky-company-logo" src="../../assets/img/temp-logo-image_english_512.png"/>
-                <span id="sticky-company-name">{{vendor.account_name_english}}</span>
+                <span id="sticky-company-name">{{vendor.account_name}}</span>
               </a>
             </div>
           </div>
@@ -53,10 +53,10 @@
         <div id="header-container" class="header-container each-container">
           <img v-if="vendor.thumbnail_url" class="logo" :src="vendor.thumbnail_url">
           <img v-else class="logo" src="../../assets/img/temp-logo-image_english_512.png">
-          <p id="OVERVIEW" class="address">{{ vendor.mailing_city_english ? vendor.mailing_city_english + ', ' : '' }} {{ vendor.mailing_country_english ? vendor.mailing_country_english : '' }}</p>
-          <h1 class="company-name">{{ vendor.account_name_english }}</h1>
+          <p id="OVERVIEW" class="address">{{ vendor.mailing_city ? vendor.mailing_city + ', ' : '' }} {{ vendor.mailing_country ? vendor.mailing_country : '' }}</p>
+          <h1 class="company-name">{{ vendor.account_name }}</h1>
           <div class="short-description-container">
-            <p class="short-description">{{ vendor.company_short_description_english ? vendor.company_short_description_english : '' }}</p>
+            <p class="short-description">{{ vendor.company_short_description ? vendor.company_short_description : '' }}</p>
             <!--•-->
             <!--<div class="star-container" v-for="index in 5">-->
             <!--<i class="fa fa-star-o" aria-hidden="true"></i>-->
@@ -70,9 +70,9 @@
         <div class="information-container each-container">
           <h2 class="section-title">{{ $t('company.information.title') }}</h2>
           <div class="information-table-container">
-            <div class="list-container" v-show="vendor.products_english">
+            <div class="list-container" v-show="vendor.products">
               <div class="left-contents">{{ $t('company.information.products') }}</div>
-              <div class="right-contents">{{ vendor.products_english }}</div>
+              <div class="right-contents">{{ vendor.products }}</div>
             </div>
             <div class="list-container" v-show="vendor.website">
               <div class="left-contents">{{ $t('company.information.website') }}</div>
@@ -98,9 +98,9 @@
         </div>
 
         <!-- Company Description -->
-        <div class="description-container each-container" v-show="vendor.company_description_english">
+        <div class="description-container each-container" v-show="vendor.company_description">
           <h2 class="section-title">{{ $t('company.description.title') }}</h2>
-          <textarea title="description" readonly v-model="vendor.company_description_english"></textarea>
+          <textarea title="description" readonly v-model="vendor.company_description"></textarea>
           <p @click="descriptionExpand" class="view-details-button" v-html="$t('company.readMore')"></p>
         </div>
 
@@ -195,17 +195,17 @@
     layout: 'minify',
     head () {
       return {
-        title: `${this.vendor.account_name_english}`,
+        title: `${this.vendor.account_name}`,
         meta: [
-          { hid: 'keywords', name: 'keywords', content: `${this.vendor.account_name_english}, ${this.vendor.products_english}, factoryhunt, factory, hunt, factory hunt, quote, bulk, wholesale, supplier, factory hunt, online catalog, supplier directory, free website, international trade` },
-          { hid: 'description', name: 'description', content: `${this.vendor.company_description_english} | Factory Hunt` },
-          { hid: 'og-title', property: 'og:title', content: this.vendor.account_name_english },
-          { hid: 'og-description', property: 'og:description', content: this.vendor.company_description_english },
+          { hid: 'keywords', name: 'keywords', content: `${this.vendor.account_name}, ${this.vendor.products}, factoryhunt, factory, hunt, factory hunt, quote, bulk, wholesale, supplier, factory hunt, online catalog, supplier directory, free website, international trade` },
+          { hid: 'description', name: 'description', content: `${this.vendor.company_description} | Factory Hunt` },
+          { hid: 'og-title', property: 'og:title', content: this.vendor.account_name },
+          { hid: 'og-description', property: 'og:description', content: this.vendor.company_description },
           { hid: 'og-image', property: 'og:image', content: this.vendor.account_image_url_1 },
           { hid: 'og-url', property: 'og:url', content: `factoryhunt.com/${this.vendor.domain}` },
           { hid: 'twitter-card', property: 'twitter:card', content: 'summary' },
-          { hid: 'twitter-title', property: 'twitter:title', content: `${this.vendor.account_name_english} | Factory Hunt` },
-          { hid: 'twitter-description', property: 'twitter:description', content: `${this.vendor.company_description_english} | Factory Hunt` },
+          { hid: 'twitter-title', property: 'twitter:title', content: `${this.vendor.account_name} | Factory Hunt` },
+          { hid: 'twitter-description', property: 'twitter:description', content: `${this.vendor.company_description} | Factory Hunt` },
           { hid: 'twitter-image', property: 'twitter:image', content: 'https://s3-us-west-1.amazonaws.com/factoryhunt.com/logo2.png' },
           { hid: 'twitter-domain', property: 'twitter:domain', content: `https://www.factoryhunt.com/${this.vendor.domain}` }
         ],
@@ -253,11 +253,11 @@
     },
     computed: {
       getLocation () {
-        const street = this.vendor.mailing_street_address_english ? this.vendor.mailing_street_address_english + ', ' : ''
-        const street2 = this.vendor.mailing_street_address_2_english ? this.vendor.mailing_street_address_2_english + ', ' : ''
-        const city = this.vendor.mailing_city_english ? this.vendor.mailing_city_english + ', ' : ''
-        const state = this.vendor.mailing_state_english ? this.vendor.mailing_state_english + ', ' : ''
-        const country = this.vendor.mailing_country_english
+        const street = this.vendor.mailing_street_address ? this.vendor.mailing_street_address + ', ' : ''
+        const street2 = this.vendor.mailing_street_address_2 ? this.vendor.mailing_street_address_2 + ', ' : ''
+        const city = this.vendor.mailing_city ? this.vendor.mailing_city + ', ' : ''
+        const state = this.vendor.mailing_state ? this.vendor.mailing_state + ', ' : ''
+        const country = this.vendor.mailing_country
         return street + street2 + city + state + country
       }
     },
@@ -286,7 +286,7 @@
       async sendInquiry () {
         const data = {
           email: this.value.email,
-          company: this.vendor.account_name_english,
+          company: this.vendor.account_name,
           inquiry: this.value.inquiry,
           subject: 'Inquiry for verified supplier'
         }
@@ -463,10 +463,10 @@
       },
       geocodeAddress (geocoder, resultsMap) {
         /* eslint-disable no-unused-vars */
-        const street = this.vendor.mailing_street_address_english
-        const city = this.vendor.mailing_city_english
-        const state = this.vendor.mailing_state_english
-        const country = this.vendor.mailing_country_english
+        const street = this.vendor.mailing_street_address
+        const city = this.vendor.mailing_city
+        const state = this.vendor.mailing_state
+        const country = this.vendor.mailing_country
         const address = state ? street + ', ' + city + ', ' + state + ', ' + country : street + ', ' + city + ', ' + country
         geocoder.geocode({'address': address}, function (results, status) {
           if (status === 'OK') {

@@ -99,13 +99,13 @@
         $('#loader').removeClass().addClass('spinkit-modal')
         const data = {
           contact_email: this.value.email,
-          first_name_english: this.value.firstName,
-          last_name_english: this.value.lastName,
+          first_name: this.value.firstName,
+          last_name: this.value.lastName,
           contact_title: this.value.title,
           contact_phone: this.value.phone,
           contact_mobile: this.value.mobile
-//          first_name_english: this.value.firstNameEnglish,
-//          last_name_english: this.value.lastNameEnglish
+//          first_name: this.value.firstNameEnglish,
+//          last_name: this.value.lastNameEnglish
 //          languages: this.value.languages,
 //          salutation: this.value.salutation
         }
@@ -134,8 +134,8 @@
       },
       mappingData () {
         this.value.email = this.contact.contact_email
-        this.value.firstName = this.contact.first_name_english
-        this.value.lastName = this.contact.last_name_english
+        this.value.firstName = this.contact.first_name
+        this.value.lastName = this.contact.last_name
         this.value.title = this.contact.contact_title
         this.value.phone = this.contact.contact_phone
         this.value.mobile = this.contact.contact_mobile

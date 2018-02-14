@@ -27,7 +27,7 @@
           <h1 class="title">{{product.product_name}}</h1>
 
           <!-- Vendor -->
-          <h4 id="vendor-name">by <a @click="routeAccountProfilePage">{{ vendor.account_name_english }}</a></h4>
+          <h4 id="vendor-name">by <a @click="routeAccountProfilePage">{{ vendor.account_name }}</a></h4>
           <!--<div class="detail-container">-->
             <!--<span class="origin" v-show="product.product_origin">{{product.product_origin}}</span>-->
             <!--<span class="star"> • <i id="star" class="fa fa-star-o" aria-hidden="true" v-for="index in 5" :key="index"></i></span>-->
@@ -158,17 +158,17 @@
     layout: 'minify',
     head () {
       return {
-        title: `${this.product.product_name} - ${this.vendor.account_name_english}`,
+        title: `${this.product.product_name} - ${this.vendor.account_name}`,
         meta: [
-          { hid: 'keywords', name: 'keywords', content: `${this.product.product_name}, ${this.vendor.account_name_english}, ${this.vendor.products_english}, factoryhunt, factory, hunt, factory hunt, quote, bulk, wholesale, supplier, factory hunt, online catalog, supplier directory, free website, international trade` },
+          { hid: 'keywords', name: 'keywords', content: `${this.product.product_name}, ${this.vendor.account_name}, ${this.vendor.products}, factoryhunt, factory, hunt, factory hunt, quote, bulk, wholesale, supplier, factory hunt, online catalog, supplier directory, free website, international trade` },
           { hid: 'description', name: 'description', content: `${this.product.product_description} | Factory Hunt` },
           { hid: 'og-type', property: 'og:type', content: 'website' },
           { hid: 'og-title', property: 'og:title', content: this.product.product_name },
-          { hid: 'og-description', property: 'og:description', content: `By ${this.vendor.account_name_english}` },
+          { hid: 'og-description', property: 'og:description', content: `By ${this.vendor.account_name}` },
           { hid: 'og-image', property: 'og:image', content: this.product.product_image_url_1 },
           { hid: 'og-url', property: 'og:url', content: `factoryhunt.com/${this.domain}/${this.product.product_domain}` },
           { hid: 'twitter-card', property: 'twitter:card', content: 'summary' },
-          { hid: 'twitter-title', property: 'twitter:title', content: `${this.product.product_name} - ${this.vendor.account_name_english} | Factory Hunt` },
+          { hid: 'twitter-title', property: 'twitter:title', content: `${this.product.product_name} - ${this.vendor.account_name} | Factory Hunt` },
           { hid: 'twitter-description', property: 'twitter:description', content: `${this.product.product_description} | Factory Hunt` },
           { hid: 'twitter-image', property: 'twitter:image', content: 'https://s3-us-west-1.amazonaws.com/factoryhunt.com/logo2.png' },
           { hid: 'twitter-domain', property: 'twitter:domain', content: `https://www.factoryhunt.com/${this.product.product_domain}/${this.vendor.domain}` }

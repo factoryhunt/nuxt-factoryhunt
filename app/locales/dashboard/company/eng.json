@@ -12,7 +12,7 @@
   },
   "slogan": {
     "title": "Slogan",
-    "desc": "Describe your company in 50 characters or less.",
+    "desc": "Describe your company in 150 characters or less.",
     "placeholder": "Factory Hunt is a global B2B platform.",
     "inputTitle": "It must be characters 2-50 and can only contain letters, numbers, periods, comma, and apostrophe."
   },
@@ -76,7 +76,8 @@
     }
   },
   "catalog": {
-    "title": "Company Catalog"
+    "title": "Company Brochure",
+    "desc": "PDF only. Maximum upload file size :10MB"
   },
   "history": {
     "title": "Company History",

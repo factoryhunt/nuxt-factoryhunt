@@ -335,9 +335,18 @@
           })
         }
         const checkProductName = (products) => {
+          const thisProductName = (this.value.product.product_name).toLowerCase()
+          const inputName = (this.value.productName).toLowerCase()
+
+          // It is mine.
+          if (thisProductName === inputName) {
+            this.toggle.productName = true
+            return
+          }
+
           for (const i in products) {
             const productName = (products[i].product_name).toLowerCase()
-            const inputName = (this.value.productName).toLowerCase()
+            // Do not allowed same product name
             if (inputName === productName) {
               $('.name-container .hidden-text').css('display', 'inherit')
               this.toggle.productName = false
@@ -666,9 +675,10 @@
 
           .hidden-text {
             color: @color-red;
-            font-weight: 500;
-            font-size:17px;
+            font-weight: @font-weight-medium;
+            font-size: @font-size-small;
             display: none;
+            margin: 0;
           }
           .count-text {
             float: right;

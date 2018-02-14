@@ -66,7 +66,7 @@ module.exports = async (req, res) => {
   const createAccount = () => {
     return new Promise((resolve, reject) => {
       account = {
-        account_name_english: company,
+        account_name: company,
         account_type: 'Supplier',
         membership_type: 'Standard',
       }

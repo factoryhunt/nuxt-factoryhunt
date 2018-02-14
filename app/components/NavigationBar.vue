@@ -78,8 +78,8 @@
           <div class="dropdown-contents">
             <div class="user-container">
               <p class="user-email">{{contact.contact_email}}</p>
-              <p class="user-company-name">{{account.account_name_english}}</p>
-              <p class="user-name">{{contact.salutation + ' ' + contact.first_name_english + ' ' + contact.last_name_english}}</p>
+              <p class="user-company-name">{{account.account_name}}</p>
+              <p class="user-name">{{contact.salutation + ' ' + contact.first_name + ' ' + contact.last_name}}</p>
             </div>
             <div class="footer-divider"></div>
             <div class="footer">

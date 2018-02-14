@@ -7,7 +7,7 @@ module.exports = async (req, res) => {
 
   const getLeads = () => {
     return new Promise((resolve, reject) => {
-      mysql.query(`SELECT * FROM ${CONFIG_MYSQL.TABLE_LEADS} WHERE lower(company_english) LIKE "%${company}%"`, (err, rows) => {
+      mysql.query(`SELECT * FROM ${CONFIG_MYSQL.TABLE_LEADS} WHERE lower(company) LIKE "%${company}%"`, (err, rows) => {
         if (err) reject(err)
         resolve(rows)
       })

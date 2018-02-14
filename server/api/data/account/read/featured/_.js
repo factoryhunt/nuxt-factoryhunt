@@ -35,15 +35,15 @@ module.exports = async (req, res) => {
       mysql.query(`SELECT 
       account_image_url_1,
       domain,
-      products_english,
-      account_name_english,
-      company_short_description_english
+      products,
+      account_name,
+      company_short_description
       FROM ${CONFIG_MYSQL.TABLE_ACCOUNTS} 
       WHERE 
       account_status = "approved" 
       AND account_image_url_1 != ""
-      AND company_short_description_english != ""
-      AND account_name_english != ""
+      AND company_short_description != ""
+      AND account_name != ""
       ORDER BY rand()`, (err, rows) => {
         if (err) reject(err)
         resolve(rows)

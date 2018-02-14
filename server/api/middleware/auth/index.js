@@ -35,7 +35,7 @@ module.exports = async (req, res, next) => {
 
   const getContactData = (contact_id) => {
     return new Promise((resolve, reject) => {
-      mysql.query(`SELECT contact_id, contact_email, contact_level, contact_mobile, contact_phone, contact_phone_ext, contact_title, created_date, first_name, first_name_english, last_name, last_name_english, lead_source, management_level, notes, salutation FROM ${CONFIG_MYSQL.TABLE_CONTACTS} WHERE contact_id = ${contact_id}`, (err, rows) => {
+      mysql.query(`SELECT contact_id, contact_email, contact_level, contact_mobile, contact_phone, contact_phone_ext, contact_title, created_date, first_name, last_name, lead_source, management_level, notes, salutation FROM ${CONFIG_MYSQL.TABLE_CONTACTS} WHERE contact_id = ${contact_id}`, (err, rows) => {
         if (err) reject(err)
         resolve(rows[0])
       })

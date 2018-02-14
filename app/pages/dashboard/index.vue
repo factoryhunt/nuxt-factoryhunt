@@ -9,8 +9,8 @@
           <img v-else id="company-image" src="~assets/img/temp-logo-image_english_512.png">
           <div class="contents-container">
             <div class="title-contents">
-              <p class="title">{{ account.account_name_english }}</p>
-              <p v-if="contact.first_name_english" class="sub-title">{{contact.first_name_english + ' ' + contact.last_name_english}}<small></small></p>
+              <p class="title">{{ account.account_name }}</p>
+              <p v-if="contact.first_name" class="sub-title">{{contact.first_name + ' ' + contact.last_name}}<small></small></p>
             </div>
             <button id="view-button" @click="routeCompanyPage" class="view-button button-white">{{ $t('dashboard.viewWebsite') }}</button>
             <button id="edit-button" @click="routeCompanyEditPage" class="edit-button button-white">{{ $t('dashboard.edit') }}</button>
@@ -105,7 +105,7 @@
     layout: 'dashboard',
     computed: {
       getAccountName () {
-        return this.contact.first_name_english ? (this.contact.salutation + ' ' + this.contact.first_name_english + ' ' + this.contact.last_name_english) : this.contact.contact_email
+        return this.contact.first_name ? (this.contact.salutation + ' ' + this.contact.first_name + ' ' + this.contact.last_name) : this.contact.contact_email
       },
       ...mapGetters({
         account: 'auth/GET_ACCOUNT',

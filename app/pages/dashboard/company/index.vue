@@ -116,6 +116,7 @@
       <!-- Company Catalog -->
       <div class="catalog-container input-container">
         <p class="title">{{ $t('dashboardCompany.catalog.title') }}</p>
+        <p class="sub-title">{{ $t('dashboardCompany.catalog.desc') }}</p>
         <label for="pdf-input">{{ $t('dashboardProductEdit.catalog.button') }}</label>
         <input name="catalog_pdf" id="pdf-input" type="file" accept="application/pdf" @change="onPDFchanged($event.target.files)">
         <div class="file-information-container">
@@ -203,20 +204,20 @@
       applyLocalData (account) {
         this.value.mainImageUrl = account.account_image_url_1
         this.value.logoUrl = account.thumbnail_url
-        this.value.accountName = account.account_name_english
-        this.value.description = account.company_description_english
-        this.value.shortDescription = account.company_short_description_english
-        this.value.shortDescriptionCount = account.company_short_description_english.length
-        this.value.products = account.products_english
+        this.value.accountName = account.account_name
+        this.value.description = account.company_description
+        this.value.shortDescription = account.company_short_description
+        this.value.shortDescriptionCount = account.company_short_description.length
+        this.value.products = account.products
         this.value.phone = account.phone
         this.value.website = account.website
         this.value.establishedDate = this.getYear(account.established_date)
-        this.value.country = account.mailing_country_english
-        this.value.state = account.mailing_state_english
-        this.value.city = account.mailing_city_english
-        this.value.postalCode = account.mailing_postal_code_english
-        this.value.streetAddress = account.mailing_street_address_english
-        this.value.streetAddressDetail = account.mailing_street_address_2_english
+        this.value.country = account.mailing_country
+        this.value.state = account.mailing_state
+        this.value.city = account.mailing_city
+        this.value.postalCode = account.mailing_postal_code
+        this.value.streetAddress = account.mailing_street_address
+        this.value.streetAddressDetail = account.mailing_street_address_2
         this.value.history = account.history
       },
       onPDFchanged (files) {
@@ -296,19 +297,19 @@
       },
       uploadCompanyData () {
         const data = {
-          account_name_english: this.value.accountName,
-          company_short_description_english: this.value.shortDescription,
-          company_description_english: this.value.description,
-          products_english: this.value.products,
+          account_name: this.value.accountName,
+          company_short_description: this.value.shortDescription,
+          company_description: this.value.description,
+          products: this.value.products,
           website: this.value.website,
           phone: this.value.phone,
           established_date: this.value.establishedDate,
-          mailing_country_english: this.value.country,
-          mailing_state_english: this.value.state,
-          mailing_city_english: this.value.city,
-          mailing_postal_code_english: this.value.postalCode,
-          mailing_street_address_english: this.value.streetAddress,
-          mailing_street_address_2_english: this.value.streetAddressDetail,
+          mailing_country: this.value.country,
+          mailing_state: this.value.state,
+          mailing_city: this.value.city,
+          mailing_postal_code: this.value.postalCode,
+          mailing_street_address: this.value.streetAddress,
+          mailing_street_address_2: this.value.streetAddressDetail,
           history: this.value.history
         }
         return axios.put(`/api/data/account/${this.account.account_id}`, {

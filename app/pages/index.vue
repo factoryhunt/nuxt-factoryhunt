@@ -41,9 +41,9 @@
           </div>
           <div class="description-container">
             <div class="description-contents">
-              <p class="product">{{ feature.products_english }}</p>
-              <h2 class="company-name">{{ feature.account_name_english }}</h2>
-              <h3 class="slogan">{{ feature.company_short_description_english }}</h3>
+              <p class="product">{{ feature.products }}</p>
+              <h2 class="company-name">{{ feature.account_name }}</h2>
+              <h3 class="slogan">{{ feature.company_short_description }}</h3>
               <button @click="routeAccountProfilePage(feature)" class="view-more-button">{{ $t('home.viewMore') }}</button>
             </div>
           </div>

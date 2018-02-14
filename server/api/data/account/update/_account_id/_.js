@@ -10,11 +10,11 @@ module.exports = async (req, res) => {
   //   thumbnail_url,
   //   account_image_url_1,
   //   account_name,
-  //   account_name_english,
+  //   account_name,
   //   company_short_description,
-  //   company_short_description_english,
+  //   company_short_description,
   //   company_description,
-  //   company_description_english,
+  //   company_description,
   //   products,
   //   website,
   //   phone,
@@ -26,13 +26,13 @@ module.exports = async (req, res) => {
   //   mailing_street_address,
   //   mailing_street_address_2,
   //   history,
-  //   mailing_country_english,
-  //   mailing_state_english,
-  //   mailing_city_english,
-  //   mailing_postal_code_english,
-  //   mailing_street_address_english,
-  //   mailing_street_address_2_english,
-  //   history_english
+  //   mailing_country,
+  //   mailing_state,
+  //   mailing_city,
+  //   mailing_postal_code,
+  //   mailing_street_address,
+  //   mailing_street_address_2,
+  //   history
   // } = req.body
 
   const update = () => {

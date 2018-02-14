@@ -7,7 +7,7 @@ module.exports = async (req, res) => {
 
   const leads = () => {
     return new Promise((resolve, reject) => {
-      mysql.query(`SELECT * FROM ${CONFIG_MYSQL.TABLE_LEADS} WHERE lower(products_english) LIKE "%${keyword}%" ORDER BY number_of_employees DESC LIMIT 7`, (err, rows) => {
+      mysql.query(`SELECT * FROM ${CONFIG_MYSQL.TABLE_LEADS} WHERE lower(products) LIKE "%${keyword}%" ORDER BY number_of_employees DESC LIMIT 7`, (err, rows) => {
         if (err) reject(err)
         resolve(rows)
       })
@@ -15,7 +15,7 @@ module.exports = async (req, res) => {
   }
   const count = () => {
     return new Promise((resolve, reject) => {
-      mysql.query(`SELECT count(*) as count FROM ${CONFIG_MYSQL.TABLE_LEADS} WHERE lower(products_english) LIKE "%${keyword}%"`, (err, rows) => {
+      mysql.query(`SELECT count(*) as count FROM ${CONFIG_MYSQL.TABLE_LEADS} WHERE lower(products) LIKE "%${keyword}%"`, (err, rows) => {
         if (err) reject(err)
         resolve(rows[0].count)
       })

@@ -5,7 +5,7 @@
       <div class="divider"></div>
 
       <div class="input-container">
-        <input class="input-disable" type="text" placeholder="Company" :value="vendor.account_name_english" readonly>
+        <input class="input-disable" type="text" placeholder="Company" :value="vendor.account_name" readonly>
         <i class="fa fa-building-o" aria-hidden="true"></i>
       </div>
 
@@ -40,7 +40,7 @@
   export default {
     head () {
       return {
-        title: `Inquiry for ${this.vendor.account_name_english}`,
+        title: `Inquiry for ${this.vendor.account_name}`,
         link: [
           { hid: 'canonical', rel: 'canonical', href: `https://www.factoryhunt.com/inquiry?pid=${this.product.product_id}&aid=${this.vendor.account_id}` }
         ]
@@ -75,7 +75,7 @@
       async sendInquiry () {
         const data = {
           email: this.email,
-          company: this.vendor.account_name_english,
+          company: this.vendor.account_name,
           inquiry: this.inquiry,
           product: this.product.product_name,
           pid: this.product.product_id,

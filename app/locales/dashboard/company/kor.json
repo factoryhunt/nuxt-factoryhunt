@@ -14,7 +14,7 @@
     "title": "슬로건",
     "desc": "귀사를 한 문장으로 표현해주세요.",
     "placeholder": "Factory Hunt is a global B2B platform.",
-    "inputTitle": "2~50자의 영어와 숫자, 마침표, 쉼표, 그리고 작은따옴표만 입력해주세요."
+    "inputTitle": "2~150자의 영어와 숫자, 마침표, 쉼표, 그리고 작은따옴표만 입력해주세요."
   },
   "description": {
     "title": "회사 소개",
@@ -74,6 +74,10 @@
       "placeholder": "12345",
       "inputTitle": "1~10자의 숫자만 입력해주세요."
     }
+  },
+  "catalog": {
+    "title": "회사 브로셔",
+    "desc": "PDF 파일만 가능합니다. 최대 업로드 크기 :10MB"
   },
   "history": {
     "title": "연혁",

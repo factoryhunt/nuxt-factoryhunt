@@ -316,17 +316,19 @@
           })
         }
         const checkProductName = (products) => {
+          const thisProductName = (this.value.product.product_name).toLowerCase()
+          const inputName = (this.value.productName).toLowerCase()
+
+          // It is mine.
+          if (thisProductName === inputName) {
+            this.toggle.productName = true
+            return
+          }
+
           for (const i in products) {
             const productName = (products[i].product_name).toLowerCase()
-            const inputName = (this.value.productName).toLowerCase()
-            // Do now allowed same product name
+            // Do not allowed same product name
             if (inputName === productName) {
-              // When it is mine
-              if (productName === this.value.product.product_name) {
-                $('.name-container .hidden-text').css('display', 'none')
-                this.toggle.productName = true
-                return
-              }
               $('.name-container .hidden-text').css('display', 'inherit')
               this.toggle.productName = false
               return
@@ -352,6 +354,11 @@
       onEditButton () {
         $('#loader').removeClass().addClass('spinkit-modal')
 
+        if (!this.toggle.productName) {
+          alert(this.$t('dashboardProductEdit.productName.hidden'))
+          return
+        }
+
         let formData = new FormData()
         const config = {
           headers: {'content-type': 'multipart/form-data'}
@@ -369,7 +376,7 @@
         for (var i = 0; i < this.value.files.length; i++) {
           if (this.value.files[i].size > 0) {
             formData.append(`image_${i + 1}`, this.value.files[i])
-            console.log(this.value.files[i])
+            // console.log(this.value.files[i])
           }
         }
         if (document.getElementById('pdf-input').files[0]) {
@@ -503,14 +510,12 @@
         formData.append('images', file)
         axios.post(`/api/data/product/editor/${this.account.account_id}`, formData, config)
           .then((result) => {
-            console.log(result)
             $('#editor-spinkit').removeClass().addClass('invisible')
             let url = result.data // Get url from response
             Editor.insertEmbed(cursorLocation, 'image', url)
           })
           .catch((err) => {
             $('#editor-spinkit').removeClass().addClass('invisible')
-            console.log(err)
           })
       },
       readPDF () {
@@ -518,14 +523,14 @@
         const file = new File([''], url)
         var reader = new FileReader()
         reader.onload = (event) => {
-          console.log('event', event)
+          // console.log('event', event)
         }
         reader.readAsDataURL(file)
-        console.log('file', file)
+        // console.log('file', file)
         pdflib.PDFJS.getDocument(url).then((pdf) => {
-          console.log(pdf)
+          // console.log(pdf)
           pdf.getStats().then((meta) => {
-            console.log('meta: ', meta)
+            // console.log('meta: ', meta)
           })
         })
       },
@@ -544,7 +549,7 @@
         this.msg.pdfText = `${files[0].name} (${fileSize}MB)`
         var reader = new FileReader()
         reader.onload = (event) => {
-          console.log(event)
+          // console.log(event)
         }
         reader.readAsDataURL(files[0])
       },
@@ -764,9 +769,10 @@
 
           .hidden-text {
             color: @color-red;
-            font-weight: 500;
-            font-size:17px;
+            font-weight: @font-weight-medium;
+            font-size: @font-size-small;
             display: none;
+            margin: 0;
           }
           .count-text {
             float: right;

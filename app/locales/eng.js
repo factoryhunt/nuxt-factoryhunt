@@ -18,7 +18,8 @@ const home = require('./home/eng'),
   alert = require('./alert/eng'),
   supplier = require('./supplier/eng'),
   forSupplier = require('./for-supplier/eng'),
-  inquiry = require('./inquiry/eng')
+  inquiry = require('./inquiry/eng'),
+  pricing = require('./pricing/eng')
 
 export default {
   home,
@@ -41,5 +42,6 @@ export default {
   alert,
   supplier,
   forSupplier,
-  inquiry
+  inquiry,
+  pricing
 }
