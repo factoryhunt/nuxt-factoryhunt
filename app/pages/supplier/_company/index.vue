@@ -109,7 +109,7 @@
         title: `${this.lead.company}`,
         meta: [
           { hid: 'keywords', name: 'keywords', content: `${this.lead.company}, ${this.lead.products}, factoryhunt, factory, hunt, factory hunt, quote, bulk, wholesale, supplier, factory hunt, online catalog, supplier directory, free website, international trade` },
-          { hid: 'description', name: 'description', content: `${this.lead.company} | Factory Hunt` },
+          { hid: 'description', name: 'description', content: `${this.lead.company}, ${this.lead.products} | Factory Hunt` },
           { hid: 'og-title', property: 'og:title', content: this.lead.company },
           { hid: 'og-description', property: 'og:description', content: this.$t('supplier.ogDescription') },
           { hid: 'og-url', property: 'og:url', content: `factoryhunt.com/${this.lead.domain}` },
@@ -123,11 +123,16 @@
         ]
       }
     },
-    async asyncData ({query, params}) {
-      let {data} = await axios.get(`/api/data/lead/company/${encodeURI(params.company)}`)
-      return {
-        queryInput: query.input,
-        lead: data
+    async asyncData ({query, params, error, redirect}) {
+      try {
+        let {data} = await axios.get(`/api/data/lead/company/${encodeURI(params.company)}`)
+        if (!data.lead) redirect('/404')
+        return {
+          queryInput: query.input,
+          lead: data
+        }
+      } catch (err) {
+        error({ statusCode: 404, message: 'Page not found' })
       }
     },
     data () {

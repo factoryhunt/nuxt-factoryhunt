@@ -2,18 +2,18 @@
   <div id="container">
 
     <!-- PDF Modal -->
-    <!--<div class="modal-background" v-show="vendor.account_pdf_url" @click="onPDFCloseButton">-->
-      <!--<div class="body-container">-->
-        <!--<object-->
-          <!--id="pdf"-->
-          <!--:data="vendor.account_pdf_url"-->
-          <!--type="application/pdf"-->
-          <!--width="100%"-->
-          <!--height="100%">-->
-        <!--</object>-->
-      <!--</div>-->
-      <!--<a id="close-button" @click="onPDFCloseButton"><i class="fa fa-angle-down"></i></a>-->
-    <!--</div>-->
+    <div class="modal-background" v-show="vendor.account_pdf_url" @click="onPDFCloseButton">
+      <div class="body-container">
+        <object
+          id="pdf"
+          :data="vendor.account_pdf_url"
+          type="application/pdf"
+          width="100%"
+          height="100%">
+        </object>
+      </div>
+      <a id="close-button" @click="onPDFCloseButton"><i class="fa fa-angle-down"></i></a>
+    </div>
 
     <!-- Main Image -->
     <div class="main-image-container">
@@ -106,13 +106,13 @@
         </div>
 
         <!-- Document -->
-        <!--<div class="document-container each-container" v-show="vendor.account_pdf_url">-->
-          <!--<h2 class="section-title">{{ $t('company.document.title') }}</h2>-->
-          <!--<span class="document-item" @click="onCatalog">-->
-            <!--<i id="pdf-icon" class="fa fa-file-pdf-o"></i>-->
-            <!--<p class="title">Company<br>Brochure</p>-->
-          <!--</span>-->
-        <!--</div>-->
+        <div class="document-container each-container" v-show="vendor.account_pdf_url">
+          <h2 class="section-title">{{ $t('company.document.title') }}</h2>
+          <span class="document-item" @click="onCatalog">
+            <i id="pdf-icon" class="fa fa-file-pdf-o"></i>
+            <p class="title">Company<br>Brochure</p>
+          </span>
+        </div>
 
         <!-- Company History -->
         <div class="history-container each-container" v-show="vendor.history">
@@ -199,7 +199,7 @@
         title: `${this.vendor.account_name}`,
         meta: [
           { hid: 'keywords', name: 'keywords', content: `${this.vendor.account_name}, ${this.vendor.products}, factoryhunt, factory, hunt, factory hunt, quote, bulk, wholesale, supplier, factory hunt, online catalog, supplier directory, free website, international trade` },
-          { hid: 'description', name: 'description', content: `${this.vendor.company_description} | Factory Hunt` },
+          { hid: 'description', name: 'description', content: `${this.vendor.account_name}, ${this.vendor.company_description} | Factory Hunt` },
           { hid: 'og-title', property: 'og:title', content: this.vendor.account_name },
           { hid: 'og-description', property: 'og:description', content: this.vendor.company_description },
           { hid: 'og-image', property: 'og:image', content: this.vendor.account_image_url_1 },
@@ -215,9 +215,12 @@
         ]
       }
     },
-    async asyncData ({ params, query, error }) {
+    async asyncData ({ params, query, error, redirect }) {
       try {
         let { data } = await axios.get(`/api/data/account/domain/${params.company}`)
+        if (!data.account) {
+          redirect('/404')
+        }
         return {
           queryInput: query.input || '',
           vendor: data.account,
