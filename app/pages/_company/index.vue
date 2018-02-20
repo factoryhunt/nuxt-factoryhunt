@@ -52,9 +52,9 @@
 
         <!-- Company Header -->
         <div id="header-container" class="header-container each-container">
+          <p id="OVERVIEW" class="address">{{ vendor.mailing_city ? vendor.mailing_city + ', ' : '' }} {{ vendor.mailing_country ? vendor.mailing_country : '' }}</p>
           <img v-if="vendor.thumbnail_url" class="logo" :src="vendor.thumbnail_url">
           <img v-else class="logo" src="../../assets/img/temp-logo-image_english_512.png">
-          <p id="OVERVIEW" class="address">{{ vendor.mailing_city ? vendor.mailing_city + ', ' : '' }} {{ vendor.mailing_country ? vendor.mailing_country : '' }}</p>
           <h1 class="company-name">{{ vendor.account_name }}</h1>
           <div class="short-description-container">
             <p class="short-description">{{ vendor.company_short_description ? vendor.company_short_description : '' }}</p>
@@ -89,7 +89,10 @@
             </div>
             <div class="list-container" v-show="vendor.account_type">
               <div class="left-contents">{{ $t('company.information.businessType') }}</div>
-              <div class="right-contents">{{ vendor.account_type }}</div>
+              <div class="right-contents">
+                {{ vendor.account_type }}
+                <span v-show="vendor.business_type"><i class="fa fa-angle-right"></i> {{vendor.business_type}}</span>
+              </div>
             </div>
             <div class="list-container" v-show="vendor.established_date !== '0000-00-00'">
               <div class="left-contents">{{ $t('company.information.establishedYear') }}</div>
@@ -268,9 +271,11 @@
     methods: {
       onCatalog () {
         $('.modal-background').show()
+        $('html').css('overflow', 'hidden')
       },
       onPDFCloseButton () {
         $('.modal-background').hide()
+        $('html').css('overflow', 'inherit')
       },
       routeProductProfilePage (index) {
         const productDomain = this.products[index].product_domain
@@ -551,7 +556,7 @@
 
     .main-image-container {
       .main-image {
-        background-image: url(~assets/img/cover_image_english.png);
+        background-image: url(~assets/img/product_loading_image_text.png);
         background-repeat: no-repeat !important;
         background-size: cover !important;
         background-position: 50% 50% !important;
@@ -596,8 +601,8 @@
 
           .logo {
             float: right;
-            width: 52px;
-            height: 52px;
+            width: 50px;
+            height: 50px;
             border-radius: 50%;
             border: 2px solid @color-light-grey;
           }

@@ -10,8 +10,12 @@
     "placeholder": "Factory Hunt, Inc.",
     "inputTitle": "It must be characters 2-50 and can only contain letters, numbers, periods, comma, and parentheses."
   },
+  "businessType": {
+    "title": "Company Business Type",
+    "desc": "Select up to 3 Business Types."
+  },
   "slogan": {
-    "title": "Slogan",
+    "title": "Company Short Description",
     "desc": "Describe your company in 150 characters or less.",
     "placeholder": "Factory Hunt is a global B2B platform.",
     "inputTitle": "It must be characters 2-50 and can only contain letters, numbers, periods, comma, and apostrophe."

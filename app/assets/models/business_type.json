@@ -1,0 +1,9 @@
+[
+  { "type": "Manufacturer" },
+  { "type": "Trading Company" },
+  { "type": "Distributor / Wholesaler" },
+  { "type": "Buying Office" },
+  { "type": "Agent" },
+  { "type": "Association" },
+  { "type": "Business Service (Transportation, finance, travel, Ads, etc)" }
+]
