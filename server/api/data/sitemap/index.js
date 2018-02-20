@@ -18,6 +18,7 @@ router.get('/', async (req, res) => {
       domain, 
       lead_status
       FROM ${CONFIG_MYSQL.TABLE_LEADS}
+      WHERE lead_status != "Closed - Converted" 
       )`, (err, rows) => {
         if (err) reject(err)
         resolve(rows)
