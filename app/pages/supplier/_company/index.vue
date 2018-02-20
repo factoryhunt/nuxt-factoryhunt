@@ -126,7 +126,7 @@
     async asyncData ({query, params, error, redirect}) {
       try {
         let {data} = await axios.get(`/api/data/lead/company/${encodeURI(params.company)}`)
-        if (!data.lead) redirect('/404')
+        if (!data) redirect('/404')
         return {
           queryInput: query.input,
           lead: data

@@ -24,7 +24,12 @@
       TopAlertBar,
       CopyrightBar
     },
-    middleware: 'authenticated'
+    middleware: 'authenticated',
+    head () {
+      return {
+        titleTemplate: '%s | Factory Hunt'
+      }
+    }
   }
 </script>
 

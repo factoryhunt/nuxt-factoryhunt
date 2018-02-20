@@ -1,7 +1,7 @@
 <template>
   <div class="page-container">
     <div class="body-contents">
-      Sorry, page not found.
+      <h1>Sorry, page not found.</h1>
     </div>
   </div>
 </template>

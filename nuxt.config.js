@@ -4,7 +4,6 @@ module.exports = {
   srcDir: './app',
   head: {
     title: 'Factory Hunt - A Hub for Manufacturer & Supplier Listings',
-    titleTemplate: '%s | Factory Hunt',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
@@ -50,9 +49,11 @@ module.exports = {
     cacheTime: 1000 * 60 * 15, // 15 mins
     generate: false,
     exclude: [
+      '/404',
       '/dashboard',
       '/dashboard/**',
       '/for-supplier/**',
+      '/search',
       '/supplier',
       '/inquiry'
     ],
