@@ -10,8 +10,12 @@
     "placeholder": "Factory Hunt, Co., Ltd.",
     "inputTitle": "2~50자의 영어와 숫자, 마침표, 쉼표 그리고 소괄호만 입력해주세요."
   },
+  "businessType": {
+    "title": "회사 업종",
+    "desc": "최대 3개까지 선택할 수 있습니다."
+  },
   "slogan": {
-    "title": "슬로건",
+    "title": "회사 짧은 소개",
     "desc": "귀사를 한 문장으로 표현해주세요.",
     "placeholder": "Factory Hunt is a global B2B platform.",
     "inputTitle": "2~150자의 영어와 숫자, 마침표, 쉼표, 그리고 작은따옴표만 입력해주세요."

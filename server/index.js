@@ -2,6 +2,7 @@ process.env.DEBUG = 'nuxt:*'
 const app = require('express')()
 
 const session = require('express-session')
+const redis = require('./middleware/redis/.config')(session)
 const nuxt = require('./middleware/nuxt')
 const morgan = require('morgan')
 const cookieParser = require('cookie-parser')
@@ -15,12 +16,7 @@ const PORT = process.env.PORT || 3000
 
 // Middlewares
 app.set('jwt-token', CONFIG.jwtSecret)
-app.use(session({
-  secret: CONFIG.sessionKey,
-  resave: false,
-  saveUninitialized: false,
-  cookie: { maxAge: 60 * 60 * 3600 }
-}))
+app.use(session(redis))
 app.use(morgan('dev'))
 app.use(cors())
 app.use(cookieParser())

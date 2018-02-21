@@ -94,12 +94,7 @@
     methods: {
       onSearchInput () {
         if (!this.value.input) return
-        this.$router.push({
-          path: '/search',
-          query: {
-            input: this.value.input
-          }
-        })
+        location.href = `/search?input=${this.value.input}`
       },
       routeAccountProfilePage (feature) {
         const domain = feature.domain

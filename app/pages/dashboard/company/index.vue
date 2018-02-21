@@ -36,6 +36,22 @@
         <i id="account-name-mark" class="small-mark" aria-hidden="true"></i>
       </div>
 
+      <!-- Business Type -->
+      <div class='business-type-container input-container'>
+        <p class="title">{{ $t('dashboardCompany.businessType.title') }}</p>
+        <p class="sub-title">{{ $t('dashboardCompany.businessType.desc') }}</p>
+        <div class="checkbox-container" v-for="(business, index) in business_type" :key="index">
+          <input
+            class="business-type-checkbox"
+            type="checkbox"
+            :id="business.type"
+            :value="business.type"
+            v-model="value.businessTypes"
+            @change="onCheckbox">
+          <label class="checkbox-label" :for="business.type">{{business.type}}</label>
+        </div>
+      </div>
+
       <!-- Company Short Description -->
       <div class="short-description-container input-container">
         <p class="title">{{ $t('dashboardCompany.slogan.title') }}</p>
@@ -75,7 +91,7 @@
           <div class="right-contents">
             <select required title="required" v-model="value.country">
               <option id="disabled-option" disabled value="">{{ $t('dashboardCompany.company.country.defaultValue') }}</option>
-              <option v-for="(country,index) in value.country_list" :key="index" :value="country.country_name">{{country.country_name}}</option>
+              <option v-for="(country,index) in country_list" :key="index" :value="country.country_name">{{country.country_name}}</option>
             </select>
           </div>
         </div>
@@ -146,6 +162,7 @@
 <script>
   import axios from '~/plugins/axios'
   import country from '~/assets/models/country.json'
+  import businessType from '~/assets/models/business_type.json'
   import Spinkit from '~/components/Loader'
   import { mapGetters } from 'vuex'
   export default {
@@ -155,14 +172,16 @@
     },
     data () {
       return {
+        country_list: country,
+        business_type: businessType,
         value: {
-          country_list: country,
           contact: {},
           mainImageUrl: '',
           mainImageFileName: '',
           logoUrl: '',
           logoImageFileName: '',
           accountName: '',
+          businessTypes: [],
           shortDescription: '',
           shortDescriptionCount: 0,
           description: '',
@@ -192,12 +211,25 @@
       ...mapGetters({
         account: 'auth/GET_ACCOUNT',
         conatct: 'auth/GET_CONTACT'
-      })
+      }),
+      getBusinessType () {
+        let type = '';
+        for (const i in this.value.businessTypes) {
+          const businessType = this.value.businessTypes[i]
+          if (i === '0') {
+            type = businessType
+          } else {
+            type = type + `, ${businessType}`
+          }
+        }
+        return type
+      }
     },
     methods: {
       applyAttributes () {
         // when login user is page admin, keep going
         this.applyLocalData(this.account)
+        this.onCheckbox()
         this.applyInputFocusBlurEvent()
       },
       // update server data to local data
@@ -206,6 +238,7 @@
         this.value.logoUrl = account.thumbnail_url
         this.value.accountName = account.account_name
         this.value.description = account.company_description
+        this.value.businessTypes = account.business_type.split(', ')
         this.value.shortDescription = account.company_short_description
         this.value.shortDescriptionCount = account.company_short_description.length
         this.value.products = account.products
@@ -243,6 +276,14 @@
         $('#pdf-input').val('')
         this.msg.pdfText = ''
         $('#pdf-cancel-button').css('display', 'none')
+      },
+      onCheckbox () {
+        if (this.value.businessTypes.length > 2) {
+          $('input[type=checkbox]').attr('disabled', 'disabled')
+        } else {
+          $('input[type=checkbox]').removeAttr('disabled')
+        }
+        $('input[type=checkbox]:checked').removeAttr('disabled')
       },
       getYear (date) {
         if (date === '0000-00-00') {
@@ -298,6 +339,7 @@
       uploadCompanyData () {
         const data = {
           account_name: this.value.accountName,
+          business_type: this.getBusinessType,
           company_short_description: this.value.shortDescription,
           company_description: this.value.description,
           products: this.value.products,
@@ -323,6 +365,8 @@
         }
         if (document.getElementById('pdf-input').files[0]) {
           formData.append('pdf', document.getElementById('pdf-input').files[0])
+        } else {
+          return
         }
         return axios.put(`/api/data/account/${this.account.account_id}/pdf`, formData, config)
       },
@@ -420,6 +464,9 @@
     },
     mounted () {
       this.applyAttributes()
+    },
+    updated () {
+      this.onCheckbox()
     }
   }
 </script>
@@ -544,12 +591,28 @@
         transition: all 500ms;
         border: 1px solid @color-link;
       }
+
+      &[type=checkbox] {
+        width: inherit;
+        height: inherit;
+      }
     }
     label {
       .upload-label-basic;
       margin-top: 10px;
       font-size: @font-size-button;
       font-weight: @font-weight-button;
+
+      &.checkbox-label {
+        border: 0;
+        padding: 0;
+        font-size: @font-size-medium;
+        font-weight: @font-weight-thin;
+
+        &:checked {
+          font-weight: @font-weight-bold;
+        }
+      }
     }
     textarea {
       font-size: 20px !important;
@@ -601,6 +664,12 @@
         top: 105px;
         right: -3px;
         color: @color-red;
+      }
+    }
+
+    .business-type-container {
+      .checkbox-container {
+        padding: 4px 0;
       }
     }
 
