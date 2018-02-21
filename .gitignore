@@ -10,5 +10,8 @@ npm-debug.log
 # Nuxt generate
 dist
 
+# redis
+dump.rdb
+
 # Webstorm
 .idea
