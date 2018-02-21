@@ -39,6 +39,7 @@
       <!-- Business Type -->
       <div class='business-type-container input-container'>
         <p class="title">{{ $t('dashboardCompany.businessType.title') }}</p>
+        <span class="required-text" v-html="$t('dashboardCompany.name.required')"></span>
         <p class="sub-title">{{ $t('dashboardCompany.businessType.desc') }}</p>
         <div class="checkbox-container" v-for="(business, index) in business_type" :key="index">
           <input
@@ -79,12 +80,44 @@
           <div class="left-contents">{{ $t('dashboardCompany.company.phone.title') }}</div>
           <div class="right-contents"><input type="text" maxlength="21" pattern="[0-9 +-]{1,21}" :title="$t('dashboardCompany.company.phone.inputTitle')" :placeholder="$t('dashboardCompany.company.phone.placeholder')" v-model="value.phone"></div>
         </div>
+        <!-- Average Lead Time -->
+        <div class="box-container">
+          <div class="left-contents">{{ $t('dashboardCompany.company.averageLeadTime.title') }}</div>
+          <div class="right-contents"><input type="text" maxlength="3" pattern="[0-9]{1,3}" :title="$t('dashboardCompany.company.averageLeadTime.inputTitle')" v-model="value.averageLeadTime"></div>
+        </div>
         <!-- Established Year -->
         <div class="box-container">
           <div class="left-contents">{{ $t('dashboardCompany.company.year.title') }}</div>
-          <div class="right-contents"><input type="text" maxlength="10" pattern="[0-9]{4}-(0[1-9]|1[012])-(0[1-9]|1[0-9]|2[0-9]|3[01])" title ="YYYY-MM-DD" :placeholder="$t('dashboardCompany.company.year.placeholder')" v-model="value.establishedDate"></div>
+          <div class="right-contents">
+            <select name="established-year" v-model="value.establishedYear">
+              <option value="" disabled>{{ $t('dashboardCompany.company.year.placeholder') }}</option>
+              <option v-for="(year,index) in established_year" :key="index" :value="year.year">{{year.year}}</option>
+            </select>
+          </div>
         </div>
-        <p class="sub-title" style="margin-top: 12px">{{ $t('dashboardCompany.company.desc2') }}</p>
+        <!--  Number of Employees -->
+        <div class="box-container">
+          <div class="left-contents">{{ $t('dashboardCompany.company.numberOfEmployees.title') }}</div>
+          <div class="right-contents">
+            <select name="established-year" v-model="value.numberOfEmployees">
+              <option value="" disabled>{{ $t('dashboardCompany.company.numberOfEmployees.placeholder') }}</option>
+              <option v-for="(number,index) in number_of_employees" :key="index" :value="number.value">{{number.value}}</option>
+            </select>
+          </div>
+        </div>
+        <!--  Total annual revenue -->
+        <div class="box-container">
+          <div class="left-contents">{{ $t('dashboardCompany.company.totalAnnualRevenue.title') }}</div>
+          <div class="right-contents">
+            <select name="established-year" v-model="value.totalAnnualRevenue">
+              <option value="" disabled>{{ $t('dashboardCompany.company.totalAnnualRevenue.placeholder') }}</option>
+              <option v-for="(revenue,index) in total_annual_revenue" :key="index" :value="revenue.value">{{revenue.value}}</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Text -->
+        <p class="sub-title" style="margin-top: 22px">{{ $t('dashboardCompany.company.desc2') }}</p>
         <!-- Country -->
         <div class="box-container">
           <div class="left-contents">{{ $t('dashboardCompany.company.country.title') }}</div>
@@ -129,7 +162,7 @@
         <textarea id="description-input" pattern="[A-Za-z0-9 ().,]{1,25000}" :title="$t('dashboardCompany.description.inputTitle')" maxlength="25000" rows="10" :placeholder="$t('dashboardCompany.description.placeholder')" v-model="value.description"></textarea>
       </div>
 
-      <!-- Company Catalog -->
+      <!-- Company Brochure -->
       <div class="catalog-container input-container">
         <p class="title">{{ $t('dashboardCompany.catalog.title') }}</p>
         <p class="sub-title">{{ $t('dashboardCompany.catalog.desc') }}</p>
@@ -149,6 +182,66 @@
         <i id="history-mark" class="small-mark" aria-hidden="true"></i>
       </div>
 
+      <!-- Accepted Delivery Terms -->
+      <div class='accepted-delivery-terms-container input-container'>
+        <p class="title">{{ $t('dashboardCompany.acceptedDeliveryTerms.title') }}</p>
+        <br><br>
+        <div class="checkbox-container" v-for="(term, index) in accepted_delivery_terms" :key="index">
+          <input
+            class="business-type-checkbox"
+            type="checkbox"
+            :id="term.value"
+            :value="term.value"
+            v-model="value.acceptedDeliveryTerms">
+          <label class="checkbox-label" :for="term.value">{{term.value}}</label>
+        </div>
+      </div>
+
+      <!-- Accepted Payment Currency -->
+      <div class='accepted-payment-currency-container input-container'>
+        <p class="title">{{ $t('dashboardCompany.acceptedPaymentCurrency.title') }}</p>
+        <br><br>
+        <div class="checkbox-container" v-for="(currency, index) in accepted_payment_currency" :key="index">
+          <input
+            class="business-type-checkbox"
+            type="checkbox"
+            :id="currency.value"
+            :value="currency.value"
+            v-model="value.acceptedPaymentCurrency">
+          <label class="checkbox-label" :for="currency.value">{{currency.value}}</label>
+        </div>
+      </div>
+
+      <!-- Accepted Payment Type -->
+      <div class='accepted-payment-type-container input-container'>
+        <p class="title">{{ $t('dashboardCompany.acceptedPaymentType.title') }}</p>
+        <br><br>
+        <div class="checkbox-container" v-for="(type, index) in accepted_payment_type" :key="index">
+          <input
+            class="business-type-checkbox"
+            type="checkbox"
+            :id="type.value"
+            :value="type.value"
+            v-model="value.acceptedPaymentType">
+          <label class="checkbox-label" :for="type.value">{{type.value}}</label>
+        </div>
+      </div>
+
+      <!-- Language Spoken -->
+      <div class='language-spoken-container input-container'>
+        <p class="title">{{ $t('dashboardCompany.languageSpoken.title') }}</p>
+        <br><br>
+        <div class="checkbox-container" v-for="(language, index) in language_spoken" :key="index">
+          <input
+            class="business-type-checkbox"
+            type="checkbox"
+            :id="language.value"
+            :value="language.value"
+            v-model="value.languageSpoken">
+          <label class="checkbox-label" :for="language.value">{{language.value}}</label>
+        </div>
+      </div>
+
       <!-- Confirm and Submit -->
       <div class="confirm-container input-container sticky-stopper">
         <p class="title">{{ $t('dashboardCompany.save.title') }}</p>
@@ -161,9 +254,17 @@
 
 <script>
   import axios from '~/plugins/axios'
-  import country from '~/assets/models/country.json'
   import businessType from '~/assets/models/business_type.json'
+  import acceptedDeliveryTerms from '~/assets/models/accepted_delivery_terms.json'
+  import acceptedPaymentCurrency from '~/assets/models/accepted_payment_currency.json'
+  import acceptedPaymentType from '~/assets/models/accepted_payment_type.json'
+  import languageSpoken from '~/assets/models/language_spoken.json'
+  import country from '~/assets/models/country.json'
+  import establishedYear from '~/assets/models/established_year.json'
+  import numberOfEmployees from '~/assets/models/number_of_employees.json'
+  import totalAnnualRevenue from '~/assets/models/total_annual_revenue.json'
   import Spinkit from '~/components/Loader'
+  import { arrayToString } from '~/utils/text'
   import { mapGetters } from 'vuex'
   export default {
     layout: 'dashboard',
@@ -172,8 +273,15 @@
     },
     data () {
       return {
-        country_list: country,
+        accepted_delivery_terms: acceptedDeliveryTerms,
+        accepted_payment_currency: acceptedPaymentCurrency,
+        accepted_payment_type: acceptedPaymentType,
+        language_spoken: languageSpoken,
         business_type: businessType,
+        established_year: establishedYear,
+        number_of_employees: numberOfEmployees,
+        total_annual_revenue: totalAnnualRevenue,
+        country_list: country,
         value: {
           contact: {},
           mainImageUrl: '',
@@ -188,14 +296,21 @@
           products: '',
           website: '',
           phone: '',
-          establishedDate: '',
+          averageLeadTime: '',
+          establishedYear: '',
+          numberOfEmployees: '',
+          totalAnnualRevenue: '',
           country: '',
           state: '',
           city: '',
           postalCode: '',
           streetAddress: '',
           streetAddressDetail: '',
-          history: ''
+          history: '',
+          acceptedDeliveryTerms: [],
+          acceptedPaymentCurrency: [],
+          acceptedPaymentType: [],
+          languageSpoken: []
         },
         toggle: {
           isDomainAvailable: null,
@@ -244,7 +359,10 @@
         this.value.products = account.products
         this.value.phone = account.phone
         this.value.website = account.website
-        this.value.establishedDate = this.getYear(account.established_date)
+        this.value.averageLeadTime = account.average_lead_time
+        this.value.establishedYear = account.established_year
+        this.value.numberOfEmployees = account.number_of_employees
+        this.value.totalAnnualRevenue = account.total_annual_revenue
         this.value.country = account.mailing_country
         this.value.state = account.mailing_state
         this.value.city = account.mailing_city
@@ -252,6 +370,10 @@
         this.value.streetAddress = account.mailing_street_address
         this.value.streetAddressDetail = account.mailing_street_address_2
         this.value.history = account.history
+        this.value.acceptedDeliveryTerms = account.accepted_delivery_terms.split(', ')
+        this.value.acceptedPaymentCurrency = account.accepted_payment_currency.split(', ')
+        this.value.acceptedPaymentType = account.accepted_payment_type.split(', ')
+        this.value.languageSpoken = account.language_spoken.split(', ')
       },
       onPDFchanged (files) {
         const maxSize = 15 * 1024 * 1024
@@ -279,11 +401,11 @@
       },
       onCheckbox () {
         if (this.value.businessTypes.length > 2) {
-          $('input[type=checkbox]').attr('disabled', 'disabled')
+          $('.business-type-container input[type=checkbox]').attr('disabled', 'disabled')
         } else {
-          $('input[type=checkbox]').removeAttr('disabled')
+          $('.business-type-container input[type=checkbox]').removeAttr('disabled')
         }
-        $('input[type=checkbox]:checked').removeAttr('disabled')
+        $('.business-type-container input[type=checkbox]:checked').removeAttr('disabled')
       },
       getYear (date) {
         if (date === '0000-00-00') {
@@ -345,14 +467,21 @@
           products: this.value.products,
           website: this.value.website,
           phone: this.value.phone,
-          established_date: this.value.establishedDate,
+          average_lead_time: this.value.averageLeadTime,
+          established_year: this.value.establishedYear,
+          number_of_employees: this.value.numberOfEmployees,
+          total_annual_revenue: this.value.totalAnnualRevenue,
           mailing_country: this.value.country,
           mailing_state: this.value.state,
           mailing_city: this.value.city,
           mailing_postal_code: this.value.postalCode,
           mailing_street_address: this.value.streetAddress,
           mailing_street_address_2: this.value.streetAddressDetail,
-          history: this.value.history
+          history: this.value.history,
+          accepted_delivery_terms: arrayToString(this.value.acceptedDeliveryTerms),
+          accepted_payment_currency: arrayToString(this.value.acceptedPaymentCurrency),
+          accepted_payment_type: arrayToString(this.value.acceptedPaymentType),
+          language_spoken: arrayToString(this.value.languageSpoken)
         }
         return axios.put(`/api/data/account/${this.account.account_id}`, {
           account_data: data
@@ -593,7 +722,7 @@
       }
 
       &[type=checkbox] {
-        width: inherit;
+        width: 16px;
         height: inherit;
       }
     }
@@ -669,8 +798,15 @@
 
     .business-type-container {
       .checkbox-container {
+        display: block;
         padding: 4px 0;
+        width: 100%;
       }
+    }
+
+    .checkbox-container {
+      display: inline-block;
+      width: 25%;
     }
 
     .short-description-container {

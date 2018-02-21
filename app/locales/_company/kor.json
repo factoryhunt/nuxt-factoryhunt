@@ -18,7 +18,14 @@
     "address": "주소",
     "location": "위치",
     "businessType": "업태",
-    "establishedYear": "설립연도"
+    "establishedYear": "설립연도",
+    "numberOfEmployees": "직원 수",
+    "totalAnnualRevenue": "연 매출",
+    "averageLeadTime": "평균 소요 시간",
+    "acceptedDeliveryTerms": "인도 조항",
+    "acceptedPaymentCurrency": "통화",
+    "acceptedPaymentType": "결제 방식",
+    "languageSpoken": "언어"
   },
   "document": {
     "title": "문서",

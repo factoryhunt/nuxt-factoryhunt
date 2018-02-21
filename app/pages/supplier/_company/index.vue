@@ -599,19 +599,23 @@
             position: relative;
 
             .list-container {
+              display: table;
+              width: 100%;
               position: relative;
-              line-height: 1.9em;
-              padding-bottom: 0;
+              padding-bottom: 12px;
 
               .left-contents {
-                position: absolute;
-                max-width: 140px;
+                width: 160px;
                 font-size: @font-size-medium;
                 font-weight: @font-weight-medium;
               }
               .right-contents {
+                display: table-cell;
+                width: 100%;
                 text-align: left;
-                padding-left: 150px;
+                vertical-align: top;
+                padding-left: 4px;
+                font-size: @font-size-medium;
                 font-weight: @font-weight-thin;
               }
             }

@@ -1,0 +1,11 @@
+[
+  { "value": "Fewer than 5 people" },
+  { "value": "5 - 10 people" },
+  { "value": "11 - 50 people" },
+  { "value": "51 - 100 people" },
+  { "value": "101 - 200 people" },
+  { "value": "201 - 300 people" },
+  { "value": "301 - 500 people" },
+  { "value": "501 - 1000 people" },
+  { "value": "Above 1000 people" }
+]

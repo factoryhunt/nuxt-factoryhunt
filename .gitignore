@@ -13,5 +13,8 @@ dist
 # redis
 dump.rdb
 
+# backup files
+backup
+
 # Webstorm
 .idea

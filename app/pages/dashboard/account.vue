@@ -80,7 +80,7 @@
         position: absolute;
         left: 0;
         top: 0;
-        width: 240px;
+        width: 220px;
 
         .profile-inner-container {
           position: relative;
@@ -117,7 +117,7 @@
       }
     }
     .right-container {
-      padding-left: 260px;
+      padding-left: 240px;
     }
   }
 </style>

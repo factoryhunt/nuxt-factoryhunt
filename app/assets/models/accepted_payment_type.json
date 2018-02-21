@@ -1,0 +1,11 @@
+[
+  { "value": "T/T" },
+  { "value": "L/C" },
+  { "value": "D/P D/A" },
+  { "value": "MoneyGram" },
+  { "value": "Credit Card" },
+  { "value": "PayPal" },
+  { "value": "Western Union" },
+  { "value": "Cash" },
+  { "value": "Escrow" }
+]

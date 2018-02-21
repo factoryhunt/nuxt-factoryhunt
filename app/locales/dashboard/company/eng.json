@@ -14,6 +14,18 @@
     "title": "Company Business Type",
     "desc": "Select up to 3 Business Types."
   },
+  "acceptedDeliveryTerms": {
+    "title": "Accepted Delivery Terms"
+  },
+  "acceptedPaymentCurrency": {
+    "title": "Accepted Payment Currency"
+  },
+  "acceptedPaymentType": {
+    "title": "Accepted Payment Type"
+  },
+  "languageSpoken": {
+    "title": "Language Spoken"
+  },
   "slogan": {
     "title": "Company Short Description",
     "desc": "Describe your company in 150 characters or less.",
@@ -45,9 +57,21 @@
       "placeholder": "+1-917-1234-5678",
       "inputTitle": "It must be 1-21 characters and can only contain numbers, plus, and hyphens."
     },
+    "averageLeadTime": {
+      "title": "Average Lead Time(Days)",
+      "inputTitle": "Please enter the average production time. Numbers only."
+    },
     "year": {
-      "title": "Established Date",
-      "placeholder": "YYYY-MM-DD"
+      "title": "Established Year",
+      "placeholder": "Please select."
+    },
+    "numberOfEmployees": {
+      "title": "Number Of Employees",
+      "placeholder": "Please select."
+    },
+    "totalAnnualRevenue": {
+      "title": "Total Annual Revenue",
+      "placeholder": "Please select."
     },
     "country": {
       "title": "Country",

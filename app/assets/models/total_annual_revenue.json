@@ -1,0 +1,9 @@
+[
+  { "value": "Below USD 1 Million"},
+  { "value": "USD 1 Million - USD 2.5 Million"},
+  { "value": "USD 2.5 Million - USD 5 Million"},
+  { "value": "USD 5 Million - USD 10 Million"},
+  { "value": "USD 10 Million - USD 50 Million"},
+  { "value": "USD 50 Million - USD 100 Million"},
+  { "value": "Above USD 100 Million"}
+]

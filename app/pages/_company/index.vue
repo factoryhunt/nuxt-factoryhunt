@@ -94,9 +94,37 @@
                 <span v-show="vendor.business_type"><i class="fa fa-angle-right"></i> {{vendor.business_type}}</span>
               </div>
             </div>
-            <div class="list-container" v-show="vendor.established_date !== '0000-00-00'">
+            <div class="list-container" v-show="vendor.established_year">
               <div class="left-contents">{{ $t('company.information.establishedYear') }}</div>
-              <div class="right-contents">{{ getYear(vendor.established_date) }}</div>
+              <div class="right-contents">{{ vendor.established_year }}</div>
+            </div>
+            <div class="list-container" v-show="vendor.number_of_employees">
+              <div class="left-contents">{{ $t('company.information.numberOfEmployees') }}</div>
+              <div class="right-contents">{{ vendor.number_of_employees }}</div>
+            </div>
+            <div class="list-container" v-show="vendor.total_annual_revenue">
+              <div class="left-contents">{{ $t('company.information.totalAnnualRevenue') }}</div>
+              <div class="right-contents">{{ vendor.total_annual_revenue }}</div>
+            </div>
+            <div class="list-container" v-show="vendor.average_lead_time">
+              <div class="left-contents">{{ $t('company.information.averageLeadTime') }}</div>
+              <div class="right-contents">{{ vendor.average_lead_time }} Day(s)</div>
+            </div>
+            <div class="list-container" v-show="vendor.accepted_delivery_terms">
+              <div class="left-contents">{{ $t('company.information.acceptedDeliveryTerms') }}</div>
+              <div class="right-contents">{{ vendor.accepted_delivery_terms }}</div>
+            </div>
+            <div class="list-container" v-show="vendor.accepted_payment_currency">
+              <div class="left-contents">{{ $t('company.information.acceptedPaymentCurrency') }}</div>
+              <div class="right-contents">{{ vendor.accepted_payment_currency }}</div>
+            </div>
+            <div class="list-container" v-show="vendor.accepted_payment_type">
+              <div class="left-contents">{{ $t('company.information.acceptedPaymentType') }}</div>
+              <div class="right-contents">{{ vendor.accepted_payment_type }}</div>
+            </div>
+            <div class="list-container" v-show="vendor.language_spoken">
+              <div class="left-contents">{{ $t('company.information.languageSpoken') }}</div>
+              <div class="right-contents">{{ vendor.language_spoken }}</div>
             </div>
           </div>
         </div>
@@ -810,19 +838,22 @@
             position: relative;
 
             .list-container {
+              display: table;
+              width: 100%;
               position: relative;
-              line-height: 1.9em;
-              padding-bottom: 0;
+              padding-bottom: 12px;
 
               .left-contents {
-                position: absolute;
-                max-width: 140px;
+                width: 160px;
                 font-size: @font-size-medium;
                 font-weight: @font-weight-medium;
               }
               .right-contents {
+                display: table-cell;
+                width: 100%;
                 text-align: left;
-                padding-left: 150px;
+                vertical-align: top;
+                padding-left: 4px;
                 font-size: @font-size-medium;
                 font-weight: @font-weight-thin;
               }
