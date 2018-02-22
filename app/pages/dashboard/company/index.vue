@@ -45,11 +45,11 @@
           <input
             class="business-type-checkbox"
             type="checkbox"
-            :id="business.type"
-            :value="business.type"
+            :id="business.value"
+            :value="business.value"
             v-model="value.businessTypes"
             @change="onCheckbox">
-          <label class="checkbox-label" :for="business.type">{{business.type}}</label>
+          <label class="checkbox-label" :for="business.value">{{business.value}}</label>
         </div>
       </div>
 
@@ -254,6 +254,7 @@
 
 <script>
   import axios from '~/plugins/axios'
+  import { checkboxStringToArray, checkboxArrayToString } from '~/utils/checkbox'
   import businessType from '~/assets/models/business_type.json'
   import acceptedDeliveryTerms from '~/assets/models/accepted_delivery_terms.json'
   import acceptedPaymentCurrency from '~/assets/models/accepted_payment_currency.json'
@@ -264,7 +265,6 @@
   import numberOfEmployees from '~/assets/models/number_of_employees.json'
   import totalAnnualRevenue from '~/assets/models/total_annual_revenue.json'
   import Spinkit from '~/components/Loader'
-  import { arrayToString } from '~/utils/text'
   import { mapGetters } from 'vuex'
   export default {
     layout: 'dashboard',
@@ -341,7 +341,7 @@
         this.value.logoUrl = account.thumbnail_url
         this.value.accountName = account.account_name
         this.value.description = account.company_description
-        this.value.businessTypes = account.business_type.split(', ')
+        this.value.businessTypes = checkboxStringToArray(businessType, account.business_type)
         this.value.shortDescription = account.company_short_description
         this.value.shortDescriptionCount = account.company_short_description.length
         this.value.products = account.products
@@ -358,10 +358,10 @@
         this.value.streetAddress = account.mailing_street_address
         this.value.streetAddressDetail = account.mailing_street_address_2
         this.value.history = account.history
-        this.value.acceptedDeliveryTerms = account.accepted_delivery_terms.split(', ')
-        this.value.acceptedPaymentCurrency = account.accepted_payment_currency.split(', ')
-        this.value.acceptedPaymentType = account.accepted_payment_type.split(', ')
-        this.value.languageSpoken = account.language_spoken.split(', ')
+        this.value.acceptedDeliveryTerms = checkboxStringToArray(acceptedDeliveryTerms, account.accepted_delivery_terms)
+        this.value.acceptedPaymentCurrency = checkboxStringToArray(acceptedPaymentCurrency, account.accepted_payment_currency)
+        this.value.acceptedPaymentType = checkboxStringToArray(acceptedPaymentType, account.accepted_payment_type)
+        this.value.languageSpoken = checkboxStringToArray(languageSpoken, account.language_spoken)
       },
       onPDFchanged (files) {
         const maxSize = 15 * 1024 * 1024
@@ -436,7 +436,7 @@
         $('#modal-spinkit').removeClass().addClass('spinkit-modal')
 
         // business type is required field.
-        if (!arrayToString(this.value.businessTypes)) return this.onEditFail(this.$t('alert.required'))
+        if (!checkboxArrayToString(businessType, this.value.businessTypes)) return this.onEditFail(this.$t('alert.required'))
 
         // request
         try {
@@ -452,7 +452,7 @@
       uploadCompanyData () {
         const data = {
           account_name: this.value.accountName,
-          business_type: arrayToString(this.value.businessTypes),
+          business_type: checkboxArrayToString(businessType, this.value.businessTypes),
           company_short_description: this.value.shortDescription,
           company_description: this.value.description,
           products: this.value.products,
@@ -469,10 +469,10 @@
           mailing_street_address: this.value.streetAddress,
           mailing_street_address_2: this.value.streetAddressDetail,
           history: this.value.history,
-          accepted_delivery_terms: arrayToString(this.value.acceptedDeliveryTerms),
-          accepted_payment_currency: arrayToString(this.value.acceptedPaymentCurrency),
-          accepted_payment_type: arrayToString(this.value.acceptedPaymentType),
-          language_spoken: arrayToString(this.value.languageSpoken)
+          accepted_delivery_terms: checkboxArrayToString(acceptedDeliveryTerms, this.value.acceptedDeliveryTerms),
+          accepted_payment_currency: checkboxArrayToString(acceptedPaymentCurrency, this.value.acceptedPaymentCurrency),
+          accepted_payment_type: checkboxArrayToString(acceptedPaymentType, this.value.acceptedPaymentType),
+          language_spoken: checkboxArrayToString(languageSpoken, this.value.languageSpoken)
         }
         return axios.put(`/api/data/account/${this.account.account_id}`, {
           account_data: data

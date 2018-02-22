@@ -319,7 +319,7 @@
             height: 0;
             width: 0;
             top: -9px;
-            right: 56px;
+            right: 45px;
             z-index: 5;
           }
           .dropdown-pointer-bg {
@@ -331,7 +331,7 @@
             height: 0;
             width: 0;
             top: -10px;
-            right: 56px;
+            right: 45px;
             z-index: 4;
           }
 

@@ -1,9 +1,7 @@
 import pdflib from 'pdfjs-dist'
 
-exports.renderPDF = () => {
-  if (!this.product.product_pdf_url) return
-  const url = this.product.product_pdf_url
-  pdflib.PDFJS.getDocument(url).then((pdf) => {
+exports.renderPDF = (pdfURL) => {
+  pdflib.PDFJS.getDocument(pdfURL).then((pdf) => {
     for (let i = 1; i <= pdf.numPages; i += 1) {
       const canvas = document.createElement('canvas')
       canvas.id = 'catalog'
@@ -27,5 +25,4 @@ exports.renderPage = (page, canvas) => {
   canvas.style.width = '100%'
   canvas.style.marginBottom = '-2px'
   page.render(renderContext)
-  this.toggle.isCatalogLoaded = true
 }

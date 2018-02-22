@@ -4,15 +4,19 @@
     <!-- PDF Modal -->
     <div class="modal-background" v-show="vendor.account_pdf_url" @click="onPDFCloseButton">
       <div class="body-container">
-        <object
-          id="pdf"
-          :data="vendor.account_pdf_url"
-          type="application/pdf"
-          width="100%"
-          height="100%">
-        </object>
+        <div id="brochure-container">
+          <img v-show="!toggle.isBrochureLoaded" src="~assets/img/product_loading_image_text.png">
+        </div>
+        <!--<object-->
+          <!--id="pdf"-->
+          <!--:data="vendor.account_pdf_url"-->
+          <!--type="application/pdf"-->
+          <!--width="100%"-->
+          <!--height="100%">-->
+        <!--</object>-->
       </div>
-      <a id="close-button" @click="onPDFCloseButton"><i class="fa fa-angle-down"></i></a>
+      <!--<a id="close-button" @click="onPDFCloseButton"><i class="fa fa-angle-down"></i></a>-->
+      <a id="close-button" @click="onPDFCloseButton">✕</a>
     </div>
 
     <!-- Main Image -->
@@ -228,6 +232,7 @@
 
 <script>
   import axios from '~/plugins/axios'
+  import pdflib from 'pdfjs-dist'
   import { sendEmail } from '~/utils/email'
   export default {
     scrollToTop: true,
@@ -289,6 +294,7 @@
           }
         },
         toggle: {
+          isBrochureLoaded: false,
           isModalOn: false
         }
       }
@@ -313,8 +319,36 @@
       }
     },
     methods: {
+      renderPDF () {
+        const url = this.vendor.account_pdf_url
+        pdflib.PDFJS.getDocument(url).then((pdf) => {
+          for (let i = 1; i <= pdf.numPages; i += 1) {
+            const canvas = document.createElement('canvas')
+            canvas.id = 'catalog'
+            document.getElementById('brochure-container').appendChild(canvas)
+            pdf.getPage(i).then((page) => {
+              this.renderPage(page, canvas)
+            })
+          }
+        })
+      },
+      renderPage (page, canvas) {
+        const viewport = page.getViewport(1.5)
+        const canvasContext = canvas.getContext('2d')
+        const renderContext = {
+          canvasContext,
+          viewport
+        }
+        canvas.height = viewport.height
+        canvas.width = viewport.width
+        canvas.style.width = '100%'
+        canvas.style.marginBottom = '-2px'
+        page.render(renderContext)
+        this.toggle.isBrochureLoaded = true
+      },
       onCatalog () {
         $('.modal-background').show()
+        this.renderPDF()
         $('html').css('overflow', 'hidden')
       },
       onPDFCloseButton () {
@@ -549,22 +583,25 @@
 
   .modal-background {
     background: rgba(0, 0, 0, .8) !important;
+    overflow-y: auto !important;
 
     .body-container {
       position: relative;
+      overflow-y: auto !important;
 
-      #pdf {
-        padding-top: 20px;
-        height: 95vh;
+      #brochure-container {
+        margin: 30px 0;
       }
     }
 
     #close-button {
-      position: absolute;
-      right: 22px;
-      top: 0;
-      font-size: 60px;
+      position: fixed;
+      right: 32px;
+      top: 22px;
+      font-size: 50px;
+      text-decoration: none;
       color: @color-white;
+      font-weight: @font-weight-ultra-thin;
     }
   }
 
