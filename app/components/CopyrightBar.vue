@@ -25,7 +25,6 @@
               <option value="eng">English</option>
               <option value="kor">한국어</option>
             </select>
-            <i id="arrow-icon" class="fa fa-angle-down"></i>
           </span>
         </div>
 
@@ -129,12 +128,11 @@
             border: none !important;
             font-size: 17px;
             padding-right: 20px;
-          }
-          #arrow-icon {
-            position: absolute;
-            font-size: 25px;
-            top: 8px;
-            right: 10px;
+            background: url(~assets/icons/arrow-angle-down.png);
+            background-size: 14px;
+            background-position: calc(100% - 10px) center;
+            background-repeat: no-repeat;
+            background-color: @color-white;
           }
         }
       }

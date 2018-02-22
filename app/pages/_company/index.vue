@@ -6,7 +6,7 @@
       <div class="body-container">
         <a id="close-button" @click="onPDFCloseButton">✕</a>
         <div id="brochure-container" class="brochure-container">
-          <img v-show="!toggle.isBrochureLoaded" src="~assets/img/product_loading_image_text.png">
+          <img v-show="!toggle.isBrochureLoaded" class="pdf-canvas" src="~assets/img/product_loading_image_text.png">
         </div>
         <!--<object-->
         <!--id="pdf"-->
