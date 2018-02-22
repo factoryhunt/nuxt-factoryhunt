@@ -326,19 +326,7 @@
       ...mapGetters({
         account: 'auth/GET_ACCOUNT',
         conatct: 'auth/GET_CONTACT'
-      }),
-      getBusinessType () {
-        let type = '';
-        for (const i in this.value.businessTypes) {
-          const businessType = this.value.businessTypes[i]
-          if (i === '0') {
-            type = businessType
-          } else {
-            type = type + `, ${businessType}`
-          }
-        }
-        return type
-      }
+      })
     },
     methods: {
       applyAttributes () {
@@ -447,6 +435,9 @@
         // modal loading start
         $('#modal-spinkit').removeClass().addClass('spinkit-modal')
 
+        // business type is required field.
+        if (!arrayToString(this.value.businessTypes)) return this.onEditFail(this.$t('alert.required'))
+
         // request
         try {
           await Promise.all([
@@ -461,7 +452,7 @@
       uploadCompanyData () {
         const data = {
           account_name: this.value.accountName,
-          business_type: this.getBusinessType,
+          business_type: arrayToString(this.value.businessTypes),
           company_short_description: this.value.shortDescription,
           company_description: this.value.description,
           products: this.value.products,
@@ -516,9 +507,9 @@
         $('#modal-spinkit').removeClass()
         this.showAlert(true, this.$t('alert.success'))
       },
-      onEditFail () {
+      onEditFail (msg) {
         $('#modal-spinkit').removeClass()
-        this.showAlert(false, this.$t('alert.fail'))
+        this.showAlert(false, msg || this.$t('alert.fail'))
       },
       // jQuery for CSS
       applyStickyCSS () {
