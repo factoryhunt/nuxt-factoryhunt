@@ -2,6 +2,8 @@
   "readMore": "더 보기",
   "sticky": {
     "overview": "개요",
+    "documents": "문서",
+    "tradeCapacity": "무역 역량",
     "location": "위치",
     "products": "제품"
   },
@@ -26,6 +28,15 @@
     "acceptedPaymentCurrency": "통화",
     "acceptedPaymentType": "결제 방식",
     "languageSpoken": "언어"
+  },
+  "tradeCapacity": {
+    "title": "Trade Capacity",
+    "totalAnnualRevenue": "Total Annual Revenue",
+    "averageLeadTime": "Average Lead Time",
+    "acceptedDeliveryTerms": "Accepted Delivery Terms",
+    "acceptedPaymentCurrency": "Accepted Payment Currency",
+    "acceptedPaymentType": "Accepted Payment Type",
+    "languageSpoken": "Language Spoken"
   },
   "document": {
     "title": "문서",

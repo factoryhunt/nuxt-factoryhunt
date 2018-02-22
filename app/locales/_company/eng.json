@@ -5,6 +5,8 @@
   "readMore": "Read more <i class='fa fa-angle-down' aria-hidden='true'></i>",
   "sticky": {
     "overview": "Overview",
+    "documents": "Documents",
+    "tradeCapacity": "Trade Capacity",
     "location": "Location",
     "products": "Products"
   },
@@ -22,7 +24,16 @@
     "location": "Location",
     "businessType": "Business Type",
     "establishedYear": "Established Year",
-    "numberOfEmployees": "Number of Employees",
+    "numberOfEmployees": "Total Employees",
+    "totalAnnualRevenue": "Total Annual Revenue",
+    "averageLeadTime": "Average Lead Time",
+    "acceptedDeliveryTerms": "Accepted Delivery Terms",
+    "acceptedPaymentCurrency": "Accepted Payment Currency",
+    "acceptedPaymentType": "Accepted Payment Type",
+    "languageSpoken": "Language Spoken"
+  },
+  "tradeCapacity": {
+    "title": "Trade Capacity",
     "totalAnnualRevenue": "Total Annual Revenue",
     "averageLeadTime": "Average Lead Time",
     "acceptedDeliveryTerms": "Accepted Delivery Terms",
