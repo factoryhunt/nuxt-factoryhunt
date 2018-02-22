@@ -128,7 +128,7 @@
           <h2 class="section-title">{{ $t('company.document.title') }}</h2>
           <span class="document-item" @click="onCatalog">
             <i id="pdf-icon" class="fa fa-file-pdf-o"></i>
-            <p class="title">Company<br>Brochure</p>
+            <p class="title" v-html="$t('company.document.companyBrochure')"></p>
           </span>
         </div>
 
@@ -633,6 +633,7 @@
 
   .document-item {
     display: inline-block;
+    min-width: 111px;
     border: 1px solid @color-light-gray;
     border-radius: @border-radius;
     padding: 17px;

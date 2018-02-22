@@ -43,6 +43,7 @@
   },
   "document": {
     "title": "Documents",
+    "companyBrochure": "Company<br>Brochure",
     "pdf": "Catalog",
     "certification": "Certification"
   },

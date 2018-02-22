@@ -12,6 +12,8 @@ dist
 
 # redis
 dump.rdb
+dump.*
+/dump.*
 
 # backup files
 backup

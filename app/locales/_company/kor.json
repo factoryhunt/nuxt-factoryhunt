@@ -30,7 +30,7 @@
     "languageSpoken": "언어"
   },
   "tradeCapacity": {
-    "title": "Trade Capacity",
+    "title": "무역 역량",
     "totalAnnualRevenue": "Total Annual Revenue",
     "averageLeadTime": "Average Lead Time",
     "acceptedDeliveryTerms": "Accepted Delivery Terms",
@@ -40,6 +40,7 @@
   },
   "document": {
     "title": "문서",
+    "companyBrochure": "회사 소개서",
     "pdf": "카탈로그",
     "certification": "인증서"
   },
