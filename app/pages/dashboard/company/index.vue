@@ -32,7 +32,7 @@
         <p class="title">{{ $t('dashboardCompany.name.title') }}</p>
         <span class="required-text" v-html="$t('dashboardCompany.name.required')"></span>
         <p class="sub-title">{{ $t('dashboardCompany.name.desc') }}</p>
-        <input required pattern="[A-Za-z0-9 ().,]{2,50}" :title="$t('dashboardCompany.name.inputTitle')" id="account-name-input" type="text" :placeholder="$t('dashboardCompany.name.placeholder')" v-model="value.accountName" spellcheck="false" autocomplete="off" autocorrect="off" autocapitalize="off">
+        <input required pattern="[A-Za-z0-9 ().,&]{2,50}" :title="$t('dashboardCompany.name.inputTitle')" id="account-name-input" type="text" :placeholder="$t('dashboardCompany.name.placeholder')" v-model="value.accountName" spellcheck="false" autocomplete="off" autocorrect="off" autocapitalize="off">
         <i id="account-name-mark" class="small-mark" aria-hidden="true"></i>
       </div>
 

@@ -2,21 +2,21 @@
   <div id="container">
 
     <!-- PDF Modal -->
-    <div class="modal-background" v-show="vendor.account_pdf_url" @click="onPDFCloseButton">
+    <div id="modal-background" class="modal-background" v-show="vendor.account_pdf_url">
       <div class="body-container">
-        <div id="brochure-container">
+        <a id="close-button" @click="onPDFCloseButton">✕</a>
+        <div id="brochure-container" class="brochure-container">
           <img v-show="!toggle.isBrochureLoaded" src="~assets/img/product_loading_image_text.png">
         </div>
         <!--<object-->
-          <!--id="pdf"-->
-          <!--:data="vendor.account_pdf_url"-->
-          <!--type="application/pdf"-->
-          <!--width="100%"-->
-          <!--height="100%">-->
+        <!--id="pdf"-->
+        <!--:data="vendor.account_pdf_url"-->
+        <!--type="application/pdf"-->
+        <!--width="100%"-->
+        <!--height="100%">-->
         <!--</object>-->
       </div>
       <!--<a id="close-button" @click="onPDFCloseButton"><i class="fa fa-angle-down"></i></a>-->
-      <a id="close-button" @click="onPDFCloseButton">✕</a>
     </div>
 
     <!-- Main Image -->
@@ -320,11 +320,14 @@
     },
     methods: {
       renderPDF () {
+        if ($('.brochure-container #catalog').length) return
+
         const url = this.vendor.account_pdf_url
         pdflib.PDFJS.getDocument(url).then((pdf) => {
           for (let i = 1; i <= pdf.numPages; i += 1) {
             const canvas = document.createElement('canvas')
             canvas.id = 'catalog'
+            canvas.className = 'pdf-canvas'
             document.getElementById('brochure-container').appendChild(canvas)
             pdf.getPage(i).then((page) => {
               this.renderPage(page, canvas)
@@ -354,6 +357,14 @@
       onPDFCloseButton () {
         $('.modal-background').hide()
         $('html').css('overflow', 'inherit')
+      },
+      onTouchModal () {
+        document.getElementById('modal-background').onclick = function (event) {
+          if (!$(event.target).hasClass('pdf-canvas')) {
+            $('.modal-background').hide()
+            $('html').css('overflow', 'inherit')
+          }
+        }
       },
       routeProductProfilePage (index) {
         const productDomain = this.products[index].product_domain
@@ -409,6 +420,7 @@
           this.textareaResize()
           this.initMap()
           this.productImageResize()
+          this.onTouchModal()
         })
       },
       renderMainImage () {
@@ -587,20 +599,34 @@
 
     .body-container {
       position: relative;
+      max-width: none;
+      margin: 0;
+      padding: 0;
       overflow-y: auto !important;
 
       #brochure-container {
-        margin: 30px 0;
+        margin: 0;
+
+        img {
+          width: 100%;
+        }
       }
     }
 
     #close-button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
       position: fixed;
-      right: 32px;
-      top: 22px;
-      font-size: 50px;
+      right: 27px;
+      top: 17px;
+      width: 50px;
+      height: 50px;
+      font-size: 38px;
       text-decoration: none;
       color: @color-white;
+      background: rgba(0, 0, 0, .3);
+      border-radius: 50%;
       font-weight: @font-weight-ultra-thin;
     }
   }
@@ -870,6 +896,7 @@
   }
   @media ( min-width: 744px ) {
     #container {
+
       .main-image-container {
         .main-image {
           height: 69vh !important;
@@ -969,6 +996,19 @@
   }
   @media ( min-width: 1128px ) {
     #container {
+      .modal-background {
+        .body-container {
+          max-width: 1040px;
+          margin: 0 auto;
+        }
+        #brochure-container {
+          margin: 30px 0;
+        }
+        #close-button {
+          background: none;
+        }
+      }
+
       .main-image-container {
         .main-image {
         }

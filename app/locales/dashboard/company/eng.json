@@ -8,7 +8,7 @@
     "required": "<i class=\"fa fa-circle\" aria-hidden=\"true\"></i> Required field",
     "desc": "Use the official company name from the business registration certificate.",
     "placeholder": "Factory Hunt, Inc.",
-    "inputTitle": "It must be characters 2-50 and can only contain letters, numbers, periods, comma, and parentheses."
+    "inputTitle": "It must be characters 2-50 and can only contain letters, numbers, periods, comma, ampersand and parentheses."
   },
   "businessType": {
     "title": "Company Business Type",

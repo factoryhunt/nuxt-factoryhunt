@@ -45,7 +45,7 @@
     "products": {
       "title": "취급 품목",
       "placeholder": "LED, Light bulbs, ...",
-      "inputTitle": "1~100자의 영어와 숫자, 쉼표, 하이픈, 그리고 작은따옴표만 입력해주세요."
+      "inputTitle": "1~100자의 영어와 숫자, 쉼표, 하이픈, 엠퍼샌드(&) 그리고 작은따옴표만 입력해주세요."
     },
     "website": {
       "title": "웹사이트",
