@@ -10,7 +10,12 @@ npm-debug.log
 # Nuxt generate
 dist
 
-# backups
+# redis
+dump.rdb
+dump.*
+/dump.*
+
+# backup
 backup
 
 # Webstorm

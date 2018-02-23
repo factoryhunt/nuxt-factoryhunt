@@ -44,8 +44,8 @@
             <div class="supplier-wrapper" v-for="(account,index) in accounts" :key="index">
               <h1 class="company-name" @click="routeSupplierPage(account)">{{account.account_name || account.account_name}}</h1>
               <i v-show="isApprovedAccount(account)" id="verified-mark" class="fa fa-check-circle" aria-hidden="true"></i>
-              <h2 class="product">{{account.products}}</h2>
               <h3 class="website">{{account.website}}</h3>
+              <h2 class="product" v-html="account.products"></h2>
               <h3 class="phone">{{account.phone}}</h3>
               <h3 class="address">{{account.mailing_country}}</h3>
             </div>
@@ -76,6 +76,8 @@
 <script>
   import axios from '~/plugins/axios'
   import Loader from '~/components/Loader'
+  import { Inflectors } from 'en-inflectors'
+  import synonyms from 'synonyms'
   import { addComma, removeNullInArray } from '~/utils/text'
   export default {
     scrollToTop: true,
@@ -153,6 +155,24 @@
           this.$router.push(`/${this.value.company}/${productDomain}`)
         }
       },
+      highlightMatchedText () {
+        let keyword = new Inflectors(this.queryInput)
+        // console.log('singular', keyword.toSingular())
+        // console.log('plural', keyword.toPlural())
+        console.log('synonyms with search keyword: ', synonyms(this.queryInput, 'n'))
+
+        var context = document.querySelector('.body-container')
+        var instance = new Mark(context)
+        const options = {
+          accuracy: 'exactly',
+          wildcards: 'enable'
+        }
+        // Example: toy toys toy, toys,
+        instance.mark(`${keyword.toSingular()}`, options)
+        instance.mark(`${keyword.toSingular()},`, options)
+        instance.mark(`${keyword.toPlural()}`, options)
+        instance.mark(`${keyword.toPlural()},`, options)
+      },
       async onPagination (index) {
         window.scrollTo(0, 0)
         this.activateLoader()
@@ -188,6 +208,9 @@
           $loader.removeClass().addClass('invisible')
         })
       }
+    },
+    mounted () {
+      this.highlightMatchedText()
     }
   }
 </script>
@@ -253,6 +276,9 @@
     }
 
     .supplier-outer-container {
+
+      @margin: 1.5px 0;
+
       padding-bottom: 2rem;
 
       .title {
@@ -271,12 +297,13 @@
 
           .company-name {
             display: inline-block;
-            margin: 0;
-            font-weight: 200;
-            font-size: 20px;
+            margin: 0 0 2px 0;
+            font-weight: @font-weight-medium;
+            font-size: 19px;
 
             &:hover {
               cursor: pointer;
+              text-decoration: underline;
             }
           }
           #verified-mark {
@@ -284,28 +311,33 @@
             font-size: 15px;
             color: @color-light-green;
           }
-          .product {
-            margin: 3px 0 2px 0;
-            font-weight: 500;
-            font-size: 16px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-          }
           .website {
-            margin: 3px 0;
-            font-weight: 400;
+            margin: @margin;
+            font-weight: @font-weight-medium;
             font-size: 14px;
             color: @color-link;
           }
+          .product {
+            margin: @margin;
+            font-weight: @font-weight-thin;
+            font-size: 16px;
+            /*white-space: nowrap;*/
+            /*overflow: hidden;*/
+            /*text-overflow: ellipsis;*/
+            display: -webkit-box;
+            -webkit-line-clamp: 2; /* 라인수 */
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-overflow: ellipsis;
+          }
           .phone {
-            margin: 3px 0;
-            font-weight: 400;
+            margin: @margin;
+            font-weight: @font-weight-thin;
             font-size: 14px;
           }
           .address {
-            margin: 3px 0;
-            font-weight: 400;
+            margin: @margin;
+            font-weight: @font-weight-medium;
             font-size: 14px;
           }
         }
@@ -436,6 +468,10 @@
             }
           }
         }
+      }
+
+      .supplier-container {
+        padding-right: 350px;
       }
     }
   }

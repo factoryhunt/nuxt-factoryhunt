@@ -32,8 +32,25 @@
         <p class="title">{{ $t('dashboardCompany.name.title') }}</p>
         <span class="required-text" v-html="$t('dashboardCompany.name.required')"></span>
         <p class="sub-title">{{ $t('dashboardCompany.name.desc') }}</p>
-        <input required pattern="[A-Za-z0-9 ().,]{2,50}" :title="$t('dashboardCompany.name.inputTitle')" id="account-name-input" type="text" :placeholder="$t('dashboardCompany.name.placeholder')" v-model="value.accountName" spellcheck="false" autocomplete="off" autocorrect="off" autocapitalize="off">
+        <input required pattern="[A-Za-z0-9 ().,&]{2,50}" :title="$t('dashboardCompany.name.inputTitle')" id="account-name-input" type="text" :placeholder="$t('dashboardCompany.name.placeholder')" v-model="value.accountName" spellcheck="false" autocomplete="off" autocorrect="off" autocapitalize="off">
         <i id="account-name-mark" class="small-mark" aria-hidden="true"></i>
+      </div>
+
+      <!-- Business Type -->
+      <div class='business-type-container input-container'>
+        <p class="title">{{ $t('dashboardCompany.businessType.title') }}</p>
+        <span class="required-text" v-html="$t('dashboardCompany.name.required')"></span>
+        <p class="sub-title">{{ $t('dashboardCompany.businessType.desc') }}</p>
+        <div class="checkbox-container" v-for="(business, index) in business_type" :key="index">
+          <input
+            class="business-type-checkbox"
+            type="checkbox"
+            :id="business.value"
+            :value="business.value"
+            v-model="value.businessTypes"
+            @change="onCheckbox">
+          <label class="checkbox-label" :for="business.value">{{business.value}}</label>
+        </div>
       </div>
 
       <!-- Company Short Description -->
@@ -63,19 +80,51 @@
           <div class="left-contents">{{ $t('dashboardCompany.company.phone.title') }}</div>
           <div class="right-contents"><input type="text" maxlength="21" pattern="[0-9 +-]{1,21}" :title="$t('dashboardCompany.company.phone.inputTitle')" :placeholder="$t('dashboardCompany.company.phone.placeholder')" v-model="value.phone"></div>
         </div>
+        <!-- Average Lead Time -->
+        <div class="box-container">
+          <div class="left-contents">{{ $t('dashboardCompany.company.averageLeadTime.title') }}</div>
+          <div class="right-contents"><input type="text" maxlength="3" pattern="[0-9]{1,3}" :title="$t('dashboardCompany.company.averageLeadTime.inputTitle')" v-model="value.averageLeadTime"></div>
+        </div>
         <!-- Established Year -->
         <div class="box-container">
           <div class="left-contents">{{ $t('dashboardCompany.company.year.title') }}</div>
-          <div class="right-contents"><input type="text" maxlength="10" pattern="[0-9]{4}-(0[1-9]|1[012])-(0[1-9]|1[0-9]|2[0-9]|3[01])" title ="YYYY-MM-DD" :placeholder="$t('dashboardCompany.company.year.placeholder')" v-model="value.establishedDate"></div>
+          <div class="right-contents">
+            <select name="established-year" v-model="value.establishedYear">
+              <option value="" disabled>{{ $t('dashboardCompany.company.year.placeholder') }}</option>
+              <option v-for="(year,index) in established_year" :key="index" :value="year.year">{{year.year}}</option>
+            </select>
+          </div>
         </div>
-        <p class="sub-title" style="margin-top: 12px">{{ $t('dashboardCompany.company.desc2') }}</p>
+        <!--  Number of Employees -->
+        <div class="box-container">
+          <div class="left-contents">{{ $t('dashboardCompany.company.numberOfEmployees.title') }}</div>
+          <div class="right-contents">
+            <select name="established-year" v-model="value.numberOfEmployees">
+              <option value="" disabled>{{ $t('dashboardCompany.company.numberOfEmployees.placeholder') }}</option>
+              <option v-for="(number,index) in number_of_employees" :key="index" :value="number.value">{{number.value}}</option>
+            </select>
+          </div>
+        </div>
+        <!--  Total annual revenue -->
+        <div class="box-container">
+          <div class="left-contents">{{ $t('dashboardCompany.company.totalAnnualRevenue.title') }}</div>
+          <div class="right-contents">
+            <select name="established-year" v-model="value.totalAnnualRevenue">
+              <option value="" disabled>{{ $t('dashboardCompany.company.totalAnnualRevenue.placeholder') }}</option>
+              <option v-for="(revenue,index) in total_annual_revenue" :key="index" :value="revenue.value">{{revenue.value}}</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Text -->
+        <p class="sub-title" style="margin-top: 22px">{{ $t('dashboardCompany.company.desc2') }}</p>
         <!-- Country -->
         <div class="box-container">
           <div class="left-contents">{{ $t('dashboardCompany.company.country.title') }}</div>
           <div class="right-contents">
             <select required title="required" v-model="value.country">
               <option id="disabled-option" disabled value="">{{ $t('dashboardCompany.company.country.defaultValue') }}</option>
-              <option v-for="(country,index) in value.country_list" :key="index" :value="country.country_name">{{country.country_name}}</option>
+              <option v-for="(country,index) in country_list" :key="index" :value="country.country_name">{{country.country_name}}</option>
             </select>
           </div>
         </div>
@@ -113,17 +162,17 @@
         <textarea id="description-input" pattern="[A-Za-z0-9 ().,]{1,25000}" :title="$t('dashboardCompany.description.inputTitle')" maxlength="25000" rows="10" :placeholder="$t('dashboardCompany.description.placeholder')" v-model="value.description"></textarea>
       </div>
 
-      <!-- Company Catalog -->
-      <!--<div class="catalog-container input-container">-->
-        <!--<p class="title">{{ $t('dashboardCompany.catalog.title') }}</p>-->
-        <!--<p class="sub-title">{{ $t('dashboardCompany.catalog.desc') }}</p>-->
-        <!--<label for="pdf-input">{{ $t('dashboardProductEdit.catalog.button') }}</label>-->
-        <!--<input name="catalog_pdf" id="pdf-input" type="file" accept="application/pdf" @change="onPDFchanged($event.target.files)">-->
-        <!--<div class="file-information-container">-->
-          <!--<p id="file-information-text">{{msg.pdfText}}</p>-->
-          <!--<a id="pdf-cancel-button" @click="onPDFcancel">{{ $t('dashboardProductEdit.catalog.cancel') }}</a>-->
-        <!--</div>-->
-      <!--</div>-->
+      <!-- Company Brochure -->
+      <div class="catalog-container input-container">
+        <p class="title">{{ $t('dashboardCompany.catalog.title') }}</p>
+        <p class="sub-title">{{ $t('dashboardCompany.catalog.desc') }}</p>
+        <label for="pdf-input">{{ $t('dashboardProductEdit.catalog.button') }}</label>
+        <input name="catalog_pdf" id="pdf-input" type="file" accept="application/pdf" @change="onPDFchanged($event.target.files)">
+        <div class="file-information-container">
+          <p id="file-information-text">{{msg.pdfText}}</p>
+          <a id="pdf-cancel-button" @click="onPDFcancel">{{ $t('dashboardProductEdit.catalog.cancel') }}</a>
+        </div>
+      </div>
 
       <!-- Company History -->
       <div class="history-container input-container">
@@ -131,6 +180,66 @@
         <p class="sub-title" v-html="$t('dashboardCompany.history.desc')"></p>
         <textarea rows="10" maxlength="25000" :title="$t('dashboardCompany.history.inputTitle')" :placeholder="$t('dashboardCompany.history.placeholder')" v-model="value.history"></textarea>
         <i id="history-mark" class="small-mark" aria-hidden="true"></i>
+      </div>
+
+      <!-- Accepted Delivery Terms -->
+      <div class='accepted-delivery-terms-container input-container'>
+        <p class="title">{{ $t('dashboardCompany.acceptedDeliveryTerms.title') }}</p>
+        <br><br>
+        <div class="checkbox-container" v-for="(term, index) in accepted_delivery_terms" :key="index">
+          <input
+            class="business-type-checkbox"
+            type="checkbox"
+            :id="term.value"
+            :value="term.value"
+            v-model="value.acceptedDeliveryTerms">
+          <label class="checkbox-label" :for="term.value">{{term.value}}</label>
+        </div>
+      </div>
+
+      <!-- Accepted Payment Currency -->
+      <div class='accepted-payment-currency-container input-container'>
+        <p class="title">{{ $t('dashboardCompany.acceptedPaymentCurrency.title') }}</p>
+        <br><br>
+        <div class="checkbox-container" v-for="(currency, index) in accepted_payment_currency" :key="index">
+          <input
+            class="business-type-checkbox"
+            type="checkbox"
+            :id="currency.value"
+            :value="currency.value"
+            v-model="value.acceptedPaymentCurrency">
+          <label class="checkbox-label" :for="currency.value">{{currency.value}}</label>
+        </div>
+      </div>
+
+      <!-- Accepted Payment Type -->
+      <div class='accepted-payment-type-container input-container'>
+        <p class="title">{{ $t('dashboardCompany.acceptedPaymentType.title') }}</p>
+        <br><br>
+        <div class="checkbox-container" v-for="(type, index) in accepted_payment_type" :key="index">
+          <input
+            class="business-type-checkbox"
+            type="checkbox"
+            :id="type.value"
+            :value="type.value"
+            v-model="value.acceptedPaymentType">
+          <label class="checkbox-label" :for="type.value">{{type.value}}</label>
+        </div>
+      </div>
+
+      <!-- Language Spoken -->
+      <div class='language-spoken-container input-container'>
+        <p class="title">{{ $t('dashboardCompany.languageSpoken.title') }}</p>
+        <br><br>
+        <div class="checkbox-container" v-for="(language, index) in language_spoken" :key="index">
+          <input
+            class="business-type-checkbox"
+            type="checkbox"
+            :id="language.value"
+            :value="language.value"
+            v-model="value.languageSpoken">
+          <label class="checkbox-label" :for="language.value">{{language.value}}</label>
+        </div>
       </div>
 
       <!-- Confirm and Submit -->
@@ -145,7 +254,16 @@
 
 <script>
   import axios from '~/plugins/axios'
+  import { checkboxStringToArray, checkboxArrayToString } from '~/utils/checkbox'
+  import businessType from '~/assets/models/business_type.json'
+  import acceptedDeliveryTerms from '~/assets/models/accepted_delivery_terms.json'
+  import acceptedPaymentCurrency from '~/assets/models/accepted_payment_currency.json'
+  import acceptedPaymentType from '~/assets/models/accepted_payment_type.json'
+  import languageSpoken from '~/assets/models/language_spoken.json'
   import country from '~/assets/models/country.json'
+  import establishedYear from '~/assets/models/established_year.json'
+  import numberOfEmployees from '~/assets/models/number_of_employees.json'
+  import totalAnnualRevenue from '~/assets/models/total_annual_revenue.json'
   import Spinkit from '~/components/Loader'
   import { mapGetters } from 'vuex'
   export default {
@@ -155,28 +273,44 @@
     },
     data () {
       return {
+        accepted_delivery_terms: acceptedDeliveryTerms,
+        accepted_payment_currency: acceptedPaymentCurrency,
+        accepted_payment_type: acceptedPaymentType,
+        language_spoken: languageSpoken,
+        business_type: businessType,
+        established_year: establishedYear,
+        number_of_employees: numberOfEmployees,
+        total_annual_revenue: totalAnnualRevenue,
+        country_list: country,
         value: {
-          country_list: country,
           contact: {},
           mainImageUrl: '',
           mainImageFileName: '',
           logoUrl: '',
           logoImageFileName: '',
           accountName: '',
+          businessTypes: [],
           shortDescription: '',
           shortDescriptionCount: 0,
           description: '',
           products: '',
           website: '',
           phone: '',
-          establishedDate: '',
+          averageLeadTime: '',
+          establishedYear: '',
+          numberOfEmployees: '',
+          totalAnnualRevenue: '',
           country: '',
           state: '',
           city: '',
           postalCode: '',
           streetAddress: '',
           streetAddressDetail: '',
-          history: ''
+          history: '',
+          acceptedDeliveryTerms: [],
+          acceptedPaymentCurrency: [],
+          acceptedPaymentType: [],
+          languageSpoken: []
         },
         toggle: {
           isDomainAvailable: null,
@@ -198,7 +332,16 @@
       applyAttributes () {
         // when login user is page admin, keep going
         this.applyLocalData(this.account)
+        this.onCheckbox()
         this.applyInputFocusBlurEvent()
+      },
+      changeSelectPlaceholderColor () {
+        const selects = document.querySelectorAll('.dashboard-page-container select')
+        for (const i in selects) {
+          const select = selects[i]
+          console.log(select)
+          // console.log(select.options[select.selectedIndex])
+        }
       },
       // update server data to local data
       applyLocalData (account) {
@@ -206,12 +349,16 @@
         this.value.logoUrl = account.thumbnail_url
         this.value.accountName = account.account_name
         this.value.description = account.company_description
+        this.value.businessTypes = checkboxStringToArray(businessType, account.business_type)
         this.value.shortDescription = account.company_short_description
         this.value.shortDescriptionCount = account.company_short_description.length
         this.value.products = account.products
         this.value.phone = account.phone
         this.value.website = account.website
-        this.value.establishedDate = this.getYear(account.established_date)
+        this.value.averageLeadTime = account.average_lead_time
+        this.value.establishedYear = account.established_year
+        this.value.numberOfEmployees = account.number_of_employees
+        this.value.totalAnnualRevenue = account.total_annual_revenue
         this.value.country = account.mailing_country
         this.value.state = account.mailing_state
         this.value.city = account.mailing_city
@@ -219,6 +366,10 @@
         this.value.streetAddress = account.mailing_street_address
         this.value.streetAddressDetail = account.mailing_street_address_2
         this.value.history = account.history
+        this.value.acceptedDeliveryTerms = checkboxStringToArray(acceptedDeliveryTerms, account.accepted_delivery_terms)
+        this.value.acceptedPaymentCurrency = checkboxStringToArray(acceptedPaymentCurrency, account.accepted_payment_currency)
+        this.value.acceptedPaymentType = checkboxStringToArray(acceptedPaymentType, account.accepted_payment_type)
+        this.value.languageSpoken = checkboxStringToArray(languageSpoken, account.language_spoken)
       },
       onPDFchanged (files) {
         const maxSize = 15 * 1024 * 1024
@@ -243,6 +394,14 @@
         $('#pdf-input').val('')
         this.msg.pdfText = ''
         $('#pdf-cancel-button').css('display', 'none')
+      },
+      onCheckbox () {
+        if (this.value.businessTypes.length > 2) {
+          $('.business-type-container input[type=checkbox]').attr('disabled', 'disabled')
+        } else {
+          $('.business-type-container input[type=checkbox]').removeAttr('disabled')
+        }
+        $('.business-type-container input[type=checkbox]:checked').removeAttr('disabled')
       },
       getYear (date) {
         if (date === '0000-00-00') {
@@ -284,11 +443,14 @@
         // modal loading start
         $('#modal-spinkit').removeClass().addClass('spinkit-modal')
 
+        // business type is required field.
+        if (!checkboxArrayToString(businessType, this.value.businessTypes)) return this.onEditFail(this.$t('alert.required'))
+
         // request
         try {
           await Promise.all([
-            this.uploadCompanyData()
-            // this.uploadPDF()
+            this.uploadCompanyData(),
+            this.uploadPDF()
           ])
           this.onEditSuccess()
         } catch (err) {
@@ -298,19 +460,27 @@
       uploadCompanyData () {
         const data = {
           account_name: this.value.accountName,
+          business_type: checkboxArrayToString(businessType, this.value.businessTypes),
           company_short_description: this.value.shortDescription,
           company_description: this.value.description,
           products: this.value.products,
           website: this.value.website,
           phone: this.value.phone,
-          established_date: this.value.establishedDate,
+          average_lead_time: this.value.averageLeadTime,
+          established_year: this.value.establishedYear,
+          number_of_employees: this.value.numberOfEmployees,
+          total_annual_revenue: this.value.totalAnnualRevenue,
           mailing_country: this.value.country,
           mailing_state: this.value.state,
           mailing_city: this.value.city,
           mailing_postal_code: this.value.postalCode,
           mailing_street_address: this.value.streetAddress,
           mailing_street_address_2: this.value.streetAddressDetail,
-          history: this.value.history
+          history: this.value.history,
+          accepted_delivery_terms: checkboxArrayToString(acceptedDeliveryTerms, this.value.acceptedDeliveryTerms),
+          accepted_payment_currency: checkboxArrayToString(acceptedPaymentCurrency, this.value.acceptedPaymentCurrency),
+          accepted_payment_type: checkboxArrayToString(acceptedPaymentType, this.value.acceptedPaymentType),
+          language_spoken: checkboxArrayToString(languageSpoken, this.value.languageSpoken)
         }
         return axios.put(`/api/data/account/${this.account.account_id}`, {
           account_data: data
@@ -323,6 +493,8 @@
         }
         if (document.getElementById('pdf-input').files[0]) {
           formData.append('pdf', document.getElementById('pdf-input').files[0])
+        } else {
+          return
         }
         return axios.put(`/api/data/account/${this.account.account_id}/pdf`, formData, config)
       },
@@ -343,9 +515,9 @@
         $('#modal-spinkit').removeClass()
         this.showAlert(true, this.$t('alert.success'))
       },
-      onEditFail () {
+      onEditFail (msg) {
         $('#modal-spinkit').removeClass()
-        this.showAlert(false, this.$t('alert.fail'))
+        this.showAlert(false, msg || this.$t('alert.fail'))
       },
       // jQuery for CSS
       applyStickyCSS () {
@@ -420,6 +592,9 @@
     },
     mounted () {
       this.applyAttributes()
+    },
+    updated () {
+      this.onCheckbox()
     }
   }
 </script>
@@ -544,12 +719,28 @@
         transition: all 500ms;
         border: 1px solid @color-link;
       }
+
+      &[type=checkbox] {
+        width: 16px;
+        height: inherit;
+      }
     }
     label {
       .upload-label-basic;
       margin-top: 10px;
       font-size: @font-size-button;
       font-weight: @font-weight-button;
+
+      &.checkbox-label {
+        border: 0;
+        padding: 0;
+        font-size: @font-size-medium;
+        font-weight: @font-weight-thin;
+
+        &:checked {
+          font-weight: @font-weight-bold;
+        }
+      }
     }
     textarea {
       font-size: 20px !important;
@@ -573,6 +764,7 @@
       height: @height !important;
       border: none !important;
     }
+
     button {
       font-size: @font-size-button;
       font-weight: @font-weight-button;
@@ -602,6 +794,19 @@
         right: -3px;
         color: @color-red;
       }
+    }
+
+    .business-type-container {
+      .checkbox-container {
+        display: block;
+        padding: 4px 0;
+        width: 100%;
+      }
+    }
+
+    .checkbox-container {
+      display: inline-block;
+      width: 25%;
     }
 
     .short-description-container {

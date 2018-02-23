@@ -17,7 +17,6 @@ const upload = multer({
     key: function (req, file, cb) {
       const account_id = req.params.account_id
       // const file_name = file.originalname
-      console.log(file)
       cb(null, `accounts/${account_id}/pdf`)
     }
   })

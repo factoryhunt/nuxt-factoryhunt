@@ -31,7 +31,7 @@
               </ul>
             </div>
           </div>
-          <p v-if="value.primaryCategory" class="hidden-text">{{ $t('dashboardProductEdit.category.select', { category: getCategory }) }}</p>
+          <p v-if="value.primaryCategory" class="hidden-text" v-html="$t('dashboardProductEdit.category.select', { category: getCategory })"></p>
           <p class="caution-text">{{ $t('dashboardProductEdit.category.caution') }}</p>
         </div>
         <div class="divider"></div>
@@ -79,26 +79,26 @@
           <p class="sub-title">{{ $t('dashboardProductEdit.information.subTitle') }}</p>
 
           <!--<div class="box-container">-->
-          <!--<div class="left-container">Unit price</div>-->
-          <!--<div class="right-container">-->
+          <!--<div class="left-contents">Unit price</div>-->
+          <!--<div class="right-contents">-->
           <!--<input placeholder="Enter unit price" type="text" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">-->
           <!--</div>-->
           <!--</div>-->
           <div class="box-container">
-            <div class="left-container">{{ $t('dashboardProductEdit.information.code') }}</div>
-            <div class="right-container">
+            <div class="left-contents">{{ $t('dashboardProductEdit.information.code') }}</div>
+            <div class="right-contents">
               <input placeholder="Factory_Hunt_A_01" maxlength="100" v-model="value.productCode" type="text" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
             </div>
           </div>
           <div class="box-container">
-            <div class="left-container">{{ $t('dashboardProductEdit.information.moq') }}</div>
-            <div class="right-container">
+            <div class="left-contents">{{ $t('dashboardProductEdit.information.moq') }}</div>
+            <div class="right-contents">
               <input placeholder="100" maxlength="10" pattern="[0-9]{1,10}" :title="$t('dashboardProductEdit.information.moqInputTitle')" v-model="value.moq" type="text" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
             </div>
           </div>
           <div class="box-container">
-            <div class="left-container">{{ $t('dashboardProductEdit.information.origin') }}</div>
-            <div class="right-container">
+            <div class="left-contents">{{ $t('dashboardProductEdit.information.origin') }}</div>
+            <div class="right-contents">
               <!--<select required v-model="value.origin">-->
               <select v-model="value.origin">
                 <option id="disabled-option" disabled value="">{{ $t('dashboardProductEdit.information.originPlaceholder') }}</option>
@@ -107,14 +107,14 @@
             </div>
           </div>
           <div class="box-container">
-            <div class="left-container">{{ $t('dashboardProductEdit.information.size') }}</div>
-            <div class="right-container">
+            <div class="left-contents">{{ $t('dashboardProductEdit.information.size') }}</div>
+            <div class="right-contents">
               <input placeholder="100 x 100 x 100mm" maxlength="100" v-model="value.dimension" type="text" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
             </div>
           </div>
           <div class="box-container">
-            <div class="left-container">{{ $t('dashboardProductEdit.information.materials') }}</div>
-            <div class="right-container">
+            <div class="left-contents">{{ $t('dashboardProductEdit.information.materials') }}</div>
+            <div class="right-contents">
               <input placeholder="Iron, wood, .." maxlength="100" v-model="value.materialType" type="text" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
             </div>
           </div>
@@ -635,6 +635,7 @@
     font-weight: 400 !important;
     margin-bottom: 5px !important;
     height: @height !important;
+    border: none !important;
   }
   button {
     font-size: @font-size-button;
@@ -790,43 +791,6 @@
           }
         }
 
-        .information-container {
-
-          .box-container {
-            position: relative;
-            width: 100%;
-            border: 1px solid @color-light-grey;
-            border-radius: @border-radius;
-            margin-bottom: 4px;
-
-            .left-container {
-              float: left;
-              font-size: 16px;
-              font-weight: 600;
-              padding-left: 18px;
-              height: @height;
-              line-height: @height;
-              width: 170px;
-              border-right: 1px solid @color-light-grey;
-            }
-            .right-container {
-              padding-left: 180px;
-
-              input {
-                border: none;
-                margin-bottom: 0 !important;
-              }
-              select {
-                position: relative;
-                border: none;
-                margin-bottom: 0 !important;
-              }
-              #disabled-option {
-                color: @color-input-placeholder;
-              }
-            }
-          }
-        }
 
         .image-container {
           position: relative;

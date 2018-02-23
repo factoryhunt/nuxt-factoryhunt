@@ -1,6 +1,7 @@
 {
   "success": "Your information has been updated successfully.",
   "fail": "Information update failed. Please try again.",
+  "required": "Please fill out all of required field.",
   "email": {
     "success": "Your inquiry has been sent successfully. We will get back to you as soon as possible.",
     "fail": "Sending inquiry has been failed. Please try again."

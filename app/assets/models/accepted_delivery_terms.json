@@ -1,0 +1,16 @@
+[
+  { "value": "FOB" },
+  { "value": "CFR" },
+  { "value": "CIF" },
+  { "value": "EXW" },
+  { "value": "FAS" },
+  { "value": "CIP" },
+  { "value": "FCA" },
+  { "value": "CPT" },
+  { "value": "DEQ" },
+  { "value": "DDP" },
+  { "value": "DDU" },
+  { "value": "Express Delivery" },
+  { "value": "DAF" },
+  { "value": "DES" }
+]

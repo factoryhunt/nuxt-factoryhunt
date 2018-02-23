@@ -1,0 +1,85 @@
+Arguments: 
+  /usr/local/Cellar/node/9.4.0/bin/node /usr/local/bin/yarn
+
+PATH: 
+  /Library/Frameworks/Python.framework/Versions/3.6/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Users/Friday/Library/Android/sdk/tools:/Users/Friday/Library/Android/sdk/platform-tools
+
+Yarn version: 
+  1.3.2
+
+Node version: 
+  9.4.0
+
+Platform: 
+  darwin x64
+
+npm manifest: 
+  yarn{
+    "name": "Factoryhunt",
+    "version": "0.0.4",
+    "description": "B2B website where manufacturers and suppliers can create website and online catalog for free.",
+    "author": "Zerobase Software Inc. <peter@factoryhunt.com>",
+    "private": true,
+    "scripts": {
+      "dev": "nodemon server",
+      "build": "nuxt build",
+      "start": "cross-env NODE_ENV=production nodemon server",
+      "generate": "nuxt generate",
+      "lint": "eslint --ext .js,.vue --ignore-path .gitignore .",
+      "precommit": "npm run lint"
+    },
+    "dependencies": {
+      "@nuxtjs/google-analytics": "^2.0.2",
+      "@nuxtjs/sitemap": "^0.0.3",
+      "@xkeshi/image-compressor": "^0.5.3",
+      "aws-sdk": "^2.186.0",
+      "axios": "^0.17.1",
+      "body-parser": "^1.18.2",
+      "clipboard": "^1.7.1",
+      "connect-redis": "^3.3.3",
+      "cookie-parser": "^1.4.3",
+      "cors": "^2.8.4",
+      "express": "^4.16.2",
+      "express-session": "^1.15.6",
+      "formidable": "^1.1.1",
+      "global": "^4.3.2",
+      "jquery": "^3.3.1",
+      "jsonwebtoken": "^8.1.1",
+      "morgan": "^1.9.0",
+      "multer": "^1.3.0",
+      "multer-s3": "^2.7.0",
+      "mysql": "^2.15.0",
+      "nodemailer": "^4.4.2",
+      "nodemon": "^1.14.11",
+      "nuxt": "^1.0.0",
+      "redis": "^2.8.0",
+      "vue-i18n": "^7.4.1",
+      "whatwg-fetch": "^2.0.3"
+    },
+    "devDependencies": {
+      "babel-eslint": "^8.2.1",
+      "cross-env": "^5.1.3",
+      "eslint": "^4.16.0",
+      "eslint-friendly-formatter": "^3.0.0",
+      "eslint-loader": "^1.7.1",
+      "eslint-plugin-vue": "^4.0.0",
+      "less": "^2.7.3",
+      "less-loader": "^4.0.5",
+      "pdfjs-dist": "^2.0.290"
+    }
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile
+
+Trace: 
+  SyntaxError: /Users/Friday/dev/projects/nuxt-factoryhunt/package.json: Unexpected token y in JSON at position 0
+      at JSON.parse (<anonymous>)
+      at /usr/local/lib/node_modules/yarn/lib/cli.js:770:59
+      at Generator.next (<anonymous>)
+      at step (/usr/local/lib/node_modules/yarn/lib/cli.js:92:30)
+      at /usr/local/lib/node_modules/yarn/lib/cli.js:103:13
+      at <anonymous>

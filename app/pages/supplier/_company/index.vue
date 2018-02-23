@@ -29,7 +29,7 @@
 
         <!-- Company Header -->
         <div id="header-container" class="header-container each-container">
-          <p id="OVERVIEW" class="address">{{ lead.mailing_city ? lead.mailing_city + ', ' : '' }} {{ lead.mailing_country ? lead.mailing_country : '' }}</p>
+          <p id="OVERVIEW" class="address">{{ getLocation }}</p>
           <h1 class="company-name">{{ lead.company }}</h1>
         </div>
 
@@ -53,9 +53,13 @@
               <div class="left-contents">{{ $t('company.information.phone') }}</div>
               <div class="right-contents">{{ lead.phone }}</div>
             </div>
+            <div class="list-container" v-show="lead.fax">
+              <div class="left-contents">{{ $t('company.information.fax') }}</div>
+              <div class="right-contents">{{ lead.fax }}</div>
+            </div>
             <div class="list-container" v-show="getLocation">
-              <div class="left-contents">{{ $t('company.information.location') }}</div>
-              <div class="right-contents">{{ getLocation }}</div>
+              <div class="left-contents">{{ $t('company.information.address') }}</div>
+              <div class="right-contents">{{ lead.mailing_country === 'South Korea' ? getLocation : getAddress }}</div>
             </div>
             <div class="list-container" v-show="lead.lead_type">
               <div class="left-contents">{{ $t('company.information.businessType') }}</div>
@@ -66,6 +70,13 @@
               <div class="right-contents">{{ getYear(lead.established_date) }}</div>
             </div>
           </div>
+        </div>
+
+        <!-- Company Description -->
+        <div class="description-container each-container" v-show="lead.company_description">
+          <h2 class="section-title">{{ $t('company.description.title') }}</h2>
+          <textarea title="description" readonly v-model="lead.company_description"></textarea>
+          <p @click="descriptionExpand" class="view-details-button" v-html="$t('company.readMore')"></p>
         </div>
 
       </div>
@@ -109,7 +120,7 @@
         title: `${this.lead.company}`,
         meta: [
           { hid: 'keywords', name: 'keywords', content: `${this.lead.company}, ${this.lead.products}, factoryhunt, factory, hunt, factory hunt, quote, bulk, wholesale, supplier, factory hunt, online catalog, supplier directory, free website, international trade` },
-          { hid: 'description', name: 'description', content: `${this.lead.company} | Factory Hunt` },
+          { hid: 'description', name: 'description', content: `${this.lead.company}, ${this.lead.products} | Factory Hunt` },
           { hid: 'og-title', property: 'og:title', content: this.lead.company },
           { hid: 'og-description', property: 'og:description', content: this.$t('supplier.ogDescription') },
           { hid: 'og-url', property: 'og:url', content: `factoryhunt.com/${this.lead.domain}` },
@@ -123,11 +134,16 @@
         ]
       }
     },
-    async asyncData ({query, params}) {
-      let {data} = await axios.get(`/api/data/lead/company/${encodeURI(params.company)}`)
-      return {
-        queryInput: query.input,
-        lead: data
+    async asyncData ({query, params, error, redirect}) {
+      try {
+        let {data} = await axios.get(`/api/data/lead/company/${encodeURI(params.company)}`)
+        if (!data) redirect('/404')
+        return {
+          queryInput: query.input,
+          lead: data
+        }
+      } catch (err) {
+        error({ statusCode: 404, message: 'Page not found' })
       }
     },
     data () {
@@ -152,10 +168,18 @@
     },
     computed: {
       getLocation () {
-        const city = this.lead.mailing_city ? this.lead.mailing_city + ', ' : ''
-        const state = this.lead.mailing_state ? this.lead.mailing_state + ', ' : ''
+        const city = this.lead.mailing_city ? `${this.lead.mailing_city}, ` : ''
+        const state = this.lead.mailing_state ? `${this.lead.mailing_state}, ` : ''
         const country = this.lead.mailing_country
         return city + state + country
+      },
+      getAddress () {
+        const street = this.lead.mailing_street_address ? `${this.lead.mailing_street_address}, ` : ''
+        const street2 = this.lead.mailing_street_address_2 ? `${this.lead.mailing_street_address_2}, ` : ''
+        const city = this.lead.mailing_city ? `${this.lead.mailing_city}, ` : ''
+        const state = this.lead.mailing_state ? `${this.lead.mailing_state}, ` : ''
+        const country = this.lead.mailing_country
+        return street + street2 + city + state + country
       },
       getNumberOfEmployees () {
         let number = this.lead.number_of_employees
@@ -219,6 +243,7 @@
           this.applyStickyCSS()
           this.applySmoothScrolling()
           this.applyCompanyFadeInOutInStickyNavigationBar()
+          this.textareaResize()
           this.initMap()
         })
       },
@@ -264,6 +289,27 @@
           }
         })
       },
+      textareaResize () {
+        const $description = $('.description-container textarea')
+        const $descriptionHeight = $description[0].scrollHeight
+        const $descriptionButton = $('.description-container .view-details-button')
+        if ($descriptionHeight >= 190) {
+          $descriptionButton.show()
+          $description.css('height', '190px')
+        } else if ($descriptionHeight <= 50) {
+//          $description.css('height', '40px') // because of css bug?
+        } else {
+          $description.css('height', `${$descriptionHeight}px`)
+        }
+      },
+      descriptionExpand () {
+        const $description = $('.description-container textarea')
+        const $viewDetailsButton = $('.description-container .view-details-button')
+        $viewDetailsButton.hide()
+        $description.animate({
+          'height': ($description[0].scrollHeight) + 'px'
+        }, 200)
+      },
       applySmoothScrolling () {
         // Select all links with hashes
         $('.sticky-item')
@@ -306,7 +352,7 @@
       },
       geocodeAddress (geocoder, resultsMap) {
         /* eslint-disable no-unused-vars */
-        geocoder.geocode({'address': this.getLocation}, function (results, status) {
+        geocoder.geocode({'address': this.getAddress}, function (results, status) {
           if (status === 'OK') {
             console.log('map ok')
             resultsMap.setCenter(results[0].geometry.location)
@@ -338,17 +384,96 @@
 <style lang="less" scoped>
   @import '~assets/css/index';
 
+  .modal-background {
+    background: rgba(0, 0, 0, .8) !important;
+    overflow-y: auto !important;
+
+    .body-container {
+      position: relative;
+      max-width: none;
+      margin: 0;
+      padding: 0;
+      overflow-y: auto !important;
+
+      #brochure-container {
+        margin: 0;
+
+        img {
+          width: 100%;
+        }
+      }
+    }
+
+    #close-button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: fixed;
+      right: 27px;
+      top: 17px;
+      width: 50px;
+      height: 50px;
+      font-size: 38px;
+      text-decoration: none;
+      color: @color-white;
+      background: rgba(0, 0, 0, .3);
+      border-radius: 50%;
+      font-weight: @font-weight-ultra-thin;
+    }
+  }
+
+  .document-item {
+    display: inline-block;
+    min-width: 111px;
+    border: 1px solid @color-light-gray;
+    border-radius: @border-radius;
+    padding: 17px;
+    cursor: pointer;
+    margin-bottom: 10px;
+    margin-right: 8px;
+
+    &:hover {
+      border: 1px solid @color-font-gray;
+      text-decoration: none;
+    }
+
+    .title {
+      text-align: center;
+      margin-top: 34px !important;
+      font-size: 14px;
+    }
+    #pdf-icon {
+      font-size: 26px;
+    }
+  }
+
   #container {
 
+    .each-container {
+      border-bottom: @border-light-grey;
+      padding-bottom: 30px;
+    }
+
     .section-title {
+      margin-top: 30px;
       font-size: @font-size-large;
     }
 
+    .main-image-container {
+      .main-image {
+        background-image: url(~assets/img/product_loading_image_text.png);
+        background-repeat: no-repeat !important;
+        background-size: cover !important;
+        background-position: 50% 50% !important;
+        height: 30vh !important;
+      }
+    }
+
     .body-container {
-      margin-bottom: 40px;
 
       .left-container {
         position: relative;
+        min-height: 540px;
 
         // shared
         textarea {
@@ -367,10 +492,6 @@
           font-weight: @font-weight-thin;
           font-size: @font-size-medium;
         }
-        .each-container {
-          border-bottom: @border-light-grey;
-          padding-bottom: 1.6rem;
-        }
         // end of shared
 
         .sticky-outer-container {
@@ -382,8 +503,8 @@
 
           .logo {
             float: right;
-            width: 52px;
-            height: 52px;
+            width: 50px;
+            height: 50px;
             border-radius: 50%;
             border: 2px solid @color-light-grey;
           }
@@ -400,7 +521,6 @@
           }
           .short-description-container {
             .short-description {
-              font-weight: 300;
             }
           }
         }
@@ -418,28 +538,23 @@
           }
         }
 
-        .information-container {
+        .list-container {
           position: relative;
+          line-height:1.25;
+          padding-bottom: 28px;
 
-          .list-container {
+          &:last-child {
+            padding-bottom: 0;
+          }
+
+          .left-contents {
             position: relative;
-            font-size: @font-size-medium;
-            line-height: 1.25;
-            padding-bottom: 28px;
-
-            &:last-child {
-              padding-bottom: 0;
-            }
-
-            .left-contents {
-              position: relative;
-              font-size: @font-size-small;
-              font-weight: @font-weight-bold;
-            }
-            .right-contents {
-              font-weight: @font-weight-thin;
-              padding-left: 0;
-            }
+            font-size: @font-size-small;
+            font-weight: @font-weight-bold;
+          }
+          .right-contents {
+            font-weight: @font-weight-thin;
+            padding-left: 0;
           }
         }
 
@@ -510,7 +625,8 @@
 
       .address-container {
         outline: none;
-        padding-bottom: 1.6rem;
+        padding-bottom: 30px;
+
         #map {
           width: 100%;
           min-height: 330px;
@@ -526,8 +642,8 @@
       .products-container {
         outline: none;
         padding-bottom: 1.6rem;
-        .title {
-          margin-top: 0;
+
+        .section-title {
           padding-left: 20px;
           padding-right: 20px;
         }
@@ -546,25 +662,24 @@
               }
             }
             .content-container {
-              ;
 
               .primary-category {
                 text-overflow: ellipsis;
                 overflow: hidden;
                 white-space: nowrap;
                 margin: 4px 0 0 0;
-                font-size: .9rem;
-                font-weight: 500;
+                font-size: @font-size-extra-small;
+                font-weight: @font-weight-bold;
                 color: @color-font-gray;
               }
               .product-name {
                 margin: 0;
-                font-size: 1.1rem;
-                font-weight: 400;
+                font-size: @font-size-medium;
+                font-weight: @font-weight-medium;
               }
               .star-container {
                 i {
-                  font-size: 0.9rem;
+                  font-size: @font-size-small;
                   color: @color-link;
                 }
               }
@@ -576,6 +691,7 @@
   }
   @media ( min-width: 744px ) {
     #container {
+
       .main-image-container {
         .main-image {
           height: 69vh !important;
@@ -590,28 +706,32 @@
             padding-top: 24px;
           }
 
-          .information-container {
+          .list-container {
+            display: table;
+            width: 100%;
             position: relative;
+            padding-bottom: 12px;
 
-            .list-container {
-              position: relative;
-              line-height: 1.9em;
-              padding-bottom: 0;
-
-              .left-contents {
-                position: absolute;
-                max-width: 140px;
-                font-size: @font-size-medium;
-                font-weight: @font-weight-medium;
-              }
-              .right-contents {
-                text-align: left;
-                padding-left: 150px;
-                font-weight: @font-weight-thin;
-              }
+            .left-contents {
+              width: 160px;
+              font-size: @font-size-medium;
+              font-weight: @font-weight-medium;
+            }
+            .right-contents {
+              display: table-cell;
+              width: 100%;
+              text-align: left;
+              vertical-align: top;
+              padding-left: 4px;
+              font-size: @font-size-medium;
+              font-weight: @font-weight-thin;
             }
           }
-          .description-container {
+
+          .trade-capacity-container {
+            .left-contents {
+              width: 250px;
+            }
           }
 
         }
@@ -634,7 +754,7 @@
         .products-container {
           padding-bottom: 1.6rem;
 
-          .title {
+          .section-title {
             padding-left: 6px;
             padding-right: 6px;
           }
@@ -654,17 +774,12 @@
               .content-container {
                 .primary-category {
                   margin: 4px 0 0 0;
-                  font-size: .9rem;
-                  font-weight: 500;
-                  color: @color-font-gray;
                 }
                 .product-name {
                   margin: 0;
                 }
                 .star-container {
                   i {
-                    font-size: 0.9rem;
-                    color: @color-link;
                   }
                 }
               }
@@ -676,6 +791,19 @@
   }
   @media ( min-width: 1128px ) {
     #container {
+      .modal-background {
+        .body-container {
+          max-width: 1040px;
+          margin: 0 auto;
+        }
+        #brochure-container {
+          margin: 30px 0;
+        }
+        #close-button {
+          background: none;
+        }
+      }
+
       .main-image-container {
         .main-image {
         }
@@ -685,7 +813,6 @@
 
         .left-container {
           padding-right: 410px;
-          min-height: 540px;
 
           .sticky-outer-container {
             display: inherit;
@@ -754,7 +881,7 @@
           }
 
           .header-container {
-            padding-top: 72px;
+            padding-top: 77px;
           }
 
           .description-container {
@@ -762,7 +889,7 @@
         }
 
         .right-container {
-          padding-top: 72px;
+          padding-top: 77px;
           position: absolute;
           width: 340px;
           top: 5px;
@@ -787,7 +914,7 @@
 
         .products-container {
           padding-bottom: 1.6rem;
-          .title {
+          .section-title {
             padding-left: 10px;
             padding-right: 10px;
           }
@@ -806,8 +933,6 @@
               }
               .content-container {
                 .primary-category {
-                  font-size: .9rem;
-                  color: @color-font-gray;
                 }
                 .product-name {
                 }

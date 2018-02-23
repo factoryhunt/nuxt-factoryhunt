@@ -13,6 +13,11 @@
     components: {
       NavigationBar,
       CopyrightBar
+    },
+    head () {
+      return {
+        titleTemplate: '%s | Factory Hunt'
+      }
     }
   }
 </script>

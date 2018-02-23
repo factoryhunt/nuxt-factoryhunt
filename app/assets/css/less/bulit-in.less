@@ -8,6 +8,15 @@ select {
   -moz-appearance: none;
   appearance: none;
   padding: @input-padding;
+  background: url(~assets/icons/arrow-angle-down.png);
+  background-size: 14px;
+  background-position: 97% center;
+  background-repeat: no-repeat;
+  background-color: @color-white;
+
+  &:invalid {
+    color: @color-input-placeholder;
+  }
 }
 
 a {

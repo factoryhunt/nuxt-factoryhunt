@@ -4,7 +4,6 @@ module.exports = {
   srcDir: './app',
   head: {
     title: 'Factory Hunt - A Hub for Manufacturer & Supplier Listings',
-    titleTemplate: '%s | Factory Hunt',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
@@ -30,7 +29,8 @@ module.exports = {
     ],
     script: [
       { src: 'https://maps.googleapis.com/maps/api/js?key=AIzaSyBFBRWKvq4CUEkq5XqbGaSAkajRuEfg25M' },
-      { src: 'https://cdn.quilljs.com/1.0.0/quill.js' }
+      { src: 'https://cdn.quilljs.com/1.0.0/quill.js' },
+      { src: 'https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js', charset:"UTF-8" }
     ]
   },
   loading: { color: '#f2583d' },
@@ -50,9 +50,11 @@ module.exports = {
     cacheTime: 1000 * 60 * 15, // 15 mins
     generate: false,
     exclude: [
+      '/404',
       '/dashboard',
       '/dashboard/**',
       '/for-supplier/**',
+      '/search',
       '/supplier',
       '/inquiry'
     ],

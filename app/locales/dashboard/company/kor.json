@@ -10,8 +10,24 @@
     "placeholder": "Factory Hunt, Co., Ltd.",
     "inputTitle": "2~50자의 영어와 숫자, 마침표, 쉼표 그리고 소괄호만 입력해주세요."
   },
+  "businessType": {
+    "title": "회사 업종",
+    "desc": "최대 3개까지 선택할 수 있습니다."
+  },
+  "acceptedDeliveryTerms": {
+    "title": "인도 조항"
+  },
+  "acceptedPaymentCurrency": {
+    "title": "통화"
+  },
+  "acceptedPaymentType": {
+    "title": "결제 방식"
+  },
+  "languageSpoken": {
+    "title": "언어"
+  },
   "slogan": {
-    "title": "슬로건",
+    "title": "회사 짧은 소개",
     "desc": "귀사를 한 문장으로 표현해주세요.",
     "placeholder": "Factory Hunt is a global B2B platform.",
     "inputTitle": "2~150자의 영어와 숫자, 마침표, 쉼표, 그리고 작은따옴표만 입력해주세요."
@@ -29,7 +45,7 @@
     "products": {
       "title": "취급 품목",
       "placeholder": "LED, Light bulbs, ...",
-      "inputTitle": "1~100자의 영어와 숫자, 쉼표, 하이픈, 그리고 작은따옴표만 입력해주세요."
+      "inputTitle": "1~100자의 영어와 숫자, 쉼표, 하이픈, 엠퍼샌드(&) 그리고 작은따옴표만 입력해주세요."
     },
     "website": {
       "title": "웹사이트",
@@ -41,9 +57,21 @@
       "placeholder": "+82-31-123-4567",
       "inputTitle": "1~21자의 숫자와 더하기, 그리고 하이픈만 입력해주세요."
     },
+    "averageLeadTime": {
+      "title": "평균 소요 시간 (일)",
+      "inputTitle": "제품 생산 시작부터 완성까지 소요되는 평균 시간을 입력해주세요."
+    },
     "year": {
-      "title": "설립일",
-      "placeholder": "YYYY-MM-DD"
+      "title": "설립연도",
+      "placeholder": "선택해주세요."
+    },
+    "numberOfEmployees": {
+      "title": "직원 수",
+      "placeholder": "선택해주세요."
+    },
+    "totalAnnualRevenue": {
+      "title": "연 매출",
+      "placeholder": "선택해주세요."
     },
     "country": {
       "title": "국가",
@@ -76,7 +104,7 @@
     }
   },
   "catalog": {
-    "title": "회사 브로셔",
+    "title": "회사 소개서",
     "desc": "PDF 파일만 가능합니다. 최대 업로드 크기 :10MB"
   },
   "history": {

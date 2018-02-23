@@ -8,10 +8,26 @@
     "required": "<i class=\"fa fa-circle\" aria-hidden=\"true\"></i> Required field",
     "desc": "Use the official company name from the business registration certificate.",
     "placeholder": "Factory Hunt, Inc.",
-    "inputTitle": "It must be characters 2-50 and can only contain letters, numbers, periods, comma, and parentheses."
+    "inputTitle": "It must be characters 2-50 and can only contain letters, numbers, periods, comma, ampersand and parentheses."
+  },
+  "businessType": {
+    "title": "Company Business Type",
+    "desc": "Select up to 3 Business Types."
+  },
+  "acceptedDeliveryTerms": {
+    "title": "Accepted Delivery Terms"
+  },
+  "acceptedPaymentCurrency": {
+    "title": "Accepted Payment Currency"
+  },
+  "acceptedPaymentType": {
+    "title": "Accepted Payment Type"
+  },
+  "languageSpoken": {
+    "title": "Language Spoken"
   },
   "slogan": {
-    "title": "Slogan",
+    "title": "Company Short Description",
     "desc": "Describe your company in 150 characters or less.",
     "placeholder": "Factory Hunt is a global B2B platform.",
     "inputTitle": "It must be characters 2-50 and can only contain letters, numbers, periods, comma, and apostrophe."
@@ -41,9 +57,21 @@
       "placeholder": "+1-917-1234-5678",
       "inputTitle": "It must be 1-21 characters and can only contain numbers, plus, and hyphens."
     },
+    "averageLeadTime": {
+      "title": "Average Lead Time (Days)",
+      "inputTitle": "Please enter the average production time. Numbers only."
+    },
     "year": {
-      "title": "Established Date",
-      "placeholder": "YYYY-MM-DD"
+      "title": "Established Year",
+      "placeholder": "Please select."
+    },
+    "numberOfEmployees": {
+      "title": "Number Of Employees",
+      "placeholder": "Please select."
+    },
+    "totalAnnualRevenue": {
+      "title": "Total Annual Revenue",
+      "placeholder": "Please select."
     },
     "country": {
       "title": "Country",

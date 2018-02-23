@@ -10,8 +10,6 @@ export default ({ app, store, query }) => {
   const { kor, eng } = require('~/locales')
   const locale = getLocale() || store.state.i18n.locale
   const lang = query.lang
-  console.log('locale', locale)
-  console.log('lang', lang)
 
   if (!getLocale()) {
     setLocale(locale)

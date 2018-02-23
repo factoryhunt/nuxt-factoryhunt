@@ -2,18 +2,22 @@
   <div id="container">
 
     <!-- PDF Modal -->
-    <!--<div class="modal-background" v-show="vendor.account_pdf_url" @click="onPDFCloseButton">-->
-      <!--<div class="body-container">-->
+    <div id="modal-background" class="modal-background" v-show="vendor.account_pdf_url">
+      <div class="body-container">
+        <a id="close-button" @click="onPDFCloseButton">✕</a>
+        <div id="brochure-container" class="brochure-container">
+          <img v-show="!toggle.isBrochureLoaded" class="pdf-canvas" src="~assets/img/product_loading_image_text.png">
+        </div>
         <!--<object-->
-          <!--id="pdf"-->
-          <!--:data="vendor.account_pdf_url"-->
-          <!--type="application/pdf"-->
-          <!--width="100%"-->
-          <!--height="100%">-->
+        <!--id="pdf"-->
+        <!--:data="vendor.account_pdf_url"-->
+        <!--type="application/pdf"-->
+        <!--width="100%"-->
+        <!--height="100%">-->
         <!--</object>-->
-      <!--</div>-->
+      </div>
       <!--<a id="close-button" @click="onPDFCloseButton"><i class="fa fa-angle-down"></i></a>-->
-    <!--</div>-->
+    </div>
 
     <!-- Main Image -->
     <div class="main-image-container">
@@ -32,11 +36,11 @@
             <!-- Left Side -->
             <div class="sticky-container">
               <ul>
-                <li><a href="#OVERVIEW" class="sticky-item">{{ $t('company.sticky.overview') }}</a></li>
-                <li class="dot">•</li>
-                <li><a href="#LOCATION" class="sticky-item">{{ $t('company.sticky.location') }}</a></li>
-                <li class="dot">•</li>
-                <li><a href="#PRODUCTS" class="sticky-item">{{ $t('company.sticky.products') }}</a></li>
+                <li><a href="#OVERVIEW" class="sticky-item">{{ $t('company.sticky.overview') }}</a><span class="dot">•</span></li>
+                <li v-show="vendor.account_pdf_url"><a href="#DOCUMENTS" class="sticky-item">{{ $t('company.sticky.documents') }}</a><span class="dot">•</span></li>
+                <li v-show="tradeCapacityExist"><a href="#TRADE-CAPACITY" class="sticky-item">{{ $t('company.sticky.tradeCapacity') }}</a><span class="dot">•</span></li>
+                <li><a href="#LOCATION" class="sticky-item">{{ $t('company.sticky.location') }}</a><span class="dot" v-show="products.length > 0">•</span></li>
+                <li v-show="products.length > 0"><a href="#PRODUCTS" class="sticky-item">{{ $t('company.sticky.products') }}</a></li>
               </ul>
             </div>
             <!-- Right Side -->
@@ -52,9 +56,9 @@
 
         <!-- Company Header -->
         <div id="header-container" class="header-container each-container">
+          <p id="OVERVIEW" class="address">{{ vendor.mailing_city ? vendor.mailing_city + ', ' : '' }} {{ vendor.mailing_country ? vendor.mailing_country : '' }}</p>
           <img v-if="vendor.thumbnail_url" class="logo" :src="vendor.thumbnail_url">
           <img v-else class="logo" src="../../assets/img/temp-logo-image_english_512.png">
-          <p id="OVERVIEW" class="address">{{ vendor.mailing_city ? vendor.mailing_city + ', ' : '' }} {{ vendor.mailing_country ? vendor.mailing_country : '' }}</p>
           <h1 class="company-name">{{ vendor.account_name }}</h1>
           <div class="short-description-container">
             <p class="short-description">{{ vendor.company_short_description ? vendor.company_short_description : '' }}</p>
@@ -89,11 +93,18 @@
             </div>
             <div class="list-container" v-show="vendor.account_type">
               <div class="left-contents">{{ $t('company.information.businessType') }}</div>
-              <div class="right-contents">{{ vendor.account_type }}</div>
+              <div class="right-contents">
+                {{ vendor.account_type }}
+                <span v-show="vendor.business_type"><i class="fa fa-angle-right"></i> {{vendor.business_type}}</span>
+              </div>
             </div>
-            <div class="list-container" v-show="vendor.established_date !== '0000-00-00'">
+            <div class="list-container" v-show="vendor.established_year">
               <div class="left-contents">{{ $t('company.information.establishedYear') }}</div>
-              <div class="right-contents">{{ getYear(vendor.established_date) }}</div>
+              <div class="right-contents">{{ vendor.established_year }}</div>
+            </div>
+            <div class="list-container" v-show="vendor.number_of_employees">
+              <div class="left-contents">{{ $t('company.information.numberOfEmployees') }}</div>
+              <div class="right-contents">{{ vendor.number_of_employees }}</div>
             </div>
           </div>
         </div>
@@ -105,20 +116,51 @@
           <p @click="descriptionExpand" class="view-details-button" v-html="$t('company.readMore')"></p>
         </div>
 
-        <!-- Document -->
-        <!--<div class="document-container each-container" v-show="vendor.account_pdf_url">-->
-          <!--<h2 class="section-title">{{ $t('company.document.title') }}</h2>-->
-          <!--<span class="document-item" @click="onCatalog">-->
-            <!--<i id="pdf-icon" class="fa fa-file-pdf-o"></i>-->
-            <!--<p class="title">Company<br>Brochure</p>-->
-          <!--</span>-->
-        <!--</div>-->
-
         <!-- Company History -->
         <div class="history-container each-container" v-show="vendor.history">
           <h2 class="section-title">{{ $t('company.history.title') }}</h2>
           <textarea title="history" readonly v-model="vendor.history"></textarea>
           <p @click="historyExpand" class="view-details-button" v-html="$t('company.readMore')"></p>
+        </div>
+
+        <!-- Document -->
+        <div id="DOCUMENTS" class="document-container each-container" v-show="vendor.account_pdf_url">
+          <h2 class="section-title">{{ $t('company.document.title') }}</h2>
+          <span class="document-item" @click="onCatalog">
+            <i id="pdf-icon" class="fa fa-file-pdf-o"></i>
+            <p class="title" v-html="$t('company.document.companyBrochure')"></p>
+          </span>
+        </div>
+
+        <!-- Trade Capacity -->
+        <div id="TRADE-CAPACITY" class="trade-capacity-container each-container" v-show="tradeCapacityExist">
+          <h2 class="section-title">{{ $t('company.tradeCapacity.title') }}</h2>
+          <div class="information-table-container">
+            <div class="list-container" v-show="vendor.total_annual_revenue">
+              <div class="left-contents">{{ $t('company.information.totalAnnualRevenue') }}</div>
+              <div class="right-contents">{{ vendor.total_annual_revenue }}</div>
+            </div>
+            <div class="list-container" v-show="vendor.average_lead_time">
+              <div class="left-contents">{{ $t('company.information.averageLeadTime') }}</div>
+              <div class="right-contents">{{ vendor.average_lead_time }} Day(s)</div>
+            </div>
+            <div class="list-container" v-show="vendor.accepted_delivery_terms">
+              <div class="left-contents">{{ $t('company.information.acceptedDeliveryTerms') }}</div>
+              <div class="right-contents">{{ vendor.accepted_delivery_terms }}</div>
+            </div>
+            <div class="list-container" v-show="vendor.accepted_payment_currency">
+              <div class="left-contents">{{ $t('company.information.acceptedPaymentCurrency') }}</div>
+              <div class="right-contents">{{ vendor.accepted_payment_currency }}</div>
+            </div>
+            <div class="list-container" v-show="vendor.accepted_payment_type">
+              <div class="left-contents">{{ $t('company.information.acceptedPaymentType') }}</div>
+              <div class="right-contents">{{ vendor.accepted_payment_type }}</div>
+            </div>
+            <div class="list-container" v-show="vendor.language_spoken">
+              <div class="left-contents">{{ $t('company.information.languageSpoken') }}</div>
+              <div class="right-contents">{{ vendor.language_spoken }}</div>
+            </div>
+          </div>
         </div>
 
         <!-- Company Certification -->
@@ -190,6 +232,7 @@
 
 <script>
   import axios from '~/plugins/axios'
+  import pdflib from 'pdfjs-dist'
   import { sendEmail } from '~/utils/email'
   export default {
     scrollToTop: true,
@@ -199,7 +242,7 @@
         title: `${this.vendor.account_name}`,
         meta: [
           { hid: 'keywords', name: 'keywords', content: `${this.vendor.account_name}, ${this.vendor.products}, factoryhunt, factory, hunt, factory hunt, quote, bulk, wholesale, supplier, factory hunt, online catalog, supplier directory, free website, international trade` },
-          { hid: 'description', name: 'description', content: `${this.vendor.company_description} | Factory Hunt` },
+          { hid: 'description', name: 'description', content: `${this.vendor.account_name}, ${this.vendor.company_description} | Factory Hunt` },
           { hid: 'og-title', property: 'og:title', content: this.vendor.account_name },
           { hid: 'og-description', property: 'og:description', content: this.vendor.company_description },
           { hid: 'og-image', property: 'og:image', content: this.vendor.account_image_url_1 },
@@ -215,9 +258,12 @@
         ]
       }
     },
-    async asyncData ({ params, query, error }) {
+    async asyncData ({ params, query, error, redirect }) {
       try {
         let { data } = await axios.get(`/api/data/account/domain/${params.company}`)
+        if (!data.account) {
+          redirect('/404')
+        }
         return {
           queryInput: query.input || '',
           vendor: data.account,
@@ -248,6 +294,7 @@
           }
         },
         toggle: {
+          isBrochureLoaded: false,
           isModalOn: false
         }
       }
@@ -260,14 +307,64 @@
         const state = this.vendor.mailing_state ? this.vendor.mailing_state + ', ' : ''
         const country = this.vendor.mailing_country
         return street + street2 + city + state + country
+      },
+      tradeCapacityExist () {
+        if (this.vendor.total_annual_revenue) return true
+        if (this.vendor.average_lead_time) return true
+        if (this.vendor.accepted_delivery_terms) return true
+        if (this.vendor.accepted_payment_currency) return true
+        if (this.vendor.accepted_payment_type) return true
+        if (this.vendor.language_spoken) return true
+        return false
       }
     },
     methods: {
+      renderPDF () {
+        if ($('.brochure-container #catalog').length) return
+
+        const url = this.vendor.account_pdf_url
+        pdflib.PDFJS.getDocument(url).then((pdf) => {
+          for (let i = 1; i <= pdf.numPages; i += 1) {
+            const canvas = document.createElement('canvas')
+            canvas.id = 'catalog'
+            canvas.className = 'pdf-canvas'
+            document.getElementById('brochure-container').appendChild(canvas)
+            pdf.getPage(i).then((page) => {
+              this.renderPage(page, canvas)
+            })
+          }
+        })
+      },
+      renderPage (page, canvas) {
+        const viewport = page.getViewport(1.5)
+        const canvasContext = canvas.getContext('2d')
+        const renderContext = {
+          canvasContext,
+          viewport
+        }
+        canvas.height = viewport.height
+        canvas.width = viewport.width
+        canvas.style.width = '100%'
+        canvas.style.marginBottom = '-2px'
+        page.render(renderContext)
+        this.toggle.isBrochureLoaded = true
+      },
       onCatalog () {
         $('.modal-background').show()
+        this.renderPDF()
+        $('html').css('overflow', 'hidden')
       },
       onPDFCloseButton () {
         $('.modal-background').hide()
+        $('html').css('overflow', 'inherit')
+      },
+      onTouchModal () {
+        document.getElementById('modal-background').onclick = function (event) {
+          if (!$(event.target).hasClass('pdf-canvas')) {
+            $('.modal-background').hide()
+            $('html').css('overflow', 'inherit')
+          }
+        }
       },
       routeProductProfilePage (index) {
         const productDomain = this.products[index].product_domain
@@ -323,6 +420,7 @@
           this.textareaResize()
           this.initMap()
           this.productImageResize()
+          this.onTouchModal()
         })
       },
       renderMainImage () {
@@ -496,28 +594,46 @@
   @import '~assets/css/index';
 
   .modal-background {
-    background: rgba(0, 0, 0, .7) !important;
+    background: rgba(0, 0, 0, .8) !important;
+    overflow-y: auto !important;
 
     .body-container {
       position: relative;
+      max-width: none;
+      margin: 0;
+      padding: 0;
+      overflow-y: auto !important;
 
-      #pdf {
-        padding-top: 20px;
-        height: 95vh;
+      #brochure-container {
+        margin: 0;
+
+        img {
+          width: 100%;
+        }
       }
     }
 
     #close-button {
-      position: absolute;
-      right: 22px;
-      top: 0;
-      font-size: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: fixed;
+      right: 27px;
+      top: 17px;
+      width: 50px;
+      height: 50px;
+      font-size: 38px;
+      text-decoration: none;
       color: @color-white;
+      background: rgba(0, 0, 0, .3);
+      border-radius: 50%;
+      font-weight: @font-weight-ultra-thin;
     }
   }
 
   .document-item {
     display: inline-block;
+    min-width: 111px;
     border: 1px solid @color-light-gray;
     border-radius: @border-radius;
     padding: 17px;
@@ -542,13 +658,19 @@
 
   #container {
 
+    .each-container {
+      border-bottom: @border-light-grey;
+      padding-bottom: 30px;
+    }
+
     .section-title {
+      margin-top: 30px;
       font-size: @font-size-large;
     }
 
     .main-image-container {
       .main-image {
-        background-image: url(~assets/img/cover_image_english.png);
+        background-image: url(~assets/img/product_loading_image_text.png);
         background-repeat: no-repeat !important;
         background-size: cover !important;
         background-position: 50% 50% !important;
@@ -578,10 +700,6 @@
           font-weight: @font-weight-thin;
           font-size: @font-size-medium;
         }
-        .each-container {
-          border-bottom: @border-light-grey;
-          padding-bottom: 1rem;
-        }
         // end of shared
 
         .sticky-outer-container {
@@ -593,8 +711,8 @@
 
           .logo {
             float: right;
-            width: 52px;
-            height: 52px;
+            width: 50px;
+            height: 50px;
             border-radius: 50%;
             border: 2px solid @color-light-grey;
           }
@@ -628,27 +746,23 @@
           }
         }
 
-        .information-container {
+        .list-container {
           position: relative;
+          line-height:1.25;
+          padding-bottom: 28px;
 
-          .list-container {
+          &:last-child {
+            padding-bottom: 0;
+          }
+
+          .left-contents {
             position: relative;
-            line-height:1.25;
-            padding-bottom: 28px;
-
-            &:last-child {
-              padding-bottom: 0;
-            }
-
-            .left-contents {
-              position: relative;
-              font-size: @font-size-small;
-              font-weight: @font-weight-bold;
-            }
-            .right-contents {
-              font-weight: @font-weight-thin;
-              padding-left: 0;
-            }
+            font-size: @font-size-small;
+            font-weight: @font-weight-bold;
+          }
+          .right-contents {
+            font-weight: @font-weight-thin;
+            padding-left: 0;
           }
         }
 
@@ -719,7 +833,8 @@
 
       .address-container {
         outline: none;
-        padding-bottom: 1.6rem;
+        padding-bottom: 30px;
+
         #map {
           width: 100%;
           min-height: 330px;
@@ -737,7 +852,6 @@
         padding-bottom: 1.6rem;
 
         .section-title {
-          margin-top: 0;
           padding-left: 20px;
           padding-right: 20px;
         }
@@ -785,6 +899,7 @@
   }
   @media ( min-width: 744px ) {
     #container {
+
       .main-image-container {
         .main-image {
           height: 69vh !important;
@@ -798,29 +913,33 @@
           .header-container {
             padding-top: 24px;
           }
-          .information-container {
+
+          .list-container {
+            display: table;
+            width: 100%;
             position: relative;
+            padding-bottom: 12px;
 
-            .list-container {
-              position: relative;
-              line-height: 1.9em;
-              padding-bottom: 0;
-
-              .left-contents {
-                position: absolute;
-                max-width: 140px;
-                font-size: @font-size-medium;
-                font-weight: @font-weight-medium;
-              }
-              .right-contents {
-                text-align: left;
-                padding-left: 150px;
-                font-size: @font-size-medium;
-                font-weight: @font-weight-thin;
-              }
+            .left-contents {
+              width: 160px;
+              font-size: @font-size-medium;
+              font-weight: @font-weight-medium;
+            }
+            .right-contents {
+              display: table-cell;
+              width: 100%;
+              text-align: left;
+              vertical-align: top;
+              padding-left: 4px;
+              font-size: @font-size-medium;
+              font-weight: @font-weight-thin;
             }
           }
-          .description-container {
+
+          .trade-capacity-container {
+            .left-contents {
+              width: 250px;
+            }
           }
 
         }
@@ -880,6 +999,19 @@
   }
   @media ( min-width: 1128px ) {
     #container {
+      .modal-background {
+        .body-container {
+          max-width: 1040px;
+          margin: 0 auto;
+        }
+        #brochure-container {
+          margin: 30px 0;
+        }
+        #close-button {
+          background: none;
+        }
+      }
+
       .main-image-container {
         .main-image {
         }
@@ -957,7 +1089,7 @@
           }
 
           .header-container {
-            padding-top: 72px;
+            padding-top: 77px;
           }
 
           .description-container {
@@ -965,7 +1097,7 @@
         }
 
         .right-container {
-          padding-top: 72px;
+          padding-top: 77px;
           position: absolute;
           width: 340px;
           top: 5px;

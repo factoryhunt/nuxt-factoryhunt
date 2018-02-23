@@ -20,8 +20,10 @@
     "axios": "^0.17.1",
     "body-parser": "^1.18.2",
     "clipboard": "^1.7.1",
+    "connect-redis": "^3.3.3",
     "cookie-parser": "^1.4.3",
     "cors": "^2.8.4",
+    "en-inflectors": "^1.0.12",
     "express": "^4.16.2",
     "express-session": "^1.15.6",
     "formidable": "^1.1.1",
@@ -35,6 +37,7 @@
     "nodemailer": "^4.4.2",
     "nodemon": "^1.14.11",
     "nuxt": "^1.0.0",
+    "synonyms": "^1.0.1",
     "vue-i18n": "^7.4.1",
     "whatwg-fetch": "^2.0.3"
   },

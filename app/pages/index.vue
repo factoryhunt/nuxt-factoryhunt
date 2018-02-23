@@ -14,7 +14,7 @@
         <div class="search-bar-container">
           <div class="search-bar-wrapper">
             <div class="search-input-container">
-              <input id="search-input" type="text" v-model="value.input" pattern="[A-Za-z0-9]{2,50}" :placeholder="$t('home.input')" :title="$t('home.searchCaution')">
+              <input id="search-input" type="text" v-model="value.input" pattern="[A-Za-z0-9 ]{2,50}" :placeholder="$t('home.input')" :title="$t('home.searchCaution')">
             </div>
             <div class="search-button-container">
               <button id="search-button" type="submit" class="button-orange">{{ $t('home.search') }}</button>
@@ -94,12 +94,7 @@
     methods: {
       onSearchInput () {
         if (!this.value.input) return
-        this.$router.push({
-          path: '/search',
-          query: {
-            input: this.value.input
-          }
-        })
+        location.href = `/search?input=${this.value.input}`
       },
       routeAccountProfilePage (feature) {
         const domain = feature.domain
