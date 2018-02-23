@@ -22,7 +22,7 @@
           <h4 class="title">{{ $t('footerBar.services') }}</h4>
           <ul>
             <li><a href="/for-supplier">{{ $t('footerBar.forSupplier') }}</a></li>
-            <li><a href="/pricing">{{ $t('footerBar.pricing') }}</a></li>
+            <!--<li><a href="/pricing">{{ $t('footerBar.pricing') }}</a></li>-->
           </ul>
         </section>
 

@@ -25,13 +25,7 @@
     "location": "Location",
     "businessType": "Business Type",
     "establishedYear": "Established Year",
-    "numberOfEmployees": "Total Employees",
-    "totalAnnualRevenue": "Total Annual Revenue",
-    "averageLeadTime": "Average Lead Time",
-    "acceptedDeliveryTerms": "Accepted Delivery Terms",
-    "acceptedPaymentCurrency": "Accepted Payment Currency",
-    "acceptedPaymentType": "Accepted Payment Type",
-    "languageSpoken": "Language Spoken"
+    "numberOfEmployees": "Total Employees"
   },
   "tradeCapacity": {
     "title": "Trade Capacity",

@@ -15,16 +15,16 @@
     "desc": "최대 3개까지 선택할 수 있습니다."
   },
   "acceptedDeliveryTerms": {
-    "title": "인도 조항"
+    "title": "배송 가능 방식"
   },
   "acceptedPaymentCurrency": {
-    "title": "통화"
+    "title": "거래 가능 화폐"
   },
   "acceptedPaymentType": {
-    "title": "결제 방식"
+    "title": "결제 가능 방식"
   },
   "languageSpoken": {
-    "title": "언어"
+    "title": "사용 가능한 언어"
   },
   "slogan": {
     "title": "회사 짧은 소개",
@@ -58,7 +58,7 @@
       "inputTitle": "1~21자의 숫자와 더하기, 그리고 하이픈만 입력해주세요."
     },
     "averageLeadTime": {
-      "title": "평균 소요 시간 (일)",
+      "title": "평균 납품 소요시간 (일)",
       "inputTitle": "제품 생산 시작부터 완성까지 소요되는 평균 시간을 입력해주세요."
     },
     "year": {
@@ -66,7 +66,7 @@
       "placeholder": "선택해주세요."
     },
     "numberOfEmployees": {
-      "title": "직원 수",
+      "title": "총 직원 수",
       "placeholder": "선택해주세요."
     },
     "totalAnnualRevenue": {

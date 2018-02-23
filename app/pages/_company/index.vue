@@ -137,27 +137,27 @@
           <h2 class="section-title">{{ $t('company.tradeCapacity.title') }}</h2>
           <div class="information-table-container">
             <div class="list-container" v-show="vendor.total_annual_revenue">
-              <div class="left-contents">{{ $t('company.information.totalAnnualRevenue') }}</div>
+              <div class="left-contents">{{ $t('company.tradeCapacity.totalAnnualRevenue') }}</div>
               <div class="right-contents">{{ vendor.total_annual_revenue }}</div>
             </div>
             <div class="list-container" v-show="vendor.average_lead_time">
-              <div class="left-contents">{{ $t('company.information.averageLeadTime') }}</div>
+              <div class="left-contents">{{ $t('company.tradeCapacity.averageLeadTime') }}</div>
               <div class="right-contents">{{ vendor.average_lead_time }} Day(s)</div>
             </div>
             <div class="list-container" v-show="vendor.accepted_delivery_terms">
-              <div class="left-contents">{{ $t('company.information.acceptedDeliveryTerms') }}</div>
+              <div class="left-contents">{{ $t('company.tradeCapacity.acceptedDeliveryTerms') }}</div>
               <div class="right-contents">{{ vendor.accepted_delivery_terms }}</div>
             </div>
             <div class="list-container" v-show="vendor.accepted_payment_currency">
-              <div class="left-contents">{{ $t('company.information.acceptedPaymentCurrency') }}</div>
+              <div class="left-contents">{{ $t('company.tradeCapacity.acceptedPaymentCurrency') }}</div>
               <div class="right-contents">{{ vendor.accepted_payment_currency }}</div>
             </div>
             <div class="list-container" v-show="vendor.accepted_payment_type">
-              <div class="left-contents">{{ $t('company.information.acceptedPaymentType') }}</div>
+              <div class="left-contents">{{ $t('company.tradeCapacity.acceptedPaymentType') }}</div>
               <div class="right-contents">{{ vendor.accepted_payment_type }}</div>
             </div>
             <div class="list-container" v-show="vendor.language_spoken">
-              <div class="left-contents">{{ $t('company.information.languageSpoken') }}</div>
+              <div class="left-contents">{{ $t('company.tradeCapacity.languageSpoken') }}</div>
               <div class="right-contents">{{ vendor.language_spoken }}</div>
             </div>
           </div>

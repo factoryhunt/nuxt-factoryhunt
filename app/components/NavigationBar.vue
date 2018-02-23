@@ -39,8 +39,7 @@
             <li v-if="!isLoggedIn" class="button-item-container">
               <div class="button-item-wrapper">
                 <div class="button-item">
-                  <!--<a id="promote-company" href="/for-supplier">{{ $t('navigationBar.becomeSeller') }}</a>-->
-                  <a id="promote-company" href="/for-supplier">Promote your company for FREE!</a>
+                  <a id="promote-company" href="/for-supplier">{{ $t('navigationBar.promote') }}</a>
                 </div>
               </div>
             </li>
