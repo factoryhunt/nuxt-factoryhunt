@@ -51,6 +51,7 @@ module.exports = {
     generate: false,
     exclude: [
       '/404',
+      '/pricing',
       '/dashboard',
       '/dashboard/**',
       '/for-supplier/**',
