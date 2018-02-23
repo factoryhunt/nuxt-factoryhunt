@@ -39,7 +39,8 @@
             <li v-if="!isLoggedIn" class="button-item-container">
               <div class="button-item-wrapper">
                 <div class="button-item">
-                  <a href="/for-supplier">{{ $t('navigationBar.becomeSeller') }}</a>
+                  <!--<a id="promote-company" href="/for-supplier">{{ $t('navigationBar.becomeSeller') }}</a>-->
+                  <a id="promote-company" href="/for-supplier">Promote your company for FREE!</a>
                 </div>
               </div>
             </li>
@@ -271,6 +272,17 @@
 
                     &:hover {
                       text-decoration: underline;
+                    }
+                  }
+
+                  #promote-company {
+                    font-weight: @font-weight-bold;
+                    color: @color-link;
+                    border: 2px solid @color-link;
+                    border-radius: 5px;
+                    padding: 12px 20px;
+                    &:hover {
+                      text-decoration: none;
                     }
                   }
                 }

@@ -335,6 +335,14 @@
         this.onCheckbox()
         this.applyInputFocusBlurEvent()
       },
+      changeSelectPlaceholderColor () {
+        const selects = document.querySelectorAll('.dashboard-page-container select')
+        for (const i in selects) {
+          const select = selects[i]
+          console.log(select)
+          // console.log(select.options[select.selectedIndex])
+        }
+      },
       // update server data to local data
       applyLocalData (account) {
         this.value.mainImageUrl = account.account_image_url_1
@@ -756,6 +764,7 @@
       height: @height !important;
       border: none !important;
     }
+
     button {
       font-size: @font-size-button;
       font-weight: @font-weight-button;

@@ -658,7 +658,13 @@
 
   #container {
 
+    .each-container {
+      border-bottom: @border-light-grey;
+      padding-bottom: 30px;
+    }
+
     .section-title {
+      margin-top: 30px;
       font-size: @font-size-large;
     }
 
@@ -693,10 +699,6 @@
           margin-bottom: 0;
           font-weight: @font-weight-thin;
           font-size: @font-size-medium;
-        }
-        .each-container {
-          border-bottom: @border-light-grey;
-          padding-bottom: 17.4px;
         }
         // end of shared
 
@@ -831,7 +833,8 @@
 
       .address-container {
         outline: none;
-        padding-bottom: 1.6rem;
+        padding-bottom: 30px;
+
         #map {
           width: 100%;
           min-height: 330px;
@@ -849,7 +852,6 @@
         padding-bottom: 1.6rem;
 
         .section-title {
-          margin-top: 0;
           padding-left: 20px;
           padding-right: 20px;
         }
@@ -1087,7 +1089,7 @@
           }
 
           .header-container {
-            padding-top: 72px;
+            padding-top: 77px;
           }
 
           .description-container {
@@ -1095,7 +1097,7 @@
         }
 
         .right-container {
-          padding-top: 72px;
+          padding-top: 77px;
           position: absolute;
           width: 340px;
           top: 5px;

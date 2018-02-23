@@ -32,7 +32,7 @@
     }),
     methods: {
       routeCompanyPage () {
-        location.href = `/${this.account.domain}`
+        window.open(`${this.account.domain}`)
       },
       highlightNavigationButton () {
         $(document).ready(() => {

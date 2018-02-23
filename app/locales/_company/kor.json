@@ -17,6 +17,7 @@
     "totalEmployees": "직원 수",
     "totalEmployeesWithPeople": "{number} 명",
     "phone": "연락처",
+    "fax": "팩스",
     "address": "주소",
     "location": "위치",
     "businessType": "업태",

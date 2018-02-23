@@ -12,7 +12,7 @@ module.exports = async (req, res) => {
   let inputRegexp = ''
 
   const syns = synonyms(input, 'n')
-  console.log(syns)
+  // console.log(syns)
   if (syns) {
     for (const i in syns) {
       inputRegexp = inputRegexp + `|${syns[i]}`
@@ -22,7 +22,7 @@ module.exports = async (req, res) => {
     inputRegexp = input
   }
 
-  console.log('inputRegexp', inputRegexp)
+  // console.log('inputRegexp', inputRegexp)
 
   // Accounts
   const getAccounts = () => {
@@ -45,7 +45,7 @@ module.exports = async (req, res) => {
         mailing_country 
         FROM ${CONFIG_MYSQL.TABLE_ACCOUNTS} 
         WHERE 
-        lower(products) regexp "${inputRegexp}" 
+        lower(products) regexp "${input}" 
         AND account_status = "approved"
         ) 
         UNION ALL(
@@ -65,7 +65,7 @@ module.exports = async (req, res) => {
         mailing_state, 
         mailing_country 
         FROM ${CONFIG_MYSQL.TABLE_LEADS} 
-        WHERE lower(products) regexp "${inputRegexp}"
+        WHERE lower(products) regexp "${input}"
         )
         ORDER BY 
         account_status = "approved" DESC, 

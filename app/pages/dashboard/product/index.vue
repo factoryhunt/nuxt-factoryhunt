@@ -134,7 +134,7 @@
       },
       routeProductPage (index) {
         const url = `/${this.account.domain}/${this.getReversedProducts[index].product_domain}`
-        this.$router.push(url)
+        window.open(url)
       },
       activateJquery () {
         $(document).ready(() => {

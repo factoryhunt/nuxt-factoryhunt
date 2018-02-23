@@ -20,6 +20,7 @@
     "totalEmployees": "Total Employees",
     "totalEmployeesWithPeople": "{number} people",
     "phone": "Phone",
+    "fax": "Fax",
     "address": "Address",
     "location": "Location",
     "businessType": "Business Type",
@@ -64,6 +65,6 @@
     "emailPlaceholder": "your@email.com",
     "messagePlaceholder": "Enter your message.",
     "quote": "Request a quote to get pricing.",
-    "button": "Send Inquiry"
+    "button": "Contact supplier"
   }
 }
