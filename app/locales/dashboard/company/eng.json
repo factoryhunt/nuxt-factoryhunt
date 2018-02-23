@@ -58,7 +58,7 @@
       "inputTitle": "It must be 1-21 characters and can only contain numbers, plus, and hyphens."
     },
     "averageLeadTime": {
-      "title": "Average Lead Time(Days)",
+      "title": "Average Lead Time (Days)",
       "inputTitle": "Please enter the average production time. Numbers only."
     },
     "year": {

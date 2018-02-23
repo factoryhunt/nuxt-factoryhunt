@@ -128,11 +128,7 @@
             border: none !important;
             font-size: 17px;
             padding-right: 20px;
-            background: url(~assets/icons/arrow-angle-down.png);
-            background-size: 14px;
-            background-position: calc(100% - 10px) center;
-            background-repeat: no-repeat;
-            background-color: @color-white;
+            background-position: 90% center;
           }
         }
       }
