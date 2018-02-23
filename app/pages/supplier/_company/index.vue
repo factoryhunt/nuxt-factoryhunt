@@ -68,6 +68,13 @@
           </div>
         </div>
 
+        <!-- Company Description -->
+        <div class="description-container each-container" v-show="lead.company_description">
+          <h2 class="section-title">{{ $t('company.description.title') }}</h2>
+          <textarea title="description" readonly v-model="lead.company_description"></textarea>
+          <p @click="descriptionExpand" class="view-details-button" v-html="$t('company.readMore')"></p>
+        </div>
+
       </div>
 
       <!-- Contact Form -->
@@ -224,6 +231,7 @@
           this.applyStickyCSS()
           this.applySmoothScrolling()
           this.applyCompanyFadeInOutInStickyNavigationBar()
+          this.textareaResize()
           this.initMap()
         })
       },
@@ -268,6 +276,27 @@
             fadeContainer.fadeOut(200)
           }
         })
+      },
+      textareaResize () {
+        const $description = $('.description-container textarea')
+        const $descriptionHeight = $description[0].scrollHeight
+        const $descriptionButton = $('.description-container .view-details-button')
+        if ($descriptionHeight >= 190) {
+          $descriptionButton.show()
+          $description.css('height', '190px')
+        } else if ($descriptionHeight <= 50) {
+//          $description.css('height', '40px') // because of css bug?
+        } else {
+          $description.css('height', `${$descriptionHeight}px`)
+        }
+      },
+      descriptionExpand () {
+        const $description = $('.description-container textarea')
+        const $viewDetailsButton = $('.description-container .view-details-button')
+        $viewDetailsButton.hide()
+        $description.animate({
+          'height': ($description[0].scrollHeight) + 'px'
+        }, 200)
       },
       applySmoothScrolling () {
         // Select all links with hashes
@@ -374,7 +403,7 @@
         }
         .each-container {
           border-bottom: @border-light-grey;
-          padding-bottom: 1.6rem;
+          padding-bottom: 17.4px;
         }
         // end of shared
 

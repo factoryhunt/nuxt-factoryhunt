@@ -696,7 +696,7 @@
         }
         .each-container {
           border-bottom: @border-light-grey;
-          padding-bottom: 1rem;
+          padding-bottom: 17.4px;
         }
         // end of shared
 

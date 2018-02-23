@@ -20,7 +20,8 @@ module.exports = async (req, res) => {
         billing_country,
         account_status,
         domain,
-        products, 
+        products,
+        company_description, 
         website, 
         phone,
         established_year,
@@ -38,6 +39,7 @@ module.exports = async (req, res) => {
         lead_status, 
         domain,
         products, 
+        company_description,
         website, 
         phone, 
         established_date,
@@ -46,7 +48,11 @@ module.exports = async (req, res) => {
         mailing_country 
         FROM ${CONFIG_MYSQL.TABLE_LEADS} 
         WHERE lower(products) LIKE "%${input}%")
-        ORDER BY account_status = "approved" DESC, billing_country = "Korean", website > "" DESC`, (err, rows) => {
+        ORDER BY 
+        account_status = "approved" DESC, 
+        billing_country = "Korean", 
+        website > "" DESC, 
+        company_description > "" DESC`, (err, rows) => {
           if (err) reject(err)
           resolve(rows)
         })

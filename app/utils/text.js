@@ -29,7 +29,6 @@ exports.removeNullInArray = (array) => {
 exports.arrayToString = (array) => {
   let string = '';
   let tempArray = this.removeNullInArray(array)
-  console.log(tempArray)
   for (const i in tempArray) {
     const word = tempArray[i]
 

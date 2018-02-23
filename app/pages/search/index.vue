@@ -44,8 +44,8 @@
             <div class="supplier-wrapper" v-for="(account,index) in accounts" :key="index">
               <h1 class="company-name" @click="routeSupplierPage(account)">{{account.account_name || account.account_name}}</h1>
               <i v-show="isApprovedAccount(account)" id="verified-mark" class="fa fa-check-circle" aria-hidden="true"></i>
-              <h2 class="product">{{account.products}}</h2>
               <h3 class="website">{{account.website}}</h3>
+              <h2 class="product" v-html="account.products"></h2>
               <h3 class="phone">{{account.phone}}</h3>
               <h3 class="address">{{account.mailing_country}}</h3>
             </div>
@@ -153,6 +153,18 @@
           this.$router.push(`/${this.value.company}/${productDomain}`)
         }
       },
+      highlightMatchedText () {
+        var context = document.querySelector('.body-container')
+        var instance = new Mark(context)
+        const synonyms = {
+          one: '1'
+        }
+        const options = {
+          accuracy: 'exactly',
+          synonyms: synonyms
+        }
+        instance.mark(`${this.queryInput}`, options)
+      },
       async onPagination (index) {
         window.scrollTo(0, 0)
         this.activateLoader()
@@ -188,6 +200,9 @@
           $loader.removeClass().addClass('invisible')
         })
       }
+    },
+    mounted () {
+      this.highlightMatchedText()
     }
   }
 </script>
@@ -253,6 +268,9 @@
     }
 
     .supplier-outer-container {
+
+      @margin: 1.5px 0;
+
       padding-bottom: 2rem;
 
       .title {
@@ -271,12 +289,13 @@
 
           .company-name {
             display: inline-block;
-            margin: 0;
-            font-weight: 200;
-            font-size: 20px;
+            margin: 0 0 2px 0;
+            font-weight: @font-weight-medium;
+            font-size: 19px;
 
             &:hover {
               cursor: pointer;
+              text-decoration: underline;
             }
           }
           #verified-mark {
@@ -284,28 +303,33 @@
             font-size: 15px;
             color: @color-light-green;
           }
-          .product {
-            margin: 3px 0 2px 0;
-            font-weight: 500;
-            font-size: 16px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-          }
           .website {
-            margin: 3px 0;
-            font-weight: 400;
+            margin: @margin;
+            font-weight: @font-weight-medium;
             font-size: 14px;
             color: @color-link;
           }
+          .product {
+            margin: @margin;
+            font-weight: @font-weight-thin;
+            font-size: 16px;
+            /*white-space: nowrap;*/
+            /*overflow: hidden;*/
+            /*text-overflow: ellipsis;*/
+            display: -webkit-box;
+            -webkit-line-clamp: 2; /* 라인수 */
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-overflow: ellipsis;
+          }
           .phone {
-            margin: 3px 0;
-            font-weight: 400;
+            margin: @margin;
+            font-weight: @font-weight-thin;
             font-size: 14px;
           }
           .address {
-            margin: 3px 0;
-            font-weight: 400;
+            margin: @margin;
+            font-weight: @font-weight-medium;
             font-size: 14px;
           }
         }
@@ -436,6 +460,10 @@
             }
           }
         }
+      }
+
+      .supplier-container {
+        padding-right: 350px;
       }
     }
   }
