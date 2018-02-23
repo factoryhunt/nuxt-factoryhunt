@@ -10,7 +10,7 @@ router.get('/', async (req, res) => {
       (
       SELECT 
       domain, 
-      account_status
+      account_status,
       billing_country
       FROM ${CONFIG_MYSQL.TABLE_ACCOUNTS}
       WHERE account_status = "approved"
@@ -20,7 +20,7 @@ router.get('/', async (req, res) => {
       SELECT
       domain, 
       lead_status,
-      languages,
+      languages
       FROM ${CONFIG_MYSQL.TABLE_LEADS}
       WHERE lead_status != "Closed - Converted" 
       )
