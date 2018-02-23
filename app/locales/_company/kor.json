@@ -22,22 +22,16 @@
     "location": "위치",
     "businessType": "업태",
     "establishedYear": "설립연도",
-    "numberOfEmployees": "직원 수",
-    "totalAnnualRevenue": "연 매출",
-    "averageLeadTime": "평균 소요 시간",
-    "acceptedDeliveryTerms": "인도 조항",
-    "acceptedPaymentCurrency": "통화",
-    "acceptedPaymentType": "결제 방식",
-    "languageSpoken": "언어"
+    "numberOfEmployees": "직원 수"
   },
   "tradeCapacity": {
     "title": "무역 역량",
-    "totalAnnualRevenue": "Total Annual Revenue",
-    "averageLeadTime": "Average Lead Time",
-    "acceptedDeliveryTerms": "Accepted Delivery Terms",
-    "acceptedPaymentCurrency": "Accepted Payment Currency",
-    "acceptedPaymentType": "Accepted Payment Type",
-    "languageSpoken": "Language Spoken"
+    "totalAnnualRevenue": "연 매출",
+    "averageLeadTime": "평균 납품 소요시간",
+    "acceptedDeliveryTerms": "배송 가능 방식",
+    "acceptedPaymentCurrency": "거래 가능 화폐",
+    "acceptedPaymentType": "결제 가능 방식",
+    "languageSpoken": "사용 가능한 언어"
   },
   "document": {
     "title": "문서",
