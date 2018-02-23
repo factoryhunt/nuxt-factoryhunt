@@ -251,8 +251,8 @@
       margin-bottom: 3px;
     }
     .third-title {
-      font-size: 14px;
-      font-weight:600;
+      font-size: @font-size-medium;
+      font-weight:@font-weight-medium;
       margin-top: 2px;
       margin-bottom: 18px;
     }

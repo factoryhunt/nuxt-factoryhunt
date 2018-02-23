@@ -1,8 +1,8 @@
-const mysql = require('../../../../mysql')
-const CONFIG_MYSQL = require('../../../../mysql/model')
+const mysql = require('../../../mysql')
+const CONFIG_MYSQL = require('../../../mysql/model')
 const synonyms = require('synonyms')
 
-// GET /api/data/search/:input/:page
+// GET /api/data/search/test/:input/:page
 module.exports = async (req, res) => {
   let { input, page } = req.params
   const itemNumber = 15;
@@ -13,16 +13,10 @@ module.exports = async (req, res) => {
 
   const syns = synonyms(input, 'n')
   console.log(syns)
-  if (syns) {
-    for (const i in syns) {
-      inputRegexp = inputRegexp + `|${syns[i]}`
-    }
-    inputRegexp = inputRegexp.substring(1)
-  } else {
-    inputRegexp = input
+  for (const i in syns) {
+    inputRegexp = inputRegexp + `|${syns[i]}`
   }
-
-  console.log('inputRegexp', inputRegexp)
+  inputRegexp = inputRegexp.substring(1)
 
   // Accounts
   const getAccounts = () => {
@@ -44,10 +38,7 @@ module.exports = async (req, res) => {
         mailing_state, 
         mailing_country 
         FROM ${CONFIG_MYSQL.TABLE_ACCOUNTS} 
-        WHERE 
-        lower(products) regexp "${inputRegexp}" 
-        AND account_status = "approved"
-        ) 
+        WHERE lower(products) regexp "${inputRegexp}" AND account_status = "approved") 
         UNION ALL(
         SELECT 
         lead_id,
@@ -65,8 +56,7 @@ module.exports = async (req, res) => {
         mailing_state, 
         mailing_country 
         FROM ${CONFIG_MYSQL.TABLE_LEADS} 
-        WHERE lower(products) regexp "${inputRegexp}"
-        )
+        WHERE lower(products) regexp "${inputRegexp}")
         ORDER BY 
         account_status = "approved" DESC, 
         billing_country = "Korean", 
@@ -78,19 +68,19 @@ module.exports = async (req, res) => {
     })
   }
 
-  // const getAllAccountCount = () => {
-  //   return new Promise((resolve, reject) => {
-  //     mysql.query(`
-  //     SELECT
-  //     (SELECT count(account_id) FROM ${CONFIG_MYSQL.TABLE_ACCOUNTS} WHERE lower(products) regexp "${inputRegexp}")
-  //     +
-  //     (SELECT count(lead_id) FROM ${CONFIG_MYSQL.TABLE_LEADS} WHERE lower(products) regexp "${inputRegexp}")
-  //     AS count`, (err, rows) => {
-  //       if (err) reject(err)
-  //       resolve(rows[0].count)
-  //     })
-  //   })
-  // }
+  const getAllAccountCount = () => {
+    return new Promise((resolve, reject) => {
+      mysql.query(`
+      SELECT 
+      (SELECT count(account_id) FROM ${CONFIG_MYSQL.TABLE_ACCOUNTS} WHERE lower(products) regexp "${inputRegexp}") 
+      + 
+      (SELECT count(lead_id) FROM ${CONFIG_MYSQL.TABLE_LEADS} WHERE lower(products) regexp "${inputRegexp}") 
+      AS count`, (err, rows) => {
+        if (err) reject(err)
+        resolve(rows[0].count)
+      })
+    })
+  }
 
   const paginate = (accounts) => {
     let tempAccounts = []
@@ -102,7 +92,8 @@ module.exports = async (req, res) => {
 
   try {
     const promise = await Promise.all([
-      getAccounts()
+      getAccounts(),
+      getAllAccountCount()
     ])
     const accounts = paginate(promise[0])
     res.status(200).json({
@@ -113,3 +104,4 @@ module.exports = async (req, res) => {
     res.status(403).json({result: false})
   }
 }
+

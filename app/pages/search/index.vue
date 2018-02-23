@@ -76,6 +76,8 @@
 <script>
   import axios from '~/plugins/axios'
   import Loader from '~/components/Loader'
+  import { Inflectors } from 'en-inflectors'
+  import synonyms from 'synonyms'
   import { addComma, removeNullInArray } from '~/utils/text'
   export default {
     scrollToTop: true,
@@ -154,16 +156,22 @@
         }
       },
       highlightMatchedText () {
+        let keyword = new Inflectors(this.queryInput)
+        // console.log('singular', keyword.toSingular())
+        // console.log('plural', keyword.toPlural())
+        console.log('synonyms with search keyword: ', synonyms(this.queryInput, 'n'))
+
         var context = document.querySelector('.body-container')
         var instance = new Mark(context)
-        const synonyms = {
-          one: '1'
-        }
         const options = {
           accuracy: 'exactly',
-          synonyms: synonyms
+          wildcards: 'enable'
         }
-        instance.mark(`${this.queryInput}`, options)
+        // Example: toy toys toy, toys,
+        instance.mark(`${keyword.toSingular()}`, options)
+        instance.mark(`${keyword.toSingular()},`, options)
+        instance.mark(`${keyword.toPlural()}`, options)
+        instance.mark(`${keyword.toPlural()},`, options)
       },
       async onPagination (index) {
         window.scrollTo(0, 0)

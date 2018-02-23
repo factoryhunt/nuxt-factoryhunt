@@ -6418,6 +6418,10 @@ svgo@^0.7.0:
     sax "~1.2.1"
     whet.extend "~0.9.9"
 
+synonyms@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/synonyms/-/synonyms-1.0.1.tgz#e12ce7805918eb99cc3088bcb9a8ecf3e1046966"
+
 table@^4.0.1:
   version "4.0.2"
   resolved "https://registry.yarnpkg.com/table/-/table-4.0.2.tgz#a33447375391e766ad34d3486e6e2aedc84d2e36"
