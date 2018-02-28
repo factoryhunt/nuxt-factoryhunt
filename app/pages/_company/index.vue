@@ -909,6 +909,9 @@
     #container {
 
       .main-image-container {
+        .no-main-image {
+          height: 69vh !important;
+        }
         .main-image {
           height: 69vh !important;
         }
