@@ -57,7 +57,9 @@ module.exports = {
       '/for-supplier/**',
       '/search',
       '/supplier',
-      '/inquiry'
+      '/inquiry',
+      '/verification',
+      '/verification/**',
     ],
     async routes () {
       return await axios.get('http://127.0.0.1:3000/api/data/sitemap')

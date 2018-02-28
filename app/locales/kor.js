@@ -19,7 +19,8 @@ const home = require('./home/kor'),
   supplier = require('./supplier/kor'),
   forSupplier = require('./for-supplier/kor'),
   inquiry = require('./inquiry/kor'),
-  pricing = require('./pricing/kor')
+  pricing = require('./pricing/kor'),
+  verification = require('./verification/kor')
 
 export default {
   home,
@@ -43,5 +44,6 @@ export default {
   supplier,
   forSupplier,
   inquiry,
-  pricing
+  pricing,
+  verification
 }
