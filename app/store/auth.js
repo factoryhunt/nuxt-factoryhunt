@@ -66,17 +66,6 @@ export const actions = {
           .catch(err => { reject(err) })
       })
     }
-    const sendVerifyEmail = () => {
-      return new Promise((resolve, reject) => {
-        const data = {
-          email: payload.email,
-          subject: 'Please verify your email.'
-        }
-        axios.post('/api/mail/signup', data)
-          .then(() => { resolve() })
-          .catch(err => { reject(err) })
-      })
-    }
     const login = () => {
       return new Promise((resolve, reject) => {
         dispatch('login', {
@@ -85,6 +74,17 @@ export const actions = {
         })
           .then(() => { resolve() })
           .catch((err) => { reject(err) })
+      })
+    }
+    const sendVerifyEmail = () => {
+      return new Promise((resolve, reject) => {
+        const data = {
+          email: payload.email,
+          subject: 'Please verify your email.'
+        }
+        axios.post('/api/mail/sign_up', data)
+          .then(() => { resolve() })
+          .catch(err => { reject(err) })
       })
     }
     return new Promise(async (resolve, reject) => {

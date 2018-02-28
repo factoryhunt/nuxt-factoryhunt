@@ -76,13 +76,8 @@
   "deleteConfirm": {
     "subTitle": "Are you sure you want to delete your account?",
     "delete": "Delete",
-    "cancel": "Cancel"
-  },
-  "alert": {
-    "success": "Your password has been changed.",
-    "8001": "Your new passwords did not match. Please try again.",
-    "8002": "Your password must at least 8 characters. Please try again.",
-    "8003": "Your old password was incorrect. Please try again.",
-    "8004": "Password update failed: Internal server error. Please try again."
+    "cancel": "Cancel",
+    "success": "Your account has been deleted successfully. Thank you for using Factory Hunt so far.",
+    "fail": "Sorry, please try again later."
   }
 }

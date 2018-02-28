@@ -120,7 +120,7 @@
         })
       },
       routeCompanyPage () {
-        this.$router.push(`/${this.account.domain}`)
+        window.open(`/${this.account.domain}`)
       },
       routeCompanyEditPage () {
         this.$router.push('/dashboard/company')

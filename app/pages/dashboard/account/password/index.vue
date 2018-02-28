@@ -101,24 +101,24 @@
         $('#loader').removeClass()
       },
       changeSucceed () {
-        this.showAlert(true, this.$t('dashboardMyAccount.alert.success'))
+        this.showAlert(true, this.$t('dashboardMyAccount.password.alert.success'))
       },
       changeFailed (code) {
         switch (code) {
           case '8001':
-            this.showAlert(false, this.$t('dashboardMyAccount.alert.8001'))
+            this.showAlert(false, this.$t('dashboardMyAccount.password.alert.8001'))
             break
           case '8002':
-            this.showAlert(false, this.$t('dashboardMyAccount.alert.8002'))
+            this.showAlert(false, this.$t('dashboardMyAccount.password.alert.8002'))
             break
           case '8003':
-            this.showAlert(false, this.$t('dashboardMyAccount.alert.8003'))
+            this.showAlert(false, this.$t('dashboardMyAccount.password.alert.8003'))
             break
           case '8004':
-            this.showAlert(false, this.$t('dashboardMyAccount.alert.8004'))
+            this.showAlert(false, this.$t('dashboardMyAccount.password.alert.8004'))
             break
           default:
-            this.showAlert(false, this.$t('dashboardMyAccount.alert.8004'))
+            this.showAlert(false, this.$t('dashboardMyAccount.password.alert.8004'))
             break
         }
       },

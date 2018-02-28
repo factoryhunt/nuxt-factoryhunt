@@ -32,7 +32,18 @@
         <p class="title">{{ $t('dashboardCompany.name.title') }}</p>
         <span class="required-text" v-html="$t('dashboardCompany.name.required')"></span>
         <p class="sub-title">{{ $t('dashboardCompany.name.desc') }}</p>
-        <input required pattern="[A-Za-z0-9 ().,&]{2,50}" :title="$t('dashboardCompany.name.inputTitle')" id="account-name-input" type="text" :placeholder="$t('dashboardCompany.name.placeholder')" v-model="value.accountName" spellcheck="false" autocomplete="off" autocorrect="off" autocapitalize="off">
+        <input
+          required
+          pattern="[A-Za-z0-9 ().,&]{2,50}"
+          :title="$t('dashboardCompany.name.inputTitle')"
+          id="account-name-input"
+          type="text"
+          :placeholder="$t('dashboardCompany.name.placeholder')"
+          v-model="value.accountName"
+          spellcheck="false"
+          autocomplete="off"
+          autocorrect="off"
+          autocapitalize="off">
         <i id="account-name-mark" class="small-mark" aria-hidden="true"></i>
       </div>
 
@@ -55,9 +66,16 @@
 
       <!-- Company Short Description -->
       <div class="short-description-container input-container">
-        <p class="title">{{ $t('dashboardCompany.slogan.title') }}</p>
-        <p class="sub-title">{{ $t('dashboardCompany.slogan.desc') }}</p>
-        <input id="short-description-input" maxlength="150" :title="$t('dashboardCompany.slogan.inputTitle')" pattern="[A-Za-z0-9 .,']{2,150}" @keyup="countInputLength" :placeholder="$t('dashboardCompany.slogan.placeholder')" v-model="value.shortDescription">
+        <p class="title">{{ $t('dashboardCompany.shortDescription.title') }}</p>
+        <p class="sub-title">{{ $t('dashboardCompany.shortDescription.desc') }}</p>
+        <input
+          id="short-description-input"
+          maxlength="150"
+          :title="$t('dashboardCompany.shortDescription.inputTitle')"
+          pattern="[A-Za-z0-9 .,']{2,150}"
+          @keyup="countInputLength"
+          :placeholder="$t('dashboardCompany.shortDescription.placeholder')"
+          v-model="value.shortDescription">
         <p class="third-title">{{ 150 - value.shortDescriptionCount }}</p>
       </div>
 
@@ -68,12 +86,29 @@
         <!-- Products -->
         <div class="box-container">
           <div class="left-contents">{{ $t('dashboardCompany.company.products.title') }}</div>
-          <div class="right-contents"><input type="text" pattern="[A-Za-z0-9 ',-]{1,100}" :title="$t('dashboardCompany.company.products.inputTitle')" maxlength="100" :placeholder="$t('dashboardCompany.company.products.placeholder')" v-model="value.products"></div>
+          <div class="right-contents">
+            <input
+              type="text"
+              pattern="[A-Za-z0-9 ',-()]{1,200}"
+              :title="$t('dashboardCompany.company.products.inputTitle')"
+              maxlength="200"
+              :placeholder="$t('dashboardCompany.company.products.placeholder')"
+              v-model="value.products">
+          </div>
         </div>
         <!-- Website -->
         <div class="box-container">
           <div class="left-contents">{{ $t('dashboardCompany.company.website.title') }}</div>
-          <div class="right-contents"><input type="text" pattern="[A-Za-z0-9 .]{1,100}" :title="$t('dashboardCompany.company.website.inputTitle')" maxlength="100" :placeholder="$t('dashboardCompany.company.website.placeholder')" v-model="value.website" spellcheck="false"></div>
+          <div class="right-contents">
+            <input
+              type="text"
+              pattern="[A-Za-z0-9 ./]{1,100}"
+              :title="$t('dashboardCompany.company.website.inputTitle')"
+              maxlength="100"
+              :placeholder="$t('dashboardCompany.company.website.placeholder')"
+              v-model="value.website"
+              spellcheck="false">
+          </div>
         </div>
         <!-- Phone -->
         <div class="box-container">

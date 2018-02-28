@@ -30,7 +30,7 @@
     "title": "회사 짧은 소개",
     "desc": "귀사를 한 문장으로 표현해주세요.",
     "placeholder": "Factory Hunt is a global B2B platform.",
-    "inputTitle": "2~150자의 영어와 숫자, 마침표, 쉼표, 그리고 작은따옴표만 입력해주세요."
+    "inputTitle": "2~150자의 영어와 숫자, 마침표, 쉼표 그리고 작은따옴표만 입력해주세요."
   },
   "description": {
     "title": "회사 소개",
@@ -45,12 +45,12 @@
     "products": {
       "title": "취급 품목",
       "placeholder": "LED, Light bulbs, ...",
-      "inputTitle": "1~100자의 영어와 숫자, 쉼표, 하이픈, 엠퍼샌드(&) 그리고 작은따옴표만 입력해주세요."
+      "inputTitle": "1~200자의 영어와 숫자, 쉼표, 하이픈, 엠퍼샌드(&), 소괄호 그리고 작은따옴표만 입력해주세요."
     },
     "website": {
       "title": "웹사이트",
       "placeholder": "www.factoryhunt.com",
-      "inputTitle": "1~100자의 영어와 숫자, 그리고 마침표만 입력해주세요."
+      "inputTitle": "1~100자의 영어와 숫자, 슬래쉬(/), 그리고 마침표만 입력해주세요."
     },
     "phone": {
       "title": "전화번호",

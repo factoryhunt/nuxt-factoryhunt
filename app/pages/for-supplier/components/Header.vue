@@ -89,6 +89,7 @@
           $spinkit.removeClass().addClass('spinkit-input')
           $signUpButton.css('display', 'none')
           await this.signUp()
+          alert(this.$t('signUp.signUpSuccess'))
           this.$router.push('/dashboard')
         } catch (err) {
           $spinkit.removeClass().addClass('invisible')
@@ -120,9 +121,6 @@
         if (this.toggle.isDropdownShown) dropdown.css({'display': 'none'})
         else dropdown.css({'display': 'inherit'})
         this.toggle.isDropdownShown = !this.toggle.isDropdownShown
-      },
-      routeDashboardPage () {
-        this.$router.push('/dashboard')
       },
       activateJquery () {
         //    Show and hide menu

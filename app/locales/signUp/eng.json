@@ -1,5 +1,7 @@
 {
   "signUp": "Sign Up",
   "didYouAlreadyHaveAccount": "Did you already have account?",
-  "login": "Login"
+  "login": "Login",
+  "signUpSuccess": "You have signed up successfully. \nPlease check your email to activate your account.",
+  "signUpFail": "Sorry, please try again."
 }

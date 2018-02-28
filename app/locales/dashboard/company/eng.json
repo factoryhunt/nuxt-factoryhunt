@@ -26,11 +26,11 @@
   "languageSpoken": {
     "title": "Language Spoken"
   },
-  "slogan": {
+  "shortDescription": {
     "title": "Company Short Description",
     "desc": "Describe your company in 150 characters or less.",
     "placeholder": "Factory Hunt is a global B2B platform.",
-    "inputTitle": "It must be characters 2-50 and can only contain letters, numbers, periods, comma, and apostrophe."
+    "inputTitle": "It must be characters 2-50 and can only contain letters, numbers, periods, comma, apostrophe and apostrophe."
   },
   "description": {
     "title": "Company Description",
@@ -45,12 +45,12 @@
     "products": {
       "title": "Products",
       "placeholder": "LED, Light bulbs, ...",
-      "inputTitle": "It must be 1-100 characters and can only contain letters, numbers, comma, hyphens, and apostrophe."
+      "inputTitle": "It must be 1-200 characters and can only contain letters, numbers, comma, hyphens, parenthesis and apostrophe."
     },
     "website": {
       "title": "Website",
       "placeholder": "www.factoryhunt.com",
-      "inputTitle": "It must be 1-100 characters and can only contain letters, numbers and periods."
+      "inputTitle": "It must be 1-100 characters and can only contain letters, numbers, slash and periods."
     },
     "phone": {
       "title": "Phone",

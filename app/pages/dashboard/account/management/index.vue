@@ -49,7 +49,7 @@
   import { mapGetters } from 'vuex'
   export default {
     metaInfo: {
-      title: 'Manage Account | Factory Hunt'
+      title: 'Manage Account'
     },
     props: {
       account: {
@@ -86,9 +86,10 @@
           await this.deleteContact()
           await this.deleteAccount()
           this.$store.dispatch('auth/logout')
-          alert('Your account has been deleted.')
+          alert(this.$t('dashboardMyAccount.deleteConfirm.success'))
+          location.href = '/'
         } catch (err) {
-          alert('Failed. Please try again.')
+          alert(this.$t('dashboardMyAccount.deleteConfirm.fail'))
         }
       },
       deleteProducts () {
