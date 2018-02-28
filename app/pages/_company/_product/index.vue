@@ -108,7 +108,7 @@
       </div>
 
       <!-- Catalog -->
-      <div v-show="product.product_pdf_url" class="catalog-container each-container" id="catalog-container">
+      <div class="catalog-container each-container" id="catalog-container" v-show="product.product_pdf_url">
         <h2>{{ $t('product.catalog.title') }}</h2>
         <img v-show="!toggle.isCatalogLoaded" src="~assets/img/product_loading_image_text.png">
         <!--<h3><a href="/static/web/viewer.html?file=http://localhost:8080/static/test.pdf" target="_blank">Catalog</a></h3>-->

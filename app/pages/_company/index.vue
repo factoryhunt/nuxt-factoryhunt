@@ -21,7 +21,8 @@
 
     <!-- Main Image -->
     <div class="main-image-container">
-      <div class="main-image"></div>
+      <div v-if="!vendor.account_image_url_1" class="no-main-image"></div>
+      <div v-else class="main-image"></div>
     </div>
 
     <!-- body -->
@@ -669,6 +670,13 @@
     }
 
     .main-image-container {
+      .no-main-image {
+        background-image: url(~assets/img/cover_image_english.png);
+        background-repeat: no-repeat !important;
+        background-size: cover !important;
+        background-position: 50% 50% !important;
+        height: 30vh !important;
+      }
       .main-image {
         background-image: url(~assets/img/product_loading_image_text.png);
         background-repeat: no-repeat !important;

@@ -3,6 +3,7 @@ const jwt = require('jsonwebtoken')
 const jwt_config = require('../../.config')
 const config = require('../.config')
 
+// POST /api/mail/sign_up
 module.exports = async (req, res) => {
   const { email, subject, account_id } = req.body
   const {

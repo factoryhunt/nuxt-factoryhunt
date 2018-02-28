@@ -382,7 +382,8 @@
         formData.append('item_dimensions', this.value.dimension)
         formData.append('material_type', this.value.materialType)
         formData.append('minimum_order_quantity', this.value.moq)
-        formData.append('product_description', document.querySelector(".ql-editor").innerHTML)
+        if (!$('.ql-editor').hasClass('ql-blank')) formData.append('product_description', document.querySelector('.ql-editor').innerHTML)
+
         for (var i = 0; i < this.value.files.length; i++) {
           if (this.value.files[i].size > 0) {
             formData.append(`image_${i + 1}`, this.value.files[i])

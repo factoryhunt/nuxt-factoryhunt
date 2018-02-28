@@ -100,7 +100,7 @@
           await this.signUp()
           $loader.removeClass().addClass('invisible')
           $signUpButton.css('display', 'inherit')
-          alert('Sign up succeed.')
+          alert(this.$t('signUp.signUpSuccess'))
           this.$router.push('/dashboard')
         } catch (err) {
           $loader.removeClass().addClass('invisible')
