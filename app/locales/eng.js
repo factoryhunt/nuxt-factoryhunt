@@ -19,7 +19,8 @@ const home = require('./home/eng'),
   supplier = require('./supplier/eng'),
   forSupplier = require('./for-supplier/eng'),
   inquiry = require('./inquiry/eng'),
-  pricing = require('./pricing/eng')
+  pricing = require('./pricing/eng'),
+  verification = require('./verification/eng')
 
 export default {
   home,
@@ -43,5 +44,6 @@ export default {
   supplier,
   forSupplier,
   inquiry,
-  pricing
+  pricing,
+  verification
 }
