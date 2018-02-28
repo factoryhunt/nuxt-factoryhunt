@@ -26,7 +26,7 @@
   "languageSpoken": {
     "title": "사용 가능한 언어"
   },
-  "slogan": {
+  "shortDescription": {
     "title": "회사 짧은 소개",
     "desc": "귀사를 한 문장으로 표현해주세요.",
     "placeholder": "Factory Hunt is a global B2B platform.",

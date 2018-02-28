@@ -3,8 +3,8 @@
     <!-- Header -->
     <header class="header-container">
 
-      <!-- Slogan -->
-      <div class="slogan-container">
+      <!-- Short Description -->
+      <div class="short-description-container">
         <h1 class="title">{{ $t('home.title') }}</h1>
         <h4 class="sub-title" v-html="$t('home.subTitle')"></h4>
       </div>
@@ -43,7 +43,7 @@
             <div class="description-contents">
               <p class="product">{{ feature.products }}</p>
               <h2 class="company-name">{{ feature.account_name }}</h2>
-              <h3 class="slogan">{{ feature.company_short_description }}</h3>
+              <h3 class="short-description">{{ feature.company_short_description }}</h3>
               <button @click="routeAccountProfilePage(feature)" class="view-more-button">{{ $t('home.viewMore') }}</button>
             </div>
           </div>
@@ -129,7 +129,7 @@
   #container {
     .header-container {
 
-      .slogan-container {
+      .short-description-container {
         padding-top: 54px;
 
         .title {
@@ -236,7 +236,7 @@
               margin: 2px 0 0 0;
               font-size:30px;
             }
-            .slogan {
+            .short-description {
               font-weight: 300;
               display: -webkit-box;
               -webkit-line-clamp: 3; /* 라인수 */
@@ -265,7 +265,7 @@
     #container {
       .header-container {
 
-        .slogan-container {
+        .short-description-container {
           .title {
             font-size: 40px;
           }
@@ -340,7 +340,7 @@
               .company-name {
                 font-size: 32px;
               }
-              .slogan {
+              .short-description {
                 font-size:19px;
               }
               .view-more-button {
@@ -355,7 +355,7 @@
   @media ( min-width: 1128px ) {
     #container {
       .header-container {
-        .slogan-container {
+        .short-description-container {
           padding-top: 44px;
           .title {
             font-size: 50px;
@@ -424,7 +424,7 @@
               .company-name {
                 font-size: 33px;
               }
-              .slogan {
+              .short-description {
                 font-size:20px;
               }
               .view-more-button {
