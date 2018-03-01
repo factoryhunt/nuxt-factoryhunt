@@ -46,7 +46,7 @@
           <div class="text-container">
             <p class="text">{{ $t('dashboard.domain.desc') }}</p>
             <a id="clipboard" data-clipboard-target="#domain-text">
-              <span id="domain-text" class="text">www.factoryhunt.com/{{account.domain}}
+              <span id="domain-text" class="text">https://www.factoryhunt.com/{{account.domain}}
               </span>
             </a>
             <span id="copied-text">{{ $t('dashboard.domain.linkCopied') }}</span>

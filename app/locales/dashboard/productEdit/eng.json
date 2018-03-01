@@ -50,8 +50,8 @@
     "cancel": "Cancel"
   },
   "confirm": {
-    "title": "Confirm and Upload",
+    "title": "Confirm and Save",
     "subTitle": "Please confirm the information above before submitting it. The information will be updated immediately.",
-    "button": "Upload"
+    "button": "Save"
   }
 }

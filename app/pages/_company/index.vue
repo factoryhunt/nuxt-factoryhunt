@@ -57,7 +57,7 @@
 
         <!-- Company Header -->
         <div id="header-container" class="header-container each-container">
-          <p id="OVERVIEW" class="address">{{ vendor.mailing_city ? vendor.mailing_city + ', ' : '' }} {{ vendor.mailing_country ? vendor.mailing_country : '' }}</p>
+          <p id="OVERVIEW" class="address">{{getLocation}}</p>
           <img v-if="vendor.thumbnail_url" class="logo" :src="vendor.thumbnail_url">
           <img v-else class="logo" src="../../assets/img/temp-logo-image_english_512.png">
           <h1 class="company-name">{{ vendor.account_name }}</h1>
@@ -88,9 +88,9 @@
               <div class="left-contents">{{ $t('company.information.phone') }}</div>
               <div class="right-contents">{{ vendor.phone }}</div>
             </div>
-            <div class="list-container" v-show="getLocation">
+            <div class="list-container" v-show="getAddress">
               <div class="left-contents">{{ $t('company.information.address') }}</div>
-              <div class="right-contents">{{ getLocation }}</div>
+              <div class="right-contents">{{ getAddress }}</div>
             </div>
             <div class="list-container" v-show="vendor.account_type">
               <div class="left-contents">{{ $t('company.information.businessType') }}</div>
@@ -302,6 +302,12 @@
     },
     computed: {
       getLocation () {
+        const city = this.vendor.mailing_city ? this.vendor.mailing_city + ', ' : ''
+        const state = this.vendor.mailing_state ? this.vendor.mailing_state + ', ' : ''
+        const country = this.vendor.mailing_country
+        return city + state + country
+      },
+      getAddress () {
         const street = this.vendor.mailing_street_address ? this.vendor.mailing_street_address + ', ' : ''
         const street2 = this.vendor.mailing_street_address_2 ? this.vendor.mailing_street_address_2 + ', ' : ''
         const city = this.vendor.mailing_city ? this.vendor.mailing_city + ', ' : ''
