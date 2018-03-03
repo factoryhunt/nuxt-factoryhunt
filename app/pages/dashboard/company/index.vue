@@ -87,7 +87,7 @@
           id="video-input"
           maxlength="150"
           :title="$t('dashboardCompany.video.inputTitle')"
-          pattern="[A-Za-z0-9 .,'/?&=_:]{2,150}"
+          pattern="[A-Za-z0-9 .,'/?&=_:]{1,150}"
           placeholder="https://youtu.be/VIDEO_ID or https://www.youtube.com/watch?v=VIDEO_ID"
           v-model="value.video">
         <p class="alert-text" v-show="(!checkVideoLink) && value.video.length > 0">{{ $t('dashboardCompany.video.alert') }}</p>
@@ -386,6 +386,7 @@
         conatct: 'auth/GET_CONTACT'
       }),
       checkVideoLink () {
+        if (this.value.video.length < 1) return true
         const fc = this.value.video.indexOf('youtube.com/watch?v=') !== -1
         const sc = this.value.video.indexOf('youtu.be/') !== -1
         return (fc || sc)
