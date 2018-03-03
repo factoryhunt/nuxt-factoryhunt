@@ -34,6 +34,12 @@
     "placeholder": "Factory Hunt is a global B2B platform.",
     "inputTitle": "It must be characters 2-150 and can only contain letters, numbers, periods, comma, apostrophe and apostrophe."
   },
+  "video": {
+    "title": "Company Introduction Video",
+    "desc": "Please copy and paste only YouTube link.",
+    "inputTitle": "Enter valid YouTube link.",
+    "alert": "Enter valid YouTube link."
+  },
   "description": {
     "title": "Company Description",
     "desc": "Describe your company.",

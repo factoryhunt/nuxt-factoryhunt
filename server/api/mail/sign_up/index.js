@@ -67,8 +67,7 @@ module.exports = async (req, res) => {
   try {
     await createSender()
     const token = await createToken()
-    const info = await sendEmail(token)
-    console.log(info)
+    await sendEmail(token)
     onSuccess()
   } catch (err) {
     res.status(403).json({result: true})

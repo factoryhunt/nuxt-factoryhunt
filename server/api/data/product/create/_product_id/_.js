@@ -19,7 +19,6 @@ module.exports = async (req, res) => {
       minimum_order_quantity,
       product_description
     } = req.body
-    console.log('data:', data)
 
     mysql.query(`UPDATE ${CONFIG_MYSQL.TABLE_PRODUCTS} SET ? WHERE product_id = ${product_id}`, data,
       (err) => {

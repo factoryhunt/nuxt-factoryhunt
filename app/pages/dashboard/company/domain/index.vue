@@ -31,6 +31,17 @@
   import { mapGetters } from 'vuex'
   import Spinkit from '~/components/Loader'
   export default {
+    head () {
+      return {
+        title: 'Edit Domain',
+        link: [
+          { hid: 'canonical', rel: 'canonical', href: `https://www.factoryhunt.com/dashboard/company/domain` }
+        ]
+      }
+    },
+    components: {
+      Spinkit
+    },
     props: {
       account: {
         type: Object,
@@ -38,9 +49,6 @@
           return {}
         }
       }
-    },
-    components: {
-      Spinkit
     },
     data () {
       return {
@@ -52,28 +60,6 @@
         },
         placeholder: {
           domain: 'Domain Address'
-        }
-      }
-    },
-    messages: {
-      eng: {
-        domain: {
-          title: 'Customize your domain.',
-          placeholder: 'Domain address',
-          caution: 'It must be 3-50 and can only contain letters, and numbers.',
-          button: 'Save',
-          success: 'Your domain has been updated successfully.',
-          fail: 'The domain is taken. Please try another.'
-        }
-      },
-      kor: {
-        domain: {
-          title: '회사 이름이 포함된 맞춤형 도메인으로 변경하세요.',
-          placeholder: '도메인 주소',
-          caution: '3~50자의 영어와 숫자만 입력해주세요.',
-          button: '저장하기',
-          success: '도메인이 성공적으로 업데이트 되었습니다.',
-          fail: '입력한 도메인이 이미 사용중입니다. 다른 도메인을 입력해주세요.'
         }
       }
     },

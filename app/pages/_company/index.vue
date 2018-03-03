@@ -3,7 +3,7 @@
 
     <!-- PDF Modal -->
     <div id="modal-background" class="modal-background" v-show="vendor.account_pdf_url">
-      <div class="body-container">
+      <div class="body-container" tabindex="-1">
         <a id="close-button" @click="onPDFCloseButton">✕</a>
         <div id="brochure-container" class="brochure-container">
           <img v-show="!toggle.isBrochureLoaded" class="pdf-canvas" src="~assets/img/product_loading_image_text.png">
@@ -69,6 +69,13 @@
             <!--</div>-->
             <!--•-->
             <!--<h4 class="review-title"> <small>(0)개의 평가</small></h4>-->
+          </div>
+          <div class="video-container" v-show="getYoutubeVideoURL">
+            <iframe
+              id="intro-video"
+              :src="getYoutubeVideoURL"
+              frameborder="0"
+              allowfullscreen></iframe>
           </div>
         </div>
 
@@ -323,6 +330,32 @@
         if (this.vendor.accepted_payment_type) return true
         if (this.vendor.language_spoken) return true
         return false
+      },
+      getYoutubeVideoURL () {
+        // API list: https://developers.google.com/youtube/player_parameters
+        if (!this.vendor.account_video_url) return
+        const videoUrl = this.vendor.account_video_url
+        let videoId = ''
+        let url = ''
+
+        if (videoUrl.indexOf('youtube.com/watch?v=') > -1) {
+          videoId = this.vendor.account_video_url.split('v=')[1]
+          const ampersandPosition = videoId.indexOf('&')
+
+          // If video query exists
+          if(ampersandPosition != -1) videoId = videoId.substring(0, ampersandPosition)
+
+          url = `https://www.youtube.com/embed/${videoId}?rel=0&autoplay=1&loop=1&controls=1&showinfo=0`
+
+        } else if (videoUrl.indexOf('youtu.be/') > -1) {
+          videoId = this.vendor.account_video_url.split('.be/')[1]
+          url = `https://www.youtube.com/embed/${videoId}?rel=0&autoplay=1&loop=1&controls=1&showinfo=0`
+
+        } else {
+          url = ''
+        }
+
+        return url
       }
     },
     methods: {
@@ -746,6 +779,21 @@
           }
           .short-description-container {
             .short-description {
+            }
+          }
+
+          .video-container {
+            position: relative;
+            margin-top: 20px;
+            padding-bottom: 56.375%;
+            width: 100%;
+            text-align: left;
+
+            #intro-video {
+              position: absolute;
+              width: 100%;
+              height: 100%;
+              overflow: hidden;
             }
           }
         }

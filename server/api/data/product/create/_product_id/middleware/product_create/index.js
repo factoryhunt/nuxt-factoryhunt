@@ -7,7 +7,6 @@ module.exports = async (req, res, next) => {
 
   const createEmptyRecord = () => {
     return new Promise((resolve, reject) => {
-      console.log(req.body)
       let data = {}
       data.account_id = account_id
       data.product_status = 'pending'

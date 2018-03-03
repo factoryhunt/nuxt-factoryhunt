@@ -26,11 +26,8 @@ module.exports = async (req, res) => {
   }
 
   try {
-    console.log(1)
     await transferProduct()
-    console.log(2)
     await removeProduct()
-    console.log(3)
     res.status(200).json({result: true, msg: 'Product has been deleted successfully.', msg_kor: '제품 삭제 성공.'})
   } catch (err) {
     res.status(403).json({result: false})

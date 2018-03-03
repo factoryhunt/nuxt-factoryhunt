@@ -79,6 +79,19 @@
         <p class="third-title">{{ 150 - value.shortDescriptionCount }}</p>
       </div>
 
+      <!-- Company Video -->
+      <div class="short-description-container input-container">
+        <p class="title">{{ $t('dashboardCompany.video.title') }}</p>
+        <p class="sub-title">{{ $t('dashboardCompany.video.desc') }}</p>
+        <input
+          id="video-input"
+          maxlength="150"
+          :title="$t('dashboardCompany.video.inputTitle')"
+          pattern="[A-Za-z0-9 .,'/?&=_:]{2,150}"
+          placeholder="https://youtu.be/VIDEO_ID or https://www.youtube.com/watch?v=VIDEO_ID"
+          v-model="value.video">
+      </div>
+
       <!-- Company Information -->
       <div class="information-container input-container">
         <p class="title">{{ $t('dashboardCompany.company.title') }}</p>
@@ -303,6 +316,14 @@
   import { mapGetters } from 'vuex'
   export default {
     layout: 'dashboard',
+    head () {
+      return {
+        title: 'Edit Company Information',
+        link: [
+          { hid: 'canonical', rel: 'canonical', href: `https://www.factoryhunt.com/dashboard/company` }
+        ]
+      }
+    },
     components: {
       Spinkit
     },
@@ -327,6 +348,7 @@
           businessTypes: [],
           shortDescription: '',
           shortDescriptionCount: 0,
+          video: '',
           description: '',
           products: '',
           website: '',
@@ -361,7 +383,12 @@
       ...mapGetters({
         account: 'auth/GET_ACCOUNT',
         conatct: 'auth/GET_CONTACT'
-      })
+      }),
+      checkVideoLink () {
+        const fc = this.value.video.indexOf('youtube.com/watch?v=') !== -1
+        const sc = this.value.video.indexOf('youtu.be/') !== -1
+        return (fc || sc)
+      }
     },
     methods: {
       applyAttributes () {
@@ -374,7 +401,6 @@
         const selects = document.querySelectorAll('.dashboard-page-container select')
         for (const i in selects) {
           const select = selects[i]
-          console.log(select)
           // console.log(select.options[select.selectedIndex])
         }
       },
@@ -387,6 +413,7 @@
         this.value.businessTypes = checkboxStringToArray(businessType, account.business_type)
         this.value.shortDescription = account.company_short_description
         this.value.shortDescriptionCount = account.company_short_description.length
+        this.value.video = account.account_video_url
         this.value.products = account.products
         this.value.phone = account.phone
         this.value.website = account.website
@@ -481,6 +508,9 @@
         // business type is required field.
         if (!checkboxArrayToString(businessType, this.value.businessTypes)) return this.onEditFail(this.$t('alert.required'))
 
+        // Youtube video link
+        if (!this.checkVideoLink) return this.onEditFail(this.$t('dashboardCompany.video.alert'))
+
         // request
         try {
           await Promise.all([
@@ -498,6 +528,7 @@
           business_type: checkboxArrayToString(businessType, this.value.businessTypes),
           company_short_description: this.value.shortDescription,
           company_description: this.value.description,
+          account_video_url: this.value.video,
           products: this.value.products,
           website: this.value.website,
           phone: this.value.phone,

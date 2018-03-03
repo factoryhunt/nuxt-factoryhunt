@@ -55,6 +55,14 @@
 //  import Compressor from '@xkeshi/image-compressor'
   import { mapGetters } from 'vuex'
   export default {
+    head () {
+      return {
+        title: 'Upload Image',
+        link: [
+          { hid: 'canonical', rel: 'canonical', href: `https://www.factoryhunt.com/dashboard/company/image` }
+        ]
+      }
+    },
     components: {
       Spinkit
     },

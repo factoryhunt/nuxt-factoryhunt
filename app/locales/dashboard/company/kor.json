@@ -34,6 +34,12 @@
     "placeholder": "Factory Hunt is a global B2B platform.",
     "inputTitle": "2~150자의 영어와 숫자, 마침표, 쉼표 그리고 작은따옴표만 입력해주세요."
   },
+  "video": {
+    "title": "회사 소개 비디오",
+    "desc": "YouTube 링크를 복사 후 붙여넣기 해주세요.",
+    "inputTitle": "유효한 YouTube 링크를 입력 해주세요.",
+    "alert": "유효한 YouTube 링크를 입력 해주세요."
+  },
   "description": {
     "title": "회사 소개",
     "desc": "회사를 소개해주세요. 양식은 자유입니다.",

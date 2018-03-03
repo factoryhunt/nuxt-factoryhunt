@@ -4,7 +4,6 @@ const CONFIG_MYSQL = require('../../../../mysql/model')
 // PUT /api/data/product/:product_id
 module.exports = async (req, res) => {
   const product_id = req.params.product_id
-  console.log('req.files:', req.files)
 
   // promises
   const updateProduct = () => {
