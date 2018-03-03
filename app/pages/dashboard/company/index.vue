@@ -87,7 +87,7 @@
           id="video-input"
           maxlength="150"
           :title="$t('dashboardCompany.video.inputTitle')"
-          pattern="[A-Za-z0-9 .,'/?&=_:]{1,150}"
+          pattern="[A-Za-z0-9 .,'/?&=_:-]{1,150}"
           placeholder="https://youtu.be/VIDEO_ID or https://www.youtube.com/watch?v=VIDEO_ID"
           v-model="value.video">
         <p class="alert-text" v-show="(!checkVideoLink) && value.video.length > 0">{{ $t('dashboardCompany.video.alert') }}</p>
