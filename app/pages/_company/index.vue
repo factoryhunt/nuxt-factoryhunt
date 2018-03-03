@@ -345,11 +345,11 @@
           // If video query exists
           if(ampersandPosition != -1) videoId = videoId.substring(0, ampersandPosition)
 
-          url = `https://www.youtube.com/embed/${videoId}?rel=0&autoplay=1&loop=1&controls=1&showinfo=0`
+          url = `https://www.youtube.com/embed/${videoId}?rel=0&autoplay=1&loop=1&controls=2&showinfo=0&autohide=1&modestbranding=1`
 
         } else if (videoUrl.indexOf('youtu.be/') > -1) {
           videoId = this.vendor.account_video_url.split('.be/')[1]
-          url = `https://www.youtube.com/embed/${videoId}?rel=0&autoplay=1&loop=1&controls=1&showinfo=0`
+          url = `https://www.youtube.com/embed/${videoId}?rel=0&autoplay=1&loop=1&controls=2&showinfo=0&autohide=1&modestbranding=1`
 
         } else {
           url = ''
