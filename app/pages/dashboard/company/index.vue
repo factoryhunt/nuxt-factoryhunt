@@ -90,7 +90,7 @@
           pattern="[A-Za-z0-9 .,'/?&=_:]{2,150}"
           placeholder="https://youtu.be/VIDEO_ID or https://www.youtube.com/watch?v=VIDEO_ID"
           v-model="value.video">
-        <p class="alert-text" v-show="!checkVideoLink">{{ $t('dashboardCompany.video.alert') }}</p>
+        <p class="alert-text" v-show="(!checkVideoLink) && value.video.length > 0">{{ $t('dashboardCompany.video.alert') }}</p>
       </div>
 
       <!-- Company Information -->
