@@ -27,6 +27,7 @@ export const decodeToken = (token) => {
     }
     axios.get('/api/auth/check', data)
       .then(res => {
+        console.log('decoded user:', res.data.user)
         resolve({
           user: res.data.user
         })

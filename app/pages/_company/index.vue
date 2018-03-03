@@ -360,16 +360,19 @@
         $('.modal-background').show()
         this.renderPDF()
         $('html').css('overflow', 'hidden')
+        $('body').css('overflow', 'hidden')
       },
       onPDFCloseButton () {
         $('.modal-background').hide()
         $('html').css('overflow', 'inherit')
+        $('body').css('overflow', 'inherit')
       },
       onTouchModal () {
         document.getElementById('modal-background').onclick = function (event) {
           if (!$(event.target).hasClass('pdf-canvas')) {
             $('.modal-background').hide()
             $('html').css('overflow', 'inherit')
+            $('body').css('overflow', 'inherit')
           }
         }
       },
@@ -1038,6 +1041,7 @@
 
         .left-container {
           padding-right: 410px;
+          min-height: 540px;
 
           .sticky-outer-container {
             display: inherit;

@@ -156,6 +156,9 @@
         this.toggle.isProfileDropdownShown = !this.toggle.isProfileDropdownShown
       },
     },
+    created () {
+      console.log(this.account)
+    },
     mounted () {
       this.activateJquery()
     },

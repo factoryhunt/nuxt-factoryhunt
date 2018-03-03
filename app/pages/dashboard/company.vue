@@ -8,7 +8,7 @@
             <nuxt-link id="item-company-edit" class="menu" to="/dashboard/company">{{ $t('dashboardCompany.editCompany') }}</nuxt-link>
             <nuxt-link id="item-domain-edit" class="menu" to="/dashboard/company/domain">{{ $t('dashboardCompany.editDomain') }}</nuxt-link>
             <nuxt-link id="item-image-edit" class="menu" to="/dashboard/company/image">{{ $t('dashboardCompany.photos') }}</nuxt-link>
-            <!--<a id="item-certification-upload" class="menu" href="/dashboard/company/certifications">인증서 등록</a>-->
+            <nuxt-link id="item-documents-edit" class="menu" to="/dashboard/company/documents">{{ $t('dashboardCompany.documents') }}</nuxt-link>
             <button @click="routeCompanyPage" class="view-button button-white">{{ $t('dashboardCompany.viewButton') }}</button>
           </div>
         </div>
@@ -47,8 +47,8 @@
           if (name === 'dashboard-company-image') {
             $('#item-image-edit').attr('aria-selected', true)
           }
-          if (name === 'dashboard-company-certification') {
-            $('#item-certification-upload').attr('aria-selected', true)
+          if (name === 'dashboard-company-documents') {
+            $('#item-documents-edit').attr('aria-selected', true)
           }
         })
       },
@@ -56,7 +56,7 @@
         $('#item-company-edit').attr('aria-selected', false)
         $('#item-domain-edit').attr('aria-selected', false)
         $('#item-image-edit').attr('aria-selected', false)
-        $('#item-certification-edit').attr('aria-selected', false)
+        $('#item-documents-edit').attr('aria-selected', false)
       }
     },
     mounted () {

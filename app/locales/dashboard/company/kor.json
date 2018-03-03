@@ -2,6 +2,8 @@
   "editCompany": "회사 정보 수정",
   "editDomain": "도메인 수정",
   "photos": "이미지 등록",
+  "certifications": "인증서",
+  "documents": "문서",
   "viewButton": "회사 페이지 보기",
   "name": {
     "title": "회사명",
