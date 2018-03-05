@@ -4,29 +4,34 @@
     <!-- PDF Modal -->
     <div id="modal-background" class="modal-background">
 
+      <!-- Cover Photos -->
+      <div class="cover-photo-container" v-show="toggle.coverPhotos">
+        <div class="cover-photo-wrapper">
+          <div class="body-container">
+            <img class="cover-photo" :src="value.currentCoverPhoto" alt="cover-image">
+          </div>
+          <!-- Angle Panel -->
+          <div class="panel-container" v-show="toggle.coverPhotos">
+            <div class="panel-wrapper">
+              <div class="left-panel panel" @click="onPanelLeftAngle"></div>
+              <div class="right-panel panel" @click="onPanelRightAngle" v-show="vendor.cover_image_url_2"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <!-- body -->
       <div class="body-container" tabindex="-1">
-
-        <!-- Cover Photos -->
-        <div class="cover-photo-container" v-show="toggle.coverPhotos">
-          <img class="cover-photo" :src="value.currentCoverPhoto" alt="cover-image">
-        </div>
 
         <!-- Brochure -->
         <div id="brochure-container" class="brochure-container" v-show="toggle.brochure">
           <img v-show="!toggle.isBrochureLoaded" class="pdf-canvas" src="~assets/img/product_loading_image_text.png">
         </div>
 
+        <!-- Close Button -->
         <a id="close-button" @click="onPDFCloseButton">✕</a>
       </div>
 
-      <!-- Panel -->
-      <div class="panel-container" v-show="toggle.coverPhotos">
-        <div class="panel-wrapper">
-          <div class="left-panel panel" @click="onPanelLeftAngle"></div>
-          <div class="right-panel panel" @click="onPanelRightAngle" v-show="vendor.cover_image_url_2"></div>
-        </div>
-      </div>
     </div>
 
     <!-- Main Image -->
@@ -732,6 +737,21 @@
     bottom: 0;
     left: 0;
 
+    .cover-photo-container {
+      display: table-row;
+      height: 100%;
+
+      .cover-photo-wrapper {
+        position: relative;
+
+        .cover-photo {
+          vertical-align: middle;
+          max-width: 100%;
+          background-color: @color-white;
+        }
+      }
+    }
+
     .panel-container {
       position: absolute;
       width: 100%;
@@ -776,28 +796,10 @@
       position: relative;
       height: 100%;
       max-width: none;
-      margin: 0;
+      margin-top: 80px;
       padding: 0;
       outline: 0;
       overflow-y: auto !important;
-
-      .cover-photo-container {
-        width: 100%;
-        height: 100%;
-        margin: 80px 0;
-        position: absolute;
-
-        .cover-photo {
-          display: flex;
-          align-items: center;
-          vertical-align: middle;
-          max-width: 100%;
-          position: absolute;
-          top: 0;
-          left: 0;
-          background-color: @color-white;
-        }
-      }
 
       #brochure-container {
         margin: 0;
@@ -1265,7 +1267,13 @@
         .cover-photo-container {
           height: 90vh;
           margin: 30px 0;
+          display: block;
           position: relative;
+
+          .cover-photo-wrapper {
+            width: 100%;
+            height: 100%;
+          }
 
           .cover-photo {
             height: 100%;
