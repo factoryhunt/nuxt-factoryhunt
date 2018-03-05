@@ -3,21 +3,13 @@
 
     <!-- PDF Modal -->
     <div id="modal-background" class="modal-background">
-      <!-- Panel -->
-      <div class="panel-container">
-        <div class="panel-wrapper">
-          <img src="~assets/icons/arrow-angle-left.png">
-          <img src="~assets/icons/arrow-angle-right.png">
-        </div>
-      </div>
 
       <!-- body -->
       <div class="body-container" tabindex="-1">
-        <a id="close-button" @click="onPDFCloseButton">✕</a>
 
         <!-- Cover Photos -->
         <div class="cover-photo-container" v-show="toggle.coverPhotos">
-          <img class="cover-photo" :src="vendor.cover_image_url_1" alt="cover-image">
+          <img class="cover-photo" :src="value.currentCoverPhoto" alt="cover-image">
         </div>
 
         <!-- Brochure -->
@@ -25,15 +17,16 @@
           <img v-show="!toggle.isBrochureLoaded" class="pdf-canvas" src="~assets/img/product_loading_image_text.png">
         </div>
 
-        <!--<object-->
-        <!--id="pdf"-->
-        <!--:data="vendor.account_pdf_url"-->
-        <!--type="application/pdf"-->
-        <!--width="100%"-->
-        <!--height="100%">-->
-        <!--</object>-->
+        <a id="close-button" @click="onPDFCloseButton">✕</a>
       </div>
-      <!--<a id="close-button" @click="onPDFCloseButton"><i class="fa fa-angle-down"></i></a>-->
+
+      <!-- Panel -->
+      <div class="panel-container" v-show="toggle.coverPhotos">
+        <div class="panel-wrapper">
+          <div class="left-panel panel" @click="onPanelLeftAngle"></div>
+          <div class="right-panel panel" @click="onPanelRightAngle" v-show="vendor.cover_image_url_2"></div>
+        </div>
+      </div>
     </div>
 
     <!-- Main Image -->
@@ -65,7 +58,7 @@
             </div>
             <!-- Right Side -->
             <div class="sticky-company-container">
-              <a href="#container" class="sticky-item">
+              <a href="#CONTAINER" class="sticky-item">
                 <img v-if="vendor.logo_url" id="sticky-company-logo" :src="vendor.logo_url"/>
                 <img v-else id="sticky-company-logo" src="../../assets/img/temp-logo-image_english_512.png"/>
                 <span id="sticky-company-name">{{vendor.account_name}}</span>
@@ -308,7 +301,10 @@
           email: '',
           inquiry: '',
           // for admin editing
-          accountName: ''
+          accountName: '',
+          currentCoverPhoto: '',
+          currentCoverPhotoCount: 0,
+          coverPhotoLength: 0
         },
         placeholder: {
           email: 'contact@email.com',
@@ -390,6 +386,55 @@
         $('html').css('overflow', 'inherit')
         $('body').css('overflow', 'inherit')
       },
+      onViewPhotosButton () {
+        this.showModalBackground()
+        this.value.coverPhotoLength = this.getCoverPhotoLength()
+        this.toggle.coverPhotos = true
+      },
+      getCoverPhotoLength () {
+        let length = 0
+        const {
+          cover_image_url_1,
+          cover_image_url_2,
+          cover_image_url_3,
+          cover_image_url_4,
+          cover_image_url_5,
+          cover_image_url_6,
+          cover_image_url_7,
+          cover_image_url_8
+        } = this.vendor
+        if (cover_image_url_1) length++
+        if (cover_image_url_2) length++
+        if (cover_image_url_3) length++
+        if (cover_image_url_4) length++
+        if (cover_image_url_5) length++
+        if (cover_image_url_6) length++
+        if (cover_image_url_7) length++
+        if (cover_image_url_8) length++
+        return length
+      },
+      onPanelRightAngle () {
+        if (this.value.currentCoverPhotoCount < this.value.coverPhotoLength - 1) {
+          this.value.currentCoverPhotoCount = this.value.currentCoverPhotoCount + 1
+          const url = `cover_image_url_${this.value.currentCoverPhotoCount + 1}`
+          this.value.currentCoverPhoto = this.vendor[url]
+        }
+
+        if (this.value.currentCoverPhotoCount === this.value.coverPhotoLength - 1) $('.right-panel').hide()
+
+        if (this.value.currentCoverPhotoCount > 0) $('.left-panel').show()
+      },
+      onPanelLeftAngle () {
+        if (this.value.currentCoverPhotoCount > 0) {
+          this.value.currentCoverPhotoCount = this.value.currentCoverPhotoCount - 1
+          const url = `cover_image_url_${this.value.currentCoverPhotoCount + 1}`
+          this.value.currentCoverPhoto = this.vendor[url]
+        }
+
+        if (this.value.currentCoverPhotoCount < this.value.coverPhotoLength - 1 ) $('.right-panel').show()
+
+        if (this.value.currentCoverPhotoCount === 0) $('.left-panel').hide()
+      },
       renderPDF () {
         if ($('.brochure-container #catalog').length) return
 
@@ -431,22 +476,12 @@
         this.toggle.brochure = false
       },
       onTouchModal () {
+        const vue = this
         document.getElementById('modal-background').onclick = function (event) {
           if (!$(event.target).hasClass('pdf-canvas')) {
-            $('.modal-background').hide()
-            $('html').css('overflow', 'inherit')
-            $('body').css('overflow', 'inherit')
-          }
-          if (!$(event.target).hasClass('cover-photo')) {
-            $('.modal-background').hide()
-            $('html').css('overflow', 'inherit')
-            $('body').css('overflow', 'inherit')
+            vue.onPDFCloseButton()
           }
         }
-      },
-      onViewPhotosButton () {
-        this.showModalBackground()
-        this.toggle.coverPhotos = true
       },
       routeProductProfilePage (index) {
         const productDomain = this.products[index].product_domain
@@ -503,15 +538,15 @@
           this.textareaResize()
           this.initMap()
           this.productImageResize()
-          this.onTouchModal()
         })
       },
       renderMainImage () {
         if (this.vendor.cover_image_url_1) {
-          $('.main-image').css('background-image', `url(${this.vendor.cover_image_url_1})`)
-        }
-        if (this.vendor.cover_image_url_2) {
-          $('.main-image').css('cursor', 'pointer')
+          $('.main-image').css({
+            'background-image': `url(${this.vendor.cover_image_url_1})`,
+            'cursor': 'pointer'
+          })
+          this.value.currentCoverPhoto = this.vendor.cover_image_url_1
         }
       },
       applyStickyCSS () {
@@ -701,34 +736,65 @@
       position: absolute;
       width: 100%;
       height: 100%;
+      top: 0;
+      left: 0;
 
-      .left-panel {}
-      .right-panel {}
+      .panel-wrapper {
+        position: relative;
+        height: 100%;
+
+        @angle-width: 32px;
+
+        .panel {
+          cursor: pointer;
+          outline: none;
+          position: absolute;
+          top: 0;
+          width: @angle-width;
+          height: 100%;
+          background-repeat: no-repeat;
+          background-position-y: 50%;
+          background-size: contain;
+        }
+        .left-panel {
+          display: none;
+          left: 0;
+          background-image: url(~assets/icons/arrow-angle-left-white.png);
+        }
+        .right-panel {
+          right: 0;
+          background-image: url(~assets/icons/arrow-angle-right-white.png);
+        }
+        .angle {
+          width: 100%;
+          height: @angle-width;
+        }
+      }
     }
 
     .body-container {
       position: relative;
+      height: 100%;
       max-width: none;
       margin: 0;
       padding: 0;
       outline: 0;
       overflow-y: auto !important;
 
-
       .cover-photo-container {
-        height: 90vh;
-        margin: 30px 0;
-        position: relative;
+        width: 100%;
+        height: 100%;
+        margin: 80px 0;
+        position: absolute;
 
         .cover-photo {
-          height: 100%;
+          display: flex;
+          align-items: center;
+          vertical-align: middle;
           max-width: 100%;
           position: absolute;
           top: 0;
-          right: 0;
-          bottom: 0;
           left: 0;
-          margin: 0 auto;
           background-color: @color-white;
         }
       }
@@ -757,6 +823,7 @@
       background: rgba(0, 0, 0, .3);
       border-radius: 50%;
       font-weight: @font-weight-ultra-thin;
+      z-index: 10;
     }
   }
 
@@ -1184,6 +1251,7 @@
   @media ( min-width: 1128px ) {
     #container {
       .modal-background {
+
         .body-container {
           max-width: 1040px;
           margin: 0 auto;
@@ -1193,6 +1261,35 @@
         }
         #close-button {
           background: none;
+        }
+        .cover-photo-container {
+          height: 90vh;
+          margin: 30px 0;
+          position: relative;
+
+          .cover-photo {
+            height: 100%;
+            max-width: 100%;
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            margin: 0 auto;
+          }
+        }
+
+        .panel-container {
+
+          .panel-wrapper {
+
+            .panel {
+              width: 75px;
+            }
+            .angle {
+              height: 75px;
+            }
+          }
         }
       }
 
