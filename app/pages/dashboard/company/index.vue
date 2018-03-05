@@ -408,8 +408,8 @@
       },
       // update server data to local data
       applyLocalData (account) {
-        this.value.mainImageUrl = account.account_image_url_1
-        this.value.logoUrl = account.thumbnail_url
+        this.value.mainImageUrl = account.cover_image_url_1
+        this.value.logoUrl = account.logo_url
         this.value.accountName = account.account_name
         this.value.description = account.company_description
         this.value.businessTypes = checkboxStringToArray(businessType, account.business_type)

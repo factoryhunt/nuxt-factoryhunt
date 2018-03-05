@@ -7,8 +7,8 @@ module.exports = async (req, res) => {
   const { account_data } = req.body
   // const {
   //   domain,
-  //   thumbnail_url,
-  //   account_image_url_1,
+  //   logo_url,
+  //   cover_image_url_1,
   //   account_name,
   //   account_name,
   //   company_short_description,

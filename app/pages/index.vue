@@ -36,7 +36,7 @@
         <div class="card-container" v-for="(feature,index) in features" :key="index">
           <div class="image-container">
             <a :href="`/${feature.domain}`" target="_blank" class="image-wrapper">
-              <img id="featured-image" :src="feature.account_image_url_1" alt="featured-image">
+              <img id="featured-image" :src="feature.cover_image_url_1" alt="featured-image">
             </a>
           </div>
           <div class="description-container">

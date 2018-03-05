@@ -465,7 +465,6 @@
         background-repeat: no-repeat !important;
         background-size: cover !important;
         background-position: 50% 50% !important;
-        height: 30vh !important;
       }
     }
 
@@ -694,7 +693,6 @@
 
       .main-image-container {
         .main-image {
-          height: 69vh !important;
         }
       }
 

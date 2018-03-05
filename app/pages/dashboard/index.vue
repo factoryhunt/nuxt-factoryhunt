@@ -5,7 +5,7 @@
     <div class="left-container">
       <div class="profile-container">
         <div class="profile-inner-container">
-          <img v-if="account.thumbnail_url" id="company-image" :src="account.thumbnail_url">
+          <img v-if="account.logo_url" id="company-image" :src="account.logo_url">
           <img v-else id="company-image" src="~assets/img/temp-logo-image_english_512.png">
           <div class="contents-container">
             <div class="title-contents">

@@ -142,7 +142,7 @@
   "cover": {
     "title": "Edit Company Cover Photo",
     "desc": "A cover photo is the larger photo at the top of your company website.",
-    "caution": "Optimize your cover photo for the right dimensions: 1280 pixels wide and 460 pixels tall.",
+    "caution": "Optimize your cover photo for the right dimensions: 1280 pixels wide and 487 pixels tall.",
     "button": "Choose File"
   },
   "alert": {

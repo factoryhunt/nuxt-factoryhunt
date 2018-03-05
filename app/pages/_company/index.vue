@@ -2,12 +2,29 @@
   <div id="container">
 
     <!-- PDF Modal -->
-    <div id="modal-background" class="modal-background" v-show="vendor.account_pdf_url">
+    <div id="modal-background" class="modal-background">
+      <!-- Panel -->
+      <div class="panel-container">
+        <div class="panel-wrapper">
+          <img src="~assets/icons/arrow-angle-left.png">
+          <img src="~assets/icons/arrow-angle-right.png">
+        </div>
+      </div>
+
+      <!-- body -->
       <div class="body-container" tabindex="-1">
         <a id="close-button" @click="onPDFCloseButton">✕</a>
-        <div id="brochure-container" class="brochure-container">
+
+        <!-- Cover Photos -->
+        <div class="cover-photo-container" v-show="toggle.coverPhotos">
+          <img class="cover-photo" :src="vendor.cover_image_url_1" alt="cover-image">
+        </div>
+
+        <!-- Brochure -->
+        <div id="brochure-container" class="brochure-container" v-show="toggle.brochure">
           <img v-show="!toggle.isBrochureLoaded" class="pdf-canvas" src="~assets/img/product_loading_image_text.png">
         </div>
+
         <!--<object-->
         <!--id="pdf"-->
         <!--:data="vendor.account_pdf_url"-->
@@ -21,8 +38,10 @@
 
     <!-- Main Image -->
     <div class="main-image-container">
-      <div v-if="!vendor.account_image_url_1" class="no-main-image"></div>
-      <div v-else class="main-image"></div>
+      <div v-if="!vendor.cover_image_url_1" class="no-main-image"></div>
+      <div v-else class="main-image" @click="onViewPhotosButton">
+        <div class="view-photos-button" @click="onViewPhotosButton">View Photos</div>
+      </div>
     </div>
 
     <!-- body -->
@@ -47,7 +66,7 @@
             <!-- Right Side -->
             <div class="sticky-company-container">
               <a href="#container" class="sticky-item">
-                <img v-if="vendor.thumbnail_url" id="sticky-company-logo" :src="vendor.thumbnail_url"/>
+                <img v-if="vendor.logo_url" id="sticky-company-logo" :src="vendor.logo_url"/>
                 <img v-else id="sticky-company-logo" src="../../assets/img/temp-logo-image_english_512.png"/>
                 <span id="sticky-company-name">{{vendor.account_name}}</span>
               </a>
@@ -58,7 +77,7 @@
         <!-- Company Header -->
         <div id="header-container" class="header-container each-container">
           <p id="OVERVIEW" class="address">{{getLocation}}</p>
-          <img v-if="vendor.thumbnail_url" class="logo" :src="vendor.thumbnail_url">
+          <img v-if="vendor.logo_url" class="logo" :src="vendor.logo_url">
           <img v-else class="logo" src="../../assets/img/temp-logo-image_english_512.png">
           <h1 class="company-name">{{ vendor.account_name }}</h1>
           <div class="short-description-container">
@@ -253,7 +272,7 @@
           { hid: 'description', name: 'description', content: `${this.vendor.account_name}, ${this.vendor.company_description} | Factory Hunt` },
           { hid: 'og-title', property: 'og:title', content: this.vendor.account_name },
           { hid: 'og-description', property: 'og:description', content: this.vendor.company_description },
-          { hid: 'og-image', property: 'og:image', content: this.vendor.account_image_url_1 },
+          { hid: 'og-image', property: 'og:image', content: this.vendor.cover_image_url_1 },
           { hid: 'og-url', property: 'og:url', content: `factoryhunt.com/${this.vendor.domain}` },
           { hid: 'twitter-card', property: 'twitter:card', content: 'summary' },
           { hid: 'twitter-title', property: 'twitter:title', content: `${this.vendor.account_name} | Factory Hunt` },
@@ -302,8 +321,10 @@
           }
         },
         toggle: {
+          coverPhotos: false,
+          brochure: false,
           isBrochureLoaded: false,
-          isModalOn: false
+          isModalOn: false,
         }
       }
     },
@@ -359,6 +380,16 @@
       }
     },
     methods: {
+      showModalBackground () {
+        $('.modal-background').show()
+        $('html').css('overflow', 'hidden')
+        $('body').css('overflow', 'hidden')
+      },
+      hideModalBackground () {
+        $('.modal-background').hide()
+        $('html').css('overflow', 'inherit')
+        $('body').css('overflow', 'inherit')
+      },
       renderPDF () {
         if ($('.brochure-container #catalog').length) return
 
@@ -390,15 +421,14 @@
         this.toggle.isBrochureLoaded = true
       },
       onCatalog () {
-        $('.modal-background').show()
+        this.showModalBackground()
+        this.toggle.brochure = true
         this.renderPDF()
-        $('html').css('overflow', 'hidden')
-        $('body').css('overflow', 'hidden')
       },
       onPDFCloseButton () {
-        $('.modal-background').hide()
-        $('html').css('overflow', 'inherit')
-        $('body').css('overflow', 'inherit')
+        this.hideModalBackground()
+        this.toggle.coverPhotos = false
+        this.toggle.brochure = false
       },
       onTouchModal () {
         document.getElementById('modal-background').onclick = function (event) {
@@ -407,7 +437,16 @@
             $('html').css('overflow', 'inherit')
             $('body').css('overflow', 'inherit')
           }
+          if (!$(event.target).hasClass('cover-photo')) {
+            $('.modal-background').hide()
+            $('html').css('overflow', 'inherit')
+            $('body').css('overflow', 'inherit')
+          }
         }
+      },
+      onViewPhotosButton () {
+        this.showModalBackground()
+        this.toggle.coverPhotos = true
       },
       routeProductProfilePage (index) {
         const productDomain = this.products[index].product_domain
@@ -457,6 +496,7 @@
       activateJquery () {
         $(document).ready(() => {
           this.renderMainImage()
+          this.mainImageResize()
           this.applyStickyCSS()
           this.applyCompanyFadeInOutInStickyNavigationBar()
           this.applySmoothScrolling()
@@ -467,8 +507,11 @@
         })
       },
       renderMainImage () {
-        if (this.vendor.account_image_url_1) {
-          $('.main-image').css('background-image', `url(${this.vendor.account_image_url_1}`)
+        if (this.vendor.cover_image_url_1) {
+          $('.main-image').css('background-image', `url(${this.vendor.cover_image_url_1})`)
+        }
+        if (this.vendor.cover_image_url_2) {
+          $('.main-image').css('cursor', 'pointer')
         }
       },
       applyStickyCSS () {
@@ -578,6 +621,14 @@
           'height': ($history[0].scrollHeight) + 'px'
         }, 200)
       },
+      mainImageResize () {
+        const $image = $('.main-image')
+        const $noMainImage = $('.no-main-image')
+        const width = $(window).width()
+        const height = (487 * width) / 1280
+        $image.css('height', `${height}px`)
+        $noMainImage.css('height', `${height}px`)
+      },
       productImageResize () {
         $(document).ready(() => {
           const $image = $('.product-image')
@@ -637,15 +688,50 @@
   @import '~assets/css/index';
 
   .modal-background {
-    background: rgba(0, 0, 0, .8) !important;
+    position: fixed;
+    background: rgba(0, 0, 0, .85) !important;
     overflow-y: auto !important;
+    outline: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+
+    .panel-container {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+
+      .left-panel {}
+      .right-panel {}
+    }
 
     .body-container {
       position: relative;
       max-width: none;
       margin: 0;
       padding: 0;
+      outline: 0;
       overflow-y: auto !important;
+
+
+      .cover-photo-container {
+        height: 90vh;
+        margin: 30px 0;
+        position: relative;
+
+        .cover-photo {
+          height: 100%;
+          max-width: 100%;
+          position: absolute;
+          top: 0;
+          right: 0;
+          bottom: 0;
+          left: 0;
+          margin: 0 auto;
+          background-color: @color-white;
+        }
+      }
 
       #brochure-container {
         margin: 0;
@@ -717,14 +803,27 @@
         background-repeat: no-repeat !important;
         background-size: cover !important;
         background-position: 50% 50% !important;
-        height: 30vh !important;
       }
       .main-image {
+        position: relative;
         background-image: url(~assets/img/product_loading_image_text.png);
         background-repeat: no-repeat !important;
         background-size: cover !important;
         background-position: 50% 50% !important;
-        height: 30vh !important;
+
+        .view-photos-button {
+          opacity: 1;
+          background-color: @color-white;
+          box-shadow: 0 1px 1px 1px rgba(0, 0, 0, 0.14);
+          transition: opacity 150ms ease-in-out;
+          border-radius: @border-radius;
+          position: absolute;
+          font-size: @font-size-extra-small;
+          right: 14px;
+          bottom: 14px;
+          padding: 6px 14px;
+          cursor: pointer;
+        }
       }
     }
 
@@ -967,10 +1066,27 @@
 
       .main-image-container {
         .no-main-image {
-          height: 69vh !important;
+
         }
         .main-image {
-          height: 69vh !important;
+
+          &:hover {
+            .view-photos-button {
+              opacity: 1;
+            }
+          }
+          .view-photos-button {
+            opacity: 0;
+            background-color: @color-white;
+            box-shadow: 0 1px 1px 1px rgba(0, 0, 0, 0.14);
+            transition: opacity 150ms ease-in-out;
+            border-radius: @border-radius;
+            position: absolute;
+            font-size: @font-size-small;
+            right: 30px;
+            bottom: 30px;
+            padding: 12px 20px;
+          }
         }
       }
 

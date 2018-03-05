@@ -6,13 +6,13 @@ const config = require('../../.config')
 module.exports = async (req, res, next) => {
   const token = req.headers['x-access-token'] || req.query.token
 
-  // token does not exist
-  if (!token) {
-    return res.status(403).json({
-      result: false,
-      message: 'Not logged in'
-    })
-  }
+  // // token does not exist
+  // if (!token) {
+  //   return res.status(403).json({
+  //     result: false,
+  //     message: 'Not logged in'
+  //   })
+  // }
 
   // create a promise that decodes the token
   const decodeToken = () => {
