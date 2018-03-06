@@ -91,15 +91,7 @@
           mainImageFileName: '',
           logoImageFileName: '',
           files: [],
-          urls: [],
-          coverImageUrl1: '',
-          coverImageUrl2: '',
-          coverImageUrl3: '',
-          coverImageUrl4: '',
-          coverImageUrl5: '',
-          coverImageUrl6: '',
-          coverImageUrl7: '',
-          coverImageUrl8: ''
+          urls: []
         }
       }
     },
@@ -143,6 +135,14 @@
         if (this.value.urls[6]) this.addNewImage(new File([''], ''), this.value.urls[6])
         if (this.value.urls[7]) this.addNewImage(new File([''], ''), this.value.urls[7])
       },
+      addNewImage (file, url) {
+        this.value.files.push(file)
+        const fileNumber = this.value.files.length
+        this.$nextTick(() => {
+          const $label = $(`#cover-image-wrapper-${fileNumber-1}`).children()[0]
+          this.readURL($label, file, url, 'cover')
+        })
+      },
       onCoverImageEdited (target) {
         const label = $(target).siblings()[0]
         const number = label.getAttribute('for').split('-')[2]
@@ -161,13 +161,14 @@
 
         $('#main-image-upload-button').show()
       },
-      addNewImage (file, url) {
-        this.value.files.push(file)
-        const fileNumber = this.value.files.length
-        this.$nextTick(() => {
-          const $label = $(`#cover-image-wrapper-${fileNumber-1}`).children()[0]
-          this.readURL($label, file, url, 'cover')
-        })
+      removeImage (target, index) {
+        console.log(this.value.urls[index])
+        console.log(this.value.files[index])
+        this.value.urls.splice(index, 1)
+        this.value.files.splice(index, 1)
+        this.checkCoverImage()
+
+        $('#main-image-upload-button').show()
       },
       onLogoImageChanged (file) {
         var image = $('.logo-image')
@@ -191,12 +192,6 @@
         if (url) {
           element.style.backgroundImage = `url(${url})`
         }
-      },
-      removeImage (target, index) {
-        this.value.urls.splice(index, 1)
-        this.checkCoverImage()
-
-        $('#main-image-upload-button').show()
       },
       async imageUpload (status) {
         this.activateLoader()
@@ -249,6 +244,9 @@
             formData.append('db_column', 'logo_url')
           }
           else {
+            for (let i = 0; i< this.value.urls.length; i++) {
+              formData.append(`cover_image_url_${i+1}`, this.value.urls[i])
+            }
             for (let i = 0; i < this.value.files.length; i++) {
               formData.append(`cover_${i}`, this.value.files[i])
             }
