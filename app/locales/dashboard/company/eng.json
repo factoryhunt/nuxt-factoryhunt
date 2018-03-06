@@ -1,7 +1,7 @@
 {
   "editCompany": "Edit Company",
   "editDomain": "Edit Domain",
-  "photos": "Photos",
+  "images": "Images",
   "certifications": "Certifications",
   "documents": "Documents",
   "viewButton": "View Website",
@@ -140,8 +140,8 @@
     "button": "Choose File"
   },
   "cover": {
-    "title": "Edit Company Cover Photo",
-    "desc": "A cover photo is the larger photo at the top of your company website.",
+    "title": "Edit Company Cover Image",
+    "desc": "Cover image is at the top of your company page.<br>The first one will be the main cover image. You can upload up to 8 images.",
     "caution": "Optimize your cover photo for the right dimensions: 1280 pixels wide and 487 pixels tall.",
     "button": "Choose File"
   },

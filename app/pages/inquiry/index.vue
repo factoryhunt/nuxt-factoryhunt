@@ -76,9 +76,10 @@
         const data = {
           email: this.email,
           company: this.vendor.account_name,
+          products: this.vendor.products,
+          domain: `${this.vendor.domain}/${this.product.product_domain}`,
           inquiry: this.inquiry,
           product: this.product.product_name,
-          pid: this.product.product_id,
           subject: 'Inquiry for product.'
         }
         try {

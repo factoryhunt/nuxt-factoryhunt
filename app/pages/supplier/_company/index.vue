@@ -212,6 +212,8 @@
         const data = {
           email: this.value.email,
           company: this.lead.company,
+          products: this.lead.products,
+          domain: `supplier/${this.lead.domain}`,
           inquiry: this.value.inquiry,
           subject: 'Inquiry for lead supplier'
         }

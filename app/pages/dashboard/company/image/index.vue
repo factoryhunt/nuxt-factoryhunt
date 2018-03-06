@@ -29,19 +29,20 @@
       <!-- Title -->
       <div class="title-container">
         <p class="title">{{ $t('dashboardCompany.cover.title') }}</p>
-        <p class="sub-title">{{ $t('dashboardCompany.cover.desc') }}</p>
+        <p class="sub-title" v-html="$t('dashboardCompany.cover.desc')"></p>
       </div>
 
       <!-- Main Image -->
-      <div class="image-container">
-        <div id="preview-image" class="main-image"></div>
-      </div>
+      <!--<div class="image-container">-->
+        <!--<div id="preview-image" class="main-image"></div>-->
+      <!--</div>-->
 
       <!-- Cover Image Upload Buttons -->
       <ul class="cover-image-container">
         <li v-for="(file, index) in value.files" :key="index" :id="`cover-image-wrapper-${index}`" class="cover-image">
           <label :for="`cover-image-${index}`"></label>
           <input :id="`cover-image-${index}`" type="file" accept="image/*" @change="onCoverImageEdited($event.target, index)">
+          <a id="remove-image-button" @click="removeImage($event.target, index)">✕</a>
         </li>
         <li id="cover-image-add-wrapper" class="cover-image" v-show="value.files.length < 8">
           <label for="cover-image-add" class="add"></label>
@@ -51,8 +52,8 @@
 
       <!-- Upload Button -->
       <div class="button-container">
-        <p class="third-title">{{ $t('dashboardCompany.cover.caution') }}</p>
-        <button id="main-image-upload-button" class="button-orange" @click="imageUpload('cover')">{{ $t('dashboardCompany.upload') }}</button>
+        <!--<p class="third-title">{{ $t('dashboardCompany.cover.caution') }}</p>-->
+        <button id="main-image-upload-button" class="button-orange" @click="imageUpload('cover')">{{ $t('dashboardCompany.save.button') }}</button>
       </div>
     </div>
 
@@ -89,7 +90,16 @@
         value: {
           mainImageFileName: '',
           logoImageFileName: '',
-          files: []
+          files: [],
+          urls: [],
+          coverImageUrl1: '',
+          coverImageUrl2: '',
+          coverImageUrl3: '',
+          coverImageUrl4: '',
+          coverImageUrl5: '',
+          coverImageUrl6: '',
+          coverImageUrl7: '',
+          coverImageUrl8: ''
         }
       }
     },
@@ -110,15 +120,28 @@
           cover_image_url_7,
           cover_image_url_8
         } = this.account
+        if (cover_image_url_1) this.value.urls.push(cover_image_url_1)
+        if (cover_image_url_2) this.value.urls.push(cover_image_url_2)
+        if (cover_image_url_3) this.value.urls.push(cover_image_url_3)
+        if (cover_image_url_4) this.value.urls.push(cover_image_url_4)
+        if (cover_image_url_5) this.value.urls.push(cover_image_url_5)
+        if (cover_image_url_6) this.value.urls.push(cover_image_url_6)
+        if (cover_image_url_7) this.value.urls.push(cover_image_url_7)
+        if (cover_image_url_8) this.value.urls.push(cover_image_url_8)
 
-        if (cover_image_url_1) this.addNewImage(new File([''], ''), cover_image_url_1)
-        if (cover_image_url_2) this.addNewImage(new File([''], ''), cover_image_url_2)
-        if (cover_image_url_3) this.addNewImage(new File([''], ''), cover_image_url_3)
-        if (cover_image_url_4) this.addNewImage(new File([''], ''), cover_image_url_4)
-        if (cover_image_url_5) this.addNewImage(new File([''], ''), cover_image_url_5)
-        if (cover_image_url_6) this.addNewImage(new File([''], ''), cover_image_url_6)
-        if (cover_image_url_7) this.addNewImage(new File([''], ''), cover_image_url_7)
-        if (cover_image_url_8) this.addNewImage(new File([''], ''), cover_image_url_8)
+        this.checkCoverImage()
+      },
+      checkCoverImage () {
+        this.value.files = []
+
+        if (this.value.urls[0]) this.addNewImage(new File([''], ''), this.value.urls[0])
+        if (this.value.urls[1]) this.addNewImage(new File([''], ''), this.value.urls[1])
+        if (this.value.urls[2]) this.addNewImage(new File([''], ''), this.value.urls[2])
+        if (this.value.urls[3]) this.addNewImage(new File([''], ''), this.value.urls[3])
+        if (this.value.urls[4]) this.addNewImage(new File([''], ''), this.value.urls[4])
+        if (this.value.urls[5]) this.addNewImage(new File([''], ''), this.value.urls[5])
+        if (this.value.urls[6]) this.addNewImage(new File([''], ''), this.value.urls[6])
+        if (this.value.urls[7]) this.addNewImage(new File([''], ''), this.value.urls[7])
       },
       onCoverImageEdited (target) {
         const label = $(target).siblings()[0]
@@ -168,8 +191,12 @@
         if (url) {
           element.style.backgroundImage = `url(${url})`
         }
+      },
+      removeImage (target, index) {
+        this.value.urls.splice(index, 1)
+        this.checkCoverImage()
 
-        this.previewHoverEvent(element)
+        $('#main-image-upload-button').show()
       },
       async imageUpload (status) {
         this.activateLoader()
@@ -376,7 +403,7 @@
           text-align: center;
           display: inline-block;
           width: 100%;
-          height: 69px;
+          height: 146px;
           background-size: cover;
           background-position: 50%, 50%;
           background-repeat: no-repeat;
@@ -388,6 +415,31 @@
             background-size: 22px;
             background-position: 50%, 50%;
             background-repeat: no-repeat;
+          }
+        }
+
+        #remove-image-button {
+          display: none;
+          align-items: center;
+          justify-content: center;
+          position: absolute;
+          border-radius: 50%;
+          background-repeat: no-repeat;
+          background-size: contain;
+          top: 8px;
+          right: 8px;
+          width: 34px;
+          height: 34px;
+          font-size: 20px;
+          text-decoration: none;
+          color: @color-white;
+          background: rgba(0, 0, 0, .3);
+          font-weight: @font-weight-ultra-thin;
+        }
+
+        &:hover {
+          #remove-image-button {
+            display: flex;
           }
         }
       }
