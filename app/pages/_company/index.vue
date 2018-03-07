@@ -415,6 +415,7 @@
       },
       onViewPhotosButton () {
         this.showModalBackground()
+        this.value.currentCoverPhotoCount = 0
         this.value.coverPhotoLength = this.getCoverPhotoLength()
         this.toggle.coverPhotos = true
         this.renderCoverPhotoImage()

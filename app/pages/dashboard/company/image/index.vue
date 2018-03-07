@@ -1,7 +1,7 @@
 <template>
   <div class="dashboard-page-container">
 
-    <spinkit id="modal-loader"></spinkit>
+    <spinkit id="modal-loader"/>
 
     <!-- Company Logo -->
     <div class="logo-image-container">
@@ -34,17 +34,17 @@
 
       <!-- Main Image -->
       <!--<div class="image-container">-->
-        <!--<div id="preview-image" class="main-image"></div>-->
+      <!--<div id="preview-image" class="main-image"></div>-->
       <!--</div>-->
 
       <!-- Cover Image Upload Buttons -->
       <ul class="cover-image-container">
-        <li v-for="(file, index) in value.files" :key="index" :id="`cover-image-wrapper-${index}`" class="cover-image">
-          <label :for="`cover-image-${index}`"></label>
-          <input :id="`cover-image-${index}`" type="file" accept="image/*" @change="onCoverImageEdited($event.target, index)">
-          <a id="remove-image-button" @click="removeImage($event.target, index)">✕</a>
+        <li v-for="(url, index) in value.urls" :key="index" :id="`cover-image-wrapper-${index}`" class="cover-image">
+          <label :for="`cover-image-${index}`" :style="`background-image: url(${url})`"></label>
+          <input :id="`cover-image-${index}`" type="file" accept="image/*" @change="onCoverImageEdited($event, index)">
+          <a id="remove-image-button" @click="removeURL(index)">✕</a>
         </li>
-        <li id="cover-image-add-wrapper" class="cover-image" v-show="value.files.length < 8">
+        <li id="cover-image-add-wrapper" class="cover-image" v-show="value.urls.length < 8">
           <label for="cover-image-add" class="add"></label>
           <input id="cover-image-add" multiple type="file" accept="image/*" @change="onCoverImageAdded($event.target, $event.target.files)">
         </li>
@@ -95,11 +95,6 @@
         }
       }
     },
-    computed: {
-      ...mapGetters([
-        'getAccountId'
-      ])
-    },
     methods: {
       mappingData () {
         const {
@@ -112,86 +107,74 @@
           cover_image_url_7,
           cover_image_url_8
         } = this.account
-        if (cover_image_url_1) this.value.urls.push(cover_image_url_1)
-        if (cover_image_url_2) this.value.urls.push(cover_image_url_2)
-        if (cover_image_url_3) this.value.urls.push(cover_image_url_3)
-        if (cover_image_url_4) this.value.urls.push(cover_image_url_4)
-        if (cover_image_url_5) this.value.urls.push(cover_image_url_5)
-        if (cover_image_url_6) this.value.urls.push(cover_image_url_6)
-        if (cover_image_url_7) this.value.urls.push(cover_image_url_7)
-        if (cover_image_url_8) this.value.urls.push(cover_image_url_8)
-
-        this.checkCoverImage()
+        if (cover_image_url_1) this.pushArray(cover_image_url_1)
+        if (cover_image_url_2) this.pushArray(cover_image_url_2)
+        if (cover_image_url_3) this.pushArray(cover_image_url_3)
+        if (cover_image_url_4) this.pushArray(cover_image_url_4)
+        if (cover_image_url_5) this.pushArray(cover_image_url_5)
+        if (cover_image_url_6) this.pushArray(cover_image_url_6)
+        if (cover_image_url_7) this.pushArray(cover_image_url_7)
+        if (cover_image_url_8) this.pushArray(cover_image_url_8)
       },
-      checkCoverImage () {
-        this.value.files = []
-
-        if (this.value.urls[0]) this.addNewImage(new File([''], ''), this.value.urls[0])
-        if (this.value.urls[1]) this.addNewImage(new File([''], ''), this.value.urls[1])
-        if (this.value.urls[2]) this.addNewImage(new File([''], ''), this.value.urls[2])
-        if (this.value.urls[3]) this.addNewImage(new File([''], ''), this.value.urls[3])
-        if (this.value.urls[4]) this.addNewImage(new File([''], ''), this.value.urls[4])
-        if (this.value.urls[5]) this.addNewImage(new File([''], ''), this.value.urls[5])
-        if (this.value.urls[6]) this.addNewImage(new File([''], ''), this.value.urls[6])
-        if (this.value.urls[7]) this.addNewImage(new File([''], ''), this.value.urls[7])
+      pushArray (url) {
+        this.value.urls.push(url)
+        this.value.files.push(new File([''], ''))
       },
-      addNewImage (file, url) {
-        this.value.files.push(file)
-        const fileNumber = this.value.files.length
-        this.$nextTick(() => {
-          const $label = $(`#cover-image-wrapper-${fileNumber-1}`).children()[0]
-          this.readURL($label, file, url, 'cover')
-        })
-      },
-      onCoverImageEdited (target) {
-        const label = $(target).siblings()[0]
-        const number = label.getAttribute('for').split('-')[2]
-        this.value.files[number] = target.files[0]
-        this.readURL(label, target.files[0], null, 'cover')
-        $('#main-image-upload-button').show()
-      },
-      onCoverImageAdded (target, files) {
-        // 8 limit
-        if (files.length > 8) return this.showAlert(false, 'Cover image is up to 8 photos.')
+      async onCoverImageAdded (target, files) {
+        if (files.length > 8) return this.showAlert(false, 'You can select up to 8 images.')
 
         // multiple upload
-        for (var i = 0; i < files.length; i++) {
-          if (this.value.files.length < 8) this.addNewImage(files[i])
+        for (let i = 0; i < files.length; i++) {
+          await this.addNewImage(files[i])
         }
 
-        $('#main-image-upload-button').show()
-      },
-      removeImage (target, index) {
-        console.log(this.value.urls[index])
-        console.log(this.value.files[index])
-        this.value.urls.splice(index, 1)
-        this.value.files.splice(index, 1)
-        this.checkCoverImage()
+        // remove after index number 8
+        this.value.urls.splice(8, this.value.urls.length)
+        this.value.files.splice(8, this.value.urls.length)
 
         $('#main-image-upload-button').show()
       },
-      onLogoImageChanged (file) {
-        var image = $('.logo-image')
-        var uploadButton = $('#logo-image-upload-button')
-        uploadButton.css({'display': 'inline-block'})
-        this.readURL(image, file[0], null, 'logo')
+      async addNewImage (file) {
+        const fileURL = await this.getFileURL(file)
+        this.value.urls.push(fileURL)
+        this.value.files.push(file)
       },
-      readURL (element, file, url, status) {
-        if (file.size > 0) {
-          var reader = new FileReader()
+      async onCoverImageEdited (event, index) {
+        const { target } = event
+        const file = target.files[0]
+
+        const label = $(target).siblings()[0]
+        const fileURL = await this.getFileURL(file)
+
+        this.value.urls[index] = fileURL
+        this.value.files[index] = file
+
+        label.style.backgroundImage = `url(${fileURL})`
+
+        $('#main-image-upload-button').show()
+      },
+      removeURL (index) {
+        this.value.urls.splice(index, 1)
+        $('#main-image-upload-button').show()
+      },
+      async onLogoImageChanged (files) {
+        const image = $('.logo-image')
+        const fileURL = await this.getFileURL(files[0])
+        image.attr('src', fileURL)
+
+        const uploadButton = $('#logo-image-upload-button')
+        uploadButton.css({'display': 'inline-block'})
+      },
+      getFileURL (file) {
+        return new Promise((resolve, reject) => {
+          if (file.size < 0) reject()
+
+          const reader = new FileReader()
           reader.onload = function (event) {
-            const url = event.target.result
-            if (status === 'cover') {
-              element.style.backgroundImage = `url(${url})`
-            }
-            if (status === 'logo') element.attr('src', url)
+            resolve(event.target.result)
           }
           reader.readAsDataURL(file)
-        }
-
-        if (url) {
-          element.style.backgroundImage = `url(${url})`
-        }
+        })
       },
       async imageUpload (status) {
         this.activateLoader()
@@ -244,11 +227,12 @@
             formData.append('db_column', 'logo_url')
           }
           else {
-            for (let i = 0; i< this.value.urls.length; i++) {
-              formData.append(`cover_image_url_${i+1}`, this.value.urls[i])
-            }
-            for (let i = 0; i < this.value.files.length; i++) {
-              formData.append(`cover_${i}`, this.value.files[i])
+            for (let i = 0; i < this.value.urls.length; i++) {
+              const url = this.value.urls[i]
+              const file = this.value.files[i]
+
+              if (file.size > 0) formData.append(`cover_${i}`, file)
+              else formData.append(`cover_image_url_${i+1}`, url)
             }
             formData.append('db_column', 'cover_image_url_1')
           }
@@ -287,8 +271,8 @@
         $('.cover-image').hover(
           function (event) {
             $('#preview-image').css('background-image', event.target.style.backgroundImage)
-        }, function () {
-        })
+          }, function () {
+          })
       }
     },
     mounted () {

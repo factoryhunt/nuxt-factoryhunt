@@ -7,8 +7,6 @@ const config = require('../../../../../.config')
 module.exports = async (req, res) => {
   const account_id = req.params.account_id
   const db_column = req.body.db_column
-  console.log(req.body)
-  console.log(req.files)
 
   const urlUpdate = () => {
     return new Promise((resolve, reject) => {
