@@ -15,9 +15,8 @@ yarn.lock
 yarn-error.log
 
 # redis
+*.rdb
 dump.rdb
-dump.*
-/dump.*
 
 # backup
 backup
