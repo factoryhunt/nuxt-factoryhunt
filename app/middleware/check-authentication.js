@@ -14,6 +14,7 @@ export default async ({store, req}) => {
       user
     })
   } catch (err) {
+    console.log(err)
     unsetToken()
     delete req.session.auth
   }

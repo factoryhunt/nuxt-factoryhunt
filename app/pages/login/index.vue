@@ -99,7 +99,7 @@
         $loader.removeClass().addClass('spinkit-input')
         $loginButton.css('display', 'none')
         this.$store.dispatch('auth/login', data)
-          .then(() => {
+          .then((res) => {
             this.$router.push('/dashboard')
           })
           .catch((err) => {

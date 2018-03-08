@@ -27,15 +27,15 @@ export const decodeToken = (token) => {
     }
     axios.get('/api/auth/check', data)
       .then(res => {
-        if (!res.data.user.account_id) reject()
+        if (!res.data.user.account) reject()
 
         resolve({
           user: res.data.user
         })
       })
-      .catch(err => {
+      .catch(() => {
         unsetToken()
-        reject(err)
+        reject({msg: 'Decoding Token Failed.'})
       })
   })
 }

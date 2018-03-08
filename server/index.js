@@ -1,4 +1,4 @@
-process.env.DEBUG = 'nuxt:*'
+// process.env.DEBUG = 'nuxt:*'
 const app = require('express')()
 
 const redirectToHTTPS = require('express-http-to-https').redirectToHTTPS
