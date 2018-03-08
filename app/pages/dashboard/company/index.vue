@@ -190,12 +190,12 @@
         <!-- Street Address -->
         <div class="box-container">
           <div class="left-contents">{{ $t('dashboardCompany.company.street.title') }}</div>
-          <div class="right-contents"><input type="text" maxlength="100" pattern="[A-Za-z0-9 -.,#()]{1,50}" :title="$t('dashboardCompany.company.street.inputTitle')" :placeholder="$t('dashboardCompany.company.street.placeholder')" v-model="value.streetAddress" @keyup="checkPostalCode(value.postalCode)"></div>
+          <div class="right-contents"><input type="text" maxlength="100" pattern="[A-Za-z0-9 -.,#()]{1,100}" :title="$t('dashboardCompany.company.street.inputTitle')" :placeholder="$t('dashboardCompany.company.street.placeholder')" v-model="value.streetAddress" @keyup="checkPostalCode(value.postalCode)"></div>
         </div>
         <!-- Street Address Detail -->
         <div class="box-container">
           <div class="left-contents">{{ $t('dashboardCompany.company.street2.title') }}</div>
-          <div class="right-contents"><input type="text" maxlength="100" pattern="[A-Za-z0-9 -.,#()]{1,50}" :title="$t('dashboardCompany.company.street2.inputTitle')" :placeholder="$t('dashboardCompany.company.street2.placeholder')" v-model="value.streetAddressDetail"></div>
+          <div class="right-contents"><input type="text" maxlength="100" pattern="[A-Za-z0-9 -.,#()]{1,100}" :title="$t('dashboardCompany.company.street2.inputTitle')" :placeholder="$t('dashboardCompany.company.street2.placeholder')" v-model="value.streetAddressDetail"></div>
         </div>
         <!-- Postal Code -->
         <div class="box-container">
