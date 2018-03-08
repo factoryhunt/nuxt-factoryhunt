@@ -72,7 +72,7 @@
           id="short-description-input"
           maxlength="150"
           :title="$t('dashboardCompany.shortDescription.inputTitle')"
-          pattern="[A-Za-z0-9 .,']{2,150}"
+          pattern="[A-Za-z0-9 .,'-]{2,150}"
           @keyup="countInputLength"
           :placeholder="$t('dashboardCompany.shortDescription.placeholder')"
           v-model="value.shortDescription">

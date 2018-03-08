@@ -32,7 +32,7 @@
     "title": "Company Short Description",
     "desc": "Describe your company in 150 characters or less.",
     "placeholder": "Factory Hunt is a global B2B platform.",
-    "inputTitle": "It must be characters 2-150 and can only contain letters, numbers, periods, comma, apostrophe and apostrophe."
+    "inputTitle": "It must be characters 2-150 and can only contain letters, numbers, periods, comma, hyphens and apostrophe."
   },
   "video": {
     "title": "Company Introduction Video",
