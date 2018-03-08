@@ -51,7 +51,7 @@ module.exports = async (req, res) => {
       lead = {
         company: company,
         email: email,
-        lead_source: 'website',
+        lead_source: 'Website',
         lead_status: 'Open - Not Contacted',
         lead_type: 'Supplier'
       }
@@ -67,8 +67,10 @@ module.exports = async (req, res) => {
     return new Promise((resolve, reject) => {
       account = {
         account_name: company,
+        account_status: 'pending',
         account_type: 'Supplier',
         membership_type: 'Standard',
+        customer_priority: '1'
       }
       mysql.query(`INSERT INTO ${CONFIG_MYSQL.TABLE_ACCOUNTS} SET ?`, account, (err, rows) => {
         if (err) reject({msg: 'Create account failed.',msg_kor: '도메인 업데이트 실패'})
@@ -84,7 +86,7 @@ module.exports = async (req, res) => {
         contact_email: email,
         password: password,
         password_salt: password_salt,
-        lead_source: 'Supplier',
+        lead_source: 'Website',
         contact_level: '1',
         management_level: '1'
       }
