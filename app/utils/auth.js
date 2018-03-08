@@ -16,7 +16,7 @@ export const getToken = () => {
 }
 
 export const getTokenFromSession = (req) => {
-  if (!req.session.auth) return
+  if (!req.session.auth) return ''
   return req.session.auth.token
 }
 

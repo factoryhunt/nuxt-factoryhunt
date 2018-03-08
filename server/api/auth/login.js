@@ -4,6 +4,7 @@ const config = require('../.config')
 const jwt = require('jsonwebtoken')
 const crypto = require('crypto')
 
+// POST /api/auth/login
 module.exports = (req, res) => {
   const email = req.body.email.toLowerCase()
   const password = req.body.password
@@ -50,6 +51,7 @@ module.exports = (req, res) => {
             req.session.auth = {
               token
             }
+            console.log(req.session.auth)
             res.status(200).json({
               token
             })

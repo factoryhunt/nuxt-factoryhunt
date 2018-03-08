@@ -98,15 +98,15 @@
         const $loginButton = $('#login-button')
         $loader.removeClass().addClass('spinkit-input')
         $loginButton.css('display', 'none')
-        this.$store.dispatch('auth/login', data)
-          .then((res) => {
-            this.$router.push('/dashboard')
-          })
-          .catch((err) => {
-            $loader.removeClass().addClass('invisible')
-            $loginButton.css('display', 'inherit')
-            this.showAlert(err.data.code)
-          })
+
+        try {
+          await this.$store.dispatch('auth/login', data)
+          location.href = '/dashboard'
+        } catch (err) {
+          $loader.removeClass().addClass('invisible')
+          $loginButton.css('display', 'inherit')
+          this.showAlert(err.data.code)
+        }
       },
       showAlert (errCode) {
         switch (errCode) {
