@@ -25,7 +25,8 @@
         <div class="help-container">
           <a href="/contact" target="_blank"><i class="fa fa-info-circle"></i> {{ $t('inquiry.needOurHelp') }}</a>
         </div>
-        <button type="submit" class="button-orange">{{ $t('inquiry.sendInquiry') }}</button>
+        <loader v-show="toggle.isEmailSending" class="spinkit-input"/>
+        <button v-show="!toggle.isEmailSending" type="submit" class="button-orange">{{ $t('inquiry.sendInquiry') }}</button>
       </div>
 
     </div>
@@ -34,10 +35,14 @@
 </template>
 
 <script>
+  import Loader from '~/components/Loader'
   import { sendEmail } from '~/utils/email'
   import { getAccountByAccountId, getProductByProductId } from '~/utils/api'
   import { mapGetters } from 'vuex'
   export default {
+    components: {
+      Loader
+    },
     head () {
       return {
         title: `Inquiry for ${this.vendor.account_name}`,
@@ -65,7 +70,10 @@
         vendor: {},
         product: {},
         email: '',
-        inquiry: ''
+        inquiry: '',
+        toggle: {
+          isEmailSending: false
+        }
       }
     },
     computed: mapGetters({
@@ -73,6 +81,8 @@
     }),
     methods: {
       async sendInquiry () {
+        this.toggle.isEmailSending = true
+
         const data = {
           email: this.email,
           company: this.vendor.account_name,
@@ -82,10 +92,13 @@
           product: this.product.product_name,
           subject: 'Inquiry for product.'
         }
+
         try {
           await sendEmail(data)
+          this.toggle.isEmailSending = false
           alert(this.$t('alert.email.success'))
         } catch (err) {
+          this.toggle.isEmailSending = false
           alert(this.$t('alert.email.fail'))
         }
       }

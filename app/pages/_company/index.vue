@@ -236,7 +236,8 @@
           <p class="quote">{{ $t('company.contact.quote') }}</p>
 
           <div class="button-container">
-            <button type="submit" class="button-orange">{{ $t('company.contact.button') }}</button>
+            <loader v-show="toggle.isEmailSending" class="spinkit-input"/>
+            <button v-show="!toggle.isEmailSending" type="submit" class="button-orange">{{ $t('company.contact.button') }}</button>
           </div>
         </form>
       </div>
@@ -280,6 +281,7 @@
 <script>
   import axios from '~/plugins/axios'
   import pdflib from 'pdfjs-dist'
+  import Loader from '~/components/Loader'
   import { sendEmail } from '~/utils/email'
   export default {
     scrollToTop: true,
@@ -304,6 +306,9 @@
           { hid: 'canonical', rel: 'canonical', href: `https://www.factoryhunt.com/${this.vendor.domain}` }
         ]
       }
+    },
+    components: {
+      Loader
     },
     async asyncData ({ params, query, error, redirect }) {
       try {
@@ -348,6 +353,7 @@
           brochure: false,
           isBrochureLoaded: false,
           isModalOn: false,
+          isEmailSending: false
         }
       }
     },
@@ -546,6 +552,8 @@
         }
       },
       async sendInquiry () {
+        this.toggle.isEmailSending = true
+
         const data = {
           email: this.value.email,
           company: this.vendor.account_name,
@@ -554,11 +562,14 @@
           inquiry: this.value.inquiry,
           subject: 'Inquiry for verified supplier'
         }
+
         try {
           await sendEmail(data)
+          this.toggle.isEmailSending = false
           alert(this.$t('alert.email.success'))
           location.reload()
         } catch (err) {
+          this.toggle.isEmailSending = false
           alert(this.$t('alert.email.fail'))
           location.reload()
         }

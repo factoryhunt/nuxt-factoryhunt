@@ -95,7 +95,8 @@
           <p class="quote">{{ $t('company.contact.quote') }}</p>
 
           <div class="button-container">
-            <button type="submit" class="button-orange">{{ $t('company.contact.button') }}</button>
+            <loader v-show="toggle.isEmailSending" class="spinkit-input"/>
+            <button v-show="!toggle.isEmailSending" type="submit" class="button-orange">{{ $t('company.contact.button') }}</button>
           </div>
         </form>
       </div>
@@ -111,10 +112,14 @@
 
 <script>
   import axios from '~/plugins/axios'
+  import Loader from '~/components/Loader'
   import { sendEmail } from '~/utils/email'
   export default {
     scrollToTop: true,
     layout: 'minify',
+    components: {
+      Loader
+    },
     head () {
       return {
         title: `${this.lead.company}`,
@@ -157,6 +162,9 @@
         placeholder: {
           email: 'contact@email.com',
           textarea: 'Enter your message'
+        },
+        toggle: {
+          isEmailSending: false
         },
         msg: {
           quote: 'Request a quote to get pricing',
@@ -209,6 +217,8 @@
     },
     methods: {
       async sendInquiry () {
+        this.toggle.isEmailSending = true
+
         const data = {
           email: this.value.email,
           company: this.lead.company,
@@ -217,11 +227,14 @@
           inquiry: this.value.inquiry,
           subject: 'Inquiry for lead supplier'
         }
+
         try {
           await sendEmail(data)
+          this.toggle.isEmailSending = false
           alert(this.$t('alert.email.success'))
           location.reload()
         } catch (err) {
+          this.toggle.isEmailSending = false
           alert(this.$t('alert.email.fail'))
           location.reload()
         }
