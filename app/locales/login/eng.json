@@ -3,5 +3,7 @@
   "password": "Password",
   "login": "Login",
   "signUp": "Sign Up",
-  "forgot": "Forgot your password?"
+  "forgot": "Forgot your password?",
+  "8001": "Email does not exist.",
+  "8002": "Password is incorrect."
 }

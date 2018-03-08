@@ -1,7 +1,6 @@
 <template>
   <div class="page-container">
     <div class="form-contents">
-
       <!-- Header -->
       <auth-header/>
 
@@ -42,6 +41,7 @@
   import AuthHeader from '~/components/AuthHeader'
   import Loader from '~/components/Loader'
   import { mapGetters } from 'vuex'
+  import { showTopAlert } from '~/utils/alert'
 
   export default {
     layout: 'blank',
@@ -105,8 +105,21 @@
           .catch((err) => {
             $loader.removeClass().addClass('invisible')
             $loginButton.css('display', 'inherit')
-            alert(err.data.msg)
+            this.showAlert(err.data.code)
           })
+      },
+      showAlert (errCode) {
+        switch (errCode) {
+          case 8001:
+            showTopAlert(this.$store, false, this.$t('login.8001'))
+            break
+          case 8002:
+            showTopAlert(this.$store, false, this.$t('login.8002'))
+            break
+          default:
+            showTopAlert(this.$store, false, this.$t('alert.serverError'))
+            break
+        }
       },
       onForgotPassword () {
         alert('Coming soon.')

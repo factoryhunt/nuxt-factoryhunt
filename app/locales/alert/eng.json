@@ -1,6 +1,7 @@
 {
   "success": "Your information has been updated successfully.",
   "fail": "Information update failed. Please try again.",
+  "serverError": "Internal server error. Please try again later.",
   "required": "Please fill out all of required field.",
   "email": {
     "success": "Your inquiry has been sent successfully. We will get back to you as soon as possible.",

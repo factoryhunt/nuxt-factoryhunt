@@ -422,6 +422,7 @@
       .header-container {
         .title {
           margin: 0;
+          font-size: @font-size-extra-large;
           padding-right: 70px;
         }
         .detail-container {
@@ -567,6 +568,13 @@
     #container {
 
       .left-container {
+
+        .header-container {
+          .title {
+            font-size: @font-size-extra-large;
+          }
+        }
+
         .information-container {
 
           .list-container {

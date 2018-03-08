@@ -1030,17 +1030,18 @@
           }
 
           .video-container {
-            position: relative;
             margin-top: 20px;
-            padding-bottom: 56.375%;
-            width: 100%;
-            text-align: left;
+            position:relative;
+            padding-bottom:56.25%;
+            height:0;
+            overflow:hidden;
 
             #intro-video {
-              position: absolute;
-              width: 100%;
-              height: 100%;
-              overflow: hidden;
+              position:absolute;
+              top:0;
+              left:0;
+              width:100%;
+              height:100%;
             }
           }
         }
@@ -1431,6 +1432,7 @@
 
           .header-container {
             padding-top: 77px;
+
           }
 
           .description-container {

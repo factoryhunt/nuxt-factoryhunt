@@ -27,6 +27,8 @@ export const decodeToken = (token) => {
     }
     axios.get('/api/auth/check', data)
       .then(res => {
+        if (!res.data.user.account_id) reject()
+
         resolve({
           user: res.data.user
         })

@@ -1,4 +1,4 @@
-exports.topAlert = (store, state, msg) => {
+exports.showTopAlert = (store, state, msg) => {
   $(document).ready(() => {
     const $alert = $('#alert')
     store.commit('alert/changeState', {
