@@ -41,17 +41,10 @@ module.exports = (req, res) => {
         }
         jwt.sign(payload, config.jwtSecret, options,
           (err, token) => {
-            if (err) return err
-
-            // res.cookie('nekot', token, {
-            //   maxAge: 1000 * 60 * 60 // expired in 1 hour
-            //   // httpOnly: true,
-            //   // secure: true
-            // })
+            if (err) res.status(401).json({result: false, code: 8003})
             req.session.auth = {
               token
             }
-            console.log(req.session.auth)
             res.status(200).json({
               token
             })

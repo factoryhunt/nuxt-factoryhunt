@@ -10,14 +10,25 @@ export const unsetToken = () => {
   window.localStorage.removeItem('token')
 }
 
-export const getToken = () => {
-  if (process.server) return
-  return window.localStorage.getItem('token')
-}
-
 export const getTokenFromSession = (req) => {
   if (!req.session.auth) return ''
   return req.session.auth.token
+}
+
+export const getToken = (email, password) => {
+  return new Promise((resolve, reject) => {
+    const data = {
+      email,
+      password
+    }
+    axios.post('/api/auth/login', data)
+      .then(res => {
+        resolve(res.data.token)
+      })
+      .catch(err => {
+        reject(err.response)
+      })
+  })
 }
 
 export const decodeToken = (token) => {
@@ -28,13 +39,9 @@ export const decodeToken = (token) => {
     axios.get('/api/auth/check', data)
       .then(res => {
         if (!res.data.user.account) reject()
-
-        resolve({
-          user: res.data.user
-        })
+        resolve(res.data.user)
       })
       .catch(() => {
-        unsetToken()
         reject({msg: 'Decoding Token Failed.'})
       })
   })

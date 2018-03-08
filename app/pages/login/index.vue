@@ -90,18 +90,19 @@
     },
     methods: {
       async onLoginButton () {
-        const data = {
-          email: this.value.email,
-          password: this.value.password
-        }
         const $loader = $('#login-loader')
         const $loginButton = $('#login-button')
         $loader.removeClass().addClass('spinkit-input')
         $loginButton.css('display', 'none')
 
+        const data = {
+          email: this.value.email,
+          password: this.value.password
+        }
+
         try {
           await this.$store.dispatch('auth/login', data)
-          location.href = '/dashboard'
+          this.$router.push('/dashboard')
         } catch (err) {
           $loader.removeClass().addClass('invisible')
           $loginButton.css('display', 'inherit')

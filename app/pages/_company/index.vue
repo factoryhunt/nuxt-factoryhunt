@@ -539,18 +539,18 @@
       routeProductProfilePage (index) {
         const productDomain = this.products[index].product_domain
         if (this.queryInput) {
-          location.href = `/${this.value.company}/${productDomain}?input=${this.queryInput}`
-          // this.$router.push({
-          //   path: `/${this.value.company}/${productDomain}`,
-          //   query: {
-          //     input: this.queryInput
-          //   }
-          // })
+          // location.href = `/${this.value.company}/${productDomain}?input=${this.queryInput}`
+          this.$router.push({
+            path: `/${this.value.company}/${productDomain}`,
+            query: {
+              input: this.queryInput
+            }
+          })
         } else {
-          location.href = `/${this.value.company}/${productDomain}`
-          // this.$router.push({
-          //   path: `/${this.value.company}/${productDomain}`,
-          // })
+          // location.href = `/${this.value.company}/${productDomain}`
+          this.$router.push({
+            path: `/${this.value.company}/${productDomain}`,
+          })
         }
       },
       async sendInquiry () {

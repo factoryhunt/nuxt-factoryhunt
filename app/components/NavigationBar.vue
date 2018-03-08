@@ -121,7 +121,7 @@
       onLogoutButton () {
         this.$store.dispatch('auth/logout')
           .then(() => {
-            location.replace('/')
+            location.reload()
           })
       },
       activateJquery () {

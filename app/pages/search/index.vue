@@ -159,7 +159,7 @@
         let keyword = new Inflectors(this.queryInput)
         // console.log('singular', keyword.toSingular())
         // console.log('plural', keyword.toPlural())
-        console.log('synonyms with search keyword: ', synonyms(this.queryInput, 'n'))
+        // console.log('synonyms with search keyword: ', synonyms(this.queryInput, 'n'))
 
         var context = document.querySelector('.body-container')
         var instance = new Mark(context)

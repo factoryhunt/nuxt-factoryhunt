@@ -78,8 +78,7 @@ module.exports = {
   ],
   router: {
     middleware: [
-      'i18n',
-      'check-authentication'
+      'i18n'
     ]
   },
   build: {
