@@ -4,7 +4,7 @@ const secure = true // true for 465, false for other ports
 const password = 'Ycombinator2017'
 module.exports = {
   info: {
-    host: 'smtp.daum.net',
+    host: host,
     port: port,
     secure: secure,
     auth: {
