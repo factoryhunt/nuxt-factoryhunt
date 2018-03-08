@@ -5,9 +5,10 @@ module.exports = async (req, res) => {
   const {
     email,
     company,
-    product,
-    pid:product_id,
+    products,
+    domain,
     inquiry,
+    product,
     subject
   } = req.body
 
@@ -19,17 +20,20 @@ module.exports = async (req, res) => {
     subject: `[Factory Hunt] ${subject}`,
     // text: 'Sender: ' + fromEmail, // plain text body
     html:
-    '<h2>Email</h2>' +
-    email +
-    '<br><br>' +
-    '<h2>Company</h2>' +
-    company +
-    '<br><br>' +
-    '<h2>Product' + ' (' + product_id + ')' + '</h2>' +
-    product +
-    '<br><br>' +
-    '<h2>Message</h2>' +
-    inquiry
+    `
+    <h2>Email</h2>
+    <p>${email}</p>
+    <h2>Company</h2>
+    <ul>
+      <li>${company}</li>
+      <li>${products}</li>
+      <li><a href="https://www.factoryhunt.com/${domain}" target="_blank">factoryhunt.com/${domain}</a></li>
+    </ul>
+    <h2>Product</h2>
+    <p>${product}</p>
+    <h2>Message</h2>
+    <p>${inquiry}</p>
+    `
   }
 
   const createTestAccount = () => {

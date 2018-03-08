@@ -7,7 +7,7 @@
           <div class="menu-container">
             <nuxt-link id="item-company-edit" class="menu" to="/dashboard/company">{{ $t('dashboardCompany.editCompany') }}</nuxt-link>
             <nuxt-link id="item-domain-edit" class="menu" to="/dashboard/company/domain">{{ $t('dashboardCompany.editDomain') }}</nuxt-link>
-            <nuxt-link id="item-image-edit" class="menu" to="/dashboard/company/image">{{ $t('dashboardCompany.photos') }}</nuxt-link>
+            <nuxt-link id="item-image-edit" class="menu" to="/dashboard/company/image">{{ $t('dashboardCompany.images') }}</nuxt-link>
             <!--<nuxt-link id="item-documents-edit" class="menu" to="/dashboard/company/documents">{{ $t('dashboardCompany.documents') }}</nuxt-link>-->
             <button @click="routeCompanyPage" class="view-button button-white">{{ $t('dashboardCompany.viewButton') }}</button>
           </div>

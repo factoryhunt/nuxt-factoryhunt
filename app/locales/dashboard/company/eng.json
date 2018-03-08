@@ -1,7 +1,7 @@
 {
   "editCompany": "Edit Company",
   "editDomain": "Edit Domain",
-  "photos": "Photos",
+  "images": "Add Images",
   "certifications": "Certifications",
   "documents": "Documents",
   "viewButton": "View Website",
@@ -140,9 +140,9 @@
     "button": "Choose File"
   },
   "cover": {
-    "title": "Edit Company Cover Photo",
-    "desc": "A cover photo is the larger photo at the top of your company website.",
-    "caution": "Optimize your cover photo for the right dimensions: 1280 pixels wide and 460 pixels tall.",
+    "title": "Edit Company Cover Image",
+    "desc": "Cover images will be located at the top of your company page.<br>The first one will be the main cover image. You can upload up to 8 images.",
+    "caution": "Optimize your cover photo for the right dimensions: 1280 pixels wide and 487 pixels tall.",
     "button": "Choose File"
   },
   "alert": {
@@ -152,7 +152,8 @@
     },
     "image": {
       "success": "Your photo has been updated successfully.",
-      "fail": "Photo update failed. Please try again."
+      "fail": "Photo update failed. Please try again.",
+      "upTo8": "You can select up to 8 images."
     }
   }
 }

@@ -18,7 +18,7 @@
           <!-- Vendor Logo -->
           <div class="vendor-logo-container">
             <a @click="routeAccountProfilePage">
-              <img v-if="vendor.thumbnail_url" class="vendor-logo-image" :src="vendor.thumbnail_url"/>
+              <img v-if="vendor.logo_url" class="vendor-logo-image" :src="vendor.logo_url"/>
               <img v-else class="vendor-logo-image" src="../../../assets/img/temp-logo-image_english_512.png"/>
             </a>
           </div>

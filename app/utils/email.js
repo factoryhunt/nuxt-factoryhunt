@@ -3,14 +3,23 @@ import { convertEnterToBrTag } from './text';
 
 export const sendEmail = (data) => {
   return new Promise((resolve, reject) => {
-    const { email, company, inquiry, subject, product, pid } = data
+    const {
+      email,
+      company,
+      products,
+      domain,
+      inquiry,
+      subject,
+      product
+    } = data
     const emailData = {
       email,
       company,
+      products,
+      domain,
       inquiry: convertEnterToBrTag(inquiry),
       subject,
-      product,
-      pid
+      product
     }
     axios.post('/api/mail/company', emailData)
       .then(() => {
