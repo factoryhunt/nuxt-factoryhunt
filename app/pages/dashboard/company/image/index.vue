@@ -121,7 +121,7 @@
         this.value.files.push(new File([''], ''))
       },
       async onCoverImageAdded (target, files) {
-        if (files.length > 8) return this.showAlert(false, 'You can select up to 8 images.')
+        if (files.length > 8) return this.showAlert(false, this.$t('dashboardCompany.alert.image.upTo8'))
 
         // multiple upload
         for (let i = 0; i < files.length; i++) {

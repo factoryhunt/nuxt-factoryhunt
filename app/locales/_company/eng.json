@@ -10,6 +10,7 @@
     "location": "Location",
     "products": "Products"
   },
+  "viewImages": "View Images",
   "description": {
     "title": "Company Description"
   },

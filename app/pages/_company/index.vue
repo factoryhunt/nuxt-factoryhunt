@@ -60,7 +60,7 @@
     <div class="main-image-container">
       <div v-if="!vendor.cover_image_url_1" class="no-main-image"></div>
       <div v-else class="main-image" @click="onViewPhotosButton">
-        <div class="view-photos-button" @click="onViewPhotosButton">View Images</div>
+        <div class="view-photos-button" @click="onViewPhotosButton">{{ $t('company.viewImages') }}</div>
       </div>
     </div>
 
