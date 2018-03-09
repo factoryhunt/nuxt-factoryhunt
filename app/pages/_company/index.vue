@@ -1036,13 +1036,15 @@
           }
           .address {
             font-size: @font-size-small;
-            margin: 0;
+            margin-top: 0;
+            margin-bottom: 5px;
             color: @color-font-gray;
-            padding-right: 55px;
             font-weight: @font-weight-bold;
           }
           .company-name {
             margin: 0;
+            line-height: 0.95;
+            font-weight: 500;
             padding-right: 55px;
           }
           .short-description-container {
@@ -1195,10 +1197,10 @@
             padding-bottom: 2rem;
             padding-left: 20px;
             padding-right: 20px;
+            cursor: pointer;
 
             .image-container {
               img {
-                cursor: pointer;
                 width: 100%;
                 box-shadow: 1px 1px 10px 1px #e4e4e4;
               }
