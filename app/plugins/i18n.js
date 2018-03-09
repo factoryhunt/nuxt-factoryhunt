@@ -3,13 +3,15 @@ import VueI18n from 'vue-i18n'
 
 Vue.use(VueI18n)
 
-export default ({ app, req, store, }) => {
+export default ({ app, req, query, store, }) => {
   // Set i18n instance on app
   // This way we can use it in middleware and pages asyncData/fetch
   const { kor, eng } = require('~/locales')
-  let locale = store.state.i18n.locale || 'eng'
+  let locale = store.state.i18n.locale
 
-  if (process.server) locale = req.session.locale
+  if (process.server) locale = req.session.locale || locale
+
+  if (query.lang) locale = query.lang
 
   const i18n = new VueI18n({
     fallbackLocale: 'eng',
