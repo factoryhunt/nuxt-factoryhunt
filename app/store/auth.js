@@ -37,8 +37,11 @@ export const actions = {
       email,
       password
     } = payload
+    console.log('getTokenStart')
     const token = await getToken(email, password)
+    console.log('got token')
     const user = await decodeToken(token)
+    console.log('docoded token')
     commit('login', {
       user
     })

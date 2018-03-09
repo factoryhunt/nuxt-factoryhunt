@@ -35,7 +35,7 @@ module.exports = (req, res) => {
           contact_id: user.contact_id
         }
         const options = {
-          expiresIn: '7d', // expired in 7 days
+          // expiresIn: '7d', // default: null
           issuer: 'factoryhunt.com',
           subject: 'user_id'
         }

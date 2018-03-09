@@ -1,15 +1,17 @@
-import { setLocale } from '~/utils/i18n'
-
 export const state = () => ({
   locales: ['eng', 'kor'],
   locale: 'eng'
 })
 
 export const mutations = {
-  SET_LANG(state, locale) {
+  SET_LANG(state, payload) {
+    const {
+      locale,
+      i18n
+    } = payload
     if (state.locales.indexOf(locale) !== -1) {
       state.locale = locale
-      setLocale(locale)
+      i18n.locale = locale
     }
   }
 }

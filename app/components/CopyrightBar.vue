@@ -34,6 +34,7 @@
 </template>
 
 <script>
+  import { setLocaleOnServerSession } from '~/utils/i18n'
   export default {
     data () {
       return {
@@ -42,8 +43,12 @@
     },
     methods: {
       onLanguageSelect (locale) {
-        this.$i18n.locale = locale
-        this.$store.commit('i18n/SET_LANG', locale)
+        setLocaleOnServerSession(locale)
+        const payload = {
+          locale,
+          i18n: this.$i18n
+        }
+        this.$store.commit('i18n/SET_LANG', payload)
         window.scrollTo(0, 0)
       }
     }

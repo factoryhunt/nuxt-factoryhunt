@@ -1,19 +1,12 @@
-export const setLocale = (locale) => {
-  if (process.server) return
-  window.localStorage.setItem('locale', locale)
+import axios from '~/plugins/axios'
+
+export const saveLocale = (req, locale) => {
+  req.session.locale = locale
 }
 
-export const unsetLocale = () => {
-  if (process.server) return
-  window.localStorage.removeItem('locale')
-}
-
-export const getLocale = () => {
-  if (process.server) return
-  return window.localStorage.getItem('locale')
-}
-
-export const getLocaleFromSession = (req) => {
-  if (!req.session.auth) return
-  return req.session.auth.token
+export const setLocaleOnServerSession = (locale) => {
+  const data = {
+    locale
+  }
+  axios.post('/api/i18n', data)
 }

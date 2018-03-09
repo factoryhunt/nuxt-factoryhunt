@@ -73,18 +73,19 @@ module.exports = {
     }
   },
   plugins: [
-    { src: '~plugins/i18n' },
+    { src: '~plugins/i18n', injectAs: 'i18n' },
     { src: '~plugins/jquery', ssr: false },
   ],
   router: {
     middleware: [
-      'i18n'
+      // 'i18n'
     ]
   },
   build: {
     vendor: [
       'vue-i18n',
-      'axios'
+      'axios',
+      '~/plugins/jquery.js'
     ],
     extend (config, { isDev, isClient }) {
       if (isDev && isClient) {

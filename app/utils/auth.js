@@ -1,15 +1,5 @@
 import axios from '~/plugins/axios'
 
-export const setToken = (token) => {
-  if (process.server) return
-  window.localStorage.setItem('token', token)
-}
-
-export const unsetToken = () => {
-  if (process.server) return
-  window.localStorage.removeItem('token')
-}
-
 export const getTokenFromSession = (req) => {
   if (!req.session.auth) return ''
   return req.session.auth.token
@@ -45,4 +35,9 @@ export const decodeToken = (token) => {
         reject({msg: 'Decoding Token Failed.'})
       })
   })
+}
+
+export const destoryAuthSession = (req) => {
+  delete req.session.auth
+  console.log('User session is destroyed.')
 }
