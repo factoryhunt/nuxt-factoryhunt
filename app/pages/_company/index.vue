@@ -410,11 +410,13 @@
     },
     methods: {
       showModalBackground () {
+        this.toggle.isModalOn = true
         $('.modal-background').show()
         $('html').css('overflow', 'hidden')
         $('body').css('overflow', 'hidden')
       },
       hideModalBackground () {
+        this.toggle.isModalOn = false
         $('.modal-background').hide()
         $('html').css('overflow', 'inherit')
         $('body').css('overflow', 'inherit')
@@ -528,6 +530,11 @@
         this.toggle.coverPhotos = false
         this.toggle.brochure = false
       },
+      escKeyEvent () {
+        $(document).keyup((e) => {
+          if (e.keyCode === 27) this.onPDFCloseButton()
+        })
+      },
       onTouchModal () {
         const vue = this
         document.getElementById('modal-background').onclick = function (event) {
@@ -600,6 +607,7 @@
           this.textareaResize()
           this.initMap()
           this.productImageResize()
+          this.escKeyEvent()
         })
       },
       renderMainImage () {
@@ -1028,13 +1036,15 @@
           }
           .address {
             font-size: @font-size-small;
-            margin: 0;
+            margin-top: 0;
+            margin-bottom: 5px;
             color: @color-font-gray;
-            padding-right: 55px;
             font-weight: @font-weight-bold;
           }
           .company-name {
             margin: 0;
+            line-height: 0.95;
+            font-weight: 500;
             padding-right: 55px;
           }
           .short-description-container {
@@ -1187,10 +1197,10 @@
             padding-bottom: 2rem;
             padding-left: 20px;
             padding-right: 20px;
+            cursor: pointer;
 
             .image-container {
               img {
-                cursor: pointer;
                 width: 100%;
                 box-shadow: 1px 1px 10px 1px #e4e4e4;
               }

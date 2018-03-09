@@ -15,13 +15,12 @@ export const mutations = {
 
 export const actions = {
   // This method will be called when user route "location.href" & "nuxt-link"
-  async nuxtServerInit ({ commit }, { app, req, store }) {
+  async nuxtServerInit ({ commit }, { app, req, query }) {
     console.log('nuxt server init')
-    console.log('nuxt server session:', req.session)
-    console.log('nuxt server i18n in store', store.state.i18n)
 
-    const locale = req.session.locale || store.state.i18n.locale
-    saveLocale(req, locale)
+    if (req.session.locale) saveLocale(req, req.session.locale)
+
+    if (query.lang) saveLocale(req, query.lang)
 
     try {
 

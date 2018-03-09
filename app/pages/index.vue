@@ -33,7 +33,7 @@
 
       <!-- Featured Supplier -->
       <div class="contents-container">
-        <div class="card-container" v-for="(feature,index) in features" :key="index">
+        <div class="card-container" v-for="(feature,index) in features" :key="index" v-if="index < value.featuresLength">
           <div class="image-container">
             <a :href="`/${feature.domain}`" target="_blank" class="image-wrapper">
               <img id="featured-image" :src="feature.cover_image_url_1" alt="featured-image">
@@ -47,6 +47,9 @@
               <button @click="routeAccountProfilePage(feature)" class="view-more-button">{{ $t('home.viewMore') }}</button>
             </div>
           </div>
+        </div>
+        <div class="show-more-button-container" v-if="features.length > value.featuresLength">
+          <button @click="onShowMoreButton"><i><img src="~assets/icons/arrow-angle-down.png" alt="show more"></i>SHOW MORE</button>
         </div>
       </div>
     </div>
@@ -86,7 +89,8 @@
     data () {
       return {
         value: {
-          input: ''
+          input: '',
+          featuresLength: 10,
         },
         isLoaded: false
       }
@@ -94,7 +98,12 @@
     methods: {
       onSearchInput () {
         if (!this.value.input) return
-        location.href = `/search?input=${this.value.input}`
+        this.$router.push(`/search?input=${this.value.input}`)
+        // location.href = `/search?input=${this.value.input}`
+      },
+      onShowMoreButton () {
+        const length = this.features.length
+        if (this.value.featuresLength < length) this.value.featuresLength += 10
       },
       routeAccountProfilePage (feature) {
         const domain = feature.domain
@@ -182,7 +191,6 @@
     }
 
     .featured-container {
-      padding-bottom: 20px;
 
       .title {
         margin-bottom: 0;
@@ -192,15 +200,20 @@
         width: 100%;
 
         .card-container {
-          padding: 20px 0;
+          padding-top: 32px;
+          padding-bottom: 20px;
           border-bottom: 1px solid @color-light-gray;
 
           &:last-child {
             border-bottom: 0;
+            margin-bottom: 50px;
           }
 
           .image-container {
-            display: block;
+            max-height: 210px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
 
             &:hover {
               cursor: pointer;
@@ -255,6 +268,24 @@
               border-radius: @border-radius;
               height: 42px;
             }
+          }
+        }
+
+        .show-more-button-container {
+          padding: 11px 0;
+          text-align: center;
+          button {
+            color: @color-font-gray;
+            width: 100%;
+            height: 100%;
+            border: 0;
+            font-size: @font-size-small;
+          }
+          img {
+            display: inline-block;
+            vertical-align: middle;
+            width: 14px;
+            margin: 0 6px;
           }
         }
       }
