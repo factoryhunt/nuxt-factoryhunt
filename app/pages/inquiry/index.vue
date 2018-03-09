@@ -97,6 +97,7 @@
           await sendEmail(data)
           this.toggle.isEmailSending = false
           alert(this.$t('alert.email.success'))
+          this.$router.push(`/${this.vendor.account_name}`)
         } catch (err) {
           this.toggle.isEmailSending = false
           alert(this.$t('alert.email.fail'))

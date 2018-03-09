@@ -410,11 +410,13 @@
     },
     methods: {
       showModalBackground () {
+        this.toggle.isModalOn = true
         $('.modal-background').show()
         $('html').css('overflow', 'hidden')
         $('body').css('overflow', 'hidden')
       },
       hideModalBackground () {
+        this.toggle.isModalOn = false
         $('.modal-background').hide()
         $('html').css('overflow', 'inherit')
         $('body').css('overflow', 'inherit')
@@ -528,6 +530,11 @@
         this.toggle.coverPhotos = false
         this.toggle.brochure = false
       },
+      escKeyEvent () {
+        $(document).keyup((e) => {
+          if (e.keyCode === 27) this.onPDFCloseButton()
+        })
+      },
       onTouchModal () {
         const vue = this
         document.getElementById('modal-background').onclick = function (event) {
@@ -600,6 +607,7 @@
           this.textareaResize()
           this.initMap()
           this.productImageResize()
+          this.escKeyEvent()
         })
       },
       renderMainImage () {
