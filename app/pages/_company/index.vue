@@ -28,7 +28,8 @@
                     <!-- Cover Images -->
                     <div class="cover-photo-wrapper">
                       <div class="cover-photo-body-container">
-                        <img class="cover-photo" :src="value.currentCoverPhoto" alt="cover-image">
+                        <!--<img id="before-cover-photo" class="cover-photo" :src="value.beforeCoverPhoto" alt="before-cover-image" v-if="toggle.coverImageChanging">-->
+                        <img id="cover-photo" class="cover-photo" :src="value.currentCoverPhoto" alt="cover-image">
                       </div>
                     </div>
 
@@ -39,6 +40,20 @@
                 <div class="bottom-section">
                   <div></div>
                 </div>
+
+                <!-- cover image caching -->
+                <div class="cache-image-container" v-if="vendor.cover_image_url_2">
+                  <ul class="cache-image-wrapper">
+                    <li><img :src="vendor.cover_image_url_2"></li>
+                    <li><img :src="vendor.cover_image_url_3"></li>
+                    <li><img :src="vendor.cover_image_url_4"></li>
+                    <li><img :src="vendor.cover_image_url_5"></li>
+                    <li><img :src="vendor.cover_image_url_6"></li>
+                    <li><img :src="vendor.cover_image_url_7"></li>
+                    <li><img :src="vendor.cover_image_url_8"></li>
+                  </ul>
+                </div>
+
               </div>
 
             </div>
@@ -334,6 +349,7 @@
           inquiry: '',
           // for admin editing
           accountName: '',
+          beforeCoverPhoto: '',
           currentCoverPhoto: '',
           currentCoverPhotoCount: 0,
           coverPhotoLength: 0
@@ -350,6 +366,7 @@
         },
         toggle: {
           coverPhotos: false,
+          coverImageChanging: false,
           brochure: false,
           isBrochureLoaded: false,
           isModalOn: false,
@@ -457,7 +474,7 @@
           this.value.currentCoverPhotoCount = 0
         }
 
-        this.renderCoverPhotoImage()
+        this.renderCoverPhotoImage('right')
       },
       onPanelLeftAngle () {
         if (this.value.currentCoverPhotoCount > 0) {
@@ -466,28 +483,54 @@
           this.value.currentCoverPhotoCount = this.value.coverPhotoLength - 1
         }
 
-        this.renderCoverPhotoImage()
+        this.renderCoverPhotoImage('left')
       },
-      renderCoverPhotoImage () {
-        const url = `cover_image_url_${this.value.currentCoverPhotoCount + 1}`
+      renderCoverPhotoImage (direction) {
+        // this.value.beforeCoverPhoto = this.value.currentCoverPhoto
+        // this.toggle.coverImageChanging = true
+
         const vue = this
+        const allCoverPhoto = $('.cover-photo')
+        const coverPhoto = $('#cover-photo')
+        // const beforePhoto = $('#before-cover-photo')
+
+        // switch (direction) {
+        //   case 'right':
+        //     coverPhoto.css({opacity: 0, right: '15px'})
+        //     break
+        //   case 'left':
+        //     coverPhoto.css({opacity: 0, left: '15px'})
+        //     break
+        //   default:
+        //     break
+        // }
+        // beforePhoto.css({opacity: 1, left: 0, right: 0})
+
+        const url = `cover_image_url_${this.value.currentCoverPhotoCount + 1}`
         let image = new Image()
+
         image.src = this.vendor[url]
         image.onload = function() {
-          const coverPhoto = document.getElementsByClassName('cover-photo')[0]
-
           if (this.width > this.height) {
-            coverPhoto.style.width = '100%'
-            coverPhoto.style.height = 'unset'
+            allCoverPhoto.css({
+              width: '100%',
+              height: 'unset'
+            })
           } else if (this.width < this.height) {
-            coverPhoto.style.width = 'unset'
-            coverPhoto.style.height = '100%'
+            allCoverPhoto.css({
+              width: 'unset',
+              height: '100%'
+            })
           } else {
-            coverPhoto.style.width = 'unset'
-            coverPhoto.style.height = '100%'
+            allCoverPhoto.css({
+              width: 'unset',
+              height: '100%'
+            })
           }
 
           vue.value.currentCoverPhoto = vue.vendor[url]
+          // coverPhoto.animate({opacity: 1, left: 0, right: 0}, 350)
+          // beforePhoto.animate({opacity: 0, left: -15, right: 0}, 350)
         }
       },
       renderPDF () {
@@ -847,6 +890,28 @@
         }
       }
 
+      .cache-image-container {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+
+        .cache-image-wrapper {
+          width: 100px;
+          position: relative;
+          list-style: none;
+
+          li {
+            width: 100px;
+          }
+          img {
+            width: 100%;
+            opacity: 0;
+          }
+        }
+      }
+
       .center-section {
         display: table-row !important;
         height: 100%;
@@ -903,6 +968,7 @@
           z-index: 3 !important;
           right: 0 !important;
         }
+
       }
 
       .body-container {

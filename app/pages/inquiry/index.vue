@@ -40,6 +40,7 @@
   import { getAccountByAccountId, getProductByProductId } from '~/utils/api'
   import { mapGetters } from 'vuex'
   export default {
+    scrollToTop: true,
     components: {
       Loader
     },
@@ -97,7 +98,7 @@
           await sendEmail(data)
           this.toggle.isEmailSending = false
           alert(this.$t('alert.email.success'))
-          this.$router.push(`/${this.vendor.account_name}`)
+          this.$router.push(`/${this.vendor.domain}`)
         } catch (err) {
           this.toggle.isEmailSending = false
           alert(this.$t('alert.email.fail'))
