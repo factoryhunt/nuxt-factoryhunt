@@ -8,7 +8,11 @@ module.exports = async (req, res) => {
 
   const changeContact = () => {
     return new Promise((resolve, reject) => {
-      mysql.query(`UPDATE ${CONFIG_MYSQL.TABLE_CONTACTS} SET ? WHERE contact_id = ${contact_id}`, contact_data,
+      mysql.query(`
+      UPDATE ${CONFIG_MYSQL.TABLE_CONTACTS} 
+      SET ?,
+      last_modified_date = (SELECT NOW()) 
+      WHERE contact_id = ${contact_id}`, contact_data,
         (err) => {
           if (err) reject(err)
           resolve()

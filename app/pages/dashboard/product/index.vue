@@ -39,7 +39,7 @@
       <!-- products exist -->
       <div v-else class="product-list-container">
         <div class="list-container">
-          <div v-for="(product, index) in getReversedProducts" :id="'list-' + index" class="list" :key="index">
+          <div v-for="(product, index) in products" :id="'list-' + index" class="list" :key="index">
             <div class="image-container">
               <img class="product-image" :src="product.product_image_url_1">
             </div>
@@ -92,11 +92,6 @@
         }
       }
     },
-    computed: {
-      getReversedProducts () {
-        return this.products.slice(0).reverse()
-      }
-    },
     methods: {
       getProductStatus (product) {
         return product.product_status === 'pending' ? this.$t('dashboardProduct.pending') : this.$t('dashboardProduct.approved')
@@ -105,7 +100,7 @@
         this.$router.push('/dashboard/product/upload')
       },
       onEditButton (index) {
-        const productId = this.getReversedProducts[index].product_id
+        const productId = this.products[index].product_id
         this.$router.push(`/dashboard/product/edit?id=${productId}`)
       },
       modalToggle () {
@@ -118,7 +113,7 @@
       deleteProduct () {
         this.modalToggle()
         const index = this.value.productIndex
-        const productId = this.getReversedProducts[index].product_id
+        const productId = this.products[index].product_id
         axios.delete(`/api/data/product/${productId}`)
           .then(() => {
             this.$router.go()
@@ -128,17 +123,12 @@
             alert(err.response.data.msg)
           })
       },
-      removeLastBorderBottom () {
-        var length = this.products.length - 1
-        $(`#list-${length}`).css('border-bottom', '0')
-      },
       routeProductPage (index) {
-        const url = `/${this.account.domain}/${this.getReversedProducts[index].product_domain}`
+        const url = `/${this.account.domain}/${this.products[index].product_domain}`
         window.open(url)
       },
       activateJquery () {
         $(document).ready(() => {
-          this.removeLastBorderBottom()
         })
       }
     },
@@ -228,6 +218,10 @@
             width: 100%;
             padding: 22px 0;
             border-bottom: 1px solid @color-light-grey;
+
+            &:last-child {
+              border-bottom: 0;
+            }
 
             &:hover {
 

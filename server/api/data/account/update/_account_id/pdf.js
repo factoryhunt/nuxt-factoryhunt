@@ -11,7 +11,11 @@ module.exports = async (req, res) => {
 
   const update = () => {
     return new Promise((resolve, reject) => {
-      mysql.query(`UPDATE ${CONFIG_MYSQL.TABLE_ACCOUNTS} SET ? WHERE account_id = ${account_id}`, account_data,
+      mysql.query(`
+      UPDATE ${CONFIG_MYSQL.TABLE_ACCOUNTS} 
+      SET ?,
+      last_modified_date = (SELECT NOW()) 
+      WHERE account_id = ${account_id}`, account_data,
         (err) => {
           if (err) reject(err)
           resolve()

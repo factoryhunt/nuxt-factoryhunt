@@ -5,39 +5,14 @@ const CONFIG_MYSQL = require('../../../../mysql/model')
 module.exports = async (req, res) => {
   const account_id = req.params.account_id
   const { account_data } = req.body
-  // const {
-  //   domain,
-  //   logo_url,
-  //   cover_image_url_1,
-  //   account_name,
-  //   account_name,
-  //   company_short_description,
-  //   company_short_description,
-  //   company_description,
-  //   company_description,
-  //   products,
-  //   website,
-  //   phone,
-  //   established_date,
-  //   mailing_country,
-  //   mailing_state,
-  //   mailing_city,
-  //   mailing_postal_code,
-  //   mailing_street_address,
-  //   mailing_street_address_2,
-  //   history,
-  //   mailing_country,
-  //   mailing_state,
-  //   mailing_city,
-  //   mailing_postal_code,
-  //   mailing_street_address,
-  //   mailing_street_address_2,
-  //   history
-  // } = req.body
 
   const update = () => {
     return new Promise((resolve, reject) => {
-      mysql.query(`UPDATE ${CONFIG_MYSQL.TABLE_ACCOUNTS} SET ? WHERE account_id = ${account_id}`, account_data,
+      mysql.query(`
+      UPDATE ${CONFIG_MYSQL.TABLE_ACCOUNTS} 
+      SET ?,
+      last_modified_date = (SELECT NOW()) 
+      WHERE account_id = ${account_id}`, account_data,
         (err) => {
           if (err) reject(err)
           resolve()

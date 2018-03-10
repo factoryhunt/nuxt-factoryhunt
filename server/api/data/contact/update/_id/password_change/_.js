@@ -80,7 +80,11 @@ module.exports = async (req, res) => {
         password: password,
         password_salt: salt
       }
-      mysql.query(`UPDATE ${CONFIG_MYSQL.TABLE_CONTACTS} SET ? WHERE contact_id = ${contact_id}`, data, (err) => {
+      mysql.query(`
+      UPDATE ${CONFIG_MYSQL.TABLE_CONTACTS} 
+      SET ?,
+      last_modified_date = (SELECT NOW()) 
+      WHERE contact_id = ${contact_id}`, data, (err) => {
         if (err) reject()
 
         resolve()
