@@ -34,7 +34,11 @@ module.exports = async (req, res) => {
         if (req.files.cover_7) data.cover_image_url_8 = req.files.cover_7[0].location
       }
 
-      mysql.query(`UPDATE ${CONFIG_MYSQL.TABLE_ACCOUNTS} SET ? WHERE account_id = ${account_id}`, data,
+      mysql.query(`
+      UPDATE ${CONFIG_MYSQL.TABLE_ACCOUNTS} 
+      SET ?,
+      last_modified_date = (SELECT NOW()) 
+      WHERE account_id = ${account_id}`, data,
         (err) => {
           if (err) reject(err)
           resolve()

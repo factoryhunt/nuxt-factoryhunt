@@ -20,7 +20,12 @@ module.exports = async (req, res) => {
         minimum_order_quantity,
         product_description
       } = req.body
-      mysql.query(`UPDATE ${CONFIG_MYSQL.TABLE_PRODUCTS} SET ? WHERE product_id = ${product_id}`, data, (err) => {
+      mysql.query(`
+      UPDATE ${CONFIG_MYSQL.TABLE_PRODUCTS} 
+      SET ?, 
+      last_modified_date = (SELECT NOW())  
+      WHERE product_id = ${product_id}`,
+        data, (err) => {
         if (err) return reject(err)
         resolve()
       })
@@ -49,7 +54,11 @@ module.exports = async (req, res) => {
         imageData.product_pdf_url = req.files.pdf[0].location
       }
       if (imageData !== {}) {
-        mysql.query(`UPDATE ${CONFIG_MYSQL.TABLE_PRODUCTS} SET ? WHERE product_id = ${product_id}`, imageData, (err) => {
+        mysql.query(`
+        UPDATE ${CONFIG_MYSQL.TABLE_PRODUCTS} 
+        SET ?,
+        last_modified_date = (SELECT NOW())
+        WHERE product_id = ${product_id}`, imageData, (err) => {
           if (err) return reject(err)
           resolve()
         })

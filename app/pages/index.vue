@@ -246,10 +246,11 @@
               /*text-overflow: ellipsis;*/
             }
             .company-name {
-              margin: 2px 0 0 0;
+              margin: 0;
               font-size:30px;
             }
             .short-description {
+              margin-top: 8px;
               font-weight: 300;
               display: -webkit-box;
               -webkit-line-clamp: 3; /* 라인수 */

@@ -162,7 +162,7 @@
   import categories from '~/assets/models/categories.json'
   import Spinkit from '~/components/Loader'
   import VueEditor from '~/components/VueEditor'
-  import { topAlert } from '~/utils/alert'
+  import { showTopAlert } from '~/utils/alert'
   export default {
     head () {
       return {
@@ -376,19 +376,13 @@
         })
       },
       onUploadButton () {
-        if (!this.value.primaryCategory) {
-          return topAlert(this.$store, false, 'Please select the main product category.')
-        }
+        if (!this.value.primaryCategory) return showTopAlert(this.$store, false, 'Please select the main product category.')
 
         this.filterProductDomain(this.value.productName)
 
-        if (!this.toggle.productName) {
-          return topAlert(this.$store, false, this.$t('dashboardProductEdit.productName.hidden'))
-        }
+        if (!this.toggle.productName) return showTopAlert(this.$store, false, this.$t('dashboardProductEdit.productName.hidden'))
 
-        if (this.value.files.length < 1) {
-          return topAlert(this.$store, false, this.$t('dashboardProductEdit.productImage.alert'))
-        }
+        if (this.value.files.length < 1) return showTopAlert(this.$store, false, this.$t('dashboardProductEdit.productImage.alert'))
 
         $('#modal-spinkit').removeClass().addClass('spinkit-modal')
         let formData = new FormData()
@@ -411,18 +405,18 @@
         for (var i = 0; i < this.value.files.length; i++) {
           formData.append('images', this.value.files[i])
         }
-        if (document.getElementById('pdf-input').files[0]) {
-          formData.append('pdf', document.getElementById('pdf-input').files[0])
-        }
+
+        if (document.getElementById('pdf-input').files[0]) formData.append('pdf', document.getElementById('pdf-input').files[0])
+
         axios.post(`/api/data/product/${this.account.account_id}`, formData, config)
           .then(() => {
             $('#modal-spinkit').removeClass()
-            topAlert(this.$store, true, this.$t('alert.product.uploadSuccess'))
+            showTopAlert(this.$store, true, this.$t('alert.product.uploadSuccess'))
             this.$router.push('/dashboard/product')
           })
           .catch(() => {
             $('#modal-spinkit').removeClass()
-            topAlert(this.$store, false, this.$t('alert.product.upladFail'))
+            showTopAlert(this.$store, false, this.$t('alert.product.upladFail'))
           })
       },
       handleImageAdded (file, Editor, cursorLocation) {

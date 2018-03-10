@@ -162,7 +162,7 @@
   import VueEditor from '~/components/VueEditor'
   import Spinkit from '~/components/Loader.vue'
   import pdflib from 'pdfjs-dist'
-  import { topAlert } from '~/utils/alert'
+  import { showTopAlert } from '~/utils/alert'
   import { mapGetters } from 'vuex'
   export default {
     head () {
@@ -364,10 +364,7 @@
       onEditButton () {
         $('#loader').removeClass().addClass('spinkit-modal')
 
-        if (!this.toggle.productName) {
-          alert(this.$t('dashboardProductEdit.productName.hidden'))
-          return
-        }
+        if (!this.toggle.productName) return showTopAlert(this.$store, false, this.$t('dashboardProductEdit.productName.hidden'))
 
         let formData = new FormData()
         const config = {
@@ -390,18 +387,21 @@
             // console.log(this.value.files[i])
           }
         }
-        if (document.getElementById('pdf-input').files[0]) {
-          formData.append('pdf', document.getElementById('pdf-input').files[0])
-        }
+
+        if (document.getElementById('pdf-input').files[0]) formData.append('pdf', document.getElementById('pdf-input').files[0])
+
         axios.put(`/api/data/product/${this.productId}`, formData, config)
           .then(() => {
+            console.log(1)
             $('#loader').remove()
-            topAlert(this.$store, true, this.$t('alert.product.saveSuccess'))
+            console.log(2)
+            showTopAlert(this.$store, true, this.$t('alert.product.saveSuccess'))
+            console.log(3)
             this.$router.push('/dashboard/product')
           })
           .catch(() => {
             $('#loader').removeClass()
-            topAlert(this.$store, false, this.$t('alert.product.saveFail'))
+            showTopAlert(this.$store, false, this.$t('alert.product.saveFail'))
           })
       },
       editFail () {

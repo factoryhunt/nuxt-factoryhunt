@@ -7,7 +7,10 @@ module.exports = async (req, res) => {
 
   const getAccount = () => {
     return new Promise((resolve, reject) => {
-      mysql.query(`SELECT * FROM ${CONFIG_MYSQL.TABLE_ACCOUNTS} WHERE domain = "${domain}"`, (err, rows) => {
+      mysql.query(`
+      SELECT * 
+      FROM ${CONFIG_MYSQL.TABLE_ACCOUNTS} 
+      WHERE domain = "${domain}"`, (err, rows) => {
         if (err) reject(err)
         resolve(rows[0])
       })
@@ -16,7 +19,12 @@ module.exports = async (req, res) => {
 
   const getAccountProducts = (account_id) => {
     return new Promise((resolve, reject) => {
-      mysql.query(`SELECT * FROM ${CONFIG_MYSQL.TABLE_PRODUCTS} WHERE account_id = ${account_id} AND product_status = "approved"`, (err, rows) => {
+      mysql.query(`
+      SELECT * 
+      FROM ${CONFIG_MYSQL.TABLE_PRODUCTS} 
+      WHERE account_id = ${account_id} AND 
+      product_status = "approved"
+      ORDER BY last_modified_date DESC`, (err, rows) => {
         if (err) reject(err)
         resolve(rows)
       })
