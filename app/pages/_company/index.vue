@@ -29,7 +29,8 @@
                     <div class="cover-photo-wrapper">
                       <div class="cover-photo-body-container">
                         <!--<img id="before-cover-photo" class="cover-photo" :src="value.beforeCoverPhoto" alt="before-cover-image" v-if="toggle.coverImageChanging">-->
-                        <img id="cover-photo" class="cover-photo" :src="value.currentCoverPhoto" alt="cover-image">
+                        <loader class="spinkit-default cover-loader" v-show="!toggle.isCoverImageLoaded"/>
+                        <img id="cover-photo" class="cover-photo" :src="value.currentCoverPhoto" alt="cover-image" v-show="toggle.isCoverImageLoaded">
                       </div>
                     </div>
 
@@ -367,6 +368,7 @@
         toggle: {
           coverPhotos: false,
           coverImageChanging: false,
+          isCoverImageLoaded: false,
           brochure: false,
           isBrochureLoaded: false,
           isModalOn: false,
@@ -443,6 +445,7 @@
         this.value.currentCoverPhotoCount = 0
         this.value.coverPhotoLength = this.getCoverPhotoLength()
         this.toggle.coverPhotos = true
+        this.toggle.isCoverImageLoaded = false
         this.renderCoverPhotoImage()
       },
       getCoverPhotoLength () {
@@ -488,10 +491,11 @@
       renderCoverPhotoImage (direction) {
         // this.value.beforeCoverPhoto = this.value.currentCoverPhoto
         // this.toggle.coverImageChanging = true
+        this.toggle.isCoverImageLoaded = false
 
         const vue = this
         const allCoverPhoto = $('.cover-photo')
-        const coverPhoto = $('#cover-photo')
+        // const coverPhoto = $('#cover-photo')
         // const beforePhoto = $('#before-cover-photo')
 
         // switch (direction) {
@@ -529,6 +533,7 @@
           }
 
           vue.value.currentCoverPhoto = vue.vendor[url]
+          vue.toggle.isCoverImageLoaded = true
           // coverPhoto.animate({opacity: 1, left: 0, right: 0}, 350)
           // beforePhoto.animate({opacity: 0, left: -15, right: 0}, 350)
         }
@@ -929,6 +934,13 @@
           width: 100%;
           padding-bottom: 67%;
           height: 0;
+        }
+        .cover-loader {
+          padding: 0;
+          position: absolute;
+          top: 45%;
+          left: 0;
+          right: 0;
         }
         .cover-photo {
           background-color: @color-white;
