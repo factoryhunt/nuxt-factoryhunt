@@ -1,26 +1,30 @@
 const mysql = require('../../../../mysql')
 const CONFIG_MYSQL = require('../../../../mysql/model')
-const synonyms = require('synonyms')
+// const synonyms = require('synonyms')
 
 // GET /api/data/search/:input/:page
 module.exports = async (req, res) => {
-  let { input, page } = req.params
+  let {
+    input,
+    page
+  } = req.params
   const itemNumber = 15;
   input = input.toLowerCase()
   page = Number(page)
   page = page * itemNumber
-  let inputRegexp = ''
 
-  const syns = synonyms(input, 'n')
-  // console.log(syns)
-  if (syns) {
-    for (const i in syns) {
-      inputRegexp = inputRegexp + `|${syns[i]}`
-    }
-    inputRegexp = inputRegexp.substring(1)
-  } else {
-    inputRegexp = input
-  }
+  // let inputRegexp = ''
+  //
+  // const syns = synonyms(input, 'n')
+  // // console.log(syns)
+  // if (syns) {
+  //   for (const i in syns) {
+  //     inputRegexp = inputRegexp + `|${syns[i]}`
+  //   }
+  //   inputRegexp = inputRegexp.substring(1)
+  // } else {
+  //   inputRegexp = input
+  // }
 
   // console.log('inputRegexp', inputRegexp)
 

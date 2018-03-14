@@ -9,7 +9,6 @@ const morgan = require('morgan')
 const cookieParser = require('cookie-parser')
 const bodyParser = require('body-parser')
 const cors = require('cors')
-require('./middleware/elasticsearch')()
 const api = require('./api')
 
 const HOST = process.env.HOST || '127.0.0.1'

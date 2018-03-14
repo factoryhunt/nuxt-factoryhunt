@@ -23,10 +23,17 @@ module.exports = async (req, res) => {
   // promises
   const checkEmail = () => {
     return new Promise((resolve, reject) => {
-      mysql.query(`SELECT * FROM ${CONFIG_MYSQL.TABLE_CONTACTS} WHERE lower(contact_email) = ?`, email, (err, rows) => {
+      mysql.query(`
+      SELECT 
+      * 
+      FROM 
+      ${CONFIG_MYSQL.TABLE_CONTACTS} 
+      WHERE lower(contact_email) = ?
+      `, email, (err, rows) => {
         // checking email error
         if (err) reject({result: false, msg: 'Checking email failed.', msg_kor: '서버 오류. 다시 시도해주세요.'})
-        // email is already exist
+
+        // email already exists
         if (rows.length > 0) reject({result: false, msg: 'That email is taken. Try another.', msg_kor: '이미 존재하는 이메일입니다. 다른 이메일로 시도해주세요.'})
 
         // email does not exist
@@ -56,8 +63,13 @@ module.exports = async (req, res) => {
         lead_type: 'Supplier'
       }
       mysql.query(
-        `INSERT INTO ${CONFIG_MYSQL.TABLE_LEADS} SET ?`, lead, (err, rows) => {
+        `
+        INSERT INTO 
+        ${CONFIG_MYSQL.TABLE_LEADS} 
+        SET ?
+        `, lead, (err, rows) => {
           if (err) reject({msg: 'Create lead failed.',msg_kor: '도메인 업데이트 실패'})
+
           last_lead_id = rows.insertId
           resolve()
         })
@@ -72,7 +84,10 @@ module.exports = async (req, res) => {
         membership_type: 'Standard',
         customer_priority: '1'
       }
-      mysql.query(`INSERT INTO ${CONFIG_MYSQL.TABLE_ACCOUNTS} SET ?`, account, (err, rows) => {
+      mysql.query(`
+      INSERT INTO 
+      ${CONFIG_MYSQL.TABLE_ACCOUNTS} 
+      SET ?`, account, (err, rows) => {
         if (err) reject({msg: 'Create account failed.',msg_kor: '도메인 업데이트 실패'})
         last_account_id = rows.insertId
         resolve()
@@ -106,7 +121,12 @@ module.exports = async (req, res) => {
         converted_date: new Date().toISOString().slice(0, 19).replace('T', ' ')
       }
       mysql.query(
-        `UPDATE ${CONFIG_MYSQL.TABLE_LEADS} SET ? WHERE lead_id = ${last_lead_id}`, lead_update, (err) => {
+        `
+        UPDATE 
+        ${CONFIG_MYSQL.TABLE_LEADS} 
+        SET ? 
+        WHERE lead_id = ${last_lead_id}
+        `, lead_update, (err) => {
           if (err) reject({msg: 'Convert lead failed.',msg_kor: '도메인 업데이트 실패'})
           resolve()
         })

@@ -1,0 +1,3 @@
+/* How to input this information */
+/* curl -XPUT http://localhost:9200/naver_movie?pretty -d @naver_movie.json */
+
