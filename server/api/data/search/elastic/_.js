@@ -8,10 +8,9 @@ module.exports = async (req, res) => {
     input,
     page
   } = req.params
-  let fuzziness = req.query.fuzziness || 1
+  let fuzziness = req.query.fuzziness || 0
   page = parseInt(page)
   page = page * numberOfResults
-  console.log(fuzziness)
 
   const searchKeyword = () => {
     return new Promise((resolve, reject) => {
@@ -33,23 +32,58 @@ module.exports = async (req, res) => {
                 {
                   dis_max: {
                     tie_breaker: 0.7,
-                    boost: 1.2,
                     queries: [{
                       multi_match: {
                         query: input,
-                        fields: ["account_name", "products", "company_short_description"],
+                        fields: ['account_name', 'products', 'company_short_description'],
                         fuzziness: fuzziness
                       }
                     }]
                   }
                 }
+                // {
+                //   bool: {
+                //     should: [
+                //       {
+                //         bool: {
+                //           must: [
+                //             {
+                //               match: {
+                //                 products: {
+                //                   query: input,
+                //                   fuzziness: 1
+                //                 }
+                //               }
+                //             }
+                //           ]
+                //         }
+                //       }
+                //     ]
+                //   }
+                // }
               ],
               should: [
                 {
                   match: {
                     account_status: {
-                      query: "approved",
+                      query: 'approved',
                       boost: 1000
+                    }
+                  }
+                },
+                {
+                  match: {
+                    account_name: {
+                      query: input,
+                      boost: 1.1
+                    }
+                  }
+                },
+                {
+                  match: {
+                    mailing_country: {
+                      query: 'korea',
+                      boost: -2
                     }
                   }
                 }
