@@ -841,6 +841,7 @@
   @import '~assets/css/index';
 
   .modal-background {
+    opacity: .85;
 
     .modal-table {
       display: table;

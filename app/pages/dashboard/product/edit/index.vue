@@ -392,11 +392,8 @@
 
         axios.put(`/api/data/product/${this.productId}`, formData, config)
           .then(() => {
-            console.log(1)
             $('#loader').remove()
-            console.log(2)
             showTopAlert(this.$store, true, this.$t('alert.product.saveSuccess'))
-            console.log(3)
             this.$router.push('/dashboard/product')
           })
           .catch(() => {

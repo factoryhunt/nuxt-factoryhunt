@@ -39,6 +39,6 @@
   }
 
   .dashboard-container {
-    min-height: 100vh;
+    min-height: 60vh;
   }
 </style>

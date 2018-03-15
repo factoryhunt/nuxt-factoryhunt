@@ -1,7 +1,11 @@
 <template>
   <div class="dashboard-page-container">
 
-    <spinkit id="modal-spinkit"></spinkit>
+    <div class="modal-background visible" v-if="toggle.isSaving">
+      <div class="modal-content">
+        <loader id="loader" class="spinkit-default "></loader>
+      </div>
+    </div>
 
     <!-- Right-side sticky UI container -->
     <!--<div class="right-container">-->
@@ -313,7 +317,7 @@
   import establishedYear from '~/assets/models/established_year.json'
   import numberOfEmployees from '~/assets/models/number_of_employees.json'
   import totalAnnualRevenue from '~/assets/models/total_annual_revenue.json'
-  import Spinkit from '~/components/Loader'
+  import loader from '~/components/Loader'
   import { mapGetters } from 'vuex'
   export default {
     layout: 'dashboard',
@@ -326,7 +330,7 @@
       }
     },
     components: {
-      Spinkit
+      loader
     },
     data () {
       return {
@@ -371,6 +375,7 @@
           languageSpoken: []
         },
         toggle: {
+          isSaving: false,
           isDomainAvailable: null,
           isAccountNameAvailable: null,
           isUserAdmin: false
@@ -383,7 +388,7 @@
     computed: {
       ...mapGetters({
         account: 'auth/GET_ACCOUNT',
-        conatct: 'auth/GET_CONTACT'
+        contact: 'auth/GET_CONTACT'
       }),
       checkVideoLink () {
         if (this.value.video.length < 1) return true
@@ -505,7 +510,7 @@
       },
       async onEditButton () {
         // modal loading start
-        $('#modal-spinkit').removeClass().addClass('spinkit-modal')
+        this.activateLoader()
 
         // business type is required field.
         if (!checkboxArrayToString(businessType, this.value.businessTypes)) return this.onEditFail(this.$t('alert.required'))
@@ -580,12 +585,19 @@
         })
       },
       onEditSuccess () {
-        $('#modal-spinkit').removeClass()
         this.showAlert(true, this.$t('alert.success'))
+        this.deactivateLoader()
       },
       onEditFail (msg) {
-        $('#modal-spinkit').removeClass()
         this.showAlert(false, msg || this.$t('alert.fail'))
+        this.deactivateLoader()
+      },
+      activateLoader () {
+        this.toggle.isSaving = true
+        $('.alert-container').hide()
+      },
+      deactivateLoader () {
+        this.toggle.isSaving = false
       },
       // jQuery for CSS
       applyStickyCSS () {

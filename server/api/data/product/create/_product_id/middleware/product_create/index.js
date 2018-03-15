@@ -19,8 +19,11 @@ module.exports = async (req, res, next) => {
   }
 
   try {
+    console.log(11)
     const product_id = await createEmptyRecord()
+    console.log(12)
     req.product_id = product_id
+    console.log(13)
     next()
   } catch (err) {
     res.status(403).json({result: false})
