@@ -1,7 +1,11 @@
 <template>
   <div class="dashboard-page-container">
 
-    <spinkit id="loader"></spinkit>
+    <div class="modal-background visible" v-if="toggle.isSaving">
+      <div class="modal-content">
+        <loader class="spinkit-default"/>
+      </div>
+    </div>
 
     <form @submit.prevent="onEditButton">
       <div class="body-container">
@@ -42,8 +46,9 @@
 
 <script>
   import axios from '~/plugins/axios'
-  import Spinkit from '~/components/Loader'
+  import Loader from '~/components/Loader'
   import { mapGetters } from 'vuex'
+  import { showTopAlert } from '~/utils/alert'
   export default {
     head () {
       return {
@@ -51,7 +56,7 @@
       }
     },
     components: {
-      Spinkit
+      Loader
     },
     props: {
       contact: {
@@ -67,12 +72,16 @@
           currentPassword: '',
           newPassword: '',
           newPasswordConfirm: ''
+        },
+        toggle: {
+          isSaving: false
         }
       }
     },
     methods: {
       onEditButton () {
         this.activateLoader()
+
         const data = {
           password: this.value.currentPassword,
           new_password: this.value.newPassword,
@@ -95,46 +104,34 @@
         this.value.newPasswordConfirm = ''
       },
       activateLoader () {
-        $('#loader').removeClass().addClass('spinkit-modal')
+        this.toggle.isSaving = true
       },
       deactivateLoader () {
-        $('#loader').removeClass()
+        this.toggle.isSaving = false
       },
       changeSucceed () {
-        this.showAlert(true, this.$t('dashboardMyAccount.password.alert.success'))
+        this.deactivateLoader()
+        showTopAlert(this.$store, true, this.$t('dashboardMyAccount.password.alert.success'))
       },
       changeFailed (code) {
+        this.deactivateLoader()
         switch (code) {
           case '8001':
-            this.showAlert(false, this.$t('dashboardMyAccount.password.alert.8001'))
+            showTopAlert(this.$store, false, this.$t('dashboardMyAccount.password.alert.8001'))
             break
           case '8002':
-            this.showAlert(false, this.$t('dashboardMyAccount.password.alert.8002'))
+            showTopAlert(this.$store, false, this.$t('dashboardMyAccount.password.alert.8002'))
             break
           case '8003':
-            this.showAlert(false, this.$t('dashboardMyAccount.password.alert.8003'))
+            showTopAlert(this.$store, false, this.$t('dashboardMyAccount.password.alert.8003'))
             break
           case '8004':
-            this.showAlert(false, this.$t('dashboardMyAccount.password.alert.8004'))
+            showTopAlert(this.$store, false, this.$t('dashboardMyAccount.password.alert.8004'))
             break
           default:
-            this.showAlert(false, this.$t('dashboardMyAccount.password.alert.8004'))
+            showTopAlert(this.$store, false, this.$t('dashboardMyAccount.password.alert.8004'))
             break
         }
-      },
-      showAlert (alertState, msg) {
-        $(document).ready(() => {
-          this.deactivateLoader()
-          const $alert = $('#alert')
-          this.$store.commit('alert/changeState', {
-            alertState,
-            msg
-          })
-          setTimeout(() => {
-            $('.alert-container').hide()
-          }, 6000)
-          $alert.show()
-        })
       }
     }
   }

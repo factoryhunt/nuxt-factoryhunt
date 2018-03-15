@@ -1,7 +1,11 @@
 <template>
   <div class="dashboard-page-container">
 
-    <spinkit id="loader"></spinkit>
+    <div class="modal-background visible" v-if="toggle.isSaving">
+      <div class="modal-content">
+        <loader class="spinkit-default"/>
+      </div>
+    </div>
 
     <form @submit.prevent="onEditButton">
       <div class="body-container">
@@ -61,13 +65,16 @@
 
 <script>
   import axios from '~/plugins/axios'
-  import Spinkit from '~/components/Loader'
+  import Loader from '~/components/Loader'
+  import { showTopAlert } from '~/utils/alert'
   export default {
-    metaInfo: {
-      title: 'Edit Information | Factory Hunt'
+    head () {
+      return {
+        title: 'Edit Account'
+      }
     },
     components: {
-      Spinkit
+      Loader
     },
     props: {
       contact: {
@@ -91,12 +98,16 @@
           phone: '',
           mobile: '',
           type: ''
+        },
+        toggle: {
+          isSaving: false
         }
       }
     },
     methods: {
       onEditButton () {
-        $('#loader').removeClass().addClass('spinkit-modal')
+        this.activateLoader()
+
         const data = {
           contact_email: this.value.email,
           first_name: this.value.firstName,
@@ -119,19 +130,6 @@
             this.onEditFail()
           })
       },
-      showAlert (alertState, msg) {
-        $(document).ready(() => {
-          const $alert = $('#alert')
-          this.$store.commit('alert/changeState', {
-            alertState,
-            msg
-          })
-          $alert.show()
-          setTimeout(() => {
-            $('.alert-container').hide()
-          }, 6000)
-        })
-      },
       mappingData () {
         this.value.email = this.contact.contact_email
         this.value.firstName = this.contact.first_name
@@ -140,30 +138,27 @@
         this.value.phone = this.contact.contact_phone
         this.value.mobile = this.contact.contact_mobile
       },
-      preventEnterKeySubmit () {
-        $('input').keydown(() => {
-          if (event.keyCode === 13) {
-            event.preventDefault()
-          }
-        })
+      activateLoader () {
+        this.toggle.isSaving = true
+        $('.alert-container').hide()
       },
-      activateJquery () {
-        $(document).ready(() => {
-          this.preventEnterKeySubmit()
-        })
+      deactivateLoader () {
+        this.toggle.isSaving = false
       },
       onEditSuccess () {
         $(document).ready(() => {
-          window.scrollTo(0, 0)
-          $('#loader').removeClass()
-          this.showAlert(true, this.$t('alert.success'))
+          this.deactivateLoader()
+          showTopAlert(this.$store, true, this.$t('alert.success'))
         })
       },
       onEditFail () {
         $(document).ready(() => {
-          window.scrollTo(0, 0)
-          $('#loader').removeClass()
-          this.showAlert(false, this.$t('alert.fail'))
+          this.deactivateLoader()
+          showTopAlert(this.$store, false, this.$t('alert.fail'))
+        })
+      },
+      activateJquery () {
+        $(document).ready(() => {
         })
       }
     },
