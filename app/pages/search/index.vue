@@ -6,10 +6,10 @@
       <!-- search result -->
       <div class="info-container">
         <p class="number-of-result">{{ $t('search.suppliers', {count: account_count}) }}</p>
-        <div class="sub-container" v-show="editedInput">
-          <p class="edited">Showing results for <a class="font-weight-bold font-style-italic">{{editedInput}}</a></p>
-          <p class="raw">Search instead for <a>{{queryInput}}</a></p>
-        </div>
+        <!--<div class="sub-container" v-show="editedInput">-->
+          <!--<p class="edited">Including results for <a class="font-weight-bold font-style-italic">{{editedInput}}</a></p>-->
+          <!--<p class="raw">Do you want results only for <a>{{queryInput}}</a></p>-->
+        <!--</div>-->
       </div>
 
       <!-- Suppliers -->
