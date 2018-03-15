@@ -6,5 +6,7 @@ module.exports = {
   'TABLE_CONTACTS': 'contacts',
   'TABLE_CONTACTS_DELETED': 'contacts_deleted',
   'TABLE_PRODUCTS': 'products',
-  'TABLE_PRODUCTS_DELETED': 'products_deleted'
+  'TABLE_PRODUCTS_DELETED': 'products_deleted',
+  'TABLE_INBOX': 'inbox',
+  'TABLE_INBOX_DELETED': 'inbox_deleted'
 }

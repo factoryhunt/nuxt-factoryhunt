@@ -1,7 +1,7 @@
 const mysql = require('../../../../mysql')
 const CONFIG_MYSQL = require('../../../../mysql/model')
 
-// DELETE /api/data/account/:account_id
+// DELETE /api/data/account/:contact_id
 module.exports = async (req, res) => {
   const id = req.params.account_id
 

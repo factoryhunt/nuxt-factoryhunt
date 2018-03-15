@@ -1,0 +1,24 @@
+{
+  "approved": "승인",
+  "pending": "승인 대기 중",
+  "modal": {
+    "title": "정말 삭제하시겠습니까?",
+    "delete": "삭제",
+    "cancel": "취소"
+  },
+  "header": {
+    "title": "모든 메시지"
+  },
+  "empty": {
+    "title": "등록된 제품이 아직 없습니다.",
+    "subTitle": "귀사의 제품 정보를 추가하면 온라인 카탈로그가 만들어지고, 검색 엔진을 통해 노출됩니다.",
+    "uploadProduct": "제품 업로드"
+  },
+  "exist": {
+    "pending": "승인 대기중",
+    "approved": "승인됨",
+    "edit": "수정",
+    "delete": "삭제",
+    "view": "보기"
+  }
+}

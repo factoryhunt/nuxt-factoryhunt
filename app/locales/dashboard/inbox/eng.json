@@ -1,0 +1,24 @@
+{
+  "approved": "Approved",
+  "pending": "Pending",
+  "modal": {
+    "title": "Are you sure you want to delete?",
+    "delete": "Delete",
+    "cancel": "Cancel"
+  },
+  "header": {
+    "title": "All Messages"
+  },
+  "empty": {
+    "title": "Update your product information.",
+    "subTitle": "When you update your product information, it will appear in search results.",
+    "uploadProduct": "Upload Product"
+  },
+  "exist": {
+    "pending": "Pending",
+    "approved": "Approved",
+    "edit": "Edit",
+    "delete": "Delete",
+    "view": "View"
+  }
+}

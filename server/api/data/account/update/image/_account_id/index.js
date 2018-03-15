@@ -17,6 +17,6 @@ const fields = [
   {name: 'cover_7'},
 ]
 
-router.put('/:account_id', multer.fields(fields), _)
+router.put('/:contact_id', multer.fields(fields), _)
 
 module.exports = router
