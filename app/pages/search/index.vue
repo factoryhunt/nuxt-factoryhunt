@@ -1,53 +1,29 @@
 <template>
   <section id="container">
 
-    <!-- Products -->
-    <!--<div class="product-body-container">-->
-    <!--<div class="products-container">-->
-    <!--&lt;!&ndash; Title &ndash;&gt;-->
-    <!--<h2 class="title" v-html="$t('search.products', { count: products.length})"></h2>-->
-    <!--&lt;!&ndash; Wrapper &ndash;&gt;-->
-    <!--<section class="product-wrapper" v-if="product_count > 0">-->
-    <!--&lt;!&ndash; Product &ndash;&gt;-->
-    <!--<div class="product-container" v-for="(product, index) in this.products" :key="index">-->
-    <!--&lt;!&ndash; Image &ndash;&gt;-->
-    <!--<div class="image-container">-->
-    <!--<img class="product-image" @click="routeProductProfilePage(index)" :src="product.product_image_url_1">-->
-    <!--</div>-->
-    <!--&lt;!&ndash; Content &ndash;&gt;-->
-    <!--<div class="content-container">-->
-    <!--<h2 class="primary-category">{{product.primary_product_category}}</h2>-->
-    <!--<h1 class="product-name">{{product.product_name}}</h1>-->
-    <!--<div class="star-container">-->
-    <!--<i class="fa fa-star-o" aria-hidden="true" v-for="index in 5" :key="index"></i>-->
-    <!--</div>-->
-    <!--</div>-->
-    <!--</div>-->
-    <!--</section>-->
-    <!--<section v-else>-->
-    <!--<div class="product-wrapper">-->
-    <!--<div class="product-container">-->
-    <!--No result-->
-    <!--</div>-->
-    <!--</div>-->
-    <!--</section>-->
-    <!--</div>-->
-    <!--</div>-->
-
-    <!-- Suppliers -->
     <div class="body-container">
+
+      <!-- search result -->
+      <div class="info-container">
+        <p class="number-of-result">{{ $t('search.suppliers', {count: account_count}) }}</p>
+        <div class="sub-container" v-show="editedInput">
+          <p class="edited">Showing results for <a class="font-weight-bold font-style-italic">{{editedInput}}</a></p>
+          <p class="raw">Search instead for <a>{{queryInput}}</a></p>
+        </div>
+      </div>
+
+      <!-- Suppliers -->
       <div class="supplier-outer-container each-container">
-        <h2 class="title">{{ $t('search.suppliers', {count: getAccountCount}) }}</h2>
         <loader id="loader"/>
         <div v-if="account_count > 0">
           <section class="supplier-container">
             <div class="supplier-wrapper" v-for="(account,index) in accounts" :key="index">
-              <h1 class="company-name" @click="routeSupplierPage(account)">{{account.account_name || account.account_name}}</h1>
+              <h1 class="company-name" @click="routeSupplierPage(account._source)">{{account._source.account_name}}</h1>
               <i v-show="isApprovedAccount(account)" id="verified-mark" class="fa fa-check-circle" aria-hidden="true"></i>
-              <h3 class="website">{{account.website}}</h3>
-              <h2 class="product" v-html="account.products"></h2>
-              <h3 class="phone">{{account.phone}}</h3>
-              <h3 class="address">{{account.mailing_country}}</h3>
+              <h3 class="website">{{account._source.website}}</h3>
+              <h2 class="product" v-html="account.highlight ? account.highlight.products[0] : account._source.products"></h2>
+              <h3 class="phone">{{account._source.phone}}</h3>
+              <h3 class="address">{{account._source.mailing_country}}</h3>
             </div>
           </section>
           <ul class="pagination">
@@ -100,11 +76,13 @@
     },
     async asyncData ({ query }) {
       try {
-        let { data } = await axios.get(`/api/data/search/${query.input}/0`)
+        let { data } = await axios.get(`/api/data/search/elastic/${query.input}/0`)
+        let editedInput
         return {
           queryInput: query.input,
-          accounts: removeNullInArray(data.accounts),
-          account_count: data.account_count
+          editedInput: data.total ? query.input : '',
+          accounts: data.hits,
+          account_count: data.total
         }
       } catch (err) {
         return {
@@ -136,7 +114,7 @@
     },
     methods: {
       isApprovedAccount (account) {
-        return account.account_status === 'approved'
+        return account._source.account_status === 'approved'
       },
       routeSupplierPage (account) {
         if (account.account_status === 'approved') {
@@ -178,8 +156,10 @@
         this.activateLoader()
         this.accounts = {}
         this.selected = index
-        let { data } = await axios.get(`/api/data/search/${this.queryInput}/${index}`)
-        this.accounts = removeNullInArray(data.accounts)
+        console.log(index)
+        let { data } = await axios.get(`/api/data/search/elastic/${this.queryInput}/${index}`)
+        console.log(data.hits)
+        this.accounts = data.hits
         this.deactivateLoader()
       },
       moveNextPage () {
@@ -209,8 +189,9 @@
         })
       }
     },
-    mounted () {
-      this.highlightMatchedText()
+    async mounted () {
+      let { data } = await axios.get(`/api/data/search/elastic/${this.queryInput}/0`)
+      console.log(data)
     }
   }
 </script>
@@ -221,56 +202,25 @@
   #container {
     padding-top: 20px;
 
-    .each-container {  }
+    .info-container {
+      margin-bottom: 30px;
 
-    .product-body-container {
-      max-width: 1040px;
-      margin: 0 auto;
-      padding: 0;
-
-      .products-container {
-        outline: none;
-
-        .title {
-          margin-top: 0;
-          padding-left: 20px;
-          padding-right: 20px;
+      p {
+        margin: 0;
+      }
+      .number-of-result {
+        font-size: @font-size-small;
+        font-weight: @font-weight-medium;
+        color: @color-deep-gray;
+      }
+      .sub-container {
+        margin-top: 30px;
+        .edited {
+          font-size: @font-size-medium;
+          color: @color-black;
         }
-        .product-wrapper {
-
-          .product-container {
-            padding-bottom: 2rem;
-            padding-left: 20px;
-            padding-right: 20px;
-
-            .image-container {
-              img {
-                cursor: pointer;
-                width: 100%;
-                box-shadow: 1px 1px 10px 1px #e4e4e4;
-              }
-            }
-            .content-container {
-
-              .primary-category {
-                margin: 4px 0 0 0;
-                font-size: .9rem;
-                font-weight: 500;
-                color: @color-font-gray;
-              }
-              .product-name {
-                margin: 0;
-                font-size: 1.2rem;
-                font-weight: 500;
-              }
-              .star-container {
-                i {
-                  font-size: 0.9rem;
-                  color: @color-link;
-                }
-              }
-            }
-          }
+        .raw {
+          font-size: @font-size-small;
         }
       }
     }
@@ -280,15 +230,6 @@
       @margin: 1.5px 0;
 
       padding-bottom: 2rem;
-
-      .title {
-        margin-top: 0;
-        margin-bottom: 20px;
-        font-size: @font-size-small;
-        font-weight: @font-weight-medium;
-        color: @color-deep-gray;
-      }
-
 
       .supplier-container {
 
@@ -380,95 +321,11 @@
 
   @media ( min-width: 744px ) {
     #container {
-      padding-top: 30px;
 
-      .product-body-container {
-        max-width: 1040px;
-        margin: 0 auto;
-        padding: 0 24px;
-
-        .products-container {
-
-          .title {
-            padding-left: 6px;
-            padding-right: 6px;
-          }
-          .product-wrapper {
-
-            .product-container {
-              display: inline-block;
-              vertical-align: top;
-              width: 50%;
-              padding-left: 6px;
-              padding-right: 6px;
-
-              .image-container {
-                img {
-                }
-              }
-              .content-container {
-                .primary-category {
-                  font-size: .9rem;
-                }
-                .product-name {
-                  font-size: 1.2rem;
-                }
-                .star-container {
-                  i {
-                    font-size: 0.9rem;
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
     }
   }
   @media ( min-width: 1128px ) {
     #container {
-      .each-container {  }
-
-      .product-body-container {
-        max-width: 1060px;
-        margin: 0 auto;
-        padding: 0;
-
-        .products-container {
-          .title {
-            padding-left: 10px;
-            padding-right: 10px;
-          }
-          .product-wrapper {
-            position: relative;
-
-            .product-container {
-              display: inline-block;
-              width: 25%;
-              padding-left: 10px;
-              padding-right: 10px;
-
-              .image-container {
-                img {
-                }
-              }
-              .content-container {
-                .primary-category {
-                  font-size: .9rem;
-                  color: @color-font-gray;
-                }
-                .product-name {
-                  font-size: 1.2rem;
-                }
-                .star-container {
-                  i {
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
 
       .supplier-container {
         padding-right: 350px;
