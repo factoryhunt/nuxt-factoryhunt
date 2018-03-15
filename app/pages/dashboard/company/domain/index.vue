@@ -1,7 +1,11 @@
 <template>
   <div class="dashboard-page-container">
 
-    <spinkit id="modal-spinkit"></spinkit>
+    <div class="modal-background visible" v-if="toggle.isSaving">
+      <div class="modal-content">
+        <loader id="loader" class="spinkit-default"/>
+      </div>
+    </div>
 
     <form class="form-container" @submit.prevent="checkDomain">
       <!-- Company Domain -->
@@ -29,7 +33,7 @@
 <script>
   import axios from '~/plugins/axios'
   import { mapGetters } from 'vuex'
-  import Spinkit from '~/components/Loader'
+  import loader from '~/components/Loader'
   export default {
     head () {
       return {
@@ -40,7 +44,7 @@
       }
     },
     components: {
-      Spinkit
+      loader
     },
     props: {
       account: {
@@ -56,6 +60,7 @@
           domain: ''
         },
         toggle: {
+          isSaving: false,
           isDomainAvailable: null
         },
         placeholder: {
@@ -73,7 +78,8 @@
         this.value.domain = account.domain
       },
       async checkDomain () {
-        $('#modal-spinkit').removeClass().addClass('spinkit-modal')
+        this.toggle.isSaving = true
+        $('.alert-container').hide()
 
         try {
           let { data } = await axios.get(`/api/data/account/domain/${this.value.domain}`)
@@ -93,11 +99,11 @@
       },
       onEditSuccess () {
         this.showAlert(true, this.$t('dashboardCompany.alert.domain.success'))
-        $('#modal-spinkit').removeClass()
+        this.toggle.isSaving = false
       },
       onEditFail () {
         this.showAlert(false, this.$t('dashboardCompany.alert.domain.fail'))
-        $('#modal-spinkit').removeClass()
+        this.toggle.isSaving = false
         this.toggle.isDomainAvailable = false
       },
       showAlert (alertState, msg) {

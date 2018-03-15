@@ -1,7 +1,11 @@
 <template>
   <div class="dashboard-page-container">
 
-    <spinkit id="modal-spinkit"></spinkit>
+    <div class="modal-background visible" v-if="toggle.isSaving">
+      <div class="modal-content">
+        <loader class="spinkit-default"/>
+      </div>
+    </div>
 
     <!-- Header -->
     <header class="header-container">
@@ -126,7 +130,7 @@
         <div class="description-container input-container">
           <p class="title">{{ $t('dashboardProductEdit.introduction.title') }}</p>
           <vue-editor></vue-editor>
-          <spinkit id="editor-spinkit"></spinkit>
+          <loader id="editor-spinkit"/>
           <p class="caution-text">{{ $t('dashboardProductEdit.introduction.caution') }}</p>
         </div>
         <div class="divider"></div>
@@ -160,9 +164,9 @@
   import axios from '~/plugins/axios'
   import country from '~/assets/models/country.json'
   import categories from '~/assets/models/categories.json'
-  import Spinkit from '~/components/Loader'
+  import Loader from '~/components/Loader'
   import VueEditor from '~/components/VueEditor'
-  import { topAlert } from '~/utils/alert'
+  import { showTopAlert } from '~/utils/alert'
   export default {
     head () {
       return {
@@ -170,7 +174,7 @@
       }
     },
     components: {
-      Spinkit,
+      Loader,
       VueEditor
     },
     props: {
@@ -194,7 +198,8 @@
           ['clean']
         ],
         toggle: {
-          productName: true
+          productName: true,
+          isSaving: false
         },
         value: {
           files: [],
@@ -376,21 +381,22 @@
         })
       },
       onUploadButton () {
+        this.activateLoader()
+
         if (!this.value.primaryCategory) {
-          return topAlert(this.$store, false, 'Please select the main product category.')
+          return this.uploadFailed('Please select the main product category.')
         }
 
         this.filterProductDomain(this.value.productName)
 
         if (!this.toggle.productName) {
-          return topAlert(this.$store, false, this.$t('dashboardProductEdit.productName.hidden'))
+          return this.uploadFailed(this.$t('dashboardProductEdit.productName.hidden'))
         }
 
         if (this.value.files.length < 1) {
-          return topAlert(this.$store, false, this.$t('dashboardProductEdit.productImage.alert'))
+          return this.uploadFailed(this.$t('dashboardProductEdit.productImage.alert'))
         }
 
-        $('#modal-spinkit').removeClass().addClass('spinkit-modal')
         let formData = new FormData()
         const config = {
           headers: {'content-type': 'multipart/form-data'}
@@ -408,7 +414,7 @@
 
         if (!$('.ql-editor').hasClass('ql-blank')) formData.append('product_description', document.querySelector('.ql-editor').innerHTML)
 
-        for (var i = 0; i < this.value.files.length; i++) {
+        for (let i = 0; i < this.value.files.length; i++) {
           formData.append('images', this.value.files[i])
         }
         if (document.getElementById('pdf-input').files[0]) {
@@ -416,15 +422,29 @@
         }
         axios.post(`/api/data/product/${this.account.account_id}`, formData, config)
           .then(() => {
-            $('#modal-spinkit').removeClass()
-            topAlert(this.$store, true, this.$t('alert.product.uploadSuccess'))
-            this.$router.push('/dashboard/product')
+            this.uploadSucceed()
           })
-          .catch(() => {
-            $('#modal-spinkit').removeClass()
-            topAlert(this.$store, false, this.$t('alert.product.upladFail'))
+          .catch((err) => {
+            this.uploadFailed(this.$t('alert.product.uploadFail'))
           })
       },
+      uploadSucceed () {
+        this.deactivateLoader()
+        showTopAlert(this.$store, true, this.$t('alert.product.uploadSuccess'))
+        this.$router.push('/dashboard/product')
+      },
+      uploadFailed (msg) {
+        this.deactivateLoader()
+        showTopAlert(this.$store, false, msg)
+      },
+      activateLoader () {
+        this.toggle.isSaving = true
+        $('.alert-container').hide()
+      },
+      deactivateLoader () {
+        this.toggle.isSaving = false
+      },
+      // Deprecated
       handleImageAdded (file, Editor, cursorLocation) {
         // An example of using FormData
         // NOTE: Your key could be different such as:

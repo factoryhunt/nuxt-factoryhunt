@@ -1,7 +1,11 @@
 <template>
   <div class="dashboard-page-container">
 
-    <spinkit id="modal-loader"/>
+    <div class="modal-background visible" v-if="toggle.isSaving">
+      <div class="modal-content">
+        <loader class="spinkit-default"/>
+      </div>
+    </div>
 
     <!-- Company Logo -->
     <div class="logo-image-container">
@@ -62,7 +66,7 @@
 
 <script>
   import axios from '~/plugins/axios'
-  import Spinkit from '../../../../components/Loader'
+  import Loader from '../../../../components/Loader'
   //  import Compressor from '@xkeshi/image-compressor'
   import { mapGetters } from 'vuex'
   export default {
@@ -75,7 +79,7 @@
       }
     },
     components: {
-      Spinkit
+      Loader
     },
     props: {
       account: {
@@ -92,6 +96,9 @@
           logoImageFileName: '',
           files: [],
           urls: []
+        },
+        toggle: {
+          isSaving: false
         }
       }
     },
@@ -188,7 +195,6 @@
       },
       showAlert (alertState, msg) {
         $(document).ready(() => {
-          this.deactivateLoader()
           const $alert = $('#alert')
           this.$store.commit('alert/changeState', {
             alertState,
@@ -201,11 +207,16 @@
         })
       },
       uploadSuccess () {
+        this.deactivateLoader()
         this.showAlert(true, this.$t('dashboardCompany.alert.image.success'))
+        $('#logo-image-upload-button').hide()
+        $('#main-image-upload-button').hide()
       },
       uploadFail () {
+        this.deactivateLoader()
         this.showAlert(false, this.$t('dashboardCompany.alert.image.fail'))
       },
+      // Deprecated
       imageCompress (file) {
         return new Promise((resolve, reject) => {
           new Compressor(file, { // eslint-disable-line no-new
@@ -247,18 +258,16 @@
         })
       },
       activateLoader () {
-        const $loader = $('#modal-loader')
-        $loader.removeClass().addClass('spinkit-modal')
+        this.toggle.isSaving = true
       },
       deactivateLoader () {
-        const $loader = $('#modal-loader')
-        $loader.removeClass()
+        this.toggle.isSaving = false
       },
       activateJquery () {
         $(document).ready(() => {
-          this.applyMainBackgroundImage()
         })
       },
+      // Deprecated
       applyMainBackgroundImage () {
         const $image = $('#preview-image')
         let image = this.account.cover_image_url_1
@@ -267,6 +276,7 @@
           $image.css('background-image', image)
         }
       },
+      // Deprecated
       previewHoverEvent (element) {
         $('.cover-image').hover(
           function (event) {
@@ -292,6 +302,10 @@
   @mark-bottom-amount: 16px;
   @font-size-button: 22px;
   @font-weight-button: 600;
+
+  .modal-background {
+    opacity: .85;
+  }
 
   label {
     .upload-label-basic;

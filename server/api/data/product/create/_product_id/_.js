@@ -59,10 +59,14 @@ module.exports = async (req, res) => {
   })
 
   try {
+    console.log(31)
     await updateTextData()
+    console.log(32)
     await updateImageUrl()
+    console.log(33)
     res.status(200).json({result: true})
   } catch (err) {
+    console.log(err)
     res.status(403).json({result: false})
   }
 }

@@ -162,7 +162,7 @@
   import VueEditor from '~/components/VueEditor'
   import Spinkit from '~/components/Loader.vue'
   import pdflib from 'pdfjs-dist'
-  import { topAlert } from '~/utils/alert'
+  import { showTopAlert } from '~/utils/alert'
   import { mapGetters } from 'vuex'
   export default {
     head () {
@@ -396,12 +396,12 @@
         axios.put(`/api/data/product/${this.productId}`, formData, config)
           .then(() => {
             $('#loader').remove()
-            topAlert(this.$store, true, this.$t('alert.product.saveSuccess'))
+            showTopAlert(this.$store, true, this.$t('alert.product.saveSuccess'))
             this.$router.push('/dashboard/product')
           })
           .catch(() => {
             $('#loader').removeClass()
-            topAlert(this.$store, false, this.$t('alert.product.saveFail'))
+            showTopAlert(this.$store, false, this.$t('alert.product.saveFail'))
           })
       },
       editFail () {
