@@ -7,9 +7,9 @@ const connection = mysql.createConnection(config)
 
 // methods
 connection.connect((err) => {
-  if (err) return errorLogger.error('Error connecting database ... \n\n' + err)
+  if (err) return errorLogger.error('Error connecting database ... \n' + err)
 
-  infoLogger.info(`\nDatabase "${connection.config.database}" is connected ... \n\n`)
+  infoLogger.info(`Database "${connection.config.database}" is connected ... \n`)
 })
 
 module.exports = connection

@@ -275,7 +275,10 @@
         .show-more-button-container {
           padding: 11px 0;
           text-align: center;
+          background-color: @color-white;
+
           button {
+            background-color: @color-white;
             color: @color-font-gray;
             width: 100%;
             height: 100%;

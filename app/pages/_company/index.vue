@@ -784,8 +784,8 @@
       },
       productImageResize () {
         $(document).ready(() => {
-          const $image = $('.product-image')
-          $image.css('height', $image.width() + 'px')
+          const $imageContainer = $('.image-container')
+          $imageContainer.css('height', `${$imageContainer.width()}px`)
         })
       },
       initMap () {
@@ -841,7 +841,7 @@
   @import '~assets/css/index';
 
   .modal-background {
-    opacity: .85;
+    background-color: rgba(0,0,0,.85);
 
     .modal-table {
       display: table;
@@ -1273,15 +1273,24 @@
         .product-wrapper {
 
           .product-container {
-            padding-bottom: 2rem;
+            margin-bottom: 2rem;
             padding-left: 20px;
             padding-right: 20px;
             cursor: pointer;
 
             .image-container {
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              width: 100%;
+              box-shadow: 1px 1px 10px 1px #e4e4e4;
+
               img {
-                width: 100%;
-                box-shadow: 1px 1px 10px 1px #e4e4e4;
+                max-width: 100%;
+                max-height: 100%;
+                width: auto !important;
+                height: auto !important;
+                margin: auto;
               }
             }
             .content-container {

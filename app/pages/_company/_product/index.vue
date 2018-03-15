@@ -226,10 +226,10 @@
       },
       activateJquery () {
         $(document).ready(() => {
-          this.imageResize()
           this.relatedProductImageResize()
           this.renderPDF()
           this.activateSlick()
+          this.imageResize()
           $(window).resize(() => {
             this.imageResize()
           })
@@ -346,14 +346,21 @@
       },
       imageResize () {
         $(document).ready(() => {
-          const $image = $('.product-image-container img')
-          $image.css('height', $image.width() + 'px')
+          const $item = $('.product-image-container .item')
+          $item.css({
+            height: `${$item.width()}px`
+          })
         })
       },
       relatedProductImageResize () {
         $(document).ready(() => {
           const $image = $('.product-image')
-          $image.css('height', $image.width() + 'px')
+          const $imageContainer = $('.image-container')
+          const width = `${$image.width()}px`
+          $imageContainer.css({
+            width: width,
+            height: width
+          })
         })
       }
     },
@@ -438,8 +445,19 @@
         .product-image-container {
           box-shadow: @box-shadow;
 
-          .image {
+          .item {
             width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            img {
+              width: auto !important;
+              height: auto !important;
+              margin: auto !important;
+              max-height: 100% !important;
+              max-width: 100% !important;
+            }
           }
         }
 
@@ -518,9 +536,14 @@
             padding-right: 20px;
 
             .image-container {
+              box-shadow: 1px 1px 10px 1px #e4e4e4;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+
               img {
-                width: 100%;
-                box-shadow: 1px 1px 10px 1px #e4e4e4;
+                max-width: 100%;
+                max-height: 100%;
               }
             }
             .content-container {
@@ -568,6 +591,21 @@
 
         .header-container {
           .title {
+          }
+        }
+
+        .product-container {
+          .item {
+            width: 340px;
+            height: 340px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            img {
+              max-height: 340px;
+              max-width: 340px;
+            }
           }
         }
 
@@ -650,6 +688,8 @@
           top: 0;
           right: 0;
         }
+
+
       }
 
       .product-body-container {
