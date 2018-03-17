@@ -19,6 +19,9 @@ yarn-error.log
 /dump.rdb
 dump.rdb
 
+# log
+log
+
 # backup
 backup
 
