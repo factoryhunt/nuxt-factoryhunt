@@ -1,7 +1,12 @@
 <template>
   <div class="dashboard-page-container">
 
-    <spinkit id="modal-spinkit"></spinkit>
+    <!-- Modal -->
+    <div class="modal-background visible" v-if="toggle.isSaving">
+      <div class="modal-content">
+        <loader class="spinkit-default"/>
+      </div>
+    </div>
 
     <!-- Header -->
     <header class="header-container">
@@ -160,16 +165,16 @@
   import country from '~/assets/models/country.json'
   import categories from '~/assets/models/categories.json'
   import VueEditor from '~/components/VueEditor'
-  import Spinkit from '~/components/Loader.vue'
+  import Loader from '~/components/Loader.vue'
   import pdflib from 'pdfjs-dist'
   import { showTopAlert } from '~/utils/alert'
-  import { mapGetters } from 'vuex'
   export default {
     head () {
       return {
-        title: 'Product Edit'
+        title: 'Edit Product'
       }
     },
+    middleware: 'checkAccess',
     props: {
       account: {
         type: Object,
@@ -179,7 +184,7 @@
       }
     },
     components: {
-      Spinkit,
+      Loader,
       VueEditor
     },
     data () {
@@ -206,7 +211,8 @@
           editor: ''
         },
         toggle: {
-          productName: true
+          productName: true,
+          isSaving: false
         },
         msg: {
           pdfText: ''
@@ -219,6 +225,16 @@
       }
     },
     methods: {
+      fetchProduct () {
+        axios.get(`/api/data/product/product_id/${this.productId}`)
+          .then(res => {
+            this.value.product = res.data
+            this.mappingData(this.value.product)
+          })
+          .catch(() => {
+            location.replace('/dashboard/product')
+          })
+      },
       filterProductDomain (productDomain) {
         let temp = productDomain
         temp = temp.replace(/[-`.,()&/]/g, ' ')
@@ -362,7 +378,7 @@
         })
       },
       onEditButton () {
-        $('#loader').removeClass().addClass('spinkit-modal')
+        this.toggle.isSaving = true
 
         if (!this.toggle.productName) return showTopAlert(this.$store, false, this.$t('dashboardProductEdit.productName.hidden'))
 
@@ -392,40 +408,13 @@
 
         axios.put(`/api/data/product/${this.productId}`, formData, config)
           .then(() => {
-            $('#loader').remove()
+            this.toggle.isSaving = false
             showTopAlert(this.$store, true, this.$t('alert.product.saveSuccess'))
             this.$router.push('/dashboard/product')
           })
           .catch(() => {
-            $('#loader').removeClass()
+            this.toggle.isSaving = false
             showTopAlert(this.$store, false, this.$t('alert.product.saveFail'))
-          })
-      },
-      editFail () {
-        this.showAlert(false)
-      },
-      showAlert (result) {
-        $(document).ready(() => {
-          const $alert = $('#alert')
-          if (result) {
-            this.$store.commit('alert/changeState', true)
-          } else {
-            this.$store.commit('alert/changeState', false)
-          }
-          setTimeout(() => {
-            $('.alert-container').hide()
-          }, 6000)
-          $alert.show()
-        })
-      },
-      fetchProduct () {
-        axios.get(`/api/data/product/product_id/${this.productId}`)
-          .then(res => {
-            this.value.product = res.data
-            this.mappingData(this.value.product)
-          })
-          .catch(() => {
-            location.replace('/dashboard/product')
           })
       },
       mappingData (product) {

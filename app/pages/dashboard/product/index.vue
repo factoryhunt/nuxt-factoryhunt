@@ -230,23 +230,28 @@
               }
             }
 
-            // 9%
             .image-container {
-              width: 9%;
+              width: 80px !important;
+              height: 80px !important;
               display: table-cell;
               vertical-align: middle;
+              box-shadow: @box-shadow;
 
               img {
-                width: 80px;
+                max-width: 100%;
+                max-height: 100%;
+                width: auto;
+                height: auto;
+                margin: auto;
               }
             }
 
-            // 18%
+            // 20%
             .category-container {
               vertical-align: middle;
               display: table-cell;
-              width: 18%;
-              padding: 0 8px;
+              width: 20%;
+              padding-left: 24px;
 
               .primary-text {
                 font-size: 15px;
@@ -274,7 +279,7 @@
               text-align: left;
               display: table-cell;
               padding: 0 8px;
-              width: 53%;
+              width: 51%;
 
               .name-text {
                 white-space: nowrap;
@@ -293,7 +298,7 @@
 
             // 10%
             .status-container {
-              width: 12%;
+              width: 11%;
               display: table-cell;
               vertical-align: middle;
               text-align: left;
@@ -324,7 +329,7 @@
 
             // 10%
             .tool-container {
-              width: 8%;
+              width: 10%;
               vertical-align: middle;
               text-align: center;
               display: table-cell;
