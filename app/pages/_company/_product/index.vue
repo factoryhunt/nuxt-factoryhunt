@@ -181,7 +181,9 @@
     async asyncData ({ query, params, error }) {
       try {
         const { data } = await axios.get(`/api/data/product/domain/${params.company}/${params.product}`)
+        console.log(data)
         const { data:products } = await axios.get(`/api/data/product/account_id/${data.account.account_id}/approved`)
+        console.log(products)
         return {
           queryInput: query.input || '',
           vendor: data.account,
@@ -227,9 +229,9 @@
       activateJquery () {
         $(document).ready(() => {
           this.relatedProductImageResize()
-          this.renderPDF()
           this.activateSlick()
           this.imageResize()
+          this.renderPDF()
           $(window).resize(() => {
             this.imageResize()
           })
@@ -239,7 +241,7 @@
       renderPDF () {
         if (!this.product.product_pdf_url) return
         const url = this.product.product_pdf_url
-        pdflib.PDFJS.getDocument(url).then((pdf) => {
+        pdflib.getDocument(url).then((pdf) => {
           for (let i = 1; i <= pdf.numPages; i += 1) {
             const canvas = document.createElement('canvas')
             canvas.id = 'catalog'

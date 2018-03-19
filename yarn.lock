@@ -4819,9 +4819,9 @@ pbkdf2@^3.0.3:
     safe-buffer "^5.0.1"
     sha.js "^2.4.8"
 
-pdfjs-dist@^2.0.290:
-  version "2.0.385"
-  resolved "https://registry.yarnpkg.com/pdfjs-dist/-/pdfjs-dist-2.0.385.tgz#8cc5cd552fafade15aabe6cf2914ed1d8a30cabc"
+pdfjs-dist@^2.0.437:
+  version "2.0.437"
+  resolved "https://registry.yarnpkg.com/pdfjs-dist/-/pdfjs-dist-2.0.437.tgz#24eedcf2f91e013f5c0e4624d1600a35b57db30b"
   dependencies:
     node-ensure "^0.0.0"
     worker-loader "^1.1.0"
@@ -7136,11 +7136,11 @@ worker-farm@^1.5.2:
     xtend "^4.0.1"
 
 worker-loader@^1.1.0:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/worker-loader/-/worker-loader-1.1.0.tgz#8cf21869a07add84d66f821d948d23c1eb98e809"
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/worker-loader/-/worker-loader-1.1.1.tgz#920d74ddac6816fc635392653ed8b4af1929fd92"
   dependencies:
     loader-utils "^1.0.0"
-    schema-utils "^0.3.0"
+    schema-utils "^0.4.0"
 
 wrap-ansi@^2.0.0:
   version "2.1.0"

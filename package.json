@@ -40,6 +40,7 @@
     "nodemailer": "^4.4.2",
     "nodemon": "^1.14.11",
     "nuxt": "^1.0.0",
+    "pdfjs-dist": "^2.0.437",
     "synonyms": "^1.0.1",
     "vue-i18n": "^7.4.1",
     "whatwg-fetch": "^2.0.3"
@@ -52,7 +53,6 @@
     "eslint-loader": "^1.7.1",
     "eslint-plugin-vue": "^4.0.0",
     "less": "^2.7.3",
-    "less-loader": "^4.0.5",
-    "pdfjs-dist": "^2.0.290"
+    "less-loader": "^4.0.5"
   }
 }

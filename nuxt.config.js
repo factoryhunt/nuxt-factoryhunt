@@ -29,8 +29,7 @@ module.exports = {
     ],
     script: [
       { src: 'https://maps.googleapis.com/maps/api/js?key=AIzaSyBFBRWKvq4CUEkq5XqbGaSAkajRuEfg25M' },
-      { src: 'https://cdn.quilljs.com/1.0.0/quill.js' },
-      { src: 'https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js', charset:"UTF-8" }
+      { src: 'https://cdn.quilljs.com/1.0.0/quill.js' }
     ]
   },
   loading: { color: '#f2583d' },
