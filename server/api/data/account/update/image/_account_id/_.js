@@ -3,7 +3,7 @@ const CONFIG_MYSQL = require('../../../../../mysql/model')
 const AWS = require('aws-sdk')
 const config = require('../../../../../.config')
 
-// PUT /api/data/account/image/:account_id
+// PUT /api/data/account/image/:contact_id
 module.exports = async (req, res) => {
   const account_id = req.params.account_id
   const db_column = req.body.db_column

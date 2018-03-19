@@ -357,7 +357,7 @@
         },
         placeholder: {
           email: 'contact@email.com',
-          textarea: 'Enter your message'
+          textarea: 'Enter your _conversation_id'
         },
         msg: {
           quote: 'Request a quote to get pricing',

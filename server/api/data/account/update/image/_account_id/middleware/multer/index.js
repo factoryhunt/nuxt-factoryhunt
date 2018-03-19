@@ -3,7 +3,7 @@ const multerS3 = require('multer-s3')
 const AWS = require('aws-sdk')
 const config = require('../../../../../../../.config')
 
-// POST /api/data/account/image/:account_id
+// POST /api/data/account/image/:contact_id
 AWS.config.region = 'us-west-1' //지역 설정
 const s3 = new AWS.S3()
 const upload = multer({

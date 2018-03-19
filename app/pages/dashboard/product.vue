@@ -1,7 +1,10 @@
 <template>
   <section class="dashboard-page-container">
     <loader id="loader"></loader>
-    <nuxt-child :account="account" :products="products" v-if="toggle.isProductFetched"></nuxt-child>
+    <nuxt-child
+      :account="account"
+      :products="products"
+      v-if="toggle.isProductFetched"/>
   </section>
 </template>
 

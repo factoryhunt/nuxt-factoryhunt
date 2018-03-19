@@ -5,6 +5,7 @@
         <nuxt-link id="item-dashboard" class="tab" to="/dashboard">{{ $t('navigationBar.dashboard') }}</nuxt-link>
         <nuxt-link id="item-company" class="tab" to="/dashboard/company">{{ $t('navigationBar.company') }}</nuxt-link>
         <nuxt-link id="item-product" class="tab" to="/dashboard/product">{{ $t('navigationBar.product') }}</nuxt-link>
+        <nuxt-link id="item-inbox" class="tab" to="/dashboard/inbox">{{ $t('navigationBar.inbox') }}</nuxt-link>
         <nuxt-link id="item-account" class="tab" to="/dashboard/account">{{ $t('navigationBar.account') }}</nuxt-link>
       </div>
     </div>
@@ -26,6 +27,9 @@
         if (name.indexOf('dashboard-product') !== -1 ) {
           $('#item-product').attr('aria-selected', true)
         }
+        if (name.indexOf('dashboard-inbox') !== -1 ) {
+          $('#item-inbox').attr('aria-selected', true)
+        }
         if (name.indexOf('dashboard-account') !== -1 ) {
           $('#item-account').attr('aria-selected', true)
         }
@@ -34,6 +38,7 @@
         $('#item-dashboard').attr('aria-selected', false)
         $('#item-company').attr('aria-selected', false)
         $('#item-product').attr('aria-selected', false)
+        $('#item-inbox').attr('aria-selected', false)
         $('#item-account').attr('aria-selected', false)
       }
     },

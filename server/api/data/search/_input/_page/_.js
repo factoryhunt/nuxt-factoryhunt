@@ -86,7 +86,7 @@ module.exports = async (req, res) => {
   //   return new Promise((resolve, reject) => {
   //     mysql.query(`
   //     SELECT
-  //     (SELECT count(account_id) FROM ${CONFIG_MYSQL.TABLE_ACCOUNTS} WHERE lower(products) regexp "${inputRegexp}")
+  //     (SELECT count(contact_id) FROM ${CONFIG_MYSQL.TABLE_ACCOUNTS} WHERE lower(products) regexp "${inputRegexp}")
   //     +
   //     (SELECT count(lead_id) FROM ${CONFIG_MYSQL.TABLE_LEADS} WHERE lower(products) regexp "${inputRegexp}")
   //     AS count`, (err, rows) => {
