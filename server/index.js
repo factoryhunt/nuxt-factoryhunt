@@ -1,7 +1,7 @@
 // process.env.DEBUG = 'nuxt:*'
 const app = require('express')()
 
-// const redirectToHTTPS = require('express-http-to-https').redirectToHTTPS
+const redirectToHTTPS = require('express-http-to-https').redirectToHTTPS
 const session = require('express-session')
 const redis = require('./middleware/redis/.config')(session)
 const nuxt = require('./middleware/nuxt')
@@ -23,8 +23,8 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 
 // APIs
+app.use(redirectToHTTPS([/localhost:(\d{4})/], [/\/insecure/]))
 app.use('/api', api)
-// app.use(redirectToHTTPS([/localhost:(\d{4})/], [/\/insecure/]))
 app.use(nuxt.render)
 
 app.listen(PORT)
