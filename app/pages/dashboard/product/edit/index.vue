@@ -59,20 +59,18 @@
           <p class="sub-title">{{ $t('dashboardProductEdit.productImage.subTitle') }}</p>
           <div class="image-inner-container">
             <div class="image-each-container">
-              <ul id="image-container-ul">
-                <li id="image-edit" style="display: none;">
-                  <img class="each-image" src="~assets/img/white-bg.png">
-                  <label></label>
-                  <input name="thumbnail_image" type="file" accept="image/*">
+              <ul class="square-image-upload-container">
+                <li v-for="(url, index) in value.urls" :key="index" :id="`cover-image-wrapper-${index}`" class="cover-image">
+                  <label :for="`cover-image-${index}`" :style="`background-image: url(${url})`"></label>
+                  <input :id="`cover-image-${index}`" type="file" accept="image/*" @change="onCoverImageEdited($event, index)">
+                  <a id="remove-image-button" @click="removeURL(index)">✕</a>
                 </li>
-                <li id="image-add">
-                  <img class="each-image" src="~assets/img/white-bg.png">
-                  <label for="thumbnail-image-add"><i class="fa fa-plus add-button" aria-hidden="true"></i></label>
-                  <input id="thumbnail-image-add" name="thumbnail_image" @change="onImageAdded($event.target.name, $event.target.files)" type="file" multiple accept="image/*">
+                <li id="cover-image-add-wrapper" class="cover-image" v-show="value.urls.length < numberOfImage">
+                  <label for="cover-image-add" class="add"></label>
+                  <input id="cover-image-add" multiple type="file" accept="image/*" @change="onCoverImageAdded($event.target, $event.target.files)">
                 </li>
               </ul>
             </div>
-            <span id="thumbnail-text">{{ $t('dashboardProductEdit.productImage.mainImage') }}</span>
           </div>
           <p class="caution-text">{{ $t('dashboardProductEdit.productImage.caution') }}</p>
         </div>
@@ -190,7 +188,9 @@
     data () {
       return {
         productId: this.$route.query.id,
+        numberOfImage: 5,
         value: {
+          urls: [],
           files: [],
           product: {},
           country_list: country,
@@ -242,6 +242,67 @@
         temp = temp.replace(/ +/g, '-')
         return temp
       },
+      mappingProductImages () {
+        const {
+          product_image_url_1,
+          product_image_url_2,
+          product_image_url_3,
+          product_image_url_4,
+          product_image_url_5,
+        } = this.value.product
+        if (product_image_url_1) this.pushArray(product_image_url_1)
+        if (product_image_url_2) this.pushArray(product_image_url_2)
+        if (product_image_url_3) this.pushArray(product_image_url_3)
+        if (product_image_url_4) this.pushArray(product_image_url_4)
+        if (product_image_url_5) this.pushArray(product_image_url_1)
+      },
+      pushArray (url) {
+        this.value.urls.push(url)
+        this.value.files.push(new File([''], ''))
+      },
+      async onCoverImageAdded (target, files) {
+        if (files.length > this.numberOfImage) return this.showAlert(false, this.$t('dashboardCompany.alert.image.upTo8'))
+
+        // multiple upload
+        for (let i = 0; i < files.length; i++) {
+          await this.addNewImage(files[i])
+        }
+
+        // remove after index number 5
+        this.value.urls.splice(this.numberOfImage, this.value.urls.length)
+        this.value.files.splice(this.numberOfImage, this.value.urls.length)
+      },
+      async addNewImage (file) {
+        const fileURL = await this.getFileURL(file)
+        this.value.urls.push(fileURL)
+        this.value.files.push(file)
+      },
+      async onCoverImageEdited (event, index) {
+        const { target } = event
+        const file = target.files[0]
+
+        const label = $(target).siblings()[0]
+        const fileURL = await this.getFileURL(file)
+
+        this.value.urls[index] = fileURL
+        this.value.files[index] = file
+
+        label.style.backgroundImage = `url(${fileURL})`
+      },
+      removeURL (index) {
+        this.value.urls.splice(index, 1)
+      },
+      getFileURL (file) {
+        return new Promise((resolve, reject) => {
+          if (file.size < 0) reject()
+
+          const reader = new FileReader()
+          reader.onload = function (event) {
+            resolve(event.target.result)
+          }
+          reader.readAsDataURL(file)
+        })
+      },
       countNameLength (e) {
         $(document).ready(() => {
           this.value.nameCount = $(e.target).val().length
@@ -260,57 +321,6 @@
         $('.secondary-category-container li').removeClass('active')
         $(event.target).addClass('active')
         this.value.secondaryCategory = this.value.subCategories[index].name
-      },
-      onImageAdded (name, files) {
-        const fileCount = files.length
-        let childCount = ($('#image-container-ul')[0].children.length) - 1
-
-        // single upload
-        if (fileCount === 1 && childCount < 6) {
-          this.addNewImage(childCount, files[0])
-          // multiple upload
-        } else {
-          for (var i = 0; i < fileCount; i++) {
-            if (childCount < 6) {
-              this.addNewImage(childCount, files[i])
-              childCount += 1
-            }
-          }
-        }
-        //
-        if (childCount >= 5) {
-          $('#image-add').remove()
-        }
-      },
-      readURL ($li, file) {
-        if (file) {
-          var reader = new FileReader()
-          reader.onload = (event) => {
-            console.log(event)
-            const url = event.target.result
-            $li.css('display', 'inherit')
-            $li.children('.each-image').attr('src', url)
-          }
-          reader.readAsDataURL(file)
-        }
-      },
-      addNewImage (index, file) {
-        this.value.files.push(file)
-        const $edit = $('#image-edit').clone()
-        const $add = $('#image-add')
-        var $label = $edit.children('label')
-        var $input = $edit.children('input')
-        var $image = $edit.children('img')
-        $edit.removeAttr('id')
-        $edit.attr('id', `image-edit-${index}`)
-        $label.attr('for', `thumbnail-image-input-${index}`)
-        $input.attr('id', `thumbnail-image-input-${index}`)
-        $image.attr('id', `thumbnail-image-${index}`)
-        $input.change((event) => {
-          this.editURL($image, event.target.files[0], index)
-        })
-        $add.before($edit)
-        this.readURL($edit, file)
       },
       preventEnterKeySubmit () {
         $('input').keydown(() => {
@@ -397,11 +407,12 @@
         formData.append('minimum_order_quantity', this.value.moq)
         if (!$('.ql-editor').hasClass('ql-blank')) formData.append('product_description', document.querySelector('.ql-editor').innerHTML)
 
-        for (var i = 0; i < this.value.files.length; i++) {
-          if (this.value.files[i].size > 0) {
-            formData.append(`image_${i + 1}`, this.value.files[i])
-            // console.log(this.value.files[i])
-          }
+        for (let i = 0; i < this.value.urls.length; i++) {
+          const url = this.value.urls[i]
+          const file = this.value.files[i]
+
+          if (file.size > 0) formData.append(`image_${i + 1}`, file)
+          else formData.append(`product_image_url_${i + 1}`, url)
         }
 
         if (document.getElementById('pdf-input').files[0]) formData.append('pdf', document.getElementById('pdf-input').files[0])
@@ -438,82 +449,12 @@
         }
 
         // image mapping
-        if (product.product_image_url_1) {
-          this.value.files.push(new File([''], ''))
-          this.readImage(1, product.product_image_url_1)
-        }
-        if (product.product_image_url_2) {
-          this.value.files.push(new File([''], ''))
-          this.readImage(2, product.product_image_url_2)
-        }
-        if (product.product_image_url_3) {
-          this.value.files.push(new File([''], ''))
-          this.readImage(3, product.product_image_url_3)
-        }
-        if (product.product_image_url_4) {
-          this.value.files.push(new File([''], ''))
-          this.readImage(4, product.product_image_url_4)
-        }
-        if (product.product_image_url_5) {
-          this.value.files.push(new File([''], ''))
-          this.readImage(5, product.product_image_url_5)
-          $('#image-add').remove()
-        }
+        this.mappingProductImages()
 
         // pdf information mapping
         if (product.product_pdf_url) {
           this.readPDF()
         }
-      },
-      readImage (index, url) {
-        const $edit = $('#image-edit').clone()
-        const $add = $('#image-add')
-        const $label = $edit.children('label')
-        const $input = $edit.children('input')
-        const $image = $edit.children('img')
-        $edit.removeAttr('id')
-        $edit.css('display', 'inherit')
-        $edit.attr('id', `image-edit-${index}`)
-        $label.attr('for', `thumbnail-image-input-${index}`)
-        $image.attr('id', `thumbnail-image-${index}`)
-        $image.attr('src', url)
-        $input.attr('id', `thumbnail-image-input-${index}`)
-        $input.change((event) => {
-          this.editURL($image, event.target.files[0], index)
-        })
-        $add.before($edit)
-      },
-      editURL ($image, file, index) {
-        if (file) {
-          var reader = new FileReader()
-          reader.onload = (event) => {
-            console.log(event)
-            const url = event.target.result
-            $image.attr('src', url)
-            this.value.files[index - 1] = file
-          }
-          reader.readAsDataURL(file)
-        }
-      },
-      handleImageAdded (file, Editor, cursorLocation) {
-        // An example of using FormData
-        // NOTE: Your key could be different such as:
-        // formData.append('file', file)
-        $('#editor-spinkit').removeClass().addClass('spinkit-input')
-        var formData = new FormData()
-        const config = {
-          headers: {'content-type': 'multipart/form-data'}
-        }
-        formData.append('images', file)
-        axios.post(`/api/data/product/editor/${this.account.account_id}`, formData, config)
-          .then((result) => {
-            $('#editor-spinkit').removeClass().addClass('invisible')
-            let url = result.data // Get url from response
-            Editor.insertEmbed(cursorLocation, 'image', url)
-          })
-          .catch((err) => {
-            $('#editor-spinkit').removeClass().addClass('invisible')
-          })
       },
       readPDF () {
         const url = this.value.product.product_pdf_url
@@ -565,6 +506,7 @@
 
 <style lang="less" scoped>
   @import '~assets/css/index';
+  @import "~assets/css/less/dashboard/index.less";
 
   #html-editor {
     height: 300px !important;
@@ -784,78 +726,6 @@
 
           .image-inner-container {
             position: relative;
-
-            #thumbnail-text {
-              position: absolute;
-              text-align: center;
-              font-size: 15px;
-              color: @color-link;
-              top: 155px;
-              left: 57px;
-            }
-
-            .image-each-container {
-
-              ul {
-                list-style: none;
-                margin: 0;
-                padding: 0;
-
-                &:before {
-                  content: "";
-                  display: table;
-                }
-                &:after {
-                  clear: both;
-                  content: "";
-                  display: table;
-                }
-
-                li {
-                  display: table-cell;
-                  text-align: center;
-                  position: relative;
-                  float: left;
-                  margin: 0 15px 15px 0;
-                  padding: 0;
-                  width: 188px;
-                  height: 188px;
-
-                  input {
-                    display: none;
-                  }
-
-                  img {
-                    width: 100%;
-                    height: 100%;
-                    border: 1px dashed @color-menu-gray;
-                  }
-
-                  label {
-                    position: absolute;
-                    top: 0;
-                    right: 0;
-                    left: 0;
-                    bottom: 0;
-                    cursor: pointer;
-                    vertical-align: middle;
-                  }
-
-                  .add-button {
-                    position: absolute;
-                    font-weight: 100;
-                    font-size: 40px;
-                    color: @color-font-base;
-                    top: 75px;
-                    left: 80px;
-                  }
-
-                  .deactive {
-                    display: none;
-                  }
-                }
-              }
-            }
 
           }
         }
