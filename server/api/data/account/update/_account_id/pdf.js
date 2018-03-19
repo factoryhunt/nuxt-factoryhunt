@@ -24,7 +24,9 @@ module.exports = async (req, res) => {
   }
 
   try {
+    console.log(4)
     await update()
+    console.log(5)
     res.status(200).json({result: true, msg: 'Pdf for company has been updated.'})
   } catch (err) {
     res.status(403).json({result: false})

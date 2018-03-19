@@ -21,7 +21,9 @@ module.exports = async (req, res) => {
   }
 
   try {
+    console.log(1)
     await update()
+    console.log(2)
     res.status(200).json({result: true, msg: 'Account has been updated.'})
   } catch (err) {
     res.status(403).json({result: false})

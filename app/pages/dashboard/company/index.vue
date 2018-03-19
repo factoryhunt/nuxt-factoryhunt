@@ -394,7 +394,10 @@
         if (this.value.video.length < 1) return true
         const fc = this.value.video.indexOf('youtube.com/watch?v=') !== -1
         const sc = this.value.video.indexOf('youtu.be/') !== -1
-        return (fc || sc)
+        const vc = this.value.video.indexOf('vimeo.com') !== -1
+        const result = (fc || sc || vc)
+        console.log(result)
+        return result
       }
     },
     methods: {
@@ -644,17 +647,13 @@
       applyInputFocusBlurEvent (input, mark) {
         const accountNameInput = $('#account-name-input')
         const accountNameMark = $('#account-name-mark')
-        const hiddenTitle = $('.account-name-container > .hidden-title')
 
         accountNameInput.blur(() => {
           if (this.value.accountName) {
             this.toggle.isAccountNameAvailable = true
-            this.msg.accountName.hiddenTitle = ''
             accountNameMark.removeClass('fa fa-exclamation')
           } else {
             this.toggle.isAccountNameAvailable = false
-            this.msg.accountName.hiddenTitle = '필수 입력 항목입니다.'
-            hiddenTitle.css({'color': 'red'})
             accountNameMark.addClass('fa fa-exclamation')
           }
         })

@@ -128,6 +128,11 @@
           <div class="video-container" v-show="getYoutubeVideoURL">
             <iframe
               id="intro-video"
+              src="https://player.vimeo.com/video/119343871?autoplay=1&loop=1&title=0&byline=0&portrait=0"
+              frameborder="0"
+              allowfullscreen></iframe>
+            <iframe
+              id="intro-video"
               :src="getYoutubeVideoURL"
               frameborder="0"
               allowfullscreen></iframe>
@@ -407,6 +412,7 @@
         let videoId = ''
         let url = ''
 
+        // Youtube
         if (videoUrl.indexOf('youtube.com/watch?v=') > -1) {
           videoId = this.vendor.account_video_url.split('v=')[1]
           const ampersandPosition = videoId.indexOf('&')
@@ -416,10 +422,14 @@
 
           url = `https://www.youtube.com/embed/${videoId}?rel=0&autoplay=1&loop=1&controls=2&showinfo=0&autohide=1&modestbranding=1`
 
+          // Youtube
         } else if (videoUrl.indexOf('youtu.be/') > -1) {
           videoId = this.vendor.account_video_url.split('.be/')[1]
           url = `https://www.youtube.com/embed/${videoId}?rel=0&autoplay=1&loop=1&controls=2&showinfo=0&autohide=1&modestbranding=1`
 
+        } else if (videoUrl.indexOf('vimeo.com') > -1) {
+          videoId = this.vendor.account_video_url.split('.com/')[1]
+          url = `https://player.vimeo.com/${videoId}?autoplay=1&loop=1&title=0&byline=0&portrait=0`
         } else {
           url = ''
         }
