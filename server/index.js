@@ -24,7 +24,7 @@ app.use(bodyParser.urlencoded({ extended: true }))
 
 // APIs
 app.use('/api', api)
-app.use(redirectToHTTPS([/localhost:(\d{4})/], [/\/insecure/], [/13.56.115.56/]))
+app.use(redirectToHTTPS(['/localhost:(\d{4})/', '/13.56.115.56/'], [/\/insecure/]))
 app.use(nuxt.render)
 
 app.listen(PORT)
