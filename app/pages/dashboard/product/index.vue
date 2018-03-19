@@ -216,7 +216,7 @@
             display: table;
             table-layout: fixed;
             width: 100%;
-            padding: 22px 0;
+            padding: 20px 0;
             border-bottom: 1px solid @color-light-grey;
 
             &:last-child {
@@ -233,9 +233,8 @@
             .image-container {
               width: 80px !important;
               height: 80px !important;
-              display: table-cell;
+              display: inline-flex;
               vertical-align: middle;
-              box-shadow: @box-shadow;
 
               img {
                 max-width: 100%;
