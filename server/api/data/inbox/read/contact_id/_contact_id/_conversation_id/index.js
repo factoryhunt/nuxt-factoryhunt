@@ -1,7 +1,7 @@
 const mysql = require('../../../../../../mysql/index')
 const CONFIG_MYSQL = require('../../../../../../mysql/model')
 
-// GET /api/data/inbox/_conversation_id/:contact_id/:_conversation_id
+// GET /api/data/inbox/_conversation_id/:_conversation_id/:contact_id
 module.exports = async (req, res) => {
   const contact_id = req.params.contact_id
   const conversation_id = req.params.conversation_id
@@ -39,7 +39,7 @@ module.exports = async (req, res) => {
       AND
       ${CONFIG_MYSQL.TABLE_CONTACTS}.account_id = ${CONFIG_MYSQL.TABLE_ACCOUNTS}.account_id
       ORDER BY
-      ${CONFIG_MYSQL.TABLE_INBOX}.inbox_id DESC`, (err, rows) => {
+      ${CONFIG_MYSQL.TABLE_INBOX}.inbox_id`, (err, rows) => {
         if (err) reject(err)
         resolve(rows)
       })
@@ -48,6 +48,7 @@ module.exports = async (req, res) => {
 
   try {
     const conversation = await getConversation()
+    console.log('api returns', conversation)
     res.status(200).json(conversation)
   } catch (err) {
     res.status(403).json({result: false})

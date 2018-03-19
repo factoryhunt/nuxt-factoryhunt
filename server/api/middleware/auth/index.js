@@ -56,7 +56,7 @@ module.exports = async (req, res, next) => {
     })
   }
 
-  // if it has failed to verify, it will return an error message
+  // if it has failed to verify, it will return an error _conversation_id
   const onError = (error) => {
     res.status(403).json({
       result: false,

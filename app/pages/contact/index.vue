@@ -50,7 +50,7 @@
       return {
         placeholder: {
           email: 'contact@example.com',
-          textarea: 'Enter your message'
+          textarea: 'Enter your _conversation_id'
         },
         email: '',
         inquiry: ''

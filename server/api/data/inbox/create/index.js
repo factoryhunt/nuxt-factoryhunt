@@ -1,9 +1,7 @@
 const router = require('express').Router()
 
-const _product_id = require('./_product_id')
-const editor = require('./editor')
+const message = require('./message')
 
-router.use(_product_id)
-router.use('/editor', editor)
+router.put('/message', message)
 
 module.exports = router

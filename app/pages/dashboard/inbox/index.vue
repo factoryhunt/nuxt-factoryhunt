@@ -23,7 +23,7 @@
       <h1 class="title">{{ $t('dashboardInbox.header.title') }}</h1>
     </div>
 
-    <!-- message filter -->
+    <!-- _conversation_id filter -->
     <div class="space-1">
       <div class="message-filter-container">
         <span class="message-container each-button">
@@ -82,16 +82,22 @@
   import axios from '~/plugins/axios'
   export default {
     props: {
-      inbox: {
-        type: Array,
-        default: () => {
-          return []
-        }
-      },
       account: {
         type: Object,
         default: () => {
           return {}
+        }
+      },
+      contact: {
+        type: Object,
+        default: () => {
+          return {}
+        }
+      },
+      inbox: {
+        type: Array,
+        default: () => {
+          return []
         }
       }
     },
@@ -143,8 +149,8 @@
           })
       },
       routeProductPage (index) {
-        const url = `/${this.account.domain}/${this.products[index].product_domain}`
-        window.open(url)
+        const url = `/dashboard/inbox/${this.inbox[index].conversation_id}`
+        this.$router.push(url)
       },
       activateJquery () {
         $(document).ready(() => {
@@ -354,6 +360,7 @@
               a {
                 font-size: 15px;
                 font-weight: 300;
+                float: none;
               }
               span {
                 font-size: 13px;

@@ -176,7 +176,7 @@
               }
             })
           })
-          // customized error message
+          // customized error _conversation_id
           var passwordInput = document.getElementById('userPassword')
           passwordInput.addEventListener('invalid', function (e) {
             if (passwordInput.validity.valueMissing) {
@@ -184,7 +184,7 @@
             } else if (!passwordInput.validity.valid) {
               e.target.setCustomValidity('비밀번호는 문자와 숫자의 조합으로 최소 8 문자를 포함해야 합니다.')
             }
-            // to avoid the 'sticky' invlaid problem when resuming typing after getting a custom invalid message
+            // to avoid the 'sticky' invlaid problem when resuming typing after getting a custom invalid _conversation_id
             passwordInput.addEventListener('input', function (e) {
               e.target.setCustomValidity('')
             })
