@@ -35,7 +35,7 @@ module.exports = async (req, res) => {
                     queries: [{
                       multi_match: {
                         query: input,
-                        fields: ['account_name', 'products', 'company_short_description'],
+                        fields: ['account_name', 'products', 'company_description' ,'company_short_description', 'website'],
                         fuzziness: fuzziness
                       }
                     }]
@@ -81,9 +81,17 @@ module.exports = async (req, res) => {
                 },
                 {
                   match: {
+                    products: {
+                      query: input,
+                      boost: 5
+                    }
+                  }
+                },
+                {
+                  match: {
                     mailing_country: {
                       query: 'korea',
-                      boost: -2
+                      boost: -200
                     }
                   }
                 }
