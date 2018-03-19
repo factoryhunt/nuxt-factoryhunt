@@ -7,7 +7,7 @@ export default ({ app, req, query, store, }) => {
   // Set i18n instance on app
   // This way we can use it in middleware and pages asyncData/fetch
   const { kor, eng } = require('~/locales')
-  let locale = store.state.i18n.locale
+  let locale = store.state.i18n.locale || 'eng'
 
   if (process.server) locale = req.session.locale || locale
 
