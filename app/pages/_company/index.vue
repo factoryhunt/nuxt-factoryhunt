@@ -126,11 +126,10 @@
             <!--<h4 class="review-title"> <small>(0)개의 평가</small></h4>-->
           </div>
           <div class="video-container" v-show="getYoutubeVideoURL">
-            <iframe
-              id="intro-video"
-              src="https://player.vimeo.com/video/119343871?autoplay=1&loop=1&title=0&byline=0&portrait=0"
-              frameborder="0"
-              allowfullscreen></iframe>
+            <!--<iframe-->
+              <!--src="https://player.vimeo.com/video/119343871?autoplay=1&loop=1&title=0&byline=0&portrait=0"-->
+              <!--frameborder="0"-->
+              <!--allowfullscreen></iframe>-->
             <iframe
               id="intro-video"
               :src="getYoutubeVideoURL"
@@ -429,11 +428,11 @@
 
         } else if (videoUrl.indexOf('vimeo.com') > -1) {
           videoId = this.vendor.account_video_url.split('.com/')[1]
-          url = `https://player.vimeo.com/${videoId}?autoplay=1&loop=1&title=0&byline=0&portrait=0`
+          url = `https://player.vimeo.com/video/${videoId}?autoplay=1&loop=1&title=0&byline=0&portrait=0`
         } else {
           url = ''
         }
-
+        console.log(url)
         return url
       }
     },

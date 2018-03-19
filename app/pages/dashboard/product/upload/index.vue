@@ -58,6 +58,19 @@
           <p class="sub-title" >{{ $t('dashboardProductEdit.productImage.subTitle') }}</p>
           <div class="image-inner-container">
             <div class="image-each-container">
+
+              <ul class="cover-image-container">
+                <li v-for="(url, index) in value.urls" :key="index" :id="`cover-image-wrapper-${index}`" class="cover-image">
+                  <label :for="`cover-image-${index}`" :style="`background-image: url(${url})`"></label>
+                  <input :id="`cover-image-${index}`" type="file" accept="image/*" @change="onCoverImageEdited($event, index)">
+                  <a id="remove-image-button" @click="removeURL(index)">✕</a>
+                </li>
+                <li id="cover-image-add-wrapper" class="cover-image" v-show="value.urls.length < 8">
+                  <label for="cover-image-add" class="add"></label>
+                  <input id="cover-image-add" multiple type="file" accept="image/*" @change="onCoverImageAdded($event.target, $event.target.files)">
+                </li>
+              </ul>
+
               <ul id="image-container-ul">
                 <li id="image-edit" style="display: none;">
                   <img class="each-image" src="~assets/img/white-bg.png">
@@ -202,6 +215,7 @@
           isSaving: false
         },
         value: {
+          urls: [],
           files: [],
           pdfFile: null,
           country_list: country,
@@ -239,6 +253,67 @@
         temp = temp.replace(/ +/g, '-')
         console.log(temp)
         return temp
+      },
+      mappingData () {
+        const {
+          cover_image_url_1,
+          cover_image_url_2,
+          cover_image_url_3,
+          cover_image_url_4,
+          cover_image_url_5,
+          cover_image_url_6,
+          cover_image_url_7,
+          cover_image_url_8
+        } = this.account
+        if (cover_image_url_1) this.pushArray(cover_image_url_1)
+        if (cover_image_url_2) this.pushArray(cover_image_url_2)
+        if (cover_image_url_3) this.pushArray(cover_image_url_3)
+        if (cover_image_url_4) this.pushArray(cover_image_url_4)
+        if (cover_image_url_5) this.pushArray(cover_image_url_5)
+        if (cover_image_url_6) this.pushArray(cover_image_url_6)
+        if (cover_image_url_7) this.pushArray(cover_image_url_7)
+        if (cover_image_url_8) this.pushArray(cover_image_url_8)
+      },
+      pushArray (url) {
+        this.value.urls.push(url)
+        this.value.files.push(new File([''], ''))
+      },
+      async onCoverImageAdded (target, files) {
+        if (files.length > 8) return this.showAlert(false, this.$t('dashboardCompany.alert.image.upTo8'))
+
+        // multiple upload
+        for (let i = 0; i < files.length; i++) {
+          await this.addNewImage(files[i])
+        }
+
+        // remove after index number 8
+        this.value.urls.splice(8, this.value.urls.length)
+        this.value.files.splice(8, this.value.urls.length)
+
+        $('#main-image-upload-button').show()
+      },
+      async addNewImage (file) {
+        const fileURL = await this.getFileURL(file)
+        this.value.urls.push(fileURL)
+        this.value.files.push(file)
+      },
+      async onCoverImageEdited (event, index) {
+        const { target } = event
+        const file = target.files[0]
+
+        const label = $(target).siblings()[0]
+        const fileURL = await this.getFileURL(file)
+
+        this.value.urls[index] = fileURL
+        this.value.files[index] = file
+
+        label.style.backgroundImage = `url(${fileURL})`
+
+        $('#main-image-upload-button').show()
+      },
+      removeURL (index) {
+        this.value.urls.splice(index, 1)
+        $('#main-image-upload-button').show()
       },
       countNameLength (e) {
         $(document).ready(() => {
@@ -304,24 +379,6 @@
           }
           reader.readAsDataURL(file)
         }
-      },
-      addNewImage (index, file) {
-        this.value.files.push(file)
-        const $edit = $('#image-edit').clone()
-        const $add = $('#image-add')
-        var $label = $edit.children('label')
-        var $input = $edit.children('input')
-        var $image = $edit.children('img')
-        $edit.removeAttr('id')
-        $edit.attr('id', `image-edit-${index}`)
-        $label.attr('for', `thumbnail-image-input-${index}`)
-        $input.attr('id', `thumbnail-image-input-${index}`)
-        $image.attr('id', `thumbnail-image-${index}`)
-        $input.change((event) => {
-          this.editURL($image, event.target.files[0], index)
-        })
-        $add.before($edit)
-        this.readURL($edit, file)
       },
       preventEnterKeySubmit () {
         $('input').keydown(() => {
