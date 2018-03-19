@@ -542,7 +542,7 @@
         if ($('.brochure-container #catalog').length) return
 
         const url = this.vendor.account_pdf_url
-        pdflib.PDFJS.getDocument(url).then((pdf) => {
+        pdflib.getDocument(url).then((pdf) => {
           for (let i = 1; i <= pdf.numPages; i += 1) {
             const canvas = document.createElement('canvas')
             canvas.id = 'catalog'
