@@ -40,7 +40,7 @@
     <!-- Body -->
     <div class="product-container">
 
-      <!-- products empty -->
+      <!-- message empty -->
       <div v-if="inbox.length === 0" class="product-empty-container">
         <div class="empty">
           <p class="title">{{ $t('dashboardProduct.empty.title') }}</p>
@@ -49,7 +49,7 @@
         </div>
       </div>
 
-      <!-- products exist -->
+      <!-- messages exist -->
       <div v-else class="product-list-container">
         <div class="list-container">
           <div v-for="(message, index) in inbox" :id="'list-' + index" class="list" :key="index">
@@ -61,15 +61,14 @@
               <p class="secondary-text">{{message.first_name}} {{message.last_name}}</p>
             </div>
             <div class="product-name-container">
-              <p class="name-text">{{message.body}}</p>
-              <p class="code-text">{{message.body}}</p>
+              <p class="name-text" @click="routeProductPage(index)">{{message.body}}</p>
+              <p class="code-text" @click="routeProductPage(index)">{{message.body}}</p>
             </div>
             <div class="date-container">
               <p>{{message.created_date}}</p>
             </div>
             <div class="tool-container">
               <a class="message-star-button" @click="showProductRemoveModal(index)">{{ $t('dashboardProduct.exist.delete') }}</a>
-              <a class="message-archive-button" @click="routeProductPage(index)">{{ $t('dashboardProduct.exist.view') }}</a>
             </div>
           </div>
         </div>

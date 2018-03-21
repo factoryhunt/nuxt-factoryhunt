@@ -1,5 +1,6 @@
 // process.env.DEBUG = 'nuxt:*'
 const app = require('express')()
+const server = require('http').createServer(app)
 
 const redirectToHTTPS = require('express-http-to-https').redirectToHTTPS
 const session = require('express-session')
@@ -8,6 +9,7 @@ const nuxt = require('./middleware/nuxt')
 const morgan = require('morgan')
 const cookieParser = require('cookie-parser')
 const bodyParser = require('body-parser')
+require('./middleware/socket')(server)
 const cors = require('cors')
 const api = require('./api')
 
@@ -27,5 +29,5 @@ app.use('/api', api)
 app.use(redirectToHTTPS([/localhost:(\d{4})/, /amazonaws.com/], [/\/insecure/]))
 app.use(nuxt.render)
 
-app.listen(PORT)
+server.listen(PORT)
 console.log(`Server is listening on http://${HOST}:${PORT}`)
