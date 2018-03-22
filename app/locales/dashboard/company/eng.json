@@ -36,9 +36,9 @@
   },
   "video": {
     "title": "Company Introduction Video",
-    "desc": "Please copy and paste only YouTube link.",
-    "inputTitle": "Enter valid YouTube link.",
-    "alert": "Enter valid YouTube link."
+    "desc": "Please copy and paste only YouTube or Vimeo link.",
+    "inputTitle": "Please enter valid YouTube or Vimeo link.",
+    "alert": "Please enter valid url link."
   },
   "description": {
     "title": "Company Description",

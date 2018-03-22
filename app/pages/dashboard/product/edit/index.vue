@@ -261,9 +261,8 @@
         this.value.files.push(new File([''], ''))
       },
       async onCoverImageAdded (target, files) {
-        if (files.length > this.numberOfImage) return this.showAlert(false, this.$t('dashboardCompany.alert.image.upTo8'))
+        if (files.length > this.numberOfImage) return showTopAlert(this.$store, false, this.$t('dashboardProductEdit.alert.image.upTo5'))
 
-        // multiple upload
         for (let i = 0; i < files.length; i++) {
           await this.addNewImage(files[i])
         }
@@ -291,6 +290,8 @@
       },
       removeURL (index) {
         this.value.urls.splice(index, 1)
+        this.value.files.splice(index, 1)
+        console.log(this.value.files)
       },
       getFileURL (file) {
         return new Promise((resolve, reject) => {
@@ -390,7 +391,13 @@
       onEditButton () {
         this.toggle.isSaving = true
 
-        if (!this.toggle.productName) return showTopAlert(this.$store, false, this.$t('dashboardProductEdit.productName.hidden'))
+        if (!this.toggle.productName) {
+          return this.uploadFailed(this.$t('dashboardProductEdit.productName.hidden'))
+        }
+
+        if (this.value.files.length < 1) {
+          return this.uploadFailed(this.$t('dashboardProductEdit.productImage.alert'))
+        }
 
         let formData = new FormData()
         const config = {
@@ -421,12 +428,28 @@
           .then(() => {
             this.toggle.isSaving = false
             showTopAlert(this.$store, true, this.$t('alert.product.saveSuccess'))
-            this.$router.push('/dashboard/product')
+            this.$router.replace('/dashboard/product')
           })
           .catch(() => {
             this.toggle.isSaving = false
             showTopAlert(this.$store, false, this.$t('alert.product.saveFail'))
           })
+      },
+      uploadSucceed () {
+        this.deactivateLoader()
+        showTopAlert(this.$store, true, this.$t('alert.product.uploadSuccess'))
+        this.$router.push('/dashboard/product')
+      },
+      uploadFailed (msg) {
+        this.deactivateLoader()
+        showTopAlert(this.$store, false, msg)
+      },
+      activateLoader () {
+        this.toggle.isSaving = true
+        $('.alert-container').hide()
+      },
+      deactivateLoader () {
+        this.toggle.isSaving = false
       },
       mappingData (product) {
         this.value.primaryCategory = product.primary_product_category

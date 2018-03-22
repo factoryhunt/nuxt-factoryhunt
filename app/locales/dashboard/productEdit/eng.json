@@ -53,5 +53,12 @@
     "title": "Confirm and Save",
     "subTitle": "Please confirm the information above before submitting it. The information will be updated immediately.",
     "button": "Save"
+  },
+  "alert": {
+    "image": {
+      "success": "Your photo has been updated successfully.",
+      "fail": "Photo update failed. Please try again.",
+      "upTo5": "You can select up to 5 images."
+    }
   }
 }

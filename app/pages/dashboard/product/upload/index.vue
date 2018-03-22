@@ -243,7 +243,7 @@
         return temp
       },
       async onCoverImageAdded (target, files) {
-        if (files.length > this.numberOfImage) return this.showAlert(false, this.$t('dashboardCompany.alert.image.upTo8'))
+        if (files.length > this.numberOfImage) return showTopAlert(this.$store, false, this.$t('dashboardProductEdit.alert.image.upTo5'))
 
         // multiple upload
         for (let i = 0; i < files.length; i++) {

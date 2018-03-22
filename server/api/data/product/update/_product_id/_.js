@@ -42,11 +42,11 @@ module.exports = async (req, res) => {
       data.product_image_url_4 = req.body.product_image_url_4 ? req.body.product_image_url_4 : ''
       data.product_image_url_5 = req.body.product_image_url_5 ? req.body.product_image_url_5 : ''
 
-      if (req.files.image_0) data.product_image_url_1 = req.files.image_0[0].location
-      if (req.files.image_1) data.product_image_url_2 = req.files.image_1[0].location
-      if (req.files.image_2) data.product_image_url_3 = req.files.image_2[0].location
-      if (req.files.image_3) data.product_image_url_4 = req.files.image_3[0].location
-      if (req.files.image_4) data.product_image_url_5 = req.files.image_4[0].location
+      if (req.files.image_1) data.product_image_url_1 = req.files.image_1[0].location
+      if (req.files.image_2) data.product_image_url_2 = req.files.image_2[0].location
+      if (req.files.image_3) data.product_image_url_3 = req.files.image_3[0].location
+      if (req.files.image_4) data.product_image_url_4 = req.files.image_4[0].location
+      if (req.files.image_5) data.product_image_url_5 = req.files.image_5[0].location
 
       if (req.files.pdf) imageData.product_pdf_url = req.files.pdf[0].location
 

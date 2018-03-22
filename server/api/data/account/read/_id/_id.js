@@ -1,7 +1,7 @@
 const mysql = require('../../../../mysql/index')
 const CONFIG_MYSQL = require('../../../../mysql/model')
 
-// GET /api/data/account/:contact_id
+// GET /api/data/account/:account_id
 // Retrieve single account filtered by product_id
 module.exports = async (req, res) => {
   const account_id = req.params.account_id

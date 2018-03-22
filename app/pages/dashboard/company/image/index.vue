@@ -68,7 +68,6 @@
   import axios from '~/plugins/axios'
   import Loader from '../../../../components/Loader'
   //  import Compressor from '@xkeshi/image-compressor'
-  import { mapGetters } from 'vuex'
   export default {
     head () {
       return {
@@ -162,6 +161,7 @@
       },
       removeURL (index) {
         this.value.urls.splice(index, 1)
+        this.value.files.splice(index, 1)
         $('#main-image-upload-button').show()
       },
       async onLogoImageChanged (files) {
@@ -242,7 +242,7 @@
               const url = this.value.urls[i]
               const file = this.value.files[i]
 
-              if (file.size > 0) formData.append(`cover_${i}`, file)
+              if (file.size > 0) formData.append(`cover_${i+1}`, file)
               else formData.append(`cover_image_url_${i+1}`, url)
             }
             formData.append('db_column', 'cover_image_url_1')

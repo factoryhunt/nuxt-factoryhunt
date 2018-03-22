@@ -97,11 +97,11 @@
         return product.product_status === 'pending' ? this.$t('dashboardProduct.pending') : this.$t('dashboardProduct.approved')
       },
       onProductUploadButton () {
-        this.$router.push('/dashboard/product/upload')
+        location.href = '/dashboard/product/upload'
       },
       onEditButton (index) {
         const productId = this.products[index].product_id
-        this.$router.push(`/dashboard/product/edit?id=${productId}`)
+        location.href = `/dashboard/product/edit?id=${productId}`
       },
       modalToggle () {
         $('.modal-container, .modal-background').toggle()
