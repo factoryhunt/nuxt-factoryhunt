@@ -364,9 +364,9 @@
       onUploadButton () {
         this.activateLoader()
 
-        if (!this.value.primaryCategory) {
-          return this.uploadFailed('Please select the main product category.')
-        }
+        // if (!this.value.primaryCategory) {
+        //   return this.uploadFailed('Please select the main product category.')
+        // }
 
         this.filterProductDomain(this.value.productName)
 

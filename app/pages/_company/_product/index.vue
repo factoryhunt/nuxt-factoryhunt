@@ -62,7 +62,7 @@
         </div>
 
         <!-- Profile & Information -->
-        <div class="information-container each-container">
+        <div class="information-container each-container" v-show="productDetailExists">
 
           <!-- Product Details -->
           <h2 class="section-title">{{ $t('product.details.title') }}</h2>
@@ -181,9 +181,7 @@
     async asyncData ({ query, params, error }) {
       try {
         const { data } = await axios.get(`/api/data/product/domain/${params.company}/${params.product}`)
-        console.log(data)
         const { data:products } = await axios.get(`/api/data/product/account_id/${data.account.account_id}/approved`)
-        console.log(products)
         return {
           queryInput: query.input || '',
           vendor: data.account,
@@ -208,6 +206,14 @@
       getRelatedProductCount () {
         let count = this.products.length - 1
         return count > 0 ? count : 0
+      },
+      productDetailExists () {
+        if (this.product.product_origin) return true
+        if (this.product.minimum_order_quantity) return true
+        if (this.product.price) return true
+        if (this.product.material_type) return true
+        if (this.product.item_dimensions) return true
+        return false
       },
       getMOQ () {
         return addComma(this.product.minimum_order_quantity)
