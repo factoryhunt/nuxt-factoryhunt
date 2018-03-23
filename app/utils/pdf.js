@@ -1,7 +1,7 @@
 import pdflib from 'pdfjs-dist'
 
 exports.renderPDF = (pdfURL) => {
-  pdflib.PDFJS.getDocument(pdfURL).then((pdf) => {
+  pdflib.getDocument(pdfURL).then((pdf) => {
     for (let i = 1; i <= pdf.numPages; i += 1) {
       const canvas = document.createElement('canvas')
       canvas.id = 'catalog'

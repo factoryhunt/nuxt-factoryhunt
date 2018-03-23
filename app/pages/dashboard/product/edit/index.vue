@@ -172,7 +172,7 @@
         title: 'Edit Product'
       }
     },
-    middleware: 'checkAccess',
+    // middleware: 'checkAccess',
     props: {
       account: {
         type: Object,
@@ -231,7 +231,8 @@
             this.value.product = res.data
             this.mappingData(this.value.product)
           })
-          .catch(() => {
+          .catch((err) => {
+            console.log(err)
             location.replace('/dashboard/product')
           })
       },
@@ -488,7 +489,7 @@
         }
         reader.readAsDataURL(file)
         // console.log('file', file)
-        pdflib.PDFJS.getDocument(url).then((pdf) => {
+        pdflib.getDocument(url).then((pdf) => {
           // console.log(pdf)
           pdf.getStats().then((meta) => {
             // console.log('meta: ', meta)
