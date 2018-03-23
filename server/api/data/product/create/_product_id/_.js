@@ -5,7 +5,6 @@ module.exports = async (req, res) => {
   const product_id = req.product_id
 
   const updateTextData = () => new Promise((resolve, reject) => {
-    console.log(req.body)
     let data = {
       product_name,
       product_domain,
@@ -59,14 +58,12 @@ module.exports = async (req, res) => {
   })
 
   try {
-    console.log(31)
     await updateTextData()
-    console.log(32)
     await updateImageUrl()
-    console.log(33)
     res.status(200).json({result: true})
   } catch (err) {
     console.log(err)
+    removeProduct()
     res.status(403).json({result: false})
   }
 }
