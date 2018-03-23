@@ -1,8 +1,8 @@
 const router = require('express').Router()
 
-const _ = require('./_')
+const lead_id = require('./lead_id')
 
-router.post('/', _)
+router.post('/:lead_id', lead_id)
 
 module.exports = router
 

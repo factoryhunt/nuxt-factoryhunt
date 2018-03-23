@@ -8,5 +8,6 @@ module.exports = {
   'TABLE_PRODUCTS': 'products',
   'TABLE_PRODUCTS_DELETED': 'products_deleted',
   'TABLE_INBOX': 'inbox',
-  'TABLE_INBOX_DELETED': 'inbox_deleted'
+  'TABLE_INBOX_DELETED': 'inbox_deleted',
+  'TABLE_EMAILS': 'emails'
 }

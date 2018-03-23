@@ -1,9 +1,10 @@
-const mysql = require('../../../mysql')
-const CONFIG_MYSQL = require('../../../mysql/model')
+const mysql = require('../../../../mysql')
+const CONFIG_MYSQL = require('../../../../mysql/model')
 
+// POST /api/data/lead/:lead_id
 module.exports = async (req, res) => {
+  const lead_id = parseInt(req.params.lead_id)
   const { lead_data } = req.body
-  console.log(lead_data)
 
   const updateLeadData = () => {
     return new Promise((resolve, reject) => {
@@ -12,7 +13,8 @@ module.exports = async (req, res) => {
       ${CONFIG_MYSQL.TABLE_LEADS}
       SET
       ?
-      lead_id = ${lead_data.lead_id}`, lead_data, (err) => {
+      WHERE
+      lead_id = ${lead_id}`, lead_data, (err) => {
         if (err) reject(err)
         resolve()
       })

@@ -1,12 +1,10 @@
 <template>
   <section class="dashboard-page-container">
-    <loader id="loader"></loader>
     <nuxt-child :account="account" :contact="contact"/>
   </section>
 </template>
 
 <script>
-  import axios from '~/plugins/axios'
   import { mapGetters } from 'vuex'
   import loader from '~/components/Loader'
   export default {

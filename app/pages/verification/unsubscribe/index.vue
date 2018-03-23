@@ -19,35 +19,72 @@
     head: {
       title: 'Unsubscribe'
     },
-    asyncData ({query}) {
-      console.log(query.e)
+    asyncData ({redirect, query}) {
+      if (!query.token) redirect('/')
     },
     data () {
       return {
+        value: {
+          lead: {}
+        },
+        token: this.$route.query.token,
         toggle: {
           unsubscribed: false
-        }
+        },
       }
     },
     methods: {
-      getLeadData () {
-
-      },
-      unsubscribeEmail () {
+      unsubscribeEmail (lead_id) {
+        const date = new Date()
+        const data = {
+          lead_data: {
+            notes: `${date} - Unsubscribed by user`,
+            email_subscription: 'N'
+          }
+        }
         return new Promise((resolve, reject) => {
-
-          axios.post(`/api/data/lead/`)
+          axios.post(`/api/data/lead/${lead_id}`, data)
+            .then(() => {
+              resolve()
+            })
+            .catch((err) => {
+              reject(err)
+            })
         })
       },
-      onSureButton () {
-        this.toggle.unsubscribed = true
+      async onSureButton () {
+        try {
+          await this.unsubscribeEmail(this.value.lead.lead_id)
+          this.toggle.unsubscribed = true
+        } catch (err) {
+          this.toggle.unsubscribed = true
+        }
       },
       onNoButton () {
         location.replace('/')
+      },
+      decodeToken (token) {
+        const data = {
+          token
+        }
+        return new Promise((resolve, reject) => {
+          axios.post('/api/jwt/decode', data)
+            .then(res => {
+              resolve(res)
+            })
+            .catch(err => {
+              reject(err)
+            })
+        })
       }
+    },
+    async mounted () {
+      const { data } = await this.decodeToken(this.token)
+      this.value.lead = data
     }
   }
 </script>
 
 <style lang="less" scoped>
+  @import "~assets/css/index.less";
 </style>
