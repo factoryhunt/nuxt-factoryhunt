@@ -48,7 +48,7 @@ module.exports = async (req, res) => {
       if (req.files.image_4) data.product_image_url_4 = req.files.image_4[0].location
       if (req.files.image_5) data.product_image_url_5 = req.files.image_5[0].location
 
-      if (req.files.pdf) imageData.product_pdf_url = req.files.pdf[0].location
+      if (req.files.pdf) data.product_pdf_url = req.files.pdf[0].location
 
       mysql.query(`
         UPDATE ${CONFIG_MYSQL.TABLE_PRODUCTS} 
