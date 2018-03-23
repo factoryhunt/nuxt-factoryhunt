@@ -1,11 +1,19 @@
 const nodemailer = require('nodemailer')
 const config = require('./.config')
 
-const transporter = nodemailer.createTransport(config.noreply)
-transporter.verify((err, result) => {
+const infoMailer = nodemailer.createTransport(config.info)
+infoMailer.verify((err, result) => {
   if (err) return console.log(err)
-  console.log('nodemailer is verified')
+  console.log('\ninfoMailer is verified\n')
 })
 
+const noreplayMailer = nodemailer.createTransport(config.noreply)
+noreplayMailer.verify((err, result) => {
+  if (err) return console.log(err)
+  console.log('\nnoreplayMailer is verified\n')
+})
 
-module.exports = transporter
+module.exports = {
+  infoMailer,
+  noreplayMailer
+}
