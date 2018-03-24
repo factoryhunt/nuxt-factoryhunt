@@ -24,14 +24,14 @@ module.exports = async (req, res) => {
         data.cover_image_url_7 = req.body.cover_image_url_7 ? req.body.cover_image_url_7 : ''
         data.cover_image_url_8 = req.body.cover_image_url_8 ? req.body.cover_image_url_8 : ''
 
-        if (req.files.cover_0) data.cover_image_url_1 = req.files.cover_0[0].location
-        if (req.files.cover_1) data.cover_image_url_2 = req.files.cover_1[0].location
-        if (req.files.cover_2) data.cover_image_url_3 = req.files.cover_2[0].location
-        if (req.files.cover_3) data.cover_image_url_4 = req.files.cover_3[0].location
-        if (req.files.cover_4) data.cover_image_url_5 = req.files.cover_4[0].location
-        if (req.files.cover_5) data.cover_image_url_6 = req.files.cover_5[0].location
-        if (req.files.cover_6) data.cover_image_url_7 = req.files.cover_6[0].location
-        if (req.files.cover_7) data.cover_image_url_8 = req.files.cover_7[0].location
+        if (req.files.cover_1) data.cover_image_url_1 = req.files.cover_1[0].location
+        if (req.files.cover_2) data.cover_image_url_2 = req.files.cover_2[0].location
+        if (req.files.cover_3) data.cover_image_url_3 = req.files.cover_3[0].location
+        if (req.files.cover_4) data.cover_image_url_4 = req.files.cover_4[0].location
+        if (req.files.cover_5) data.cover_image_url_5 = req.files.cover_5[0].location
+        if (req.files.cover_6) data.cover_image_url_6 = req.files.cover_6[0].location
+        if (req.files.cover_7) data.cover_image_url_7 = req.files.cover_7[0].location
+        if (req.files.cover_8) data.cover_image_url_8 = req.files.cover_8[0].location
       }
 
       mysql.query(`

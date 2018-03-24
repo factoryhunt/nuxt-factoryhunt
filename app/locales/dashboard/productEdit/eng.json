@@ -22,7 +22,7 @@
     "title": "Product image",
     "subTitle": "The first photo will be the main product image. You can upload up to 5 images.",
     "mainImage": "Main image",
-    "caution": "If images are not directly related to the registered product, the registration can be by the administrator.",
+    "caution": "If images are not directly related to the registered product, the registration can be deleted by the administrator.",
     "alert": "At least one product photo must be uploaded."
   },
   "information": {
@@ -53,5 +53,12 @@
     "title": "Confirm and Save",
     "subTitle": "Please confirm the information above before submitting it. The information will be updated immediately.",
     "button": "Save"
+  },
+  "alert": {
+    "image": {
+      "success": "Your photo has been updated successfully.",
+      "fail": "Photo update failed. Please try again.",
+      "upTo5": "You can select up to 5 images."
+    }
   }
 }

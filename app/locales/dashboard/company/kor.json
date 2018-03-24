@@ -36,9 +36,9 @@
   },
   "video": {
     "title": "회사 소개 비디오",
-    "desc": "YouTube 링크를 복사 후 붙여넣기 해주세요.",
-    "inputTitle": "유효한 YouTube 링크를 입력 해주세요.",
-    "alert": "유효한 YouTube 링크를 입력 해주세요."
+    "desc": "YouTube 또는 Vimeo 링크를 복사 후 붙여넣기 해주세요.",
+    "inputTitle": "유효한 YouTube 또는 Vimeo 링크를 입력 해주세요.",
+    "alert": "유효한 YouTube 또는 Viemo 링크를 입력 해주세요."
   },
   "description": {
     "title": "회사 소개",

@@ -7,7 +7,7 @@
           <div class="menu-container">
             <nuxt-link id="item-company-edit" class="menu" to="/dashboard/company">{{ $t('dashboardCompany.editCompany') }}</nuxt-link>
             <nuxt-link id="item-domain-edit" class="menu" to="/dashboard/company/domain">{{ $t('dashboardCompany.editDomain') }}</nuxt-link>
-            <nuxt-link id="item-image-edit" class="menu" to="/dashboard/company/image">{{ $t('dashboardCompany.images') }}</nuxt-link>
+            <a id="item-image-edit" class="menu" href="/dashboard/company/image">{{ $t('dashboardCompany.images') }}</a>
             <!--<nuxt-link id="item-documents-edit" class="menu" to="/dashboard/company/documents">{{ $t('dashboardCompany.documents') }}</nuxt-link>-->
             <button @click="routeCompanyPage" class="view-button button-white">{{ $t('dashboardCompany.viewButton') }}</button>
           </div>
@@ -17,13 +17,14 @@
 
     <!-- Right-side -->
     <div class="right-container">
-      <nuxt-child :account="account"></nuxt-child>
+      <nuxt-child :account="account"/>
     </div>
 
   </section>
 </template>
 
 <script>
+  import axios from '~/plugins/axios'
   import { mapGetters } from 'vuex'
   export default {
     layout: 'dashboard',

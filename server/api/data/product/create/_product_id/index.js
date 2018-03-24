@@ -13,6 +13,6 @@ const fields = [
   {name: 'pdf'}
 ]
 
-router.post('/:contact_id', product_create, config_multer.fields(fields), _)
+router.post('/:account_id', product_create, config_multer.fields(fields), _)
 
 module.exports = router

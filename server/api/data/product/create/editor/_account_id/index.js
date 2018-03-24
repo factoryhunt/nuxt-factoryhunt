@@ -8,6 +8,6 @@ const multer = require('./middleware/multer')
 
 
 
-router.post('/:contact_id', multer.array('images', 1), _)
+router.post('/:account_id', multer.array('images', 1), _)
 
 module.exports = router

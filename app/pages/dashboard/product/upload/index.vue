@@ -59,32 +59,19 @@
           <div class="image-inner-container">
             <div class="image-each-container">
 
-              <ul class="cover-image-container">
+              <ul class="square-image-upload-container">
                 <li v-for="(url, index) in value.urls" :key="index" :id="`cover-image-wrapper-${index}`" class="cover-image">
                   <label :for="`cover-image-${index}`" :style="`background-image: url(${url})`"></label>
                   <input :id="`cover-image-${index}`" type="file" accept="image/*" @change="onCoverImageEdited($event, index)">
                   <a id="remove-image-button" @click="removeURL(index)">✕</a>
                 </li>
-                <li id="cover-image-add-wrapper" class="cover-image" v-show="value.urls.length < 8">
+                <li id="cover-image-add-wrapper" class="cover-image" v-show="value.urls.length < numberOfImage">
                   <label for="cover-image-add" class="add"></label>
                   <input id="cover-image-add" multiple type="file" accept="image/*" @change="onCoverImageAdded($event.target, $event.target.files)">
                 </li>
               </ul>
 
-              <ul id="image-container-ul">
-                <li id="image-edit" style="display: none;">
-                  <img class="each-image" src="~assets/img/white-bg.png">
-                  <label></label>
-                  <input name="thumbnail_image" type="file" accept="image/*">
-                </li>
-                <li id="image-add">
-                  <img class="each-image" src="~assets/img/white-bg.png">
-                  <label for="thumbnail-image-add"><i class="fa fa-plus add-button" aria-hidden="true"></i></label>
-                  <input id="thumbnail-image-add" name="thumbnail_image" @change="onImageAdded($event.target.name, $event.target.files)" type="file" multiple accept="image/*">
-                </li>
-              </ul>
             </div>
-            <span id="thumbnail-text">{{ $t('dashboardProductEdit.productImage.mainImage') }}</span>
           </div>
           <p class="caution-text">{{ $t('dashboardProductEdit.productImage.caution') }}</p>
         </div>
@@ -210,6 +197,7 @@
           [{'align': ''}, {'align': 'center'}, {'align': 'right'}, {'align': 'justify'}],
           ['clean']
         ],
+        numberOfImage: 5,
         toggle: {
           productName: true,
           isSaving: false
@@ -254,32 +242,8 @@
         console.log(temp)
         return temp
       },
-      mappingData () {
-        const {
-          cover_image_url_1,
-          cover_image_url_2,
-          cover_image_url_3,
-          cover_image_url_4,
-          cover_image_url_5,
-          cover_image_url_6,
-          cover_image_url_7,
-          cover_image_url_8
-        } = this.account
-        if (cover_image_url_1) this.pushArray(cover_image_url_1)
-        if (cover_image_url_2) this.pushArray(cover_image_url_2)
-        if (cover_image_url_3) this.pushArray(cover_image_url_3)
-        if (cover_image_url_4) this.pushArray(cover_image_url_4)
-        if (cover_image_url_5) this.pushArray(cover_image_url_5)
-        if (cover_image_url_6) this.pushArray(cover_image_url_6)
-        if (cover_image_url_7) this.pushArray(cover_image_url_7)
-        if (cover_image_url_8) this.pushArray(cover_image_url_8)
-      },
-      pushArray (url) {
-        this.value.urls.push(url)
-        this.value.files.push(new File([''], ''))
-      },
       async onCoverImageAdded (target, files) {
-        if (files.length > 8) return this.showAlert(false, this.$t('dashboardCompany.alert.image.upTo8'))
+        if (files.length > this.numberOfImage) return showTopAlert(this.$store, false, this.$t('dashboardProductEdit.alert.image.upTo5'))
 
         // multiple upload
         for (let i = 0; i < files.length; i++) {
@@ -287,10 +251,8 @@
         }
 
         // remove after index number 8
-        this.value.urls.splice(8, this.value.urls.length)
-        this.value.files.splice(8, this.value.urls.length)
-
-        $('#main-image-upload-button').show()
+        this.value.urls.splice(this.numberOfImage, this.value.urls.length)
+        this.value.files.splice(this.numberOfImage, this.value.urls.length)
       },
       async addNewImage (file) {
         const fileURL = await this.getFileURL(file)
@@ -308,12 +270,20 @@
         this.value.files[index] = file
 
         label.style.backgroundImage = `url(${fileURL})`
-
-        $('#main-image-upload-button').show()
       },
       removeURL (index) {
         this.value.urls.splice(index, 1)
-        $('#main-image-upload-button').show()
+      },
+      getFileURL (file) {
+        return new Promise((resolve, reject) => {
+          if (file.size < 0) reject()
+
+          const reader = new FileReader()
+          reader.onload = function (event) {
+            resolve(event.target.result)
+          }
+          reader.readAsDataURL(file)
+        })
       },
       countNameLength (e) {
         $(document).ready(() => {
@@ -333,52 +303,6 @@
         $('.secondary-category-container li').removeClass('active')
         $(event.target).addClass('active')
         this.value.secondaryCategory = this.value.subCategories[index].name
-      },
-      onImageAdded (name, files) {
-        const fileCount = files.length
-        let childCount = ($('#image-container-ul')[0].children.length) - 1
-
-        // single upload
-        if (fileCount === 1 && childCount < 6) {
-          this.addNewImage(childCount, files[0])
-          // multiple upload
-        } else {
-          for (var i = 0; i < fileCount; i++) {
-            if (childCount < 6) {
-              this.addNewImage(childCount, files[i])
-              childCount += 1
-            }
-          }
-        }
-        //
-        console.log('current children count: ', childCount)
-        if (childCount >= 5) {
-          $('#image-add').remove()
-        }
-      },
-      readURL ($li, file) {
-        if (file) {
-          var reader = new FileReader()
-          reader.onload = (event) => {
-            console.log(event)
-            const url = event.target.result
-            $li.css('display', 'inherit')
-            $li.children('.each-image').attr('src', url)
-          }
-          reader.readAsDataURL(file)
-        }
-      },
-      editURL ($image, file, index) {
-        if (file) {
-          var reader = new FileReader()
-          reader.onload = (event) => {
-            console.log(event)
-            const url = event.target.result
-            $image.attr('src', url)
-            this.value.files[index - 1] = file
-          }
-          reader.readAsDataURL(file)
-        }
       },
       preventEnterKeySubmit () {
         $('input').keydown(() => {
@@ -440,9 +364,9 @@
       onUploadButton () {
         this.activateLoader()
 
-        if (!this.value.primaryCategory) {
-          return this.uploadFailed('Please select the main product category.')
-        }
+        // if (!this.value.primaryCategory) {
+        //   return this.uploadFailed('Please select the main product category.')
+        // }
 
         this.filterProductDomain(this.value.productName)
 
@@ -471,8 +395,16 @@
 
         if (!$('.ql-editor').hasClass('ql-blank')) formData.append('product_description', document.querySelector('.ql-editor').innerHTML)
 
-        for (let i = 0; i < this.value.files.length; i++) {
-          formData.append('images', this.value.files[i])
+        // for (let i = 0; i < this.value.files.length; i++) {
+        //   formData.append('images', this.value.files[i])
+        // }
+
+        for (let i = 0; i < this.value.urls.length; i++) {
+          const url = this.value.urls[i]
+          const file = this.value.files[i]
+
+          if (file.size > 0) formData.append(`images`, file)
+          else formData.append(`images`, url)
         }
 
         if (document.getElementById('pdf-input').files[0]) formData.append('pdf', document.getElementById('pdf-input').files[0])
@@ -557,6 +489,7 @@
 
 <style lang="less" scoped>
   @import '~assets/css/index';
+  @import "~assets/css/less/dashboard/index.less";
 
   #html-editor {
     height: 500px !important;
@@ -779,78 +712,6 @@
 
           .image-inner-container {
             position: relative;
-
-            #thumbnail-text {
-              position: absolute;
-              text-align: center;
-              font-size: 15px;
-              color: @color-link;
-              top: 155px;
-              left: 57px;
-            }
-
-            .image-each-container {
-
-              ul {
-                list-style: none;
-                margin: 0;
-                padding: 0;
-
-                &:before {
-                  content: "";
-                  display: table;
-                }
-                &:after {
-                  clear: both;
-                  content: "";
-                  display: table;
-                }
-
-                li {
-                  display: table-cell;
-                  text-align: center;
-                  position: relative;
-                  float: left;
-                  margin: 0 15px 15px 0;
-                  padding: 0;
-                  width: 188px;
-                  height: 188px;
-
-                  input {
-                    display: none;
-                  }
-
-                  img {
-                    width: 100%;
-                    height: 100%;
-                    border: 1px dashed @color-menu-gray;
-                  }
-
-                  label {
-                    position: absolute;
-                    top: 0;
-                    right: 0;
-                    left: 0;
-                    bottom: 0;
-                    cursor: pointer;
-                    vertical-align: middle;
-                  }
-
-                  .add-button {
-                    position: absolute;
-                    font-weight: 100;
-                    font-size: 40px;
-                    color: @color-font-base;
-                    top: 75px;
-                    left: 80px;
-                  }
-
-                  .deactive {
-                    display: none;
-                  }
-                }
-              }
-            }
 
           }
         }
