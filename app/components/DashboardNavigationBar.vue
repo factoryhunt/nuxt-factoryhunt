@@ -7,13 +7,18 @@
         <nuxt-link id="item-product" class="tab" to="/dashboard/product">{{ $t('navigationBar.product') }}</nuxt-link>
         <!--<nuxt-link id="item-inbox" class="tab" to="/dashboard/inbox">{{ $t('navigationBar.inbox') }}</nuxt-link>-->
         <nuxt-link id="item-account" class="tab" to="/dashboard/account">{{ $t('navigationBar.account') }}</nuxt-link>
+        <nuxt-link id="item-email" class="tab" to="/dashboard/email" v-show="contact.contact_level === '0'">{{ $t('navigationBar.email') }}</nuxt-link>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+  import { mapGetters } from 'vuex'
   export default {
+    computed: mapGetters({
+      contact: 'auth/GET_CONTACT'
+    }),
     methods: {
       highlightNavigationButton () {
         const { name } = this.$route
@@ -33,6 +38,9 @@
         if (name.indexOf('dashboard-account') !== -1 ) {
           $('#item-account').attr('aria-selected', true)
         }
+        if (name.indexOf('dashboard-email') !== -1 ) {
+          $('#item-email').attr('aria-selected', true)
+        }
       },
       unhighlightNavigationButton () {
         $('#item-dashboard').attr('aria-selected', false)
@@ -40,6 +48,7 @@
         $('#item-product').attr('aria-selected', false)
         $('#item-inbox').attr('aria-selected', false)
         $('#item-account').attr('aria-selected', false)
+        $('#item-email').attr('aria-selected', false)
       }
     },
     mounted () {

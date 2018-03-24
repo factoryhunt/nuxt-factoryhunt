@@ -24,7 +24,10 @@
 
       <!-- Header -->
       <header class="header-container">
-        <p class="sub-title">{{ $t('dashboard.welcome', {name: getAccountName}) }}</p>
+        <p class="sub-title">
+          {{ $t('dashboard.welcome', {name: getAccountName}) }}
+          <span v-if="isTesterAccount"><br>This app is 0.7.4 version.</span>
+        </p>
       </header>
 
       <!-- Link -->
@@ -111,7 +114,10 @@
         account: 'auth/GET_ACCOUNT',
         contact: 'auth/GET_CONTACT',
         isLoggedIn: 'auth/isLoggedIn'
-      })
+      }),
+      isTesterAccount () {
+        return this.contact.contact_level === "0"
+      }
     },
     methods: {
       removeLinkContainer () {
