@@ -58,6 +58,7 @@ module.exports = async (req, res) => {
   const postMail = (token, email, name) => {
     const link = `//${req.get('host')}/verification/unsubscribe?token=${token}`
     const message = {
+      sender: 'Factory Hunt',
       from: 'info@factoryhunt.com',
       to: email,
       subject: 'Factoryhunt.com - Share your catalog with us and promote for FREE!',
