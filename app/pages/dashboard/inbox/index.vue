@@ -62,7 +62,6 @@
             </div>
             <div class="product-name-container">
               <p class="name-text" @click="routeProductPage(index)">{{message.body}}</p>
-              <p class="code-text" @click="routeProductPage(index)">{{message.body}}</p>
             </div>
             <div class="date-container">
               <p>{{message.created_date}}</p>
@@ -319,6 +318,7 @@
               width: 53%;
 
               .name-text {
+                cursor: pointer;
                 white-space: nowrap;
                 overflow: hidden;
                 text-overflow: ellipsis;

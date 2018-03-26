@@ -26,7 +26,7 @@ module.exports = async (req, res) => {
       email_subscription,
       notes
       FROM
-      ${CONFIG_MYSQL.TABLE_EMAILS}
+      ${CONFIG_MYSQL.TABLE_LEADS}
       WHERE
       lead_id >= ${min_lead_id} AND
       lead_id <= ${max_lead_id} AND
@@ -49,7 +49,7 @@ module.exports = async (req, res) => {
       const token = await publishToken(payload)
       const info = await postMail(token, leads[index].email, getName(leads[index]))
       console.log(info)
-      await updateLeadDatabase(leads[index].lead_id)
+      await updateLeadDatabase(leads[index])
     }
 
     console.log('post Emails done')
@@ -73,10 +73,12 @@ module.exports = async (req, res) => {
     })
   }
 
-  const updateLeadDatabase = (lead_id) => {
+  const updateLeadDatabase = (lead) => {
+    const lead_id = lead.lead_id
+    const notes = lead.notes
     const date = new Date()
     const data = {
-      notes: `${date} - Sent Ads email`
+      notes: `${notes}\n${date} - Sent Ads email`
     }
 
     return new Promise((resolve, reject) => {

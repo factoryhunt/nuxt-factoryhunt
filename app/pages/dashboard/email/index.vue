@@ -9,6 +9,11 @@
       <button @click="onSearchButton">Search</button>
     </div>
     <div class="leads-container">
+      <loader
+        class="spinkit-default visible"
+        id="data-loader"
+        v-if="toggle.isSearching"
+      />
       <div v-for="(lead,index) in value.leads" :key="index" class="lead-container">
         <p>
           {{lead.lead_id}} {{lead.company}}<br>
@@ -23,7 +28,7 @@
         v-show="!toggle.isSendingEmail">
         Send Email
       </button>
-      <loader id="loader" v-show="toggle.isSendingEmail"/>
+      <loader class="spinkit-input visible" id="loader" v-show="toggle.isSendingEmail"/>
     </div>
   </section>
 </template>
@@ -43,6 +48,7 @@
           maxLeadId: 0
         },
         toggle: {
+          isSearching: false,
           isSendingEmail: false
         }
       }
@@ -76,25 +82,21 @@
         }
       },
       onSearchButton () {
+        this.toggle.isSearching = true
         const data = {
           min_lead_id: this.value.minLeadId,
           max_lead_id: this.value.maxLeadId
         }
         axios.post(`/api/data/lead/email`, data)
           .then(res => {
+            this.toggle.isSearching = false
             this.value.leads = res.data
           })
           .catch(err => {
             console.log(err)
+            this.toggle.isSearching = false
           })
       }
-
-    },
-    created () {
-      console.log('/email created')
-    },
-    mounted () {
-      console.log('/email mounted')
     }
   }
 </script>

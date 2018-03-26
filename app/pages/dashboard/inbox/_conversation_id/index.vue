@@ -199,8 +199,6 @@
       padding-left: 270px;
 
       .message-container {
-        -webkit-box-sizing: border-box;
-        -moz-box-sizing: border-box;
         box-sizing: border-box;
         border: 1px solid gray;
         padding: 17px;
@@ -209,12 +207,12 @@
 
         .message-left {
           margin-right: 200px;
-          background-color: lightgray;
+          background-color: @color-white;
           margin-bottom: 20px;
         }
         .message-right {
           margin-left: 200px;
-          background-color: darkgray;
+          background-color: @color-white;
           margin-bottom: 20px;
         }
       }

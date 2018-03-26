@@ -5,7 +5,7 @@
         <nuxt-link id="item-dashboard" class="tab" to="/dashboard">{{ $t('navigationBar.dashboard') }}</nuxt-link>
         <nuxt-link id="item-company" class="tab" to="/dashboard/company">{{ $t('navigationBar.company') }}</nuxt-link>
         <nuxt-link id="item-product" class="tab" to="/dashboard/product">{{ $t('navigationBar.product') }}</nuxt-link>
-        <nuxt-link id="item-inbox" class="tab" to="/dashboard/inbox">{{ $t('navigationBar.inbox') }}</nuxt-link>
+        <nuxt-link id="item-inbox" class="tab" to="/dashboard/inbox" v-show="contact.contact_level === '0'">{{ $t('navigationBar.inbox') }}</nuxt-link>
         <nuxt-link id="item-account" class="tab" to="/dashboard/account">{{ $t('navigationBar.account') }}</nuxt-link>
         <nuxt-link id="item-email" class="tab" to="/dashboard/email" v-show="contact.contact_level === '0'">{{ $t('navigationBar.email') }}</nuxt-link>
       </div>
