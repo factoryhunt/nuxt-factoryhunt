@@ -34,7 +34,7 @@ module.exports = async (req, res) => {
       email_subscription,
       notes
       FROM
-      ${CONFIG_MYSQL.TABLE_EMAILS}
+      ${CONFIG_MYSQL.TABLE_LEADS}
       WHERE
       lead_id >= ${min_lead_id} AND
       lead_id <= ${max_lead_id} AND
