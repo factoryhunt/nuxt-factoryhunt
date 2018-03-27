@@ -12,7 +12,8 @@ module.exports = async (req, res) => {
       UPDATE 
       ${CONFIG_MYSQL.TABLE_LEADS}
       SET
-      ?
+      ?,
+      notes = CONCAT(notes, ${lead_data.notes})
       WHERE
       lead_id = ${lead_id}`, lead_data, (err) => {
         if (err) reject(err)

@@ -14,6 +14,10 @@
     components: {
       loader
     },
+    asyncData ({redirect, store}) {
+      const contactLevel = store.getters['auth/GET_CONTACT'].contact_level
+      if (contactLevel !== '0') redirect('/dashboard')
+    },
     data () {
       return {
         inbox: [],
