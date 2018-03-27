@@ -73,7 +73,7 @@ module.exports = {
   },
   plugins: [
     { src: '~plugins/i18n', injectAs: 'i18n' },
-    { src: '~plugins/jquery', ssr: false },
+    { src: '~plugins/jquery', ssr: false }
   ],
   router: {
     middleware: [

@@ -20,5 +20,14 @@ module.exports = {
       user: 'factory.noreply',
       pass: password
     }
+  },
+  daniel: {
+    host: host,
+    port: port,
+    secure: secure,
+    auth: {
+      user: 'factory.daniel',
+      pass: password
+    }
   }
 }

@@ -13,7 +13,14 @@ noreplayMailer.verify((err, result) => {
   console.log('\nnoreplayMailer is verified\n')
 })
 
+const danielMailer = nodemailer.createTransport(config.daniel)
+noreplayMailer.verify((err, result) => {
+  if (err) return console.log(err)
+  console.log('\ndanielMailer is verified\n')
+})
+
 module.exports = {
   infoMailer,
-  noreplayMailer
+  noreplayMailer,
+  danielMailer
 }

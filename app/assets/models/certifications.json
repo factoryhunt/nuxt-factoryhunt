@@ -101,6 +101,32 @@
     ]
   },
   {
+    "Restricted Product Authorizations": [
+      { "value": "Medical Device Manufacturers Licences", "title": "Medical Device Manufacturers Licences" },
+      { "value": "Medical Device Distribution Enterprise Licenses", "title": "Medical Device Distribution Enterprise Licenses" },
+      { "value": "Other Medical Device Licenses", "title": "Other Medical Device Licenses" },
+      { "value": "Police Supplies Production and Sales Business Registration Forms", "title": " Police Supplies Production and Sales Business Registration Forms" },
+      { "value": "Peoples Republic of China Military Export Licenses", "title": "Peoples Republic of China Military Export Licenses" },
+      { "value": "Agency Agreements for Military Export", "title": "Agency Agreements for Military Export" },
+      { "value": "Fireworks and Firecrackers Safe Production Licences", "title": "Fireworks and Firecrackers Safe Production Licences" },
+      { "value": "Fireworks and Firecracker Business (Wholesale) Licenses", "title": "Fireworks and Firecracker Business (Wholesale) Licenses" },
+      { "value": "Fireworks and Firecracker Business (Retail) Licenses", "title": "Fireworks and Firecracker Business (Retail) Licenses" },
+      { "value": "Other Firework Licenses", "title": "Other Firework Licenses" },
+      { "value": "Drug Production Licenses", "title": "Drug Production Licenses" },
+      { "value": "Drug Business Licenses", "title": "Drug Business Licenses" },
+      { "value": "Other Drug Licenses", "title": "Other Drug Licenses" },
+      { "value": "Tobacco monopoly licenses", "title": "Tobacco monopoly licenses" },
+      { "value": "Other Tobacco Licenses", "title": "Other Tobacco Licenses" },
+      { "value": "Dietary Supplement Approval Certificates", "title": "Dietary Supplement Approval Certificates" },
+      { "value": "Food Hygiene Licenses", "title": "Food Hygiene Licenses" },
+      { "value": "Food Business Licenses", "title": "Food Business Licenses" },
+      { "value": "Food Production Licences", "title": "Food Production Licences" },
+      { "value": "Imported Dietary Supplement Approval Certificates", "title": "Imported Dietary Supplement Approval Certificates" },
+      { "value": "Toy Arrow Bow Test Reports", "title": "Toy Arrow Bow Test Reports" },
+      { "value": "Business Licenses", "title": "Business Licenses" }
+    ]
+  },
+  {
     "Issued By": [
       { "value": "ABS", "title": "American Bureau of Shipping " },
       { "value": "BSI", "title": "BSI" },
