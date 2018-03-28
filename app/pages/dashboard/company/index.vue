@@ -988,19 +988,5 @@
       }
     }
 
-    .certification-container {}
-
-    .confirm-container {
-      .title {
-        margin-bottom: 0 !important;
-      }
-      .sub-title {
-        margin-bottom: 10px !important;
-      }
-      button {
-        font-size: @font-size-button;
-        font-weight: @font-weight-button;
-      }
-    }
   }
 </style>
