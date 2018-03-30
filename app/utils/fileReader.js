@@ -16,3 +16,7 @@ export const getFileURL = (file, progressBar) => {
     reader.readAsDataURL(file)
   })
 }
+
+export const kilobyteToMegabyte = (kilobyte) => {
+  return ((kilobyte/1024)/1024).toFixed(4)
+}

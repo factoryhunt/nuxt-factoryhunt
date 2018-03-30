@@ -18,8 +18,10 @@
           accept="image/jpeg, image/jpg, image/png"
         >
 
+        <div id="progress-bar"></div>
+
         <div class="certification list-container" id="list">
-          <div class="list-item" v-for="(certification, cIndex) in value.certifications" :key="cIndex">
+          <div class="list-item" id="list-item" v-for="(certification, cIndex) in value.certifications" :key="cIndex">
             <img
               class="remove-button"
               src="~assets/icons/cancel.svg"
@@ -36,6 +38,7 @@
                   :id="`${cIndex}-${tIndex}`"
                   :value="category.value"
                   v-model="certification.document_type"
+                  @change="inputChanged"
                 >
                 <label
                   :for="`${cIndex}-${tIndex}`">
@@ -48,17 +51,26 @@
               <input
                 type="text"
                 v-model="certification.document_name"
+                @keyup="inputChanged"
               >
+              <label class="size">{{certification.size}}</label>
             </div>
           </div>
         </div>
       </div>
 
       <div class="confirm-container" id="confirm-container">
+        <loader
+          id="loader"
+          class="spinkit-inline"
+          v-if="toggle.isUploading"
+        />
         <button
           id="save-button"
           class="button-orange"
-          @click="onSaveButton">
+          @click="onSaveButton"
+          v-if="!toggle.isUploading"
+          :disabled="!toggle.canUpload">
           Save
         </button>
       </div>
@@ -70,7 +82,8 @@
 <script>
   import axios from '~/plugins/axios'
   import certifications from '~/assets/models/certifications.json'
-  import { getFileURL } from '~/utils/fileReader'
+  import Loader from '~/components/Loader'
+  import { getFileURL, kilobyteToMegabyte } from '~/utils/fileReader'
   import { showTopAlert } from '~/utils/alert'
   export default {
     head () {
@@ -84,6 +97,9 @@
           // { src: 'https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.3.3/cropper.min.js'}
         ]
       }
+    },
+    components: {
+      Loader
     },
     props: {
       account: {
@@ -99,21 +115,25 @@
         value: {
           certifications: [],
           picked: '',
-          files: []
+          files: [],
+          caution: ''
+        },
+        toggle: {
+          canUpload: false,
+          isUploading: false
         }
       }
     },
     methods: {
       createCertifications (formData) {
         return new Promise((resolve, reject) => {
-          const config = {
-            headers: {'content-type': 'multipart/form-data'}
+          const options = {
+            headers: {'content-type': 'multipart/form-data'},
+            onUploadProgress: this.onUploadProgress
           }
           axios.post(`/api/data/documents/certifications/${this.account.account_id}`,
             formData,
-            config, {
-              onUploadProgress: this.onUploadProgress
-            })
+            options)
             .then(() => {
               resolve()
             })
@@ -191,23 +211,38 @@
       readFiles (files) {
         let filteredFiles = []
 
-        for (const i in files) {
+        for (let i = 0; i < files.length; i++) {
           const file = files[i]
           const fileFilter = /\/(jpg|jpeg|png)$/
-          if (fileFilter.test(file.type)) filteredFiles.push(file)
+
+          // Invalid Format
+          if (!fileFilter.test(file.type)) showTopAlert(this.$store, false, 'JPG JPEG PNG format only.')
+
+          // File size over
+          if (kilobyteToMegabyte(file.size) >= 7) showTopAlert(this.$store, false, 'Maximum each file size is 5MB')
+
+          // Approved
+          if (fileFilter.test(file.type) &&
+              kilobyteToMegabyte(file.size) < 7) filteredFiles.push(file)
         }
 
         this.postImageToS3(filteredFiles)
       },
       async postImageToS3 (files) {
+        if (files.length < 1) return
+        this.progressBarDone(0)
+
         const formData = new FormData()
+
         for (let i = 0; i < files.length; i++) {
           formData.append(`certifications`, files[i])
         }
 
         try {
           await this.createCertifications(formData)
+          this.progressBarDone(60, true)
           await this.getCertifications()
+          this.progressBarDone(100, true)
         } catch (err) {
           console.log('postImageToS3 Error')
           console.log(err)
@@ -227,18 +262,45 @@
         }
       },
       async onSaveButton () {
-        this.hideSaveButton()
+        this.toggle.isUploading = true
 
         try {
           await this.updateCertifications()
+          this.toggle.isUploading = false
+          this.toggle.canUpload = false
+          showTopAlert(this.$store, true, 'Uploaded.')
         } catch (err) {
           console.log(err)
-          this.showSaveButton()
+          showTopAlert(this.$store, false, 'Failed.')
+          this.toggle.isUploading = false
         }
       },
       onUploadProgress (progressEvent) {
         if (progressEvent.lengthComputable) {
-          console.log(progressEvent.loaded + ' ' + progressEvent.total)
+          let progress = Math.round( (progressEvent.loaded * 100) / progressEvent.total )
+          progress = progress < 25 ? progress : 25
+
+          this.progressBarDone(progress)
+        }
+      },
+      onDownloadProgress (progressEvent) {
+        if (progressEvent.lengthComputable) {
+          let progress = Math.round( (progressEvent.loaded * 100) / progressEvent.total )
+          console.log('d:', progress)
+        }
+      },
+      progressBarDone (percent, finished) {
+        let progressBar = document.getElementById('progress-bar')
+        progressBar.style.width = `${percent}%`
+        progressBar.style.opacity = `1`
+
+        if (finished) {
+          setTimeout(() => {
+            progressBar.style.opacity = `0`
+            setTimeout(() => {
+              progressBar.style.width = `0`
+            }, 500)
+          }, 1500)
         }
       },
       initDropzone () {
@@ -247,13 +309,8 @@
         dropLabel.addEventListener("drop", this.fileSelectHandler, false)
         dropLabel.addEventListener("dragleave", this.fileDragLeave, false)
       },
-      showSaveButton () {
-        const container = document.getElementById('confirm-container')
-        container.style.display = 'block'
-      },
-      hideSaveButton () {
-        const container = document.getElementById('confirm-container')
-        container.style.display = 'none'
+      inputChanged () {
+        this.toggle.canUpload = true
       }
     },
     async mounted () {
@@ -361,22 +418,31 @@
           margin-bottom: 4px;
         }
         input {
-          width: 430px;
+          width: 300px;
           font-size: @font-size-small;
+        }
+        .size {
+          display: inline-table;
         }
       }
     }
   }
 
   #confirm-container {
-    display: none;
+  }
+
+  #loader {
+    vertical-align: middle;
+    width: 104px;
   }
 
   #progress-bar {
+    margin: 8px 0;
     background-color: @color-orange;
+    opacity: 0;
     width: 0;
-    height: 12px;
-    transition: width .5s ease .3s;
-    border-radius: 10px;
+    height: 6px;
+    transition: all .5s ease .1s;
+    border-radius: 6px;
   }
 </style>

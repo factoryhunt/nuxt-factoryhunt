@@ -48,7 +48,13 @@ select {
 }
 button {
   outline: none;
+
   &:hover {
     cursor: pointer;
+  }
+
+  &:disabled {
+    opacity: .7;
+    cursor: not-allowed !important;
   }
 }
