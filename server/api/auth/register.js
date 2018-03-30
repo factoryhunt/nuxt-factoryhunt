@@ -8,17 +8,17 @@ module.exports = async (req, res) => {
   const company = (req.body.company).replace(/^\s+|\s+$/g, '')
   const handled_company = company.replace(/ /g, '-').toLowerCase().replace(/\./g, '').replace(/\,/g, '').replace(/\(/g, '').replace(/\)/g, '')
   const email = req.body.email
-  var password = req.body.password
+  let password = req.body.password
 
-  var password_salt = ''
-  var lead = {}
-  var lead_update = {}
-  var account = {}
-  var account_update = {}
-  var contact = {}
-  var last_lead_id = null
-  var last_account_id = null
-  var last_contact_id = null
+  let password_salt = ''
+  let lead = {}
+  let lead_update = {}
+  let account = {}
+  let account_update = {}
+  let contact = {}
+  let last_lead_id = null
+  let last_account_id = null
+  let last_contact_id = null
 
   // promises
   const checkEmail = () => {
@@ -138,7 +138,12 @@ module.exports = async (req, res) => {
         domain: `${handled_company}-${56789 + last_account_id}`
       }
       mysql.query(
-        `UPDATE ${CONFIG_MYSQL.TABLE_ACCOUNTS} a SET ? WHERE account_id = ` + last_account_id, account_update, (err) => {
+        `UPDATE 
+        ${CONFIG_MYSQL.TABLE_ACCOUNTS} 
+        SET 
+        ? 
+        WHERE 
+        account_id = ` + last_account_id, account_update, (err) => {
           if (err) reject({msg: 'Domain update failed.',msg_kor: '도메인 업데이트 실패'})
           resolve()
         })

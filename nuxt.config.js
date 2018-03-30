@@ -13,12 +13,12 @@ module.exports = {
       { hid: 'og-type', property: 'og:type', content: 'website' },
       { hid: 'og-title', property: 'og:title', content: 'Factory Hunt' },
       { hid: 'og-description', property: 'og:description', content: 'A Hub for Manufacturer & Supplier Listings' },
-      { hid: 'og-image', property: 'og:image', content: 'https://s3-us-west-1.amazonaws.com/factoryhunt.com/logo2.png' },
+      { hid: 'og-image', property: 'og:image', content: 'https://s3-us-west-1.amazonaws.com/factoryhunt.com/admin/thumbnail_eng.png' },
       { hid: 'og-url', property: 'og:url', content: 'https://www.factoryhunt.com' },
       { hid: 'twitter-card', property: 'twitter:card', content: 'summary' },
       { hid: 'twitter-title', property: 'twitter:title', content: 'Factory Hunt' },
       { hid: 'twitter-description', property: 'twitter:description', content: 'A Hub for Manufacturer & Supplier Listings' },
-      { hid: 'twitter-image', property: 'twitter:image', content: 'https://s3-us-west-1.amazonaws.com/factoryhunt.com/logo2.png' },
+      { hid: 'twitter-image', property: 'twitter:image', content: 'https://s3-us-west-1.amazonaws.com/factoryhunt.com/admin/thumbnail_eng.png' },
       { hid: 'twitter-domain', property: 'twitter:domain', content: 'https://www.factoryhunt.com' }
     ],
     link: [
