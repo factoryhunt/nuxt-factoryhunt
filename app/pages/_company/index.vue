@@ -125,14 +125,10 @@
             <!--•-->
             <!--<h4 class="review-title"> <small>(0)개의 평가</small></h4>-->
           </div>
-          <div class="video-container" v-show="getYoutubeVideoURL">
-            <!--<iframe-->
-              <!--src="https://player.vimeo.com/video/119343871?autoplay=1&loop=1&title=0&byline=0&portrait=0"-->
-              <!--frameborder="0"-->
-              <!--allowfullscreen></iframe>-->
+          <div class="video-container" v-show="getVideoURL">
             <iframe
               id="intro-video"
-              :src="getYoutubeVideoURL"
+              :src="getVideoURL"
               frameborder="0"
               allowfullscreen></iframe>
           </div>
@@ -404,7 +400,7 @@
         if (this.vendor.language_spoken) return true
         return false
       },
-      getYoutubeVideoURL () {
+      getVideoURL () {
         // API list: https://developers.google.com/youtube/player_parameters
         if (!this.vendor.account_video_url) return
         const videoUrl = this.vendor.account_video_url
@@ -417,22 +413,22 @@
           const ampersandPosition = videoId.indexOf('&')
 
           // If video query exists
-          if(ampersandPosition != -1) videoId = videoId.substring(0, ampersandPosition)
+          if(ampersandPosition !== -1) videoId = videoId.substring(0, ampersandPosition)
 
-          url = `https://www.youtube.com/embed/${videoId}?rel=0&autoplay=1&loop=1&controls=2&showinfo=0&autohide=1&modestbranding=1`
+          url = `https://www.youtube.com/embed/${videoId}?rel=0&autoplay=1&controls=2&showinfo=0&autohide=1&modestbranding=1`
 
           // Youtube
         } else if (videoUrl.indexOf('youtu.be/') > -1) {
           videoId = this.vendor.account_video_url.split('.be/')[1]
-          url = `https://www.youtube.com/embed/${videoId}?rel=0&autoplay=1&loop=1&controls=2&showinfo=0&autohide=1&modestbranding=1`
+          url = `https://www.youtube.com/embed/${videoId}?rel=0&autoplay=1&controls=2&showinfo=0&autohide=1&modestbranding=1`
 
+          // Vimeo
         } else if (videoUrl.indexOf('vimeo.com') > -1) {
           videoId = this.vendor.account_video_url.split('.com/')[1]
-          url = `https://player.vimeo.com/video/${videoId}?autoplay=1&loop=1&title=0&byline=0&portrait=0`
+          url = `https://player.vimeo.com/video/${videoId}?autoplay=1&title=0&byline=0&portrait=0`
         } else {
           url = ''
         }
-        console.log(url)
         return url
       }
     },
@@ -603,18 +599,18 @@
       routeProductProfilePage (index) {
         const productDomain = this.products[index].product_domain
         if (this.queryInput) {
-          // location.href = `/${this.value.company}/${productDomain}?input=${this.queryInput}`
-          this.$router.push({
-            path: `/${this.value.company}/${productDomain}`,
-            query: {
-              input: this.queryInput
-            }
-          })
+          location.href = `/${this.value.company}/${productDomain}?input=${this.queryInput}`
+          // this.$router.push({
+          //   path: `/${this.value.company}/${productDomain}`,
+          //   query: {
+          //     input: this.queryInput
+          //   }
+          // })
         } else {
-          // location.href = `/${this.value.company}/${productDomain}`
-          this.$router.push({
-            path: `/${this.value.company}/${productDomain}`,
-          })
+          location.href = `/${this.value.company}/${productDomain}`
+          // this.$router.push({
+          //   path: `/${this.value.company}/${productDomain}`,
+          // })
         }
       },
       async sendInquiry () {

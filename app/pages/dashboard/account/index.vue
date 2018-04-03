@@ -21,6 +21,17 @@
             <div class="right-contents"><input disabled type="email" v-model="value.email"></div>
           </div>
 
+          <!-- Salutation -->
+          <div class="box-container">
+            <div class="left-contents">{{ $t('dashboardMyAccount.body.salutation.title') }}</div>
+            <div class="right-contents">
+              <select v-model="value.salutation">
+                <option value="" disabled>Select</option>
+                <option v-for="(salutation, index) in salutations" :key="index" :value="salutation">{{salutation}}</option>
+              </select>
+            </div>
+          </div>
+
           <!-- First name -->
           <div class="box-container">
             <div class="left-contents">{{ $t('dashboardMyAccount.body.firstName.title') }}</div>
@@ -66,7 +77,9 @@
 <script>
   import axios from '~/plugins/axios'
   import Loader from '~/components/Loader'
+  import salutation from '~/assets/models/salutation.json'
   import { showTopAlert } from '~/utils/alert'
+  import { updateUserDataToVuex } from '~/utils/auth'
   export default {
     head () {
       return {
@@ -86,6 +99,7 @@
     },
     data () {
       return {
+        salutations: salutation,
         value: {
           email: '',
           firstName: '',
@@ -110,6 +124,7 @@
 
         const data = {
           contact_email: this.value.email,
+          salutation: this.value.salutation,
           first_name: this.value.firstName,
           last_name: this.value.lastName,
           contact_title: this.value.title,
@@ -118,7 +133,6 @@
 //          first_name: this.value.firstNameEnglish,
 //          last_name: this.value.lastNameEnglish
 //          languages: this.value.languages,
-//          salutation: this.value.salutation
         }
         axios.put(`/api/data/contact/${this.contact.contact_id}`, {
           contact_data: data
@@ -132,6 +146,7 @@
       },
       mappingData () {
         this.value.email = this.contact.contact_email
+        this.value.salutation = this.contact.salutation
         this.value.firstName = this.contact.first_name
         this.value.lastName = this.contact.last_name
         this.value.title = this.contact.contact_title
@@ -148,6 +163,7 @@
       onEditSuccess () {
         $(document).ready(() => {
           this.deactivateLoader()
+          updateUserDataToVuex(this.$store)
           showTopAlert(this.$store, true, this.$t('alert.success'))
         })
       },
@@ -251,6 +267,7 @@
     font-weight: 400 !important;
     margin-bottom: 5px !important;
     height: @height !important;
+    border: 0 !important;
   }
   button {
     font-size: @font-size-button;

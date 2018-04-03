@@ -1,10 +1,5 @@
 import axios from '~/plugins/axios'
 
-export const getTokenFromSession = (req) => {
-  if (!req.session.auth) return ''
-  return req.session.auth.token
-}
-
 export const getToken = (email, password) => {
   return new Promise((resolve, reject) => {
     const data = {
@@ -17,6 +12,19 @@ export const getToken = (email, password) => {
       })
       .catch(err => {
         reject(err.response)
+      })
+  })
+}
+
+export const getUserTokenFromSession = () => {
+  return new Promise((resolve, reject) => {
+    axios.get('/api/auth/user_token')
+      .then((res) => {
+        resolve(res)
+      })
+      .catch((err) => {
+        console.log(err)
+        reject(err)
       })
   })
 }
@@ -35,6 +43,18 @@ export const decodeToken = (token) => {
         reject({msg: 'Decoding Token Failed.'})
       })
   })
+}
+
+export const updateUserDataToVuex = async (store) => {
+  try {
+    const { data: token } = await getUserTokenFromSession()
+    const user = await decodeToken(token)
+    store.commit('auth/login', {
+      user
+    })
+  } catch (err) {
+    return err
+  }
 }
 
 export const destoryAuthSession = (req) => {

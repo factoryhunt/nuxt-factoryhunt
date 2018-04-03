@@ -19,8 +19,10 @@ module.exports = async (req, res, next) => {
   const getAccountData = (account_id) => {
     return new Promise((resolve, reject) => {
       mysql.query(`
-      SELECT * 
-      FROM ${CONFIG_MYSQL.TABLE_ACCOUNTS} 
+      SELECT 
+      * 
+      FROM 
+      ${CONFIG_MYSQL.TABLE_ACCOUNTS} 
       WHERE account_id = ${account_id}`,
         (err, rows) => {
           if (err) reject(err)

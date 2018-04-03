@@ -29,9 +29,9 @@
           <!-- Vendor -->
           <h4 id="vendor-name">by <a @click="routeAccountProfilePage">{{ vendor.account_name }}</a></h4>
           <!--<div class="detail-container">-->
-            <!--<span class="origin" v-show="product.product_origin">{{product.product_origin}}</span>-->
-            <!--<span class="star"> • <i id="star" class="fa fa-star-o" aria-hidden="true" v-for="index in 5" :key="index"></i></span>-->
-            <!--<span class="review" v-html="$t('product.header.reviews', { count: 0})"></span>-->
+          <!--<span class="origin" v-show="product.product_origin">{{product.product_origin}}</span>-->
+          <!--<span class="star"> • <i id="star" class="fa fa-star-o" aria-hidden="true" v-for="index in 5" :key="index"></i></span>-->
+          <!--<span class="review" v-html="$t('product.header.reviews', { count: 0})"></span>-->
           <!--</div>-->
         </div>
 
@@ -103,23 +103,22 @@
       <!-- Introduction -->
       <div class="introduction-container each-container" v-show="product.product_description">
         <h2 class="section-title">{{ $t('product.intro.title') }}</h2>
-        <div class="introduction" v-html="product.product_description">
-        </div>
+        <div
+          class="introduction"
+          readonly
+          v-html="product.product_description"></div>
+        <p @click="introductionExpand" class="view-details-button" v-html="$t('company.readMore')"></p>
       </div>
 
       <!-- Catalog -->
       <div class="catalog-container each-container" id="catalog-container" v-show="product.product_pdf_url">
         <h2>{{ $t('product.catalog.title') }}</h2>
         <img v-show="!toggle.isCatalogLoaded" src="~assets/img/product_loading_image_text.png">
-        <!--<h3><a href="/static/web/viewer.html?file=http://localhost:8080/static/test.pdf" target="_blank">Catalog</a></h3>-->
-        <!--<iframe id="catalog" src="/static/web/viewer.html?file=/static/test.pdf" allowfullscreen webkitallowfullscreen scrolling="no"  name="pdf" width="724" height="300" style="border: none;">-->
-        <!--This browser does not support PDFs. Please download the PDF to view it: <a target="pdf" :href="product.product_image_url_2">Download PDF</a>-->
-        <!--</iframe>-->
       </div>
     </div>
 
     <!-- Related products -->
-    <div class="product-body-container">
+    <div class="related-product-container">
       <!-- Company Products -->
       <div class="products-container">
         <!-- Title -->
@@ -189,7 +188,7 @@
           products: products
         }
       } catch (err) {
-        error({ statusCode: 404, message: 'Sorry, page not existed.' })
+        error({ statusCode: 404, message: 'Sorry, page does not exists.' })
       }
     },
     data () {
@@ -234,14 +233,16 @@
       },
       activateJquery () {
         $(document).ready(() => {
-          this.relatedProductImageResize()
-          this.activateSlick()
           this.imageResize()
+          this.relatedProductImageResize()
+          this.textareaResize()
+          this.activateSlick()
           this.renderPDF()
+          this.toggle.isLoaded = true
+
           $(window).resize(() => {
             this.imageResize()
           })
-          this.toggle.isLoaded = true
         })
       },
       renderPDF () {
@@ -285,11 +286,7 @@
         const input = this.$route.query.input
         const vendor = this.$route.params.company
         const productDomain = this.products[index].product_domain
-        if (input) {
-          location.href = `/${vendor}/${productDomain}?input=${input}`
-        } else {
-          location.href = `/${vendor}/${productDomain}`
-        }
+        location.href = input ? `/${vendor}/${productDomain}?input=${input}` : `/${vendor}/${productDomain}`
       },
       activateSlick () {
         $(document).ready(() => {
@@ -360,15 +357,43 @@
           })
         })
       },
+      textareaResize () {
+        $(document).ready(() => {
+          const $description = $('.introduction')
+          console.log($description)
+          console.log($description[0].value)
+          console.log($description[0].scrollHeight)
+          const $descriptionHeight = $description[0].scrollHeight
+          console.log($descriptionHeight)
+          const $descriptionButton = $('.introduction-container .view-details-button')
+          if ($descriptionHeight >= 190) {
+            $descriptionButton.show()
+            $description.css('height', '190px')
+          } else if ($descriptionHeight <= 50) {
+//          $description.css('height', '40px') // because of css bug?
+          } else {
+            $description.css('height', `${$descriptionHeight}px`)
+          }
+        })
+      },
+      introductionExpand () {
+        const $description = $('.introduction-container textarea')
+        const $viewDetailsButton = $('.introduction-container .view-details-button')
+        $viewDetailsButton.hide()
+        $description.animate({
+          'height': ($description[0].scrollHeight) + 'px'
+        }, 200)
+      },
       relatedProductImageResize () {
         $(document).ready(() => {
-          const $image = $('.product-image')
           const $imageContainer = $('.image-container')
-          const width = `${$image.width()}px`
+          const width = `${$imageContainer.width()}px`
+          console.log('ic width:', width)
           $imageContainer.css({
             width: width,
             height: width
           })
+          console.log('height', $imageContainer.height())
         })
       }
     },
@@ -380,6 +405,18 @@
 
 <style lang="less" scoped>
   @import '~assets/css/index';
+
+  textarea {
+    color: @color-font-black;
+    outline: none;
+    resize: none;
+    border: none;
+    padding: 0;
+    font-weight: @font-weight-thin;
+    font-size: @font-size-medium;
+    line-height: 1.5em;
+    overflow: hidden;
+  }
 
   .section-title {
     font-size: @font-size-large;
@@ -456,8 +493,6 @@
           .item {
             width: 100%;
             display: flex;
-            justify-content: center;
-            align-items: center;
 
             img {
               width: auto !important;
@@ -510,10 +545,15 @@
 
     // Intro
     .introduction-container {
-
-      .introduction {
-        font-size: @font-size-medium;
-        font-weight: @font-weight-thin;
+      .view-details-button {
+        display: none;
+        color: @color-link;
+        font-size: 17px;
+        margin-top: 10px;
+        &:hover {
+          cursor: pointer;
+          text-decoration: underline;
+        }
       }
     }
 
@@ -523,7 +563,7 @@
       }
     }
 
-    .product-body-container {
+    .related-product-container {
       max-width: 1040px;
       margin: 0 auto;
       padding: 0;
@@ -531,6 +571,7 @@
       .products-container {
         outline: none;
         padding-bottom: 1.6rem;
+
         .title {
           padding-left: 20px;
           padding-right: 20px;
@@ -544,14 +585,16 @@
             padding-right: 20px;
 
             .image-container {
-              box-shadow: 1px 1px 10px 1px #e4e4e4;
               display: flex;
-              justify-content: center;
-              align-items: center;
+              box-shadow: 1px 1px 10px 1px #e4e4e4;
+              width: 100%;
 
               img {
-                max-width: 100%;
-                max-height: 100%;
+                width: auto !important;
+                height: auto !important;
+                margin: auto !important;
+                max-width: 100% !important;
+                max-height: 100% !important;
               }
             }
             .content-container {
@@ -639,7 +682,7 @@
         }
       }
 
-      .product-body-container {
+      .related-product-container {
         max-width: 1040px;
         margin: 0 auto;
         padding: 0 24px;
@@ -700,13 +743,14 @@
 
       }
 
-      .product-body-container {
+      .related-product-container {
         max-width: 1060px;
         margin: 0 auto;
         padding: 0;
 
         .products-container {
           padding-bottom: 1.6rem;
+
           .title {
             padding-left: 10px;
             padding-right: 10px;

@@ -13,6 +13,9 @@
     "email": {
       "title": "이메일"
     },
+    "salutation": {
+      "title": "지위"
+    },
     "firstName": {
       "title": "이름",
       "placeholder": "Robert",

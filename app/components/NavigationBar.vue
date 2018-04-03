@@ -60,8 +60,10 @@
             <li v-if="isLoggedIn" class="button-item-container">
               <div class="button-item-wrapper">
                 <div class="button-item">
-                  <img v-if="account.logo_url" :src="account.logo_url" id="user-logo" @click="onProfileImage">
-                  <img v-else src="~assets/img/temp-logo-image_english_512.png" id="user-logo" @click="onProfileImage">
+                  <div class="user-logo-container">
+                    <img v-if="account.logo_url" :src="account.logo_url" id="user-logo" @click="onProfileImage">
+                    <img v-else src="~assets/img/temp-logo-image_english_512.png" id="user-logo" @click="onProfileImage">
+                  </div>
                 </div>
               </div>
             </li>
@@ -183,6 +185,7 @@
       width: 100%;
 
       .logo-container {
+
         .logo-inner-container {
           position: relative;
           padding: 11.5px;
@@ -286,16 +289,23 @@
                   }
                 }
 
-                #user-logo {
-                  display: inline-block;
-                  cursor: pointer;
-                  width: 40px !important;
-                  height: 40px !important;
-                  background-repeat: no-repeat !important;
-                  background-size: cover !important;
-                  background-position: 50% 50% !important;
-                  border-radius: 20px;
+                .user-logo-container {
+                  position: relative;
+                  display: flex;
+                  width: 40px;
+                  height: 40px;
+                  border-radius: 50%;
+                  overflow: hidden;
                   border: 2px solid @color-light-grey;
+
+                  #user-logo {
+                    cursor: pointer;
+                    max-width: 100%;
+                    max-height: 100%;
+                    width: auto !important;
+                    height: auto !important;
+                    margin: auto;
+                  }
                 }
               }
             }

@@ -5,7 +5,7 @@
 
       <!-- search result -->
       <div class="info-container">
-        <p class="number-of-result">{{ $t('search.suppliers', {count: account_count}) }}</p>
+        <p class="number-of-result">{{ $t('search.suppliers', {count: getAccountCount}) }}</p>
         <!--<div class="sub-container" v-show="editedInput">-->
           <!--<p class="edited">Including results for <a class="font-weight-bold font-style-italic">{{editedInput}}</a></p>-->
           <!--<p class="raw">Do you want results only for <a>{{queryInput}}</a></p>-->

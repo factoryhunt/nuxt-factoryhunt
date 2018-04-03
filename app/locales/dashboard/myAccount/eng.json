@@ -13,6 +13,9 @@
     "email": {
       "title": "Email"
     },
+    "salutation": {
+      "title": "Salutation"
+    },
     "firstName": {
       "title": "First Name",
       "placeholder": "Robert",

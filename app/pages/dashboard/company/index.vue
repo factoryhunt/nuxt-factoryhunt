@@ -194,12 +194,12 @@
         <!-- Street Address -->
         <div class="box-container">
           <div class="left-contents">{{ $t('dashboardCompany.company.street.title') }}</div>
-          <div class="right-contents"><input type="text" maxlength="100" pattern="[A-Za-z0-9 -.,#()]{1,100}" :title="$t('dashboardCompany.company.street.inputTitle')" :placeholder="$t('dashboardCompany.company.street.placeholder')" v-model="value.streetAddress" @keyup="checkPostalCode(value.postalCode)"></div>
+          <div class="right-contents"><input type="text" maxlength="100" pattern="[A-Za-z0-9 -.,#()/]{1,100}" :title="$t('dashboardCompany.company.street.inputTitle')" :placeholder="$t('dashboardCompany.company.street.placeholder')" v-model="value.streetAddress" @keyup="checkPostalCode(value.postalCode)"></div>
         </div>
         <!-- Street Address Detail -->
         <div class="box-container">
           <div class="left-contents">{{ $t('dashboardCompany.company.street2.title') }}</div>
-          <div class="right-contents"><input type="text" maxlength="100" pattern="[A-Za-z0-9 -.,#()]{1,100}" :title="$t('dashboardCompany.company.street2.inputTitle')" :placeholder="$t('dashboardCompany.company.street2.placeholder')" v-model="value.streetAddressDetail"></div>
+          <div class="right-contents"><input type="text" maxlength="100" pattern="[A-Za-z0-9 -.,#()/]{1,100}" :title="$t('dashboardCompany.company.street2.inputTitle')" :placeholder="$t('dashboardCompany.company.street2.placeholder')" v-model="value.streetAddressDetail"></div>
         </div>
         <!-- Postal Code -->
         <div class="box-container">
@@ -307,7 +307,6 @@
 
 <script>
   import axios from '~/plugins/axios'
-  import { checkboxStringToArray, checkboxArrayToString } from '~/utils/checkbox'
   import businessType from '~/assets/models/business_type.json'
   import acceptedDeliveryTerms from '~/assets/models/accepted_delivery_terms.json'
   import acceptedPaymentCurrency from '~/assets/models/accepted_payment_currency.json'
@@ -319,6 +318,9 @@
   import totalAnnualRevenue from '~/assets/models/total_annual_revenue.json'
   import loader from '~/components/Loader'
   import { mapGetters } from 'vuex'
+  import { checkboxStringToArray, checkboxArrayToString } from '~/utils/checkbox'
+  import { showTopAlert } from '~/utils/alert'
+  import { updateUserDataToVuex } from '~/utils/auth'
   export default {
     layout: 'dashboard',
     head () {
@@ -527,6 +529,7 @@
             this.uploadCompanyData(),
             this.uploadPDF()
           ])
+          await updateUserDataToVuex(this.$store)
           this.onEditSuccess()
         } catch (err) {
           this.onEditFail()
@@ -574,25 +577,12 @@
         }
         return axios.put(`/api/data/account/${this.account.account_id}/pdf`, formData, config)
       },
-      showAlert (alertState, msg) {
-        $(document).ready(() => {
-          const $alert = $('#alert')
-          this.$store.commit('alert/changeState', {
-            alertState,
-            msg
-          })
-          $alert.show()
-          setTimeout(() => {
-            $('.alert-container').hide()
-          }, 6000)
-        })
-      },
       onEditSuccess () {
-        this.showAlert(true, this.$t('alert.success'))
+        showTopAlert(this.$store, true, this.$t('alert.success'))
         this.deactivateLoader()
       },
       onEditFail (msg) {
-        this.showAlert(false, msg || this.$t('alert.fail'))
+        showTopAlert(this.$store, false, msg || this.$t('alert.fail'))
         this.deactivateLoader()
       },
       activateLoader () {

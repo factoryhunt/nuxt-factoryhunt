@@ -32,7 +32,8 @@
 
 <script>
   import axios from '~/plugins/axios'
-  import { mapGetters } from 'vuex'
+  import { updateUserDataToVuex } from '~/utils/auth'
+  import { showTopAlert } from '~/utils/alert'
   import loader from '~/components/Loader'
   export default {
     head () {
@@ -97,27 +98,20 @@
           this.onEditFail()
         }
       },
-      onEditSuccess () {
-        this.showAlert(true, this.$t('dashboardCompany.alert.domain.success'))
-        this.toggle.isSaving = false
+      async onEditSuccess () {
+        try {
+          await updateUserDataToVuex(this.$store)
+          showTopAlert(this.$store, true, this.$t('dashboardCompany.alert.domain.success'))
+          this.toggle.isSaving = false
+        } catch (err) {
+          showTopAlert(this.$store, true, this.$t('dashboardCompany.alert.domain.success'))
+          this.toggle.isSaving = false
+        }
       },
       onEditFail () {
-        this.showAlert(false, this.$t('dashboardCompany.alert.domain.fail'))
+        showTopAlert(this.$store, false, this.$t('dashboardCompany.alert.domain.fail'))
         this.toggle.isSaving = false
         this.toggle.isDomainAvailable = false
-      },
-      showAlert (alertState, msg) {
-        $(document).ready(() => {
-          const $alert = $('#alert')
-          this.$store.commit('alert/changeState', {
-            msg,
-            alertState
-          })
-          $alert.show()
-          setTimeout(() => {
-            $('.alert-container').hide()
-          }, 6000)
-        })
       },
       domainInputPressed () {
         this.value.domain = this.value.domain.toLowerCase()

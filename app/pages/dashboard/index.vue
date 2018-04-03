@@ -5,8 +5,10 @@
     <div class="left-container">
       <div class="profile-container">
         <div class="profile-inner-container">
-          <img v-if="account.logo_url" id="company-image" :src="account.logo_url">
-          <img v-else id="company-image" src="~assets/img/temp-logo-image_english_512.png">
+          <div class="company-image-container" v-show="toggle.imageLoaded">
+            <img v-if="account.logo_url" id="company-image" :src="account.logo_url">
+            <img v-else id="company-image" src="~assets/img/temp-logo-image_english_512.png">
+          </div>
           <div class="contents-container">
             <div class="title-contents">
               <p class="title">{{ account.account_name }}</p>
@@ -26,7 +28,7 @@
       <header class="header-container">
         <p class="sub-title">
           {{ $t('dashboard.welcome', {name: getAccountName}) }}
-          <span v-if="isTesterAccount"><br>This app is 0.7.4.1 version.</span>
+          <span v-if="isTesterAccount"><br>This app is 0.7.5 version.</span>
         </p>
       </header>
 
@@ -105,6 +107,13 @@
         ]
       }
     },
+    data () {
+      return {
+        toggle: {
+          imageLoaded: false
+        }
+      }
+    },
     layout: 'dashboard',
     computed: {
       getAccountName () {
@@ -132,7 +141,6 @@
         this.$router.push('/dashboard/company')
       },
       activateClipboardJS () {
-        /* eslint-disable no-unused-vars */
         const clipboard = new Clipboard('#clipboard')
         clipboard.on('success', (e) => {
 //          console.info('Action:', e.action)
@@ -144,11 +152,21 @@
         clipboard.on('error', (e) => {
           alert('Copied failed. Please try again.')
         })
-        /* eslint-enable no-unused-vars */
+      },
+      resizeLogoImage () {
+        const $profileInnerContainer = $('.profile-inner-container')
+        const $imageContainer = $('.company-image-container')
+        const width = `${$profileInnerContainer.width()}px`
+        $imageContainer.css({
+          width: width,
+          height: width
+        })
+        this.toggle.imageLoaded = true
       },
       activateJquery () {
         $(document).ready(() => {
           this.activateClipboardJS()
+          this.resizeLogoImage()
         })
       }
     },
@@ -196,23 +214,28 @@
         border-radius: @border-radius;
 
         .profile-inner-container {
+          width: 100%;
           position: relative;
           text-align: center;
 
-          #company-image {
-            width: 100%;
-            height: 240px;
+          .company-image-container {
+            display: flex;
             background-color: @color-white;
-            border-top-left-radius: 2px;
-            border-top-right-radius: 2px;
-            margin-bottom: 12px;
-            background-size: cover;
-            background-position: 50%, 50%;
-            background-repeat: no-repeat;
+
+            #company-image {
+              max-width: 100% !important;
+              max-height: 100% !important;
+              width: auto !important;
+              height: auto !important;
+              margin: auto !important;
+            }
           }
 
           .contents-container {
-            padding: 0 20px;
+            border-top: 1px solid @color-lightest-grey;
+            padding-top: 12px;
+            padding-right: 20px;
+            padding-left: 20px;
 
             .title-contents {
               margin-bottom: 22px;

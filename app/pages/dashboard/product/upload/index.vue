@@ -129,8 +129,9 @@
         <!-- Product Introduction -->
         <div class="description-container input-container">
           <p class="title">{{ $t('dashboardProductEdit.introduction.title') }}</p>
-          <vue-editor></vue-editor>
-          <loader id="editor-spinkit"/>
+          <textarea
+            v-model="value.editor">
+          </textarea>
           <p class="caution-text">{{ $t('dashboardProductEdit.introduction.caution') }}</p>
         </div>
         <div class="divider"></div>
@@ -165,7 +166,6 @@
   import country from '~/assets/models/country.json'
   import categories from '~/assets/models/categories.json'
   import Loader from '~/components/Loader'
-  import VueEditor from '~/components/VueEditor'
   import { showTopAlert } from '~/utils/alert'
   export default {
     head () {
@@ -174,8 +174,7 @@
       }
     },
     components: {
-      Loader,
-      VueEditor
+      Loader
     },
     props: {
       account: {
@@ -392,12 +391,7 @@
         formData.append('item_dimensions', this.value.dimension)
         formData.append('material_type', this.value.materialType)
         formData.append('minimum_order_quantity', this.value.moq)
-
-        if (!$('.ql-editor').hasClass('ql-blank')) formData.append('product_description', document.querySelector('.ql-editor').innerHTML)
-
-        // for (let i = 0; i < this.value.files.length; i++) {
-        //   formData.append('images', this.value.files[i])
-        // }
+        formData.append('product_description', this.value.editor)
 
         for (let i = 0; i < this.value.urls.length; i++) {
           const url = this.value.urls[i]
@@ -432,28 +426,6 @@
       },
       deactivateLoader () {
         this.toggle.isSaving = false
-      },
-      // Deprecated
-      handleImageAdded (file, Editor, cursorLocation) {
-        // An example of using FormData
-        // NOTE: Your key could be different such as:
-        // formData.append('file', file)
-        $('#editor-spinkit').removeClass().addClass('spinkit-input')
-        var formData = new FormData()
-        const config = {
-          headers: {'content-type': 'multipart/form-data'}
-        }
-        formData.append('images', file)
-        axios.post(`/api/data/product/editor/${this.account.account_id}`, formData, config)
-          .then((result) => {
-            $('#editor-spinkit').removeClass().addClass('invisible')
-            let url = result.data // Get url from response
-            Editor.insertEmbed(cursorLocation, 'image', url)
-          })
-          .catch((err) => {
-            $('#editor-spinkit').removeClass().addClass('invisible')
-            console.log(err)
-          })
       },
       onPDFchanged (files) {
         const maxSize = 15 * 1024 * 1024
@@ -491,10 +463,6 @@
   @import '~assets/css/index';
   @import "~assets/css/less/dashboard/index.less";
 
-  #html-editor {
-    height: 500px !important;
-  }
-
   @height: 50px;
   @mark-right-amount: 12px;
   @small-mark-right-amount: 18px;
@@ -528,8 +496,7 @@
   /*<!--font-weight: @font-weight-button;-->*/
   /*<!--}-->*/
   textarea {
-    font-size: 20px !important;
-    font-weight: 400 !important;
+    font-weight: @font-weight-thin;
 
     &:focus,
     &:active,
@@ -717,6 +684,9 @@
         }
 
         .description-container {
+          textarea {
+            height: 400px;
+          }
         }
 
         .catalog-container {

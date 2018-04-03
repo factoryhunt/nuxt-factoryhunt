@@ -49,7 +49,9 @@
 </template>
 
 <script>
+  import { showTopAlert } from '~/utils/alert'
   import { getFileURL } from '~/utils/fileReader'
+  import { updateUserDataToVuex } from '~/utils/auth'
   export default {
     head () {
       return {

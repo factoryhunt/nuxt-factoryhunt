@@ -98,12 +98,12 @@
     "street": {
       "title": "Street Address",
       "placeholder": "7 Hacker Street",
-      "inputTitle": "It must be 1-100 characters and can only contain letters, numbers, hyphens, periods, comma, hash, and parentheses"
+      "inputTitle": "It must be 1-100 characters and can only contain letters, numbers, hyphens, periods, comma, slash, hash, and parentheses"
     },
     "street2": {
       "title": "Street Address 2",
       "placeholder": "Floor 2",
-      "inputTitle": "It must be 1-100 characters and can only contain letters, numbers, hyphens, periods, comma, hash, and parentheses"
+      "inputTitle": "It must be 1-100 characters and can only contain letters, numbers, hyphens, periods, comma, slash hash, and parentheses"
     },
     "postal": {
       "title": "Postal Code",

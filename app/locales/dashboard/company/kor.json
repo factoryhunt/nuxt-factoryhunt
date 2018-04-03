@@ -94,16 +94,16 @@
       "title": "시, 군",
       "placeholder": "Bucheon-si",
       "inputTitle": "1~50자의 영어와 하이픈만 입력해주세요."
-    },
+    },ㄴ
     "street": {
       "title": "도로명 주소",
       "placeholder": "20, Gongdan-daero",
-      "inputTitle": "1~100자의 영어와 숫자, 하이픈, 마침표, 쉼표, 샵, 그리고 소괄호만 입력해주세요."
+      "inputTitle": "1~100자의 영어와 숫자, 하이픈, 마침표, 쉼표, 샵, 슬래시 그리고 소괄호만 입력해주세요."
     },
     "street2": {
       "title": "상세 주소",
       "placeholder": "Gongdan Building Floor 2",
-      "inputTitle": "1~100자의 영어와 숫자, 하이픈, 마침표, 쉼표, 샵, 그리고 소괄호만 입력해주세요."
+      "inputTitle": "1~100자의 영어와 숫자, 하이픈, 마침표, 쉼표, 샵, 슬래시 그리고 소괄호만 입력해주세요."
     },
     "postal": {
       "title": "우편번호",

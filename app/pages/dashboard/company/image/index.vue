@@ -17,8 +17,10 @@
       </div>
 
       <!-- Logo Image -->
-      <img v-if="account.logo_url" id="logo-image" class="logo-image" :src="account.logo_url">
-      <img v-else id="logo-image" class="logo-image" src="~assets/img/temp-logo-image_english_512.png">
+      <div class="logo-container">
+        <img v-if="account.logo_url" id="logo-image" class="logo-image" :src="account.logo_url">
+        <img v-else id="logo-image" class="logo-image" src="~assets/img/temp-logo-image_english_512.png">
+      </div>
 
       <!-- Upload Button -->
       <div class="button-container">
@@ -67,6 +69,8 @@
 <script>
   import axios from '~/plugins/axios'
   import Loader from '../../../../components/Loader'
+  import { showTopAlert } from '~/utils/alert'
+  import { updateUserDataToVuex } from '~/utils/auth'
   //  import Compressor from '@xkeshi/image-compressor'
   export default {
     head () {
@@ -127,7 +131,7 @@
         this.value.files.push(new File([''], ''))
       },
       async onCoverImageAdded (target, files) {
-        if (files.length > 8) return this.showAlert(false, this.$t('dashboardCompany.alert.image.upTo8'))
+        if (files.length > 8) return showTopAlert(this.$store, false, this.$t('dashboardCompany.alert.image.upTo8'))
 
         // multiple upload
         for (let i = 0; i < files.length; i++) {
@@ -185,36 +189,26 @@
       },
       async imageUpload (status) {
         this.activateLoader()
+
         try {
 //          const compressedFile = await this.imageCompress(file)
           await this.postImagesToS3(status)
+          await updateUserDataToVuex(this.$store)
           this.uploadSuccess()
         } catch (err) {
+          console.log(err)
           this.uploadFail()
         }
       },
-      showAlert (alertState, msg) {
-        $(document).ready(() => {
-          const $alert = $('#alert')
-          this.$store.commit('alert/changeState', {
-            alertState,
-            msg
-          })
-          $alert.show()
-          setTimeout(() => {
-            $('.alert-container').hide()
-          }, 6000)
-        })
-      },
       uploadSuccess () {
         this.deactivateLoader()
-        this.showAlert(true, this.$t('dashboardCompany.alert.image.success'))
+        showTopAlert(this.$store, true, this.$t('dashboardCompany.alert.image.success'))
         $('#logo-image-upload-button').hide()
         $('#main-image-upload-button').hide()
       },
       uploadFail () {
         this.deactivateLoader()
-        this.showAlert(false, this.$t('dashboardCompany.alert.image.fail'))
+        showTopAlert(this.$store, false, this.$t('dashboardCompany.alert.image.fail'))
       },
       // Deprecated
       imageCompress (file) {
@@ -346,16 +340,21 @@
 
     .logo-image-container {
 
-      #logo-image {
+      .logo-container {
         float: right;
-        display: inline-block;
+        display: flex;
         width: 100px;
         height: 100px;
         border-radius: 50%;
         border: 2px solid @color-light-grey;
-        background-size: cover;
-        background-position: 50%, 50%;
-        background-repeat: no-repeat;
+        overflow: hidden;
+      }
+      #logo-image {
+        max-width: 100%;
+        max-height: 100%;
+        width: auto !important;
+        height: auto !important;
+        margin: auto;
       }
     }
 
