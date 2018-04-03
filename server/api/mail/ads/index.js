@@ -67,7 +67,7 @@ module.exports = async (req, res) => {
 
   const postMail = (email, template) => {
     const message = {
-      from: 'Daniel from Factory Hunt <daniel@factoryhunt.com>',
+      from: 'Daniel from Factory Hunt <daniel.jeong@factoryhunt.com>',
       to: email,
       subject: 'Factoryhunt.com - Share your catalog with us and promote to buyers.',
       html: template

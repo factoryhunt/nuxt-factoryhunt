@@ -26,7 +26,7 @@ module.exports = {
     port: port,
     secure: secure,
     auth: {
-      user: 'factory.daniel',
+      user: 'factory.danielj',
       pass: password
     }
   }
