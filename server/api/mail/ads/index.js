@@ -13,7 +13,8 @@ module.exports = async (req, res) => {
 
   const getName = (lead) => {
     let name = lead.company ? lead.company : 'Sir/Madam'
-    name = lead.first_name ? `${lead.first_name} ${lead.last_name}` : name
+    const last_name = lead.last_name ? ` ${lead.last_name}` : ''
+    name = lead.first_name ? `${lead.first_name}${last_name}` : name
     return name
   }
 
