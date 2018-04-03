@@ -7,20 +7,20 @@ infoMailer.verify((err, result) => {
   console.log('\ninfoMailer is verified\n')
 })
 
-const noreplayMailer = nodemailer.createTransport(config.noreply)
-noreplayMailer.verify((err, result) => {
+const noreplyMailer = nodemailer.createTransport(config.noreply)
+noreplyMailer.verify((err, result) => {
   if (err) return console.log(err)
   console.log('\nnoreplayMailer is verified\n')
 })
 
 const danielMailer = nodemailer.createTransport(config.daniel)
-noreplayMailer.verify((err, result) => {
+danielMailer.verify((err, result) => {
   if (err) return console.log(err)
   console.log('\ndanielMailer is verified\n')
 })
 
 module.exports = {
   infoMailer,
-  noreplayMailer,
+  noreplyMailer,
   danielMailer
 }
