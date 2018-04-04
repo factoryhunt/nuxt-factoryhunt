@@ -103,11 +103,8 @@
       <!-- Introduction -->
       <div class="introduction-container each-container" v-show="product.product_description">
         <h2 class="section-title">{{ $t('product.intro.title') }}</h2>
-        <div
-          class="introduction"
-          readonly
-          v-html="product.product_description"></div>
-        <p @click="introductionExpand" class="view-details-button" v-html="$t('company.readMore')"></p>
+        <div class="introduction" v-html="product.product_description">
+        </div>
       </div>
 
       <!-- Catalog -->
