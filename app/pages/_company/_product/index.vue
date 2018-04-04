@@ -232,7 +232,6 @@
         $(document).ready(() => {
           this.imageResize()
           this.relatedProductImageResize()
-          this.textareaResize()
           this.activateSlick()
           this.renderPDF()
           this.toggle.isLoaded = true
@@ -353,33 +352,6 @@
             height: `${$item.width()}px`
           })
         })
-      },
-      textareaResize () {
-        $(document).ready(() => {
-          const $description = $('.introduction')
-          console.log($description)
-          console.log($description[0].value)
-          console.log($description[0].scrollHeight)
-          const $descriptionHeight = $description[0].scrollHeight
-          console.log($descriptionHeight)
-          const $descriptionButton = $('.introduction-container .view-details-button')
-          if ($descriptionHeight >= 190) {
-            $descriptionButton.show()
-            $description.css('height', '190px')
-          } else if ($descriptionHeight <= 50) {
-//          $description.css('height', '40px') // because of css bug?
-          } else {
-            $description.css('height', `${$descriptionHeight}px`)
-          }
-        })
-      },
-      introductionExpand () {
-        const $description = $('.introduction-container textarea')
-        const $viewDetailsButton = $('.introduction-container .view-details-button')
-        $viewDetailsButton.hide()
-        $description.animate({
-          'height': ($description[0].scrollHeight) + 'px'
-        }, 200)
       },
       relatedProductImageResize () {
         $(document).ready(() => {
@@ -542,15 +514,10 @@
 
     // Intro
     .introduction-container {
-      .view-details-button {
-        display: none;
-        color: @color-link;
-        font-size: 17px;
-        margin-top: 10px;
-        &:hover {
-          cursor: pointer;
-          text-decoration: underline;
-        }
+
+      .introduction {
+        font-size: @font-size-medium;
+        font-weight: @font-weight-thin;
       }
     }
 

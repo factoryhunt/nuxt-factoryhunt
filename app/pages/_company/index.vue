@@ -653,13 +653,13 @@
       activateJquery () {
         $(document).ready(() => {
           this.renderMainImage()
+          this.productImageResize()
           this.mainImageResize()
           this.applyStickyCSS()
           this.applyCompanyFadeInOutInStickyNavigationBar()
           this.applySmoothScrolling()
           this.textareaResize()
           this.initMap()
-          this.productImageResize()
           this.escKeyEvent()
         })
       },
@@ -671,6 +671,14 @@
           })
           this.value.currentCoverPhoto = this.vendor.cover_image_url_1
         }
+      },
+      mainImageResize () {
+        const $image = $('.main-image')
+        const $noMainImage = $('.no-main-image')
+        const width = $(window).width()
+        const height = (487 * width) / 1280
+        $image.css('height', `${height}px`)
+        $noMainImage.css('height', `${height}px`)
       },
       applyStickyCSS () {
         const $stickyOuter = $('.sticky-outer-container')
@@ -778,14 +786,6 @@
         $history.animate({
           'height': ($history[0].scrollHeight) + 'px'
         }, 200)
-      },
-      mainImageResize () {
-        const $image = $('.main-image')
-        const $noMainImage = $('.no-main-image')
-        const width = $(window).width()
-        const height = (487 * width) / 1280
-        $image.css('height', `${height}px`)
-        $noMainImage.css('height', `${height}px`)
       },
       productImageResize () {
         $(document).ready(() => {

@@ -194,7 +194,7 @@
         <!-- Street Address -->
         <div class="box-container">
           <div class="left-contents">{{ $t('dashboardCompany.company.street.title') }}</div>
-          <div class="right-contents"><input type="text" maxlength="100" pattern="[A-Za-z0-9 -.,#()/]{1,100}" :title="$t('dashboardCompany.company.street.inputTitle')" :placeholder="$t('dashboardCompany.company.street.placeholder')" v-model="value.streetAddress" @keyup="checkPostalCode(value.postalCode)"></div>
+          <div class="right-contents"><input type="text" maxlength="100" pattern="[A-Za-z0-9 -.,#()/]{1,100}" :title="$t('dashboardCompany.company.street.inputTitle')" :placeholder="$t('dashboardCompany.company.street.placeholder')" v-model="value.streetAddress"></div>
         </div>
         <!-- Street Address Detail -->
         <div class="box-container">
@@ -509,9 +509,6 @@
           hiddenTitle.css({'color': 'red'})
           accountNameMark.addClass('fa fa-exclamation')
         }
-      },
-      checkPostalCode (postalCode) {
-        this.value.postalCode = postalCode.replace(/[^0-9]/g, '')
       },
       async onEditButton () {
         // modal loading start
