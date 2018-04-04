@@ -128,9 +128,7 @@
         <!-- Product Description -->
         <div class="description-container input-container">
           <p class="title">{{ $t('dashboardProductEdit.introduction.title') }}</p>
-          <textarea
-            v-model="value.editor">
-          </textarea>
+          <vue-editor></vue-editor>
           <p class="caution-text">{{ $t('dashboardProductEdit.introduction.caution') }}</p>
         </div>
         <div class="divider"></div>
@@ -164,6 +162,7 @@
   import axios from '~/plugins/axios'
   import country from '~/assets/models/country.json'
   import categories from '~/assets/models/categories.json'
+  import VueEditor from '~/components/VueEditor'
   import Loader from '~/components/Loader.vue'
   import pdflib from 'pdfjs-dist'
   import { showTopAlert } from '~/utils/alert'
@@ -183,7 +182,8 @@
       }
     },
     components: {
-      Loader
+      Loader,
+      VueEditor
     },
     data () {
       return {
@@ -413,7 +413,7 @@
         formData.append('item_dimensions', this.value.dimension)
         formData.append('material_type', this.value.materialType)
         formData.append('minimum_order_quantity', this.value.moq)
-        formData.append('product_description', this.value.editor)
+        if (!$('.ql-editor').hasClass('ql-blank')) formData.append('product_description', document.querySelector('.ql-editor').innerHTML)
 
         for (let i = 0; i < this.value.urls.length; i++) {
           const url = this.value.urls[i]
@@ -462,6 +462,7 @@
         this.value.dimension = product.item_dimensions
         this.value.materialType = product.material_type
         this.value.editor = product.product_description
+        document.querySelector(".ql-editor").innerHTML = product.product_description
 
         // sub category mapping
         for (const index in this.value.categories) {
@@ -531,6 +532,10 @@
   @import '~assets/css/index';
   @import "~assets/css/less/dashboard/index.less";
 
+  #html-editor {
+    height: 300px !important;
+  }
+
   @height: 50px;
   @mark-right-amount: 12px;
   @small-mark-right-amount: 18px;
@@ -564,8 +569,8 @@
   /*<!--font-weight: @font-weight-button;-->*/
   /*<!--}-->*/
   textarea {
-    font-weight: @font-weight-thin;
-    height: 400px;
+    font-size: 20px !important;
+    font-weight: 400 !important;
 
     &:focus,
     &:active,
