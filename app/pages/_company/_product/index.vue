@@ -241,11 +241,13 @@
           })
         })
       },
+      nextTick () {
+      },
       renderPDF () {
         if (!this.product.product_pdf_url) return
         const url = this.product.product_pdf_url
         pdflib.getDocument(url).then((pdf) => {
-          for (let i = 1; i <= pdf.numPages; i += 1) {
+          for (let i = 1; i <= pdf.numPages; i++) {
             const canvas = document.createElement('canvas')
             canvas.id = 'catalog'
             document.getElementById('catalog-container').appendChild(canvas)
