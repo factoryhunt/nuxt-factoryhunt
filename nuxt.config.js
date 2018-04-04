@@ -2,9 +2,13 @@ const axios = require('axios')
 
 module.exports = {
   srcDir: './app',
+  htmlAttrs: {
+    lang: 'en',
+  },
   head: {
     title: 'Factory Hunt - A Hub for Manufacturer & Supplier Listings',
     meta: [
+      { 'http-equiv': 'X-UA-Compatible', content: 'IE=edge' },
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
       { name: 'robots', content: 'index, follow' },
