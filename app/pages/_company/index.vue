@@ -276,7 +276,9 @@
           <div class="product-container" v-for="(product, index) in this.products" :key="index">
             <!-- Image -->
             <div class="image-container">
-              <img class="product-image" @click="routeProductProfilePage(index)" :src="product.product_image_url_1">
+              <div class="image-wrapper">
+                <img class="product-image" @click="routeProductProfilePage(index)" :src="product.product_image_url_1">
+              </div>
             </div>
             <!-- Content -->
             <div class="content-container">
@@ -653,7 +655,7 @@
       activateJquery () {
         $(document).ready(() => {
           this.renderMainImage()
-          this.productImageResize()
+          // this.productImageResize()
           this.mainImageResize()
           this.applyStickyCSS()
           this.applyCompanyFadeInOutInStickyNavigationBar()
@@ -1284,19 +1286,29 @@
             cursor: pointer;
 
             .image-container {
-              display: flex;
-              justify-content: center;
-              align-items: center;
-              width: 100%;
-              box-shadow: 1px 1px 10px 1px #e4e4e4;
+              position: relative;
 
+              &::after {
+                content: "";
+                display: block;
+                padding-bottom: 100%;
+                position: relative;
+              }
+              .image-wrapper {
+                top:0;
+                left:0;
+                right:0;
+                bottom:0;
+                position: absolute;
+                display: block;
+              }
               img {
-                max-width: 100%;
-                max-height: 100%;
                 width: auto !important;
                 height: auto !important;
-                margin: auto;
-              }
+                max-width: 100% !important;
+                max-height: 100% !important;
+                margin: auto !important;
+               }
             }
             .content-container {
 
@@ -1418,11 +1430,6 @@
           .product-wrapper {
 
             .product-container {
-              display: inline-block;
-              vertical-align: top;
-              width: 50%;
-              padding-left: 6px;
-              padding-right: 6px;
 
               .image-container {
                 img {
