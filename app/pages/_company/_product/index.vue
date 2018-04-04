@@ -241,8 +241,6 @@
           })
         })
       },
-      nextTick () {
-      },
       renderPDF () {
         if (!this.product.product_pdf_url) return
         const url = this.product.product_pdf_url
