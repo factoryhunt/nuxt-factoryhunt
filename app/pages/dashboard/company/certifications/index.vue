@@ -27,10 +27,13 @@
               src="~assets/icons/cancel.svg"
               @click="deleteFile($event.target, cIndex)"
             >
-            <img
-              class="file-image"
-              :src="certification.document_url"
-            >
+            <div class="cert-image-wrapper">
+              <img
+                class="file-image"
+                :src="certification.document_url"
+              >
+              <div class="progress-bar"></div>
+            </div>
             <div class="category">
               <div v-for="(category, tIndex) in certifications.category" :key="tIndex">
                 <input
@@ -223,7 +226,11 @@
 
           // Approved
           if (fileFilter.test(file.type) &&
-              kilobyteToMegabyte(file.size) < 7) filteredFiles.push(file)
+              kilobyteToMegabyte(file.size) < 7) {
+            console.log(file)
+            this.value.certifications.push(file)
+            filteredFiles.push(file)
+          }
         }
 
         this.postImageToS3(filteredFiles)
@@ -384,11 +391,22 @@
         }
       }
 
-      .file-image {
+      .cert-image-wrapper {
         display: table-cell;
-        object-fit: cover;
-        width: 119px;
-        height: 168.4px;
+        position: relative;
+
+        .progress-bar {
+          position: absolute;
+          bottom: 12px;
+          left: 12px;
+          right: 12px;
+          height: 6px;
+          border-radius: px;
+          background-color: @color-orange;
+        }
+        .file-image {
+          object-fit: cover;
+        }
       }
 
       .category {
