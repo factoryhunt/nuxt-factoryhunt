@@ -38,8 +38,10 @@
         const date = new Date()
         const data = {
           lead_data: {
-            notes: `${date} - Unsubscribed by user`,
-            email_subscription: 'N'
+            data: {
+              email_subscription: 'N'
+            },
+            notes: `${date} - Unsubscribed by user, `
           }
         }
         return new Promise((resolve, reject) => {

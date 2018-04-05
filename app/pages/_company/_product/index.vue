@@ -126,7 +126,9 @@
           <div class="product-container" v-for="(relatedProduct, index) in this.products" :key="index" v-if="relatedProduct.product_id !== product.product_id" @click="routeProductProfilePage(index)">
             <!-- Image -->
             <div class="image-container">
-              <img class="product-image" :src="relatedProduct.product_image_url_1">
+              <div class="image-wrapper">
+                <img class="product-image" :src="relatedProduct.product_image_url_1">
+              </div>
             </div>
             <!-- Content -->
             <div class="content-container">
@@ -231,7 +233,6 @@
       activateJquery () {
         $(document).ready(() => {
           this.imageResize()
-          this.relatedProductImageResize()
           this.activateSlick()
           this.renderPDF()
           this.toggle.isLoaded = true
@@ -351,18 +352,6 @@
           $item.css({
             height: `${$item.width()}px`
           })
-        })
-      },
-      relatedProductImageResize () {
-        $(document).ready(() => {
-          const $imageContainer = $('.image-container')
-          const width = `${$imageContainer.width()}px`
-          console.log('ic width:', width)
-          $imageContainer.css({
-            width: width,
-            height: width
-          })
-          console.log('height', $imageContainer.height())
         })
       }
     },
@@ -549,9 +538,22 @@
             padding-right: 20px;
 
             .image-container {
-              display: flex;
+              position: relative;
               box-shadow: 1px 1px 10px 1px #e4e4e4;
-              width: 100%;
+
+              &::after {
+                content: "";
+                display: block;
+                padding-bottom: 100%;
+                position: relative;
+              }
+
+              .image-wrapper {
+                position: absolute;
+                display: flex;
+                width: 100%;
+                height: 100%;
+              }
 
               img {
                 width: auto !important;
@@ -606,21 +608,6 @@
 
         .header-container {
           .title {
-          }
-        }
-
-        .product-container {
-          .item {
-            width: 340px;
-            height: 340px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-
-            img {
-              max-height: 340px;
-              max-width: 340px;
-            }
           }
         }
 

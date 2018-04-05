@@ -156,9 +156,9 @@
         this.activateLoader()
         this.accounts = {}
         this.selected = index
-        console.log(index)
+        // console.log(index)
         let { data } = await axios.get(`/api/data/search/elastic/${this.queryInput}/${index}`)
-        console.log(data.hits)
+        // console.log(data.hits)
         this.accounts = data.hits
         this.deactivateLoader()
       },
@@ -191,7 +191,7 @@
     },
     async mounted () {
       let { data } = await axios.get(`/api/data/search/elastic/${this.queryInput}/0`)
-      console.log(data)
+      // console.log(data)
     }
   }
 </script>

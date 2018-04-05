@@ -134,7 +134,7 @@ module.exports = async (req, res) => {
   try {
     const { hits } = await searchKeyword()
     const analysisResult = await analysis
-    console.log(analysisResult)
+    // console.log(analysisResult)
     res.status(200).json(hits)
   } catch (err) {
     res.status(403).json({ result: [] })

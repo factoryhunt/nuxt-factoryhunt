@@ -273,11 +273,14 @@
         <!-- Wrapper -->
         <div class="product-wrapper">
           <!-- Product -->
-          <div class="product-container" v-for="(product, index) in this.products" :key="index">
+          <div class="product-container"
+               v-for="(product, index) in this.products"
+               :key="index"
+               @click="routeProductProfilePage(index)">
             <!-- Image -->
             <div class="image-container">
               <div class="image-wrapper">
-                <img class="product-image" @click="routeProductProfilePage(index)" :src="product.product_image_url_1">
+                <img class="product-image" :src="product.product_image_url_1">
               </div>
             </div>
             <!-- Content -->
@@ -655,7 +658,6 @@
       activateJquery () {
         $(document).ready(() => {
           this.renderMainImage()
-          // this.productImageResize()
           this.mainImageResize()
           this.applyStickyCSS()
           this.applyCompanyFadeInOutInStickyNavigationBar()
@@ -788,12 +790,6 @@
         $history.animate({
           'height': ($history[0].scrollHeight) + 'px'
         }, 200)
-      },
-      productImageResize () {
-        $(document).ready(() => {
-          const $imageContainer = $('.image-container')
-          $imageContainer.css('height', `${$imageContainer.width()}px`)
-        })
       },
       initMap () {
         /* eslint-disable */
@@ -1287,6 +1283,7 @@
 
             .image-container {
               position: relative;
+              box-shadow: @box-shadow;
 
               &::after {
                 content: "";
@@ -1295,12 +1292,10 @@
                 position: relative;
               }
               .image-wrapper {
-                top:0;
-                left:0;
-                right:0;
-                bottom:0;
                 position: absolute;
-                display: block;
+                display: flex;
+                width: 100%;
+                height: 100%;
               }
               img {
                 width: auto !important;
@@ -1316,7 +1311,7 @@
                 text-overflow: ellipsis;
                 overflow: hidden;
                 white-space: nowrap;
-                margin: 4px 0 0 0;
+                margin: 8px 0 0 0;
                 font-size: @font-size-extra-small;
                 font-weight: @font-weight-bold;
                 color: @color-font-gray;
@@ -1430,6 +1425,10 @@
           .product-wrapper {
 
             .product-container {
+              display: inline-block;
+              width: 50%;
+              padding-left: 6px;
+              padding-right: 6px;
 
               .image-container {
                 img {
@@ -1437,10 +1436,8 @@
               }
               .content-container {
                 .primary-category {
-                  margin: 4px 0 0 0;
                 }
                 .product-name {
-                  margin: 0;
                 }
                 .star-container {
                   i {

@@ -141,7 +141,7 @@
     },
     async asyncData ({query, params, error, redirect}) {
       try {
-        let {data} = await axios.get(`/api/data/lead/company/${encodeURI(params.company)}`)
+        let { data } = await axios.get(`/api/data/lead/company/${encodeURI(params.company)}`)
         if (!data) redirect('/404')
         return {
           queryInput: query.input,
@@ -182,12 +182,12 @@
         return city + state + country
       },
       getAddress () {
-        const street = this.lead.mailing_street_address ? `${this.lead.mailing_street_address}, ` : ''
-        const street2 = this.lead.mailing_street_address_2 ? `${this.lead.mailing_street_address_2}, ` : ''
+        // const street = this.lead.mailing_street_address ? `${this.lead.mailing_street_address}, ` : ''
+        // const street2 = this.lead.mailing_street_address_2 ? `${this.lead.mailing_street_address_2}, ` : ''
         const city = this.lead.mailing_city ? `${this.lead.mailing_city}, ` : ''
         const state = this.lead.mailing_state ? `${this.lead.mailing_state}, ` : ''
         const country = this.lead.mailing_country
-        return street + street2 + city + state + country
+        return city + state + country
       },
       getNumberOfEmployees () {
         let number = this.lead.number_of_employees
@@ -367,6 +367,7 @@
       },
       geocodeAddress (geocoder, resultsMap) {
         /* eslint-disable no-unused-vars */
+        console.log(this.getAddress)
         geocoder.geocode({'address': this.getAddress}, function (results, status) {
           if (status === 'OK') {
             console.log('map ok')

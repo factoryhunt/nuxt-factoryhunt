@@ -7,9 +7,18 @@ module.exports = async (req, res) => {
 
   const getLead = () => {
     return new Promise((resolve, reject) => {
-      mysql.query(`SELECT * FROM ${CONFIG_MYSQL.TABLE_LEADS} WHERE domain = "${company}"`, (err, rows) => {
+      mysql.query(`
+      SELECT 
+      * 
+      FROM 
+      ${CONFIG_MYSQL.TABLE_LEADS} 
+      WHERE domain = "${company}"`, (err, rows) => {
         if (err) reject(err)
-        resolve(rows[0])
+        if (rows.length > 0) {
+          resolve(rows[0])
+        } else {
+          resolve(rows)
+        }
       })
     })
   }

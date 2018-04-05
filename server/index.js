@@ -11,9 +11,11 @@ const nuxt = require('./middleware/nuxt')
 const morgan = require('morgan')
 const cookieParser = require('cookie-parser')
 const bodyParser = require('body-parser')
-require('./middleware/socket')(server)
 const cors = require('cors')
 const api = require('./api')
+require('./middleware/socket')(server)
+// require('./middleware/memwatch')
+// require('./middleware/v8')
 
 const HOST = process.env.HOST || '127.0.0.1'
 const PORT = process.env.PORT || 3000

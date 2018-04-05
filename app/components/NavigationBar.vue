@@ -12,29 +12,34 @@
       </div>
 
       <!-- Search Bar -->
-        <div class="search-container">
-          <form @submit.prevent="onSearchInput">
+      <div class="search-container">
+        <form @submit.prevent="onSearchInput">
           <div class="search-inner-container">
             <div class="search-icon-container">
               <div class="fa fa-search" id="search-icon"></div>
             </div>
             <div class="search-input-container">
-              <input type="text" :placeholder="$t('navigationBar.search')" v-model="value.input">
+              <input
+                type="text"
+                v-model="value.input"
+                pattern="[A-Za-z0-9 ]{2,50}"
+                :placeholder="$t('home.input')"
+                :title="$t('home.searchCaution')">
             </div>
           </div>
-          </form>
-        </div>
+        </form>
+      </div>
 
       <!-- Right Button container -->
       <div class="button-container">
         <nav class="button-inner-container">
           <ul class="button-wrapper">
             <!--<li class="button-item-container">-->
-              <!--<div class="button-item-wrapper">-->
-                <!--<div class="button-item">-->
-                  <!--<a href="/login">Become a buyer</a>-->
-                <!--</div>-->
-              <!--</div>-->
+            <!--<div class="button-item-wrapper">-->
+            <!--<div class="button-item">-->
+            <!--<a href="/login">Become a buyer</a>-->
+            <!--</div>-->
+            <!--</div>-->
             <!--</li>-->
             <li v-if="!isLoggedIn" class="button-item-container">
               <div class="button-item-wrapper">
@@ -44,11 +49,11 @@
               </div>
             </li>
             <!--<li class="button-item-container">-->
-              <!--<div class="button-item-wrapper">-->
-                <!--<div class="button-item">-->
-                  <!--<a href="/signup">Help</a>-->
-                <!--</div>-->
-              <!--</div>-->
+            <!--<div class="button-item-wrapper">-->
+            <!--<div class="button-item">-->
+            <!--<a href="/signup">Help</a>-->
+            <!--</div>-->
+            <!--</div>-->
             <!--</li>-->
             <li v-if="!isLoggedIn" class="button-item-container">
               <div class="button-item-wrapper">
