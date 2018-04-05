@@ -94,7 +94,7 @@ module.exports = async (req, res) => {
       SET
       notes = CONCAT(${note}, notes)
       WHERE
-      lead_id = ${lead_id}`, data, (err) => {
+      lead_id = ${lead_id}`, note, (err) => {
         if (err) reject(err)
         resolve()
       })
