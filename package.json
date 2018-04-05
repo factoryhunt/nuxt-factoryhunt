@@ -18,7 +18,7 @@
     "@nuxtjs/sitemap": "^0.0.3",
     "@xkeshi/image-compressor": "^0.5.3",
     "aws-sdk": "^2.186.0",
-    "axios": "^0.17.1@latest",
+    "axios": "^0.17.1",
     "body-parser": "^1.18.2",
     "clipboard": "^1.7.1",
     "connect-redis": "^3.3.3",
