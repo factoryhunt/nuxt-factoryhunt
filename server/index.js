@@ -1,4 +1,6 @@
 // process.env.DEBUG = 'nuxt:*'
+require('./middleware/spawn')
+
 const app = require('express')()
 const server = require('http').createServer(app)
 
