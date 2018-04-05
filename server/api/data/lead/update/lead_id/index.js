@@ -5,6 +5,7 @@ const CONFIG_MYSQL = require('../../../../mysql/model')
 module.exports = async (req, res) => {
   const lead_id = parseInt(req.params.lead_id)
   const { lead_data } = req.body
+  console.log(lead_data)
 
   const updateLeadData = () => {
     return new Promise((resolve, reject) => {

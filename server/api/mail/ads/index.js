@@ -84,18 +84,15 @@ module.exports = async (req, res) => {
 
   const updateLeadDatabase = (lead) => {
     const lead_id = lead.lead_id
-    const notes = lead.notes
     const date = new Date()
-    const data = {
-      notes: `${notes}\n${date} - Sent Ads email`
-    }
+    const note = `${date}-Sent Ads email, `
 
     return new Promise((resolve, reject) => {
       mysql.query(`
       UPDATE
       ${CONFIG_MYSQL.TABLE_LEADS}
       SET
-      ?
+      notes = CONCAT(${note}, notes)
       WHERE
       lead_id = ${lead_id}`, data, (err) => {
         if (err) reject(err)
@@ -106,7 +103,6 @@ module.exports = async (req, res) => {
 
   try {
     const leads = await getLeads()
-    console.log(leads)
     await postEmails(leads)
     res.json({msg: 'Email has been sent!'})
   } catch (err) {

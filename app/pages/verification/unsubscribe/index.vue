@@ -1,12 +1,12 @@
 <template>
   <section class="body-contents">
     <div v-show="toggle.unsubscribed">
-      <p>Thank you. No more bother you.</p>
+      <p>Thank you for your time. You have been successfully unsubscribed.</p>
     </div>
     <div v-show="!toggle.unsubscribed">
-      <p>Are you sure to unsubscribe this website?</p>
+      <p>Are you sure you want to unsubscribe?</p>
       <div>
-        <button @click="onSureButton">Sure</button>
+        <button @click="onSureButton">Yes</button>
         <button @click="onNoButton">No</button>
       </div>
     </div>
@@ -41,7 +41,7 @@
             data: {
               email_subscription: 'N'
             },
-            notes: `${date} - Unsubscribed by user, `
+            notes: `${date}-Unsubscribed by user, `
           }
         }
         return new Promise((resolve, reject) => {
