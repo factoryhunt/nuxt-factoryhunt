@@ -39,7 +39,7 @@
     "mysql": "^2.15.0@latest",
     "nodemailer": "^4.4.2",
     "nodemon": "^1.14.11",
-    "nuxt": "^1.0.0@latest",
+    "nuxt": "^1.4.0",
     "pdfjs-dist": "^2.0.437",
     "push.js": "^1.0.5",
     "socket.io": "^2.0.4",
