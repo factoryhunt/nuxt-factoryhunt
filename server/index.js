@@ -14,7 +14,6 @@ const bodyParser = require('body-parser')
 const cors = require('cors')
 const api = require('./api')
 require('./middleware/socket')(server)
-// require('./middleware/memwatch')
 // require('./middleware/v8')
 
 const HOST = process.env.HOST || '127.0.0.1'
