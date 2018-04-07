@@ -2,4 +2,4 @@ User-agent: *
 Allow: /
 Disallow: /dashboard
 
-Sitemap: https://www.factoryhunt.com/sitemap.xml
+Sitemap: https://www.factoryhunt.com/sitemap.xml.gz

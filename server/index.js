@@ -15,6 +15,7 @@ const cors = require('cors')
 const api = require('./api')
 require('./middleware/socket')(server)
 // require('./middleware/v8')
+// require('./middleware/sitemap')
 
 const HOST = process.env.HOST || '127.0.0.1'
 const PORT = process.env.PORT || 3000
