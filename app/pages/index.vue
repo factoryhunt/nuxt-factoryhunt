@@ -56,7 +56,7 @@
           </div>
         </div>
         <div class="show-more-button-container" v-if="features.length > value.featuresLength">
-          <button @click="onShowMoreButton"><i><img src="~assets/icons/arrow-angle-down.png" alt="show more"></i>SHOW MORE</button>
+          <button @click="onShowMoreButton"><i><img src="~assets/icons/arrow-angle-down.png" alt="show more"></i>{{$t('home.showMore')}}</button>
         </div>
       </div>
     </div>
@@ -291,6 +291,7 @@
             height: 100%;
             border: 0;
             font-size: @font-size-small;
+            text-transform: uppercase;
           }
           img {
             display: inline-block;

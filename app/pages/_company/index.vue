@@ -76,6 +76,7 @@
     <div class="main-image-container">
       <div v-if="!vendor.cover_image_url_1" class="no-main-image"></div>
       <div v-else class="main-image" @click="onViewPhotosButton">
+        <!-- <div class="edit-photos-button" @click="onEditPhotosButton">{{ $t('company.editImages') }}</div> -->
         <div class="view-photos-button" @click="onViewPhotosButton">{{ $t('company.viewImages') }}</div>
       </div>
     </div>
@@ -449,6 +450,10 @@
         $('.modal-background').hide()
         $('html').css('overflow', 'inherit')
         $('body').css('overflow', 'inherit')
+      },
+      onEditPhotosButton () {
+        this.onPDFCloseButton()
+        location.href = "/dashboard/company/image"
       },
       onViewPhotosButton () {
         this.showModalBackground()
@@ -1062,6 +1067,20 @@
         background-size: cover !important;
         background-position: 50% 50% !important;
 
+        .edit-photos-button {
+          opacity: 1;
+          background-color: @color-white;
+          box-shadow: 0 1px 1px 1px rgba(0, 0, 0, 0.14);
+          transition: opacity 150ms ease-in-out;
+          border-radius: @border-radius;
+          position: absolute;
+          font-size: @font-size-extra-small;
+          right: 110px;
+          bottom: 14px;
+          padding: 6px 14px;
+          cursor: pointer;
+        }
+
         .view-photos-button {
           opacity: 1;
           background-color: @color-white;
@@ -1130,6 +1149,7 @@
             padding-right: 55px;
           }
           .short-description-container {
+            margin-top: 30px;
             .short-description {
             }
           }
@@ -1276,6 +1296,7 @@
         .product-wrapper {
 
           .product-container {
+            vertical-align: top;
             margin-bottom: 2rem;
             padding-left: 20px;
             padding-right: 20px;
@@ -1343,9 +1364,23 @@
         .main-image {
 
           &:hover {
+            .edit-photos-button,
             .view-photos-button {
               opacity: 1;
             }
+          }
+          .edit-photos-button {
+            opacity: 0;
+            background-color: @color-white;
+            box-shadow: 0 1px 1px 1px rgba(0, 0, 0, 0.14);
+            transition: opacity 150ms ease-in-out;
+            border-radius: @border-radius;
+            position: absolute;
+            font-size: @font-size-small;
+            right: 150px;
+            bottom: 30px;
+            padding: 12px 20px;
+            cursor: pointer;
           }
           .view-photos-button {
             opacity: 0;

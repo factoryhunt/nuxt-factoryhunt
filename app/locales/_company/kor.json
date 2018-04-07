@@ -1,5 +1,5 @@
 {
-  "readMore": "더 보기",
+  "readMore": "더 보기 <i class='fa fa-angle-down' aria-hidden='true'></i>",
   "sticky": {
     "overview": "개요",
     "documents": "문서",
@@ -8,6 +8,7 @@
     "products": "제품"
   },
   "viewImages": "이미지 보기",
+  "editImages": "이미지 수정",
   "description": {
     "title": "회사 소개"
   },

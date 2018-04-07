@@ -237,7 +237,7 @@
           padding-bottom: 2rem;
 
           .company-name {
-            display: inline-block;
+            display: inline;
             margin: 0 0 2px 0;
             font-weight: @font-weight-medium;
             font-size: 19px;

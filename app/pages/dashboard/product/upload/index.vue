@@ -119,7 +119,7 @@
           <div class="box-container">
             <div class="left-contents">{{ $t('dashboardProductEdit.information.materials') }}</div>
             <div class="right-contents">
-              <input placeholder="Iron, wood, .." maxlength="100" pattern="[A-Za-z ,-]{1,100}" :title="$t('dashboardProductEdit.information.materialsInputTitle')" v-model="value.materialType" type="text" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+              <input placeholder="Iron, wood, .." maxlength="100" pattern="[A-Za-z0-9 ,-]{1,100}" :title="$t('dashboardProductEdit.information.materialsInputTitle')" v-model="value.materialType" type="text" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
             </div>
           </div>
           <p class="caution-text">{{ $t('dashboardProductEdit.information.caution') }}</p>
