@@ -83,6 +83,7 @@
       async dropAccount () {
         try {
           await this.deleteProducts()
+          await this.updateContactData()
           await this.deleteContact()
           await this.deleteAccount()
           this.$store.dispatch('auth/logout')
@@ -100,6 +101,22 @@
             })
             .catch((err) => {
               reject(err.response)
+            })
+        })
+      },
+      updateContactData () {
+        return new Promise((resolve, reject) => {
+          const data = {
+            contact_data: {
+              notes: `CONCAT("${this.value.description}", notes)`
+            }
+          }
+          axios.put(`/api/data/contact/${this.contact.contact_id}`, data)
+            .then(() => {
+              resolve()
+            })
+            .catch((err) => {
+              reject(err)
             })
         })
       },
@@ -144,9 +161,6 @@
   @font-size-button: 22px;
   @font-weight-button: 600;
 
-  .dashboard-page-container {
-  }
-
   .input-container {
     margin-bottom: 40px;
   }
@@ -177,8 +191,8 @@
       -moz-transition: all 500ms;
       -ms-transition: all 500ms;
       -o-transition: all 500ms;
-      transition: all 500ms;
-      border: 1px solid @color-orange;
+      transition: border 500ms;
+      border: 1px solid @color-link;
     }
   }
   select {

@@ -5,10 +5,10 @@
       <div class="profile-container">
         <div class="profile-inner-container">
           <div class="menu-container">
-            <nuxt-link id="item-company-edit" class="menu" to="/dashboard/company">{{ $t('dashboardCompany.editCompany') }}</nuxt-link>
-            <nuxt-link id="item-domain-edit" class="menu" to="/dashboard/company/domain">{{ $t('dashboardCompany.editDomain') }}</nuxt-link>
-            <nuxt-link id="item-image-edit" class="menu" to="/dashboard/company/image">{{ $t('dashboardCompany.images') }}</nuxt-link>
-            <!--<nuxt-link id="item-documents-edit" class="menu" to="/dashboard/company/documents">{{ $t('dashboardCompany.documents') }}</nuxt-link>-->
+            <a id="item-company-edit" class="menu" href="/dashboard/company">{{ $t('dashboardCompany.editCompany') }}</a>
+            <a id="item-domain-edit" class="menu" href="/dashboard/company/domain">{{ $t('dashboardCompany.editDomain') }}</a>
+            <a id="item-image-edit" class="menu" href="/dashboard/company/image">{{ $t('dashboardCompany.images') }}</a>
+            <!--<a id="item-documents-edit" class="menu" href="/dashboard/company/documents">{{ $t('dashboardCompany.documents') }}</a>-->
             <button @click="routeCompanyPage" class="view-button button-white">{{ $t('dashboardCompany.viewButton') }}</button>
           </div>
         </div>

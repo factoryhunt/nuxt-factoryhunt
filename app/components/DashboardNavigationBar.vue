@@ -2,12 +2,12 @@
   <div class="component-container">
     <div class="body-container">
       <div class="tab-container">
-        <nuxt-link id="item-dashboard" class="tab" to="/dashboard">{{ $t('navigationBar.dashboard') }}</nuxt-link>
-        <nuxt-link id="item-company" class="tab" to="/dashboard/company">{{ $t('navigationBar.company') }}</nuxt-link>
-        <nuxt-link id="item-product" class="tab" to="/dashboard/product">{{ $t('navigationBar.product') }}</nuxt-link>
-        <nuxt-link id="item-inbox" class="tab" to="/dashboard/inbox" v-show="contact.contact_level === '0'">{{ $t('navigationBar.inbox') }}</nuxt-link>
-        <nuxt-link id="item-account" class="tab" to="/dashboard/account">{{ $t('navigationBar.account') }}</nuxt-link>
-        <nuxt-link id="item-email" class="tab" to="/dashboard/email" v-show="contact.contact_level === '0'">{{ $t('navigationBar.email') }}</nuxt-link>
+        <a id="item-dashboard" class="tab" href="/dashboard">{{ $t('navigationBar.dashboard') }}</a>
+        <a id="item-company" class="tab" href="/dashboard/company">{{ $t('navigationBar.company') }}</a>
+        <a id="item-product" class="tab" href="/dashboard/product">{{ $t('navigationBar.product') }}</a>
+        <a id="item-inbox" class="tab" href="/dashboard/inbox" v-show="contact.contact_level === '0'">{{ $t('navigationBar.inbox') }}</a>
+        <a id="item-account" class="tab" href="/dashboard/account">{{ $t('navigationBar.account') }}</a>
+        <a id="item-email" class="tab" href="/dashboard/email" v-show="contact.contact_level === '0'">{{ $t('navigationBar.email') }}</a>
       </div>
     </div>
   </div>

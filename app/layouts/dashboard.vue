@@ -29,6 +29,21 @@
       return {
         titleTemplate: '%s | Factory Hunt'
       }
+    },
+    methods: {
+      preventEnterKeySubmit () {
+        $(document).ready(() => {
+          $('.dashboard-container input').keydown((event) => {
+            console.log(event)
+            if (event.keyCode === 13) {
+              event.preventDefault()
+            }
+          })
+        })
+      }
+    },
+    mounted () {
+      this.preventEnterKeySubmit()
     }
   }
 </script>

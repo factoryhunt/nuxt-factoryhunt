@@ -5,7 +5,6 @@ const CONFIG_MYSQL = require('../../../../mysql/model')
 module.exports = async (req, res) => {
   const account_id = req.params.account_id
   const { account_data } = req.body
-  console.log(account_data)
 
   const update = () => {
     return new Promise((resolve, reject) => {
@@ -22,9 +21,7 @@ module.exports = async (req, res) => {
   }
 
   try {
-    console.log(1)
     await update()
-    console.log(2)
     res.status(200).json({result: true, msg: 'Account has been updated.'})
   } catch (err) {
     console.log(err)

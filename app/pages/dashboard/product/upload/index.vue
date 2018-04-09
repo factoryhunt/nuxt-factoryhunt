@@ -304,13 +304,6 @@
         $(event.target).addClass('active')
         this.value.secondaryCategory = this.value.subCategories[index].name
       },
-      preventEnterKeySubmit () {
-        $('input').keydown(() => {
-          if (event.keyCode === 13) {
-            event.preventDefault()
-          }
-        })
-      },
       DelayKeyupEvent () {
         var delay = (() => {
           var timer = 0
@@ -357,9 +350,28 @@
       },
       activateJquery () {
         $(document).ready(() => {
-          this.preventEnterKeySubmit()
+          this.initEventListners()
           this.DelayKeyupEvent()
         })
+      },
+      initEventListners () {
+        this.onEscapePage()
+      },
+      onEscapePage () {
+        window.onbeforeunload = (event) => {
+          event = event || window.event;
+ 
+          // For IE<8 and Firefox prior to version 4
+          if (event) {
+            event.returnValue = 'Are you sure?'
+          }
+        
+          // For Chrome, Safari, IE8+ and Opera 12+
+          return 'Are you sure?'
+        }
+      },
+      removeBeforeUnloadEvent () {
+        window.onbeforeunload = undefined
       },
       onUploadButton () {
         this.activateLoader()
@@ -411,6 +423,7 @@
 
         axios.post(`/api/data/product/${this.account.account_id}`, formData, config)
           .then(() => {
+            this.removeBeforeUnloadEvent()
             this.uploadSucceed()
           })
           .catch(() => {

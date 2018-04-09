@@ -1,5 +1,5 @@
 <template>
-  <div class="dashboard-page-container">
+  <div id="dashboard-product-page" class="dashboard-page-container">
 
     <!-- Modal -->
     <div class="modal-background visible" v-if="toggle.isSaving">
@@ -324,13 +324,6 @@
         $(event.target).addClass('active')
         this.value.secondaryCategory = this.value.subCategories[index].name
       },
-      preventEnterKeySubmit () {
-        $('input').keydown(() => {
-          if (event.keyCode === 13) {
-            event.preventDefault()
-          }
-        })
-      },
       DelayKeyupEvent () {
         var delay = (() => {
           var timer = 0
@@ -385,9 +378,29 @@
       },
       activateJquery () {
         $(document).ready(() => {
-          this.preventEnterKeySubmit()
+          this.initEventListners()
           this.DelayKeyupEvent()
         })
+      },
+      initEventListners () {
+        this.onEscapePage()
+      },
+      onEscapePage () {
+        window.onbeforeunload = (event) => {
+          console.log(event)
+          event = event || window.event;
+ 
+          // For IE<8 and Firefox prior to version 4
+          if (event) {
+            event.returnValue = 'Are you sure?'
+          }
+        
+          // For Chrome, Safari, IE8+ and Opera 12+
+          return 'Are you sure?'
+        }
+      },
+      removeBeforeUnloadEvent () {
+        window.onbeforeunload = undefined
       },
       onEditButton () {
         this.toggle.isSaving = true
@@ -427,6 +440,7 @@
 
         axios.put(`/api/data/product/${this.productId}`, formData, config)
           .then(() => {
+            this.removeBeforeUnloadEvent()
             this.toggle.isSaving = false
             showTopAlert(this.$store, true, this.$t('alert.product.saveSuccess'))
             this.$router.replace('/dashboard/product')

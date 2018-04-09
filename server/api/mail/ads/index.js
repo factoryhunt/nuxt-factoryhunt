@@ -8,14 +8,53 @@ module.exports = async (req, res) => {
   let {
     min_lead_id,
     max_lead_id,
+    lead_ids,
+    lead_filter_type,
     email_template
   } = req.body
 
   const getName = (lead) => {
-    let name = lead.company ? lead.company : 'Sir/Madam'
-    const last_name = lead.last_name ? ` ${lead.last_name}` : ''
-    name = lead.first_name ? `${lead.first_name}${last_name}` : name
+    let name = lead.company ? 
+    lead.company : 
+    'Sir/Madam'
+
+    const last_name = lead.last_name ? 
+    ` ${lead.last_name}` : ''
+
+    name = lead.first_name ? 
+    `${lead.first_name}${last_name}` : 
+    name
+
     return name
+  }
+
+  const getLeadRangeQuerySyntax = () => {
+    let queryString
+
+    if (lead_filter_type === "lead-filter-type-one") {
+      queryString = 
+      `lead_id >= ${min_lead_id} AND
+      lead_id <= ${max_lead_id} AND`
+    }
+
+    if (lead_filter_type === "lead-filter-type-two") {
+      tempArray = lead_ids.split(',')
+
+      let tempString = ''
+      tempArray.forEach((lead_id, index) => {
+
+        // first index
+        if (index === 0) tempString = `(lead_id = ${lead_id}`
+        // last index
+        else if (index === tempArray.length - 1) tempString = `${tempString} OR lead_id = ${lead_id}) AND`
+        // between ends
+        else tempString = `${tempString} OR lead_id = ${lead_id}`
+      })
+
+      queryString = tempString
+    }
+
+    return queryString
   }
 
   const getEmailTemplate = (token, name) => {
@@ -39,11 +78,11 @@ module.exports = async (req, res) => {
       FROM
       ${CONFIG_MYSQL.TABLE_LEADS}
       WHERE
-      lead_id >= ${min_lead_id} AND
-      lead_id <= ${max_lead_id} AND
+      ${getLeadRangeQuerySyntax()}
       email_subscription = "Y" AND
       email > "" AND
-      lead_status LIKE "%Open%"`, (err, rows) => {
+      lead_status LIKE "%Open%" AND
+      lead_type = "Supplier"`, (err, rows) => {
         if (err) reject(err)
         resolve(rows)
       })
@@ -60,8 +99,8 @@ module.exports = async (req, res) => {
       const token = await publishToken(payload)
       const template = getEmailTemplate(token, getName(leads[index]))
       const info = await postMail(leads[index].email, template)
-      console.log(info)
       await updateLeadDatabase(leads[index])
+      console.log(info)
     }
     console.log('post Emails done')
   }

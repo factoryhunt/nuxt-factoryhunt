@@ -645,13 +645,6 @@
           }
         })
       },
-      preventEnterKeySubmit () {
-        $('input').keydown(() => {
-          if (event.keyCode === 13) {
-            event.preventDefault()
-          }
-        })
-      },
       countInputLength () {
         this.value.shortDescriptionCount = $('#short-description-input').val().length
       }
@@ -818,13 +811,12 @@
       font-weight: 400 !important;
 
       &:focus,
-      &:active,
-      &:visited {
+      &:active {
         -webkit-transition: all 500ms;
         -moz-transition: all 500ms;
         -ms-transition: all 500ms;
         -o-transition: all 500ms;
-        transition: all 500ms;
+        transition: border 500ms;
         border: 1px solid @color-link;
       }
     }

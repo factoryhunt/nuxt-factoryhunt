@@ -1,14 +1,29 @@
 <template>
   <section>
-    <h2>Filtering</h2>
+    <h2>Email Bot</h2>
     <div class="filter-container each-container">
+
+      <!-- Select Options -->
       <div>
         <p>Lead id</p>
-        <input id="lead-id-min" type="number" v-model="value.minLeadId">
-        ~
-        <input id="lead-id-max" type="number" v-model="value.maxLeadId">
+
+        <!-- Type One -->
+        <div>
+          <input type="radio" value="lead-filter-type-one" v-model="value.picked">
+          <input id="lead-id-min" type="number" v-model="value.minLeadId">
+          ~
+          <input id="lead-id-max" type="number" v-model="value.maxLeadId">
+        </div>
+        <!-- Type Two -->
+        <div>
+          <input type="radio" value="lead-filter-type-two" v-model="value.picked">
+          <input id="lead-id-target" type="text" v-model="value.leadIds">
+        </div>
+
         <button @click="onSearchButton">Search</button>
       </div>
+
+      <!-- Select Template -->
       <div>
         <p>Email Template</p>
         <select v-model="value.emailTemplate">
@@ -32,6 +47,8 @@
         </div>
       </div>
     </div>
+
+    <!-- Search Result -->
     <div class="leads-container">
       <loader
         class="spinkit-default visible"
@@ -45,6 +62,8 @@
         </p>
       </div>
     </div>
+
+    <!-- Send Button container -->
     <div class="button-container each-container">
       <button
         class="button-orange"
@@ -54,6 +73,7 @@
       </button>
       <loader class="spinkit-input visible" id="loader" v-show="toggle.isSendingEmail"/>
     </div>
+
   </section>
 </template>
 
@@ -68,8 +88,10 @@
       return {
         value: {
           leads: [],
+          picked: 'lead-filter-type-one',
           minLeadId: 0,
           maxLeadId: 0,
+          leadIds: '',
           emailTemplate: 'A'
         },
         toggle: {
@@ -78,15 +100,34 @@
         }
       }
     },
+    computed: {
+      getLeadDataToPostServer () {
+        let data = {
+          email_template: this.value.emailTemplate,
+          lead_filter_type: this.value.picked
+        }
+
+        if (this.value.picked === "lead-filter-type-one") {
+          data.min_lead_id = this.value.minLeadId
+          data.max_lead_id = this.value.maxLeadId
+        }
+        else if (this.value.picked === "lead-filter-type-two") {
+          data.lead_ids = this.value.leadIds
+        }
+        else {
+          data = {}
+        }
+
+        return data
+      }
+    },
     methods: {
       sendEmail () {
         const result = confirm('Are you sure?')
         if (!result) return
-        const data = {
-          min_lead_id: this.value.minLeadId,
-          max_lead_id: this.value.maxLeadId,
-          email_template: this.value.emailTemplate
-        }
+
+        const data = this.getLeadDataToPostServer
+
         return new Promise((resolve, reject) => {
           axios.post('/api/mail/ads', data)
             .then(() => {
@@ -109,10 +150,8 @@
       },
       onSearchButton () {
         this.toggle.isSearching = true
-        const data = {
-          min_lead_id: this.value.minLeadId,
-          max_lead_id: this.value.maxLeadId
-        }
+        const data = this.getLeadDataToPostServer
+
         axios.post(`/api/data/lead/email`, data)
           .then(res => {
             this.toggle.isSearching = false
@@ -141,5 +180,14 @@
   }
   .lead-container {
     margin: 8px 0;
+  }
+  .filter-container {
+    div {
+      margin-top: 12px;
+    }
+    #lead-id-target {
+      display: inline-block;
+      width: 90%;
+    }
   }
 </style>

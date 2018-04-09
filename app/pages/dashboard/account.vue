@@ -5,10 +5,10 @@
       <div class="profile-container">
         <div class="profile-inner-container">
           <div class="menu-container">
-            <nuxt-link id="item-account-edit" class="menu" to="/dashboard/account">{{ $t('dashboardMyAccount.editAccount') }}</nuxt-link>
-            <nuxt-link id="item-password-edit" class="menu" to="/dashboard/account/password">{{ $t('dashboardMyAccount.changePassword') }}</nuxt-link>
+            <a id="item-account-edit" class="menu" href="/dashboard/account">{{ $t('dashboardMyAccount.editAccount') }}</a>
+            <a id="item-password-edit" class="menu" href="/dashboard/account/password">{{ $t('dashboardMyAccount.changePassword') }}</a>
             <!--<a id="item-language" class="menu" href="/dashboard/account/language" v-lang.language></a>-->
-            <nuxt-link id="item-management" class="menu" to="/dashboard/account/management">{{ $t('dashboardMyAccount.management') }}</nuxt-link>
+            <a id="item-management" class="menu" href="/dashboard/account/management">{{ $t('dashboardMyAccount.management') }}</a>
             <!--<button @click="routeCompanyPage" class="view-button button-white">See My Profile</button>-->
           </div>
         </div>
