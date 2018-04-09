@@ -16,6 +16,8 @@ module.exports = async (req, res) => {
       ${CONFIG_MYSQL.TABLE_DOCUMENTS}
       WHERE
       account_id = ${account_id}
+      ORDER BY
+      last_modified_date DESC
       `, (err, rows) => {
         if (err) reject(err)
         resolve(rows)

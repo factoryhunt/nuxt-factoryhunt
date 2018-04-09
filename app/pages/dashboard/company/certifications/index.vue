@@ -18,22 +18,28 @@
           accept="image/jpeg, image/jpg, image/png"
         >
 
-        <div id="progress-bar"></div>
-
         <div class="certification list-container" id="list">
           <div class="list-item" id="list-item" v-for="(certification, cIndex) in value.certifications" :key="cIndex">
+
+            <!-- Remove Button -->
             <img
               class="remove-button"
               src="~assets/icons/cancel.svg"
               @click="deleteFile($event.target, cIndex)"
             >
+
+            <!-- Certification image -->
             <div class="cert-image-wrapper">
               <img
                 class="file-image"
                 :src="certification.document_url"
               >
-              <div class="progress-bar"></div>
+              <div class="progress-bar-wrapper">
+                <div class="progress-bar" :id="`progress-bar-${cIndex}`"></div>
+              </div>
             </div>
+
+            <!-- Document Type -->
             <div class="category">
               <div v-for="(category, tIndex) in certifications.category" :key="tIndex">
                 <input
@@ -49,6 +55,8 @@
                 </label>
               </div>
             </div>
+
+            <!-- Document Info -->
             <div class="info">
               <label>Title of Document</label>
               <input
@@ -56,12 +64,13 @@
                 v-model="certification.document_name"
                 @keyup="inputChanged"
               >
-              <label class="size">{{certification.size}}</label>
+              <label class="size">{{getDocumentFileSize(certification.document_size)}}</label>
             </div>
           </div>
         </div>
       </div>
 
+      <!-- Save Button -->
       <div class="confirm-container" id="confirm-container">
         <loader
           id="loader"
@@ -167,7 +176,8 @@
             const data = {
               document_id: cert.document_id,
               document_type: cert.document_type,
-              document_name: cert.document_name
+              document_name: cert.document_name,
+              document_size: cert.document_size
             }
             certs.push(data)
           }
@@ -215,7 +225,7 @@
         let filteredFiles = []
 
         for (let i = 0; i < files.length; i++) {
-          const file = files[i]
+          let file = files[i]
           const fileFilter = /\/(jpg|jpeg|png)$/
 
           // Invalid Format
@@ -228,16 +238,25 @@
           if (fileFilter.test(file.type) &&
               kilobyteToMegabyte(file.size) < 7) {
             console.log(file)
-            this.value.certifications.push(file)
+
+            file.document_name = file.name
+            file.document_url = 'https://s3-us-west-1.amazonaws.com/factoryhunt.com/assets/icons/guarantee.svg'
+            file.document_size = file.size
+
+            this.value.certifications.unshift(file)
+            
             filteredFiles.push(file)
           }
         }
 
         this.postImageToS3(filteredFiles)
       },
+      uploadImage () {
+        
+      },
       async postImageToS3 (files) {
         if (files.length < 1) return
-        this.progressBarDone(0)
+        this.progressBarDone(1)
 
         const formData = new FormData()
 
@@ -293,22 +312,24 @@
       onDownloadProgress (progressEvent) {
         if (progressEvent.lengthComputable) {
           let progress = Math.round( (progressEvent.loaded * 100) / progressEvent.total )
-          console.log('d:', progress)
         }
       },
       progressBarDone (percent, finished) {
-        let progressBar = document.getElementById('progress-bar')
-        progressBar.style.width = `${percent}%`
-        progressBar.style.opacity = `1`
+        this.$nextTick(() => {
+          let progressBar = document.getElementById('progress-bar-0')
+          console.log(progressBar)
+          progressBar.style.width = `${percent}%`
+          progressBar.style.opacity = `1`
 
-        if (finished) {
-          setTimeout(() => {
-            progressBar.style.opacity = `0`
+          if (finished) {
             setTimeout(() => {
-              progressBar.style.width = `0`
-            }, 500)
-          }, 1500)
-        }
+              progressBar.style.opacity = `0`
+              setTimeout(() => {
+                progressBar.style.width = `0`
+              }, 500)
+            }, 1500)
+          }
+        })
       },
       initDropzone () {
         const dropLabel = document.getElementById('drop-label')
@@ -318,6 +339,9 @@
       },
       inputChanged () {
         this.toggle.canUpload = true
+      },
+      getDocumentFileSize (kilobyte) {
+        return `${kilobyteToMegabyte(kilobyte, 2)}MB`
       }
     },
     async mounted () {
@@ -365,7 +389,7 @@
       position: relative;
       display: table;
       width: 100%;
-      padding: 12px;
+      padding: 24px;
       margin-bottom: 8px;
       box-shadow: 1px 1px 10px 1px @color-lightest-grey;
       border-radius: @border-radius;
@@ -394,18 +418,30 @@
       .cert-image-wrapper {
         display: table-cell;
         position: relative;
+        vertical-align: middle;
+        height: 186px;
 
-        .progress-bar {
-          position: absolute;
-          bottom: 12px;
-          left: 12px;
-          right: 12px;
-          height: 6px;
-          border-radius: px;
-          background-color: @color-orange;
-        }
         .file-image {
           object-fit: cover;
+          height: 100%;
+        }
+
+        .progress-bar-wrapper {
+            position: absolute;
+            left: 0;
+            bottom: 15px;
+            width: 100%;
+            padding: 0 8px;
+
+          .progress-bar {
+            position: relative;
+            height: 4px;
+            border-radius: 4px;
+            background-color: @color-orange;
+            opacity: 0;
+            width: 0;
+            transition: all .5s ease .1s;
+          }
         }
       }
 
@@ -414,6 +450,7 @@
         vertical-align: middle;
         text-align: left;
         width: 150px;
+        padding-left: 20px;
 
         div {
           margin: 5px 0;
@@ -426,9 +463,10 @@
         }
       }
       .info {
-        width: 481px;
+        width: 480px;
         display: table-cell;
         vertical-align: middle;
+        padding-left: 20px;
 
         label {
           font-size: @font-size-extra-small;
@@ -441,26 +479,14 @@
         }
         .size {
           display: inline-table;
+          margin-left: 12px;
         }
       }
     }
   }
 
-  #confirm-container {
-  }
-
   #loader {
     vertical-align: middle;
     width: 104px;
-  }
-
-  #progress-bar {
-    margin: 8px 0;
-    background-color: @color-orange;
-    opacity: 0;
-    width: 0;
-    height: 6px;
-    transition: all .5s ease .1s;
-    border-radius: 6px;
   }
 </style>

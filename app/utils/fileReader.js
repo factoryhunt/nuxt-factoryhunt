@@ -17,6 +17,6 @@ export const getFileURL = (file, progressBar) => {
   })
 }
 
-export const kilobyteToMegabyte = (kilobyte) => {
-  return ((kilobyte/1024)/1024).toFixed(4)
+export const kilobyteToMegabyte = (kilobyte, round = 4) => {
+  return ((kilobyte/1024)/1024).toFixed(round)
 }

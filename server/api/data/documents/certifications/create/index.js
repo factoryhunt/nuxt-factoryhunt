@@ -19,7 +19,8 @@ module.exports = async (req, res) => {
     const data = {
       account_id,
       document_name: file.originalname,
-      document_url: file.location
+      document_url: file.location,
+      document_size: file.size || file.document_size
     }
     return new Promise((resolve, reject) => {
       mysql.query(`
