@@ -50,6 +50,7 @@ module.exports = async (req, res) => {
     await urlUpdate()
     res.status(200).json({result: true, msg: 'Account single image has been changed successfully.'})
   } catch (err) {
+    console.log(err)
     res.status(403).json({result: false})
   }
 }
