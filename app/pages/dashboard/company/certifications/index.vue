@@ -100,9 +100,9 @@
   export default {
     head () {
       return {
-        title: 'Upload Documents',
+        title: 'Certificatations',
         link: [
-          { hid: 'canonical', rel: 'canonical', href: `https://www.factoryhunt.com/dashboard/company/documents` }
+          { hid: 'canonical', rel: 'canonical', href: `https://www.factoryhunt.com/dashboard/company/certifications` }
           // { rel: 'stylesheet', href: 'https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.3.3/cropper.min.css' },
         ],
         script: [
@@ -137,11 +137,10 @@
       }
     },
     methods: {
-      createCertifications (formData) {
+      createCertifications (formData, index) {
         return new Promise((resolve, reject) => {
           const options = {
-            headers: {'content-type': 'multipart/form-data'},
-            onUploadProgress: this.onUploadProgress
+            headers: {'content-type': 'multipart/form-data'}
           }
           axios.post(`/api/data/documents/certifications/${this.account.account_id}`,
             formData,
@@ -221,7 +220,7 @@
       fileAdded (files) {
         this.readFiles(files)
       },
-      readFiles (files) {
+      async readFiles (files) {
         let filteredFiles = []
 
         for (let i = 0; i < files.length; i++) {
@@ -237,38 +236,34 @@
           // Approved
           if (fileFilter.test(file.type) &&
               kilobyteToMegabyte(file.size) < 7) {
-            console.log(file)
 
             file.document_name = file.name
-            file.document_url = 'https://s3-us-west-1.amazonaws.com/factoryhunt.com/assets/icons/guarantee.svg'
+            file.document_url = await getFileURL(file)
             file.document_size = file.size
 
             this.value.certifications.unshift(file)
-            
-            filteredFiles.push(file)
+            // this.postImageToS3(file, i)
           }
         }
-
-        this.postImageToS3(filteredFiles)
       },
-      uploadImage () {
-        
-      },
-      async postImageToS3 (files) {
-        if (files.length < 1) return
-        this.progressBarDone(1)
+      async postImageToS3 (file, index) {
+        if (file.size <= 0) return
+        console.log(`${index}번째 file 업로드시작`)
 
         const formData = new FormData()
-
-        for (let i = 0; i < files.length; i++) {
-          formData.append(`certifications`, files[i])
-        }
+        formData.append(`certification`, file)
 
         try {
+          let progressBar
+          await this.$nextTick(() => {
+            progressBar = document.getElementById(`progress-bar-${index}`)
+          })
+          this.progressBarDone(5, index, progressBar)
           await this.createCertifications(formData)
-          this.progressBarDone(60, true)
+          this.progressBarDone(80, index, progressBar)
+          // const url = await getFileURL(file)
           await this.getCertifications()
-          this.progressBarDone(100, true)
+          this.progressBarDone(100, index, progressBar, true)
         } catch (err) {
           console.log('postImageToS3 Error')
           console.log(err)
@@ -281,10 +276,10 @@
 
         try {
           await this.removeCertification(document_id)
-          this.value.certifications.splice(index, 1)
-          $item.css({'opacity': '1',})
+          await this.getCertifications()
+          $item.css({'opacity': '1'})
         } catch (err) {
-          $item.css({'opacity': '1',})
+          $item.css({'opacity': '1'})
         }
       },
       async onSaveButton () {
@@ -304,7 +299,7 @@
       onUploadProgress (progressEvent) {
         if (progressEvent.lengthComputable) {
           let progress = Math.round( (progressEvent.loaded * 100) / progressEvent.total )
-          progress = progress < 25 ? progress : 25
+          progress = progress < 10 ? progress : 10
 
           this.progressBarDone(progress)
         }
@@ -314,10 +309,10 @@
           let progress = Math.round( (progressEvent.loaded * 100) / progressEvent.total )
         }
       },
-      progressBarDone (percent, finished) {
+      progressBarDone (percent, index, progressBar, finished) {
         this.$nextTick(() => {
-          let progressBar = document.getElementById('progress-bar-0')
-          console.log(progressBar)
+          console.log('progressbar', progressBar)
+          console.log('percent index', percent, index)
           progressBar.style.width = `${percent}%`
           progressBar.style.opacity = `1`
 
@@ -374,11 +369,12 @@
       min-height: 200px;
       background-color: @color-lightest-grey;
       border-radius: @border-radius;
-      transition: background-color .2s linear 0s;
+      border: 1px dashed @color-light-grey;
+      transition: border .2s linear 0s;
 
       &:hover {
         cursor: pointer;
-        background-color: @color-light-grey;
+        border-color: @color-deep-gray;
       }
     }
 
@@ -423,7 +419,9 @@
 
         .file-image {
           object-fit: cover;
+          border-radius: @border-radius;
           height: 100%;
+          background-image: url(~assets/icons/a4_gray.png);
         }
 
         .progress-bar-wrapper {

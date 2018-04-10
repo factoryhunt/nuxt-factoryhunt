@@ -6,21 +6,22 @@ module.exports = async (req, res) => {
   const {
     account_id
   } = req.params
-  const files = req.files.certifications
+  const file = req.files.certification[0]
+  console.log(file)
 
-  const createDocuments = async () => {
-    for (const i in files) {
-      const file = files[i]
-      await createDocument(file)
-    }
-  }
+  // const createDocuments = async () => {
+  //   for (const i in files) {
+  //     const file = files[i]
+  //     await createDocument(file)
+  //   }
+  // }
 
-  const createDocument = (file) => {
+  const createDocument = (document) => {
     const data = {
       account_id,
-      document_name: file.originalname,
-      document_url: file.location,
-      document_size: file.size || file.document_size
+      document_name: document.originalname,
+      document_url: document.location,
+      document_size: document.size || document.document_size
     }
     return new Promise((resolve, reject) => {
       mysql.query(`
@@ -35,8 +36,8 @@ module.exports = async (req, res) => {
   }
 
   try {
-    await createDocuments()
-    res.status(200).json({result: 'certifications true'})
+    await createDocument(file)
+    res.status(200).json({result: 'certification was uploaded.'})
   } catch (err) {
     console.log(err)
     res.status(403).json({result: false})

@@ -7,7 +7,7 @@ const update = require('./update')
 const remove = require('./remove')
 
 const fields = [
-  {name: 'certifications'}
+  {name: 'certification'}
 ]
 
 router.post('/:account_id', multer.fields(fields), create)
