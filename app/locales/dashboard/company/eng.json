@@ -141,7 +141,7 @@
   },
   "cover": {
     "title": "Edit Company Cover Image",
-    "desc": "Cover images will be located at the top of your company page.<br>The first one will be the main cover image. You can upload up to 8 images.",
+    "desc": "Cover images will be located at the top of your company page.<br>The first one will be the main cover image. You can upload up to 8 images.<br>Maximum file size is 5MB each.",
     "caution": "Optimize your cover photo for the right dimensions: 1280 pixels wide and 487 pixels tall.",
     "button": "Choose File"
   },
@@ -153,7 +153,8 @@
     "image": {
       "success": "Your photo has been updated successfully.",
       "fail": "Photo update failed. Please try again.",
-      "upTo8": "You can select up to 8 images."
+      "upTo8": "You can select up to 8 images.",
+      "max_file_size": "Maxium cover image size is 5MB each."
     }
   }
 }

@@ -33,6 +33,11 @@
     .spinkit(@size-small)
   }
 
+  .spinkit-inline {
+    display: inline-block !important;
+    .spinkit(@size-contents)
+  }
+
   .spinkit-modal {
     position: fixed;
     top: 0;

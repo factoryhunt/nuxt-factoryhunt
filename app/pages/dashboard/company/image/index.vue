@@ -71,6 +71,7 @@
   import Loader from '../../../../components/Loader'
   import { showTopAlert } from '~/utils/alert'
   import { updateUserDataToVuex } from '~/utils/auth'
+  import { kilobyteToMegabyte } from '~/utils/fileReader'
   //  import Compressor from '@xkeshi/image-compressor'
   export default {
     head () {
@@ -145,6 +146,8 @@
         $('#main-image-upload-button').show()
       },
       async addNewImage (file) {
+        if (file.size < 0) return
+        if (kilobyteToMegabyte(file.size) > 7) return showTopAlert(this.$store, false, this.$t('dashboardCompany.alert.image.max_file_size'))
         const fileURL = await this.getFileURL(file)
         this.value.urls.push(fileURL)
         this.value.files.push(file)

@@ -1,152 +1,549 @@
-[
-  {
-    "Management System Certifications": [
-      { "value": "BRC", "title": "British Retail Consortium" },
-      { "value": "BSCI", "title": "Business Social Compliance Initiative" },
-      { "value": "FSC", "title": "Forest Stewardship Council" },
-      { "value": "GMP", "title": "Good Manufacturing Practice" },
-      { "value": "GSV", "title": "Global Security Verification" },
-      { "value": "HACCP", "title": "Hazard Analysis Critical Control Point" },
-      { "value": "ISO/TS16949", "title": "Quality management systems- automotive production" },
-      { "value": "ISO10012", "title": "Measurement management systems" },
-      { "value": "ISO13485", "title": "Medical device-Quality management system-requirements for regulatory" },
-      { "value": "ISO14001", "title": "Environment management systems and standards" },
-      { "value": "ISO17025", "title": "General Requirement for the Competence of Test and Calibration Lab." },
-      { "value": "ISO17799", "title": "ISO17799" },
-      { "value": "ISO22000", "title": "Food Safety Management System" },
-      { "value": "ISO9001", "title": "Quality management systems" },
-      { "value": "OHSAS18001", "title": "Occupational Health and Safety Assessment Series 18001" },
-      { "value": "SA8000", "title": "Social Accountability 8000" },
-      { "value": "TL9000", "title": "TL9000" },
-      { "value": "Other", "title": "Other" },
-      { "value": "ASME", "title": "ASME" },
-      { "value": "Ca", "title": "Ca" },
-      { "value": "COC", "title": "COC" },
-      { "value": "EICC", "title": "EICC" },
-      { "value": "LVCM&CAT", "title": "LVCM&CAT" },
-      { "value": "SAS", "title": "SAS" },
-      { "value": "SC", "title": "SC" },
-      { "value": "VMI", "title": "VMI" }
-    ]
-  },
-  {
-    "Product Certifications/Testing Reports": [
-      { "value": "API", "title": "American Petroleum Institute" },
-      { "value": "ASME", "title": "The American Society of Mechanical Engineers" },
-      { "value": "AZO Free", "title": "AZO Free" },
-      { "value": "CB", "title": "Scheme of the IECEE for Mutual Recognition of Test Certificates for Electrical Equipment" },
-      { "value": "CCC", "title": "China Compulsory Certification" },
-      { "value": "CE", "title": "CONFORMITE EUROPEENNE" },
-      { "value": "EMC", "title": "Electro Magnetic Compatibility" },
-      { "value": "ETL", "title": "ETL Testing Laboratories Inc" },
-      { "value": "FCC", "title": "Federal Communications Commission" },
-      { "value": "FDA", "title": "Food and Drug Administration" },
-      { "value": "GS", "title": "Germany Safety" },
-      { "value": "MSDS", "title": "Material Safety Data Sheet" },
-      { "value": "Oeko-Tex Standard 100", "title": "Oeko-Tex Standard 100" },
-      { "value": "PSE", "title": "Product Safety of Electrical Appliance & Materials" },
-      { "value": "REACH", "title": "Registration, Evaluation, Authorization and Restriction of Chemicals" },
-      { "value": "RoHS", "title": "Restriction of Hazardous Substances" },
-      { "value": "Test Report", "title": "Test Report" },
-      { "value": "TUV", "title": "Technischer ¨¹berwach¨¹ngs Verein" },
-      { "value": "UL", "title": "Underwriter Laboratories Inc." },
-      { "value": "VDE", "title": "Prufstelle Testing and Certification Institute" },
-      { "value": "WMI", "title": "World Manufacturer Identifier" },
-      { "value": "WRAS", "title": "Water Research Advisory Scheme" },
-      { "value": "Other", "title": "Other" },
-      { "value": "ADR", "title": "ADR" },
-      { "value": "AS/NZS ISO8124-1", "title": "AS/NZS ISO8124-1" },
-      { "value": "ASTM", "title": "ASTM" },
-      { "value": "BIS", "title": "BIS" },
-      { "value": "BPA", "title": "BPA" },
-      { "value": "BQB", "title": "BQB" },
-      { "value": "CCPSA", "title": "CCPSA" },
-      { "value": "COI", "title": "COI" },
-      { "value": "CPSIA", "title": "CPSIA" },
-      { "value": "CSA", "title": "CSA" },
-      { "value": "C-Tick", "title": "C-Tick" },
-      { "value": "DOT&EPA", "title": "DOT&EPA" },
-      { "value": "E/e-mark", "title": "E/e-mark" },
-      { "value": "EN62115", "title": "EN62115" },
-      { "value": "EN71", "title": "EN71" },
-      { "value": "ErP", "title": "ErP" },
-      { "value": "F963-11", "title": "F963-11" },
-      { "value": "FSC", "title": "FSC" },
-      { "value": "GCC", "title": "GCC" },
-      { "value": "GOST", "title": "GOST" },
-      { "value": "IC", "title": "IC" },
-      { "value": "ICTI", "title": "ICTI" },
-      { "value": "IEC62133", "title": "IEC62133" },
-      { "value": "IOP", "title": "IOP" },
-      { "value": "ISIRI", "title": "ISIRI" },
-      { "value": "KC", "title": "KC" },
-      { "value": "KCC", "title": "KCC" },
-      { "value": "MEPS", "title": "MEPS" },
-      { "value": "Prop65", "title": "Prop65" },
-      { "value": "PVoC", "title": "PVoC" },
-      { "value": "RoSH", "title": "RoSH" },
-      { "value": "SAA", "title": "SAA" },
-      { "value": "SABS", "title": "SABS" },
-      { "value": "SASO", "title": "SASO" },
-      { "value": "SGS", "title": "SGS" },
-      { "value": "SONCAP", "title": "SONCAP" },
-      { "value": "ST MARK", "title": "ST MARK" },
-      { "value": "UN38.3", "title": "UN38.3" },
-      { "value": "VCCI", "title": "VCCI" }
-    ]
-  },
-  {
-    "Industry Standard Authorizations": [
-      { "value": "Self-balancing Scooters", "title": "Self-balancing Scooters" }
-    ]
-  },
-  {
-    "Restricted Product Authorizations": [
-      { "value": "Medical Device Manufacturers Licences", "title": "Medical Device Manufacturers Licences" },
-      { "value": "Medical Device Distribution Enterprise Licenses", "title": "Medical Device Distribution Enterprise Licenses" },
-      { "value": "Other Medical Device Licenses", "title": "Other Medical Device Licenses" },
-      { "value": "Police Supplies Production and Sales Business Registration Forms", "title": " Police Supplies Production and Sales Business Registration Forms" },
-      { "value": "Peoples Republic of China Military Export Licenses", "title": "Peoples Republic of China Military Export Licenses" },
-      { "value": "Agency Agreements for Military Export", "title": "Agency Agreements for Military Export" },
-      { "value": "Fireworks and Firecrackers Safe Production Licences", "title": "Fireworks and Firecrackers Safe Production Licences" },
-      { "value": "Fireworks and Firecracker Business (Wholesale) Licenses", "title": "Fireworks and Firecracker Business (Wholesale) Licenses" },
-      { "value": "Fireworks and Firecracker Business (Retail) Licenses", "title": "Fireworks and Firecracker Business (Retail) Licenses" },
-      { "value": "Other Firework Licenses", "title": "Other Firework Licenses" },
-      { "value": "Drug Production Licenses", "title": "Drug Production Licenses" },
-      { "value": "Drug Business Licenses", "title": "Drug Business Licenses" },
-      { "value": "Other Drug Licenses", "title": "Other Drug Licenses" },
-      { "value": "Tobacco monopoly licenses", "title": "Tobacco monopoly licenses" },
-      { "value": "Other Tobacco Licenses", "title": "Other Tobacco Licenses" },
-      { "value": "Dietary Supplement Approval Certificates", "title": "Dietary Supplement Approval Certificates" },
-      { "value": "Food Hygiene Licenses", "title": "Food Hygiene Licenses" },
-      { "value": "Food Business Licenses", "title": "Food Business Licenses" },
-      { "value": "Food Production Licences", "title": "Food Production Licences" },
-      { "value": "Imported Dietary Supplement Approval Certificates", "title": "Imported Dietary Supplement Approval Certificates" },
-      { "value": "Toy Arrow Bow Test Reports", "title": "Toy Arrow Bow Test Reports" },
-      { "value": "Business Licenses", "title": "Business Licenses" }
-    ]
-  },
-  {
-    "Issued By": [
-      { "value": "ABS", "title": "American Bureau of Shipping " },
-      { "value": "BSI", "title": "BSI" },
-      { "value": "BV", "title": "Bureau Veritas" },
-      { "value": "China Great Wall Quality", "title": "China Great Wall Quality" },
-      { "value": "CQC", "title": "China Quality Certification Centre" },
-      { "value": "CQM", "title": "China Quality Mark Certification Group" },
-      { "value": "Dekra", "title": "Dekra" },
-      { "value": "DNV", "title": "DNV" },
-      { "value": "DQS", "title": "DQS Holding GmbH" },
-      { "value": "Intertek", "title": "Intertek" },
-      { "value": "LR", "title": "Lloyd¡¯s Register of Shipping" },
-      { "value": "MOODY", "title": "MOODY" },
-      { "value": "SGS", "title": "Societe Generale de Surveillance S.A." },
-      { "value": "TUV NORD", "title": "TUV NORD" },
-      { "value": "TUV Rheinland", "title": "TUV Rheinland" },
-      { "value": "TUV SUD", "title": "TUV SUD" },
-      { "value": "UL", "title": "Underwriter Laboratories Inc." },
-      { "value": "WIT", "title": "WIT" },
-      { "value": "Other", "title": "Other" }
-    ]
-  }
-]
+{
+  "category": [
+    {
+      "value": "Certification"
+    },
+    {
+      "value": "Test Report"
+    },
+    {
+      "value": "Honor & Award"
+    },
+    {
+      "value": "Patent"
+    },
+    {
+      "value": "Trademark"
+    }
+  ],
+  "Management System Certifications": [
+    {
+      "value": "BRC",
+      "title": "British Retail Consortium"
+    },
+    {
+      "value": "BSCI",
+      "title": "Business Social Compliance Initiative"
+    },
+    {
+      "value": "FSC",
+      "title": "Forest Stewardship Council"
+    },
+    {
+      "value": "GMP",
+      "title": "Good Manufacturing Practice"
+    },
+    {
+      "value": "GSV",
+      "title": "Global Security Verification"
+    },
+    {
+      "value": "HACCP",
+      "title": "Hazard Analysis Critical Control Point"
+    },
+    {
+      "value": "ISO/TS16949",
+      "title": "Quality management systems- automotive production"
+    },
+    {
+      "value": "ISO10012",
+      "title": "Measurement management systems"
+    },
+    {
+      "value": "ISO13485",
+      "title": "Medical device-Quality management system-requirements for regulatory"
+    },
+    {
+      "value": "ISO14001",
+      "title": "Environment management systems and standards"
+    },
+    {
+      "value": "ISO17025",
+      "title": "General Requirement for the Competence of Test and Calibration Lab."
+    },
+    {
+      "value": "ISO17799",
+      "title": "ISO17799"
+    },
+    {
+      "value": "ISO22000",
+      "title": "Food Safety Management System"
+    },
+    {
+      "value": "ISO9001",
+      "title": "Quality management systems"
+    },
+    {
+      "value": "OHSAS18001",
+      "title": "Occupational Health and Safety Assessment Series 18001"
+    },
+    {
+      "value": "SA8000",
+      "title": "Social Accountability 8000"
+    },
+    {
+      "value": "TL9000",
+      "title": "TL9000"
+    },
+    {
+      "value": "Other",
+      "title": "Other"
+    },
+    {
+      "value": "ASME",
+      "title": "ASME"
+    },
+    {
+      "value": "Ca",
+      "title": "Ca"
+    },
+    {
+      "value": "COC",
+      "title": "COC"
+    },
+    {
+      "value": "EICC",
+      "title": "EICC"
+    },
+    {
+      "value": "LVCM&CAT",
+      "title": "LVCM&CAT"
+    },
+    {
+      "value": "SAS",
+      "title": "SAS"
+    },
+    {
+      "value": "SC",
+      "title": "SC"
+    },
+    {
+      "value": "VMI",
+      "title": "VMI"
+    }
+  ],
+  "Product Certifications/Testing Reports": [
+    {
+      "value": "API",
+      "title": "American Petroleum Institute"
+    },
+    {
+      "value": "ASME",
+      "title": "The American Society of Mechanical Engineers"
+    },
+    {
+      "value": "AZO Free",
+      "title": "AZO Free"
+    },
+    {
+      "value": "CB",
+      "title": "Scheme of the IECEE for Mutual Recognition of Test Certificates for Electrical Equipment"
+    },
+    {
+      "value": "CCC",
+      "title": "China Compulsory Certification"
+    },
+    {
+      "value": "CE",
+      "title": "CONFORMITE EUROPEENNE"
+    },
+    {
+      "value": "EMC",
+      "title": "Electro Magnetic Compatibility"
+    },
+    {
+      "value": "ETL",
+      "title": "ETL Testing Laboratories Inc"
+    },
+    {
+      "value": "FCC",
+      "title": "Federal Communications Commission"
+    },
+    {
+      "value": "FDA",
+      "title": "Food and Drug Administration"
+    },
+    {
+      "value": "GS",
+      "title": "Germany Safety"
+    },
+    {
+      "value": "MSDS",
+      "title": "Material Safety Data Sheet"
+    },
+    {
+      "value": "Oeko-Tex Standard 100",
+      "title": "Oeko-Tex Standard 100"
+    },
+    {
+      "value": "PSE",
+      "title": "Product Safety of Electrical Appliance & Materials"
+    },
+    {
+      "value": "REACH",
+      "title": "Registration, Evaluation, Authorization and Restriction of Chemicals"
+    },
+    {
+      "value": "RoHS",
+      "title": "Restriction of Hazardous Substances"
+    },
+    {
+      "value": "Test Report",
+      "title": "Test Report"
+    },
+    {
+      "value": "TUV",
+      "title": "Technischer ¨¹berwach¨¹ngs Verein"
+    },
+    {
+      "value": "UL",
+      "title": "Underwriter Laboratories Inc."
+    },
+    {
+      "value": "VDE",
+      "title": "Prufstelle Testing and Certification Institute"
+    },
+    {
+      "value": "WMI",
+      "title": "World Manufacturer Identifier"
+    },
+    {
+      "value": "WRAS",
+      "title": "Water Research Advisory Scheme"
+    },
+    {
+      "value": "Other",
+      "title": "Other"
+    },
+    {
+      "value": "ADR",
+      "title": "ADR"
+    },
+    {
+      "value": "AS/NZS ISO8124-1",
+      "title": "AS/NZS ISO8124-1"
+    },
+    {
+      "value": "ASTM",
+      "title": "ASTM"
+    },
+    {
+      "value": "BIS",
+      "title": "BIS"
+    },
+    {
+      "value": "BPA",
+      "title": "BPA"
+    },
+    {
+      "value": "BQB",
+      "title": "BQB"
+    },
+    {
+      "value": "CCPSA",
+      "title": "CCPSA"
+    },
+    {
+      "value": "COI",
+      "title": "COI"
+    },
+    {
+      "value": "CPSIA",
+      "title": "CPSIA"
+    },
+    {
+      "value": "CSA",
+      "title": "CSA"
+    },
+    {
+      "value": "C-Tick",
+      "title": "C-Tick"
+    },
+    {
+      "value": "DOT&EPA",
+      "title": "DOT&EPA"
+    },
+    {
+      "value": "E/e-mark",
+      "title": "E/e-mark"
+    },
+    {
+      "value": "EN62115",
+      "title": "EN62115"
+    },
+    {
+      "value": "EN71",
+      "title": "EN71"
+    },
+    {
+      "value": "ErP",
+      "title": "ErP"
+    },
+    {
+      "value": "F963-11",
+      "title": "F963-11"
+    },
+    {
+      "value": "FSC",
+      "title": "FSC"
+    },
+    {
+      "value": "GCC",
+      "title": "GCC"
+    },
+    {
+      "value": "GOST",
+      "title": "GOST"
+    },
+    {
+      "value": "IC",
+      "title": "IC"
+    },
+    {
+      "value": "ICTI",
+      "title": "ICTI"
+    },
+    {
+      "value": "IEC62133",
+      "title": "IEC62133"
+    },
+    {
+      "value": "IOP",
+      "title": "IOP"
+    },
+    {
+      "value": "ISIRI",
+      "title": "ISIRI"
+    },
+    {
+      "value": "KC",
+      "title": "KC"
+    },
+    {
+      "value": "KCC",
+      "title": "KCC"
+    },
+    {
+      "value": "MEPS",
+      "title": "MEPS"
+    },
+    {
+      "value": "Prop65",
+      "title": "Prop65"
+    },
+    {
+      "value": "PVoC",
+      "title": "PVoC"
+    },
+    {
+      "value": "RoSH",
+      "title": "RoSH"
+    },
+    {
+      "value": "SAA",
+      "title": "SAA"
+    },
+    {
+      "value": "SABS",
+      "title": "SABS"
+    },
+    {
+      "value": "SASO",
+      "title": "SASO"
+    },
+    {
+      "value": "SGS",
+      "title": "SGS"
+    },
+    {
+      "value": "SONCAP",
+      "title": "SONCAP"
+    },
+    {
+      "value": "ST MARK",
+      "title": "ST MARK"
+    },
+    {
+      "value": "UN38.3",
+      "title": "UN38.3"
+    },
+    {
+      "value": "VCCI",
+      "title": "VCCI"
+    }
+  ],
+  "Industry Standard Authorizations": [
+    {
+      "value": "Self-balancing Scooters",
+      "title": "Self-balancing Scooters"
+    }
+  ],
+  "Restricted Product Authorizations": [
+    {
+      "value": "Medical Device Manufacturers Licences",
+      "title": "Medical Device Manufacturers Licences"
+    },
+    {
+      "value": "Medical Device Distribution Enterprise Licenses",
+      "title": "Medical Device Distribution Enterprise Licenses"
+    },
+    {
+      "value": "Other Medical Device Licenses",
+      "title": "Other Medical Device Licenses"
+    },
+    {
+      "value": "Police Supplies Production and Sales Business Registration Forms",
+      "title": " Police Supplies Production and Sales Business Registration Forms"
+    },
+    {
+      "value": "Peoples Republic of China Military Export Licenses",
+      "title": "Peoples Republic of China Military Export Licenses"
+    },
+    {
+      "value": "Agency Agreements for Military Export",
+      "title": "Agency Agreements for Military Export"
+    },
+    {
+      "value": "Fireworks and Firecrackers Safe Production Licences",
+      "title": "Fireworks and Firecrackers Safe Production Licences"
+    },
+    {
+      "value": "Fireworks and Firecracker Business (Wholesale) Licenses",
+      "title": "Fireworks and Firecracker Business (Wholesale) Licenses"
+    },
+    {
+      "value": "Fireworks and Firecracker Business (Retail) Licenses",
+      "title": "Fireworks and Firecracker Business (Retail) Licenses"
+    },
+    {
+      "value": "Other Firework Licenses",
+      "title": "Other Firework Licenses"
+    },
+    {
+      "value": "Drug Production Licenses",
+      "title": "Drug Production Licenses"
+    },
+    {
+      "value": "Drug Business Licenses",
+      "title": "Drug Business Licenses"
+    },
+    {
+      "value": "Other Drug Licenses",
+      "title": "Other Drug Licenses"
+    },
+    {
+      "value": "Tobacco monopoly licenses",
+      "title": "Tobacco monopoly licenses"
+    },
+    {
+      "value": "Other Tobacco Licenses",
+      "title": "Other Tobacco Licenses"
+    },
+    {
+      "value": "Dietary Supplement Approval Certificates",
+      "title": "Dietary Supplement Approval Certificates"
+    },
+    {
+      "value": "Food Hygiene Licenses",
+      "title": "Food Hygiene Licenses"
+    },
+    {
+      "value": "Food Business Licenses",
+      "title": "Food Business Licenses"
+    },
+    {
+      "value": "Food Production Licences",
+      "title": "Food Production Licences"
+    },
+    {
+      "value": "Imported Dietary Supplement Approval Certificates",
+      "title": "Imported Dietary Supplement Approval Certificates"
+    },
+    {
+      "value": "Toy Arrow Bow Test Reports",
+      "title": "Toy Arrow Bow Test Reports"
+    },
+    {
+      "value": "Business Licenses",
+      "title": "Business Licenses"
+    }
+  ],
+  "Issued By": [
+    {
+      "value": "ABS",
+      "title": "American Bureau of Shipping "
+    },
+    {
+      "value": "BSI",
+      "title": "BSI"
+    },
+    {
+      "value": "BV",
+      "title": "Bureau Veritas"
+    },
+    {
+      "value": "China Great Wall Quality",
+      "title": "China Great Wall Quality"
+    },
+    {
+      "value": "CQC",
+      "title": "China Quality Certification Centre"
+    },
+    {
+      "value": "CQM",
+      "title": "China Quality Mark Certification Group"
+    },
+    {
+      "value": "Dekra",
+      "title": "Dekra"
+    },
+    {
+      "value": "DNV",
+      "title": "DNV"
+    },
+    {
+      "value": "DQS",
+      "title": "DQS Holding GmbH"
+    },
+    {
+      "value": "Intertek",
+      "title": "Intertek"
+    },
+    {
+      "value": "LR",
+      "title": "Lloyd¡¯s Register of Shipping"
+    },
+    {
+      "value": "MOODY",
+      "title": "MOODY"
+    },
+    {
+      "value": "SGS",
+      "title": "Societe Generale de Surveillance S.A."
+    },
+    {
+      "value": "TUV NORD",
+      "title": "TUV NORD"
+    },
+    {
+      "value": "TUV Rheinland",
+      "title": "TUV Rheinland"
+    },
+    {
+      "value": "TUV SUD",
+      "title": "TUV SUD"
+    },
+    {
+      "value": "UL",
+      "title": "Underwriter Laboratories Inc."
+    },
+    {
+      "value": "WIT",
+      "title": "WIT"
+    },
+    {
+      "value": "Other",
+      "title": "Other"
+    }
+  ]
+}

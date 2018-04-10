@@ -167,6 +167,7 @@
   import Loader from '~/components/Loader'
   import VueEditor from '~/components/VueEditor'
   import { showTopAlert } from '~/utils/alert'
+  import { kilobyteToMegabyte } from '~/utils/fileReader'
   export default {
     head () {
       return {
@@ -255,6 +256,8 @@
         this.value.files.splice(this.numberOfImage, this.value.urls.length)
       },
       async addNewImage (file) {
+        if (file.size <= 0) return
+        if (kilobyteToMegabyte(file.size) > 7) showTopAlert(this.$store, false, this.$t('dashboardProductEdit.alert.image.max_file_size'))
         const fileURL = await this.getFileURL(file)
         this.value.urls.push(fileURL)
         this.value.files.push(file)

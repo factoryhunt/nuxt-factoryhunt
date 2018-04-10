@@ -20,7 +20,7 @@
   },
   "productImage": {
     "title": "Product image",
-    "subTitle": "The first photo will be the main product image. You can upload up to 5 images.",
+    "subTitle": "The first photo will be the main product image. You can upload up to 5 images.<br>Maximum file size is 5MB each.",
     "mainImage": "Main image",
     "caution": "If images are not directly related to the registered product, the registration can be deleted by the administrator.",
     "alert": "At least one product photo must be uploaded."
@@ -58,7 +58,8 @@
     "image": {
       "success": "Your photo has been updated successfully.",
       "fail": "Photo update failed. Please try again.",
-      "upTo5": "You can select up to 5 images."
+      "upTo5": "You can select up to 5 images.",
+      "max_file_size": "Maxium file size is 5MB each."
     }
   }
 }

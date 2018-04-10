@@ -313,7 +313,7 @@
         title: `${this.vendor.account_name}`,
         meta: [
           { hid: 'keywords', name: 'keywords', content: `${this.vendor.account_name}, ${this.vendor.products}, factoryhunt, factory, hunt, factory hunt, quote, bulk, wholesale, supplier, factory hunt, online catalog, supplier directory, free website, international trade` },
-          { hid: 'description', name: 'description', content: `${this.vendor.account_name}, ${this.vendor.company_description} | Factory Hunt` },
+          { hid: 'description', name: 'description', content: `${this.vendor.company_description}, ${this.vendor.products} | Factory Hunt` },
           { hid: 'og-title', property: 'og:title', content: this.vendor.account_name },
           { hid: 'og-description', property: 'og:description', content: this.vendor.company_description },
           { hid: 'og-image', property: 'og:image', content: this.vendor.cover_image_url_1 },
