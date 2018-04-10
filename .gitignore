@@ -1,9 +1,6 @@
 # dependencies
 node_modules
 
-# logs
-npm-debug.log
-
 # Nuxt build
 .nuxt
 
@@ -15,8 +12,6 @@ yarn.lock
 yarn-error.log
 
 # redis
-*.rdb
-/dump.rdb
 dump.rdb
 
 # log
@@ -27,3 +22,4 @@ backup
 
 # Webstorm
 .idea
+.editorconfig
