@@ -23,3 +23,6 @@ backup
 # Webstorm
 .idea
 .editorconfig
+
+# sitemap
+app/assets/sitemap
