@@ -8,7 +8,7 @@
             <a id="item-company-edit" class="menu" href="/dashboard/company">{{ $t('dashboardCompany.editCompany') }}</a>
             <a id="item-domain-edit" class="menu" href="/dashboard/company/domain">{{ $t('dashboardCompany.editDomain') }}</a>
             <a id="item-image-edit" class="menu" href="/dashboard/company/image">{{ $t('dashboardCompany.images') }}</a>
-            <a id="item-certifications-edit" class="menu" href="/dashboard/company/certifications">{{ $t('dashboardCompany.certifications') }}</a>
+            <!-- <a id="item-certifications-edit" class="menu" href="/dashboard/company/certifications">{{ $t('dashboardCompany.certifications') }}</a> -->
             <button @click="routeCompanyPage" class="view-button button-white">{{ $t('dashboardCompany.viewButton') }}</button>
           </div>
         </div>
