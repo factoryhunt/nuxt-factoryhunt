@@ -95,43 +95,6 @@
     },
     data () {
       return {
-        structuredData: {
-          "@context": "http://schema.org",
-          "@type": "BreadcrumbList",
-          "itemListElement": [{
-            "@type": "ListItem",
-            "position": 1,
-            "item": {
-              "@id": "https://example.com/books",
-              "name": "Books",
-              "image": "http://example.com/images/icon-book.png"
-            }
-          },{
-            "@type": "ListItem",
-            "position": 2,
-            "item": {
-              "@id": "https://example.com/books/authors",
-              "name": "Authors",
-              "image": "http://example.com/images/icon-author.png"
-            }
-          },{
-            "@type": "ListItem",
-            "position": 3,
-            "item": {
-              "@id": "https://example.com/books/authors/annleckie",
-              "name": "Ann Leckie",
-              "image": "http://example.com/images/author-leckie-ann.png"
-            }
-          },{
-            "@type": "ListItem",
-            "position": 4,
-            "item": {
-              "@id": "https://example.com/books/authors/ancillaryjustice",
-              "name": "Ancillary Justice",
-              "image": "http://example.com/images/cover-ancillary-justice.png"
-            }
-          }]
-        },
         value: {
           input: '',
           featuresLength: 10,
@@ -139,18 +102,11 @@
         isLoaded: false
       }
     },
-    head () {
-      return {
-        script: [
-          { type: 'application/ld+json', src: JSON.stringify(this.structuredData) }
-        ]
-      }
-    },
     methods: {
       onSearchInput () {
         if (!this.value.input) return
-        this.$router.push(`/search?input=${this.value.input}`)
-        // location.href = `/search?input=${this.value.input}`
+        this.$router.push(`/search?q=${this.value.input}`)
+        // location.href = `/search?q=${this.value.input}`
       },
       onShowMoreButton () {
         const length = this.features.length

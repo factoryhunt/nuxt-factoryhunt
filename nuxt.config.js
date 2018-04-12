@@ -1,4 +1,5 @@
 // const axios = require('axios')
+const structuredData = require('./server/middleware/structured_data')
 
 module.exports = {
   srcDir: './app',
@@ -33,7 +34,8 @@ module.exports = {
     ],
     script: [
       { src: 'https://maps.googleapis.com/maps/api/js?key=AIzaSyBFBRWKvq4CUEkq5XqbGaSAkajRuEfg25M' },
-      { src: 'https://cdn.quilljs.com/1.0.0/quill.js' }
+      { src: 'https://cdn.quilljs.com/1.0.0/quill.js' },
+      { type: 'application/ld+json', src: JSON.stringify(structuredData) }
     ]
   },
   loading: { color: '#f2583d' },

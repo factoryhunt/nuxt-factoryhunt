@@ -33,6 +33,11 @@ export const actions = {
         commit('auth/login', payload)
       }
 
+      // var fullUrl = req.protocol + '://' + req.get('host') + req.originalUrl
+      // console.log(fullUrl)
+      // if(req.originalUrl.indexOf('%') !== -1 ) {
+      //   redirect(fullUrl)
+      // }
     } catch (err) {
       console.log('User token is expired.')
       destoryAuthSession(req)

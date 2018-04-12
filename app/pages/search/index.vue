@@ -5,6 +5,57 @@
 
       <!-- search result -->
       <div class="info-container">
+
+        <!-- Breadcrumb -->
+        <ul 
+        class="breadcrumb-container" 
+        v-show="doesCategoryExist"
+        itemscope 
+        itemtype="http://schema.org/BreadcrumbList">
+          <li 
+          itemscope
+          itemtype="http://schema.org/ListItem"
+          itemprop="itemListElement">
+            <a 
+            href="/"
+            itemscope 
+            itemtype="http://schema.org/Thing"
+            itemprop="item"> 
+                <span itemprop="name">Home</span>
+            </a>
+            <meta itemprop="position" content="1"/>
+          </li>
+          <span class="separator">›</span>
+          <li 
+          v-show="largeCategory"
+          itemscope 
+          itemtype="http://schema.org/ListItem"
+          itemprop="itemListElement">
+            <a 
+            :href="`/search?q=${largeCategory}`"
+            itemscope 
+            itemtype="http://schema.org/Thing"
+            itemprop="item">
+                <span itemprop="name">{{largeCategory}}</span>
+            </a>
+            <meta itemprop="position" content="2"/>
+          </li>
+          <span class="separator">›</span>
+          <li 
+          itemscope 
+          itemtype="http://data-vocabulary.org/Breadcrumb">
+            <a 
+            :href="`/search?q=${middleCategory}`"
+            itemscope 
+            itemtype="http://schema.org/Thing"
+            itemprop="item">
+                <span itemprop="name">{{middleCategory}}</span>
+            </a>
+            <meta itemprop="position" content="3"/>
+          </li>
+        </ul>
+
+        <!-- Search Result -->
         <p class="number-of-result">{{ $t('search.suppliers', {count: getAccountCount}) }}</p>
         <!--<div class="sub-container" v-show="editedInput">-->
           <!--<p class="edited">Including results for <a class="font-weight-bold font-style-italic">{{editedInput}}</a></p>-->
@@ -55,6 +106,7 @@
   import { Inflectors } from 'en-inflectors'
   import synonyms from 'synonyms'
   import { addComma, removeNullInArray } from '~/utils/text'
+  import { getParentCategories } from '~/utils/category'
   export default {
     scrollToTop: true,
     layout: 'minify',
@@ -66,27 +118,40 @@
         title: `${this.queryInput}`,
         meta: [
           { hid: 'og-title', property: 'og:title', content: `${this.queryInput} | Factory Hunt` },
-          { hid: 'twitter-card', property: 'twitter:card', content: 'summary' },
+          { hid: 'og-description', property: 'og:description', content: `Search result for ${this.queryInput}.` },
+          { hid: 'og-url', property: 'og:url', content: `ttps://www.factoryhunt.com/search?q=${this.queryInput}` },
           { hid: 'twitter-title', property: 'twitter:title', content: `${this.queryInput} | Factory Hunt` }
         ],
+        // script: [
+        //   { type: 'application/ld+json', src: JSON.stringify(this.structuredData) }
+        // ],
         link: [
-          { hid: 'canonical', rel: 'canonical', href: `https://www.factoryhunt.com/search?input=${this.queryInput}` }
+          { hid: 'canonical', rel: 'canonical', href: `https://www.factoryhunt.com/search?q=${this.queryInput}` }
         ]
       }
     },
     async asyncData ({ query }) {
       try {
-        let { data } = await axios.get(`/api/data/search/elastic/${query.input}/0`)
+        let { data } = await axios.get(`/api/data/search/elastic/${query.q}/0`)
+        const categories = await getParentCategories(query.q)
         let editedInput
         return {
-          queryInput: query.input,
-          editedInput: data.total ? query.input : '',
+          queryInput: query.q,
+          queryOption: {
+            category: parseInt(query.category, 10) === 1
+          },
+          largeCategory: categories.large_category,
+          middleCategory: categories.middle_category,
+          editedInput: data.total ? query.q : '',
           accounts: data.hits,
           account_count: data.total
         }
       } catch (err) {
         return {
-          queryInput: query.input,
+          queryInput: query.q,
+          queryOption: {
+            category: false
+          },
           accounts: {},
           account_count: 0
         }
@@ -94,6 +159,43 @@
     },
     data () {
       return {
+        structuredData: {
+          "@context": "http://schema.org",
+          "@type": "BreadcrumbList",
+          "itemListElement": [{
+            "@type": "ListItem",
+            "position": 1,
+            "item": {
+              "@id": "https://example.com/books",
+              "name": "Books",
+              "image": "http://example.com/images/icon-book.png"
+            }
+          },{
+            "@type": "ListItem",
+            "position": 2,
+            "item": {
+              "@id": "https://example.com/books/authors",
+              "name": "Authors",
+              "image": "http://example.com/images/icon-author.png"
+            }
+          },{
+            "@type": "ListItem",
+            "position": 3,
+            "item": {
+              "@id": "https://example.com/books/authors/annleckie",
+              "name": "Ann Leckie",
+              "image": "http://example.com/images/author-leckie-ann.png"
+            }
+          },{
+            "@type": "ListItem",
+            "position": 4,
+            "item": {
+              "@id": "https://example.com/books/authors/ancillaryjustice",
+              "name": "Ancillary Justice",
+              "image": "http://example.com/images/cover-ancillary-justice.png"
+            }
+          }]
+        },
         queryInput: '',
         accounts: {},
         account_count: 0,
@@ -107,6 +209,13 @@
       getAccountCount () {
         return addComma(this.account_count)
       },
+      doesCategoryExist () {
+        if (this.largeCategory) return true
+        if (this.middleCategory) return true
+        if (!this.queryOption.category) return false
+
+        return false
+      },
       isLastPage () {
         const pagination = Math.ceil((this.account_count / 15) / 10)
         return this.page < (pagination - 1)
@@ -119,16 +228,16 @@
       routeSupplierPage (account) {
         if (account.account_status === 'approved') {
           const url = account.domain
-          window.open(`/${url}?input=${this.queryInput}`)
+          window.open(`/${url}?q=${this.queryInput}`)
         } else {
-          window.open(`/supplier/${account.domain}?input=${this.queryInput}`)
+          window.open(`/supplier/${account.domain}?q=${this.queryInput}`)
         }
       },
       // Deprecated
       routeProductProfilePage (index) {
         const productDomain = this.products[index].product_domain
         if (this.value.input) {
-          this.$router.push(`/${this.value.company}/${productDomain}?input=${this.value.input}`)
+          this.$router.push(`/${this.value.company}/${productDomain}?q=${this.value.input}`)
         } else {
           this.$router.push(`/${this.value.company}/${productDomain}`)
         }
@@ -188,16 +297,28 @@
           $loader.removeClass().addClass('invisible')
         })
       }
-    },
-    async mounted () {
-      let { data } = await axios.get(`/api/data/search/elastic/${this.queryInput}/0`)
-      // console.log(data)
     }
   }
 </script>
 
 <style lang="less" scoped>
   @import '~assets/css/index';
+
+  .breadcrumb-container {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    margin-bottom: 20px;
+
+    li {
+      display: inline-block;
+    }
+
+    .separator {
+      padding-left: 3px;
+      padding-right: 7px;
+    }
+  }
 
   #container {
     padding-top: 20px;

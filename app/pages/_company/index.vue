@@ -351,7 +351,7 @@
       return {
         value: {
           company: this.$route.params.company,
-          input: this.$route.query.input ? this.$route.query.input : '',
+          input: this.$route.query.q ? this.$route.query.q : '',
           email: '',
           inquiry: '',
           // for admin editing
@@ -609,7 +609,7 @@
       routeProductProfilePage (index) {
         const productDomain = this.products[index].product_domain
         if (this.queryInput) {
-          location.href = `/${this.value.company}/${productDomain}?input=${this.queryInput}`
+          location.href = `/${this.value.company}/${productDomain}?q=${this.queryInput}`
           // this.$router.push({
           //   path: `/${this.value.company}/${productDomain}`,
           //   query: {
