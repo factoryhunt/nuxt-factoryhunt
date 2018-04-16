@@ -1,6 +1,8 @@
 <template>
   <section id="container">
 
+    <filter-bar id="filter-bar"/>
+
     <div class="body-container">
 
       <!-- search result -->
@@ -17,7 +19,6 @@
           itemtype="http://schema.org/ListItem"
           itemprop="itemListElement">
             <a 
-            href="/"
             itemscope 
             itemtype="http://schema.org/Thing"
             itemprop="item"> 
@@ -32,7 +33,6 @@
           itemtype="http://schema.org/ListItem"
           itemprop="itemListElement">
             <a 
-            :href="`/search?q=${largeCategory}&category=1`"
             itemscope 
             itemtype="http://schema.org/Thing"
             itemprop="item">
@@ -45,7 +45,6 @@
           itemscope 
           itemtype="http://data-vocabulary.org/Breadcrumb">
             <a 
-            :href="`/search?q=${middleCategory}&category=1`"
             itemscope 
             itemtype="http://schema.org/Thing"
             itemprop="item">
@@ -102,6 +101,7 @@
 
 <script>
   import axios from '~/plugins/axios'
+  import FilterBar from '~/components/SearchFilterBar'
   import Loader from '~/components/Loader'
   import { Inflectors } from 'en-inflectors'
   import synonyms from 'synonyms'
@@ -111,6 +111,7 @@
     scrollToTop: true,
     layout: 'minify',
     components: {
+      FilterBar,
       Loader
     },
     head () {
@@ -312,6 +313,13 @@
     li {
       display: inline-block;
       font-size: 14px;
+      cursor: default;
+    }
+
+    a {
+      color: @color-font-gray;
+      text-decoration: none;
+      cursor: default;
     }
 
     .separator {
@@ -321,7 +329,6 @@
   }
 
   #container {
-    padding-top: 20px;
 
     .info-container {
       margin-bottom: 30px;
@@ -441,9 +448,6 @@
   }
 
   @media ( min-width: 744px ) {
-    #container {
-
-    }
   }
   @media ( min-width: 1128px ) {
     #container {
