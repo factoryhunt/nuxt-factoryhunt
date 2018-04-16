@@ -1,16 +1,70 @@
 const es = require('../../../../middleware/elastic')
+const categories = require('../../../../../app/assets/models/categories.json')
 
-// GET /api/data/search/elastic/:input/:page
-// query /?fuzziness=INT
+// GET /api/data/search/elastic/:input
+// query ?page=INT&fuzziness=INT&country=STRING
 module.exports = async (req, res) => {
   const numberOfResults = 15
   let {
-    input,
-    page
+    input
   } = req.params
+  let page = parseInt(req.query.page, 10)
   let fuzziness = req.query.fuzziness || 0
-  page = parseInt(page)
+  let country = req.query.country || ''
   page = page * numberOfResults
+
+  // filter
+  let filter = []
+  // filter - country
+  if (country) {
+    const countryFilter = {
+      match: {
+        mailing_country: country
+      }
+    }
+    filter.push(countryFilter)
+  }
+  // filter - account_status
+  const statusFilter = {
+    match: {
+      account_status: {
+        query: 'open approved',
+        operator: 'or'
+      }
+    }
+  }
+  filter.push(statusFilter)
+
+  const getParentCategories = (text = String) => {
+    let result = {
+      large_category: '',
+      middle_category: ''
+    }
+
+    return new Promise((resolve) => {
+      categories.forEach(category => {
+
+        // find large category
+        const isMatched = (category.name).toLowerCase() === text.toLowerCase()
+        if (isMatched) result.large_category = category.name
+
+        const sub_categories = category.sub_category
+        sub_categories.forEach(element => {
+
+          // find middle category
+          const isMatched = (element.name).toLowerCase() === text.toLowerCase()
+          if (isMatched) {
+            result.large_category = category.name
+            result.middle_category = element.name
+            resolve(result)
+          }
+
+        })
+      })
+
+      resolve(result)
+    })
+  }
 
   const searchKeyword = () => {
     return new Promise((resolve, reject) => {
@@ -20,14 +74,7 @@ module.exports = async (req, res) => {
           size: numberOfResults, // size는 쿼리 갯수만 제한시키고 aggs나 highlight엔 영향을 안준다.
           query: {
             bool: {
-              filter: {
-                terms: {
-                  account_status: [
-                    "open",
-                    "approved"
-                  ]
-                }
-              },
+              filter: filter,
               must: [
                 {
                   dis_max: {
@@ -132,8 +179,10 @@ module.exports = async (req, res) => {
   }
 
   try {
-    const { hits } = await searchKeyword()
-    const analysisResult = await analysis
+    let { hits } = await searchKeyword()
+    const category = await getParentCategories(input)
+    hits.categories = category
+    // const analysisResult = await analysis
     // console.log(analysisResult)
     res.status(200).json(hits)
   } catch (err) {

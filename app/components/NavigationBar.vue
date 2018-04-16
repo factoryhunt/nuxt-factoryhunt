@@ -154,6 +154,7 @@
       onSearchInput () {
         if (!this.value.input) return
         let input = this.value.input
+        input = input.replace(/ /g, '+')
         location.href = `/search?q=${input}`
       },
       onProfileImage () {

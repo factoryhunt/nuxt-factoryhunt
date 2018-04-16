@@ -9,8 +9,8 @@ module.exports = {
     },
     title: 'Factory Hunt - A Hub for Manufacturer & Supplier Listings',
     meta: [
+      { 'http-equiv': 'Content-Type', content: 'text/html; charset=utf-8' },
       { 'http-equiv': 'X-UA-Compatible', content: 'IE=edge' },
-      { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
       { name: 'robots', content: 'index, follow' },
       { hid: 'keywords', name: 'keywords', content: 'factoryhunt, factory, hunt, factory hunt, supplier directory, directory, b2b directory, quote, bulk, wholesale, supplier, factory hunt, online catalog, supplier directory, free website, international trade' },

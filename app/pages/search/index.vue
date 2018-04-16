@@ -21,7 +21,7 @@
             itemscope 
             itemtype="http://schema.org/Thing"
             itemprop="item"> 
-                <span itemprop="name">Home</span>
+                <span itemprop="name">Categories</span>
             </a>
             <meta itemprop="position" content="1"/>
           </li>
@@ -32,7 +32,7 @@
           itemtype="http://schema.org/ListItem"
           itemprop="itemListElement">
             <a 
-            :href="`/search?q=${largeCategory}`"
+            :href="`/search?q=${largeCategory}&category=1`"
             itemscope 
             itemtype="http://schema.org/Thing"
             itemprop="item">
@@ -40,12 +40,12 @@
             </a>
             <meta itemprop="position" content="2"/>
           </li>
-          <span class="separator">›</span>
+          <span v-show="middleCategory" class="separator">›</span>
           <li 
           itemscope 
           itemtype="http://data-vocabulary.org/Breadcrumb">
             <a 
-            :href="`/search?q=${middleCategory}`"
+            :href="`/search?q=${middleCategory}&category=1`"
             itemscope 
             itemtype="http://schema.org/Thing"
             itemprop="item">
@@ -77,7 +77,7 @@
               <h3 class="address">{{account._source.mailing_country}}</h3>
             </div>
           </section>
-          <ul class="pagination">
+          <ul class="pagination" role="navigation" >
             <li v-show="page !== 0" @click="movePreviousPage"><i class="fa fa-angle-left"></i></li>
             <li
               v-for="(p, index) in Math.ceil(account_count / PAGE_ITEM_NUMBER)"
@@ -106,7 +106,7 @@
   import { Inflectors } from 'en-inflectors'
   import synonyms from 'synonyms'
   import { addComma, removeNullInArray } from '~/utils/text'
-  import { getParentCategories } from '~/utils/category'
+  import { getSearchQuery } from '~/utils/elastic'
   export default {
     scrollToTop: true,
     layout: 'minify',
@@ -115,43 +115,38 @@
     },
     head () {
       return {
-        title: `${this.queryInput}`,
+        title: `${this.getTitle} Manufacturers, Suppliers & Wholesalers`,
         meta: [
-          { hid: 'og-title', property: 'og:title', content: `${this.queryInput} | Factory Hunt` },
-          { hid: 'og-description', property: 'og:description', content: `Search result for ${this.queryInput}.` },
-          { hid: 'og-url', property: 'og:url', content: `ttps://www.factoryhunt.com/search?q=${this.queryInput}` },
-          { hid: 'twitter-title', property: 'twitter:title', content: `${this.queryInput} | Factory Hunt` }
+          { hid: 'og-title', property: 'og:title', content: `${this.queryOptions.q} | Factory Hunt` },
+          { hid: 'og-description', property: 'og:description', content: `Search result for ${this.queryOptions.q}.` },
+          { hid: 'og-url', property: 'og:url', content: `ttps://www.factoryhunt.com/search?q=${this.queryOptions.q}` },
+          { hid: 'twitter-title', property: 'twitter:title', content: `${this.queryOptions.q} | Factory Hunt` }
         ],
-        // script: [
-        //   { type: 'application/ld+json', src: JSON.stringify(this.structuredData) }
-        // ],
         link: [
-          { hid: 'canonical', rel: 'canonical', href: `https://www.factoryhunt.com/search?q=${this.queryInput}` }
+          { hid: 'canonical', rel: 'canonical', href: `https://www.factoryhunt.com/search?q=${this.queryOptions.q}` }
         ]
       }
     },
     async asyncData ({ query }) {
+      const options = {
+        q: query.q,
+        page: 0,
+        category: parseInt(query.category, 10) === 1,
+        country: query.country || ''
+      }
+      const queryURI = getSearchQuery(options)
       try {
-        let { data } = await axios.get(`/api/data/search/elastic/${query.q}/0`)
-        const categories = await getParentCategories(query.q)
-        let editedInput
+        let { data } = await axios.get(queryURI)
         return {
-          queryInput: query.q,
-          queryOption: {
-            category: parseInt(query.category, 10) === 1
-          },
-          largeCategory: categories.large_category,
-          middleCategory: categories.middle_category,
-          editedInput: data.total ? query.q : '',
+          queryOptions: options,
+          largeCategory: data.categories.large_category,
+          middleCategory: data.categories.middle_category,
           accounts: data.hits,
           account_count: data.total
         }
       } catch (err) {
         return {
-          queryInput: query.q,
-          queryOption: {
-            category: false
-          },
+          queryOption: options,
           accounts: {},
           account_count: 0
         }
@@ -206,13 +201,23 @@
       }
     },
     computed: {
+      getTitle () {
+        if (this.queryOptions.category) {
+          return this.middleCategory ? this.middleCategory : this.largeCategory
+        }
+        return this.queryOptions.q
+      },
+      getDescription () {
+        const a ='Find here Underwear manufacturers, suppliers & exporters in India. Get contact details & address of companies manufacturing and supplying Underwear across India.'
+        return a
+      },
       getAccountCount () {
         return addComma(this.account_count)
       },
       doesCategoryExist () {
+        if (!this.queryOptions.category) return false
         if (this.largeCategory) return true
         if (this.middleCategory) return true
-        if (!this.queryOption.category) return false
 
         return false
       },
@@ -228,25 +233,16 @@
       routeSupplierPage (account) {
         if (account.account_status === 'approved') {
           const url = account.domain
-          window.open(`/${url}?q=${this.queryInput}`)
+          window.open(`/${url}?q=${this.queryOptions.q}`)
         } else {
-          window.open(`/supplier/${account.domain}?q=${this.queryInput}`)
-        }
-      },
-      // Deprecated
-      routeProductProfilePage (index) {
-        const productDomain = this.products[index].product_domain
-        if (this.value.input) {
-          this.$router.push(`/${this.value.company}/${productDomain}?q=${this.value.input}`)
-        } else {
-          this.$router.push(`/${this.value.company}/${productDomain}`)
+          window.open(`/supplier/${account.domain}?q=${this.queryOptions.q}`)
         }
       },
       highlightMatchedText () {
-        let keyword = new Inflectors(this.queryInput)
+        let keyword = new Inflectors(this.queryOptions.q)
         // console.log('singular', keyword.toSingular())
         // console.log('plural', keyword.toPlural())
-        // console.log('synonyms with search keyword: ', synonyms(this.queryInput, 'n'))
+        // console.log('synonyms with search keyword: ', synonyms(this.queryOptions.q, 'n'))
 
         var context = document.querySelector('.body-container')
         var instance = new Mark(context)
@@ -261,13 +257,16 @@
         instance.mark(`${keyword.toPlural()},`, options)
       },
       async onPagination (index) {
+        // clean local datas
         window.scrollTo(0, 0)
         this.activateLoader()
         this.accounts = {}
         this.selected = index
-        // console.log(index)
-        let { data } = await axios.get(`/api/data/search/elastic/${this.queryInput}/${index}`)
-        // console.log(data.hits)
+
+        let options = this.queryOptions
+        options.page = index
+        const uri = getSearchQuery(options)
+        let { data } = await axios.get(uri)
         this.accounts = data.hits
         this.deactivateLoader()
       },
@@ -308,14 +307,15 @@
     list-style: none;
     margin: 0;
     padding: 0;
-    margin-bottom: 20px;
+    margin-bottom: 7px;
 
     li {
       display: inline-block;
+      font-size: 14px;
     }
 
     .separator {
-      padding-left: 3px;
+      padding-left: 7px;
       padding-right: 7px;
     }
   }

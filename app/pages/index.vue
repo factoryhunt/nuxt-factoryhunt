@@ -105,8 +105,8 @@
     methods: {
       onSearchInput () {
         if (!this.value.input) return
-        this.$router.push(`/search?q=${this.value.input}`)
-        // location.href = `/search?q=${this.value.input}`
+        const input = this.value.input.replace(/ /g, '+')
+        location.href = `/search?q=${input}`
       },
       onShowMoreButton () {
         const length = this.features.length
