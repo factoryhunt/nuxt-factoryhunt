@@ -40,3 +40,16 @@ exports.arrayToString = (array) => {
   }
   return string
 }
+
+// options
+// lowercase: Boolean
+exports.getFirstWord = (sentence = String, options = Object) => {
+  if (!sentence) return ''
+
+  let firstWord = sentence.replace(/(^\s*)|(\s*$)/, '')
+  firstWord = sentence.split(' ')[0]
+
+  if ((options.lowercase)) firstWord = firstWord.toLowerCase()
+
+  return firstWord
+}

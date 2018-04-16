@@ -29,9 +29,10 @@
         <!-- Follow Us -->
         <section class="follow-us-container">
           <h4 class="title">{{ $t('footerBar.followUs') }}</h4>
-          <ul>
-            <li><a href="//www.facebook.com/factoryhunt" target="_blank"><i class="fa fa-facebook-square"></i> Facebook</a></li>
-            <li><a href="//www.youtube.com/channel/UCC3c1TvZIsssj5aSTM9qj6A" target="_blank"><i class="fa fa-youtube-play"></i> Youtube</a></li>
+          <ul itemscope itemtype="http://schema.org/Organization">
+            <link itemprop="url" href="https://www.factoryhunt.com">
+            <li><a itemprop="sameAs" href="//www.facebook.com/factoryhunt" target="_blank"><i class="fa fa-facebook-square"></i> Facebook</a></li>
+            <li><a itemprop="sameAs" href="//www.youtube.com/channel/UCC3c1TvZIsssj5aSTM9qj6A" target="_blank"><i class="fa fa-youtube-play"></i> Youtube</a></li>
           </ul>
         </section>
 

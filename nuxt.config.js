@@ -1,4 +1,5 @@
 // const axios = require('axios')
+const structuredData = require('./server/middleware/structured_data')
 
 module.exports = {
   srcDir: './app',
@@ -8,8 +9,8 @@ module.exports = {
     },
     title: 'Factoryhunt - A SAFE B2B Wholesale Trading Website',
     meta: [
+      { 'http-equiv': 'Content-Type', content: 'text/html; charset=utf-8' },
       { 'http-equiv': 'X-UA-Compatible', content: 'IE=edge' },
-      { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
       { name: 'robots', content: 'index, follow' },
       { hid: 'keywords', name: 'keywords', content: 'factoryhunt, factory, hunt, factory hunt, supplier directory, directory, b2b directory, quote, bulk, wholesale, supplier, factory hunt, online catalog, supplier directory, free website, international trade' },
@@ -33,7 +34,8 @@ module.exports = {
     ],
     script: [
       { src: 'https://maps.googleapis.com/maps/api/js?key=AIzaSyBFBRWKvq4CUEkq5XqbGaSAkajRuEfg25M' },
-      { src: 'https://cdn.quilljs.com/1.0.0/quill.js' }
+      { src: 'https://cdn.quilljs.com/1.0.0/quill.js' },
+      { type: 'application/ld+json', src: JSON.stringify(structuredData) }
     ]
   },
   loading: { color: '#f2583d' },

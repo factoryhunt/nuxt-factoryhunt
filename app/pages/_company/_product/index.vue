@@ -271,19 +271,19 @@
         this.toggle.isCatalogLoaded = true
       },
       routeAccountProfilePage () {
-        const input = this.$route.query.input
+        const input = this.$route.query.q
         const vendor = this.$route.params.company
         if (input) {
-          location.href = `/${vendor}/?input=${input}`
+          location.href = `/${vendor}/?q=${input}`
         } else {
           location.href = `/${vendor}/`
         }
       },
       routeProductProfilePage (index) {
-        const input = this.$route.query.input
+        const input = this.$route.query.q
         const vendor = this.$route.params.company
         const productDomain = this.products[index].product_domain
-        location.href = input ? `/${vendor}/${productDomain}?input=${input}` : `/${vendor}/${productDomain}`
+        location.href = input ? `/${vendor}/${productDomain}?q=${input}` : `/${vendor}/${productDomain}`
       },
       activateSlick () {
         $(document).ready(() => {

@@ -110,7 +110,7 @@
     data () {
       return {
         value: {
-          input: this.$route.query.input
+          input: this.$route.query.q
         },
         toggle: {
           isProfileDropdownShown: false
@@ -153,7 +153,9 @@
       },
       onSearchInput () {
         if (!this.value.input) return
-        location.href = `/search?input=${this.value.input}`
+        let input = this.value.input
+        input = input.replace(/ /g, '+')
+        location.href = `/search?q=${input}`
       },
       onProfileImage () {
         const dropdown = $('.profile-toggle-container')
