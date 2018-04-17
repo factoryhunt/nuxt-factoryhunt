@@ -11,7 +11,7 @@
       </div>
 
       <!-- Search Bar -->
-      <form @submit.prevent="onSearchInput">
+      <form @submit.prevent="onSearchInput(value.input)">
         <div class="search-bar-container">
           <div class="search-bar-wrapper">
             <div class="search-input-container">
@@ -19,13 +19,27 @@
                 id="search-input"
                 type="text"
                 v-model="value.input"
-                pattern="[A-Za-z0-9 ]{2,50}"
+                pattern="[A-Za-z0-9 ]{2,100}"
+                autocomplete=off
                 :placeholder="$t('home.input')"
                 :title="$t('home.searchCaution')">
             </div>
             <div class="search-button-container">
               <button id="search-button" type="submit" class="button-orange">{{ $t('home.search') }}</button>
             </div>
+          </div>
+
+          <div class="auto-completion" v-show="suggestions.options.length">
+            <ul id="suggestion-container">
+              <li 
+              class="suggestion"
+              v-for="(suggestion, index) in suggestions.options"
+              :key="index"
+              @click="onSearchInput(suggestion.text)"
+              >
+                {{suggestion.text}}
+              </li>
+            </ul>
           </div>
         </div>
       </form>
@@ -99,13 +113,73 @@
           input: '',
           featuresLength: 10,
         },
-        isLoaded: false
+        suggestions: {
+          options: []
+        },
+        isLoaded: false,
+        canUpdateSuggestion: true
+      }
+    },
+    watch: {
+      async 'value.input' (input) {
+        if (this.canUpdateSuggestion) {
+          const { data } = await this.getSearchSuggestion(input)
+          this.suggestions = data
+        }
       }
     },
     methods: {
-      onSearchInput () {
-        if (!this.value.input) return
-        const input = this.value.input.replace(/ /g, '+')
+      onSearchKeypress () {
+        const nuxt = this
+        const $input = $('#search-input')
+
+       $input.keydown((event) => {
+         const $li = $('.suggestion.highlighted')
+          switch (event.which) {
+            case 38:
+              event.preventDefault() // prevent moving the cursor
+              nuxt.canUpdateSuggestion = false
+              if (!$li.length) $('.suggestion').removeClass('highlighted')
+              else {
+                $li.removeClass('highlighted').prev().addClass('highlighted')
+                const $prev = $li.removeClass('highlighted').prev()
+                $prev.addClass('highlighted')
+                nuxt.value.input = $prev[0].innerText
+              }
+              break;
+            case 40:
+              event.preventDefault()
+              nuxt.canUpdateSuggestion = false
+              if (!$li.length) {
+                $('.suggestion').first().addClass('highlighted')
+              }
+              else {
+                const $next = $li.removeClass('highlighted').next()
+                $next.addClass('highlighted')
+                nuxt.value.input = $next[0].innerText
+              }
+              break;
+            default:
+              nuxt.canUpdateSuggestion = true
+              break;
+          }
+        })
+      },
+      getSearchSuggestion () {
+        return new Promise((resolve, reject) => {
+          axios.post(`api/data/search/elastic/suggestion`, {input: this.value.input})
+          .then((res) => {
+            resolve(res)
+          })
+          .catch((err) => {
+            reject(err)
+          })
+        })
+      },
+      onSearchInput (text) {
+        if (!text) return
+
+        let input = text.replace(/ /g, '+')
         location.href = `/search?q=${input}`
       },
       onShowMoreButton () {
@@ -119,6 +193,7 @@
       activateJquery () {
         $(document).ready(() => {
           this.calculateWindowHeight()
+          this.onSearchKeypress()
           this.deactivateLoader()
           this.isLoaded = true
         })
@@ -169,6 +244,7 @@
         position: relative;
 
         .search-bar-wrapper {
+          position: relative;
           border: 1px solid @color-light-grey;
           border-radius: @border-radius;
           box-shadow: @box-shadow;
@@ -190,7 +266,39 @@
 
           .search-button-container {
             display: none;
-            #search-button {
+          }
+        }
+
+        .auto-completion {
+          position: absolute;
+          left: 0;
+          top: 100%;
+          width: 100%;
+          border: 1px solid @color-light-gray;
+          border-top: 0;
+          border-bottom-left-radius: @border-radius;
+          border-bottom-right-radius: @border-radius;
+          background-color: @color-white;
+          box-shadow: 0 2px 4px @color-light-gray;
+          z-index: 10;
+
+          ul {
+            list-style: none;
+            margin:0;
+            padding:0;
+          }
+          li {
+            background-color: @color-white;
+            padding: 12px 16px;
+            font-size:15px;
+
+            &:hover {
+              cursor: pointer;
+              background-color: @color-lightest-grey;
+            }
+
+            &.highlighted {
+              background-color: @color-lightest-grey;
             }
           }
         }
@@ -431,6 +539,13 @@
                 height: 60px;
                 white-space: nowrap;
               }
+            }
+          }
+          .auto-completion {
+            li {
+              padding-left: 24px;
+              padding-right: 24px;
+              font-size:18px;
             }
           }
         }

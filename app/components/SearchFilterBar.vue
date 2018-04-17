@@ -2,28 +2,40 @@
   <div id="filter-bar">
     <div class="body-container">
 
-      <ul id="filter-container">
+      <div id="filter-container">
 
-        <li class="button-container">
-          <div>All</div>
-        </li>
-
-        <li class="button-container dropdown" @click="onClickCountry">
-          <div>{{options.country}}</div>
-          
-          <div id="dropdown-container" v-if="toggle.category">
-            <ol>
-              <li>Malaysia</li>
-              <li>Thailand</li>
-              <li>United States</li>
-              <li>China</li>
-              <li>South Korea</li>
-              <li>India</li>
-            </ol>
+        <div
+          v-for="(button,bIndex) in buttons" 
+          :key="bIndex"
+          class="button-container">
+          <button 
+            :id="`button-${bIndex}`"
+            @click="button.onClick($event, bIndex)">
+            {{button.title}}
+            <i 
+              class="fa fa-caret-down" 
+              aria-hidden="true"
+              v-if="button.type === 'dropdown'">
+            </i>
+          </button>
+          <!-- Dropdown Menus -->
+          <!-- Country Filter -->
+          <div 
+            class="dropdown-container country"
+            v-if="bIndex === 1 && toggle.country">
+            <ul>
+              <li 
+                v-for="(value, oIndex) in options.country" 
+                :key="oIndex"
+                @click="onClickCountry(value, oIndex)">
+                {{value}}
+              </li>
+            </ul>
           </div>
-        </li>
+          <!-- Another.. -->
+        </div>
 
-      </ul>
+      </div>
     </div>
   </div>
 </template>
@@ -32,18 +44,74 @@
 export default {
   data () {
     return {
+      buttons: [
+        {
+          title: 'All',
+          type: 'button',
+          onClick: this.onClickButton
+        },
+        {
+          title: 'Country',
+          type: 'dropdown',
+          onClick: this.toggleCountry
+        },
+      ],
       options: {
-        country: 'Country'
+        country: ['South Korea', 'Canada', 'Philippines', 'India', 'Australia', 'Malaysia', 'United States']
       },
       toggle: {
-        category: false
+        country: false
       }
     }
   },
-  methods: {
-    onClickCountry () {
-      this.toggle.category = !this.toggle.category
+  computed: {
+    getToggle (buttonIndex) { 
+      switch (buttonIndex) {
+        case 0:
+        return 
+        break
+        default:
+        break
+      }
+      return this.toggle.country
     }
+  },
+  methods: {
+    highlightButton () {
+      const query = this.$route.query
+
+      if (!query.category && !query.country) {
+        document.getElementById('button-0').className = 'highlight'
+      }
+
+      if (query.country) {
+        this.buttons[1].title = query.country
+        document.getElementById('button-1').className = 'highlight'
+      }
+    },
+    onClickButton (event, index) {
+      const input = this.$route.query.q
+      location.href = `/search?q=${input}`
+    },
+    onClickCountry (value, index) {
+      let href = location.href
+      console.log(href)
+      const query = `&country=${value}`
+      const reg = /\&country=\S+(?=&|\s)/g
+      const result = reg.test(href)
+      console.log(result)
+
+      if (result) href = href.replace(reg, query)
+      else href = href + query
+
+      console.log(href)
+    },
+    toggleCountry () {
+      this.toggle.country = !this.toggle.country
+    }
+  },
+  mounted () {
+    this.highlightButton()
   }
 }
 </script>
@@ -52,10 +120,10 @@ export default {
 @import "~assets/css/index";
 
 #filter-bar {
-  margin-bottom: 20px;
+  margin-bottom: 14px;
   background-color: #f3f3f3;
   color: @color-deep-gray;
-  box-shadow: 0 2px 4px @color-light-gray;
+  // box-shadow: 0 2px 4px @color-light-gray;
 }
 #filter-container {
   display: table;
@@ -63,52 +131,57 @@ export default {
   vertical-align: middle;
   margin: 0;
   padding: 0;
-  height: 40px;
+  height: 44px;
 }
 .button-container {
-  position: relative;
   display: table-cell;
-  white-space: nowrap;
-  height: 50px;
-  line-height: 50px;
-  padding: 0 16px;
-  border-bottom: 3px solid transparent;
-  font-size: @font-size-small;
+  padding: 0 9px;
+  vertical-align: middle;
 
-  &.dropdown {
-    padding-right: 32px;
-    background: url(~assets/icons/arrow-angle-down.png);
-    background-repeat: no-repeat;
-    background-size: 10px;
-    background-position: 80% center;
+  button {
+    border: 0;
+    background-color: transparent;
+    color: @color-font-gray;
+    font-size: 14px;
+    height: 100%;
+    border-bottom: 2px solid transparent;
+
+    &:hover {
+      color: @color-deep-gray;
+      border-bottom: 2px solid @color-deep-gray;
+    }
+
+    i {
+      display: inline-block;
+      margin-left: -1px;
+    }
+
+    &.highlight {
+      font-weight: bold;
+    }
   }
+}
+.dropdown-container {
+  position: absolute;
+  top: 99%;
+  background-color: @color-white;
+  box-shadow: 0 2px 4px @color-light-gray;
+  border-radius: 5px;
+  z-index: 10;
+}
+ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+li {
+  padding: 12px 18px;
+  font-size: 13px;
+  transition: background-color linear .2s;
 
   &:hover {
     cursor: pointer;
-    border-bottom: 3px solid @color-deep-gray;
-  }
-}
-
-#dropdown-container {
-  box-shadow: 0 2px 4px @color-light-gray;
-  background-color: @color-white;
-  position: absolute;
-  left: 0;
-  top: calc(100% + 5px);
-  z-index: 10;
-
-  ol {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-  }
-  li {
-    white-space: nowrap;
-    padding: 10px 16px;
-
-    &:hover {
-      font-weight: bold !important;
-    }
+    background-color: @color-lightest-grey;
   }
 }
 </style>
