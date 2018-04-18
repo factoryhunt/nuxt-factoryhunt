@@ -1,7 +1,7 @@
 # dependencies
 node_modules
 
-# assets
+# Local Assets
 assets
 
 # Nuxt build
@@ -20,12 +20,6 @@ dump.rdb
 # log
 log
 
-# backup
-backup
-
-# Webstorm
+# Code Editor
 .idea
 .editorconfig
-
-# sitemap
-app/assets/sitemap
