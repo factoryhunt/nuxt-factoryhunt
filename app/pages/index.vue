@@ -93,6 +93,7 @@
 <script>
   import axios from '~/plugins/axios'
   import Loader from '~/components/Loader.vue'
+  import { removeTextSpace } from '~/utils/text'
   export default {
     components: {
       Loader
@@ -178,8 +179,7 @@
       },
       onSearchInput (text) {
         if (!text) return
-
-        let input = text.replace(/ /g, '+')
+        let input = removeTextSpace(text)
         location.href = `/search?q=${input}`
       },
       onShowMoreButton () {

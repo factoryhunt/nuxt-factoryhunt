@@ -25,10 +25,10 @@
             v-if="bIndex === 1 && toggle.country">
             <ul>
               <li 
-                v-for="(value, oIndex) in options.country" 
+                v-for="(country, oIndex) in countries" 
                 :key="oIndex"
-                @click="onClickCountry(value, oIndex)">
-                {{value}}
+                @click="onClickCountry(country.key, oIndex)">
+                {{country.key}} <span id="country-count">{{getCountryCount(country.doc_count)}}</span>
               </li>
             </ul>
           </div>
@@ -41,14 +41,23 @@
 </template>
 
 <script>
+import { addComma } from '~/utils/text'
 export default {
+  props: {
+      countries: {
+        type: Array,
+        default: () => {
+          return []
+        }
+      }
+    },
   data () {
     return {
       buttons: [
         {
           title: 'All',
           type: 'button',
-          onClick: this.onClickButton
+          onClick: this.onClickAllButton
         },
         {
           title: 'Country',
@@ -77,6 +86,9 @@ export default {
     }
   },
   methods: {
+    getCountryCount (string) {
+      return addComma(string)
+    },
     highlightButton () {
       const query = this.$route.query
 
@@ -89,22 +101,21 @@ export default {
         document.getElementById('button-1').className = 'highlight'
       }
     },
-    onClickButton (event, index) {
+    onClickAllButton (event, index) {
       const input = this.$route.query.q
       location.href = `/search?q=${input}`
     },
     onClickCountry (value, index) {
+      console.log(this.$route.query)
       let href = location.href
-      console.log(href)
       const query = `&country=${value}`
-      const reg = /\&country=\S+(?=&|\s)/g
+      const reg = /&country=([^&]*)/g
       const result = reg.test(href)
-      console.log(result)
 
       if (result) href = href.replace(reg, query)
       else href = href + query
 
-      console.log(href)
+      location.href = href
     },
     toggleCountry () {
       this.toggle.country = !this.toggle.country
@@ -177,11 +188,19 @@ ul {
 li {
   padding: 12px 18px;
   font-size: 13px;
+  min-width: 160px;
   transition: background-color linear .2s;
 
   &:hover {
     cursor: pointer;
     background-color: @color-lightest-grey;
+  }
+
+  #country-count {
+    float:right;
+    color: gray;
+    font-size: 11px;
+    text-align: right;
   }
 }
 </style>

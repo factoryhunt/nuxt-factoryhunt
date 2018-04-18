@@ -1,7 +1,9 @@
 <template>
   <section id="container">
 
-    <filter-bar id="filter-bar"/>
+    <filter-bar 
+      id="filter-bar"
+      :countries="countries"/>
 
     <div class="body-container">
 
@@ -142,14 +144,16 @@
           queryOptions: options,
           largeCategory: data.categories.large_category,
           middleCategory: data.categories.middle_category,
-          accounts: data.hits,
-          account_count: data.total
+          accounts: data.hits.hits,
+          account_count: data.hits.total,
+          countries: data.aggregations.countries.buckets
         }
       } catch (err) {
         return {
           queryOption: options,
           accounts: {},
-          account_count: 0
+          account_count: 0,
+          countries: []
         }
       }
     },
@@ -268,7 +272,7 @@
         options.page = index
         const uri = getSearchQuery(options)
         let { data } = await axios.get(uri)
-        this.accounts = data.hits
+        this.accounts = data.hits.hits
         this.deactivateLoader()
       },
       moveNextPage () {

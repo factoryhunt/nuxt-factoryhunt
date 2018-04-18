@@ -1,5 +1,6 @@
 const es = require('../../../../middleware/elastic')
 const categories = require('../../../../../app/assets/models/categories.json')
+const { getQueryBody } = require('./query')
 
 // GET /api/data/search/elastic/:input
 // query ?page=INT&fuzziness=INT&country=STRING
@@ -9,31 +10,19 @@ module.exports = async (req, res) => {
     input
   } = req.params
   let page = parseInt(req.query.page, 10)
-  let fuzziness = req.query.fuzziness || 0
+  let fuzziness = parseInt(req.query.fuzziness, 10) || 0
   let country = req.query.country || ''
   page = page * numberOfResults
 
-  // filter
-  let filter = []
-  // filter - country
-  if (country) {
-    const countryFilter = {
-      match: {
-        mailing_country: country
-      }
-    }
-    filter.push(countryFilter)
+  const options = {
+    input: input,
+    page: page,
+    numberOfResults: numberOfResults,
+    fuzziness: fuzziness,
+    country: country
   }
-  // filter - account_status
-  const statusFilter = {
-    match: {
-      account_status: {
-        query: 'open approved',
-        operator: 'or'
-      }
-    }
-  }
-  filter.push(statusFilter)
+
+  const bodies = getQueryBody(options)
 
   const getParentCategories = (text = String) => {
     let result = {
@@ -66,96 +55,27 @@ module.exports = async (req, res) => {
     })
   }
 
-  const searchKeyword = () => {
+  const getSearchResult = () => {
     return new Promise((resolve, reject) => {
-      es.search({
-        body: {
-          from: page,
-          size: numberOfResults, // size는 쿼리 갯수만 제한시키고 aggs나 highlight엔 영향을 안준다.
-          query: {
-            bool: {
-              filter: filter,
-              must: [
-                {
-                  dis_max: {
-                    tie_breaker: 0.7,
-                    queries: [{
-                      multi_match: {
-                        query: input,
-                        fields: ['account_name', 'products', 'company_description' ,'company_short_description', 'website'],
-                        fuzziness: fuzziness
-                      }
-                    }]
-                  }
-                }
-                // {
-                //   bool: {
-                //     should: [
-                //       {
-                //         bool: {
-                //           must: [
-                //             {
-                //               match: {
-                //                 products: {
-                //                   query: input,
-                //                   fuzziness: 1
-                //                 }
-                //               }
-                //             }
-                //           ]
-                //         }
-                //       }
-                //     ]
-                //   }
-                // }
-              ],
-              should: [
-                {
-                  match: {
-                    account_status: {
-                      query: 'approved',
-                      boost: 1000
-                    }
-                  }
-                },
-                {
-                  match: {
-                    account_name: {
-                      query: input,
-                      boost: 1.1
-                    }
-                  }
-                },
-                {
-                  match: {
-                    products: {
-                      query: input,
-                      boost: 5
-                    }
-                  }
-                },
-                {
-                  match: {
-                    mailing_country: {
-                      query: 'korea',
-                      boost: -200
-                    }
-                  }
-                }
-              ]
-            }
-          },
-          highlight: {
-            fields: {
-              products: {}
-            }
-          }
-        }
-      }).then(function(resp) {
-        resolve(resp)
-      }, function(err) {
-        if (err) reject(err.message)
-      })
+      es.search(bodies[0])
+        .then(function(resp) {
+          resolve(resp)
+        }, 
+        function(err) {
+          if (err) reject(err.message)
+        })
+    })
+  }
+
+  const getAggregations = () => {
+    return new Promise((resolve, reject) => {
+      es.search(bodies[1])
+        .then(function (resp) {
+          resolve(resp)
+        },
+          function (err) {
+            if (err) reject(err.message)
+          })
     })
   }
 
@@ -179,12 +99,16 @@ module.exports = async (req, res) => {
   }
 
   try {
-    let { hits } = await searchKeyword()
+    let result = await getSearchResult()
+    const aggs = await getAggregations()
     const category = await getParentCategories(input)
-    hits.categories = category
+  
+    result.aggregations = aggs.aggregations
+    result.categories = category
+    console.log(result)
     // const analysisResult = await analysis
     // console.log(analysisResult)
-    res.status(200).json(hits)
+    res.status(200).json(result)
   } catch (err) {
     res.status(403).json({ result: [] })
   }

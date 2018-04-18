@@ -16,6 +16,10 @@ exports.checkWebsiteLinkHasHttp = (url) => {
   }
 }
 
+exports.removeTextSpace = (text) => {
+  return text.replace(/(^\s*)|(\s*$)/, '').replace(/\s+/g, ' ')
+}
+
 exports.removeNullInArray = (array) => {
   let tempArray = []
   for (let i = 0; i < array.length; i++) {
