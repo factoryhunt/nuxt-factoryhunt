@@ -25,7 +25,7 @@
             </div>
           </div>
           <div class="col-md-8 col-md-pull-4 scrollLeftDelay">
-            <img class="img-responsive" src="~assets/img/for_supplier/feature-item-01.png" alt="download screen">
+            <img class="img-responsive" src="https://s3-us-west-1.amazonaws.com/factoryhunt.com/img/feature-item-01.png" alt="download screen">
           </div>
         </div>
         <!--Feature item 02-->
@@ -41,7 +41,7 @@
             </div>
           </div>
           <div class="col-md-8 scrollRightDelay">
-            <img class="img-responsive" src="~assets/img/for_supplier/feature-item-02.png" alt="download screen">
+            <img class="img-responsive" src="https://s3-us-west-1.amazonaws.com/factoryhunt.com/img/feature-item-02.png" alt="download screen">
           </div>
         </div>
         <!--Feature item 03-->
@@ -57,7 +57,7 @@
             </div>
           </div>
           <div class="col-md-8 col-md-pull-4 scrollLeftDelay">
-            <img class="img-responsive" src="~assets/img/for_supplier/feature-item-03.png" alt="download screen">
+            <img class="img-responsive" src="https://s3-us-west-1.amazonaws.com/factoryhunt.com/img/feature-item-03.png" alt="download screen">
           </div>
         </div>
         <!--Feature item 04-->
@@ -73,7 +73,7 @@
             </div>
           </div>
           <div class="col-md-8 scrollRightDelay">
-            <img class="img-responsive" src="~assets/img/for_supplier/feature-item-04.png" alt="download screen">
+            <img class="img-responsive" src="https://s3-us-west-1.amazonaws.com/factoryhunt.com/img/feature-item-04.png" alt="download screen">
           </div>
         </div>
       </div>

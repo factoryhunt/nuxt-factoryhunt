@@ -261,7 +261,7 @@
     padding-bottom: 100px;
   }
   .header {
-    background-image: url("~assets/img/for_supplier/header-bg.jpg");
+    background-image: url(https://s3-us-west-1.amazonaws.com/factoryhunt.com/img/header-bg.jpg);
     background-attachment: fixed;
     background-repeat: no-repeat;
     background-position: 50% 50%;

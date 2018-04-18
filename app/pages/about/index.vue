@@ -54,7 +54,7 @@
   .image-container  {
 
     .about-us-image {
-      background-image: url(~assets/img/about-us-image.jpg);
+      background-image: url(https://s3-us-west-1.amazonaws.com/factoryhunt.com/img/header-bg.jpg);
       background-repeat: no-repeat !important;
       background-size: cover !important;
       background-position: 50% 20% !important;

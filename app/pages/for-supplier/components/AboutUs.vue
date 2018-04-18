@@ -17,7 +17,7 @@
           <div class="col-md-6 scrollLeftDelay">
             <!--About iphone-->
             <div class="about-us">
-              <img class="img-responsive" src="~assets/img/for_supplier/about-us.png" alt="iphone">
+              <img class="img-responsive" src="https://s3-us-west-1.amazonaws.com/factoryhunt.com/img/about-us.png" alt="iphone">
             </div>
           </div>
           <div id="about-us-desc" class="col-md-6 scrollRightDelay">

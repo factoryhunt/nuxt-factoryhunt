@@ -13,7 +13,7 @@
 
       <!-- Search Bar -->
       <div class="search-container">
-        <form @submit.prevent="onSearchInput">
+        <form @submit.prevent="onSearchInput(value.input)">
           <div class="search-inner-container">
             <div class="search-icon-container">
               <div class="fa fa-search" id="search-icon"></div>
@@ -106,6 +106,7 @@
 
 <script>
   import { mapGetters } from 'vuex'
+  import { removeTextSpace } from '~/utils/text'
   export default {
     data () {
       return {
@@ -151,10 +152,9 @@
           $('.navigation-container').css('border-bottom', '1px solid #dedede')
         }
       },
-      onSearchInput () {
-        if (!this.value.input) return
-        let input = this.value.input
-        input = input.replace(/ /g, '+')
+      onSearchInput (text) {
+        if (!text) return
+        let input = removeTextSpace(text)
         location.href = `/search?q=${input}`
       },
       onProfileImage () {
