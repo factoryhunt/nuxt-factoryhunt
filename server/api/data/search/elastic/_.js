@@ -24,7 +24,7 @@ module.exports = async (req, res) => {
 
   const bodies = getQueryBody(options)
 
-  const getParentCategories = (text = String) => {
+  const getParentCategories = (text) => {
     let result = {
       large_category: '',
       middle_category: ''
@@ -99,9 +99,13 @@ module.exports = async (req, res) => {
   }
 
   try {
+    console.log(req.body)
+    console.log(req.params)
+    console.log(req.query)
     let result = await getSearchResult()
     const aggs = await getAggregations()
     const category = await getParentCategories(input)
+    console.log(category)
   
     result.aggregations = aggs.aggregations
     result.categories = category

@@ -132,9 +132,9 @@
     },
     async asyncData ({ query }) {
       const options = {
-        q: query.q,
+        q: query.q || '',
         page: 0,
-        category: parseInt(query.category, 10) === 1,
+        category: parseInt(query.category) === 1,
         country: query.country || ''
       }
       const queryURI = getSearchQuery(options)

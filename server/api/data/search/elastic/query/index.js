@@ -29,13 +29,13 @@ exports.getQueryBody = (options) => {
   }]
   // filter - country
   const countryFilter = {
-    match: {
+    'match_phrase': {
       mailing_country: country
     }
   }
 
   // must
-  const must = [
+  let must = [
     {
       dis_max: {
         tie_breaker: 0.7,
@@ -69,6 +69,12 @@ exports.getQueryBody = (options) => {
     //   }
     // }
   ]
+
+  if (options.input === '*') {
+     must = [{
+         'match_all': {}
+       }]
+  }
 
   // should
   const should = [
