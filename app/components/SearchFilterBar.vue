@@ -101,6 +101,9 @@ export default {
     },
     onClickAllButton (event, index) {
       const input = this.$route.query.q
+
+      if (!input) return location.href = '/search'
+      
       location.href = `/search?q=${input}`
     },
     onClickCountry (value, index) {
@@ -156,7 +159,6 @@ export default {
     border-bottom: 2px solid transparent;
 
     &:hover {
-      color: @color-deep-gray;
       border-bottom: 2px solid @color-deep-gray;
     }
 
