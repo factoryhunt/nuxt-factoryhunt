@@ -7,7 +7,7 @@ module.exports = {
     htmlAttrs: {
       lang: 'en',
     },
-    title: 'Factoryhunt - A SAFE B2B Wholesale Trading Website',
+    title: 'Factory Hunt - A SAFE B2B Wholesale Trading Website',
     meta: [
       { 'http-equiv': 'Content-Type', content: 'text/html; charset=utf-8' },
       { 'http-equiv': 'X-UA-Compatible', content: 'IE=edge' },
@@ -16,12 +16,12 @@ module.exports = {
       { hid: 'keywords', name: 'keywords', content: 'factoryhunt, factory, hunt, factory hunt, supplier directory, directory, b2b directory, quote, bulk, wholesale, supplier, factory hunt, online catalog, supplier directory, free website, international trade' },
       { hid: 'description', name: 'description', content: 'factoryhunt.com is a free B2B wholesale trading website that helps manufacturers, suppliers, exporters, wholesalers and importers trade with each other. It is a manufacturer and wholesale supplier directory.' },
       { hid: 'og-type', property: 'og:type', content: 'website' },
-      { hid: 'og-title', property: 'og:title', content: 'Factoryhunt' },
+      { hid: 'og-title', property: 'og:title', content: 'Factory Hunt' },
       { hid: 'og-description', property: 'og:description', content: 'A SAFE B2B Wholesale Trading Website' },
       { hid: 'og-image', property: 'og:image', content: 'https://s3-us-west-1.amazonaws.com/factoryhunt.com/admin/thumbnail_eng.png' },
       { hid: 'og-url', property: 'og:url', content: 'https://www.factoryhunt.com' },
       { hid: 'twitter-card', property: 'twitter:card', content: 'summary' },
-      { hid: 'twitter-title', property: 'twitter:title', content: 'Factoryhunt' },
+      { hid: 'twitter-title', property: 'twitter:title', content: 'Factory Hunt' },
       { hid: 'twitter-description', property: 'twitter:description', content: 'A SAFE B2B Wholesale Trading Website' },
       { hid: 'twitter-image', property: 'twitter:image', content: 'https://s3-us-west-1.amazonaws.com/factoryhunt.com/admin/thumbnail_eng.png' },
       { hid: 'twitter-domain', property: 'twitter:domain', content: 'https://www.factoryhunt.com' }

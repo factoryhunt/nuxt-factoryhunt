@@ -42,7 +42,7 @@
         msg: 'About Us',
         id: this.$route.params.id,
         query: this.$route.query.id,
-        title: 'Factoryhunt',
+        title: 'Factory Hunt',
       }
     }
   }
