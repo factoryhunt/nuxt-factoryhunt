@@ -120,10 +120,12 @@
       return {
         title: `${this.getTitle}`,
         meta: [
+          { hid: 'description', name: 'description', content: this.getDescription },
           { hid: 'og-title', property: 'og:title', content: `${this.getTitle} | Factory Hunt` },
-          { hid: 'og-description', property: 'og:description', content: `Search result for ${this.queryOptions.q}.` },
+          { hid: 'og-description', property: 'og:description', content: this.getDescription },
           { hid: 'og-url', property: 'og:url', content: `ttps://www.factoryhunt.com/search?q=${this.queryOptions.q}` },
-          { hid: 'twitter-title', property: 'twitter:title', content: `${this.getTitle} | Factory Hunt` }
+          { hid: 'twitter-title', property: 'twitter:title', content: `${this.getTitle} | Factory Hunt` },
+          { hid: 'twitter-description', property: 'twitter:description', content: this.getDescription },
         ],
         link: [
           { hid: 'canonical', rel: 'canonical', href: `https://www.factoryhunt.com/search?q=${this.queryOptions.q}` }
@@ -222,13 +224,19 @@
           title = `${country} ${title}`
         }
 
-        title = `${title} Manufacturers, Suppliers & Wholesalers`
+        title = `${title} Manufacturers, Suppliers & Wholesalers Directory`
 
         return title
       },
       getDescription () {
-        const a ='Find here Underwear manufacturers, suppliers & exporters in India. Get contact details & address of companies manufacturing and supplying Underwear across India.'
-        return a
+        const { q: query, country } = this.queryOptions
+
+        const keyword_1 = country ? `${country} ${query}` : query
+        const keyword_2 = country ? ` accross ${country}` : ''
+
+        const desc = `Search here ${keyword_1} manufacturers, wholesale suppliers & exporters. Get contact details of companies manufacturing and supplying ${keyword_2} in our directory.`
+
+        return desc
       },
       getAccountCount () {
         return addComma(this.account_count)
