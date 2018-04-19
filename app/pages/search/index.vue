@@ -232,7 +232,7 @@
         const { q: query, country } = this.queryOptions
 
         const keyword_1 = country ? `${country} ${query}` : query
-        const keyword_2 = country ? ` accross ${country}` : ''
+        const keyword_2 = country ? `accross ${country}` : ''
 
         const desc = `Search here ${keyword_1} manufacturers, wholesale suppliers & exporters. Get contact details of companies manufacturing and supplying ${keyword_2} in our directory.`
 
