@@ -58,7 +58,7 @@
     "website": {
       "title": "Website",
       "placeholder": "www.factoryhunt.com",
-      "inputTitle": "It must be 1-100 characters and can only contain letters, numbers, slash and periods."
+      "inputTitle": "It must be 1-100 characters and can only contain letters, numbers, hyphens, slash and periods."
     },
     "phone": {
       "title": "Phone",

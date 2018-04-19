@@ -120,7 +120,7 @@
           <div class="right-contents">
             <input
               type="text"
-              pattern="[A-Za-z0-9 ./]{1,100}"
+              pattern="[A-Za-z0-9 ./-]{1,100}"
               :title="$t('dashboardCompany.company.website.inputTitle')"
               maxlength="100"
               :placeholder="$t('dashboardCompany.company.website.placeholder')"

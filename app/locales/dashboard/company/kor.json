@@ -58,7 +58,7 @@
     "website": {
       "title": "웹사이트",
       "placeholder": "www.factoryhunt.com",
-      "inputTitle": "1~100자의 영어와 숫자, 슬래쉬(/), 그리고 마침표만 입력해주세요."
+      "inputTitle": "1~100자의 영어와 숫자, 하이픈(-), 슬래쉬(/), 그리고 마침표만 입력해주세요."
     },
     "phone": {
       "title": "전화번호",
