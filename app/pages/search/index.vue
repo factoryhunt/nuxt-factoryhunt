@@ -118,7 +118,7 @@
     },
     head () {
       return {
-        title: `${this.getTitle} Manufacturers, Suppliers & Wholesalers`,
+        title: `${this.getTitle}`,
         meta: [
           { hid: 'og-title', property: 'og:title', content: `${this.getTitle} | Factory Hunt` },
           { hid: 'og-description', property: 'og:description', content: `Search result for ${this.queryOptions.q}.` },
@@ -220,8 +220,9 @@
         if (this.queryOptions.country) {
           const country = this.queryOptions.country
           title = `${country} ${title}`
-          return title
         }
+
+        title = `${title} Manufacturers, Suppliers & Wholesalers`
 
         return title
       },
