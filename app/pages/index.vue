@@ -294,7 +294,7 @@
             font-size:15px;
 
             &:hover {
-              cursor: auto;
+              cursor: pointer;
               background-color: @color-lightest-grey;
             }
 

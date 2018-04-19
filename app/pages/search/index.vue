@@ -120,10 +120,10 @@
       return {
         title: `${this.getTitle} Manufacturers, Suppliers & Wholesalers`,
         meta: [
-          { hid: 'og-title', property: 'og:title', content: `${this.queryOptions.q} | Factory Hunt` },
+          { hid: 'og-title', property: 'og:title', content: `${this.getTitle} | Factory Hunt` },
           { hid: 'og-description', property: 'og:description', content: `Search result for ${this.queryOptions.q}.` },
           { hid: 'og-url', property: 'og:url', content: `ttps://www.factoryhunt.com/search?q=${this.queryOptions.q}` },
-          { hid: 'twitter-title', property: 'twitter:title', content: `${this.queryOptions.q} | Factory Hunt` }
+          { hid: 'twitter-title', property: 'twitter:title', content: `${this.getTitle} | Factory Hunt` }
         ],
         link: [
           { hid: 'canonical', rel: 'canonical', href: `https://www.factoryhunt.com/search?q=${this.queryOptions.q}` }
@@ -131,14 +131,14 @@
       }
     },
     async asyncData ({ query, redirect }) {
+      if (!query.q) redirect('/')
+
       const options = {
         q: query.q,
         page: 0,
         category: parseInt(query.category) === 1,
         country: query.country || ''
       }
-
-      if (!query.q) redirect('/')
       
       const queryURI = getSearchQuery(options)
       try {
@@ -210,10 +210,20 @@
     },
     computed: {
       getTitle () {
+        let title = this.queryOptions.q
+
         if (this.queryOptions.category) {
-          return this.middleCategory ? this.middleCategory : this.largeCategory
+          const category = this.middleCategory ? this.middleCategory : this.largeCategory
+          title = category
         }
-        return this.queryOptions.q
+
+        if (this.queryOptions.country) {
+          const country = this.queryOptions.country
+          title = `${country} ${title}`
+          return title
+        }
+
+        return title
       },
       getDescription () {
         const a ='Find here Underwear manufacturers, suppliers & exporters in India. Get contact details & address of companies manufacturing and supplying Underwear across India.'
@@ -320,13 +330,13 @@
     li {
       display: inline-block;
       font-size: 14px;
-      cursor: default;
+      cursor: auto;
     }
 
     a {
       color: @color-font-gray;
       text-decoration: none;
-      cursor: default;
+      cursor: inherit;
     }
 
     .separator {

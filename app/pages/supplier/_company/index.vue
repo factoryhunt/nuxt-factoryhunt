@@ -249,14 +249,6 @@
       getWebsiteURL (url) {
         return validateURL(url)
       },
-      checkWebsiteLinkHasHttp (url) {
-        if (url) {
-          if (url.indexOf('http') === -1) {
-            url = ('http://' + url).toLowerCase()
-            return url
-          }
-        }
-      },
       activateJquery () {
         $(document).ready(() => {
           this.applyStickyCSS()

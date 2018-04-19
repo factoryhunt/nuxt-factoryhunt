@@ -145,7 +145,7 @@
             </div>
             <div class="list-container" v-show="vendor.website">
               <div class="left-contents">{{ $t('company.information.website') }}</div>
-              <div class="right-contents"><a :href="checkWebsiteLinkHasHttp(vendor.website)" target="_blank">{{ vendor.website }}</a></div>
+              <div class="right-contents"><a :href="getWebsiteURL(vendor.website)" target="_blank">{{ vendor.website }}</a></div>
             </div>
             <div class="list-container" v-show="vendor.phone">
               <div class="left-contents">{{ $t('company.information.phone') }}</div>
@@ -304,6 +304,7 @@
   import axios from '~/plugins/axios'
   import pdflib from 'pdfjs-dist'
   import Loader from '~/components/Loader'
+  import { validateURL } from '~/utils/text'
   import { sendEmail } from '~/utils/email'
   export default {
     scrollToTop: true,
@@ -646,13 +647,8 @@
           location.reload()
         }
       },
-      checkWebsiteLinkHasHttp (url) {
-        if (url) {
-          if (url.indexOf('http') === -1) {
-            url = `http://${url}?ref=factoryhunt`
-            return url
-          }
-        }
+      getWebsiteURL (url) {
+        return validateURL(url)
       },
       getYear (date) {
         if (date === '0000-00-00') return ''
