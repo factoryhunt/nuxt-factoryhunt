@@ -26,6 +26,7 @@
             <ul>
               <li 
                 v-for="(country, oIndex) in countries" 
+                :class="$route.query.country === country.key ? `selected` : ``"
                 :key="oIndex"
                 @click="onClickCountry(country.key, oIndex)">
                 {{country.key}} <span id="country-count">{{getCountryCount(country.doc_count)}}</span>
@@ -65,9 +66,6 @@ export default {
           onClick: this.toggleCountry
         },
       ],
-      options: {
-        country: ['South Korea', 'Canada', 'Philippines', 'India', 'Australia', 'Malaysia', 'United States']
-      },
       toggle: {
         country: false
       }
@@ -190,6 +188,10 @@ li {
   font-size: 13px;
   min-width: 160px;
   transition: background-color linear .2s;
+
+  &.selected {
+    font-weight: bold;
+  }
 
   &:hover {
     cursor: pointer;

@@ -41,6 +41,7 @@
               </li>
             </ul>
           </div>
+
         </div>
       </form>
     </header>
@@ -121,14 +122,14 @@
         canUpdateSuggestion: true
       }
     },
-    watch: {
-      async 'value.input' (input) {
-        if (this.canUpdateSuggestion) {
-          const { data } = await this.getSearchSuggestion(input)
-          this.suggestions = data
-        }
-      }
-    },
+    // watch: {
+    //   async 'value.input' (input) {
+    //     if (this.canUpdateSuggestion) {
+    //       const { data } = await this.getSearchSuggestion(input)
+    //       this.suggestions = data
+    //     }
+    //   }
+    // },
     methods: {
       onSearchKeypress () {
         const nuxt = this
@@ -193,7 +194,7 @@
       activateJquery () {
         $(document).ready(() => {
           this.calculateWindowHeight()
-          this.onSearchKeypress()
+          // this.onSearchKeypress()
           this.deactivateLoader()
           this.isLoaded = true
         })
@@ -293,7 +294,7 @@
             font-size:15px;
 
             &:hover {
-              cursor: pointer;
+              cursor: auto;
               background-color: @color-lightest-grey;
             }
 
