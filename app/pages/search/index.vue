@@ -130,13 +130,16 @@
         ]
       }
     },
-    async asyncData ({ query }) {
+    async asyncData ({ query, redirect }) {
       const options = {
-        q: query.q || '',
+        q: query.q,
         page: 0,
         category: parseInt(query.category) === 1,
         country: query.country || ''
       }
+
+      if (!query.q) redirect('/')
+      
       const queryURI = getSearchQuery(options)
       try {
         let { data } = await axios.get(queryURI)

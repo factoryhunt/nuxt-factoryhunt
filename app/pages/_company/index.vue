@@ -649,7 +649,7 @@
       checkWebsiteLinkHasHttp (url) {
         if (url) {
           if (url.indexOf('http') === -1) {
-            url = ('http://' + url).toLowerCase()
+            url = `http://${url}?ref=factoryhunt`
             return url
           }
         }

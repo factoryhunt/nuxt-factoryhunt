@@ -57,3 +57,15 @@ exports.getFirstWord = (sentence = String, options = Object) => {
 
   return firstWord
 }
+
+exports.validateURL = (url) => {
+  if (url) {
+    if (url.indexOf('http') === -1) {
+      url = `http://${url}?ref=factoryhunt`
+      return url
+    }
+    return url
+  }
+
+  return ''
+}

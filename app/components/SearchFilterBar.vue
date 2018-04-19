@@ -100,22 +100,19 @@ export default {
       }
     },
     onClickAllButton (event, index) {
-      const input = this.$route.query.q
-
-      if (!input) return location.href = '/search'
+      let input = this.$route.query.q || ''
       
       location.href = `/search?q=${input}`
     },
     onClickCountry (value, index) {
-      console.log(this.$route.query)
       let href = location.href
-      const query = `&country=${value}`
-      const reg = /&country=([^&]*)/g
+      const query = `country=${value}`
+      const reg = /country=([^&]*)/g
       const result = reg.test(href)
 
       if (result) href = href.replace(reg, query)
-      else href = href + query
-
+      else href = `${href}&${query}`
+      
       location.href = href
     },
     toggleCountry () {

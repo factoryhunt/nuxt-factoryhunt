@@ -43,7 +43,7 @@
             </div>
             <div class="list-container" v-show="lead.website">
               <div class="left-contents">{{ $t('company.information.website') }}</div>
-              <div class="right-contents"><a :href="checkWebsiteLinkHasHttp(lead.website)" target="_blank">{{ lead.website }}</a></div>
+              <div class="right-contents"><a :href="getWebsiteURL(lead.website)" target="_blank">{{ lead.website }}</a></div>
             </div>
             <div class="list-container" v-show="lead.number_of_employees">
               <div class="left-contents">{{ $t('company.information.totalEmployees') }}</div>
@@ -113,6 +113,7 @@
 <script>
   import axios from '~/plugins/axios'
   import Loader from '~/components/Loader'
+  import { validateURL } from '~/utils/text'
   import { sendEmail } from '~/utils/email'
   export default {
     scrollToTop: true,
@@ -244,6 +245,9 @@
         let temp = new Date(date)
         const year = temp.getFullYear()
         return year
+      },
+      getWebsiteURL (url) {
+        return validateURL(url)
       },
       checkWebsiteLinkHasHttp (url) {
         if (url) {
