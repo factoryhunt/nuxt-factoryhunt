@@ -184,15 +184,17 @@ ul {
   list-style: none;
   margin: 0;
   padding: 0;
+  padding: 10px 0;
 }
 li {
-  padding: 12px 18px;
-  font-size: 13px;
-  min-width: 160px;
+  padding: 10px 24px;
+  font-size: 17px;
+  font-weight: 400;
+  min-width: 198px;
   transition: background-color linear .2s;
 
   &.selected {
-    font-weight: bold;
+    font-weight: bolder;
   }
 
   &:hover {
@@ -203,7 +205,7 @@ li {
   #country-count {
     float:right;
     color: gray;
-    font-size: 11px;
+    font-size: 13px;
     text-align: right;
   }
 }
