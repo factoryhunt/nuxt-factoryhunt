@@ -45,6 +45,18 @@ export const decodeToken = (token) => {
   })
 }
 
+export const storeLoginHistory = (contact_id) => {
+  return new Promise((resolve, reject) => {
+    axios.post(`/api/data/history/${contact_id}`)
+    .then(() => {
+      resolve()
+    })
+    .catch((err) => {
+      reject(err)
+    })
+  })
+}
+
 export const updateUserDataToVuex = async (store) => {
   try {
     const { data: token } = await getUserTokenFromSession()

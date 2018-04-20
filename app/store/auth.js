@@ -1,5 +1,5 @@
 import axios from '~/plugins/axios'
-import { getToken, decodeToken } from '~/utils/auth'
+import { getToken, decodeToken, storeLoginHistory } from '~/utils/auth'
 // import store from './index'
 // import router from '../../router'
 
@@ -37,8 +37,11 @@ export const actions = {
       email,
       password
     } = payload
+
     const token = await getToken(email, password)
     const user = await decodeToken(token)
+    await storeLoginHistory(user.contact.contact_id)
+    
     commit('login', {
       user
     })
