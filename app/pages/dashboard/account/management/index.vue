@@ -88,7 +88,7 @@
           await this.deleteAccount()
           this.$store.dispatch('auth/logout')
           alert(this.$t('dashboardMyAccount.deleteConfirm.success'))
-          location.href = '/'
+          // location.href = '/'
         } catch (err) {
           alert(this.$t('dashboardMyAccount.deleteConfirm.fail'))
         }
@@ -108,7 +108,7 @@
         return new Promise((resolve, reject) => {
           const data = {
             contact_data: {
-              notes: `CONCAT("${this.value.description}", notes)`
+              notes: this.value.description
             }
           }
           axios.put(`/api/data/contact/${this.contact.contact_id}`, data)

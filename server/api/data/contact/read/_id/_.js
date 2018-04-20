@@ -7,7 +7,14 @@ module.exports = async (req, res) => {
 
   const getContact = () => {
     return new Promise((resolve, reject) => {
-      mysql.query(`SELECT * FROM ${CONFIG_MYSQL.TABLE_CONTACTS} WHERE contact_id = ${contact_id}`, (err, rows) => {
+      mysql.query(`
+      SELECT 
+      * 
+      FROM 
+      ${CONFIG_MYSQL.TABLE_CONTACTS} 
+      WHERE 
+      contact_id = ${contact_id} AND
+      isDeleted != 1`, (err, rows) => {
         if (err) reject(err)
         resolve(rows[0])
       })

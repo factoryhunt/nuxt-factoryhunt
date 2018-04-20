@@ -23,9 +23,14 @@ module.exports = async (req, res, next) => {
       * 
       FROM 
       ${CONFIG_MYSQL.TABLE_ACCOUNTS} 
-      WHERE account_id = ${account_id}`,
+      WHERE 
+      account_id = ${account_id} AND
+      isDeleted != 1`,
         (err, rows) => {
           if (err) reject(err)
+
+          if (!rows.length) resolve({})
+
           resolve(rows[0])
         })
     })
@@ -50,9 +55,13 @@ module.exports = async (req, res, next) => {
       notes, 
       salutation 
       FROM ${CONFIG_MYSQL.TABLE_CONTACTS}
-      WHERE contact_id = ${contact_id}`,
+      WHERE 
+      contact_id = ${contact_id} AND
+      isDeleted != 1`,
         (err, rows) => {
           if (err) reject(err)
+          if (!rows.length) resolve({})
+          
           resolve(rows[0])
         })
     })

@@ -13,7 +13,8 @@ module.exports = async (req, res) => {
       cover_image_url_1 != "" AND
       products != "" AND
       account_name != "" AND
-      company_short_description != ""
+      company_short_description != "" AND
+      isDeleted != 1
       ORDER BY 
       customer_priority DESC, 
       rand()

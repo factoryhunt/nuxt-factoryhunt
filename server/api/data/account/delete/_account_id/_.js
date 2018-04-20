@@ -5,18 +5,26 @@ const CONFIG_MYSQL = require('../../../../mysql/model')
 module.exports = async (req, res) => {
   const id = req.params.account_id
 
-  const transferAccount = (id) => {
-    return new Promise((resolve, reject) => {
-      mysql.query(`INSERT INTO ${CONFIG_MYSQL.TABLE_ACCOUNTS_DELETED} SELECT * FROM ${CONFIG_MYSQL.TABLE_ACCOUNTS} WHERE ${CONFIG_MYSQL.TABLE_ACCOUNTS}.account_id = ${id}`,
-        (err) => {
-          if (err) return reject(err)
-          resolve()
-        })
-    })
-  }
+  // const transferAccount = (id) => {
+  //   return new Promise((resolve, reject) => {
+  //     mysql.query(`INSERT INTO ${CONFIG_MYSQL.TABLE_ACCOUNTS_DELETED} SELECT * FROM ${CONFIG_MYSQL.TABLE_ACCOUNTS} WHERE ${CONFIG_MYSQL.TABLE_ACCOUNTS}.account_id = ${id}`,
+  //       (err) => {
+  //         if (err) return reject(err)
+  //         resolve()
+  //       })
+  //   })
+  // }
+
   const removeAccount = (id) => {
     return new Promise((resolve, reject) => {
-      mysql.query(`DELETE FROM ${CONFIG_MYSQL.TABLE_ACCOUNTS} WHERE account_id = ${id}`,
+      mysql.query(`
+      UPDATE
+      ${CONFIG_MYSQL.TABLE_ACCOUNTS} 
+      SET
+      isDeleted = 1,
+      last_modified_date = (SELECT NOW())
+      WHERE 
+      account_id = ${id}`,
         (err) => {
           if (err) return reject(err)
           resolve()
@@ -37,7 +45,6 @@ module.exports = async (req, res) => {
   }
 
   try {
-    await transferAccount(id)
     await removeAccount(id)
     onSuccess()
   } catch (err) {

@@ -34,7 +34,7 @@
       preventEnterKeySubmit () {
         $(document).ready(() => {
           $('.dashboard-container input').keydown((event) => {
-            console.log(event)
+            // console.log(event)
             if (event.keyCode === 13) {
               event.preventDefault()
             }

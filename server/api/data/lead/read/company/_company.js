@@ -12,7 +12,10 @@ module.exports = async (req, res) => {
       * 
       FROM 
       ${CONFIG_MYSQL.TABLE_LEADS} 
-      WHERE domain = "${company}"`, (err, rows) => {
+      WHERE 
+      domain = "${company}" AND
+      isDeleted != 1
+      `, (err, rows) => {
         if (err) reject(err)
         if (rows.length > 0) {
           resolve(rows[0])

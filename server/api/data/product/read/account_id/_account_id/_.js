@@ -13,7 +13,8 @@ module.exports = async (req, res) => {
       FROM 
       ${CONFIG_MYSQL.TABLE_PRODUCTS} 
       WHERE 
-      account_id = ${account_id}
+      account_id = ${account_id} AND
+      isDeleted != 1
       ORDER BY 
       last_modified_date DESC`, (err, rows) => {
         if (err) reject(err)

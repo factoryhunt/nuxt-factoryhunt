@@ -176,18 +176,27 @@
         ]
       }
     },
-    async asyncData ({ query, params, error }) {
+    async asyncData ({ query, params, redirect, error }) {
       try {
         const { data } = await axios.get(`/api/data/product/domain/${params.company}/${params.product}`)
+
+        // when the account is not available or removed
+        if (JSON.stringify(data.account) === '{}') redirect('/404')
+
+        // when the product is not available or removed
+        if (JSON.stringify(data.product) === '{}') redirect('/404')
+
         const { data:products } = await axios.get(`/api/data/product/account_id/${data.account.account_id}/approved`)
+
         return {
           queryInput: query.input || '',
           vendor: data.account,
           product: data.product,
-          products: products
+          products: products || []
         }
       } catch (err) {
-        error({ statusCode: 404, message: 'Sorry, page does not exists.' })
+        console.log(err)
+        error({ statusCode: 404, message: 'Sorry, page does not exist.' })
       }
     },
     data () {

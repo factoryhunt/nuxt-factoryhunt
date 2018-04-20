@@ -14,7 +14,19 @@
         <!--<i class="fa fa-circle required-circle" aria-hidden="true"><span> Required field</span></i>-->
         <p class="title">{{ $t('dashboardCompany.domain.title') }}</p>
         <p class="sub-title">www.factoryhunt.com/<span id="domain-text">{{ value.domain }}</span></p>
-        <input required pattern="[a-z0-9]{3,50}" :title="$t('dashboardCompany.domain.inputTitle')" id="domain-input" type="text" :placeholder="$t('dashboardCompany.domain.placeholder')" v-model="value.domain" @keyup="domainInputPressed" spellcheck="false" autocomplete="off" autocorrect="off" autocapitalize="off">
+        <input 
+          required 
+          pattern="[a-z0-9.]{3,50}" 
+          :title="$t('dashboardCompany.domain.inputTitle')" 
+          id="domain-input" 
+          type="text" 
+          :placeholder="$t('dashboardCompany.domain.placeholder')" 
+          v-model="value.domain" 
+          @keyup="domainInputPressed" 
+          spellcheck="false" 
+          autocomplete="off" 
+          autocorrect="off" 
+          autocapitalize="off">
         <!--<i id="domain-mark" class="big-mark" aria-hidden="true"></i>-->
         <p class="hidden-title">{{ $t('dashboardCompany.domain.inputTitle') }}</p>
         <!--<spinkit id="domain-spinkit"></spinkit>-->
@@ -83,6 +95,8 @@
         $('.alert-container').hide()
 
         try {
+          this.denyStaticDomain()
+
           let { data } = await axios.get(`/api/data/account/domain/${this.value.domain}`)
           const { account } = data
           if (account) {
@@ -97,6 +111,28 @@
         } catch (err) {
           this.onEditFail()
         }
+      },
+      denyStaticDomain () {
+        const domain = this.value.domain
+
+        if 
+        (domain === 'about' ||
+        domain === 'contact' ||
+        domain === 'for-supplier' ||
+        domain === 'dashboard' ||
+        domain === 'term' ||
+        domain === 'terms' ||
+        domain === 'privacy' ||
+        domain === 'policy' ||
+        domain === 'pricing' ||
+        domain === 'inquiry' ||
+        domain === 'error' ||
+        domain === '404' ||
+        domain === 'search' ||
+        domain === 'supplier' ||
+        domain === 'verify' ||
+        domain === 'verification' ||
+        domain === 'factoryhunt') throw 'This is static domain.'
       },
       async onEditSuccess () {
         try {
@@ -116,6 +152,7 @@
       domainInputPressed () {
         this.value.domain = this.value.domain.toLowerCase()
       },
+      // Deprecated
       applyInputFocusBlurEvent (input, mark) {
         const domainInput = $('#domain-input')
         const accountNameInput = $('#account-name-input')
