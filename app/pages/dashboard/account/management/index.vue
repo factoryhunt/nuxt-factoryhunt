@@ -88,7 +88,7 @@
           await this.deleteAccount()
           this.$store.dispatch('auth/logout')
           alert(this.$t('dashboardMyAccount.deleteConfirm.success'))
-          // location.href = '/'
+          location.href = '/'
         } catch (err) {
           alert(this.$t('dashboardMyAccount.deleteConfirm.fail'))
         }

@@ -128,11 +128,14 @@
         domain === 'inquiry' ||
         domain === 'error' ||
         domain === '404' ||
+        domain === '403' ||
+        domain === '500' ||
         domain === 'search' ||
         domain === 'supplier' ||
         domain === 'verify' ||
         domain === 'verification' ||
-        domain === 'factoryhunt') throw 'This is static domain.'
+        domain === 'factoryhunt' ||
+        domain === 'feeds') throw 'This is static domain.'
       },
       async onEditSuccess () {
         try {
