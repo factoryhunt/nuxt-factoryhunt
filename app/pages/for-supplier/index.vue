@@ -62,7 +62,16 @@
         $(document).ready(() => {
           this.applySmoothScrolling()
           this.applyAddAnimation()
+          this.counterUp()
           this.isLoaded = true
+        })
+      },
+      counterUp () {
+        $(document).ready(() => {
+          $('.counter-num').counterUp({
+            delay: 10,
+            time: 2000
+          })
         })
       },
       applySmoothScrolling () {

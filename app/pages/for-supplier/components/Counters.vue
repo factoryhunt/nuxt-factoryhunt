@@ -6,14 +6,14 @@
           <div class="col-md-4">
             <div class="counter-item">
               <div><i class="fa fa-database"></i></div>
-              <h2><span class="counter-num"> 180,000 </span><span>+</span></h2>
+              <h2><span class="counter-num"> 300,000 </span><span>+</span></h2>
               <p>{{ $t('forSupplier.counters.item1') }}</p>
             </div>
           </div>
           <div class="col-md-4">
             <div class="counter-item">
               <div><i class="fa fa-users"></i></div>
-              <h2><span class="counter-num"> 10,000 </span><span>+</span></h2>
+              <h2><span class="counter-num"> 100,000 </span><span>+</span></h2>
               <p>{{ $t('forSupplier.counters.item2') }}</p>
             </div>
           </div>
@@ -33,12 +33,6 @@
 <script>
   export default {
     mounted () {
-      $(document).ready(() => {
-        $('.counter-num').counterUp({
-          delay: 10,
-          time: 2000
-        })
-      })
     }
   }
 </script>
