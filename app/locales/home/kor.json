@@ -4,7 +4,7 @@
   "featured": "추천 제조업체",
   "input": "\"Light\"를 검색해보세요.",
   "search": "검색",
-  "searchCaution": "영어로만 입력해주세요. (2자 이상)",
+  "searchCaution": "영어와 하이픈(-)만 입력해주세요. (2자 이상)",
   "viewMore": "자세히 보기",
   "showMore": "더 보기"
 }

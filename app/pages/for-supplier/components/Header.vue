@@ -29,7 +29,16 @@
                       <label class="form-label f5" for="userCompany">{{ $t('forSupplier.header.companyName.title') }}</label>
                     </dt>
                     <dd>
-                      <input type="text" pattern="[A-Za-z0-9 ().,]{2,50}" :placeholder="$t('forSupplier.header.companyName.placeholder')" :title="$t('forSupplier.header.companyName.inputTitle')" required id="userCompany" v-model="value.company" class="form-control form-control-lg input-block" autofocus="">
+                      <input 
+                      type="text" 
+                      pattern="[A-Za-z0-9 ().,&]{2,50}"
+                      :placeholder="$t('forSupplier.header.companyName.placeholder')" 
+                      :title="$t('forSupplier.header.companyName.inputTitle')" 
+                      required 
+                      id="userCompany" 
+                      v-model="value.company" 
+                      class="form-control form-control-lg input-block" 
+                      autofocus="">
                     </dd>
                   </dl>
                   <dl class="form-group">

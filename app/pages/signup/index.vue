@@ -6,7 +6,13 @@
 
       <form class="form-container" @submit.prevent="onSignUpButton">
         <div class="input-container">
-          <input required v-model="value.company" type="text" :placeholder="$t('forSupplier.header.companyName.placeholder')" :title="$t('forSupplier.header.companyName.inputTitle')">
+          <input 
+            required 
+            v-model="value.company" 
+            type="text" 
+            pattern="[A-Za-z0-9 ().,&]{2,50}"
+            :placeholder="$t('forSupplier.header.companyName.placeholder')" 
+            :title="$t('forSupplier.header.companyName.inputTitle')">
           <i id="image-company" class="fa fa-building-o" aria-hidden="true"></i>
         </div>
 

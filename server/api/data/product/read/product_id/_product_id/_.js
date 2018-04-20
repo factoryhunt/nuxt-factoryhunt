@@ -7,7 +7,13 @@ module.exports = async (req, res) => {
 
   const getProduct = () => {
     return new Promise((resolve, reject) => {
-      mysql.query(`SELECT * FROM ${CONFIG_MYSQL.TABLE_PRODUCTS} WHERE product_id='${product_id}'`,
+      mysql.query(`
+      SELECT 
+      * 
+      FROM 
+      ${CONFIG_MYSQL.TABLE_PRODUCTS} 
+      WHERE 
+      product_id='${product_id}'`,
         (err, rows) => {
           if (err) return reject(err)
           resolve(rows[0])

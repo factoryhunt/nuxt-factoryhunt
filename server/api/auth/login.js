@@ -9,7 +9,32 @@ module.exports = (req, res) => {
   const email = req.body.email.toLowerCase()
   const password = req.body.password
 
-  mysql.query(`SELECT * FROM ${CONFIG_MYSQL.TABLE_CONTACTS} WHERE lower(contact_email) = "${email}"`,
+  // const findEmail = () => {
+  //   return new Promise((resolve, reject) => {
+  //     mysql.query(`
+  //     SELECT
+  //     *
+  //     FROM
+  //     ${CONFIG_MYSQL.TABLE_CONTACTS}
+  //     WHERE 
+  //     lower(contact_email) = "${email}" AND
+  //     isDeleted != 1`)
+  //   }, (err, rows) => {
+  //     if (err) reject(err)
+  //     if (!rows.length) resolve({ code: 8001, msg: 'Email does not exist.'})
+      
+  //     resolve(rows[0])
+  //   })
+  // }
+
+  mysql.query(`
+  SELECT 
+  * 
+  FROM 
+  ${CONFIG_MYSQL.TABLE_CONTACTS}
+  WHERE 
+  lower(contact_email) = "${email}" AND
+  isDeleted != 1`,
     (err, users) => {
       if (err) throw err
 

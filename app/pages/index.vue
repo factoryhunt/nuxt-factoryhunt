@@ -19,7 +19,7 @@
                 id="search-input"
                 type="text"
                 v-model="value.input"
-                pattern="[A-Za-z0-9 ]{2,100}"
+                pattern="[A-Za-z0-9 -]{2,100}"
                 autocomplete=off
                 :placeholder="$t('home.input')"
                 :title="$t('home.searchCaution')">

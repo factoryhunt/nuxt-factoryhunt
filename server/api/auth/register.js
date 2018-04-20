@@ -28,7 +28,8 @@ module.exports = async (req, res) => {
       * 
       FROM 
       ${CONFIG_MYSQL.TABLE_CONTACTS} 
-      WHERE lower(contact_email) = ?
+      WHERE lower(contact_email) = ? AND
+      isDeleted != 1
       `, email, (err, rows) => {
         // checking email error
         if (err) reject({result: false, msg: 'Checking email failed.', msg_kor: '서버 오류. 다시 시도해주세요.'})

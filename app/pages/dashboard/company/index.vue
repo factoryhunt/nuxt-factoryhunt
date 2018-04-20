@@ -175,7 +175,7 @@
         <div class="box-container">
           <div class="left-contents">{{ $t('dashboardCompany.company.country.title') }}</div>
           <div class="right-contents">
-            <select required title="required" v-model="value.country">
+            <select title="required" v-model="value.country">
               <option id="disabled-option" disabled value="">{{ $t('dashboardCompany.company.country.defaultValue') }}</option>
               <option v-for="(country,index) in country_list" :key="index" :value="country.country_name">{{country.country_name}}</option>
             </select>

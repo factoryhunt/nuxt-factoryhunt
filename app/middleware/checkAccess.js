@@ -6,7 +6,7 @@ export default async ({req, store, query, redirect}) => {
   const { data } = await axios.get(`/api/data/product/product_id/${product_id}`)
   const isAccepted = user_id === data.account_id
 
-  // when product does not exists
+  // when product does not exist
   if (!data) redirect('/dashboard/product')
 
   // when this product is not this user's product

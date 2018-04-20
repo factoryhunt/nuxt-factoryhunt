@@ -28,7 +28,7 @@
       <header class="header-container">
         <p class="sub-title">
           {{ $t('dashboard.welcome', {name: getAccountName}) }}
-          <span v-if="isTesterAccount"><br>This app is 0.7.7.2 version.</span>
+          <span v-if="isTesterAccount"><br>This app is 0.7.7.3 version.</span>
         </p>
       </header>
 

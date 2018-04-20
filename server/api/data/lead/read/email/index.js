@@ -57,7 +57,9 @@ module.exports = async (req, res) => {
       email_subscription = "Y" AND
       email > "" AND
       lead_status LIKE "%Open%" AND
-      lead_type = "Supplier"`, (err, rows) => {
+      lead_type = "Supplier" AND
+      isDeleted != 1
+      `, (err, rows) => {
         if (err) reject(err)
         resolve(rows)
       })
