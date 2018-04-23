@@ -19,7 +19,7 @@ module.exports = async (req, res) => {
       `,
         (err, rows) => {
           if (err) reject(err)
-          if (!rows.length) resolve({})
+          if (!rows.length) reject({msg:'This account domain is not available.'})
 
           resolve(rows[0])
         })
@@ -40,7 +40,7 @@ module.exports = async (req, res) => {
       `,
         (err, rows) => {
           if (err) reject(err)
-          if (!rows.length) resolve({})
+          if (!rows.length) reject({ msg: 'This product domain is not available.' })
 
           resolve(rows[0])
         })

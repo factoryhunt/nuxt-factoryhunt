@@ -17,11 +17,9 @@ module.exports = async (req, res) => {
       isDeleted != 1
       `, (err, rows) => {
         if (err) reject(err)
-        if (rows.length > 0) {
-          resolve(rows[0])
-        } else {
-          resolve(rows)
-        }
+        if(!rows.length) reject({msg:'This lead domain is not available.'})
+        
+        resolve(rows[0])
       })
     })
   }

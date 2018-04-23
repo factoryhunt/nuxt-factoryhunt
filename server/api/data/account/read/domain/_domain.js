@@ -16,6 +16,8 @@ module.exports = async (req, res) => {
       domain = "${domain}" AND
       isDeleted != 1`, (err, rows) => {
         if (err) reject(err)
+        if (!rows.length) reject({msg:'This account domain is not available.'})
+
         resolve(rows[0])
       })
     })
@@ -34,6 +36,7 @@ module.exports = async (req, res) => {
       ORDER BY 
       last_modified_date DESC`, (err, rows) => {
         if (err) reject(err)
+
         resolve(rows)
       })
     })
@@ -44,10 +47,11 @@ module.exports = async (req, res) => {
     let account = await getAccount()
     if (account) products = await getAccountProducts(account.account_id)
     res.status(200).json({
-      account: account || null,
+      account: account,
       products
     })
   } catch (err) {
+    console.log(err)
     res.status(403).json({result: false})
   }
 }

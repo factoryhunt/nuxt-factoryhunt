@@ -336,8 +336,6 @@
     async asyncData ({ params, query, error, redirect }) {
       try {
         let { data } = await axios.get(`/api/data/account/domain/${params.company}`)
-
-        if (!data.account) redirect('/404')
         
         return {
           queryInput: query.input || '',
