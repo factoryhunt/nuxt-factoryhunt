@@ -531,10 +531,6 @@
             margin: 0;
             padding-right: 55px;
           }
-          .short-description-container {
-            .short-description {
-            }
-          }
         }
 
         .description-container {
@@ -582,8 +578,6 @@
             }
           }
         }
-
-        .review-container { }
       }
 
       .right-container {
