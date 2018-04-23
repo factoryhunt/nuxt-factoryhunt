@@ -3,6 +3,9 @@
     <div class="form-contents">
       <!-- Header -->
       <auth-header/>
+      <forgot-password 
+        v-show="toggle.forgotPassword"
+        :hideForgotPassword="hideForgotPassword"/>
 
       <!-- Form -->
       <form class="form-container" @submit.prevent="onLoginButton">
@@ -38,6 +41,7 @@
 </template>
 
 <script>
+  import ForgotPassword from '~/components/Modal/ForgotPassword'
   import AuthHeader from '~/components/AuthHeader'
   import Loader from '~/components/Loader'
   import { mapGetters } from 'vuex'
@@ -54,6 +58,7 @@
       }
     },
     components: {
+      ForgotPassword,
       AuthHeader,
       Loader
     },
@@ -67,6 +72,9 @@
         value: {
           email: '',
           password: ''
+        },
+        toggle: {
+          forgotPassword: false
         }
       }
     },
@@ -123,7 +131,10 @@
         }
       },
       onForgotPassword () {
-        alert('Coming soon.')
+        this.toggle.forgotPassword = true
+      },
+      hideForgotPassword () {
+        this.toggle.forgotPassword = false
       }
     }
   }

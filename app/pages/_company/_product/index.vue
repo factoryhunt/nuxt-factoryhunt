@@ -191,7 +191,6 @@
           products: products || []
         }
       } catch (err) {
-        console.log(err)
         error({ statusCode: 404, message: 'Sorry, page does not exist.' })
       }
     },

@@ -59,6 +59,13 @@
             <li v-if="!isLoggedIn" class="button-item-container">
               <div class="button-item-wrapper">
                 <div class="button-item">
+                  <a href="/signup">{{ $t('navigationBar.register') }}</a>
+                </div>
+              </div>
+            </li>
+            <li v-if="!isLoggedIn" class="button-item-container">
+              <div class="button-item-wrapper">
+                <div class="button-item">
                   <a href="/login">{{ $t('navigationBar.login') }}</a>
                 </div>
               </div>

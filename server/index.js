@@ -31,6 +31,8 @@ app.use('/api', api)
 app.use(forcedomain)
 app.use(nuxt.render)
 
+require('./middleware/sentry')
+
 server.listen(PORT, (err) => {
   if (err) console.log(err)
   

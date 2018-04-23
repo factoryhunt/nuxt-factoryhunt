@@ -18,7 +18,6 @@ module.exports = async (req, res) => {
       `, (err, rows) => {
         if (err) reject(err)
         if(!rows.length) reject({msg:'This lead domain is not available.'})
-        
         resolve(rows[0])
       })
     })
@@ -28,6 +27,7 @@ module.exports = async (req, res) => {
     const lead = await getLead()
     res.status(200).json(lead)
   } catch (err) {
+    console.log(err)
     res.status(403).json({result: false})
   }
 }
