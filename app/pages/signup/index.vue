@@ -54,6 +54,9 @@
     head () {
       return {
         title: this.$t('signUp.signUp'),
+        meta: [
+          { hid: 'description', name: 'description', content: 'Create your Factory Hunt account. Already have an account? Sign in.' }
+        ],
         link: [
           { hid: 'canonical', rel: 'canonical', href: `https://www.factoryhunt.com/signup` }
         ]

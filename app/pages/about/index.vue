@@ -30,7 +30,7 @@
       return {
         title: this.$t('about.title'),
         meta: [
-          { hid: 'description', name: 'description', content: this.$t('about.description') }
+          { hid: 'description', name: 'description', content: this.$t('Factory Hunt is the easiest way to showcase products to potential business partners. It is a hub for manufacturer & wholesale supplier listings.') }
         ],
         link: [
           { hid: 'canonical', rel: 'canonical', href: `https://www.factoryhunt.com/about` }

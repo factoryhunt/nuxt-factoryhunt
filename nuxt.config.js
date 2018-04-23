@@ -19,7 +19,7 @@ module.exports = {
       { name: 'msvalidate.01', content: 'D2035810FCE2D1D9A6525E9F3359C32B' },
 
       { hid: 'keywords', name: 'keywords', content: 'factoryhunt, factory, hunt, factory hunt, supplier directory, directory, b2b directory, quote, bulk, wholesale, supplier, factory hunt, online catalog, supplier directory, free website, international trade' },
-      { hid: 'description', name: 'description', content: 'factoryhunt.com is a free B2B wholesale trading website that helps manufacturers, suppliers, exporters, wholesalers and importers trade with each other. It is a manufacturer and wholesale supplier directory.' },
+      { hid: 'description', name: 'description', content: 'factoryhunt.com is a B2B wholesale trading website that helps manufacturers, suppliers, exporters, wholesalers and importers trade with each other. It is a manufacturer and wholesale supplier directory.' },
 
       { hid: 'og-site_name', property: 'og:site_name', content: 'Factory Hunt' },
       { hid: 'og-type', property: 'og:type', content: 'website' },
