@@ -29,10 +29,20 @@ module.exports = async (req, res) => {
 
   const fetchContactData = () => {
     return new Promise((resolve, reject) => {
-      mysql.query(`SELECT password, password_salt FROM ${CONFIG_MYSQL.TABLE_CONTACTS} WHERE contact_id = ${contact_id}`, (err, result) => {
-        if (err) reject(err)
-        resolve(result[0])
-      })
+      mysql.query(
+        `
+        SELECT 
+        password, 
+        password_salt 
+        FROM 
+        ${CONFIG_MYSQL.TABLE_CONTACTS} 
+        WHERE contact_id = ${contact_id}
+        `,
+        (err, result) => {
+          if (err) reject(err)
+          resolve(result[0])
+        }
+      )
     })
   }
 
@@ -43,11 +53,12 @@ module.exports = async (req, res) => {
         const result = key.toString('base64') === password
 
         // password is incorrect
-        if (!result) reject({
-          code: '8003',
-          msg: 'Password is incorrect.',
-          msg_kor: '비밀번호가 일치하지 않습니다.'
-        })
+        if (!result)
+          reject({
+            code: '8003',
+            msg: 'Password is incorrect.',
+            msg_kor: '비밀번호가 일치하지 않습니다.'
+          })
 
         resolve()
       })
@@ -56,20 +67,29 @@ module.exports = async (req, res) => {
 
   const encryptPassword = () => {
     return new Promise((resolve, reject) => {
-      crypto.randomBytes(64, (err, buf) => { //randomBtyes로 salt를 생성 -> buf로 바꿈
-        crypto.pbkdf2(contact_data.new_password, buf.toString('base64'), 100000, 64, 'sha512', (err, key) => {
-          if (err) reject({
-            code: '8004',
-            msg: 'Encrypting password failed.',
-            msg_kor: '비밀번호 암호화 실패.'
-          })
-          const password = key.toString('base64')
-          const salt = buf.toString('base64')
-          resolve({
-            password,
-            salt
-          })
-        })
+      crypto.randomBytes(64, (err, buf) => {
+        //randomBtyes로 salt를 생성 -> buf로 바꿈
+        crypto.pbkdf2(
+          contact_data.new_password,
+          buf.toString('base64'),
+          100000,
+          64,
+          'sha512',
+          (err, key) => {
+            if (err)
+              reject({
+                code: '8004',
+                msg: 'Encrypting password failed.',
+                msg_kor: '비밀번호 암호화 실패.'
+              })
+            const password = key.toString('base64')
+            const salt = buf.toString('base64')
+            resolve({
+              password,
+              salt
+            })
+          }
+        )
       })
     })
   }
@@ -80,15 +100,22 @@ module.exports = async (req, res) => {
         password: password,
         password_salt: salt
       }
-      mysql.query(`
-      UPDATE ${CONFIG_MYSQL.TABLE_CONTACTS} 
-      SET ?,
+      mysql.query(
+        `
+      UPDATE 
+      ${CONFIG_MYSQL.TABLE_CONTACTS} 
+      SET 
+      ?,
       last_modified_date = (SELECT NOW()) 
-      WHERE contact_id = ${contact_id}`, data, (err) => {
-        if (err) reject()
+      WHERE 
+      contact_id = ${contact_id}`,
+        data,
+        err => {
+          if (err) reject()
 
-        resolve()
-      })
+          resolve()
+        }
+      )
     })
   }
 
@@ -100,7 +127,7 @@ module.exports = async (req, res) => {
     })
   }
 
-  const onError = (err) => {
+  const onError = err => {
     res.status(403).json({
       result: false,
       code: err.code,
@@ -113,11 +140,12 @@ module.exports = async (req, res) => {
     checkPasswordLength()
     checkPasswordSame()
     const contact = await fetchContactData()
-    await checkPassword(contact.password, contact.password_salt)
+    if (contact_data.password) await checkPassword(contact.password, contact.password_salt)
     const encrypt = await encryptPassword()
     await dataUpdateToDB(encrypt.password, encrypt.salt)
     await onSuccess()
   } catch (err) {
+    console.log(err)
     onError(err)
   }
 }

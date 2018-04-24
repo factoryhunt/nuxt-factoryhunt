@@ -8,6 +8,7 @@ module.exports = async (req, res) => {
     const decoded = await decodeToken(token)
     res.status(200).json(decoded)
   } catch (err) {
-    res.status(403).json({result: false})
+    console.log('decode token error\n', err)
+    res.status(403).json({ result: false })
   }
 }
