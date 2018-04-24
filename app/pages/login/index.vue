@@ -122,7 +122,15 @@ export default {
     },
     hideForgotPassword() {
       this.toggle.forgotPassword = false
+    },
+    detectQuery() {
+      if (this.$route.query.password) {
+        showTopAlert(this.$store, true, this.$t('dashboardMyAccount.password.alert.success'))
+      }
     }
+  },
+  mounted() {
+    this.detectQuery()
   }
 }
 </script>

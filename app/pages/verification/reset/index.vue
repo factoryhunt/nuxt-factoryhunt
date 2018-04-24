@@ -91,7 +91,7 @@ export default {
       try {
         this.toggle.isLoading = true
         await this.resetPassword(this.getPasswords)
-        location.href = '/login'
+        location.href = '/login?password=1'
       } catch (err) {
         this.toggle.isLoading = false
         this.showTopAlert(err.response.data.code)
