@@ -10,6 +10,9 @@
     head () {
       return {
         title: this.$t('privacy.title'),
+        meta: [
+          { hid: 'description', name: 'description', content: this.$t('All personal information handled by Factory Hunt has been collected, stored and managed based on relevant Acts and Articles. The 「Personal Information Protection Act」 provides general criteria for the handling of personal information, and Factory Hunt will handle personal information, to be collected, stored and managed in accordance with the Article of the Act, legally and appropriately for proper performing of services and for protecting user’s right and interest.') }
+        ],
         link: [
           { hid: 'canonical', rel: 'canonical', href: `https://www.factoryhunt.com/privacy` }
         ]

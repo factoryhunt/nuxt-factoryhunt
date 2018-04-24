@@ -48,6 +48,9 @@
     head () {
       return {
         title: this.$t('login.login'),
+        meta: [
+          { hid: 'description', name: 'description', content: 'Welcome back! Sign in to your account. Don\'t have an account? Sign up' }
+        ],
         link: [
           { hid: 'canonical', rel: 'canonical', href: `https://www.factoryhunt.com/login` }
         ]

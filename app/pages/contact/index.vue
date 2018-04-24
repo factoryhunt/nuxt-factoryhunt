@@ -41,6 +41,9 @@
     head () {
       return {
         title: this.$t('contact.title'),
+        meta: [
+          { hid: 'description', name: 'description', content: 'Contact Factory Hunt. Find email and contact information for Factory Hunt, including help, support, and media inquiries.' }
+        ],
         link: [
           { hid: 'canonical', rel: 'canonical', href: `https://www.factoryhunt.com/contact` }
         ]

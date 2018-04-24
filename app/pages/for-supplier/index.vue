@@ -33,6 +33,9 @@
     head () {
       return {
         title: this.$t('navigationBar.becomeSeller'),
+        meta: [
+          { hid: 'description', name: 'description', content: 'Are you a supplier? Sign up to get connected with thousands of buyers from over 90 countries.' }
+        ],
         link: [
           { hid: 'canonical', rel: 'canonical', href: `https://www.factoryhunt.com/for-supplier` }
         ]

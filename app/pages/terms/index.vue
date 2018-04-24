@@ -10,6 +10,9 @@
     head () {
       return {
         title: this.$t('terms.title'),
+        meta: [
+          { hid: 'description', name: 'description', content: 'The purpose of this Terms of Use Agreement is to prescribe the matters related to the use condition and the procedure of the services provided by the "Factory Hunt" site (www.factoryhunt.com), a platform operated by Factory Hunt.' }
+        ],
         link: [
           { hid: 'canonical', rel: 'canonical', href: `https://www.factoryhunt.com/terms` }
         ]
