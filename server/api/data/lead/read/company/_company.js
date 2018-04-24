@@ -3,11 +3,14 @@ const CONFIG_MYSQL = require('../../../../mysql/model')
 
 // GET /api/data/lead/company/:company
 module.exports = async (req, res) => {
-  let company = decodeURI(req.params.company).toLowerCase()
+  let company = decodeURI(req.params.company)
+    .toLowerCase()
+    .replace(/"/g, '')
 
   const getLead = () => {
     return new Promise((resolve, reject) => {
-      mysql.query(`
+      mysql.query(
+        `
       SELECT 
       * 
       FROM 
@@ -15,12 +18,13 @@ module.exports = async (req, res) => {
       WHERE 
       domain = "${company}" AND
       isDeleted != 1
-      `, (err, rows) => {
-        if (err) reject(err)
-        if(!rows.length) reject({msg:'This lead domain is not available.'})
-        
-        resolve(rows[0])
-      })
+      `,
+        (err, rows) => {
+          if (err) reject(err)
+          if (!rows.length) reject({ msg: 'This lead domain is not available.' })
+          resolve(rows[0])
+        }
+      )
     })
   }
 
@@ -28,6 +32,7 @@ module.exports = async (req, res) => {
     const lead = await getLead()
     res.status(200).json(lead)
   } catch (err) {
-    res.status(403).json({result: false})
+    console.log(err)
+    res.status(403).json({ result: false })
   }
 }

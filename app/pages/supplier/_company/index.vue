@@ -140,7 +140,7 @@
         ]
       }
     },
-    async asyncData ({query, params, error, redirect}) {
+    async asyncData ({query, params, error}) {
       try {
         let { data } = await axios.get(`/api/data/lead/company/${encodeURI(params.company)}`)
 
@@ -149,7 +149,6 @@
           lead: data
         }
       } catch (err) {
-        console.log('/supplier/_domain\n', err)
         error({ statusCode: 404, message: 'Page not found' })
       }
     },

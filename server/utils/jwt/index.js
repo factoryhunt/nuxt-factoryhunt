@@ -2,9 +2,9 @@ const jwt = require('jsonwebtoken')
 const config = require('../../api/.config')
 
 //jwt Usage: jwt.sign(payload, secret, options, [callback])
-exports.publishToken = (payload) => {
+exports.publishToken = (payload, expiresIn) => {
   const options = {
-    // expiresIn: '7d', // default: null
+    expiresIn: expiresIn || '7d', // default: null
     issuer: 'factoryhunt.com',
     subject: 'user_id'
   }
@@ -16,12 +16,11 @@ exports.publishToken = (payload) => {
   })
 }
 
-exports.decodeToken = (token) => {
+exports.decodeToken = token => {
   return new Promise((resolve, reject) => {
-    jwt.verify(token, config.jwtSecret,
-      (err, decoded) => {
-        if (err) reject(err)
-        resolve(decoded)
-      })
+    jwt.verify(token, config.jwtSecret, (err, decoded) => {
+      if (err) reject(err)
+      resolve(decoded)
+    })
   })
 }
