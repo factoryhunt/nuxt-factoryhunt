@@ -45,10 +45,10 @@ module.exports = async (req, res) => {
       `,
         (err, rows) => {
           // mysql error
-          if (err) reject({ msg: 'Internal server error. Please try again later.' })
+          if (err) reject({ code: 7001, msg: 'Internal server error. Please try again later.' })
 
           // email does not exist
-          if (!rows.length) reject({ msg: 'The email does not exist.' })
+          if (!rows.length) reject({ code: 7002, msg: 'The email does not exist.' })
 
           // email exists
           resolve(rows[0])

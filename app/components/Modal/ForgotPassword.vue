@@ -24,7 +24,7 @@
                 required
                 type="email"
                 v-model="value.email">
-              <p id="alert-text">{{value.alert}}</p>
+              <p id="alert-text">{{ value.alert }}</p>
 
               <div class="bottom-container">
                 <a 
@@ -47,7 +47,7 @@
 
             <div v-show="toggle.isSent">
               <h1>{{$t('verification.forgotPassword.checkout')}}</h1>
-              <p class="desc">{{$t('verification.forgotPassword.checkoutDesc')}}</p>
+              <p class="desc">{{$t('verification.forgotPassword.checkoutDesc', {email: this.value.email}) }}</p>
             </div>
             
           </div>
@@ -84,13 +84,14 @@ export default {
       if (this.toggle.isSending) return
 
       try {
+        this.value.alert = ''
         this.toggle.isSending = true
         await this.sendResetEmail()
 
         this.toggle.isSending = false
         this.toggle.isSent = true
       } catch (err) {
-        console.log('err')
+        this.errorHandler(err.response.data.err)
         this.toggle.isSending = false
       }
     },
@@ -108,6 +109,10 @@ export default {
             reject(err)
           })
       })
+    },
+    errorHandler(err) {
+      console.log('err', err)
+      if (err.code === 7002) this.value.alert = this.$t('verification.forgotPassword.noExist')
     }
   }
 }

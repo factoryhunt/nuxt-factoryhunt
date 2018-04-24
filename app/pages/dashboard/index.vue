@@ -28,7 +28,7 @@
       <header class="header-container">
         <p class="sub-title">
           {{ $t('dashboard.welcome', {name: getAccountName}) }}
-          <span v-if="isTesterAccount"><br>This app is 0.7.7.3 version.</span>
+          <span v-if="isTesterAccount"><br>This app is 0.7.7.5 version.</span>
         </p>
       </header>
 
@@ -96,263 +96,263 @@
 </template>
 
 <script>
-  import Clipboard from 'clipboard'
-  import { mapGetters } from 'vuex'
-  export default {
-    head () {
-      return {
-        title: this.$t('dashboard.dashboard'),
-        link: [
-          { hid: 'canonical', rel: 'canonical', href: `https://www.factoryhunt.com/dashboard` }
-        ]
-      }
-    },
-    data () {
-      return {
-        toggle: {
-          imageLoaded: false
-        }
-      }
-    },
-    layout: 'dashboard',
-    computed: {
-      getAccountName () {
-        return this.contact.first_name ? (this.contact.salutation + ' ' + this.contact.first_name + ' ' + this.contact.last_name) : this.contact.contact_email
-      },
-      ...mapGetters({
-        account: 'auth/GET_ACCOUNT',
-        contact: 'auth/GET_CONTACT',
-        isLoggedIn: 'auth/isLoggedIn'
-      }),
-      isTesterAccount () {
-        return this.contact.contact_level === "0"
-      }
-    },
-    methods: {
-      removeLinkContainer () {
-        $('.link-container').fadeOut(500, () => {
-          $(this).remove()
-        })
-      },
-      routeCompanyPage () {
-        window.open(`/${this.account.domain}`)
-      },
-      routeCompanyEditPage () {
-        this.$router.push('/dashboard/company')
-      },
-      activateClipboardJS () {
-        const clipboard = new Clipboard('#clipboard')
-        clipboard.on('success', (e) => {
-//          console.info('Action:', e.action)
-//          console.info('Text:', e.text)
-//          console.info('Trigger:', e.trigger)
-          $('#copied-text').show().delay(1000).fadeOut(500)
-          e.clearSelection()
-        })
-        clipboard.on('error', (e) => {
-          alert('Copied failed. Please try again.')
-        })
-      },
-      resizeLogoImage () {
-        const $profileInnerContainer = $('.profile-inner-container')
-        const $imageContainer = $('.company-image-container')
-        const width = `${$profileInnerContainer.width()}px`
-        $imageContainer.css({
-          width: width,
-          height: width
-        })
-        this.toggle.imageLoaded = true
-      },
-      activateJquery () {
-        $(document).ready(() => {
-          this.activateClipboardJS()
-          this.resizeLogoImage()
-        })
-      }
-    },
-    mounted () {
-      this.activateJquery()
+import Clipboard from 'clipboard'
+import { mapGetters } from 'vuex'
+export default {
+  head() {
+    return {
+      title: this.$t('dashboard.dashboard'),
+      link: [{ hid: 'canonical', rel: 'canonical', href: `https://www.factoryhunt.com/dashboard` }]
     }
+  },
+  data() {
+    return {
+      toggle: {
+        imageLoaded: false
+      }
+    }
+  },
+  layout: 'dashboard',
+  computed: {
+    getAccountName() {
+      return this.contact.first_name
+        ? this.contact.salutation + ' ' + this.contact.first_name + ' ' + this.contact.last_name
+        : this.contact.contact_email
+    },
+    ...mapGetters({
+      account: 'auth/GET_ACCOUNT',
+      contact: 'auth/GET_CONTACT',
+      isLoggedIn: 'auth/isLoggedIn'
+    }),
+    isTesterAccount() {
+      return this.contact.contact_level === '0'
+    }
+  },
+  methods: {
+    removeLinkContainer() {
+      $('.link-container').fadeOut(500, () => {
+        $(this).remove()
+      })
+    },
+    routeCompanyPage() {
+      window.open(`/${this.account.domain}`)
+    },
+    routeCompanyEditPage() {
+      this.$router.push('/dashboard/company')
+    },
+    activateClipboardJS() {
+      const clipboard = new Clipboard('#clipboard')
+      clipboard.on('success', e => {
+        //          console.info('Action:', e.action)
+        //          console.info('Text:', e.text)
+        //          console.info('Trigger:', e.trigger)
+        $('#copied-text')
+          .show()
+          .delay(1000)
+          .fadeOut(500)
+        e.clearSelection()
+      })
+      clipboard.on('error', e => {
+        alert('Copied failed. Please try again.')
+      })
+    },
+    resizeLogoImage() {
+      const $profileInnerContainer = $('.profile-inner-container')
+      const $imageContainer = $('.company-image-container')
+      const width = `${$profileInnerContainer.width()}px`
+      $imageContainer.css({
+        width: width,
+        height: width
+      })
+      this.toggle.imageLoaded = true
+    },
+    activateJquery() {
+      $(document).ready(() => {
+        this.activateClipboardJS()
+        this.resizeLogoImage()
+      })
+    }
+  },
+  mounted() {
+    this.activateJquery()
   }
+}
 </script>
 
 <style lang="less" scoped>
-  @import "~assets/css/index";
+@import '~assets/css/index';
 
-  // Header
-  .header-container {
-    .title {
-      font-size:30px;
-      font-weight: 600;
-    }
-  }
-
-  p {
-    margin: 0;
-  }
-
+// Header
+.header-container {
   .title {
     font-size: 30px;
     font-weight: 600;
-    margin-bottom: 8px;
   }
-  .sub-title {
-    font-size: 20px;
-    font-weight: 400;
-    margin-bottom: 8px;
+}
+
+p {
+  margin: 0;
+}
+
+.title {
+  font-size: 30px;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+.sub-title {
+  font-size: 20px;
+  font-weight: 400;
+  margin-bottom: 8px;
+}
+
+.page-container {
+  .left-container {
+    .profile-container {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 240px;
+      border: 1px solid @color-light-grey;
+      border-radius: @border-radius;
+
+      .profile-inner-container {
+        width: 100%;
+        position: relative;
+        text-align: center;
+
+        .company-image-container {
+          display: flex;
+          background-color: @color-white;
+
+          #company-image {
+            max-width: 100% !important;
+            max-height: 100% !important;
+            width: auto !important;
+            height: auto !important;
+            margin: auto !important;
+          }
+        }
+
+        .contents-container {
+          border-top: 1px solid @color-lightest-grey;
+          padding-top: 12px;
+          padding-right: 20px;
+          padding-left: 20px;
+
+          .title-contents {
+            margin-bottom: 22px;
+            .title {
+              font-weight: 500;
+              font-size: 24px;
+              margin: 0;
+            }
+            .sub-title {
+              font-size: 20px;
+              font-weight: 300;
+              margin: 0;
+            }
+          }
+          button {
+            color: @color-font-base;
+            border: 1px solid @color-input-placeholder;
+            width: 100%;
+            font-size: 14px;
+            margin-bottom: 8px;
+            padding-top: 6px;
+            padding-bottom: 6px;
+            font-weight: 600;
+          }
+          #edit-button {
+            margin-bottom: 18px;
+          }
+        }
+      }
+    }
   }
 
-  .page-container {
+  .right-container {
+    padding-left: 270px;
 
-    .left-container {
-      .profile-container {
+    .header-container {
+    }
+
+    .link-container {
+      position: relative;
+      background-color: @color-link;
+      border-radius: @border-radius;
+      margin-bottom: 50px;
+
+      .text {
+        opacity: 1;
+        font-size: 17px;
+        font-weight: 400;
+        padding: 8px 20px;
+        height: 90px;
+        color: @color-white;
+      }
+
+      .cancel-button {
         position: absolute;
-        left: 0;
-        top: 0;
-        width: 240px;
+        right: 16px;
+        top: 9px;
+        font-weight: 100;
+        color: @color-white;
+      }
+    }
+
+    .body-container {
+      .box-container {
+        display: block;
         border: 1px solid @color-light-grey;
         border-radius: @border-radius;
+        margin-bottom: 30px;
 
-        .profile-inner-container {
-          width: 100%;
-          position: relative;
-          text-align: center;
-
-          .company-image-container {
-            display: flex;
-            background-color: @color-white;
-
-            #company-image {
-              max-width: 100% !important;
-              max-height: 100% !important;
-              width: auto !important;
-              height: auto !important;
-              margin: auto !important;
-            }
-          }
-
-          .contents-container {
-            border-top: 1px solid @color-lightest-grey;
-            padding-top: 12px;
-            padding-right: 20px;
-            padding-left: 20px;
-
-            .title-contents {
-              margin-bottom: 22px;
-              .title {
-                font-weight: 500;
-                font-size: 24px;
-                margin: 0;
-              }
-              .sub-title {
-                font-size: 20px;
-                font-weight: 300;
-                margin: 0;
-              }
-            }
-            button {
-              color: @color-font-base;
-              border: 1px solid @color-input-placeholder;
-              width: 100%;
-              font-size: 14px;
-              margin-bottom: 8px;
-              padding-top: 6px;
-              padding-bottom:6px;
-              font-weight: 600;
-            }
-            #edit-button {
-              margin-bottom: 18px;
-            }
-          }
-        }
-      }
-    }
-
-    .right-container {
-      padding-left: 270px;
-
-      .header-container {
-
-      }
-
-      .link-container {
-        position: relative;
-        background-color: @color-link;
-        border-radius: @border-radius;
-        margin-bottom: 50px;
-
-        .text {
-          opacity: 1;
-          font-size:17px;
-          font-weight:400;
+        .title-container {
           padding: 8px 20px;
-          height: 90px;
-          color: @color-white;
+          background-color: @color-lightest-grey;
+          border-top-left-radius: 2px;
+          border-top-right-radius: 2px;
+
+          .title {
+            font-size: 17px;
+            font-weight: 500;
+            margin-bottom: 0;
+          }
+          .button {
+            color: @color-font-base;
+            border: 1px solid @color-deep-gray;
+            border-radius: @border-radius;
+            padding: 2px 8px;
+            font-size: 14px;
+            text-decoration: none;
+            float: right;
+          }
         }
 
-        .cancel-button {
-          position: absolute;
-          right: 16px;
-          top: 9px;
-          font-weight: 100;
-          color: @color-white;
-        }
-      }
+        .text-container {
+          padding: 8px 20px;
+          font-size: 18px;
+          font-weight: 300;
+          margin: 10px 0;
 
-      .body-container {
-
-        .box-container {
-          display: block;
-          border: 1px solid @color-light-grey;
-          border-radius: @border-radius;
-          margin-bottom: 30px;
-
-          .title-container {
-            padding: 8px 20px;
-            background-color: @color-lightest-grey;
-            border-top-left-radius: 2px;
-            border-top-right-radius: 2px;
-
-            .title {
-              font-size:17px;
-              font-weight: 500;
-              margin-bottom: 0;
-            }
-            .button {
-              color: @color-font-base;
-              border: 1px solid @color-deep-gray;
-              border-radius: @border-radius;
-              padding: 2px 8px;
-              font-size: 14px;
-              text-decoration: none;
-              float: right;
-            }
+          .text {
+            font-size: 18px;
           }
 
-          .text-container {
-            padding: 8px 20px;
-            font-size:18px;
-            font-weight: 300;
-            margin: 10px 0;
-
-            .text {
-              font-size: 18px;
-            }
-
-            #share-button {
-              vertical-align: middle;
-              margin-left: 5px;
-            }
-            #copied-text {
-              display: none;
-              margin-left: 8px;
-              color: @color-font-base;
-              font-size:16px;
-              font-weight: 500;
-            }
+          #share-button {
+            vertical-align: middle;
+            margin-left: 5px;
+          }
+          #copied-text {
+            display: none;
+            margin-left: 8px;
+            color: @color-font-base;
+            font-size: 16px;
+            font-weight: 500;
           }
         }
       }
     }
   }
+}
 </style>

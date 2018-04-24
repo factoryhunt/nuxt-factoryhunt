@@ -11,8 +11,9 @@
       "Enter the email address associated with your account, and we’ll email you a link to reset your password.",
     "back": "Back to Login",
     "button": "Send Reset Email",
-    "checkout": "Check out your email",
-    "checkoutDesc": "Your reset password email has been sent successfully."
+    "noExist": "No account exists for the email.",
+    "checkout": "Check your email",
+    "checkoutDesc": "An email to reset your password has been sent to {email}."
   },
   "resetPassword": {
     "title": "Reset Password",
