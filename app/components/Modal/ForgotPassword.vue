@@ -17,8 +17,8 @@
             <form 
               v-show="!toggle.isSent"
               @submit.prevent="onSendResetButton">
-              <h1>Forgot Password</h1>
-              <p class="desc">Enter the email address associated with your account, and we’ll email you a link to reset your password.</p>
+              <h1>{{$t('verification.forgotPassword.title')}}</h1>
+              <p class="desc">{{$t('verification.forgotPassword.desc')}}</p>
 
               <input 
                 required
@@ -30,13 +30,13 @@
                 <a 
                   id="back-to-login" 
                   href="/login">
-                  <i class="fa fa-angle-left" aria-hidden="true"></i> Back to Login
+                  <i class="fa fa-angle-left" aria-hidden="true"></i> {{$t('verification.forgotPassword.back')}}
                 </a>
                 <button 
                   id="send-reset-button"
                   class="button-orange"
                   v-if="!toggle.isSending">
-                  Send Reset Email
+                  {{$t('verification.forgotPassword.button')}}
                 </button>
                 <loader 
                   id="loader" 
@@ -46,8 +46,8 @@
             </form>
 
             <div v-show="toggle.isSent">
-              <h1>Check out your email</h1>
-              <p class="desc">Your reset password email has been sent successfully.</p>
+              <h1>{{$t('verification.forgotPassword.checkout')}}</h1>
+              <p class="desc">{{$t('verification.forgotPassword.checkoutDesc')}}</p>
             </div>
             
           </div>
@@ -67,7 +67,7 @@ export default {
     Loader
   },
   props: ['hideForgotPassword'],
-  data () {
+  data() {
     return {
       value: {
         email: '',
@@ -80,7 +80,7 @@ export default {
     }
   },
   methods: {
-    async onSendResetButton () {
+    async onSendResetButton() {
       if (this.toggle.isSending) return
 
       try {
@@ -94,18 +94,19 @@ export default {
         this.toggle.isSending = false
       }
     },
-    sendResetEmail () {
+    sendResetEmail() {
       const body = {
         email: this.value.email
       }
       return new Promise((resolve, reject) => {
-        axios.post('/api/auth/forgot_password', body)
-        .then(() => {
-          resolve()
-        })
-        .catch((err) => {
-          reject(err)
-        })
+        axios
+          .post('/api/auth/forgot_password', body)
+          .then(() => {
+            resolve()
+          })
+          .catch(err => {
+            reject(err)
+          })
       })
     }
   }
@@ -113,7 +114,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
-@import "~assets/css/index";
+@import '~assets/css/index';
 .modal-background {
   display: block;
 }
@@ -165,7 +166,7 @@ export default {
     background-size: 21px;
     background-repeat: no-repeat;
     background-position: 96% 50%;
-    transition: border linear .2s;
+    transition: border linear 0.2s;
 
     &:hover,
     &:active,
@@ -199,5 +200,4 @@ export default {
     text-align: center;
   }
 }
-
 </style>

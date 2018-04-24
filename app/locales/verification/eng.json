@@ -4,5 +4,22 @@
     "title": "Thank you!",
     "subTitle": "Your email is verified. Thank you for your confirmation.",
     "goHome": "Go home"
+  },
+  "forgotPassword": {
+    "title": "Forgot Password",
+    "desc":
+      "Enter the email address associated with your account, and we’ll email you a link to reset your password.",
+    "back": "Back to Login",
+    "button": "Send Reset Email",
+    "checkout": "Check out your email",
+    "checkoutDesc": "Your reset password email has been sent successfully."
+  },
+  "resetPassword": {
+    "title": "Reset Password",
+    "password": "Password",
+    "confirm": "Confirm Password",
+    "save": "Save",
+    "terms":
+      "By clicking 'Save' you confirm that you accept the <a href='/terms'>Terms of Service</a> & <a href='/privacy'>Privacy Policy.</a>"
   }
 }
