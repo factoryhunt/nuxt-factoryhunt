@@ -2,7 +2,7 @@
 node_modules
 
 # Local Assets
-assets/
+local_assets/
 
 # Nuxt build
 .nuxt
