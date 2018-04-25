@@ -1,25 +1,203 @@
+@import '../colors.less';
+@import '../properties.less';
+
+@left-bar-width: 270px;
+@left-bar-inner-padding: 28px;
+@bottom-bar-height: 100px;
+@right-container-left-padding: 330px;
+@right-container-bottom-padding: 170px;
+
 #wizard-container {
-  background: #fff;
-  max-width: 1040px;
-  margin: 0 auto;
+  background: @color-white;
   position: relative;
 }
 #left-bar {
   position: fixed;
   top: 0;
   bottom: 0;
-  width: 220px;
-  background: #eee;
+  width: @left-bar-width;
+  padding: 40px 0;
+  box-shadow: 0px 2px 8px #e3e2e2;
+  background: @color-white;
+  z-index: 2;
+
+  #brand-container {
+    margin-bottom: 34px;
+  }
+  #brand-logo {
+    width: 100%;
+    padding: 0 100px;
+    border-radius: 50%;
+  }
+  #desc {
+    padding: 0 @left-bar-inner-padding;
+    text-align: center;
+    font-size: 14px;
+    font-weight: bold;
+    margin-bottom: 0;
+  }
+
+  ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  li {
+    border-radius: @border-radius;
+    background: @color-white;
+    transition: background linear 0.2s;
+    margin-top: 8px;
+    padding: 14px @left-bar-inner-padding;
+    font-family: BlinkMacSystemFont;
+    font-size: 15px;
+    font-weight: 500;
+
+    &:hover {
+      cursor: pointer;
+      background: #eee;
+    }
+  }
 }
-#bottom-bar {
+#bottom-bar-container {
   position: fixed;
   bottom: 0;
   left: 0;
   right: 0;
-  height: 100px;
-  background: #eee;
+  height: @bottom-bar-height;
+  background: @color-white;
+  box-shadow: 2px 0 8px #e3e2e2;
 }
+#bottom-bar-wrapper {
+  padding-top: 20px;
+  padding-bottom: 20px;
+  padding-right: 80px;
+  padding-left: @right-container-left-padding;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  #action-button {
+    background-color: @color-orange;
+    height: 100%;
+    outline: 0;
+    border: 0;
+    border-radius: @border-radius;
+    padding: 14px 28px;
+    color: @color-white;
+    font-weight: bold;
+    font-size: 18px;
+
+    &:hover {
+      background-color: @color-dark-orange;
+    }
+  }
+
+  #skip-button {
+    color: @color-font-gray;
+    font-size: 15px;
+  }
+}
+
 #right-container {
-  padding-left: 240px;
-  padding-bottom: 120px;
+  @font-size: 19px;
+
+  padding-top: 70px;
+  padding-left: @right-container-left-padding;
+  padding-bottom: @right-container-bottom-padding;
+  max-width: 900px;
+
+  * {
+    margin: 0;
+    padding: 0;
+  }
+
+  section {
+    margin-top: 40px;
+  }
+
+  #contents {
+    margin-top: 70px;
+    min-height: 600px;
+  }
+  #scroll-container {
+    overflow-y: scroll;
+    max-height: 300px;
+
+    &:hover {
+      border: 1px solid @color-link;
+    }
+  }
+
+  .required-mark {
+    color: @color-orange;
+    margin-left: 4px;
+  }
+
+  h3 {
+    font-weight: lighter;
+    font-size: 23px;
+    margin-top: 6px;
+  }
+  h4 {
+    display: inline;
+    font-weight: 500;
+    font-size: 19px;
+  }
+  h5 {
+    margin-top: 14px;
+    font-size: 17px;
+    color: @color-font-gray;
+    font-weight: 300;
+  }
+
+  input,
+  textarea,
+  select,
+  #scroll-container {
+    border: 1px solid #dbdbdb;
+    border-radius: @border-radius;
+    margin-top: 9px;
+    font-size: @font-size;
+    width: 100%;
+    padding: 11px !important;
+    font-weight: lighter;
+    transition: border linear 0.2s;
+
+    &:active,
+    &:focus {
+      border: 1px solid @color-link;
+    }
+  }
+
+  .checkbox-row {
+    padding: 0 8px;
+    display: table;
+    width: 100%;
+    border-radius: @border-radius;
+
+    &:hover {
+      background-color: #eee;
+    }
+
+    input[type='checkbox'] {
+      display: table-cell;
+      margin-top: 0;
+      width: unset;
+
+      &:hover {
+        cursor: pointer;
+      }
+    }
+    label {
+      padding: 8px;
+      display: table-cell;
+      width: 100%;
+      height: 100%;
+      &:hover {
+        cursor: pointer;
+      }
+    }
+  }
 }
