@@ -67,10 +67,16 @@ export default {
   methods: {
     listenEventBus() {
       this.enableSaveButton()
+      this.disableSaveButton()
     },
     enableSaveButton() {
       EventBus.$on('enableSaveButton', () => {
         this.toggle.canSave = true
+      })
+    },
+    disableSaveButton() {
+      EventBus.$on('disableSaveButton', () => {
+        this.toggle.canSave = false
       })
     },
     onSaveButton() {

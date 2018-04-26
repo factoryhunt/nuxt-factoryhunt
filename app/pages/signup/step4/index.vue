@@ -6,18 +6,42 @@
     <div id="contents">
       <section>
         <h4>Logo</h4>
-        <dropzone 
+        <div class="dropzone-margin-top" id="logo-wrapper">
+          <dropzone 
+          id="logo-dropzone"
           class="dropzone"
-          placeholder="Click or drag image to this area (1MB MAX)"/>
+          placeholder="Click or drag image to this area (1MB MAX)"
+          width="200"
+          height="200"
+          maxFileSize="1"
+          :multiple="false"
+          @fileAdded="onLogoFileAdded"
+          @onError="onLogoFileError" />
+          <div 
+            id="logo-image-container"
+            v-show="value.logoImageFile.url">
+            <img 
+              id="logo-image"
+              :src="value.logoImageFile.url"
+              alt="logo-image">
+          </div>
+        </div>
           <h5>Logo image is recommended with square size.</h5>
       </section>
 
       <section>
         <h4>Cover Images</h4>
-        <dropzone 
-          class="dropzone"
-          placeholder="Click or drag image(s) to this area (Each 5MB MAX)"/>
-          <h5>Up to 8 images, Maximum file size is 5MB each.</h5>
+        <div class="dropzone-margin-top">
+          <dropzone 
+            id="cover-image-dropzone"
+            class="dropzone"
+            maxFileSize="4"
+            maxFileLength="8"
+            placeholder="Click or drag image(s) to this area (Each 3MB MAX)"
+            @fileAdded="onCoverImageFileAdded"
+            @onError="onCoverImageFileError"/>
+        </div>
+          <h5>Up to 8 images.</h5>
       </section>
     </div>
 
@@ -47,8 +71,8 @@ export default {
   data() {
     return {
       value: {
-        type: '',
-        businessTypes: []
+        logoImageFile: {},
+        coverImageFiles: []
       }
     }
   },
@@ -81,11 +105,24 @@ export default {
             reject(err)
           })
       })
+    },
+    onLogoFileAdded(files) {
+      if (!files.length) return
+
+      this.value.logoImageFile = files[0]
+    },
+    onLogoFileError(err) {
+      console.log('err', err.msg)
+    },
+    onCoverImageFileAdded(files) {
+      console.log('files', files)
+    },
+    onCoverImageFileError(err) {
+      console.log('err', err.msg)
     }
   },
   mounted() {
     this.listenEventBus()
-    console.log('userData', this.userData)
   }
 }
 </script>
@@ -94,7 +131,24 @@ export default {
 @import '~assets/css/index';
 @import '~assets/css/less/wizard/index';
 
-.dropzone {
-  margin-top: 9px !important;
+#logo-wrapper {
+  display: grid;
+  grid-template-columns: 50% 50%;
+}
+#logo-image-container {
+  display: flex;
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  overflow: hidden;
+  box-shadow: 0 0 10px @color-light-grey;
+  background-color: #fff;
+}
+#logo-image {
+  margin: auto !important;
+  width: auto !important;
+  height: auto !important;
+  max-width: 100% !important;
+  max-height: 100% !important;
 }
 </style>

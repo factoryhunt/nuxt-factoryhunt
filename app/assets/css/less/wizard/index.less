@@ -7,6 +7,7 @@
 @right-container-left-padding: 330px;
 @right-container-bottom-padding: 170px;
 @section-margin-top: 40px;
+@content-margin-top: 9px;
 
 .table {
   margin-top: @section-margin-top !important;
@@ -26,6 +27,12 @@
 #wizard-container {
   background: @color-white;
   position: relative;
+
+  padding: 0 30px;
+
+  @media (min-width: 744px) {
+    padding: 0;
+  }
 }
 #wizard-container__title {
   text-align: center;
@@ -92,6 +99,11 @@
   height: @bottom-bar-height;
   background: @color-white;
   box-shadow: 2px 0 8px #e3e2e2;
+  padding: 0 30px;
+
+  @media (min-width: 744px) {
+    padding: 0;
+  }
 }
 #bottom-bar-wrapper {
   padding-left: 0;
@@ -120,8 +132,8 @@
     font-weight: bold;
     font-size: 18px;
 
-    &:hover {
-      background-color: @color-dark-orange;
+    &:disabled {
+      opacity: 0.4;
     }
   }
 
@@ -152,9 +164,13 @@
     margin-top: @section-margin-top;
   }
 
+  .dropzone-margin-top {
+    margin-top: @content-margin-top;
+  }
+
   #contents {
     margin-top: 70px;
-    min-height: 600px;
+    min-height: 480px;
   }
   #scroll-container {
     overflow-y: scroll;
@@ -193,11 +209,11 @@
   #scroll-container {
     border: 1px solid #dbdbdb;
     border-radius: @border-radius;
-    margin-top: 9px;
+    margin-top: @content-margin-top;
     font-size: @font-size;
     width: 100%;
     padding: 11px !important;
-    font-weight: lighter;
+    font-weight: 300;
     transition: border linear 0.2s;
 
     &:active,

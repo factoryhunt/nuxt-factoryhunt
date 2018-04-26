@@ -1,12 +1,13 @@
 <template>
-  <div class="dropzone-container">
-    <label id="drop-label" for="drop-input">
-      {{placeholder}}</label>
+  <div :id="id" class="dropzone-container">
+    <label class="drop-label" for="drop-input">
+      {{placeholder}}
+    </label>
     <input
       id="drop-input"
       type="file"
       @change="fileAdded($event.target.files)"
-      multiple
+      :multiple="multiple"
       accept="image/jpeg, image/jpg, image/png"/>
   </div>
 </template>
@@ -15,25 +16,59 @@
 import { getFileURL, kilobyteToMegabyte } from '~/utils/fileReader'
 export default {
   props: {
+    id: {
+      type: String,
+      required: true
+    },
     placeholder: {
       type: String,
-      default: ''
+      default: 'Drop or drag image(s) to this area'
     },
     width: {
-      type: Number,
+      type: [Number, String],
       default: 0
     },
     height: {
-      type: Number,
+      type: [Number, String],
       default: 0
+    },
+    multiple: {
+      type: Boolean,
+      default: true
+    },
+    maxFileSize: {
+      type: String,
+      default: '1'
+    },
+    maxFileLength: {
+      type: String,
+      default: '10'
+    },
+    allowFileTypes: {
+      type: String,
+      default: ''
     }
   },
   methods: {
     initDropzone() {
-      const dropLabel = document.getElementById('drop-label')
+      const dropLabel = document.getElementById(this.id).children[0]
       dropLabel.addEventListener('dragover', this.fileDragHover, false)
       dropLabel.addEventListener('drop', this.fileSelectHandler, false)
       dropLabel.addEventListener('dragleave', this.fileDragLeave, false)
+
+      this.configDropzone()
+    },
+    configDropzone() {
+      const $dropzoneContainer = document.getElementById(this.id)
+
+      if (this.width) {
+        const width = `${this.width}px`
+        $dropzoneContainer.style.width = width
+      }
+      if (this.height) {
+        const height = `${this.height}px`
+        $dropzoneContainer.style.height = height
+      }
     },
     fileDragHover(e) {
       e.stopPropagation()
@@ -58,24 +93,37 @@ export default {
         let file = files[i]
         const fileFilter = /\/(jpg|jpeg|png)$/
 
+        // Over Max File Length
+        if (i + 1 > this.maxFileLength) {
+          this.onError({ msg: `Maximum file length is ${this.maxFileLength}.` })
+        }
+
         // Invalid Format
         if (!fileFilter.test(file.type)) {
+          this.onError({ msg: `Unaccpeted format. ${file.type}` })
         }
 
         // File size over
-        if (kilobyteToMegabyte(file.size) >= 7) {
+        if (kilobyteToMegabyte(file.size) >= this.maxFileSize) {
+          this.onError({ msg: `Maxium file size is each ${this.maxFileSize}MB.` })
         }
 
         // Approved
-        if (fileFilter.test(file.type) && kilobyteToMegabyte(file.size) < 7) {
-          file.document_name = file.name
-          file.document_url = await getFileURL(file)
-          file.document_size = file.size
-
-          // this.value.certifications.unshift(file)
-          // this.postImageToS3(file, i)
+        if (
+          fileFilter.test(file.type) &&
+          kilobyteToMegabyte(file.size) < this.maxFileSize &&
+          i + 1 <= this.maxFileLength
+        ) {
+          file.url = await getFileURL(file)
+          filteredFiles.push(file)
         }
       }
+
+      // return files to parent
+      this.$emit('fileAdded', filteredFiles)
+    },
+    onError(err) {
+      this.$emit('onError', err)
     }
   },
   mounted() {
@@ -83,7 +131,6 @@ export default {
   }
 }
 </script>
-
 
 <style lang="less" scoped>
 @import '~assets/css/index';
@@ -94,11 +141,13 @@ export default {
   min-height: 200px;
   border-radius: @border-radius;
 
-  #drop-label {
+  .drop-label {
     display: flex;
     justify-content: center;
     align-items: center;
     text-align: center;
+    padding: 11px;
+    font-size: 17px;
     min-height: 200px;
     background-color: #f3f3f3;
     border-radius: @border-radius;

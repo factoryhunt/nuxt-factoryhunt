@@ -7,8 +7,12 @@
       <section>
         <h4>Documents</h4>
         <dropzone 
+          id="certification-dropzone"
           class="dropzone"
-          placeholder="Click or drag image(s) to this area (1MB MAX)"/>
+          placeholder="Click or drag image(s) to this area (1MB MAX)"
+          maxFileSize="1"
+          @fileAdded="onFileAdded"
+          @onError="onFileError"/>
       </section>
     </div>
 
@@ -38,8 +42,7 @@ export default {
   data() {
     return {
       value: {
-        type: '',
-        businessTypes: []
+        files: []
       }
     }
   },
@@ -60,6 +63,15 @@ export default {
       EventBus.$on('onSkipThisStep', () => {
         location.href = '/dashboard'
       })
+    },
+    onFileAdded(files) {
+      if (!files.length) return
+
+      this.value.files = files
+      console.log('files', this.value.files)
+    },
+    onFileError(err) {
+      console.log('err', err)
     },
     updateInformation() {
       return new Promise((resolve, reject) => {
