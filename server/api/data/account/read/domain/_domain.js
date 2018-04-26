@@ -18,7 +18,7 @@ module.exports = async (req, res) => {
       isDeleted != 1`,
         (err, rows) => {
           if (err) reject(err)
-          if (!rows.length) reject({ msg: 'This account domain is not available.' })
+          if (!rows.length) resolve()
 
           resolve(rows[0])
         }

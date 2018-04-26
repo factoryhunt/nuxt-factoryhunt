@@ -147,446 +147,571 @@
 </template>
 
 <script>
-  import axios from '~/plugins/axios'
-  import pdflib from 'pdfjs-dist'
-  import '~/plugins/slick'
-  const { addComma } = require('~/utils/text')
-  export default {
-    scrollToTop: true,
-    layout: 'minify',
-    head () {
-      return {
-        title: `${this.product.product_name} - ${this.vendor.account_name}`,
-        meta: [
-          { hid: 'keywords', name: 'keywords', content: `${this.product.product_name}, ${this.vendor.account_name}, ${this.vendor.products}, factoryhunt, factory, hunt, factory hunt, quote, bulk, wholesale, supplier, factory hunt, online catalog, supplier directory, free website, international trade` },
-          { hid: 'description', name: 'description', content: `${this.product.product_description} | Factory Hunt` },
-          { hid: 'og-type', property: 'og:type', content: 'website' },
-          { hid: 'og-title', property: 'og:title', content: this.product.product_name },
-          { hid: 'og-description', property: 'og:description', content: `By ${this.vendor.account_name}` },
-          { hid: 'og-image', property: 'og:image', content: this.product.product_image_url_1 },
-          { hid: 'og-url', property: 'og:url', content: `factoryhunt.com/${this.domain}/${this.product.product_domain}` },
-          { hid: 'twitter-card', property: 'twitter:card', content: 'summary' },
-          { hid: 'twitter-title', property: 'twitter:title', content: `${this.product.product_name} - ${this.vendor.account_name} | Factory Hunt` },
-          { hid: 'twitter-description', property: 'twitter:description', content: `${this.product.product_description} | Factory Hunt` },
-          { hid: 'twitter-image', property: 'twitter:image', content: 'https://s3-us-west-1.amazonaws.com/factoryhunt.com/logo2.png' },
-          { hid: 'twitter-domain', property: 'twitter:domain', content: `https://www.factoryhunt.com/${this.product.product_domain}/${this.vendor.domain}` }
-        ],
-        link: [
-          { hid: 'canonical', rel: 'canonical', href: `https://www.factoryhunt.com/${this.vendor.domain}/${this.product.product_domain}` }
-        ]
-      }
-    },
-    async asyncData ({ query, params, redirect, error }) {
-      try {
-        const { data } = await axios.get(`/api/data/product/domain/${params.company}/${params.product}`)
-        const { data:products } = await axios.get(`/api/data/product/account_id/${data.account.account_id}/approved`)
-        
-        // // when the product is not available or removed
-        // if (JSON.stringify(data.product) === '{}') redirect('/404')
-
-        return {
-          queryInput: query.input || '',
-          vendor: data.account,
-          product: data.product,
-          products: products || []
+import axios from '~/plugins/axios'
+import pdflib from 'pdfjs-dist'
+import '~/plugins/slick'
+const { addComma } = require('~/utils/text')
+export default {
+  scrollToTop: true,
+  layout: 'minify',
+  head() {
+    return {
+      title: `${this.product.product_name} - ${this.vendor.account_name}`,
+      meta: [
+        {
+          hid: 'keywords',
+          name: 'keywords',
+          content: `${this.product.product_name}, ${this.vendor.account_name}, ${
+            this.vendor.products
+          }, factoryhunt, factory, hunt, factory hunt, quote, bulk, wholesale, supplier, factory hunt, online catalog, supplier directory, free website, international trade`
+        },
+        {
+          hid: 'description',
+          name: 'description',
+          content: `${this.product.product_description} | Factory Hunt`
+        },
+        { hid: 'og-type', property: 'og:type', content: 'website' },
+        { hid: 'og-title', property: 'og:title', content: this.product.product_name },
+        {
+          hid: 'og-description',
+          property: 'og:description',
+          content: `By ${this.vendor.account_name}`
+        },
+        { hid: 'og-image', property: 'og:image', content: this.product.product_image_url_1 },
+        {
+          hid: 'og-url',
+          property: 'og:url',
+          content: `factoryhunt.com/${this.domain}/${this.product.product_domain}`
+        },
+        { hid: 'twitter-card', property: 'twitter:card', content: 'summary' },
+        {
+          hid: 'twitter-title',
+          property: 'twitter:title',
+          content: `${this.product.product_name} - ${this.vendor.account_name} | Factory Hunt`
+        },
+        {
+          hid: 'twitter-description',
+          property: 'twitter:description',
+          content: `${this.product.product_description} | Factory Hunt`
+        },
+        {
+          hid: 'twitter-image',
+          property: 'twitter:image',
+          content: 'https://s3-us-west-1.amazonaws.com/factoryhunt.com/logo2.png'
+        },
+        {
+          hid: 'twitter-domain',
+          property: 'twitter:domain',
+          content: `https://www.factoryhunt.com/${this.product.product_domain}/${
+            this.vendor.domain
+          }`
         }
-      } catch (err) {
-        error({ statusCode: 404, message: 'Sorry, page does not exist.' })
-      }
-    },
-    data () {
-      return {
-        options: {} || { scale: 1 },
-        toggle: {
-          isLoaded: false,
-          isAuthLoaded: false,
-          isCatalogLoaded: false
+      ],
+      link: [
+        {
+          hid: 'canonical',
+          rel: 'canonical',
+          href: `https://www.factoryhunt.com/${this.vendor.domain}/${this.product.product_domain}`
         }
-      }
-    },
-    computed: {
-      getRelatedProductCount () {
-        let count = this.products.length - 1
-        return count > 0 ? count : 0
-      },
-      productDetailExists () {
-        if (this.product.product_origin) return true
-        if (this.product.minimum_order_quantity) return true
-        if (this.product.price) return true
-        if (this.product.material_type) return true
-        if (this.product.item_dimensions) return true
-        return false
-      },
-      getMOQ () {
-        return addComma(this.product.minimum_order_quantity)
-      }
-    },
-    methods: {
-      onSendInquiry () {
-        const pid = this.product.product_id
-        const aid = this.vendor.account_id
-        this.$router.push({
-          path: '/inquiry',
-          query: {
-            input: this.queryInput,
-            pid: pid,
-            aid: aid
-          }
-        })
-      },
-      activateJquery () {
-        $(document).ready(() => {
-          this.imageResize()
-          this.activateSlick()
-          this.renderPDF()
-          this.toggle.isLoaded = true
-
-          $(window).resize(() => {
-            this.imageResize()
-          })
-        })
-      },
-      renderPDF () {
-        if (!this.product.product_pdf_url) return
-        const url = this.product.product_pdf_url
-        pdflib.getDocument(url).then((pdf) => {
-          for (let i = 1; i <= pdf.numPages; i++) {
-            const canvas = document.createElement('canvas')
-            canvas.id = 'catalog'
-            document.getElementById('catalog-container').appendChild(canvas)
-            pdf.getPage(i).then((page) => {
-              this.renderPage(page, canvas)
-            })
-          }
-        })
-      },
-      renderPage (page, canvas) {
-        const viewport = page.getViewport(1.5)
-        const canvasContext = canvas.getContext('2d')
-        const renderContext = {
-          canvasContext,
-          viewport
-        }
-        canvas.height = viewport.height
-        canvas.width = viewport.width
-        canvas.style.width = '100%'
-        canvas.style.marginBottom = '-2px'
-        page.render(renderContext)
-        this.toggle.isCatalogLoaded = true
-      },
-      routeAccountProfilePage () {
-        const input = this.$route.query.q
-        const vendor = this.$route.params.company
-        if (input) {
-          location.href = `/${vendor}/?q=${input}`
-        } else {
-          location.href = `/${vendor}/`
-        }
-      },
-      routeProductProfilePage (index) {
-        const input = this.$route.query.q
-        const vendor = this.$route.params.company
-        const productDomain = this.products[index].product_domain
-        location.href = input ? `/${vendor}/${productDomain}?q=${input}` : `/${vendor}/${productDomain}`
-      },
-      activateSlick () {
-        $(document).ready(() => {
-          $('.product-image-container').slick({
-            infinite: true,
-            arrows: true,
-            dots: true,
-            draggable: true,
-            nextArrow: '<div id="right-arrow-container"><i id="right-arrow" class="fa fa-angle-right"></i></div>',
-            prevArrow: '<div id="left-arrow-container"><i id="left-arrow" class="fa fa-angle-left"></i></div>'
-          })
-          $('.item').css('outline', 'none')
-          $('.slick-dots').css('bottom', '4px')
-          $('.slick-dots li').css('margin', '0')
-          if (!this.product.product_image_url_2) {
-            $('.slick-dots li').css('display', 'none')
-          }
-
-          $('#right-arrow-container').css({
-            'font-size': '2rem',
-            'position': 'absolute',
-            'right': '0',
-            'top': '0',
-            'opacity': '0',
-            'width': '15%',
-            'height': '100%',
-            'z-index': '1',
-            'background': 'linear-gradient(to right, rgba(0,0,0,0), rgba(0,0,0,0.2))',
-            'cursor': 'pointer'
-          })
-          $('#right-arrow').css({
-            'position': 'absolute',
-            'right': '30%',
-            'top': '50%'
-          })
-          $('#left-arrow-container').css({
-            'font-size': '2rem',
-            'position': 'absolute',
-            'left': '0',
-            'top': '0',
-            'opacity': '0',
-            'width': '15%',
-            'height': '100%',
-            'z-index': '1',
-            'background': 'linear-gradient(to left, rgba(0,0,0,0), rgba(0,0,0,0.2))',
-            'cursor': 'pointer'
-          })
-          $('#left-arrow').css({
-            'position': 'absolute',
-            'left': '30%',
-            'top': '50%'
-          })
-
-          $('.product-image-container').hover(function () {
-            $('#right-arrow-container, #left-arrow-container').css({
-              'opacity': '0.7'
-            })
-          }, function () {
-            $('#right-arrow-container, #left-arrow-container').css('opacity', '0')
-          })
-        })
-      },
-      imageResize () {
-        $(document).ready(() => {
-          const $item = $('.product-image-container .item')
-          $item.css({
-            height: `${$item.width()}px`
-          })
-        })
-      }
-    },
-    mounted () {
-      this.activateJquery()
+      ]
     }
+  },
+  async asyncData({ query, params, redirect, error }) {
+    try {
+      const { data } = await axios.get(
+        `/api/data/product/domain/${params.company}/${params.product}`
+      )
+      const { data: products } = await axios.get(
+        `/api/data/product/account_id/${data.account.account_id}/approved`
+      )
+
+      if (!data.account) error({ statusCode: 404, message: 'Page not found' })
+
+      // // when the product is not available or removed
+      // if (JSON.stringify(data.product) === '{}') redirect('/404')
+
+      return {
+        queryInput: query.input || '',
+        vendor: data.account,
+        product: data.product,
+        products: products || []
+      }
+    } catch (err) {
+      error({ statusCode: 404, message: 'Sorry, page does not exist.' })
+    }
+  },
+  data() {
+    return {
+      options: {} || { scale: 1 },
+      toggle: {
+        isLoaded: false,
+        isAuthLoaded: false,
+        isCatalogLoaded: false
+      }
+    }
+  },
+  computed: {
+    getRelatedProductCount() {
+      let count = this.products.length - 1
+      return count > 0 ? count : 0
+    },
+    productDetailExists() {
+      if (this.product.product_origin) return true
+      if (this.product.minimum_order_quantity) return true
+      if (this.product.price) return true
+      if (this.product.material_type) return true
+      if (this.product.item_dimensions) return true
+      return false
+    },
+    getMOQ() {
+      return addComma(this.product.minimum_order_quantity)
+    }
+  },
+  methods: {
+    onSendInquiry() {
+      const pid = this.product.product_id
+      const aid = this.vendor.account_id
+      this.$router.push({
+        path: '/inquiry',
+        query: {
+          input: this.queryInput,
+          pid: pid,
+          aid: aid
+        }
+      })
+    },
+    activateJquery() {
+      $(document).ready(() => {
+        this.imageResize()
+        this.activateSlick()
+        this.renderPDF()
+        this.toggle.isLoaded = true
+
+        $(window).resize(() => {
+          this.imageResize()
+        })
+      })
+    },
+    renderPDF() {
+      if (!this.product.product_pdf_url) return
+      const url = this.product.product_pdf_url
+      pdflib.getDocument(url).then(pdf => {
+        for (let i = 1; i <= pdf.numPages; i++) {
+          const canvas = document.createElement('canvas')
+          canvas.id = 'catalog'
+          document.getElementById('catalog-container').appendChild(canvas)
+          pdf.getPage(i).then(page => {
+            this.renderPage(page, canvas)
+          })
+        }
+      })
+    },
+    renderPage(page, canvas) {
+      const viewport = page.getViewport(1.5)
+      const canvasContext = canvas.getContext('2d')
+      const renderContext = {
+        canvasContext,
+        viewport
+      }
+      canvas.height = viewport.height
+      canvas.width = viewport.width
+      canvas.style.width = '100%'
+      canvas.style.marginBottom = '-2px'
+      page.render(renderContext)
+      this.toggle.isCatalogLoaded = true
+    },
+    routeAccountProfilePage() {
+      const input = this.$route.query.q
+      const vendor = this.$route.params.company
+      if (input) {
+        location.href = `/${vendor}/?q=${input}`
+      } else {
+        location.href = `/${vendor}/`
+      }
+    },
+    routeProductProfilePage(index) {
+      const input = this.$route.query.q
+      const vendor = this.$route.params.company
+      const productDomain = this.products[index].product_domain
+      location.href = input
+        ? `/${vendor}/${productDomain}?q=${input}`
+        : `/${vendor}/${productDomain}`
+    },
+    activateSlick() {
+      $(document).ready(() => {
+        $('.product-image-container').slick({
+          infinite: true,
+          arrows: true,
+          dots: true,
+          draggable: true,
+          nextArrow:
+            '<div id="right-arrow-container"><i id="right-arrow" class="fa fa-angle-right"></i></div>',
+          prevArrow:
+            '<div id="left-arrow-container"><i id="left-arrow" class="fa fa-angle-left"></i></div>'
+        })
+        $('.item').css('outline', 'none')
+        $('.slick-dots').css('bottom', '4px')
+        $('.slick-dots li').css('margin', '0')
+        if (!this.product.product_image_url_2) {
+          $('.slick-dots li').css('display', 'none')
+        }
+
+        $('#right-arrow-container').css({
+          'font-size': '2rem',
+          position: 'absolute',
+          right: '0',
+          top: '0',
+          opacity: '0',
+          width: '15%',
+          height: '100%',
+          'z-index': '1',
+          background: 'linear-gradient(to right, rgba(0,0,0,0), rgba(0,0,0,0.2))',
+          cursor: 'pointer'
+        })
+        $('#right-arrow').css({
+          position: 'absolute',
+          right: '30%',
+          top: '50%'
+        })
+        $('#left-arrow-container').css({
+          'font-size': '2rem',
+          position: 'absolute',
+          left: '0',
+          top: '0',
+          opacity: '0',
+          width: '15%',
+          height: '100%',
+          'z-index': '1',
+          background: 'linear-gradient(to left, rgba(0,0,0,0), rgba(0,0,0,0.2))',
+          cursor: 'pointer'
+        })
+        $('#left-arrow').css({
+          position: 'absolute',
+          left: '30%',
+          top: '50%'
+        })
+
+        $('.product-image-container').hover(
+          function() {
+            $('#right-arrow-container, #left-arrow-container').css({
+              opacity: '0.7'
+            })
+          },
+          function() {
+            $('#right-arrow-container, #left-arrow-container').css('opacity', '0')
+          }
+        )
+      })
+    },
+    imageResize() {
+      $(document).ready(() => {
+        const $item = $('.product-image-container .item')
+        $item.css({
+          height: `${$item.width()}px`
+        })
+      })
+    }
+  },
+  mounted() {
+    this.activateJquery()
   }
+}
 </script>
 
 <style lang="less" scoped>
-  @import '~assets/css/index';
+@import '~assets/css/index';
 
-  textarea {
-    color: @color-font-black;
-    outline: none;
-    resize: none;
-    border: none;
-    padding: 0;
-    font-weight: @font-weight-thin;
-    font-size: @font-size-medium;
-    line-height: 1.5em;
-    overflow: hidden;
-  }
+textarea {
+  color: @color-font-black;
+  outline: none;
+  resize: none;
+  border: none;
+  padding: 0;
+  font-weight: @font-weight-thin;
+  font-size: @font-size-medium;
+  line-height: 1.5em;
+  overflow: hidden;
+}
 
-  .section-title {
-    font-size: @font-size-large;
-  }
+.section-title {
+  font-size: @font-size-large;
+}
 
-  .category-container {
-    margin-bottom: 20px;
-    color: @color-font-gray;
-    span {
-      font-weight: 400;
-    }
-    #angle {
-      padding: 0 7px;
-    }
-  }
-
-  #vendor-name {
+.category-container {
+  margin-bottom: 20px;
+  color: @color-font-gray;
+  span {
     font-weight: 400;
-    padding-right: 70px;
-    margin: 0;
   }
-
-  .vendor-logo-container {
-    float: right;
-    font-weight: @font-weight-thin;
-
-    img {
-      border: 2px solid @color-light-gray;
-      border-radius: 50%;
-      width: 56px;
-      height: 56px;
-    }
+  #angle {
+    padding: 0 7px;
   }
+}
 
-  #container {
+#vendor-name {
+  font-weight: 400;
+  padding-right: 70px;
+  margin: 0;
+}
+
+.vendor-logo-container {
+  float: right;
+  font-weight: @font-weight-thin;
+
+  img {
+    border: 2px solid @color-light-gray;
+    border-radius: 50%;
+    width: 56px;
+    height: 56px;
+  }
+}
+
+#container {
+  position: relative;
+  padding-top: 20px;
+
+  // Global
+  a {
+    cursor: pointer;
+  }
+  .each-container {
+    border-bottom: @border-light-grey;
+    padding-bottom: 1.6rem;
+  }
+  // End of Global
+
+  .left-container {
     position: relative;
-    padding-top: 20px;
 
-    // Global
-    a {
-      cursor: pointer;
+    // Header
+    .header-container {
+      .title {
+        margin-top: 0;
+        margin-bottom: 5px;
+        font-weight: 500;
+        line-height: 1.2;
+        font-size: 27px;
+        padding-right: 70px;
+      }
     }
-    .each-container {
-      border-bottom: @border-light-grey;
-      padding-bottom: 1.6rem;
-    }
-    // End of Global
 
-
-    .left-container {
+    // Product Image
+    .product-container {
       position: relative;
+      margin-top: 21px;
 
-      // Header
-      .header-container {
+      .product-image-container {
+        box-shadow: @box-shadow;
 
-        .title {
-          margin-top: 0;
-          margin-bottom: 5px;
-          font-weight: 500;
-          line-height: 1.2;
-          font-size: 27px;
-          padding-right: 70px;
+        .item {
+          width: 100%;
+          display: flex;
+
+          img {
+            width: auto !important;
+            height: auto !important;
+            margin: auto !important;
+            max-height: 100% !important;
+            max-width: 100% !important;
+          }
         }
       }
 
-      // Product Image
-      .product-container {
+      .quote {
+        font-size: 14px;
+        text-align: center;
+        margin: 16px 0;
+        color: @color-font-gray;
+      }
+      button {
+        width: 100%;
+        font-weight: 700;
+        font-size: 16px;
+      }
+    }
+
+    // Profile & Information
+    .information-container {
+      font-size: @font-size-medium;
+
+      .list-container {
         position: relative;
-        margin-top: 21px;
+        font-size: @font-size-medium;
+        line-height: 1.25;
+        padding-bottom: 16px;
 
-        .product-image-container {
-          box-shadow: @box-shadow;
+        &:last-child {
+          padding-bottom: 0;
+        }
 
-          .item {
-            width: 100%;
-            display: flex;
+        .left-contents {
+          position: relative;
+          font-weight: @font-weight-medium;
+        }
+        .right-contents {
+          font-weight: @font-weight-thin;
+          padding-left: 0;
+        }
+      }
+    }
+  }
+
+  // Intro
+  .introduction-container {
+    .introduction {
+      font-size: @font-size-medium;
+      font-weight: @font-weight-thin;
+    }
+  }
+
+  .catalog-container {
+    img {
+      width: 100%;
+    }
+  }
+
+  .related-product-container {
+    max-width: 1040px;
+    margin: 0 auto;
+    padding: 0;
+
+    .products-container {
+      outline: none;
+      padding-bottom: 1.6rem;
+
+      .title {
+        padding-left: 20px;
+        padding-right: 20px;
+      }
+      .product-wrapper {
+        .product-container {
+          cursor: pointer;
+          padding-bottom: 2rem;
+          padding-left: 20px;
+          padding-right: 20px;
+
+          .image-container {
+            position: relative;
+            box-shadow: 1px 1px 10px 1px #e4e4e4;
+
+            &::after {
+              content: '';
+              display: block;
+              padding-bottom: 100%;
+              position: relative;
+            }
+
+            .image-wrapper {
+              position: absolute;
+              display: flex;
+              width: 100%;
+              height: 100%;
+            }
 
             img {
               width: auto !important;
               height: auto !important;
               margin: auto !important;
-              max-height: 100% !important;
               max-width: 100% !important;
+              max-height: 100% !important;
+            }
+          }
+          .content-container {
+            .primary-category {
+              text-overflow: ellipsis;
+              overflow: hidden;
+              white-space: nowrap;
+              margin: 4px 0 0 0;
+              font-size: @font-size-extra-small;
+              font-weight: @font-weight-bold;
+              color: @color-font-gray;
+            }
+            .product-name {
+              margin: 0;
+              font-size: @font-size-medium;
+              font-weight: @font-weight-medium;
+            }
+            .star-container {
+              i {
+                font-size: @font-size-small;
+                color: @color-link;
+              }
             }
           }
         }
+      }
+    }
+  }
+}
 
-        .quote {
-          font-size: 14px;
-          text-align: center;
-          margin: 16px 0;
-          color: @color-font-gray;
-        }
-        button {
-          width: 100%;
-          font-weight:700;
-          font-size: 16px;
+@media (min-width: 744px) {
+  .vendor-logo-container {
+    #vendor-logo {
+      width: 64px;
+      height: 64px;
+    }
+  }
+
+  #container {
+    .left-container {
+      .header-container {
+        .title {
         }
       }
 
-      // Profile & Information
       .information-container {
-        font-size: @font-size-medium;
-
         .list-container {
           position: relative;
-          font-size:@font-size-medium;
-          line-height:1.25;
-          padding-bottom: 16px;
-
-          &:last-child {
-            padding-bottom: 0;
-          }
+          font-size: @font-size-medium;
+          line-height: 1.9em;
+          padding-bottom: 0;
 
           .left-contents {
-            position: relative;
+            position: absolute;
+            max-width: 140px;
             font-weight: @font-weight-medium;
           }
           .right-contents {
+            text-align: left;
+            padding-left: 150px;
             font-weight: @font-weight-thin;
-            padding-left: 0;
           }
         }
-      }
-    }
-
-    // Intro
-    .introduction-container {
-
-      .introduction {
-        font-size: @font-size-medium;
-        font-weight: @font-weight-thin;
-      }
-    }
-
-    .catalog-container {
-      img {
-        width: 100%;
       }
     }
 
     .related-product-container {
       max-width: 1040px;
       margin: 0 auto;
-      padding: 0;
+      padding: 0 24px;
 
       .products-container {
-        outline: none;
         padding-bottom: 1.6rem;
 
         .title {
-          padding-left: 20px;
-          padding-right: 20px;
+          padding-left: 6px;
+          padding-right: 6px;
         }
         .product-wrapper {
-
           .product-container {
-            cursor: pointer;
-            padding-bottom: 2rem;
-            padding-left: 20px;
-            padding-right: 20px;
+            display: inline-block;
+            vertical-align: top;
+            width: 50%;
+            padding-left: 6px;
+            padding-right: 6px;
 
             .image-container {
-              position: relative;
-              box-shadow: 1px 1px 10px 1px #e4e4e4;
-
-              &::after {
-                content: "";
-                display: block;
-                padding-bottom: 100%;
-                position: relative;
-              }
-
-              .image-wrapper {
-                position: absolute;
-                display: flex;
-                width: 100%;
-                height: 100%;
-              }
-
               img {
-                width: auto !important;
-                height: auto !important;
-                margin: auto !important;
-                max-width: 100% !important;
-                max-height: 100% !important;
               }
             }
             .content-container {
-
               .primary-category {
-                text-overflow: ellipsis;
-                overflow: hidden;
-                white-space: nowrap;
-                margin: 4px 0 0 0;
-                font-size: @font-size-extra-small;
-                font-weight: @font-weight-bold;
-                color: @color-font-gray;
               }
               .product-name {
                 margin: 0;
-                font-size: @font-size-medium;
-                font-weight: @font-weight-medium;
               }
               .star-container {
                 i {
-                  font-size: @font-size-small;
-                  color: @color-link;
                 }
               }
             }
@@ -595,142 +720,54 @@
       }
     }
   }
+}
+@media (min-width: 1128px) {
+  #container {
+    .left-container {
+      padding-right: 410px;
+      min-height: 440px;
 
-  @media ( min-width: 744px ) {
-
-    .vendor-logo-container {
-
-      #vendor-logo {
-        width: 64px;
-        height: 64px;
+      .product-container {
+        position: absolute;
+        margin-top: 0;
+        width: 340px;
+        top: 0;
+        right: 0;
       }
     }
 
-    #container {
+    .related-product-container {
+      max-width: 1060px;
+      margin: 0 auto;
+      padding: 0;
 
-      .left-container {
+      .products-container {
+        padding-bottom: 1.6rem;
 
-        .header-container {
-          .title {
-          }
+        .title {
+          padding-left: 10px;
+          padding-right: 10px;
         }
+        .product-wrapper {
+          position: relative;
 
-        .information-container {
-
-          .list-container {
-            position: relative;
-            font-size:@font-size-medium;
-            line-height: 1.9em;
-            padding-bottom: 0;
-
-            .left-contents {
-              position: absolute;
-              max-width: 140px;
-              font-weight: @font-weight-medium;
-            }
-            .right-contents {
-              text-align: left;
-              padding-left: 150px;
-              font-weight: @font-weight-thin;
-            }
-          }
-        }
-      }
-
-      .related-product-container {
-        max-width: 1040px;
-        margin: 0 auto;
-        padding: 0 24px;
-
-        .products-container {
-          padding-bottom: 1.6rem;
-
-          .title {
-            padding-left: 6px;
-            padding-right: 6px;
-          }
-          .product-wrapper {
-
-            .product-container {
-              display: inline-block;
-              vertical-align: top;
-              width: 50%;
-              padding-left: 6px;
-              padding-right: 6px;
-
-              .image-container {
-                img {
-                }
-              }
-              .content-container {
-                .primary-category {
-                }
-                .product-name {
-                  margin: 0;
-                }
-                .star-container {
-                  i {
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-  @media ( min-width: 1128px ) {
-
-    #container {
-
-      .left-container {
-        padding-right: 410px;
-        min-height: 440px;
-
-        .product-container {
-          position: absolute;
-          margin-top: 0;
-          width: 340px;
-          top: 0;
-          right: 0;
-        }
-
-
-      }
-
-      .related-product-container {
-        max-width: 1060px;
-        margin: 0 auto;
-        padding: 0;
-
-        .products-container {
-          padding-bottom: 1.6rem;
-
-          .title {
+          .product-container {
+            display: inline-block;
+            width: 25%;
             padding-left: 10px;
             padding-right: 10px;
-          }
-          .product-wrapper {
-            position: relative;
 
-            .product-container {
-              display: inline-block;
-              width: 25%;
-              padding-left: 10px;
-              padding-right: 10px;
-
-              .image-container {
-                img {
-                }
+            .image-container {
+              img {
               }
-              .content-container {
-                .primary-category {
-                }
-                .product-name {
-                }
-                .star-container {
-                  i {
-                  }
+            }
+            .content-container {
+              .primary-category {
+              }
+              .product-name {
+              }
+              .star-container {
+                i {
                 }
               }
             }
@@ -739,4 +776,5 @@
       }
     }
   }
+}
 </style>
