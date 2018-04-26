@@ -116,7 +116,8 @@ export default {
         $loader.removeClass().addClass('invisible')
         $signUpButton.css('display', 'inherit')
         alert(this.$t('signUp.signUpSuccess'))
-        this.$router.push('/dashboard')
+
+        location.href = '/signup/step1'
       } catch (err) {
         $loader.removeClass().addClass('invisible')
         $signUpButton.css('display', 'inherit')

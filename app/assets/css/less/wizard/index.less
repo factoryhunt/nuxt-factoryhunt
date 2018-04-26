@@ -6,12 +6,29 @@
 @bottom-bar-height: 100px;
 @right-container-left-padding: 330px;
 @right-container-bottom-padding: 170px;
+@section-margin-top: 40px;
+
+.table {
+  margin-top: @section-margin-top !important;
+  display: table !important;
+  width: 100%;
+}
+.table-cell {
+  display: table-cell !important;
+}
+.inline-block {
+  display: inline-block !important;
+}
+.float-left {
+  float: left !important;
+}
 
 #wizard-container {
   background: @color-white;
   position: relative;
 }
 #left-bar {
+  display: none;
   position: fixed;
   top: 0;
   bottom: 0;
@@ -21,20 +38,24 @@
   background: @color-white;
   z-index: 2;
 
+  @media (min-width: 744px) {
+    display: inherit;
+  }
+
   #brand-container {
     margin-bottom: 34px;
   }
   #brand-logo {
     width: 100%;
-    padding: 0 100px;
+    padding: 0 104px;
     border-radius: 50%;
   }
   #desc {
     padding: 0 @left-bar-inner-padding;
     text-align: center;
-    font-size: 14px;
-    font-weight: bold;
+    font-size: 20px;
     margin-bottom: 0;
+    margin-top: 12px;
   }
 
   ul {
@@ -45,16 +66,27 @@
   li {
     border-radius: @border-radius;
     background: @color-white;
-    transition: background linear 0.2s;
     margin-top: 8px;
-    padding: 14px @left-bar-inner-padding;
-    font-family: BlinkMacSystemFont;
     font-size: 15px;
     font-weight: 500;
 
-    &:hover {
-      cursor: pointer;
-      background: #eee;
+    a {
+      display: block;
+      font-family: BlinkMacSystemFont;
+      color: @color-font-gray;
+      padding: 14px @left-bar-inner-padding;
+      transition: background linear 0.2s;
+      text-decoration: none;
+
+      &.highlighted {
+        font-weight: 700;
+        font-size: 16px;
+        color: @color-font-base;
+      }
+      &:hover {
+        cursor: pointer;
+        background: #eee;
+      }
     }
   }
 }
@@ -68,15 +100,20 @@
   box-shadow: 2px 0 8px #e3e2e2;
 }
 #bottom-bar-wrapper {
+  padding-left: 0;
   padding-top: 20px;
   padding-bottom: 20px;
   padding-right: 80px;
-  padding-left: @right-container-left-padding;
+
   width: 100%;
   height: 100%;
   display: flex;
   justify-content: space-between;
   align-items: center;
+
+  @media (min-width: 744px) {
+    padding-left: @right-container-left-padding;
+  }
 
   #action-button {
     background-color: @color-orange;
@@ -103,10 +140,14 @@
 #right-container {
   @font-size: 19px;
 
+  padding-left: 0;
   padding-top: 70px;
-  padding-left: @right-container-left-padding;
   padding-bottom: @right-container-bottom-padding;
   max-width: 900px;
+
+  @media (min-width: 744px) {
+    padding-left: @right-container-left-padding;
+  }
 
   * {
     margin: 0;
@@ -114,7 +155,7 @@
   }
 
   section {
-    margin-top: 40px;
+    margin-top: @section-margin-top;
   }
 
   #contents {
@@ -130,23 +171,31 @@
     }
   }
 
-  .required-mark {
-    color: @color-orange;
-    margin-left: 4px;
+  #caption-container {
+    font-size: 14px;
+    color: @color-font-gray;
+    border-top: 1px solid @color-lightest-grey;
+    margin-top: 50px;
+    padding-top: 8px;
+  }
+
+  .section-margin {
+    margin-top: 70px;
   }
 
   h3 {
-    font-weight: lighter;
+    font-weight: 300;
     font-size: 23px;
     margin-top: 6px;
   }
   h4 {
-    display: inline;
+    // display: inline;
     font-weight: 500;
     font-size: 19px;
+    white-space: nowrap;
   }
   h5 {
-    margin-top: 14px;
+    margin-top: 10px;
     font-size: 17px;
     color: @color-font-gray;
     font-weight: 300;
@@ -198,6 +247,23 @@
       &:hover {
         cursor: pointer;
       }
+      &.disabled {
+        text-decoration: line-through;
+      }
+    }
+  }
+
+  .help-button {
+    float: right;
+    display: flex;
+    vertical-align: middle;
+    align-items: center;
+    font-size: 13px;
+    font-weight: 500;
+    color: @color-link;
+
+    &:hover {
+      cursor: help;
     }
   }
 }
