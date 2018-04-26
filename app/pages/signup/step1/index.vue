@@ -19,10 +19,14 @@
       </section>
 
       <div v-show="value.userType">
-        <section>
+        <section v-show="value.userType != 'buyer'">
           <h4>What is your business type?<required-icon/></h4>
           <div id="scroll-container">
-            <div class="checkbox-row" v-for="(businessType, index) in businessTypes" :key="index">
+            <div 
+              class="checkbox-row" 
+              v-for="(businessType, index) in businessTypes"
+              :key="index"
+              v-show="canDisplayBuyingOffice(businessType.value)">
               <input
                 type="checkbox"
                 :id="businessType.value"
@@ -31,7 +35,6 @@
                 :disabled="businessType.value === 'Buying Office'"
                 @change="businessTypeUpdated"/>
               <label 
-                :class="!isUserBuyer && businessType.value === 'Buying Office' ? 'disabled': ''"
                 :for="businessType.value">
                 {{businessType.value}}
               </label>
@@ -64,7 +67,10 @@
 
         <section>
           <h4>Company Website</h4>
-          <input type="text" placeholder="e.g www.yourcompany.com">
+          <dl>
+            <dt>factoryhunt.com/</dt>
+            <dl><input class="table-cell" type="text" placeholder="e.g www.yourcompany.com"></dl>
+          </dl>
         </section>
 
         <section>
@@ -72,8 +78,11 @@
           <textarea id="short-description" rows="9"></textarea>
         </section>
       </div>
-      
     </div>
+
+    <!-- Bottom Caption -->
+    <footer-caption 
+      v-show="value.userType"/>
 
   </div>
 </template>
@@ -82,12 +91,14 @@
 import axios from '~/plugins/axios'
 import business_type from '~/assets/models/business_type.json'
 import RequiredIcon from '~/components/Icons/Required'
+import FooterCaption from '../components/FooterCaption'
 import { mapGetters } from 'vuex'
 import { EventBus } from '~/eventBus'
 export default {
   layout: 'wizard',
   components: {
-    RequiredIcon
+    RequiredIcon,
+    FooterCaption
   },
   head() {
     return {
@@ -124,6 +135,9 @@ export default {
     },
     businessTypeUpdated() {
       if (this.value.businessTypes.length) EventBus.$emit('enableSaveButton')
+    },
+    canDisplayBuyingOffice(type) {
+      return !(this.value.userType === 'supplier' && type === 'Buying Office')
     },
     listenEventBus() {
       this.listenSaveButton()

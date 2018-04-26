@@ -1,59 +1,15 @@
 <template>
   <div>
     <h1>Certification & Awards</h1>
-    <h3>In this step, we will help you to fill in your company information to connect your potential target easier.</h3>
+    <h3>Verify your company by uploading certifications.</h3>
 
     <div id="contents">
-      <!-- Buyer or Supplier -> Business Type -->
       <section>
-        <h4>Are you a buyer or supplier?</h4>
-        <select v-model="value.type">
-          <option value="" disabled>Select</option>
-          <option value="Buyer">Buyer</option>
-          <option value="Supplier">Supplier</option>
-          <option value="Buyer & Supplier">Buyer & Supplier</option>
-        </select>
+        <h4>Documents</h4>
+        <dropzone 
+          class="dropzone"
+          placeholder="Click or drag image(s) to this area (1MB MAX)"/>
       </section>
-
-      <div v-show="value.type">
-        <section>
-          <h4>Business Type</h4>
-          <span class="required-mark">*</span>
-          <div id="scroll-container">
-            <div class="checkbox-row" v-for="(businessType, index) in businessTypes" :key="index">
-              <input
-                type="checkbox"
-                :id="businessType.value"
-                :value="businessType.value"
-                v-model="value.businessTypes"
-                @change="businessTypeUpdated"/>
-              <label 
-                :for="businessType.value">
-                {{businessType.value}}
-              </label>
-            </div>
-          </div>
-          <h5>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Provident aperiam soluta eaque fuga inventore modi neque itaque laboriosam, sunt ad deserunt quos exercitationem est perferendis voluptas. Laboriosam ullam debitis eius?</h5>
-        </section>
-
-        <section>
-          <h4>Factory Hunt Domain</h4>
-          <span class="required-mark">*</span>
-          <input type="text">
-          <h5>Your website will be https://www.factoryhunt.com/sample</h5>
-        </section>
-
-        <section>
-          <h4>Website</h4>
-          <input type="text" placeholder="www.yourcompany.com">
-        </section>
-
-        <section>
-          <h4>Company Description</h4>
-          <textarea id="short-description" rows="9"></textarea>
-        </section>
-      </div>
-      
     </div>
 
   </div>
@@ -61,22 +17,26 @@
 
 <script>
 import axios from '~/plugins/axios'
-import business_type from '~/assets/models/business_type.json'
+import Dropzone from '~/components/Dropzone'
+import RequiredIcon from '~/components/Icons/Required'
 import { mapGetters } from 'vuex'
 import { EventBus } from '~/eventBus'
 export default {
   layout: 'wizard',
+  components: {
+    Dropzone,
+    RequiredIcon
+  },
   head() {
     return {
       title: 'Certification & Awards',
       link: [
-        { hid: 'canonical', rel: 'canonical', href: `https://www.factoryhunt.com/signup/step5` }
+        { hid: 'canonical', rel: 'canonical', href: `https://www.factoryhunt.com/signup/step4` }
       ]
     }
   },
   data() {
     return {
-      businessTypes: business_type,
       value: {
         type: '',
         businessTypes: []
@@ -87,9 +47,6 @@ export default {
     userData: 'auth/GET_USER'
   }),
   methods: {
-    businessTypeUpdated() {
-      if (this.value.businessTypes.length) EventBus.$emit('enableSaveButton')
-    },
     listenEventBus() {
       this.listenSaveButton()
       this.listenSkipThisStep()
@@ -127,4 +84,10 @@ export default {
 <style lang="less" scoped>
 @import '~assets/css/index';
 @import '~assets/css/less/wizard/index';
+#contents {
+  min-height: 0;
+}
+.dropzone {
+  margin-top: 9px !important;
+}
 </style>

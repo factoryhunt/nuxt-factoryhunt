@@ -5,14 +5,8 @@
     <div id="wizard-container">
       <!-- Left Fixed Bar -->
       <div id="left-bar">
-        <div id="brand-container">
-          <img 
-            id="brand-logo"
-            src="~assets/img/logo_orange_small.png" 
-            alt="brand-logo"/>
-          <p 
-            id="desc">Factory Hunt<br>Sign Up Wizard</p>
-        </div>
+        <brand/>
+        <p id="wizard-container__title">Submit Information</p>
         <ul>
           <li><a id="nav-menu-1" href="/signup/step1">Basic Company Information</a></li>
           <li><a id="nav-menu-2" href="/signup/step2">Contacts & Address</a></li>
@@ -25,10 +19,6 @@
       <!-- Right Scrollable Bar -->
       <div id="right-container">
         <nuxt/>
-
-        <div id="caption-container">
-          <p><required-icon/> is required field.</p>
-        </div>
       </div>
     </div>
 
@@ -51,6 +41,7 @@
 
 <script>
 import TopAlertBar from '~/components/Alert/TopAlertBar'
+import Brand from '~/components/Brand'
 import RequiredIcon from '~/components/Icons/Required'
 import { EventBus } from '~/eventBus'
 export default {
@@ -62,6 +53,7 @@ export default {
   },
   components: {
     TopAlertBar,
+    Brand,
     RequiredIcon
   },
   data() {

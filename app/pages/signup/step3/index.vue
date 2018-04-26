@@ -153,6 +153,8 @@
       </div>
 
     </div>
+    <!-- Bottom Caption -->
+    <footer-caption/>
 
   </div>
 </template>
@@ -161,13 +163,15 @@
 import axios from '~/plugins/axios'
 import business_type from '~/assets/models/business_type.json'
 import categories from '~/assets/models/categories.json'
+import FooterCaption from '../components/FooterCaption'
 import RequiredIcon from '~/components/Icons/Required'
 import { mapGetters } from 'vuex'
 import { EventBus } from '~/eventBus'
 export default {
   layout: 'wizard',
   components: {
-    RequiredIcon
+    RequiredIcon,
+    FooterCaption
   },
   head() {
     return {

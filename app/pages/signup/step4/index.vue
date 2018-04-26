@@ -6,14 +6,19 @@
     <div id="contents">
       <section>
         <h4>Logo</h4>
-        <h5>Squared image size is recommended.</h5>
+        <dropzone 
+          class="dropzone"
+          placeholder="Click or drag image to this area (1MB MAX)"/>
+          <h5>Logo image is recommended with square size.</h5>
       </section>
 
       <section>
         <h4>Cover Images</h4>
-        <h5>Up to 8 images, and maximum file size is 5MB each.</h5>
+        <dropzone 
+          class="dropzone"
+          placeholder="Click or drag image(s) to this area (Each 5MB MAX)"/>
+          <h5>Up to 8 images, Maximum file size is 5MB each.</h5>
       </section>
-      
     </div>
 
   </div>
@@ -21,11 +26,16 @@
 
 <script>
 import axios from '~/plugins/axios'
-import business_type from '~/assets/models/business_type.json'
+import Dropzone from '~/components/Dropzone'
+import RequiredIcon from '~/components/Icons/Required'
 import { mapGetters } from 'vuex'
 import { EventBus } from '~/eventBus'
 export default {
   layout: 'wizard',
+  components: {
+    Dropzone,
+    RequiredIcon
+  },
   head() {
     return {
       title: 'Brand Images',
@@ -36,7 +46,6 @@ export default {
   },
   data() {
     return {
-      businessTypes: business_type,
       value: {
         type: '',
         businessTypes: []
@@ -47,9 +56,6 @@ export default {
     userData: 'auth/GET_USER'
   }),
   methods: {
-    businessTypeUpdated() {
-      if (this.value.businessTypes.length) EventBus.$emit('enableSaveButton')
-    },
     listenEventBus() {
       this.listenSaveButton()
       this.listenSkipThisStep()
@@ -87,4 +93,8 @@ export default {
 <style lang="less" scoped>
 @import '~assets/css/index';
 @import '~assets/css/less/wizard/index';
+
+.dropzone {
+  margin-top: 9px !important;
+}
 </style>
