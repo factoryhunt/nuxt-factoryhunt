@@ -1,7 +1,22 @@
 <template>
   <div :id="id" class="dropzone-container">
     <label class="drop-label" for="drop-input">
-      {{placeholder}}
+      <p v-show="!value.files.length">{{placeholder}}</p>
+
+      <!-- images -->
+      <div 
+        class="image-container"
+        v-for="(file, i) in value.files" 
+        :key="i">
+        <div class="image-wrapper">
+          <img id="file-image" :src="file.url">
+        </div>
+        <img 
+          id="remove-button" 
+          @click="onRemoveFile(i)"
+          src="~assets/icons/cancel.svg">
+      </div>
+
     </label>
     <input
       id="drop-input"
@@ -32,6 +47,14 @@ export default {
       type: [Number, String],
       default: 0
     },
+    imageWidth: {
+      type: [Number, String],
+      default: '100%'
+    },
+    imageHeight: {
+      type: [Number, String],
+      default: '100%'
+    },
     multiple: {
       type: Boolean,
       default: true
@@ -47,6 +70,13 @@ export default {
     allowFileTypes: {
       type: String,
       default: ''
+    }
+  },
+  data() {
+    return {
+      value: {
+        files: []
+      }
     }
   },
   methods: {
@@ -94,7 +124,7 @@ export default {
         const fileFilter = /\/(jpg|jpeg|png)$/
 
         // Over Max File Length
-        if (i + 1 > this.maxFileLength) {
+        if (this.value.files.length >= this.maxFileLength) {
           this.onError({ msg: `Maximum file length is ${this.maxFileLength}.` })
         }
 
@@ -112,15 +142,35 @@ export default {
         if (
           fileFilter.test(file.type) &&
           kilobyteToMegabyte(file.size) < this.maxFileSize &&
-          i + 1 <= this.maxFileLength
+          this.value.files.length < this.maxFileLength
         ) {
           file.url = await getFileURL(file)
+
+          this.value.files.push(file)
           filteredFiles.push(file)
+
+          this.renderImageContainer(this.value.files.length)
         }
       }
 
       // return files to parent
       this.$emit('fileAdded', filteredFiles)
+    },
+    renderImageContainer(index) {
+      if (!this.imageWidth) return
+      console.log('index', index)
+      console.log(this.imageWidth)
+      const $dropzone = document.getElementById(this.id)
+      const $label = $dropzone.children[0]
+      this.$nextTick(() => {
+        const $imageContainer = $label.children[index]
+        setTimeout(() => {
+          $imageContainer.style.width = this.imageWidth
+        }, 100)
+      })
+    },
+    onRemoveFile(index) {
+      this.value.files.splice(index, 1)
     },
     onError(err) {
       this.$emit('onError', err)
@@ -142,10 +192,10 @@ export default {
   border-radius: @border-radius;
 
   .drop-label {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
+    position: relative;
+    display: block;
+    width: 100%;
+    height: 100%;
     padding: 11px;
     font-size: 17px;
     min-height: 200px;
@@ -157,6 +207,62 @@ export default {
     &:hover {
       cursor: pointer;
       border-color: @color-link;
+    }
+  }
+
+  .image-container {
+    position: relative;
+    display: inline-block;
+    width: 1%;
+    transition: width ease-in 0.2s;
+    margin: 0 4px;
+
+    &:hover {
+      #remove-button {
+        opacity: 1;
+      }
+    }
+
+    &::after {
+      content: '';
+      display: block;
+      padding-bottom: 100%;
+      position: relative;
+    }
+    .image-wrapper {
+      position: absolute;
+      background-color: @color-white;
+      border-radius: @border-radius;
+      display: flex;
+      width: 100%;
+      height: 100%;
+      padding: 7px;
+    }
+    #file-image {
+      width: auto !important;
+      height: auto !important;
+      max-width: 100% !important;
+      max-height: 100% !important;
+      margin: auto !important;
+    }
+  }
+
+  #remove-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 28px;
+    height: 28px;
+    padding: 5px;
+    border-radius: 50%;
+    background-color: @color-white;
+    box-shadow: 0 0 5px @color-light-gray;
+    transition: all linear 0.2s;
+    opacity: 0;
+    z-index: 2;
+
+    &:hover {
+      box-shadow: 0 0 5px 2px @color-light-gray;
     }
   }
 }

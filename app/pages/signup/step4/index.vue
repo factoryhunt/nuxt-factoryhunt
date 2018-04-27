@@ -14,17 +14,11 @@
           width="200"
           height="200"
           maxFileSize="1"
+          maxFileLength="1"
+          columnMargin="3px"
           :multiple="false"
           @fileAdded="onLogoFileAdded"
-          @onError="onLogoFileError" />
-          <div 
-            id="logo-image-container"
-            v-show="value.logoImageFile.url">
-            <img 
-              id="logo-image"
-              :src="value.logoImageFile.url"
-              alt="logo-image">
-          </div>
+          @onError="onLogoFileError"/>
         </div>
           <h5>Logo image is recommended with square size.</h5>
       </section>
@@ -37,6 +31,7 @@
             class="dropzone"
             maxFileSize="4"
             maxFileLength="8"
+            imageWidth="31%"
             placeholder="Click or drag image(s) to this area (Each 3MB MAX)"
             @fileAdded="onCoverImageFileAdded"
             @onError="onCoverImageFileError"/>
@@ -131,10 +126,6 @@ export default {
 @import '~assets/css/index';
 @import '~assets/css/less/wizard/index';
 
-#logo-wrapper {
-  display: grid;
-  grid-template-columns: 50% 50%;
-}
 #logo-image-container {
   display: flex;
   width: 200px;
