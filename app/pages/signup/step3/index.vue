@@ -8,16 +8,16 @@
       <section>
         <h4>What is your industries?<required-icon/></h4>
         <div id="scroll-container">
-          <div class="checkbox-row" v-for="(businessType, index) in businessTypes" :key="index">
+          <div class="checkbox-row" v-for="(category, index) in categories" :key="index">
             <input
               type="checkbox"
-              :id="businessType.value"
-              :value="businessType.value"
-              v-model="value.businessTypes"
-              @change="businessTypeUpdated"/>
+              :id="category.name"
+              :value="category.name"
+              v-model="value.industries"
+              @change="industryUpdated"/>
             <label 
-              :for="businessType.value">
-              {{businessType.value}}
+              :for="category.name">
+              {{category.name}}
             </label>
           </div>
         </div>
@@ -48,15 +48,27 @@
         <!-- Established Year -->
         <section id="established-year-section" class="table-cell">
           <h4>Established Year</h4>
-          <select class="float-left">
+          <select 
+            class="float-left"
+            v-model="value.establishedYear">
             <option value="" disabled>Select</option>
+            <option 
+              v-for="(year, index) in establishedYear" 
+              :key="index" 
+              :value="year.year">{{year.year}}</option>
           </select>
         </section>
+
         <!-- Total Employees -->
         <section id="total-employees-section" class="table-cell">
           <h4>Total Employees</h4>
-          <select>
+          <select
+           v-model="value.numberOfEmployees">
             <option value="" disabled>Select</option>
+            <option 
+              v-for="(employee, index) in numberOfEmployees"
+              :key="index"
+              :value="employee.value">{{employee.value}}</option>
           </select>
         </section>
       </div>
@@ -70,8 +82,14 @@
         <!-- Total Annual Revenue -->
         <section id="total-annual-revenue-section" class="table-cell">
           <h4>Total Annual Revenue</h4>
-          <select class="table-cell float-left">
+          <select 
+            class="table-cell float-left"
+            v-model="value.totalAnnualRevenue">
             <option value="" disabled>Select</option>
+            <option
+              v-for="(revenue, index) in totalAnnualRevenue"
+              :key="index"
+              :value="revenue.value">{{revenue.value}}</option>
           </select>
         </section>
       </div>
@@ -82,16 +100,19 @@
         <section>
           <h4>Accepted Payment Currency</h4>
           <div id="scroll-container">
-            <div class="checkbox-row" v-for="(businessType, index) in businessTypes" :key="index">
+            <div 
+              class="checkbox-row" 
+              v-for="(currency, index) in acceptedPaymentCurrency" 
+              :key="index">
               <input
                 type="checkbox"
-                :id="businessType.value"
-                :value="businessType.value"
-                v-model="value.businessTypes"
+                :id="currency.value"
+                :value="currency.value"
+                v-model="value.acceptedPaymentCurrency"
                 @change="businessTypeUpdated"/>
               <label 
-                :for="businessType.value">
-                {{businessType.value}}
+                :for="currency.value">
+                {{currency.value}}
               </label>
             </div>
           </div>
@@ -100,16 +121,19 @@
         <section>
           <h4>Accepted Payment Type</h4>
           <div id="scroll-container">
-            <div class="checkbox-row" v-for="(businessType, index) in businessTypes" :key="index">
+            <div 
+              class="checkbox-row" 
+              v-for="(paymentType, index) in acceptedPaymentType" 
+              :key="index">
               <input
                 type="checkbox"
-                :id="businessType.value"
-                :value="businessType.value"
-                v-model="value.businessTypes"
+                :id="paymentType.value"
+                :value="paymentType.value"
+                v-model="value.acceptedPaymentType"
                 @change="businessTypeUpdated"/>
               <label 
-                :for="businessType.value">
-                {{businessType.value}}
+                :for="paymentType.value">
+                {{paymentType.value}}
               </label>
             </div>
           </div>
@@ -118,16 +142,19 @@
         <section>
           <h4>Language Spoken</h4>
           <div id="scroll-container">
-            <div class="checkbox-row" v-for="(businessType, index) in businessTypes" :key="index">
+            <div 
+              class="checkbox-row" 
+                v-for="(language, index) in languageSpoken" 
+                :key="index">
               <input
                 type="checkbox"
-                :id="businessType.value"
-                :value="businessType.value"
-                v-model="value.businessTypes"
+                :id="language.value"
+                :value="language.value"
+                v-model="value.lanuageSpoken"
                 @change="businessTypeUpdated"/>
               <label 
-                :for="businessType.value">
-                {{businessType.value}}
+                :for="language.value">
+                {{language.value}}
               </label>
             </div>
           </div>
@@ -136,16 +163,19 @@
         <section>
           <h4>Accepted Delivery Terms</h4>
           <div id="scroll-container">
-            <div class="checkbox-row" v-for="(businessType, index) in businessTypes" :key="index">
+            <div 
+              class="checkbox-row" 
+              v-for="(deliveryTerm, index) in acceptedDeliveryTerms" 
+              :key="index">
               <input
                 type="checkbox"
-                :id="businessType.value"
-                :value="businessType.value"
-                v-model="value.businessTypes"
+                :id="deliveryTerm.value"
+                :value="deliveryTerm.value"
+                v-model="value.acceptedDeliveryTerms"
                 @change="businessTypeUpdated"/>
               <label 
-                :for="businessType.value">
-                {{businessType.value}}
+                :for="deliveryTerm.value">
+                {{deliveryTerm.value}}
               </label>
             </div>
           </div>
@@ -163,6 +193,14 @@
 import axios from '~/plugins/axios'
 import business_type from '~/assets/models/business_type.json'
 import categories from '~/assets/models/categories.json'
+import established_year from '~/assets/models/established_year.json'
+import number_of_employees from '~/assets/models/number_of_employees.json'
+import total_annual_revenue from '~/assets/models/total_annual_revenue.json'
+import accepted_delivery_terms from '~/assets/models/accepted_delivery_terms.json'
+import accepted_payment_currency from '~/assets/models/accepted_payment_currency.json'
+import language_spoken from '~/assets/models/language_spoken.json'
+import accepted_payment_type from '~/assets/models/accepted_payment_type.json'
+
 import FooterCaption from '../components/FooterCaption'
 import RequiredIcon from '~/components/Icons/Required'
 import { mapGetters } from 'vuex'
@@ -185,9 +223,23 @@ export default {
     return {
       businessTypes: business_type,
       categories: categories,
+      establishedYear: established_year,
+      numberOfEmployees: number_of_employees,
+      totalAnnualRevenue: total_annual_revenue,
+      acceptedDeliveryTerms: accepted_delivery_terms,
+      acceptedPaymentCurrency: accepted_payment_currency,
+      languageSpoken: language_spoken,
+      acceptedPaymentType: accepted_payment_type,
       value: {
-        categories: [],
-        businessTypes: []
+        industries: [],
+        businessTypes: [],
+        establishedYear: '',
+        numberOfEmployees: '',
+        totalAnnualRevenue: '',
+        acceptedDeliveryTerms: [],
+        acceptedPaymentCurrency: [],
+        languageSpoken: '',
+        acceptedPaymentType: []
       }
     }
   },
@@ -197,8 +249,9 @@ export default {
     })
   },
   methods: {
-    businessTypeUpdated() {
-      if (this.value.businessTypes.length) EventBus.$emit('enableSaveButton')
+    businessTypeUpdated() {},
+    industryUpdated() {
+      if (this.value.industries.length) EventBus.$emit('enableSaveButton')
     },
     listenEventBus() {
       this.listenSaveButton()

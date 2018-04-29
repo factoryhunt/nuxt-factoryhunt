@@ -1,25 +1,30 @@
 <template>
-  <div :id="id" class="dropzone-container">
-    <label class="drop-label" for="drop-input">
-      <p v-show="!value.files.length">{{placeholder}}</p>
-
-      <!-- images -->
-      <div 
-        class="image-container"
-        v-for="(file, i) in value.files" 
-        :key="i">
-        <div class="image-wrapper">
-          <img id="file-image" :src="file.url">
+  <div :id="id" class="dropzone-container" v-show="toggle.isMounted">
+    <label class="drop-label" :for="`${id}-input`">
+      <div class="dropzone-container__wrapper">
+        <!-- images -->
+        <div 
+          class="image-container"
+          v-for="(file, i) in value.files" 
+          :key="i">
+          <div class="image-wrapper">
+            <img id="file-image" :src="file.url">
+          </div>
+          <img 
+            id="remove-button" 
+            @click="onRemoveFile($event, i)"
+            src="~assets/icons/cancel.svg">
         </div>
-        <img 
-          id="remove-button" 
-          @click="onRemoveFile(i)"
-          src="~assets/icons/cancel.svg">
       </div>
-
+      <!-- Placeholder -->
+      <div
+        class="placeholder-container"
+        v-show="!value.files.length">
+        <p>{{placeholder}}</p>
+      </div>
     </label>
     <input
-      id="drop-input"
+      :id="`${id}-input`"
       type="file"
       @change="fileAdded($event.target.files)"
       :multiple="multiple"
@@ -40,20 +45,24 @@ export default {
       default: 'Drop or drag image(s) to this area'
     },
     width: {
-      type: [Number, String],
-      default: 0
+      type: String,
+      default: '100%'
     },
     height: {
-      type: [Number, String],
-      default: 0
+      type: String,
+      default: '100%'
     },
     imageWidth: {
-      type: [Number, String],
+      type: String,
       default: '100%'
     },
     imageHeight: {
-      type: [Number, String],
+      type: String,
       default: '100%'
+    },
+    margin: {
+      type: String,
+      default: '3px'
     },
     multiple: {
       type: Boolean,
@@ -65,7 +74,7 @@ export default {
     },
     maxFileLength: {
       type: String,
-      default: '10'
+      default: '30'
     },
     allowFileTypes: {
       type: String,
@@ -76,6 +85,9 @@ export default {
     return {
       value: {
         files: []
+      },
+      toggle: {
+        isMounted: false
       }
     }
   },
@@ -87,17 +99,16 @@ export default {
       dropLabel.addEventListener('dragleave', this.fileDragLeave, false)
 
       this.configDropzone()
+      this.toggle.isMounted = true
     },
     configDropzone() {
       const $dropzoneContainer = document.getElementById(this.id)
 
       if (this.width) {
-        const width = `${this.width}px`
-        $dropzoneContainer.style.width = width
+        $dropzoneContainer.style.width = this.width
       }
       if (this.height) {
-        const height = `${this.height}px`
-        $dropzoneContainer.style.height = height
+        $dropzoneContainer.style.height = this.height
       }
     },
     fileDragHover(e) {
@@ -157,20 +168,27 @@ export default {
       this.$emit('fileAdded', filteredFiles)
     },
     renderImageContainer(index) {
-      if (!this.imageWidth) return
-      console.log('index', index)
+      if (!this.imageWidth) return this.onError({ msg: `imageWidth is not defined.` })
+
       console.log(this.imageWidth)
+      console.log(this.margin)
+
       const $dropzone = document.getElementById(this.id)
       const $label = $dropzone.children[0]
+      const $wrapper = $label.children[0]
+
       this.$nextTick(() => {
-        const $imageContainer = $label.children[index]
+        const $imageContainer = $wrapper.children[index - 1]
         setTimeout(() => {
           $imageContainer.style.width = this.imageWidth
         }, 100)
       })
     },
-    onRemoveFile(index) {
+    onRemoveFile(event, index) {
+      this.fileDragLeave(event)
       this.value.files.splice(index, 1)
+
+      this.$emit('fileAdded', this.value.files)
     },
     onError(err) {
       this.$emit('onError', err)
@@ -210,12 +228,32 @@ export default {
     }
   }
 
+  .dropzone-container__wrapper {
+    display: table;
+    width: 100%;
+  }
+
+  .placeholder-container {
+    display: table;
+    width: 100%;
+    height: 100%;
+
+    p {
+      display: table-cell;
+      text-align: center;
+      vertical-align: middle;
+      margin: 0;
+    }
+  }
+
   .image-container {
     position: relative;
-    display: inline-block;
+    display: inline-table;
+    vertical-align: top;
     width: 1%;
     transition: width ease-in 0.2s;
-    margin: 0 4px;
+    margin-right: 6px;
+    margin-bottom: 6px;
 
     &:hover {
       #remove-button {
@@ -234,8 +272,10 @@ export default {
       background-color: @color-white;
       border-radius: @border-radius;
       display: flex;
-      width: 100%;
-      height: 100%;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      right: 0;
       padding: 7px;
     }
     #file-image {

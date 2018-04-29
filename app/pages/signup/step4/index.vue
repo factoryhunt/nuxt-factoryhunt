@@ -6,16 +6,15 @@
     <div id="contents">
       <section>
         <h4>Logo</h4>
-        <div class="dropzone-margin-top" id="logo-wrapper">
+        <div id="logo-wrapper" class="dropzone-margin-top">
           <dropzone 
           id="logo-dropzone"
           class="dropzone"
           placeholder="Click or drag image to this area (1MB MAX)"
-          width="200"
-          height="200"
+          width="200px"
+          height="200px"
           maxFileSize="1"
           maxFileLength="1"
-          columnMargin="3px"
           :multiple="false"
           @fileAdded="onLogoFileAdded"
           @onError="onLogoFileError"/>
@@ -29,10 +28,11 @@
           <dropzone 
             id="cover-image-dropzone"
             class="dropzone"
+            placeholder="Click or drag image(s) to this area (Each 3MB MAX)"
             maxFileSize="4"
             maxFileLength="8"
             imageWidth="31%"
-            placeholder="Click or drag image(s) to this area (Each 3MB MAX)"
+            imageHeight="100px"
             @fileAdded="onCoverImageFileAdded"
             @onError="onCoverImageFileError"/>
         </div>
@@ -102,8 +102,7 @@ export default {
       })
     },
     onLogoFileAdded(files) {
-      if (!files.length) return
-
+      console.log(files)
       this.value.logoImageFile = files[0]
     },
     onLogoFileError(err) {
