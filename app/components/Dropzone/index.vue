@@ -8,7 +8,9 @@
           :key="i"
           class="image-container"
           :id="`image-${i + 1}`">
-          <div class="progress-bar"></div>
+          <div class="progress-bar-wrapper">
+            <div class="progress-bar"></div>
+          </div>
           <img 
             class="remove-button" 
             @click="onRemoveFile($event, i)"
@@ -70,12 +72,12 @@ export default {
       default: true
     },
     maxFileSize: {
-      type: String,
-      default: '1'
+      type: Number,
+      default: 1
     },
     maxFileLength: {
-      type: String,
-      default: '30'
+      type: Number,
+      default: 30
     },
     allowFileTypes: {
       type: String,
@@ -133,20 +135,54 @@ export default {
       this.readFiles(files)
     },
     async readFiles(files) {
+      if (this.toggle.isUploading)
+        return this.onError({
+          msg: `Your files are being uploaded now. Please try it after file uploading.`
+        })
+
+      this.toggle.isUploading = true
+      this.$emit('isUploading')
       const length = this.value.files.length
-      console.log('기존 파일 갯수', length)
-      let filteredFiles = []
+
+      // Validate files
+      files = await this.validateFiles(files)
+
+      // Get local files data
+      for (let i = 0; i < files.length; i++) {
+        let file = files[i]
+        const index = length + i + 1
+        this.value.files.push(file)
+        this.renderImageContainer(index)
+      }
+
+      // Upload files to S3
+      for (let i = 0; i < files.length; i++) {
+        const file = files[i]
+        const index = length + i + 1
+        this.updateProgressBar(index, '70%')
+        const { data } = await this.getFileUrlFromS3(file, index)
+        this.updateProgressBar(index, '100%')
+        this.value.files[length + i].location = data.location
+      }
+
+      this.toggle.isUploading = false
+      // return files to parent
+
+      this.$emit('fileChanged', this.value.files)
+    },
+    async validateFiles(files) {
+      let length = this.value.files.length
+      let validatedFiles = []
 
       for (let i = 0; i < files.length; i++) {
         let file = files[i]
 
-        // File format
-        const fileFilter = /\/(jpg|jpeg|png)$/
-
-        // Over Max File Length
-        if (this.value.files.length >= this.maxFileLength) {
+        if (length >= this.maxFileLength) {
           this.onError({ msg: `Maximum file length is ${this.maxFileLength}.` })
         }
+
+        // File format
+        const fileFilter = /\/(jpg|jpeg|png)$/
 
         // Check accpeted file format
         if (!fileFilter.test(file.type)) {
@@ -162,36 +198,54 @@ export default {
         if (
           fileFilter.test(file.type) &&
           kilobyteToMegabyte(file.size) < this.maxFileSize &&
-          this.value.files.length < this.maxFileLength
+          length < this.maxFileLength
         ) {
           file.url = await getFileURL(file)
-          this.value.files.push(file)
-          this.renderImageContainer(this.value.files.length, '10%')
+          validatedFiles.push(file)
+          length++
         }
       }
 
-      for (let i = 0; i < this.value.files.length; i++) {
-        const file = files[i]
-        const { data } = await this.getFileUrlFromS3(file, i + 1)
-        filteredFiles.push(data)
-      }
-
-      // return files to parent
-      this.$emit('fileAdded', filteredFiles)
+      return validatedFiles
     },
-    renderImageContainer(index, percent) {
+    renderImageContainer(index) {
       if (!this.imageWidth) return this.onError({ msg: `imageWidth is not defined.` })
 
+      // index would be started from 1
+      const nuxt = this
+      const $dropzone = document.getElementById(this.id)
+      const $label = $dropzone.children[0]
+      const $wrapper = $label.children[0]
+
       this.$nextTick(() => {
-        const $imageContainer = document.getElementById(`image-${index}`)
-        const $progressBar = $imageContainer.children[0]
+        const $imageContainer = $wrapper.childNodes[index - 1]
 
         if (this.margin) $imageContainer.style.margin = `0 ${this.margin} ${this.margin} 0`
+        nuxt.updateProgressBar(index, '18%')
 
         setTimeout(() => {
           $imageContainer.style.width = this.imageWidth
-          if (percent) $progressBar.style.width = percent
         }, 100)
+      })
+    },
+    updateProgressBar(index, percent) {
+      this.$nextTick(() => {
+        const $dropzone = document.getElementById(this.id)
+        const $label = $dropzone.children[0]
+        const $wrapper = $label.children[0]
+        const $imageContainer = $wrapper.childNodes[index - 1]
+        const $progressBar = $imageContainer.children[0]
+
+        if (percent) {
+          $progressBar.style.width = percent
+          $progressBar.style.opacity = 1
+        }
+
+        if (percent === '100%') {
+          setTimeout(() => {
+            $progressBar.style.opacity = 0
+          }, 1800)
+        }
       })
     },
     getFileUrlFromS3(file, index) {
@@ -214,15 +268,21 @@ export default {
           })
           .catch(err => {
             console.log(err)
+            this.toggle.isUploading = false
             reject(err)
           })
       })
     },
     onRemoveFile(event, index) {
       this.fileDragLeave(event)
-      this.value.files.splice(index, 1)
 
-      this.$emit('fileAdded', this.value.files)
+      if (this.toggle.isUploading)
+        return this.onError({
+          msg: `You can't remove file while file uploading. Please try it after file uploading.`
+        })
+
+      this.value.files.splice(index, 1)
+      this.$emit('fileChanged', this.value.files)
     },
     onError(err) {
       this.$emit('onError', err)
@@ -340,16 +400,22 @@ export default {
     }
   }
 
-  .progress-bar {
+  .progress-bar-wrapper {
     position: absolute;
-    width: 0;
+    width: 12%;
     height: 5px;
-    opacity: 0.4;
-    bottom: 0;
-    border-radius: 10px;
-    background-color: @color-orange;
-    transition: all ease-in 0.8s;
+    opacity: 0;
+    bottom: 10px;
+    padding: 0 12px;
+    transition: width ease-in 1.5s, opacity ease-in 0.5s;
     z-index: 3;
+
+    .progress-bar {
+      border-radius: 10px;
+      background-color: @color-orange;
+      height: 100%;
+      width: 100%;
+    }
   }
 }
 </style>

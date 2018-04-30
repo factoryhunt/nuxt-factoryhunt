@@ -12,12 +12,13 @@
           class="dropzone"
           placeholder="Click or drag image to this area (1MB MAX)"
           width="200px"
-          maxFileSize="1"
-          maxFileLength="1"
+          :maxFileSize="1"
+          :maxFileLength="1"
           margin="0"
           :multiple="false"
           :s3="this.getS3Config('company_logo')"
-          @fileAdded="onLogoFileAdded"
+          @isUploading="isUploading"
+          @fileChanged="onLogoFileAdded"
           @onError="onLogoFileError"/>
         </div>
           <h5>Logo image is recommended with square size.</h5>
@@ -30,12 +31,13 @@
             id="cover-image-dropzone"
             class="dropzone"
             placeholder="Click or drag image(s) to this area (Each 3MB MAX)"
-            maxFileSize="4"
-            maxFileLength="8"
+            :maxFileSize="4"
+            :maxFileLength="8"
             margin="6px"
             imageWidth="172px"
             :s3="this.getS3Config('company_cover_image')"
-            @fileAdded="onCoverImageFileAdded"
+            @isUploading="isUploading"
+            @fileChanged="onCoverImageFileAdded"
             @onError="onCoverImageFileError"/>
         </div>
           <h5>Up to 8 images.</h5>
@@ -51,6 +53,7 @@ import Dropzone from '~/components/Dropzone'
 import RequiredIcon from '~/components/Icons/Required'
 import { mapGetters } from 'vuex'
 import { EventBus } from '~/eventBus'
+import { showTopAlert } from '~/utils/alert'
 export default {
   layout: 'wizard',
   components: {
@@ -98,39 +101,27 @@ export default {
         console.log('parent called onSaveButton')
       })
     },
+    isUploading() {
+      EventBus.$emit('disableSaveButton')
+    },
     listenSkipThisStep() {
       EventBus.$on('onSkipThisStep', () => {
         location.href = '/signup/step5'
       })
     },
-    updateInformation() {
-      return new Promise((resolve, reject) => {
-        axios
-          .put(`/api/data/account/`)
-          .then(res => {
-            resolve(res)
-          })
-          .catch(err => {
-            reject(err)
-          })
-      })
-    },
-    async onLogoFileAdded(files) {
+    onLogoFileAdded(files) {
       console.log(files)
-      // this.value.logoImageFile = files[0]
-      // const { data } = await this.getFileS3URL(files)
-      // console.log('result', data)
+      EventBus.$emit('enableSaveButton')
     },
     onLogoFileError(err) {
-      console.log('err', err.msg)
+      showTopAlert(this.$store, false, err.msg)
     },
-    async onCoverImageFileAdded(files) {
+    onCoverImageFileAdded(files) {
       console.log(files)
-      // const { data } = await this.getFileS3URL(files)
-      // console.log('result', data)
+      EventBus.$emit('enableSaveButton')
     },
     onCoverImageFileError(err) {
-      console.log('err', err.msg)
+      showTopAlert(this.$store, false, err.msg)
     }
   },
   mounted() {
