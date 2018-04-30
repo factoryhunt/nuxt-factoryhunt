@@ -1,0 +1,1 @@
+exports.bucket = 'factoryhunt.com'

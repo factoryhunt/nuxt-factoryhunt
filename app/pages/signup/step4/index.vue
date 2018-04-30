@@ -12,10 +12,11 @@
           class="dropzone"
           placeholder="Click or drag image to this area (1MB MAX)"
           width="200px"
-          height="200px"
           maxFileSize="1"
           maxFileLength="1"
+          margin="0"
           :multiple="false"
+          :s3="this.getS3Config('company_logo')"
           @fileAdded="onLogoFileAdded"
           @onError="onLogoFileError"/>
         </div>
@@ -31,8 +32,9 @@
             placeholder="Click or drag image(s) to this area (Each 3MB MAX)"
             maxFileSize="4"
             maxFileLength="8"
-            imageWidth="31%"
-            imageHeight="100px"
+            margin="6px"
+            imageWidth="172px"
+            :s3="this.getS3Config('company_cover_image')"
             @fileAdded="onCoverImageFileAdded"
             @onError="onCoverImageFileError"/>
         </div>
@@ -71,10 +73,22 @@ export default {
       }
     }
   },
-  computed: mapGetters({
-    userData: 'auth/GET_USER'
-  }),
+  computed: {
+    ...mapGetters({
+      userData: 'auth/GET_USER'
+    }),
+    getAccountId() {
+      return this.userData.account.account_id
+    }
+  },
   methods: {
+    getS3Config(fieldname) {
+      return {
+        mysql_table: 'accounts',
+        fieldname: fieldname,
+        api_url: `/api/data/account/image/${this.getAccountId}`
+      }
+    },
     listenEventBus() {
       this.listenSaveButton()
       this.listenSkipThisStep()
@@ -101,15 +115,19 @@ export default {
           })
       })
     },
-    onLogoFileAdded(files) {
+    async onLogoFileAdded(files) {
       console.log(files)
-      this.value.logoImageFile = files[0]
+      // this.value.logoImageFile = files[0]
+      // const { data } = await this.getFileS3URL(files)
+      // console.log('result', data)
     },
     onLogoFileError(err) {
       console.log('err', err.msg)
     },
-    onCoverImageFileAdded(files) {
-      console.log('files', files)
+    async onCoverImageFileAdded(files) {
+      console.log(files)
+      // const { data } = await this.getFileS3URL(files)
+      // console.log('result', data)
     },
     onCoverImageFileError(err) {
       console.log('err', err.msg)

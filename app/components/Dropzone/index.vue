@@ -4,16 +4,20 @@
       <div class="dropzone-container__wrapper">
         <!-- images -->
         <div 
-          class="image-container"
           v-for="(file, i) in value.files" 
-          :key="i">
-          <div class="image-wrapper">
-            <img id="file-image" :src="file.url">
-          </div>
+          :key="i"
+          class="image-container"
+          :id="`image-${i + 1}`">
+          <div class="progress-bar"></div>
           <img 
-            id="remove-button" 
+            class="remove-button" 
             @click="onRemoveFile($event, i)"
             src="~assets/icons/cancel.svg">
+          <div class="image-wrapper">
+            <img 
+              class="file-image" 
+              :src="file.url">
+          </div>
         </div>
       </div>
       <!-- Placeholder -->
@@ -33,6 +37,7 @@
 </template>
 
 <script>
+import axios from '~/plugins/axios'
 import { getFileURL, kilobyteToMegabyte } from '~/utils/fileReader'
 export default {
   props: {
@@ -56,13 +61,9 @@ export default {
       type: String,
       default: '100%'
     },
-    imageHeight: {
-      type: String,
-      default: '100%'
-    },
     margin: {
       type: String,
-      default: '3px'
+      default: '6px'
     },
     multiple: {
       type: Boolean,
@@ -79,6 +80,9 @@ export default {
     allowFileTypes: {
       type: String,
       default: ''
+    },
+    s3: {
+      type: Object
     }
   },
   data() {
@@ -87,7 +91,8 @@ export default {
         files: []
       },
       toggle: {
-        isMounted: false
+        isMounted: false,
+        isUploading: false
       }
     }
   },
@@ -128,10 +133,14 @@ export default {
       this.readFiles(files)
     },
     async readFiles(files) {
+      const length = this.value.files.length
+      console.log('기존 파일 갯수', length)
       let filteredFiles = []
 
       for (let i = 0; i < files.length; i++) {
         let file = files[i]
+
+        // File format
         const fileFilter = /\/(jpg|jpeg|png)$/
 
         // Over Max File Length
@@ -139,7 +148,7 @@ export default {
           this.onError({ msg: `Maximum file length is ${this.maxFileLength}.` })
         }
 
-        // Invalid Format
+        // Check accpeted file format
         if (!fileFilter.test(file.type)) {
           this.onError({ msg: `Unaccpeted format. ${file.type}` })
         }
@@ -149,39 +158,64 @@ export default {
           this.onError({ msg: `Maxium file size is each ${this.maxFileSize}MB.` })
         }
 
-        // Approved
+        // Aceppted
         if (
           fileFilter.test(file.type) &&
           kilobyteToMegabyte(file.size) < this.maxFileSize &&
           this.value.files.length < this.maxFileLength
         ) {
           file.url = await getFileURL(file)
-
           this.value.files.push(file)
-          filteredFiles.push(file)
-
-          this.renderImageContainer(this.value.files.length)
+          this.renderImageContainer(this.value.files.length, '10%')
         }
+      }
+
+      for (let i = 0; i < this.value.files.length; i++) {
+        const file = files[i]
+        const { data } = await this.getFileUrlFromS3(file, i + 1)
+        filteredFiles.push(data)
       }
 
       // return files to parent
       this.$emit('fileAdded', filteredFiles)
     },
-    renderImageContainer(index) {
+    renderImageContainer(index, percent) {
       if (!this.imageWidth) return this.onError({ msg: `imageWidth is not defined.` })
 
-      console.log(this.imageWidth)
-      console.log(this.margin)
-
-      const $dropzone = document.getElementById(this.id)
-      const $label = $dropzone.children[0]
-      const $wrapper = $label.children[0]
-
       this.$nextTick(() => {
-        const $imageContainer = $wrapper.children[index - 1]
+        const $imageContainer = document.getElementById(`image-${index}`)
+        const $progressBar = $imageContainer.children[0]
+
+        if (this.margin) $imageContainer.style.margin = `0 ${this.margin} ${this.margin} 0`
+
         setTimeout(() => {
           $imageContainer.style.width = this.imageWidth
+          if (percent) $progressBar.style.width = percent
         }, 100)
+      })
+    },
+    getFileUrlFromS3(file, index) {
+      let { api_url, fieldname, mysql_table } = this.s3
+      fieldname = `${fieldname}_${index}`
+
+      const formData = new FormData()
+      const config = {
+        headers: { 'content-type': 'multipart/form-data' }
+      }
+
+      formData.append('table', mysql_table)
+      formData.append(fieldname, file)
+
+      return new Promise((resolve, reject) => {
+        axios
+          .post(api_url, formData, config)
+          .then(res => {
+            resolve(res)
+          })
+          .catch(err => {
+            console.log(err)
+            reject(err)
+          })
       })
     },
     onRemoveFile(event, index) {
@@ -236,7 +270,7 @@ export default {
   .placeholder-container {
     display: table;
     width: 100%;
-    height: 100%;
+    height: calc(200px - 24px);
 
     p {
       display: table-cell;
@@ -256,7 +290,7 @@ export default {
     margin-bottom: 6px;
 
     &:hover {
-      #remove-button {
+      .remove-button {
         opacity: 1;
       }
     }
@@ -278,7 +312,7 @@ export default {
       right: 0;
       padding: 7px;
     }
-    #file-image {
+    .file-image {
       width: auto !important;
       height: auto !important;
       max-width: 100% !important;
@@ -287,7 +321,7 @@ export default {
     }
   }
 
-  #remove-button {
+  .remove-button {
     position: absolute;
     top: 10px;
     right: 10px;
@@ -304,6 +338,18 @@ export default {
     &:hover {
       box-shadow: 0 0 5px 2px @color-light-gray;
     }
+  }
+
+  .progress-bar {
+    position: absolute;
+    width: 0;
+    height: 5px;
+    opacity: 0.4;
+    bottom: 0;
+    border-radius: 10px;
+    background-color: @color-orange;
+    transition: all ease-in 0.8s;
+    z-index: 3;
   }
 }
 </style>
