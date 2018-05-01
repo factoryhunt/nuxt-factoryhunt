@@ -71,7 +71,7 @@ export default {
   data() {
     return {
       value: {
-        logoImageFile: {},
+        logoImageFile: [],
         coverImageFiles: []
       }
     }
@@ -111,6 +111,8 @@ export default {
     },
     onLogoFileAdded(files) {
       console.log(files)
+      this.value.logoImageFile = files
+
       EventBus.$emit('enableSaveButton')
     },
     onLogoFileError(err) {
@@ -118,6 +120,8 @@ export default {
     },
     onCoverImageFileAdded(files) {
       console.log(files)
+      this.value.coverImageFiles = files
+
       EventBus.$emit('enableSaveButton')
     },
     onCoverImageFileError(err) {

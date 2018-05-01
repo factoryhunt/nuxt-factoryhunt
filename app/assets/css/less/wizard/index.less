@@ -10,6 +10,7 @@
 @content-margin-top: 9px;
 
 .table {
+  position: relative;
   margin-top: @section-margin-top !important;
   display: table !important;
   width: 100%;
@@ -163,6 +164,7 @@
   }
 
   section {
+    position: relative;
     margin-top: @section-margin-top;
   }
 
@@ -184,7 +186,34 @@
   }
 
   .section-margin {
+    position: relative;
     margin-top: 70px;
+  }
+
+  .preview-container {
+    position: absolute;
+    top: 0;
+    right: -290px;
+    width: 260px;
+    outline: 0;
+
+    .preview-wrapper {
+      position: relative;
+      overflow: hidden;
+      height: 0;
+      padding-bottom: 56.25%;
+      border-radius: @border-radius;
+      outline: 0;
+
+      .preview-item {
+        outline: 0;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+      }
+    }
   }
 
   h3 {

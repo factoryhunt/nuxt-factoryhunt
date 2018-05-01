@@ -18,7 +18,7 @@
       </section>
 
       <div v-show="value.userType">
-        <section v-show="value.userType != 'buyer'">
+        <section class="business-type-container" v-show="value.userType != 'buyer'">
           <h4>What is your business type?<required-icon/></h4>
           <div id="scroll-container">
             <div 
@@ -32,14 +32,14 @@
                 :value="businessType.value"
                 v-model="value.businessTypes"
                 :disabled="businessType.value === 'Buying Office'"
-                @change="businessTypeUpdated"/>
+                @change="onChangeBusinessTypes"/>
               <label 
                 :for="businessType.value">
                 {{businessType.value}}
               </label>
             </div>
           </div>
-          <h5>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Provident aperiam soluta eaque fuga inventore modi neque itaque laboriosam, sunt ad deserunt quos exercitationem est perferendis voluptas. Laboriosam ullam debitis eius?</h5>
+          <h5>Select up to 3 Business Types.</h5>
         </section>
 
         <section v-if="isUserBuyer">
@@ -63,14 +63,16 @@
           <input 
             type="text" 
             placeholder="e.g Steal"
-            v-model="value.products"/>
+            v-model="value.products"
+            pattern="[A-Za-z ,]{1,30}"
+            title="test" />
           <h5>Each value is separeted by comma(,)</h5>
         </section>
 
         <section id="domain-section">
           <h4>Website Address in Factory Hunt<required-icon/></h4>
           <div class="table">
-            <p class="table-cell">factoryhunt.com/</p>
+            <p class="table-cell">www.factoryhunt.com/</p>
             <input type="text" v-model="value.domain">
           </div>
         </section>
@@ -106,6 +108,7 @@ import business_type from '~/assets/models/business_type.json'
 import RequiredIcon from '~/components/Icons/Required'
 import FooterCaption from '../components/FooterCaption'
 import { mapGetters } from 'vuex'
+import { limitCheckboxMaxLength } from '~/utils/checkbox'
 import { EventBus } from '~/eventBus'
 export default {
   layout: 'wizard',
@@ -149,9 +152,8 @@ export default {
     }
   },
   methods: {
-    applyLocalData() {
+    mappingDatas() {
       const { account } = this.userData
-      console.log(account)
       this.companyName = account.account_name
       this.value.domain = account.domain
     },
@@ -159,10 +161,13 @@ export default {
       this.value.businessTypes = []
       if (this.isUserBuyer) this.value.businessTypes.push('Buying Office')
     },
-    businessTypeUpdated() {
-      if (this.value.businessTypes.length) EventBus.$emit('enableSaveButton')
+    onChangeBusinessTypes() {
+      const $inputs = '.business-type-container input[type=checkbox]'
+      limitCheckboxMaxLength($inputs, this.value.businessTypes, 3)
 
-      if (!this.value.businessTypes.length) EventBus.$emit('disableSaveButton')
+      // Buying Office is always disabled
+      const $buyingOffice = document.getElementById('Buying Office')
+      $buyingOffice.setAttribute('disabled', 'disabled')
     },
     canDisplayBuyingOffice(type) {
       return !(this.value.userType === 'supplier' && type === 'Buying Office')
@@ -174,6 +179,7 @@ export default {
     listenSaveButton() {
       EventBus.$on('onSaveButton', () => {
         console.log('parent called onSaveButton')
+        // this.updateInformation()
       })
     },
     listenSkipThisStep() {
@@ -192,11 +198,23 @@ export default {
             reject(err)
           })
       })
+    },
+    checkRequiredField() {
+      const { userType, businessTypes, buy, supply, products, domain } = this.value
+
+      if (userType && businessTypes.length && (buy || supply) && products && domain) {
+        EventBus.$emit('enableSaveButton')
+      } else {
+        EventBus.$emit('disableSaveButton')
+      }
     }
   },
   mounted() {
-    this.applyLocalData()
+    this.mappingDatas()
     this.listenEventBus()
+  },
+  updated() {
+    this.checkRequiredField()
   }
 }
 </script>

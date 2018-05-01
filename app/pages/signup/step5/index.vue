@@ -10,7 +10,7 @@
           id="certification-dropzone"
           class="dropzone"
           placeholder="Click or drag image(s) to this area (1MB MAX)"
-          maxFileSize="1"
+          :maxFileSize="1"
           @fileAdded="onFileAdded"
           @onError="onFileError"/>
       </section>

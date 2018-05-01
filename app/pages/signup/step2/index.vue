@@ -10,12 +10,17 @@
         <!-- Email -->
         <section>
           <h4>Your email<a class="help-button" href="/contact" target="_blank">Help?</a></h4>
-          <input value="tester@factoryhunt.com" type="text" disabled>
+          <input 
+            v-model="value.email" 
+            type="text" 
+            autocomplete="email"
+            disabled>
         </section>
         <!-- Contact Name -->
         <section id="contacts-container__contact-name-section">
           <div class="table">
             <h4>Contact Name<required-icon/></h4>
+            <!-- Salutation -->
             <select 
               class="table-cell float-left"
               v-model="value.salutation">
@@ -25,19 +30,35 @@
                 :key="index"
                 :value="salutation">{{salutation}}</option>
             </select>
-            <input class="table-cell" type="text" placeholder="Peter">
-            <input class="table-cell" type="text" placeholder="Smith">
+            <!-- First name -->
+            <input 
+              class="table-cell" 
+              type="text"
+              v-model="value.firstname" 
+              placeholder="Peter">
+            <!-- Last name -->
+            <input 
+              class="table-cell" 
+              type="text"
+              v-model="value.lastname" 
+              placeholder="Smith">
           </div>
         </section>
         <!-- Title/Role -->
         <section>
           <h4>Title/Role</h4>
-          <input type="text" placeholder="e.g CEO">
+          <input 
+            type="text" 
+            v-model="value.role"
+            placeholder="e.g CEO">
         </section>
         <!-- Mobile -->
         <section>
           <h4>Mobile</h4>
-          <input type="text" placeholder="e.g +1-201-555-5555">
+          <input 
+            type="text" 
+            placeholder="e.g +1-201-555-5555"
+            v-model="value.mobile">
         </section>
       </div> <!-- End of Contacts Section -->
 
@@ -48,7 +69,10 @@
           <!-- Country -->
           <section class="table-cell">
             <h4>Country<required-icon/></h4>
-            <select v-model="value.country">
+            <select 
+              v-model="value.country" 
+              autocomplete="address-level1"
+              @change="delayKeyup">
               <option value="" disabled>Select</option>
               <option 
                 v-for="(country,index) in countries" 
@@ -59,30 +83,60 @@
           <!-- State -->
           <section class="table-cell">
             <h4>State</h4>
-            <input type="text" placeholder="e.g California">
+            <input 
+              type="text" 
+              placeholder="e.g California" 
+              v-model="value.state" 
+              @change="delayKeyup">
           </section>
+          <!-- Map Preview -->
+          <div class="preview-container" tabindex="-1">
+            <div class="preview-wrapper">
+              <div id="no-map" class="preview-item" v-show="!toggle.isMapDisplayed">
+                <span v-if="toggle.isMapLoading">Loading...</span>
+                <span v-if="!toggle.isMapLoading">Location Preview</span>
+              </div>
+              <div id="map" class="preview-item" v-show="toggle.isMapDisplayed"></div>
+            </div>
+          </div>
         </div>
         <!-- City -->
         <section>
           <h4>City</h4>
-          <input type="text" placeholder="e.g San Francisco">
+          <input 
+            type="text" 
+            placeholder="e.g San Francisco"
+            v-model="value.city"
+            @change="delayKeyup">
         </section>
         <!-- Street Address -->
         <section>
           <h4>Street Address</h4>
-          <input type="text" placeholder="e.g 7 Hacker Street">
+          <input 
+            type="text"
+            placeholder="e.g 7 Hacker Street" 
+            autocomplete="address-line1"
+            v-model="value.streetAddress"
+            @change="delayKeyup">
         </section>
         <!-- Street Address Details -->
         <section>
           <h4>Street Address Details</h4>
-          <input type="text" placeholder="e.g Floor 2">
+          <input 
+            type="text" 
+            placeholder="e.g Floor 2"
+            v-model="value.streetAddressDetails"
+            @change="delayKeyup">
         </section>
         <!-- Postal Code -->
         <section>
           <h4>Zip/Postal Code</h4>
-          <input id="zip-code" type="text">
+          <input 
+            id="zip-code" 
+            type="text" 
+            autocomplete="postal-code"
+            v-model="value.zipCode">
         </section>
-
       </div>
 
     </div>
@@ -100,6 +154,8 @@ import countries from '~/assets/models/countries.json'
 import FooterCaption from '../components/FooterCaption'
 import RequiredIcon from '~/components/Icons/Required'
 import { mapGetters } from 'vuex'
+import { renderGoogleMap } from '~/utils/google_api'
+import { getFullAddress } from '~/utils/text'
 import { EventBus } from '~/eventBus'
 export default {
   layout: 'wizard',
@@ -119,18 +175,89 @@ export default {
     return {
       salutations: salutations,
       countries: countries.english,
+      googleMap: null,
+      geocoder: null,
       value: {
+        email: '',
         salutation: '',
-        country: ''
+        firstname: '',
+        lastname: '',
+        role: '',
+        mobile: '',
+        country: '',
+        state: '',
+        city: '',
+        streetAddress: '',
+        streetAddressDetails: '',
+        zipCode: ''
+      },
+      toggle: {
+        isMapDisplayed: false,
+        isMapLoading: false
       }
     }
   },
-  computed: mapGetters({
-    userData: 'auth/GET_USER'
-  }),
+  computed: {
+    ...mapGetters({
+      userData: 'auth/GET_USER'
+    }),
+    getAddress() {
+      const config = {
+        country: this.value.country,
+        state: this.value.state,
+        city: this.value.city,
+        street_address: this.value.streetAddress,
+        street_address_details: this.value.streetAddressDetails
+      }
+      const address = getFullAddress(config)
+      return address
+    },
+    getMapZoom() {
+      const { country, state, city, streetAddress, streetAddressDetails } = this.value
+
+      if (streetAddress || streetAddressDetails) return 14
+
+      if (city) return 11
+
+      if (state) return 7
+
+      return 4
+    }
+  },
   methods: {
-    businessTypeUpdated() {
-      EventBus.$emit('enableSaveButton')
+    mappingDatas() {
+      this.value.email = this.userData.contact.contact_email
+    },
+    delayKeyup() {
+      this.renderMap()
+    },
+    async renderMap() {
+      this.toggle.isMapDisplayed = false
+      this.toggle.isMapLoading = true
+
+      const $map = document.getElementById('map')
+      const config = {
+        zoom: this.getMapZoom,
+        // center: latlng,
+        zoomControl: true,
+        zoomControlOptions: {
+          position: google.maps.ControlPosition.TOP_RIGHT
+        },
+        mapTypeControl: false,
+        scaleControl: true,
+        streetViewControl: false,
+        rotateControl: false,
+        fullscreenControl: false
+      }
+
+      try {
+        await renderGoogleMap($map, config, this.getAddress)
+        this.toggle.isMapDisplayed = true
+        this.toggle.isMapLoading = false
+      } catch (err) {
+        console.log('map rendering err:', err)
+        this.toggle.isMapLoading = false
+      }
     },
     listenEventBus() {
       this.listenSaveButton()
@@ -139,6 +266,7 @@ export default {
     listenSaveButton() {
       EventBus.$on('onSaveButton', () => {
         console.log('parent called onSaveButton')
+        // this.updateInformation()
       })
     },
     listenSkipThisStep() {
@@ -154,13 +282,27 @@ export default {
             resolve(res)
           })
           .catch(err => {
+            console.log('update information err', err)
             reject(err)
           })
       })
+    },
+    checkRequiredField() {
+      const { email, salutation, firstname, lastname, country } = this.value
+
+      if (email && salutation && firstname && lastname && country) {
+        EventBus.$emit('enableSaveButton')
+      } else {
+        EventBus.$emit('disableSaveButton')
+      }
     }
   },
   mounted() {
     this.listenEventBus()
+    this.mappingDatas()
+  },
+  updated() {
+    this.checkRequiredField()
   }
 }
 </script>
@@ -177,6 +319,20 @@ export default {
   input {
     width: 200px;
     margin-left: 12px;
+  }
+}
+.preview-wrapper {
+  padding-bottom: 100% !important;
+}
+#no-map {
+  display: flex;
+  align-items: center;
+  background-color: #f3f3f3;
+  padding: 18px;
+  text-align: center;
+
+  span {
+    width: 100%;
   }
 }
 #address-container {

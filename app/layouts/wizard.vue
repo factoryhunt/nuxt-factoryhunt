@@ -1,41 +1,42 @@
 <template>
   <div id="container">
-    <top-alert-bar/>
+    <form @submit.prevent="onSaveButton">
+      <top-alert-bar/>
 
-    <div id="wizard-container">
-      <!-- Left Fixed Bar -->
-      <div id="left-bar">
-        <brand/>
-        <p id="wizard-container__title">Submit Information</p>
-        <ul>
-          <li><a id="nav-menu-1" href="/signup/step1">Basic Company Information</a></li>
-          <li><a id="nav-menu-2" href="/signup/step2">Contacts & Address</a></li>
-          <li><a id="nav-menu-3" href="/signup/step3">Business Details</a></li>
-          <li><a id="nav-menu-4" href="/signup/step4">Brand Images</a></li>
-          <li><a id="nav-menu-5" href="/signup/step5">Certification & Awards</a></li>
-        </ul>
+      <div id="wizard-container">
+        <!-- Left Fixed Bar -->
+        <div id="left-bar">
+          <brand/>
+          <p id="wizard-container__title">Submit Information</p>
+          <ul>
+            <li><a id="nav-menu-1" href="/signup/step1">Basic Company Information</a></li>
+            <li><a id="nav-menu-2" href="/signup/step2">Contacts & Address</a></li>
+            <li><a id="nav-menu-3" href="/signup/step3">Business Details</a></li>
+            <li><a id="nav-menu-4" href="/signup/step4">Brand Images</a></li>
+            <li><a id="nav-menu-5" href="/signup/step5">Certification & Awards</a></li>
+          </ul>
+        </div>
+
+        <!-- Right Scrollable Bar -->
+        <div id="right-container">
+          <nuxt/>
+        </div>
       </div>
 
-      <!-- Right Scrollable Bar -->
-      <div id="right-container">
-        <nuxt/>
+      <!-- Bottom Fixed Bar -->
+      <div id="bottom-bar-container">
+        <div id="bottom-bar-wrapper">
+          <button 
+            id="action-button"
+            :disabled="!toggle.canSave">Save & Continue</button>
+          <a 
+            id="skip-button"
+            @click="onSkipThisStep">
+            Skip this step <i class='fa fa-angle-right' aria-hidden='true'></i></a>
+        </div>
       </div>
-    </div>
 
-    <!-- Bottom Fixed Bar -->
-    <div id="bottom-bar-container">
-      <div id="bottom-bar-wrapper">
-        <button 
-          id="action-button"
-          :disabled="!toggle.canSave"
-          @click="onSaveButton">Save & Continue</button>
-        <a 
-          id="skip-button"
-          @click="onSkipThisStep">
-          Skip this step <i class='fa fa-angle-right' aria-hidden='true'></i></a>
-      </div>
-    </div>
-
+    </form>
   </div>
 </template>
 
