@@ -1,12 +1,12 @@
 <template>
   <div>
-    <h1>Welcome, {{companyName}}</h1>
-    <h3>In this step, we will help you to fill in your company information to connect your potential target easier.</h3>
+    <h1>Hi, {{companyName}}</h1>
+    <h3>In this step, we will help you to fill in your company information to connect your potential business partner easier.</h3>
 
     <div id="contents">
       <h2>Basic Company Information</h2>
 
-      <!-- Buyer or Supplier -> Business Type -->
+      <!-- Buyer or Supplier => Business Type -->
       <section>
         <h4>Are you a buyer or supplier?</h4>
         <select v-model="value.userType" @change="onChangedUserType">
@@ -17,9 +17,12 @@
         </select>
       </section>
 
+      <!-- Business Types -->
       <div v-show="value.userType">
         <section class="business-type-container" v-show="value.userType != 'buyer'">
-          <h4>What is your business type?<required-icon/></h4>
+          <h4>
+            What is your business type?<required-icon/>
+            <span class="text-counting">Max {{getMaxBusinessTypeLength}}</span></h4>
           <div id="scroll-container">
             <div 
               class="checkbox-row" 
@@ -39,58 +42,40 @@
               </label>
             </div>
           </div>
-          <h5>Select up to 3 Business Types.</h5>
         </section>
 
+        <!-- What do you Buy? -->
         <section v-if="isUserBuyer">
-          <h4>What do you buy?<required-icon/></h4>
+          <h4>
+            What do you buy?<required-icon/>
+            <span class="text-counting">{{getRemainLength(value.buy, MAX_BUY_LENGTH)}}</span></h4>
           <input 
             type="text" 
             placeholder="e.g LED"
+            :maxlength="MAX_BUY_LENGTH"
             v-model="value.buy"/>
+            <h5>Each value is separeted by comma(,)</h5>
         </section>
 
+        <!-- What do you Supply? -->
         <section v-if="isUserSupplier">
-          <h4>What do you supply?<required-icon/></h4>
+          <h4>What do you supply?<required-icon/>
+            <span class="text-counting">{{getRemainLength(value.supply, MAX_SUPPLY_LENGTH)}}</span></h4>
           <input 
             type="text" 
             placeholder="e.g Steal"
+            pattern="[A-Za-z ,]{1,30}"
+            :maxlength="MAX_SUPPLY_LENGTH"
             v-model="value.supply"/>
         </section>
 
-        <section>
-          <h4>Products/Core Values<required-icon/></h4>
-          <input 
-            type="text" 
-            placeholder="e.g Steal"
-            v-model="value.products"
-            pattern="[A-Za-z ,]{1,30}"
-            title="test" />
-          <h5>Each value is separeted by comma(,)</h5>
-        </section>
-
+        <!-- Factory Hunt Domain -->
         <section id="domain-section">
           <h4>Website Address in Factory Hunt<required-icon/></h4>
           <div class="table">
             <p class="table-cell">www.factoryhunt.com/</p>
             <input type="text" v-model="value.domain">
           </div>
-        </section>
-
-        <section>
-          <h4>Company Website</h4>
-          <input 
-            class="table-cell" 
-            type="text" 
-            placeholder="e.g www.yourcompany.com"
-            v-model="value.website"/>
-        </section>
-
-        <section>
-          <h4>Company Description</h4>
-          <textarea 
-            rows="9"
-            v-model="value.companyDescription"></textarea>
         </section>
       </div>
     </div>
@@ -109,6 +94,7 @@ import RequiredIcon from '~/components/Icons/Required'
 import FooterCaption from '../components/FooterCaption'
 import { mapGetters } from 'vuex'
 import { limitCheckboxMaxLength } from '~/utils/checkbox'
+import { getRemainInputLength } from '~/utils/text'
 import { EventBus } from '~/eventBus'
 export default {
   layout: 'wizard',
@@ -126,6 +112,9 @@ export default {
   },
   data() {
     return {
+      MAX_BUSINESS_TYPE_LENGTH: 3,
+      MAX_BUY_LENGTH: 200,
+      MAX_SUPPLY_LENGTH: 200,
       businessTypes: business_type,
       companyName: '',
       value: {
@@ -133,7 +122,6 @@ export default {
         businessTypes: [],
         buy: '',
         supply: '',
-        products: '',
         domain: '',
         website: '',
         companyDescription: ''
@@ -149,6 +137,9 @@ export default {
     },
     isUserSupplier() {
       return this.value.userType.indexOf('supplier') != -1
+    },
+    getMaxBusinessTypeLength() {
+      return this.isUserBuyer ? 4 : 3
     }
   },
   methods: {
@@ -157,13 +148,23 @@ export default {
       this.companyName = account.account_name
       this.value.domain = account.domain
     },
+    getRemainLength(string, maxLength) {
+      return getRemainInputLength(string, maxLength)
+    },
     onChangedUserType() {
       this.value.businessTypes = []
-      if (this.isUserBuyer) this.value.businessTypes.push('Buying Office')
+
+      if (this.isUserBuyer) {
+        this.value.businessTypes.push('Buying Office')
+        this.MAX_BUSINESS_TYPE_LENGTH = 4
+      } else {
+        this.MAX_BUSINESS_TYPE_LENGTH = 3
+      }
     },
     onChangeBusinessTypes() {
       const $inputs = '.business-type-container input[type=checkbox]'
-      limitCheckboxMaxLength($inputs, this.value.businessTypes, 3)
+
+      limitCheckboxMaxLength($inputs, this.value.businessTypes, this.MAX_BUSINESS_TYPE_LENGTH)
 
       // Buying Office is always disabled
       const $buyingOffice = document.getElementById('Buying Office')
@@ -178,7 +179,10 @@ export default {
     },
     listenSaveButton() {
       EventBus.$on('onSaveButton', () => {
-        console.log('parent called onSaveButton')
+        setTimeout(() => {
+          console.log('onLoadingFinish in child')
+          EventBus.$emit('onLoadingFinished')
+        }, 2000)
         // this.updateInformation()
       })
     },

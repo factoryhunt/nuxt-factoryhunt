@@ -101,6 +101,7 @@ export default {
   methods: {
     initDropzone() {
       const dropLabel = document.getElementById(this.id).children[0]
+      dropLabel.addEventListener('dragenter', this.fileDragEnter, false)
       dropLabel.addEventListener('dragover', this.fileDragHover, false)
       dropLabel.addEventListener('drop', this.fileSelectHandler, false)
       dropLabel.addEventListener('dragleave', this.fileDragLeave, false)
@@ -118,18 +119,34 @@ export default {
         $dropzoneContainer.style.height = this.height
       }
     },
-    fileDragHover(e) {
+    preventEvent(e) {
       e.stopPropagation()
       e.preventDefault()
     },
+    fileDragHover(e) {
+      this.preventEvent(e)
+
+      this.setDropzoneBorderColor('#317fa9') // @color-link
+    },
+    fileDragEnter(e) {
+      this.preventEvent(e)
+    },
     fileDragLeave(e) {
-      this.fileDragHover(e)
+      this.preventEvent(e)
+      this.setDropzoneBorderColor('#dedede') // @color-light-gray
     },
     fileSelectHandler(e) {
-      this.fileDragHover(e)
+      this.preventEvent(e)
+      this.setDropzoneBorderColor('#dedede') // @color-light-gray
+
       const files = e.target.files || e.dataTransfer.files
 
       this.readFiles(files)
+    },
+    setDropzoneBorderColor(color) {
+      const $dropzone = document.getElementById(this.id)
+      const $label = $dropzone.children[0]
+      $label.style.borderColor = color
     },
     fileAdded(files) {
       this.readFiles(files)
@@ -318,7 +335,7 @@ export default {
 
     &:hover {
       cursor: pointer;
-      border-color: @color-link;
+      border-color: @color-link !important;
     }
   }
 

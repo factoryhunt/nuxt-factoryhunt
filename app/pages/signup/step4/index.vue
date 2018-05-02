@@ -1,96 +1,118 @@
 <template>
   <div>
-    <h1>Brand Images</h1>
-    <h3>Your company's identity is visually expressed through its logo.</h3>
+    <h1>Contacts & Address</h1>
+    <h3>In this step, we will help you to fill in your company information to connect your potential target easier.</h3>
 
     <div id="contents">
-      <section>
-        <h4>Logo</h4>
-        <div id="logo-wrapper" class="dropzone-margin-top">
-          <dropzone 
-          id="logo-dropzone"
-          class="dropzone"
-          placeholder="Click or drag image to this area (1MB MAX)"
-          width="200px"
-          :maxFileSize="1"
-          :maxFileLength="1"
-          margin="0"
-          :multiple="false"
-          :s3="this.getS3Config('company_logo')"
-          @isUploading="isUploading"
-          @fileChanged="onLogoFileAdded"
-          @onError="onLogoFileError"/>
-        </div>
-          <h5>Logo image is recommended with square size.</h5>
-      </section>
-
-      <section>
-        <h4>Cover Images</h4>
-        <div class="dropzone-margin-top">
-          <dropzone 
-            id="cover-image-dropzone"
-            class="dropzone"
-            placeholder="Click or drag image(s) to this area (Each 3MB MAX)"
-            :maxFileSize="4"
-            :maxFileLength="8"
-            margin="6px"
-            imageWidth="172px"
-            :s3="this.getS3Config('company_cover_image')"
-            @isUploading="isUploading"
-            @fileChanged="onCoverImageFileAdded"
-            @onError="onCoverImageFileError"/>
-        </div>
-          <h5>Up to 8 images.</h5>
-      </section>
+      <div id="contacts-container">
+        <h2>Contacts</h2>
+        <!-- Email -->
+        <section>
+          <h4>Your email
+            <a class="text-counting" href="/contact" target="_blank">Help?</a></h4>
+          <input 
+            v-model="value.email" 
+            type="text" 
+            autocomplete="email"
+            disabled>
+        </section>
+        <!-- Contact Name -->
+        <section id="contacts-container__contact-name-section">
+          <div class="table">
+            <h4>Contact Name<required-icon/></h4>
+            <!-- Salutation -->
+            <select 
+              class="table-cell float-left"
+              v-model="value.salutation">
+              <option value="" disabled>Select</option>
+              <option 
+                v-for="(salutation,index) in salutations" 
+                :key="index"
+                :value="salutation">{{salutation}}</option>
+            </select>
+            <!-- First name -->
+            <input 
+              class="table-cell" 
+              type="text"
+              v-model="value.firstname" 
+              placeholder="Peter">
+            <!-- Last name -->
+            <input 
+              class="table-cell" 
+              type="text"
+              v-model="value.lastname" 
+              placeholder="Smith">
+          </div>
+        </section>
+        <!-- Title/Role -->
+        <section>
+          <h4>Title/Role</h4>
+          <input 
+            type="text" 
+            v-model="value.role"
+            placeholder="e.g CEO">
+        </section>
+        <!-- Mobile -->
+        <section>
+          <h4>Mobile</h4>
+          <input 
+            type="text" 
+            placeholder="e.g +1-201-555-5555"
+            v-model="value.mobile">
+        </section>
+      </div> <!-- End of Contacts Section -->
     </div>
+
+    <!-- Bottom Caption -->
+    <footer-caption/>
 
   </div>
 </template>
 
 <script>
 import axios from '~/plugins/axios'
-import Dropzone from '~/components/Dropzone'
+import salutations from '~/assets/models/salutation.json'
+import FooterCaption from '../components/FooterCaption'
 import RequiredIcon from '~/components/Icons/Required'
 import { mapGetters } from 'vuex'
+import { renderGoogleMap } from '~/utils/google_api'
+import { getFullAddress } from '~/utils/text'
 import { EventBus } from '~/eventBus'
-import { showTopAlert } from '~/utils/alert'
 export default {
   layout: 'wizard',
   components: {
-    Dropzone,
-    RequiredIcon
+    RequiredIcon,
+    FooterCaption
   },
   head() {
     return {
-      title: 'Brand Images',
+      title: 'Contacts & Address',
       link: [
-        { hid: 'canonical', rel: 'canonical', href: `https://www.factoryhunt.com/signup/step4` }
+        { hid: 'canonical', rel: 'canonical', href: `https://www.factoryhunt.com/signup/step2` }
       ]
     }
   },
   data() {
     return {
+      salutations: salutations,
       value: {
-        logoImageFile: [],
-        coverImageFiles: []
+        email: '',
+        salutation: '',
+        firstname: '',
+        lastname: '',
+        role: '',
+        mobile: ''
       }
     }
   },
   computed: {
     ...mapGetters({
       userData: 'auth/GET_USER'
-    }),
-    getAccountId() {
-      return this.userData.account.account_id
-    }
+    })
   },
   methods: {
-    getS3Config(fieldname) {
-      return {
-        mysql_table: 'accounts',
-        fieldname: fieldname,
-        api_url: `/api/data/account/image/${this.getAccountId}`
-      }
+    mappingDatas() {
+      this.value.email = this.userData.contact.contact_email
     },
     listenEventBus() {
       this.listenSaveButton()
@@ -99,37 +121,43 @@ export default {
     listenSaveButton() {
       EventBus.$on('onSaveButton', () => {
         console.log('parent called onSaveButton')
+        // this.updateInformation()
       })
-    },
-    isUploading() {
-      EventBus.$emit('disableSaveButton')
     },
     listenSkipThisStep() {
       EventBus.$on('onSkipThisStep', () => {
-        location.href = '/signup/step5'
+        location.href = '/signup/step4'
       })
     },
-    onLogoFileAdded(files) {
-      console.log(files)
-      this.value.logoImageFile = files
+    updateInformation() {
+      return new Promise((resolve, reject) => {
+        axios
+          .put(`/api/data/account/`)
+          .then(res => {
+            resolve(res)
+          })
+          .catch(err => {
+            console.log('update information err', err)
+            reject(err)
+          })
+      })
+    },
+    checkRequiredField() {
+      const { email, salutation, firstname, lastname } = this.value
 
-      EventBus.$emit('enableSaveButton')
-    },
-    onLogoFileError(err) {
-      showTopAlert(this.$store, false, err.msg)
-    },
-    onCoverImageFileAdded(files) {
-      console.log(files)
-      this.value.coverImageFiles = files
-
-      EventBus.$emit('enableSaveButton')
-    },
-    onCoverImageFileError(err) {
-      showTopAlert(this.$store, false, err.msg)
+      if (email && salutation && firstname && lastname) {
+        EventBus.$emit('enableSaveButton')
+      } else {
+        EventBus.$emit('disableSaveButton')
+      }
     }
   },
   mounted() {
     this.listenEventBus()
+    this.mappingDatas()
+  },
+  updated() {
+    this.checkRequiredField()
   }
 }
 </script>
@@ -138,20 +166,23 @@ export default {
 @import '~assets/css/index';
 @import '~assets/css/less/wizard/index';
 
-#logo-image-container {
-  display: flex;
-  width: 200px;
-  height: 200px;
-  border-radius: 50%;
-  overflow: hidden;
-  box-shadow: 0 0 10px @color-light-grey;
-  background-color: #fff;
+.text-counting {
+  font-size: 13px;
+  font-weight: 500;
+  color: @color-link !important;
+
+  &:hover {
+    cursor: help !important;
+  }
 }
-#logo-image {
-  margin: auto !important;
-  width: auto !important;
-  height: auto !important;
-  max-width: 100% !important;
-  max-height: 100% !important;
+#contacts-container__contact-name-section {
+  select {
+    width: 110px;
+    background-position-x: 89%;
+  }
+  input {
+    width: 200px;
+    margin-left: 12px;
+  }
 }
 </style>

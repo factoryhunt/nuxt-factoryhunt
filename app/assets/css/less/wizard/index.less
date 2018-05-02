@@ -43,7 +43,6 @@
   padding: 20px 0;
   font-size: 20px;
   font-weight: 800;
-  text-transform: uppercase;
 }
 #left-bar {
   display: none;
@@ -84,9 +83,10 @@
       &.highlighted {
         font-weight: 700;
         font-size: 16px;
-        color: @color-font-base;
+        color: @color-orange;
       }
       &:hover {
+        color: @color-orange;
         cursor: pointer;
         background: #eee;
       }
@@ -190,6 +190,14 @@
     margin-top: 70px;
   }
 
+  .text-counting {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    font-size: 13px;
+    color: @color-font-gray;
+  }
+
   .preview-container {
     position: absolute;
     top: 0;
@@ -217,17 +225,20 @@
   }
 
   h3 {
+    position: relative;
     font-weight: 300;
     font-size: 23px;
-    margin-top: 6px;
+    margin-top: 15px;
   }
   h4 {
     // display: inline;
+    position: relative;
     font-weight: 500;
     font-size: 19px;
     white-space: nowrap;
   }
   h5 {
+    position: relative;
     margin-top: 10px;
     font-size: 17px;
     color: @color-font-gray;
@@ -283,20 +294,6 @@
       &.disabled {
         text-decoration: line-through;
       }
-    }
-  }
-
-  .help-button {
-    float: right;
-    display: flex;
-    vertical-align: middle;
-    align-items: center;
-    font-size: 13px;
-    font-weight: 500;
-    color: @color-link;
-
-    &:hover {
-      cursor: help;
     }
   }
 }

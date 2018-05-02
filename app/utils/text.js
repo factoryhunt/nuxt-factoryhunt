@@ -7,6 +7,14 @@ exports.addComma = number => {
   return number.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,')
 }
 
+exports.getRemainInputLength = (string, maxLength) => {
+  const length = string.length
+  const gap = maxLength - length > 0 ? maxLength - length : 0
+  const result = gap.toLocaleString('en', { useGrouping: true })
+
+  return result
+}
+
 exports.checkWebsiteLinkHasHttp = url => {
   if (url) {
     if (url.indexOf('http') === -1) {
@@ -75,23 +83,23 @@ exports.getFullAddress = ({
   state = '',
   city = '',
   street_address = '',
-  street_address_details = ''
+  street_address_2 = ''
 }) => {
-  if (country && (state || city || street_address || street_address_details)) {
+  if (country && (state || city || street_address || street_address_2)) {
     country = `${country}, `
   }
 
-  if (state && (city || street_address || street_address_details)) {
+  if (state && (city || street_address || street_address_2)) {
     state = `${state}, `
   }
 
-  if (city && (street_address || street_address_details)) {
+  if (city && (street_address || street_address_2)) {
     city = `${city}, `
   }
 
-  if (street_address && street_address_details) {
+  if (street_address && street_address_2) {
     street_address = `${street_address} `
   }
 
-  return country + state + city + street_address + street_address_details
+  return country + state + city + street_address + street_address_2
 }

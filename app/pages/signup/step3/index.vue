@@ -1,240 +1,172 @@
 <template>
   <div>
-    <h1>Business Details</h1>
-    <h3>상세한 정보를 제공하는 회사는 상대 비즈니스와 거래가 성사될 가능성이 높습니다.</h3>
+    <h1>Business Address</h1>
 
     <div id="contents">
-        <!-- What is your industries? -->
-      <section id="industry-container">
-        <h4>What is your industries?<required-icon/></h4>
-        <div id="scroll-container">
-          <div class="checkbox-row" v-for="(category, index) in categories" :key="index">
-            <input
-              type="checkbox"
-              :id="category.name"
-              :value="category.name"
-              v-model="value.industries"
-              @change="onChangeIndusties"/>
-            <label 
-              :for="category.name">
-              {{category.name}}
-            </label>
-          </div>
-        </div>
-        <h5>Up to 5.</h5>
-      </section>
-
-      <section>
-        <h4>Company Short Description</h4>
-        <textarea rows="4"></textarea>
-      </section>
-
-      <section>
-        <h4>Company History</h4>
-        <textarea rows="9"></textarea>
-      </section>
-
-      <section>
-        <h4>Company Introduction Video</h4>
-        <input 
-          v-model="value.video"
-          type="text" 
-          placeholder="e.g https://vimeo.com/12345678">
-        <h5>Please copy and paste only YouTube or Vimeo link.</h5>
-        <div 
-          id="video-preview-section" 
-          class="preview-container" 
-          tabindex="-1">
-          <div class="video-container">
-            <iframe 
-            class="preview-item"
-            :src="getVideo" 
-            frameborder="0" 
-            allowfullscreen></iframe>
-          </div>
-        </div>
-      </section>
-
-      <section id="phone-section">
-        <h4>Phone</h4>
+      <!-- Office address -->
+      <div id="address-container">
+        <h2>Office Address</h2>
+        <!-- Country & State -->
         <div class="table">
-          <div id="code-section" class="table-cell">
-            <select v-model="value.dialCode" @change="onDialCodeChange($event)">
+          <!-- Country -->
+          <section class="table-cell">
+            <h4>Country<required-icon/></h4>
+            <select 
+              v-model="value.office.country" 
+              autocomplete="address-level1"
+              @change="delayKeyup(ADDRESS_TYPE_OFFICE)">
               <option value="" disabled>Select</option>
               <option 
-                v-for="(code,index) in dialCodes" 
+                v-for="(country,index) in countries" 
                 :key="index" 
-                :title="code.name"
-                :value="code.dial_code">{{code.name}} ({{code.dial_code}})</option>
+                :value="country.country_name">{{country.country_name}}</option>
             </select>
-          </div>
-          <div id="phone-section" class="table-cell">
-            <input id="phone-input" v-model="value.phone" type="text" placeholder="e.g +1-201-555-5555">
+          </section>
+          <!-- State -->
+          <section class="table-cell">
+            <h4>State</h4>
+            <input 
+              type="text" 
+              placeholder="e.g California" 
+              v-model="value.office.state" 
+              @change="delayKeyup(ADDRESS_TYPE_OFFICE)">
+          </section>
+          <!-- Map Preview -->
+          <div class="preview-container" tabindex="-1">
+            <div class="preview-wrapper">
+              <div id="no-map" class="preview-item" v-show="!value.office.isMapDisplayed">
+                <span>{{value.office.mapPreview}}</span>
+              </div>
+              <div id="office-map" class="preview-item" v-show="value.office.isMapDisplayed"></div>
+            </div>
           </div>
         </div>
-      </section>
-
-      <div class="table">
-        <!-- Established Year -->
-        <section id="established-year-section" class="table-cell">
-          <h4>Established Year</h4>
-          <select 
-            class="float-left"
-            v-model="value.establishedYear">
-            <option value="" disabled>Select</option>
-            <option 
-              v-for="(year, index) in establishedYear" 
-              :key="index" 
-              :value="year.year">{{year.year}}</option>
-          </select>
+        <!-- City -->
+        <section>
+          <h4>City</h4>
+          <input 
+            type="text" 
+            placeholder="e.g San Francisco"
+            v-model="value.office.city"
+            @change="delayKeyup(ADDRESS_TYPE_OFFICE)">
         </section>
-
-        <!-- Total Employees -->
-        <section id="total-employees-section" class="table-cell">
-          <h4>Total Employees</h4>
-          <select
-           v-model="value.numberOfEmployees">
-            <option value="" disabled>Select</option>
-            <option 
-              v-for="(employee, index) in numberOfEmployees"
-              :key="index"
-              :value="employee.value">{{employee.value}}</option>
-          </select>
+        <!-- Street Address -->
+        <section>
+          <h4>Street Address</h4>
+          <input 
+            type="text"
+            placeholder="e.g 7 Hacker Street" 
+            autocomplete="address-line1"
+            v-model="value.office.streetAddress"
+            @change="delayKeyup(ADDRESS_TYPE_OFFICE)">
+        </section>
+        <!-- Street Address Details -->
+        <section>
+          <h4>Street Address Details</h4>
+          <input 
+            type="text" 
+            placeholder="e.g Floor 2"
+            v-model="value.office.streetAddress2">
+        </section>
+        <!-- Postal Code -->
+        <section>
+          <h4>Zip/Postal Code</h4>
+          <input 
+            id="zip-code" 
+            type="text" 
+            autocomplete="postal-code"
+            v-model="value.office.postalCode">
         </section>
       </div>
-
-      <div class="table">
-        <!-- Average Lead Time -->
-        <section id="average-lead-time-section" class="table-cell">
-          <h4>Average Lead Time</h4>
-          <input type="text">
-          <span>Day(s)</span>
+      <!-- Factory Address -->
+      <div id="address-container" class="section-margin">
+        <h2>Factory Address</h2>
+        <!-- Country & State -->
+        <div class="table">
+          <!-- Country -->
+          <section class="table-cell">
+            <h4>Country</h4>
+            <select 
+              v-model="value.factory.country" 
+              autocomplete="address-level1"
+              @change="delayKeyup(ADDRESS_TYPE_FACTORY)">
+              <option value="" disabled>Select</option>
+              <option 
+                v-for="(country,index) in countries" 
+                :key="index" 
+                :value="country.country_name">{{country.country_name}}</option>
+            </select>
+          </section>
+          <!-- State -->
+          <section class="table-cell">
+            <h4>State</h4>
+            <input 
+              type="text" 
+              placeholder="e.g California" 
+              v-model="value.factory.state" 
+              @change="delayKeyup(ADDRESS_TYPE_FACTORY)">
+          </section>
+          <!-- Map Preview -->
+          <div class="preview-container" tabindex="-1">
+            <div class="preview-wrapper">
+              <div id="no-map" class="preview-item" v-show="!value.factory.isMapDisplayed">
+                <span>{{value.factory.mapPreview}}</span>
+              </div>
+              <div id="factory-map" class="preview-item" v-show="value.factory.isMapDisplayed"></div>
+            </div>
+          </div>
+        </div>
+        <!-- City -->
+        <section>
+          <h4>City</h4>
+          <input 
+            type="text" 
+            placeholder="e.g San Francisco"
+            v-model="value.factory.city"
+            @change="delayKeyup(ADDRESS_TYPE_FACTORY)">
         </section>
-        <!-- Total Annual Revenue -->
-        <section id="total-annual-revenue-section" class="table-cell">
-          <h4>Total Annual Revenue</h4>
-          <select 
-            class="table-cell float-left"
-            v-model="value.totalAnnualRevenue">
-            <option value="" disabled>Select</option>
-            <option
-              v-for="(revenue, index) in totalAnnualRevenue"
-              :key="index"
-              :value="revenue.value">{{revenue.value}}</option>
-          </select>
+        <!-- Street Address -->
+        <section>
+          <h4>Street Address</h4>
+          <input 
+            type="text"
+            placeholder="e.g 7 Hacker Street" 
+            autocomplete="address-line1"
+            v-model="value.factory.streetAddress"
+            @change="delayKeyup(ADDRESS_TYPE_FACTORY)">
+        </section>
+        <!-- Street Address Details -->
+        <section>
+          <h4>Street Address Details</h4>
+          <input 
+            type="text" 
+            placeholder="e.g Floor 2"
+            v-model="value.factory.streetAddress2">
+        </section>
+        <!-- Postal Code -->
+        <section>
+          <h4>Zip/Postal Code</h4>
+          <input 
+            id="zip-code" 
+            type="text" 
+            autocomplete="postal-code"
+            v-model="value.factory.postalCode">
         </section>
       </div>
-
-      <!-- Trade Capacity -->
-      <div class="section-margin">
-        <h2>Trade Capacity</h2>
-        <!-- Accepted Payment Currency -->
-        <section>
-          <h4>Accepted Payment Currency</h4>
-          <div id="scroll-container">
-            <div 
-              class="checkbox-row" 
-              v-for="(currency, index) in acceptedPaymentCurrency" 
-              :key="index">
-              <input
-                type="checkbox"
-                :id="currency.value"
-                :value="currency.value"
-                v-model="value.acceptedPaymentCurrency"/>
-              <label 
-                :for="currency.value">
-                {{currency.value}}
-              </label>
-            </div>
-          </div>
-        </section>
-        <!-- Accepted Payment Type -->
-        <section>
-          <h4>Accepted Payment Type</h4>
-          <div id="scroll-container">
-            <div 
-              class="checkbox-row" 
-              v-for="(paymentType, index) in acceptedPaymentType" 
-              :key="index">
-              <input
-                type="checkbox"
-                :id="paymentType.value"
-                :value="paymentType.value"
-                v-model="value.acceptedPaymentType"/>
-              <label 
-                :for="paymentType.value">
-                {{paymentType.value}}
-              </label>
-            </div>
-          </div>
-        </section>
-        <!-- Language Spoken -->
-        <section>
-          <h4>Language Spoken</h4>
-          <div id="scroll-container">
-            <div 
-              class="checkbox-row" 
-                v-for="(language, index) in languageSpoken" 
-                :key="index">
-              <input
-                type="checkbox"
-                :id="language.value"
-                :value="language.value"
-                v-model="value.languageSpoken"/>
-              <label 
-                :for="language.value">
-                {{language.value}}
-              </label>
-            </div>
-          </div>
-        </section>
-        <!-- Accepted Delivery Terms -->
-        <section>
-          <h4>Accepted Delivery Terms</h4>
-          <div id="scroll-container">
-            <div 
-              class="checkbox-row" 
-              v-for="(deliveryTerm, index) in acceptedDeliveryTerms" 
-              :key="index">
-              <input
-                type="checkbox"
-                :id="deliveryTerm.value"
-                :value="deliveryTerm.value"
-                v-model="value.acceptedDeliveryTerms"/>
-              <label 
-                :for="deliveryTerm.value">
-                {{deliveryTerm.value}}
-              </label>
-            </div>
-          </div>
-        </section>
-      </div>
-
     </div>
     <!-- Bottom Caption -->
     <footer-caption/>
-
   </div>
 </template>
 
 <script>
 import axios from '~/plugins/axios'
-import business_type from '~/assets/models/business_type.json'
-import categories from '~/assets/models/categories.json'
-import dial_codes from '~/assets/models/dial_codes.json'
-import established_year from '~/assets/models/established_year.json'
-import number_of_employees from '~/assets/models/number_of_employees.json'
-import total_annual_revenue from '~/assets/models/total_annual_revenue.json'
-import accepted_delivery_terms from '~/assets/models/accepted_delivery_terms.json'
-import accepted_payment_currency from '~/assets/models/accepted_payment_currency.json'
-import language_spoken from '~/assets/models/language_spoken.json'
-import accepted_payment_type from '~/assets/models/accepted_payment_type.json'
-
+import countries from '~/assets/models/country.json'
 import FooterCaption from '../components/FooterCaption'
 import RequiredIcon from '~/components/Icons/Required'
-import { limitCheckboxMaxLength } from '~/utils/checkbox'
-import { getVideoURL } from '~/utils/fileReader'
 import { mapGetters } from 'vuex'
+import { renderGoogleMap } from '~/utils/google_api'
+import { getFullAddress } from '~/utils/text'
 import { EventBus } from '~/eventBus'
 export default {
   layout: 'wizard',
@@ -244,37 +176,40 @@ export default {
   },
   head() {
     return {
-      title: 'Basic Company Information',
+      title: 'Contacts & Address',
       link: [
-        { hid: 'canonical', rel: 'canonical', href: `https://www.factoryhunt.com/signup/step1` }
+        { hid: 'canonical', rel: 'canonical', href: `https://www.factoryhunt.com/signup/step2` }
       ]
     }
   },
   data() {
     return {
-      businessTypes: business_type,
-      categories: categories,
-      dialCodes: dial_codes,
-      establishedYear: established_year,
-      numberOfEmployees: number_of_employees,
-      totalAnnualRevenue: total_annual_revenue,
-      acceptedDeliveryTerms: accepted_delivery_terms,
-      acceptedPaymentCurrency: accepted_payment_currency,
-      languageSpoken: language_spoken,
-      acceptedPaymentType: accepted_payment_type,
+      ADDRESS_TYPE_OFFICE: 'office',
+      ADDRESS_TYPE_FACTORY: 'factory',
+      countries: countries,
       value: {
-        industries: [],
-        businessTypes: [],
-        video: '',
-        dialCode: '',
-        phone: '',
-        establishedYear: '',
-        numberOfEmployees: '',
-        totalAnnualRevenue: '',
-        acceptedDeliveryTerms: [],
-        acceptedPaymentCurrency: [],
-        languageSpoken: [],
-        acceptedPaymentType: []
+        office: {
+          country: '',
+          state: '',
+          city: '',
+          streetAddress: '',
+          streetAddress2: '',
+          postalCode: '',
+          mapPreview: 'Location Preview',
+          isMapDisplayed: false,
+          isMapLoading: false
+        },
+        factory: {
+          country: '',
+          state: '',
+          city: '',
+          streetAddress: '',
+          streetAddress2: '',
+          postalCode: '',
+          mapPreview: 'Location Preview',
+          isMapDisplayed: false,
+          isMapLoading: false
+        }
       }
     }
   },
@@ -282,22 +217,112 @@ export default {
     ...mapGetters({
       userData: 'auth/GET_USER'
     }),
-    getVideo() {
-      return getVideoURL(this.value.video)
+    getAccountId() {
+      return this.userData.account.account_id
+    },
+    isOfficeAddressEmpty() {
+      const { streetAddress, city, state, country } = this.value.office
+
+      if (!streetAddress && !city && !state && !country) return true
+      return false
+    },
+    isFactoryAddressEmpty() {
+      const { streetAddress, city, state, country } = this.value.factory
+
+      if (!streetAddress && !city && !state && !country) return true
+      return false
     }
   },
   methods: {
-    mappingDatas() {},
-    onChangeIndusties() {
-      const $inputs = '#industry-container input[type=checkbox]'
-      limitCheckboxMaxLength($inputs, this.value.industries, 5)
+    mappingDatas() {
+      const {
+        mailing_postal_code,
+        mailing_street_address,
+        mailing_street_address_2,
+        mailing_city,
+        mailing_state,
+        mailing_country,
+        factory_postal_code,
+        factory_street_address,
+        factory_street_address_2,
+        factory_city,
+        factory_state,
+        factory_country
+      } = this.userData.account
+
+      this.value.office.postalCode = mailing_postal_code
+      this.value.office.streetAddress = mailing_street_address
+      this.value.office.streetAddress2 = mailing_street_address_2
+      this.value.office.city = mailing_city
+      this.value.office.state = mailing_state
+      this.value.office.country = mailing_country
+
+      this.value.factory.postalCode = factory_postal_code
+      this.value.factory.streetAddress = factory_street_address
+      this.value.factory.streetAddress2 = factory_street_address_2
+      this.value.factory.city = factory_city
+      this.value.factory.state = factory_state
+      this.value.factory.country = factory_country
     },
-    onDialCodeChange(event) {
-      const $select = event.target
-      const $phoneInput = document.getElementById('phone-input')
-      // $select.style.height = '46.5px'
-      this.value.phone = `${event.target.value}-`
-      $phoneInput.focus()
+    initMaps() {
+      if (!this.isOfficeAddressEmpty) this.renderMap(this.ADDRESS_TYPE_OFFICE, this.value.office)
+      if (!this.isFactoryAddressEmpty) this.renderMap(this.ADDRESS_TYPE_FACTORY, this.value.factory)
+    },
+    delayKeyup(type) {
+      const value = type === this.ADDRESS_TYPE_OFFICE ? this.value.office : this.value.factory
+      this.renderMap(type, value)
+    },
+    async renderMap(type, value) {
+      value.isMapDisplayed = false
+      value.mapPreview = 'Loading...'
+
+      const id = type === this.ADDRESS_TYPE_OFFICE ? 'office-map' : 'factory-map'
+      const $map = document.getElementById(id)
+      const config = {
+        zoom: this.getMapZoom(value),
+        // center: latlng,
+        zoomControl: true,
+        zoomControlOptions: {
+          position: google.maps.ControlPosition.TOP_RIGHT
+        },
+        mapTypeControl: false,
+        scaleControl: true,
+        streetViewControl: false,
+        rotateControl: false,
+        fullscreenControl: false
+      }
+
+      try {
+        await renderGoogleMap($map, config, this.getAddress(value))
+        value.isMapDisplayed = true
+        value.mapPreview = ''
+      } catch (err) {
+        console.log('map rendering err:', err)
+        value.mapPreview = "Google Maps can't identify your address."
+      }
+    },
+    getAddress(type) {
+      const { country, state, city, streetAddress } = type
+      const config = {
+        country,
+        state,
+        city,
+        street_address: streetAddress
+      }
+      const address = getFullAddress(config)
+      return address
+    },
+    getMapZoom(type) {
+      // type is wheter this.value.office or this.value.factory
+      const { country, state, city, streetAddress } = type
+
+      if (streetAddress) return 14
+
+      if (city) return 11
+
+      if (state) return 7
+
+      return 4
     },
     listenEventBus() {
       this.listenSaveButton()
@@ -305,8 +330,7 @@ export default {
     },
     listenSaveButton() {
       EventBus.$on('onSaveButton', () => {
-        console.log('parent called onSaveButton')
-        // this.updateInformation()
+        this.updateInformation()
       })
     },
     listenSkipThisStep() {
@@ -315,21 +339,54 @@ export default {
       })
     },
     updateInformation() {
-      return new Promise((resolve, reject) => {
-        axios
-          .put(`/api/data/account/`)
-          .then(res => {
-            resolve(res)
-          })
-          .catch(err => {
-            reject(err)
-          })
-      })
+      const {
+        postalCode: mailing_postal_code,
+        streetAddress: mailing_street_address,
+        streetAddress2: mailing_street_address_2,
+        city: mailing_city,
+        state: mailing_state,
+        country: mailing_country
+      } = this.value.office
+      const {
+        postalCode: factory_postal_code,
+        streetAddress: factory_street_address,
+        streetAddress2: factory_street_address_2,
+        city: factory_city,
+        state: factory_state,
+        country: factory_country
+      } = this.value.factory
+
+      const body = {
+        account_data: {
+          mailing_postal_code,
+          mailing_street_address,
+          mailing_street_address_2,
+          mailing_city,
+          mailing_state,
+          mailing_country,
+          factory_postal_code,
+          factory_street_address,
+          factory_street_address_2,
+          factory_city,
+          factory_state,
+          factory_country
+        }
+      }
+
+      axios
+        .put(`/api/data/account/${this.getAccountId}`, body)
+        .then(res => {
+          EventBus.$emit('onLoadingFinished')
+        })
+        .catch(err => {
+          console.log('update information err', err)
+          EventBus.$emit('onLoadingFailed', err)
+        })
     },
     checkRequiredField() {
-      const { industries } = this.value
+      const { country } = this.value.office
 
-      if (industries.length) {
+      if (country) {
         EventBus.$emit('enableSaveButton')
       } else {
         EventBus.$emit('disableSaveButton')
@@ -339,6 +396,7 @@ export default {
   mounted() {
     this.listenEventBus()
     this.mappingDatas()
+    this.initMaps()
   },
   updated() {
     this.checkRequiredField()
@@ -350,51 +408,27 @@ export default {
 @import '~assets/css/index';
 @import '~assets/css/less/wizard/index';
 
-#phone-section {
-  .table {
-    margin-top: 0 !important;
-  }
+.preview-wrapper {
+  padding-bottom: 100% !important;
+}
+#no-map {
+  display: flex;
+  align-items: center;
+  background-color: #f3f3f3;
+  padding: 18px;
+  text-align: center;
 
-  #code-section {
-    width: 110px;
-  }
-  select {
-    padding-right: 35px !important;
-    background-position-x: 89%;
-  }
-
-  #phone-section {
-    padding-left: 10px;
-    vertical-align: top;
+  span {
+    width: 100%;
   }
 }
-
-#established-year-section {
-  width: 164px;
-
+#address-container {
   select {
-    background-position-x: 90%;
+    width: 280px;
+    background-position-x: 94%;
   }
-}
-#total-employees-section {
-  padding-left: 80px;
-
-  select {
-    background-position-x: 95%;
-  }
-}
-#average-lead-time-section {
-  width: 164px;
-  input {
-    display: inline-block;
-    width: 104px;
-    margin-right: 8px;
-  }
-}
-#total-annual-revenue-section {
-  padding-left: 80px;
-  select {
-    background-position-x: 95%;
+  #zip-code {
+    width: 150px;
   }
 }
 </style>
