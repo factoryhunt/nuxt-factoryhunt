@@ -75,7 +75,20 @@ export default {
     }
   },
   methods: {
-    disallowFileDrag() {
+    preventEvents() {
+      this.preventFileDragEvent()
+      this.preventEnterKeySubmitEvent()
+    },
+    preventEnterKeySubmitEvent() {
+      $(document).ready(() => {
+        $('input').keydown(event => {
+          if (event.keyCode === 13) {
+            event.preventDefault()
+          }
+        })
+      })
+    },
+    preventFileDragEvent() {
       const $container = document.getElementById('container')
       $container.addEventListener('dragenter', this.dragEnter, false)
       $container.addEventListener('dragover', this.dragHover, false)
@@ -166,7 +179,7 @@ export default {
   mounted() {
     this.highlightNavigationBar()
     this.listenEventBus()
-    this.disallowFileDrag()
+    this.preventEvents()
   }
 }
 </script>

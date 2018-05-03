@@ -52,7 +52,9 @@
           <input 
             type="text" 
             placeholder="e.g LED"
+            pattern="[A-Za-z0-9 ',()-]{1,200}"
             :maxlength="MAX_BUY_LENGTH"
+            :title="$t('dashboardCompany.company.products.inputTitle')"
             v-model="value.buy"/>
             <h5>Each value is separeted by comma(,)</h5>
         </section>
@@ -64,8 +66,9 @@
           <input 
             type="text" 
             placeholder="e.g Steal"
-            pattern="[A-Za-z ,]{1,30}"
+            pattern="[A-Za-z0-9 ',()-]{1,200}"
             :maxlength="MAX_SUPPLY_LENGTH"
+            :title="$t('dashboardCompany.company.products.inputTitle')"
             v-model="value.supply"/>
         </section>
 
@@ -74,15 +77,22 @@
           <h4>Website Address in Factory Hunt<required-icon/></h4>
           <div class="table">
             <p class="table-cell">www.factoryhunt.com/</p>
-            <input type="text" v-model="value.domain">
+            <input 
+              type="text" 
+              pattern="[a-z0-9.]{3,50}" 
+              :title="$t('dashboardCompany.domain.inputTitle')" 
+              spellcheck="false" 
+              autocomplete="off" 
+              autocorrect="off" 
+              autocapitalize="off"
+              v-model="value.domain">
           </div>
         </section>
       </div>
     </div>
 
     <!-- Bottom Caption -->
-    <footer-caption 
-      v-show="value.accountType"/>
+    <footer-caption v-show="value.accountType"/>
 
   </div>
 </template>

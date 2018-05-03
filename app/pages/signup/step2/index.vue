@@ -29,8 +29,12 @@
         <h4>Company Website</h4>
         <input 
           class="table-cell" 
+          type="text"
           placeholder="e.g www.yourcompany.com"
+          pattern="[A-Za-z0-9 ./-]{1,100}"
+          :title="$t('dashboardCompany.company.website.inputTitle')"
           autocomplete="organization"
+          spellcheck="false"
           v-model="value.website"/>
       </section>
 
@@ -89,55 +93,21 @@
       <!-- Phone -->
       <section class="phone-type-section">
         <h4>Phone</h4>
-        <div class="table">
-          <div class="table-cell code-section">
-            <select id="phone" v-model="value.phoneDialCode" @change="onDialCodeChange($event)">
-              <option value="" disabled>Select</option>
-              <option 
-                v-for="(country,index) in countries" 
-                :key="index" 
-                :title="country.name"
-                :value="country.dialling_code">{{country.country_name}} ({{country.dialling_code}})</option>
-            </select>
-          </div>
-          <div class="table-cell input-section">
-            <div class="input-container">
-              <input 
-                ref="phone-input" 
-                v-model="value.phone" 
-                type="text"
-                autocomplete="tel">
-              <span>{{value.phoneDialCode}}</span>
-            </div>
-          </div>
-        </div>
+        <input 
+          type="text"
+          placeholder="e.g +1-201-555-5555"
+          autocomplete="tel"
+          v-model="value.phone" >
       </section>
 
       <!-- Fax -->
       <section class="phone-type-section">
         <h4>Fax</h4>
-        <div class="table">
-          <div class="table-cell code-section">
-            <select id="fax" v-model="value.faxDialCode" @change="onDialCodeChange($event)">
-              <option value="" disabled>Select</option>
-              <option 
-                v-for="(country,index) in countries" 
-                :key="index"
-                :title="country.country_name"
-                :value="country.dialling_code">{{country.country_name}} ({{country.dialling_code}})</option>
-            </select>
-          </div>
-          <div class="table-cell input-section">
-            <div class="input-container">
-              <input 
-                ref="fax-input" 
-                v-model="value.fax" 
-                type="text"
-                autocomplete="tel">
-              <span>{{value.faxDialCode}}</span>
-            </div>
-          </div>
-        </div>
+        <input 
+          type="text"
+          placeholder="e.g +1-201-555-5555"
+          autocomplete="tel"
+          v-model="value.fax"/>
       </section>
  
       <div class="table">
@@ -304,7 +274,8 @@ import { renderGoogleMap } from '~/utils/google_api'
 import {
   checkboxStringToArray,
   checkboxArrayToString,
-  limitCheckboxMaxLength
+  limitCheckboxMaxLength,
+  removeNullInArray
 } from '~/utils/checkbox'
 import { getFullAddress, getRemainInputLength } from '~/utils/text'
 import { getVideoURL } from '~/utils/fileReader'
@@ -375,6 +346,7 @@ export default {
   methods: {
     mappingDatas() {
       const {
+        account_industries,
         website,
         company_short_description,
         company_description,
@@ -392,6 +364,7 @@ export default {
         accepted_payment_type
       } = this.userData.account
 
+      this.value.industries = this.checkboxStringToArray2(this.categories, account_industries)
       this.value.website = website
       this.value.companyShortDescription = company_short_description
       this.value.companyDescription = company_description
@@ -417,24 +390,38 @@ export default {
         accepted_payment_type
       )
     },
+    checkboxStringToArray2(originalArray, string) {
+      let temp = []
+
+      for (const i in originalArray) {
+        const value = originalArray[i].name
+        if (string.includes(value)) {
+          temp.push(value)
+        }
+      }
+      return temp
+    },
+    checkboxArrayToString2(originalArray, array) {
+      let string = ''
+      let removedEmptyArray = removeNullInArray(array)
+
+      for (const originalIndex in originalArray) {
+        const rawValue = originalArray[originalIndex].name
+
+        for (const index in removedEmptyArray) {
+          if (rawValue === removedEmptyArray[index]) {
+            string = string + `, ${rawValue}`
+          }
+        }
+      }
+      return string.substring(2)
+    },
     getRemainLength(string, maxLength) {
       return getRemainInputLength(string, maxLength)
     },
     onChangeIndusties() {
       const $inputs = '#industry-container input[type=checkbox]'
       limitCheckboxMaxLength($inputs, this.value.industries, 5)
-    },
-    onDialCodeChange(event) {
-      const $select = event.target
-      const value = $select.value
-
-      if ($select.id.indexOf('phone') > -1) {
-        this.value.phoneDialCode = value
-        this.$refs['phone-input'].focus()
-      } else {
-        this.value.faxDialCode = value
-        this.$refs['fax-input'].focus()
-      }
     },
     listenEventBus() {
       this.listenSaveButton()
@@ -452,6 +439,7 @@ export default {
     },
     updateInformation() {
       const {
+        industries,
         website,
         companyDescription: company_short_description,
         companyShortDescription: company_description,
@@ -468,6 +456,7 @@ export default {
         languageSpoken,
         acceptedPaymentType
       } = this.value
+      const account_industries = this.checkboxArrayToString2(this.categories, industries)
       const accepted_delivery_terms = checkboxArrayToString(
         this.acceptedDeliveryTerms,
         acceptedDeliveryTerms
@@ -484,6 +473,7 @@ export default {
 
       const body = {
         account_data: {
+          account_industries,
           website,
           company_short_description,
           company_description,
