@@ -4,7 +4,6 @@
     <h3>상세한 정보를 제공하는 회사는 상대 비즈니스와 거래가 성사될 가능성이 높습니다.</h3>
 
     <div id="contents">
-
         <!-- What is your industries? -->
       <section id="industry-container">
         <h4>What is your industries?<required-icon/>
@@ -30,8 +29,8 @@
         <h4>Company Website</h4>
         <input 
           class="table-cell" 
-          type="text" 
           placeholder="e.g www.yourcompany.com"
+          autocomplete="organization"
           v-model="value.website"/>
       </section>
 
@@ -88,11 +87,11 @@
       </section>
 
       <!-- Phone -->
-      <section id="phone-section">
+      <section class="phone-type-section">
         <h4>Phone</h4>
         <div class="table">
-          <div id="code-section" class="table-cell">
-            <select v-model="value.dialCode" @change="onDialCodeChange($event)">
+          <div class="table-cell code-section">
+            <select id="phone" v-model="value.phoneDialCode" @change="onDialCodeChange($event)">
               <option value="" disabled>Select</option>
               <option 
                 v-for="(country,index) in countries" 
@@ -101,32 +100,46 @@
                 :value="country.dialling_code">{{country.country_name}} ({{country.dialling_code}})</option>
             </select>
           </div>
-          <div id="phone-section" class="table-cell">
-            <input id="phone-input" v-model="value.phone" type="text" placeholder="e.g +1-201-555-5555">
+          <div class="table-cell input-section">
+            <div class="input-container">
+              <input 
+                ref="phone-input" 
+                v-model="value.phone" 
+                type="text"
+                autocomplete="tel">
+              <span>{{value.phoneDialCode}}</span>
+            </div>
           </div>
         </div>
       </section>
 
       <!-- Fax -->
-      <section id="phone-section">
+      <section class="phone-type-section">
         <h4>Fax</h4>
         <div class="table">
-          <div id="code-section" class="table-cell">
-            <select v-model="value.dialCode" @change="onDialCodeChange($event)">
+          <div class="table-cell code-section">
+            <select id="fax" v-model="value.faxDialCode" @change="onDialCodeChange($event)">
               <option value="" disabled>Select</option>
               <option 
                 v-for="(country,index) in countries" 
-                :key="index" 
+                :key="index"
                 :title="country.country_name"
                 :value="country.dialling_code">{{country.country_name}} ({{country.dialling_code}})</option>
             </select>
           </div>
-          <div id="phone-section" class="table-cell">
-            <input id="phone-input" v-model="value.fax" type="text" placeholder="e.g +1-201-555-5555">
+          <div class="table-cell input-section">
+            <div class="input-container">
+              <input 
+                ref="fax-input" 
+                v-model="value.fax" 
+                type="text"
+                autocomplete="tel">
+              <span>{{value.faxDialCode}}</span>
+            </div>
           </div>
         </div>
       </section>
-
+ 
       <div class="table">
         <!-- Established Year -->
         <section id="established-year-section" class="table-cell">
@@ -160,7 +173,9 @@
         <!-- Average Lead Time -->
         <section id="average-lead-time-section" class="table-cell">
           <h4>Average Lead Time</h4>
-          <input type="text">
+          <input 
+            type="text"
+            v-model="value.averageLeadTime">
           <span>Day(s)</span>
         </section>
         <!-- Total Annual Revenue -->
@@ -181,6 +196,26 @@
       <!-- Trade Capacity -->
       <div class="section-margin">
         <h2>Trade Capacity</h2>
+        <!-- Accepted Delivery Terms -->
+        <section>
+          <h4>Accepted Delivery Terms</h4>
+          <div id="scroll-container">
+            <div 
+              class="checkbox-row" 
+              v-for="(deliveryTerm, index) in acceptedDeliveryTerms" 
+              :key="index">
+              <input
+                type="checkbox"
+                :id="deliveryTerm.value"
+                :value="deliveryTerm.value"
+                v-model="value.acceptedDeliveryTerms"/>
+              <label 
+                :for="deliveryTerm.value">
+                {{deliveryTerm.value}}
+              </label>
+            </div>
+          </div>
+        </section>
         <!-- Accepted Payment Currency -->
         <section>
           <h4>Accepted Payment Currency</h4>
@@ -197,26 +232,6 @@
               <label 
                 :for="currency.value">
                 {{currency.value}}
-              </label>
-            </div>
-          </div>
-        </section>
-        <!-- Accepted Payment Type -->
-        <section>
-          <h4>Accepted Payment Type</h4>
-          <div id="scroll-container">
-            <div 
-              class="checkbox-row" 
-              v-for="(paymentType, index) in acceptedPaymentType" 
-              :key="index">
-              <input
-                type="checkbox"
-                :id="paymentType.value"
-                :value="paymentType.value"
-                v-model="value.acceptedPaymentType"/>
-              <label 
-                :for="paymentType.value">
-                {{paymentType.value}}
               </label>
             </div>
           </div>
@@ -241,22 +256,22 @@
             </div>
           </div>
         </section>
-        <!-- Accepted Delivery Terms -->
+        <!-- Accepted Payment Type -->
         <section>
-          <h4>Accepted Delivery Terms</h4>
+          <h4>Accepted Payment Type</h4>
           <div id="scroll-container">
             <div 
               class="checkbox-row" 
-              v-for="(deliveryTerm, index) in acceptedDeliveryTerms" 
+              v-for="(paymentType, index) in acceptedPaymentType" 
               :key="index">
               <input
                 type="checkbox"
-                :id="deliveryTerm.value"
-                :value="deliveryTerm.value"
-                v-model="value.acceptedDeliveryTerms"/>
+                :id="paymentType.value"
+                :value="paymentType.value"
+                v-model="value.acceptedPaymentType"/>
               <label 
-                :for="deliveryTerm.value">
-                {{deliveryTerm.value}}
+                :for="paymentType.value">
+                {{paymentType.value}}
               </label>
             </div>
           </div>
@@ -284,8 +299,13 @@ import accepted_payment_type from '~/assets/models/accepted_payment_type.json'
 
 import FooterCaption from '../components/FooterCaption'
 import RequiredIcon from '~/components/Icons/Required'
+import PhoneInput from '~/components/Inputs/Phone'
 import { renderGoogleMap } from '~/utils/google_api'
-import { limitCheckboxMaxLength } from '~/utils/checkbox'
+import {
+  checkboxStringToArray,
+  checkboxArrayToString,
+  limitCheckboxMaxLength
+} from '~/utils/checkbox'
 import { getFullAddress, getRemainInputLength } from '~/utils/text'
 import { getVideoURL } from '~/utils/fileReader'
 import { mapGetters } from 'vuex'
@@ -294,11 +314,12 @@ export default {
   layout: 'wizard',
   components: {
     RequiredIcon,
+    PhoneInput,
     FooterCaption
   },
   head() {
     return {
-      title: 'Basic Company Information',
+      title: 'Business Details',
       link: [
         { hid: 'canonical', rel: 'canonical', href: `https://www.factoryhunt.com/signup/step1` }
       ]
@@ -321,16 +342,17 @@ export default {
       acceptedPaymentType: accepted_payment_type,
       value: {
         industries: [],
-        businessTypes: [],
-        companyDescription: '',
         companyShortDescription: '',
+        companyDescription: '',
         history: '',
         video: '',
-        dialCode: '',
+        phoneDialCode: '',
         phone: '',
+        faxDialCode: '',
         fax: '',
         establishedYear: '',
         numberOfEmployees: '',
+        averageLeadTime: '',
         totalAnnualRevenue: '',
         acceptedDeliveryTerms: [],
         acceptedPaymentCurrency: [],
@@ -345,10 +367,56 @@ export default {
     }),
     getVideo() {
       return getVideoURL(this.value.video)
+    },
+    getAccountId() {
+      return this.userData.account.account_id
     }
   },
   methods: {
-    mappingDatas() {},
+    mappingDatas() {
+      const {
+        website,
+        company_short_description,
+        company_description,
+        history,
+        account_video_url,
+        phone,
+        fax,
+        established_year,
+        number_of_employees,
+        average_lead_time,
+        total_annual_revenue,
+        accepted_delivery_terms,
+        accepted_payment_currency,
+        language_spoken,
+        accepted_payment_type
+      } = this.userData.account
+
+      this.value.website = website
+      this.value.companyShortDescription = company_short_description
+      this.value.companyDescription = company_description
+      this.value.history = history
+      this.value.video = account_video_url
+      this.value.phone = phone
+      this.value.fax = fax
+      this.value.establishedYear = established_year
+      this.value.numberOfEmployees = number_of_employees
+      this.value.averageLeadTime = average_lead_time
+      this.value.totalAnnualRevenue = total_annual_revenue
+      this.value.acceptedDeliveryTerms = checkboxStringToArray(
+        this.acceptedDeliveryTerms,
+        accepted_delivery_terms
+      )
+      this.value.acceptedPaymentCurrency = checkboxStringToArray(
+        this.acceptedPaymentCurrency,
+        accepted_payment_currency
+      )
+      this.value.languageSpoken = checkboxStringToArray(this.languageSpoken, language_spoken)
+      this.value.acceptedPaymentType = checkboxStringToArray(
+        this.acceptedPaymentType,
+        accepted_payment_type
+      )
+    },
     getRemainLength(string, maxLength) {
       return getRemainInputLength(string, maxLength)
     },
@@ -358,10 +426,15 @@ export default {
     },
     onDialCodeChange(event) {
       const $select = event.target
-      const $phoneInput = document.getElementById('phone-input')
-      // $select.style.height = '46.5px'
-      this.value.phone = `${event.target.value}-`
-      $phoneInput.focus()
+      const value = $select.value
+
+      if ($select.id.indexOf('phone') > -1) {
+        this.value.phoneDialCode = value
+        this.$refs['phone-input'].focus()
+      } else {
+        this.value.faxDialCode = value
+        this.$refs['fax-input'].focus()
+      }
     },
     listenEventBus() {
       this.listenSaveButton()
@@ -369,8 +442,7 @@ export default {
     },
     listenSaveButton() {
       EventBus.$on('onSaveButton', () => {
-        console.log('parent called onSaveButton')
-        // this.updateInformation()
+        this.updateInformation()
       })
     },
     listenSkipThisStep() {
@@ -379,16 +451,67 @@ export default {
       })
     },
     updateInformation() {
-      return new Promise((resolve, reject) => {
-        axios
-          .put(`/api/data/account/`)
-          .then(res => {
-            resolve(res)
-          })
-          .catch(err => {
-            reject(err)
-          })
-      })
+      const {
+        website,
+        companyDescription: company_short_description,
+        companyShortDescription: company_description,
+        history,
+        video: account_video_url,
+        phone,
+        fax,
+        establishedYear: established_year,
+        numberOfEmployees: number_of_employees,
+        averageLeadTime: average_lead_time,
+        totalAnnualRevenue: total_annual_revenue,
+        acceptedDeliveryTerms,
+        acceptedPaymentCurrency,
+        languageSpoken,
+        acceptedPaymentType
+      } = this.value
+      const accepted_delivery_terms = checkboxArrayToString(
+        this.acceptedDeliveryTerms,
+        acceptedDeliveryTerms
+      )
+      const accepted_payment_currency = checkboxArrayToString(
+        this.acceptedPaymentCurrency,
+        acceptedPaymentCurrency
+      )
+      const language_spoken = checkboxArrayToString(this.languageSpoken, languageSpoken)
+      const accepted_payment_type = checkboxArrayToString(
+        this.acceptedPaymentType,
+        acceptedPaymentType
+      )
+
+      const body = {
+        account_data: {
+          website,
+          company_short_description,
+          company_description,
+          account_video_url,
+          history,
+          phone,
+          fax,
+          established_year,
+          number_of_employees,
+          average_lead_time,
+          total_annual_revenue,
+          accepted_delivery_terms,
+          accepted_payment_currency,
+          language_spoken,
+          accepted_payment_type
+        }
+      }
+
+      axios
+        .put(`/api/data/account/${this.getAccountId}`, body)
+        .then(res => {
+          console.log(res)
+          EventBus.$emit('onLoadingFinished')
+        })
+        .catch(err => {
+          console.log('update information err', err)
+          EventBus.$emit('onLoadingFailed', err)
+        })
     },
     checkRequiredField() {
       const { industries } = this.value
@@ -413,25 +536,6 @@ export default {
 <style lang="less" scoped>
 @import '~assets/css/index';
 @import '~assets/css/less/wizard/index';
-
-#phone-section {
-  .table {
-    margin-top: 0 !important;
-  }
-
-  #code-section {
-    width: 110px;
-  }
-  select {
-    padding-right: 35px !important;
-    background-position-x: 89%;
-  }
-
-  #phone-section {
-    padding-left: 10px;
-    vertical-align: top;
-  }
-}
 
 #established-year-section {
   width: 164px;

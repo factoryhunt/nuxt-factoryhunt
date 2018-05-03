@@ -176,7 +176,7 @@ export default {
   },
   head() {
     return {
-      title: 'Contacts & Address',
+      title: 'Business Address',
       link: [
         { hid: 'canonical', rel: 'canonical', href: `https://www.factoryhunt.com/signup/step2` }
       ]

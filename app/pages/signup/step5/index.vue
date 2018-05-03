@@ -85,6 +85,25 @@ export default {
     }
   },
   methods: {
+    mappingDatas() {
+      const {
+        logo_url,
+        cover_image_url_1,
+        cover_image_url_2,
+        cover_image_url_3,
+        cover_image_url_4,
+        cover_image_url_5,
+        cover_image_url_6,
+        cover_image_url_7,
+        cover_image_url_8
+      } = this.userData.account
+
+      if (logo_url) {
+        let file = new File([], 'logo_url')
+        file.url = logo_url
+        this.value.logoImageFile.push(file)
+      }
+    },
     getS3Config(fieldname) {
       return {
         mysql_table: 'accounts',
@@ -98,7 +117,7 @@ export default {
     },
     listenSaveButton() {
       EventBus.$on('onSaveButton', () => {
-        console.log('parent called onSaveButton')
+        this.updateInformation()
       })
     },
     isUploading() {
@@ -126,10 +145,41 @@ export default {
     },
     onCoverImageFileError(err) {
       showTopAlert(this.$store, false, err.msg)
+    },
+    updateInformation() {
+      const { logoImageFile, coverImageFiles } = this.value
+
+      let body = {
+        account_data: {}
+      }
+
+      // Put logo files
+      for (let i = 0; i < logoImageFile.length; i++) {
+        const file = logoImageFile[i]
+        body.account_data[`logo_url`] = file.location
+      }
+
+      // Put cover files
+      for (let i = 0; i < coverImageFiles.length; i++) {
+        const file = coverImageFiles[i]
+
+        body.account_data[`cover_image_url_${i + 1}`] = file.location
+      }
+
+      axios
+        .put(`/api/data/account/${this.getAccountId}`, body)
+        .then(res => {
+          EventBus.$emit('onLoadingFinished')
+        })
+        .catch(err => {
+          console.log('update information err', err)
+          EventBus.$emit('onLoadingFailed', err)
+        })
     }
   },
   mounted() {
     this.listenEventBus()
+    this.mappingDatas()
   }
 }
 </script>

@@ -198,6 +198,45 @@
     color: @color-font-gray;
   }
 
+  .phone-type-section {
+    .table {
+      margin-top: 0 !important;
+    }
+
+    .code-section {
+      width: 110px;
+    }
+    select {
+      padding-right: 35px !important;
+      background-position-x: 89%;
+    }
+
+    .input-section {
+      vertical-align: top;
+      padding-left: 14px;
+
+      .input-container {
+        position: relative;
+
+        input {
+          padding-left: 64px !important;
+        }
+
+        span {
+          position: absolute;
+          align-items: center;
+          display: flex;
+          width: 40px;
+          text-align: right;
+          font-size: @font-size;
+          top: @content-margin-top;
+          left: @content-margin-top;
+          bottom: 0;
+        }
+      }
+    }
+  }
+
   .preview-container {
     position: absolute;
     top: 0;

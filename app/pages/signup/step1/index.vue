@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>Hi, {{companyName}}</h1>
+    <h1>Hi, {{value.companyName}}</h1>
     <h3>In this step, we will help you to fill in your company information to connect your potential business partner easier.</h3>
 
     <div id="contents">
@@ -9,17 +9,17 @@
       <!-- Buyer or Supplier => Business Type -->
       <section>
         <h4>Are you a buyer or supplier?</h4>
-        <select v-model="value.userType" @change="onChangedUserType">
+        <select v-model="value.accountType" @change="onChangedUserType">
           <option value="" disabled>Select</option>
-          <option value="buyer">Buyer</option>
-          <option value="supplier">Supplier</option>
-          <option value="buyer_and_supplier">Buyer & Supplier</option>
+          <option value="Buyer">Buyer</option>
+          <option value="Supplier">Supplier</option>
+          <option value="Buyer & Supplier">Buyer & Supplier</option>
         </select>
       </section>
 
       <!-- Business Types -->
-      <div v-show="value.userType">
-        <section class="business-type-container" v-show="value.userType != 'buyer'">
+      <div v-show="value.accountType">
+        <section class="business-type-container" v-show="!isUserBuyer">
           <h4>
             What is your business type?<required-icon/>
             <span class="text-counting">Max {{getMaxBusinessTypeLength}}</span></h4>
@@ -28,7 +28,7 @@
               class="checkbox-row" 
               v-for="(businessType, index) in businessTypes"
               :key="index"
-              v-show="canDisplayBuyingOffice(businessType.value)">
+              v-show="!isUserBuyer">
               <input
                 type="checkbox"
                 :id="businessType.value"
@@ -45,7 +45,7 @@
         </section>
 
         <!-- What do you Buy? -->
-        <section v-if="isUserBuyer">
+        <section v-if="isUserBuyer || isUserBuyerAndSupplier">
           <h4>
             What do you buy?<required-icon/>
             <span class="text-counting">{{getRemainLength(value.buy, MAX_BUY_LENGTH)}}</span></h4>
@@ -58,7 +58,7 @@
         </section>
 
         <!-- What do you Supply? -->
-        <section v-if="isUserSupplier">
+        <section v-if="isUserSupplier || isUserBuyerAndSupplier">
           <h4>What do you supply?<required-icon/>
             <span class="text-counting">{{getRemainLength(value.supply, MAX_SUPPLY_LENGTH)}}</span></h4>
           <input 
@@ -82,7 +82,7 @@
 
     <!-- Bottom Caption -->
     <footer-caption 
-      v-show="value.userType"/>
+      v-show="value.accountType"/>
 
   </div>
 </template>
@@ -93,7 +93,11 @@ import business_type from '~/assets/models/business_type.json'
 import RequiredIcon from '~/components/Icons/Required'
 import FooterCaption from '../components/FooterCaption'
 import { mapGetters } from 'vuex'
-import { limitCheckboxMaxLength } from '~/utils/checkbox'
+import {
+  checkboxStringToArray,
+  checkboxArrayToString,
+  limitCheckboxMaxLength
+} from '~/utils/checkbox'
 import { getRemainInputLength } from '~/utils/text'
 import { EventBus } from '~/eventBus'
 export default {
@@ -116,15 +120,13 @@ export default {
       MAX_BUY_LENGTH: 200,
       MAX_SUPPLY_LENGTH: 200,
       businessTypes: business_type,
-      companyName: '',
       value: {
-        userType: '',
+        companyName: '',
+        accountType: '',
         businessTypes: [],
         buy: '',
         supply: '',
-        domain: '',
-        website: '',
-        companyDescription: ''
+        domain: ''
       }
     }
   },
@@ -132,21 +134,38 @@ export default {
     ...mapGetters({
       userData: 'auth/GET_USER'
     }),
+    getAccountId() {
+      return this.userData.account.account_id
+    },
     isUserBuyer() {
-      return this.value.userType.indexOf('buyer') != -1
+      return this.value.accountType === 'Buyer'
     },
     isUserSupplier() {
-      return this.value.userType.indexOf('supplier') != -1
+      return this.value.accountType === 'Supplier'
+    },
+    isUserBuyerAndSupplier() {
+      return this.value.accountType === 'Buyer & Supplier'
     },
     getMaxBusinessTypeLength() {
-      return this.isUserBuyer ? 4 : 3
+      return this.isUserSupplier ? 3 : 4
     }
   },
   methods: {
     mappingDatas() {
-      const { account } = this.userData
-      this.companyName = account.account_name
-      this.value.domain = account.domain
+      const {
+        account_name,
+        business_type,
+        account_type,
+        products_buy,
+        products,
+        domain
+      } = this.userData.account
+      this.value.companyName = account_name
+      this.value.businessTypes = checkboxStringToArray(this.businessTypes, business_type)
+      this.value.accountType = account_type
+      this.value.buy = products_buy
+      this.value.supply = products
+      this.value.domain = domain
     },
     getRemainLength(string, maxLength) {
       return getRemainInputLength(string, maxLength)
@@ -154,7 +173,9 @@ export default {
     onChangedUserType() {
       this.value.businessTypes = []
 
-      if (this.isUserBuyer) {
+      if (this.isUserBuyer) this.value.businessTypes.push('Buying Office')
+
+      if (this.isUserBuyerAndSupplier) {
         this.value.businessTypes.push('Buying Office')
         this.MAX_BUSINESS_TYPE_LENGTH = 4
       } else {
@@ -171,7 +192,7 @@ export default {
       $buyingOffice.setAttribute('disabled', 'disabled')
     },
     canDisplayBuyingOffice(type) {
-      return !(this.value.userType === 'supplier' && type === 'Buying Office')
+      return !(this.value.accountType === 'supplier' && type === 'Buying Office')
     },
     listenEventBus() {
       this.listenSaveButton()
@@ -179,11 +200,7 @@ export default {
     },
     listenSaveButton() {
       EventBus.$on('onSaveButton', () => {
-        setTimeout(() => {
-          console.log('onLoadingFinish in child')
-          EventBus.$emit('onLoadingFinished')
-        }, 2000)
-        // this.updateInformation()
+        this.updateInformation()
       })
     },
     listenSkipThisStep() {
@@ -192,21 +209,50 @@ export default {
       })
     },
     updateInformation() {
-      return new Promise((resolve, reject) => {
-        axios
-          .put(`/api/data/account/`)
-          .then(res => {
-            resolve(res)
-          })
-          .catch(err => {
-            reject(err)
-          })
-      })
+      const {
+        accountType: account_type,
+        businessTypes,
+        buy: products_buy,
+        supply: products,
+        domain
+      } = this.value
+      const business_type = checkboxArrayToString(this.businessTypes, businessTypes)
+
+      const body = {
+        account_data: {
+          account_type,
+          business_type,
+          products_buy,
+          products,
+          domain
+        }
+      }
+
+      axios
+        .put(`/api/data/account/${this.getAccountId}`, body)
+        .then(res => {
+          EventBus.$emit('onLoadingFinished')
+        })
+        .catch(err => {
+          console.log('update information err', err)
+          EventBus.$emit('onLoadingFailed', err)
+        })
     },
     checkRequiredField() {
-      const { userType, businessTypes, buy, supply, products, domain } = this.value
+      const { accountType, businessTypes, buy, supply, domain } = this.value
 
-      if (userType && businessTypes.length && (buy || supply) && products && domain) {
+      if (this.isUserBuyer && accountType && businessTypes.length && buy && domain) {
+        EventBus.$emit('enableSaveButton')
+      } else if (this.isUserSupplier && accountType && businessTypes.length && supply && domain) {
+        EventBus.$emit('enableSaveButton')
+      } else if (
+        this.isUserBuyerAndSupplier &&
+        accountType &&
+        businessTypes.length &&
+        buy &&
+        supply &&
+        domain
+      ) {
         EventBus.$emit('enableSaveButton')
       } else {
         EventBus.$emit('disableSaveButton')

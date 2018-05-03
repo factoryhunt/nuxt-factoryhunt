@@ -33,7 +33,7 @@ export default {
   },
   head() {
     return {
-      title: 'Certification & Awards',
+      title: 'Documents',
       link: [
         { hid: 'canonical', rel: 'canonical', href: `https://www.factoryhunt.com/signup/step4` }
       ]

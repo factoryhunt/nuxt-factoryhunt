@@ -23,7 +23,7 @@ export const kilobyteToMegabyte = (kilobyte, round = 4) => {
 
 export const getVideoURL = givenURL => {
   // API list: https://developers.google.com/youtube/player_parameters
-  if (!givenURL) return
+  if (!givenURL) return ''
 
   const videoUrl = givenURL
   let videoId = ''

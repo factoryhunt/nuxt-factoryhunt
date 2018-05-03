@@ -112,6 +112,8 @@ export default {
     configDropzone() {
       const $dropzoneContainer = document.getElementById(this.id)
 
+      console.log(this.urlFiles)
+
       if (this.width) {
         $dropzoneContainer.style.width = this.width
       }

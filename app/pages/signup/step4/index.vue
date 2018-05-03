@@ -49,7 +49,7 @@
           <h4>Title/Role</h4>
           <input 
             type="text" 
-            v-model="value.role"
+            v-model="value.title"
             placeholder="e.g CEO">
         </section>
         <!-- Mobile -->
@@ -58,7 +58,7 @@
           <input 
             type="text" 
             placeholder="e.g +1-201-555-5555"
-            v-model="value.mobile">
+            v-model="value.phone">
         </section>
       </div> <!-- End of Contacts Section -->
     </div>
@@ -100,19 +100,36 @@ export default {
         salutation: '',
         firstname: '',
         lastname: '',
-        role: '',
-        mobile: ''
+        title: '',
+        phone: ''
       }
     }
   },
   computed: {
     ...mapGetters({
       userData: 'auth/GET_USER'
-    })
+    }),
+    getContactId() {
+      return this.userData.contact.contact_id
+    }
   },
   methods: {
     mappingDatas() {
-      this.value.email = this.userData.contact.contact_email
+      const {
+        contact_email,
+        salutation,
+        first_name,
+        last_name,
+        contact_title,
+        contact_phone
+      } = this.userData.contact
+
+      this.value.email = contact_email
+      this.value.salutation = salutation
+      this.value.firstname = first_name
+      this.value.lastname = last_name
+      this.value.title = contact_title
+      this.value.phone = contact_phone
     },
     listenEventBus() {
       this.listenSaveButton()
@@ -120,8 +137,7 @@ export default {
     },
     listenSaveButton() {
       EventBus.$on('onSaveButton', () => {
-        console.log('parent called onSaveButton')
-        // this.updateInformation()
+        this.updateInformation()
       })
     },
     listenSkipThisStep() {
@@ -130,17 +146,33 @@ export default {
       })
     },
     updateInformation() {
-      return new Promise((resolve, reject) => {
-        axios
-          .put(`/api/data/account/`)
-          .then(res => {
-            resolve(res)
-          })
-          .catch(err => {
-            console.log('update information err', err)
-            reject(err)
-          })
-      })
+      const {
+        salutation,
+        firstname: first_name,
+        lastname: last_name,
+        title: contact_title,
+        phone: contact_phone
+      } = this.value
+
+      const body = {
+        contact_data: {
+          salutation,
+          first_name,
+          last_name,
+          contact_title,
+          contact_phone
+        }
+      }
+
+      axios
+        .put(`/api/data/contact/${this.getContactId}`, body)
+        .then(res => {
+          EventBus.$emit('onLoadingFinished')
+        })
+        .catch(err => {
+          console.log('update information err', err)
+          EventBus.$emit('onLoadingFailed', err)
+        })
     },
     checkRequiredField() {
       const { email, salutation, firstname, lastname } = this.value
