@@ -37,7 +37,7 @@ export const get_pattern_config = {
   ROLE: 30
 }
 
-export const get_pattern = (type, max_length) => {
+export const get_pattern = (type, max_length, min_length = 1) => {
   let regExr = ''
   let maxLength = 0
 
@@ -86,10 +86,18 @@ export const get_pattern = (type, max_length) => {
       regExr = '0-9-'
       maxLength = get_pattern_max_length.POSTAL
       break
+    case 'name':
+      regExr = 'A-Za-z .-'
+      maxLength = get_pattern_max_length.POSTAL
+      break
+    case 'role':
+      regExr = 'A-Za-z ,'
+      maxLength = get_pattern_max_length.POSTAL
+      break
   }
 
   if (max_length) maxLength = max_length
-  regExr = `[${regExr}]{1,${max_length}}`
+  regExr = `[${regExr}]{${min_length},${max_length}}`
 
   return regExr
 }

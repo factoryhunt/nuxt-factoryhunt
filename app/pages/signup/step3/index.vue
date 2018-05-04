@@ -13,7 +13,8 @@
             <select 
               v-model="value.office.country" 
               autocomplete="address-level1"
-              @change="delayKeyup(ADDRESS_TYPE_OFFICE)">
+              @change="delayKeyup(ADDRESS_TYPE_OFFICE)"
+              required>
               <option value="" disabled>Select</option>
               <option 
                 v-for="(country,index) in countries" 

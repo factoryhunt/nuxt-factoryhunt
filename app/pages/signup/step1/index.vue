@@ -11,7 +11,8 @@
         <h4>Are you a buyer or supplier?</h4>
         <select 
           v-model="value.accountType" 
-          @change="onChangedUserType">
+          @change="onChangedUserType"
+          required>
           <option value="" disabled>Select</option>
           <option value="Buyer">Buyer</option>
           <option value="Supplier">Supplier</option>
@@ -85,7 +86,7 @@
             <p class="table-cell">www.factoryhunt.com/</p>
             <input 
               type="text" 
-              :pattern="getPattern('domain', MAX_DOMAIN_LENGTH)" 
+              :pattern="getPattern('domain', MAX_DOMAIN_LENGTH, 3)" 
               :maxlength="MAX_DOMAIN_LENGTH"
               :title="$t('dashboardCompany.domain.inputTitle')" 
               spellcheck="false" 
@@ -107,9 +108,11 @@
 <script>
 import axios from '~/plugins/axios'
 import business_type from '~/assets/models/business_type.json'
+import static_domains from '~/assets/models/static_domains.json'
 import RequiredIcon from '~/components/Icons/Required'
 import FooterCaption from '../components/FooterCaption'
 import { mapGetters } from 'vuex'
+import { showTopAlert } from '~/utils/alert'
 import { get_pattern, get_pattern_max_length } from '~/utils/reg_exr'
 import {
   checkboxStringToArray,
@@ -166,6 +169,27 @@ export default {
     },
     getMaxBusinessTypeLength() {
       return this.isUserSupplier ? 3 : 4
+    },
+    getApiBody() {
+      const {
+        accountType: account_type,
+        businessTypes,
+        buy: products_buy,
+        supply: products,
+        domain
+      } = this.value
+      const business_type = checkboxArrayToString(this.businessTypes, businessTypes)
+
+      const body = {
+        account_data: {
+          account_type,
+          business_type,
+          products_buy,
+          products,
+          domain
+        }
+      }
+      return body
     }
   },
   methods: {
@@ -188,8 +212,8 @@ export default {
     getRemainLength(string, maxLength) {
       return getRemainInputLength(string, maxLength)
     },
-    getPattern(type, max_length) {
-      return get_pattern(type, max_length)
+    getPattern(type, max_length, min_length) {
+      return get_pattern(type, max_length, min_length)
     },
     onChangedUserType() {
       this.value.businessTypes = []
@@ -212,16 +236,13 @@ export default {
       const $buyingOffice = document.getElementById('Buying Office')
       $buyingOffice.setAttribute('disabled', 'disabled')
     },
-    canDisplayBuyingOffice(type) {
-      return !(this.value.accountType === 'supplier' && type === 'Buying Office')
-    },
     listenEventBus() {
       this.listenSaveButton()
       this.listenSkipThisStep()
     },
     listenSaveButton() {
       EventBus.$on('onSaveButton', () => {
-        this.updateInformation()
+        this.update()
       })
     },
     listenSkipThisStep() {
@@ -229,36 +250,62 @@ export default {
         location.href = '/signup/step2'
       })
     },
-    updateInformation() {
-      const {
-        accountType: account_type,
-        businessTypes,
-        buy: products_buy,
-        supply: products,
-        domain
-      } = this.value
-      const business_type = checkboxArrayToString(this.businessTypes, businessTypes)
-
-      const body = {
-        account_data: {
-          account_type,
-          business_type,
-          products_buy,
-          products,
-          domain
-        }
+    denyStaticDomain() {
+      const { domain } = this.value
+      for (let i = 0; i < static_domains.length; i++) {
+        const _domain = static_domains[i]
+        if (domain === _domain) throw { msg: 'This is static domain.' }
       }
+    },
+    checkDomain() {
+      return new Promise((resolve, reject) => {
+        axios
+          .get(`/api/data/account/check_domain/${this.value.domain}`)
+          .then(res => {
+            const account = res.data
 
-      axios
-        .put(`/api/data/account/${this.getAccountId}`, body)
-        .then(res => {
-          EventBus.$emit('onLoadingFinished')
-          location.href = '/signup/step2'
-        })
-        .catch(err => {
-          console.log('update information err', err)
-          EventBus.$emit('onLoadingFailed', err)
-        })
+            // Nobody taken
+            if (!account.account_id) resolve(account.msg)
+            // This is mine
+            if (account.account_id === this.getAccountId) resolve({ msg: 'This is my domain' })
+            // This is taken
+            else reject({ msg: 'This domain is already taken.' })
+          })
+          .catch(err => {
+            console.log('checkdomain err', err.response)
+            reject(err)
+          })
+      })
+    },
+    requestUpdating() {
+      return new Promise((resolve, reject) => {
+        axios
+          .put(`/api/data/account/${this.getAccountId}`, this.getApiBody)
+          .then(() => resolve())
+          .catch(err => {
+            console.log('request updating err', err.msg)
+            reject(err)
+          })
+      })
+    },
+    finishedUpdating() {
+      EventBus.$emit('onLoadingFinished')
+      location.href = '/signup/step2'
+    },
+    failedUploading() {
+      EventBus.$emit('onLoadingFailed')
+    },
+    async update() {
+      try {
+        this.denyStaticDomain()
+        await this.checkDomain()
+        await this.requestUpdating()
+        this.finishedUpdating()
+      } catch (err) {
+        console.log('update information err\n', err.msg)
+        showTopAlert(this.$store, false, err.msg)
+        EventBus.$emit('onLoadingFailed', err)
+      }
     },
     checkRequiredField() {
       const { accountType, businessTypes, buy, supply, domain } = this.value

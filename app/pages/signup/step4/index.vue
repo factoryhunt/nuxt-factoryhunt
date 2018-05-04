@@ -27,7 +27,8 @@
             <!-- Salutation -->
             <select 
               class="table-cell float-left"
-              v-model="value.salutation">
+              v-model="value.salutation"
+              required>
               <option value="" disabled>Select</option>
               <option 
                 v-for="(salutation,index) in salutations" 
@@ -39,18 +40,20 @@
               class="table-cell" 
               type="text"
               :maxlength="MAX_NAME_LENGTH"
-              :pattern="getPattern('first_name', MAX_NAME_LENGTH)"
+              :pattern="getPattern('name', MAX_NAME_LENGTH)"
               :placeholder="$t('dashboardMyAccount.body.firstName.placeholder')" 
               :title="$t('dashboardMyAccount.body.firstName.inputTitle')" 
-              v-model="value.firstname">
+              v-model="value.firstname"
+              required>
             <!-- Last name -->
             <input 
               class="table-cell" 
               type="text"
-              :pattern="getPattern('last_name', MAX_NAME_LENGTH)"
+              :pattern="getPattern('name', MAX_NAME_LENGTH)"
               :placeholder="$t('dashboardMyAccount.body.lastName.placeholder')" 
               :title="$t('dashboardMyAccount.body.lastName.inputTitle')"
-              v-model="value.lastname">
+              v-model="value.lastname"
+              required>
           </div>
         </section>
         <!-- Title/Role -->
@@ -72,7 +75,7 @@
             :pattern="getPattern('tel', MAX_TEL_LENGTH)"
             :placeholder="$t('dashboardMyAccount.body.mobile.placeholder')" 
             :title="$t('dashboardMyAccount.body.mobile.inputTitle')" 
-            v-model="value.phone">
+            v-model="value.mobile">
         </section>
       </div> <!-- End of Contacts Section -->
     </div>
@@ -119,7 +122,7 @@ export default {
         firstname: '',
         lastname: '',
         title: '',
-        phone: ''
+        mobile: ''
       }
     }
   },
@@ -147,10 +150,10 @@ export default {
       this.value.firstname = first_name
       this.value.lastname = last_name
       this.value.title = contact_title
-      this.value.phone = contact_phone
+      this.value.mobile = contact_phone
     },
-    getPattern(type, max_length) {
-      return get_pattern(type, max_length)
+    getPattern(type, max_length, min_length) {
+      return get_pattern(type, max_length, min_length)
     },
     listenEventBus() {
       this.listenSaveButton()
@@ -172,7 +175,7 @@ export default {
         firstname: first_name,
         lastname: last_name,
         title: contact_title,
-        phone: contact_phone
+        mobile: contact_phone
       } = this.value
 
       const body = {

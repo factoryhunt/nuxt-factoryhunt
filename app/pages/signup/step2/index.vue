@@ -449,8 +449,8 @@ export default {
     getRemainLength(string, maxLength) {
       return getRemainInputLength(string, maxLength)
     },
-    getPattern(type, max_length) {
-      return get_pattern(type, max_length)
+    getPattern(type, max_length, min_length) {
+      return get_pattern(type, max_length, min_length)
     },
     onChangeIndusties() {
       const $inputs = '#industry-container input[type=checkbox]'

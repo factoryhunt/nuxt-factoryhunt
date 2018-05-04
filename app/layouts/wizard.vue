@@ -110,6 +110,7 @@ export default {
       this.enableSaveButton()
       this.disableSaveButton()
       this.onLoadingFinished()
+      this.onLoadingFailed()
     },
     enableSaveButton() {
       EventBus.$on('enableSaveButton', () => (this.toggle.canSave = true))

@@ -38,7 +38,7 @@
             <div class="right-contents">
               <input 
                 type="text" 
-                pattern="[A-Za-z -.]{1,20}" 
+                pattern="[A-Za-z .-]{1,20}" 
                 :placeholder="$t('dashboardMyAccount.body.firstName.placeholder')" 
                 :title="$t('dashboardMyAccount.body.firstName.inputTitle')" v-model="value.firstName"></div>
           </div>
