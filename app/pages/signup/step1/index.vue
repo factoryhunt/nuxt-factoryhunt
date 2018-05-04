@@ -9,7 +9,9 @@
       <!-- Buyer or Supplier => Business Type -->
       <section>
         <h4>Are you a buyer or supplier?</h4>
-        <select v-model="value.accountType" @change="onChangedUserType">
+        <select 
+          v-model="value.accountType" 
+          @change="onChangedUserType">
           <option value="" disabled>Select</option>
           <option value="Buyer">Buyer</option>
           <option value="Supplier">Supplier</option>
@@ -19,7 +21,9 @@
 
       <!-- Business Types -->
       <div v-show="value.accountType">
-        <section class="business-type-container" v-show="!isUserBuyer">
+        <section 
+          class="business-type-container" 
+          v-show="!isUserBuyer">
           <h4>
             What is your business type?<required-icon/>
             <span class="text-counting">Max {{getMaxBusinessTypeLength}}</span></h4>
@@ -36,8 +40,7 @@
                 v-model="value.businessTypes"
                 :disabled="businessType.value === 'Buying Office'"
                 @change="onChangeBusinessTypes"/>
-              <label 
-                :for="businessType.value">
+              <label :for="businessType.value">
                 {{businessType.value}}
               </label>
             </div>
@@ -48,12 +51,12 @@
         <section v-if="isUserBuyer || isUserBuyerAndSupplier">
           <h4>
             What do you buy?<required-icon/>
-            <span class="text-counting">{{getRemainLength(value.buy, MAX_BUY_LENGTH)}}</span></h4>
+            <span class="text-counting">{{getRemainLength(value.buy, MAX_PRODUCTS_LENGTH)}}</span></h4>
           <input 
             type="text" 
             placeholder="e.g LED"
-            pattern="[A-Za-z0-9 ',()-]{1,200}"
-            :maxlength="MAX_BUY_LENGTH"
+            :pattern="getPattern('products', MAX_PRODUCTS_LENGTH)"
+            :maxlength="MAX_PRODUCTS_LENGTH"
             :title="$t('dashboardCompany.company.products.inputTitle')"
             v-model="value.buy"/>
             <h5>Each value is separeted by comma(,)</h5>
@@ -61,25 +64,29 @@
 
         <!-- What do you Supply? -->
         <section v-if="isUserSupplier || isUserBuyerAndSupplier">
-          <h4>What do you supply?<required-icon/>
-            <span class="text-counting">{{getRemainLength(value.supply, MAX_SUPPLY_LENGTH)}}</span></h4>
+          <h4>
+            What do you supply?<required-icon/>
+            <span class="text-counting">{{getRemainLength(value.supply, MAX_PRODUCTS_LENGTH)}}</span></h4>
           <input 
             type="text" 
             placeholder="e.g Steal"
-            pattern="[A-Za-z0-9 ',()-]{1,200}"
-            :maxlength="MAX_SUPPLY_LENGTH"
+            :pattern="getPattern('products', MAX_PRODUCTS_LENGTH)"
+            :maxlength="MAX_PRODUCTS_LENGTH"
             :title="$t('dashboardCompany.company.products.inputTitle')"
             v-model="value.supply"/>
         </section>
 
         <!-- Factory Hunt Domain -->
         <section id="domain-section">
-          <h4>Website Address in Factory Hunt<required-icon/></h4>
+          <h4>
+            Website Address in Factory Hunt<required-icon/>
+            <span class="text-counting">{{getRemainLength(value.domain, MAX_DOMAIN_LENGTH)}}</span></h4>
           <div class="table">
             <p class="table-cell">www.factoryhunt.com/</p>
             <input 
               type="text" 
-              pattern="[a-z0-9.]{3,50}" 
+              :pattern="getPattern('domain', MAX_DOMAIN_LENGTH)" 
+              :maxlength="MAX_DOMAIN_LENGTH"
               :title="$t('dashboardCompany.domain.inputTitle')" 
               spellcheck="false" 
               autocomplete="off" 
@@ -103,6 +110,7 @@ import business_type from '~/assets/models/business_type.json'
 import RequiredIcon from '~/components/Icons/Required'
 import FooterCaption from '../components/FooterCaption'
 import { mapGetters } from 'vuex'
+import { get_pattern, get_pattern_max_length } from '~/utils/reg_exr'
 import {
   checkboxStringToArray,
   checkboxArrayToString,
@@ -126,9 +134,9 @@ export default {
   },
   data() {
     return {
-      MAX_BUSINESS_TYPE_LENGTH: 3,
-      MAX_BUY_LENGTH: 200,
-      MAX_SUPPLY_LENGTH: 200,
+      MAX_BUSINESS_TYPE_LENGTH: get_pattern_max_length.BUSINESS_TYPE,
+      MAX_PRODUCTS_LENGTH: get_pattern_max_length.PRODUCTS,
+      MAX_DOMAIN_LENGTH: get_pattern_max_length.DOMAIN,
       businessTypes: business_type,
       value: {
         companyName: '',
@@ -179,6 +187,9 @@ export default {
     },
     getRemainLength(string, maxLength) {
       return getRemainInputLength(string, maxLength)
+    },
+    getPattern(type, max_length) {
+      return get_pattern(type, max_length)
     },
     onChangedUserType() {
       this.value.businessTypes = []
@@ -242,6 +253,7 @@ export default {
         .put(`/api/data/account/${this.getAccountId}`, body)
         .then(res => {
           EventBus.$emit('onLoadingFinished')
+          location.href = '/signup/step2'
         })
         .catch(err => {
           console.log('update information err', err)

@@ -9,8 +9,9 @@
     "title": "Company Name",
     "required": "<i class=\"fa fa-circle\" aria-hidden=\"true\"></i> Required field",
     "desc": "Use the official company name from the business registration certificate.",
-    "placeholder": "Factory Hunt, Inc.",
-    "inputTitle": "It must be characters 2-50 and can only contain English letters, numbers, periods, comma, ampersand and parentheses."
+    "placeholder": "e.g Factory Hunt, Inc.",
+    "inputTitle":
+      "It must be characters 2-50 and can only contain English letters, numbers, periods, comma, ampersand and parentheses."
   },
   "businessType": {
     "title": "Company Business Type",
@@ -31,8 +32,9 @@
   "shortDescription": {
     "title": "Company Short Description",
     "desc": "Describe your company in 150 characters or less.",
-    "placeholder": "Factory Hunt is a global B2B platform.",
-    "inputTitle": "It must be characters 2-150 and can only contain letters, numbers, periods, comma, hyphens and apostrophe."
+    "placeholder": "E.g Factory Hunt is a global B2B platform.",
+    "inputTitle":
+      "It must be characters 2-150 and can only contain letters, numbers, periods, comma, hyphens and apostrophe."
   },
   "video": {
     "title": "Company Introduction Video",
@@ -43,7 +45,7 @@
   "description": {
     "title": "Company Description",
     "desc": "Describe your company.",
-    "placeholder": "Factory Hunt is a global B2B platform.",
+    "placeholder": "E.g Factory Hunt is a global B2B platform.",
     "inputTitle": "It must be less than 25000 digits."
   },
   "company": {
@@ -52,17 +54,19 @@
     "desc2": "Address Information",
     "products": {
       "title": "Products",
-      "placeholder": "LED, Light bulbs, ...",
-      "inputTitle": "It must be 1-200 characters and can only contain letters, numbers, comma, hyphens, parenthesis and apostrophe."
+      "placeholder": "E.g LED, Light bulbs, ...",
+      "inputTitle":
+        "It must be 1-200 characters and can only contain letters, numbers, comma, hyphens, parenthesis and apostrophe."
     },
     "website": {
       "title": "Website",
-      "placeholder": "www.factoryhunt.com",
-      "inputTitle": "It must be 1-100 characters and can only contain letters, numbers, hyphens, slash and periods."
+      "placeholder": "E.g www.factoryhunt.com",
+      "inputTitle":
+        "It must be 1-100 characters and can only contain letters, numbers, hyphens, slash and periods."
     },
     "phone": {
       "title": "Phone",
-      "placeholder": "+1-917-1234-5678",
+      "placeholder": "E.g +1-917-1234-5678",
       "inputTitle": "It must be 1-21 characters and can only contain numbers, plus, and hyphens."
     },
     "averageLeadTime": {
@@ -87,27 +91,29 @@
     },
     "state": {
       "title": "State",
-      "placeholder": "California",
+      "placeholder": "E.g California",
       "inputTitle": "It must be 1-50 characters and can only contain letters and hyphens."
     },
     "city": {
       "title": "City",
-      "placeholder": "San Francisco",
+      "placeholder": "E.g San Francisco",
       "inputTitle": "It must be 1-50 characters and can only contain letters and hyphens."
     },
     "street": {
       "title": "Street Address",
-      "placeholder": "7 Hacker Street",
-      "inputTitle": "It must be 1-100 characters and can only contain letters, numbers, hyphens, periods, comma, slash, hash, and parentheses"
+      "placeholder": "E.g 7 Hacker Street",
+      "inputTitle":
+        "It must be 1-100 characters and can only contain letters, numbers, hyphens, periods, comma, slash, hash, and parentheses"
     },
     "street2": {
       "title": "Street Address 2",
-      "placeholder": "Floor 2",
-      "inputTitle": "It must be 1-100 characters and can only contain letters, numbers, hyphens, periods, comma, slash hash, and parentheses"
+      "placeholder": "E.g Floor 2",
+      "inputTitle":
+        "It must be 1-100 characters and can only contain letters, numbers, hyphens, periods, comma, slash hash, and parentheses"
     },
     "postal": {
       "title": "Postal Code",
-      "placeholder": "12345",
+      "placeholder": "E.g 12345",
       "inputTitle": "It must be 1-10 characters and can only contain letters."
     }
   },
@@ -119,17 +125,19 @@
     "title": "Company History",
     "desc": "",
     "inputTitle": "It must be less than 25000 digits.",
-    "placeholder": "1984 : B brand founded\n2000 : Management buyout from C and merged with D \n2005 : E leads a management buyout of the Group as CEO, backed by F\n2009 : Group opens Chinese facility\n2013 : LED lighting range is launched Group’s Chinese facility expanded\n2015 : Group achieves sales of $100m for the first time Offices opened in United States\n2016 : Group’s Chinese facility is expanded to 52,500 square metres Offices opened in Hong Kong and Spain"
+    "placeholder":
+      "1984 : B brand founded\n2000 : Management buyout from C and merged with D \n2005 : E leads a management buyout of the Group as CEO, backed by F\n2009 : Group opens Chinese facility\n2013 : LED lighting range is launched Group’s Chinese facility expanded\n2015 : Group achieves sales of $100m for the first time Offices opened in United States\n2016 : Group's Chinese facility is expanded to 52,500 square metres Offices opened in Hong Kong and Spain"
   },
   "save": {
     "title": "Confirm and Save",
-    "desc": "Please confirm the information above before you save it. Company information will be updated immediately.",
+    "desc":
+      "Please confirm the information above before you save it. Company information will be updated immediately.",
     "button": "Save"
   },
   "domain": {
     "title": "Customize your domain.",
-    "placeholder": "Domain address",
-    "inputTitle": "It must be 3-50 and can only contain letters, numbers and periods.",
+    "placeholder": "E.g factoryhunt",
+    "inputTitle": "It must be 3-50 and can only contain lowercased letters, numbers and periods.",
     "button": "Save"
   },
   "upload": "Upload",
@@ -141,8 +149,10 @@
   },
   "cover": {
     "title": "Edit Company Cover Image",
-    "desc": "Cover images will be located at the top of your company page.<br>The first one will be the main cover image. You can upload up to 8 images.<br>Maximum file size is 5MB each.",
-    "caution": "Optimize your cover photo for the right dimensions: 1280 pixels wide and 487 pixels tall.",
+    "desc":
+      "Cover images will be located at the top of your company page.<br>The first one will be the main cover image. You can upload up to 8 images.<br>Maximum file size is 5MB each.",
+    "caution":
+      "Optimize your cover photo for the right dimensions: 1280 pixels wide and 487 pixels tall.",
     "button": "Choose File"
   },
   "alert": {

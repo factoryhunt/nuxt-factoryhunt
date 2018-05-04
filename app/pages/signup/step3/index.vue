@@ -6,7 +6,6 @@
       <!-- Office address -->
       <div id="address-container">
         <h2>Office Address</h2>
-        <!-- Country & State -->
         <div class="table">
           <!-- Country -->
           <section class="table-cell">
@@ -27,12 +26,17 @@
             <h4>State</h4>
             <input 
               type="text" 
-              placeholder="e.g California" 
+              :maxlength="MAX_STATE_LENGTH" 
+              :pattern="getAddressPattern('state', MAX_STATE_LENGTH)" 
+              :title="$t('dashboardCompany.company.state.inputTitle')" 
+              :placeholder="$t('dashboardCompany.company.state.placeholder')" 
               v-model="value.office.state" 
               @change="delayKeyup(ADDRESS_TYPE_OFFICE)">
           </section>
           <!-- Map Preview -->
-          <div class="preview-container" tabindex="-1">
+          <div 
+            class="preview-container" 
+            tabindex="-1">
             <div class="preview-wrapper">
               <div id="no-map" class="preview-item" v-show="!value.office.isMapDisplayed">
                 <span>{{value.office.mapPreview}}</span>
@@ -46,7 +50,10 @@
           <h4>City</h4>
           <input 
             type="text" 
-            placeholder="e.g San Francisco"
+            :placeholder="$t('dashboardCompany.company.city.placeholder')" 
+            :maxlength="MAX_CITY_LENGTH" 
+            :pattern="getAddressPattern('city', MAX_CITY_LENGTH)" 
+            :title="$t('dashboardCompany.company.city.inputTitle')" 
             v-model="value.office.city"
             @change="delayKeyup(ADDRESS_TYPE_OFFICE)">
         </section>
@@ -55,7 +62,10 @@
           <h4>Street Address</h4>
           <input 
             type="text"
-            placeholder="e.g 7 Hacker Street" 
+            :placeholder="$t('dashboardCompany.company.street.placeholder')" 
+            :maxlength="MAX_STREET_LENGTH"
+            :pattern="getAddressPattern('address', MAX_STREET_LENGTH)"
+            :title="$t('dashboardCompany.company.street.inputTitle')" 
             autocomplete="address-line1"
             v-model="value.office.streetAddress"
             @change="delayKeyup(ADDRESS_TYPE_OFFICE)">
@@ -65,7 +75,10 @@
           <h4>Street Address Details</h4>
           <input 
             type="text" 
-            placeholder="e.g Floor 2"
+            :maxlength="MAX_STREET_LENGTH"
+            :pattern="getAddressPattern('address', MAX_STREET_LENGTH)"
+            :title="$t('dashboardCompany.company.street2.inputTitle')" 
+            :placeholder="$t('dashboardCompany.company.street2.placeholder')" 
             v-model="value.office.streetAddress2">
         </section>
         <!-- Postal Code -->
@@ -74,6 +87,10 @@
           <input 
             id="zip-code" 
             type="text" 
+            :maxlength="MAX_POSTAL_LENGTH"
+            :placeholder="$t('dashboardCompany.company.postal.placeholder')" 
+            :pattern="getAddressPattern('postal', MAX_POSTAL_LENGTH)" 
+            :title="$t('dashboardCompany.company.postal.inputTitle')" 
             autocomplete="postal-code"
             v-model="value.office.postalCode">
         </section>
@@ -81,7 +98,6 @@
       <!-- Factory Address -->
       <div id="address-container" class="section-margin">
         <h2>Factory Address</h2>
-        <!-- Country & State -->
         <div class="table">
           <!-- Country -->
           <section class="table-cell">
@@ -102,12 +118,17 @@
             <h4>State</h4>
             <input 
               type="text" 
-              placeholder="e.g California" 
+              :maxlength="MAX_STATE_LENGTH" 
+              :pattern="getAddressPattern('state', MAX_STATE_LENGTH)" 
+              :title="$t('dashboardCompany.company.state.inputTitle')" 
+              :placeholder="$t('dashboardCompany.company.state.placeholder')" 
               v-model="value.factory.state" 
               @change="delayKeyup(ADDRESS_TYPE_FACTORY)">
           </section>
           <!-- Map Preview -->
-          <div class="preview-container" tabindex="-1">
+          <div 
+            class="preview-container" 
+            tabindex="-1">
             <div class="preview-wrapper">
               <div id="no-map" class="preview-item" v-show="!value.factory.isMapDisplayed">
                 <span>{{value.factory.mapPreview}}</span>
@@ -121,7 +142,10 @@
           <h4>City</h4>
           <input 
             type="text" 
-            placeholder="e.g San Francisco"
+            :placeholder="$t('dashboardCompany.company.city.placeholder')" 
+            :maxlength="MAX_CITY_LENGTH" 
+            :pattern="getAddressPattern('city', MAX_CITY_LENGTH)" 
+            :title="$t('dashboardCompany.company.city.inputTitle')" 
             v-model="value.factory.city"
             @change="delayKeyup(ADDRESS_TYPE_FACTORY)">
         </section>
@@ -130,7 +154,10 @@
           <h4>Street Address</h4>
           <input 
             type="text"
-            placeholder="e.g 7 Hacker Street" 
+            :placeholder="$t('dashboardCompany.company.street.placeholder')" 
+            :maxlength="MAX_STREET_LENGTH"
+            :pattern="getAddressPattern('address', MAX_STREET_LENGTH)"
+            :title="$t('dashboardCompany.company.street.inputTitle')" 
             autocomplete="address-line1"
             v-model="value.factory.streetAddress"
             @change="delayKeyup(ADDRESS_TYPE_FACTORY)">
@@ -140,7 +167,10 @@
           <h4>Street Address Details</h4>
           <input 
             type="text" 
-            placeholder="e.g Floor 2"
+            :maxlength="MAX_STREET_LENGTH"
+            :pattern="getAddressPattern('address', MAX_STREET_LENGTH)"
+            :title="$t('dashboardCompany.company.street2.inputTitle')" 
+            :placeholder="$t('dashboardCompany.company.street2.placeholder')" 
             v-model="value.factory.streetAddress2">
         </section>
         <!-- Postal Code -->
@@ -149,6 +179,10 @@
           <input 
             id="zip-code" 
             type="text" 
+            :maxlength="MAX_POSTAL_LENGTH"
+            :placeholder="$t('dashboardCompany.company.postal.placeholder')" 
+            :pattern="getAddressPattern('postal', MAX_POSTAL_LENGTH)" 
+            :title="$t('dashboardCompany.company.postal.inputTitle')" 
             autocomplete="postal-code"
             v-model="value.factory.postalCode">
         </section>
@@ -165,6 +199,7 @@ import countries from '~/assets/models/country.json'
 import FooterCaption from '../components/FooterCaption'
 import RequiredIcon from '~/components/Icons/Required'
 import { mapGetters } from 'vuex'
+import { get_pattern, get_pattern_max_length } from '~/utils/reg_exr'
 import { renderGoogleMap } from '~/utils/google_api'
 import { getFullAddress } from '~/utils/text'
 import { EventBus } from '~/eventBus'
@@ -186,6 +221,10 @@ export default {
     return {
       ADDRESS_TYPE_OFFICE: 'office',
       ADDRESS_TYPE_FACTORY: 'factory',
+      MAX_STATE_LENGTH: get_pattern_max_length.STATE,
+      MAX_CITY_LENGTH: get_pattern_max_length.CITY,
+      MAX_STREET_LENGTH: get_pattern_max_length.STREET,
+      MAX_POSTAL_LENGTH: get_pattern_max_length.POSTAL,
       countries: countries,
       value: {
         office: {
@@ -271,6 +310,9 @@ export default {
     delayKeyup(type) {
       const value = type === this.ADDRESS_TYPE_OFFICE ? this.value.office : this.value.factory
       this.renderMap(type, value)
+    },
+    getAddressPattern(type, max_length) {
+      return get_pattern(type, max_length)
     },
     async renderMap(type, value) {
       value.isMapDisplayed = false
@@ -377,6 +419,7 @@ export default {
         .put(`/api/data/account/${this.getAccountId}`, body)
         .then(res => {
           EventBus.$emit('onLoadingFinished')
+          location.href = '/signup/step4'
         })
         .catch(err => {
           console.log('update information err', err)

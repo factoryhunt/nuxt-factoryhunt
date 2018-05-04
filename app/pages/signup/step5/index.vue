@@ -97,12 +97,6 @@ export default {
         cover_image_url_7,
         cover_image_url_8
       } = this.userData.account
-
-      if (logo_url) {
-        let file = new File([], 'logo_url')
-        file.url = logo_url
-        this.value.logoImageFile.push(file)
-      }
     },
     getS3Config(fieldname) {
       return {
@@ -129,19 +123,19 @@ export default {
       })
     },
     onLogoFileAdded(files) {
-      console.log(files)
       this.value.logoImageFile = files
 
-      EventBus.$emit('enableSaveButton')
+      if (files.length) EventBus.$emit('enableSaveButton')
+      else EventBus.$emit('disableSaveButton')
     },
     onLogoFileError(err) {
       showTopAlert(this.$store, false, err.msg)
     },
     onCoverImageFileAdded(files) {
-      console.log(files)
       this.value.coverImageFiles = files
 
-      EventBus.$emit('enableSaveButton')
+      if (files.length) EventBus.$emit('enableSaveButton')
+      else EventBus.$emit('disableSaveButton')
     },
     onCoverImageFileError(err) {
       showTopAlert(this.$store, false, err.msg)
@@ -170,6 +164,7 @@ export default {
         .put(`/api/data/account/${this.getAccountId}`, body)
         .then(res => {
           EventBus.$emit('onLoadingFinished')
+          location.href = '/dashboard'
         })
         .catch(err => {
           console.log('update information err', err)
@@ -179,7 +174,7 @@ export default {
   },
   mounted() {
     this.listenEventBus()
-    this.mappingDatas()
+    // this.mappingDatas()
   }
 }
 </script>

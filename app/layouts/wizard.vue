@@ -1,7 +1,7 @@
 <template>
   <div id="container">
     <form @submit.prevent="onSaveButton">
-      <top-alert-bar/>
+      <top-alert-bar id="alert"/>
 
       <div id="wizard-container">
         <!-- Left Fixed Bar -->
@@ -66,14 +66,12 @@ export default {
     Brand,
     RequiredIcon
   },
-  data() {
-    return {
-      toggle: {
-        canSave: false,
-        isLoading: false
-      }
+  data: () => ({
+    toggle: {
+      canSave: false,
+      isLoading: false
     }
-  },
+  }),
   methods: {
     preventEvents() {
       this.preventFileDragEvent()
@@ -114,24 +112,16 @@ export default {
       this.onLoadingFinished()
     },
     enableSaveButton() {
-      EventBus.$on('enableSaveButton', () => {
-        this.toggle.canSave = true
-      })
+      EventBus.$on('enableSaveButton', () => (this.toggle.canSave = true))
     },
     disableSaveButton() {
-      EventBus.$on('disableSaveButton', () => {
-        this.toggle.canSave = false
-      })
+      EventBus.$on('disableSaveButton', () => (this.toggle.canSave = false))
     },
     onLoadingFinished() {
-      EventBus.$on('onLoadingFinished', () => {
-        this.uploadFinished()
-      })
+      EventBus.$on('onLoadingFinished', () => this.uploadFinished())
     },
     onLoadingFailed() {
-      EventBus.$on('onLoadingFailed', () => {
-        this.uploadFinished()
-      })
+      EventBus.$on('onLoadingFailed', () => this.uploadFinished())
     },
     uploadStarted() {
       this.toggle.isLoading = true

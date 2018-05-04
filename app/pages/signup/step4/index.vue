@@ -9,7 +9,11 @@
         <!-- Email -->
         <section>
           <h4>Your email
-            <a class="text-counting" href="/contact" target="_blank">Help?</a></h4>
+            <!-- Help Button -->
+            <a 
+              class="text-counting" 
+              href="/contact" 
+              target="_blank">Help?</a></h4>
           <input 
             v-model="value.email" 
             type="text" 
@@ -34,14 +38,19 @@
             <input 
               class="table-cell" 
               type="text"
-              v-model="value.firstname" 
-              placeholder="Peter">
+              :maxlength="MAX_NAME_LENGTH"
+              :pattern="getPattern('first_name', MAX_NAME_LENGTH)"
+              :placeholder="$t('dashboardMyAccount.body.firstName.placeholder')" 
+              :title="$t('dashboardMyAccount.body.firstName.inputTitle')" 
+              v-model="value.firstname">
             <!-- Last name -->
             <input 
               class="table-cell" 
               type="text"
-              v-model="value.lastname" 
-              placeholder="Smith">
+              :pattern="getPattern('last_name', MAX_NAME_LENGTH)"
+              :placeholder="$t('dashboardMyAccount.body.lastName.placeholder')" 
+              :title="$t('dashboardMyAccount.body.lastName.inputTitle')"
+              v-model="value.lastname">
           </div>
         </section>
         <!-- Title/Role -->
@@ -49,15 +58,20 @@
           <h4>Title/Role</h4>
           <input 
             type="text" 
-            v-model="value.title"
-            placeholder="e.g CEO">
+            :maxlength="MAX_ROLE_LENGTH"
+            :pattern="getPattern('role', MAX_ROLE_LENGTH)"
+            :placeholder="$t('dashboardMyAccount.body.titles.placeholder')" 
+            :title="$t('dashboardMyAccount.body.titles.inputTitle')" 
+            v-model="value.title">
         </section>
         <!-- Mobile -->
         <section>
           <h4>Mobile</h4>
           <input 
             type="text" 
-            placeholder="e.g +1-201-555-5555"
+            :pattern="getPattern('tel', MAX_TEL_LENGTH)"
+            :placeholder="$t('dashboardMyAccount.body.mobile.placeholder')" 
+            :title="$t('dashboardMyAccount.body.mobile.inputTitle')" 
             v-model="value.phone">
         </section>
       </div> <!-- End of Contacts Section -->
@@ -75,6 +89,7 @@ import salutations from '~/assets/models/salutation.json'
 import FooterCaption from '../components/FooterCaption'
 import RequiredIcon from '~/components/Icons/Required'
 import { mapGetters } from 'vuex'
+import { get_pattern, get_pattern_max_length } from '~/utils/reg_exr'
 import { renderGoogleMap } from '~/utils/google_api'
 import { getFullAddress } from '~/utils/text'
 import { EventBus } from '~/eventBus'
@@ -94,6 +109,9 @@ export default {
   },
   data() {
     return {
+      MAX_NAME_LENGTH: get_pattern_max_length.NAME,
+      MAX_ROLE_LENGTH: get_pattern_max_length.ROLE,
+      MAX_TEL_LENGTH: get_pattern_max_length.TEL,
       salutations: salutations,
       value: {
         email: '',
@@ -130,6 +148,9 @@ export default {
       this.value.lastname = last_name
       this.value.title = contact_title
       this.value.phone = contact_phone
+    },
+    getPattern(type, max_length) {
+      return get_pattern(type, max_length)
     },
     listenEventBus() {
       this.listenSaveButton()
@@ -168,6 +189,7 @@ export default {
         .put(`/api/data/contact/${this.getContactId}`, body)
         .then(res => {
           EventBus.$emit('onLoadingFinished')
+          location.href = '/signup/step5'
         })
         .catch(err => {
           console.log('update information err', err)
