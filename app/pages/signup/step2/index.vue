@@ -4,29 +4,6 @@
     <h3>상세한 정보를 제공하는 회사는 상대 비즈니스와 거래가 성사될 가능성이 높습니다.</h3>
 
     <div id="contents">
-        <!-- What is your industries? -->
-      <section id="industry-container">
-        <h4>
-          What is your industries?<required-icon/>
-          <span class="text-counting">{{getRemainLength(value.industries, MAX_INDUSTRY_LENGTH)}} Remainings</span></h4>
-        <div id="scroll-container">
-          <div 
-            class="checkbox-row" 
-            v-for="(category, index) in categories" 
-            :key="index">
-            <input
-              type="checkbox"
-              :id="category.name"
-              :value="category.name"
-              v-model="value.industries"
-              @change="onChangeIndusties"/>
-            <label :for="category.name">
-              {{category.name}}
-            </label>
-          </div>
-        </div>
-      </section>
-
       <!-- Website -->
       <section>
         <h4>
@@ -43,71 +20,6 @@
           autocomplete="organization"
           spellcheck="false"
           v-model="value.website"/>
-      </section>
-
-      <!-- Company Short Description -->
-      <section>
-        <h4>
-          Company Short Description
-          <span class="text-counting">{{getRemainLength(value.companyShortDescription, MAX_SHORT_DESCRIPTION_LENGTH)}}</span></h4>
-        <textarea 
-          rows="4"
-          :placeholder="$t('dashboardCompany.shortDescription.placeholder')"
-          :pattern="getPattern('short_description', MAX_SHORT_DESCRIPTION_LENGTH)"
-          :maxLength="MAX_SHORT_DESCRIPTION_LENGTH"
-          :title="$t('dashboardCompany.shortDescription.inputTitle')"
-          v-model="value.companyShortDescription"></textarea>
-      </section>
-
-      <!-- Company Description -->
-      <section>
-        <h4>Company Description
-          <span class="text-counting">{{getRemainLength(value.companyDescription, MAX_LONG_DESCRIPTION_LENGTH)}}</span>
-        </h4>
-        <textarea 
-          rows="9"
-          :pattern="getPattern('long_description', MAX_LONG_DESCRIPTION_LENGTH)"
-          :maxlength="MAX_LONG_DESCRIPTION_LENGTH"
-          :title="$t('dashboardCompany.description.inputTitle')" 
-          v-model="value.companyDescription"></textarea>
-      </section>
-
-      <!-- Company History -->
-      <section>
-        <h4>Company History
-          <span class="text-counting">{{getRemainLength(value.history, MAX_LONG_DESCRIPTION_LENGTH)}}</span></h4>
-        <textarea 
-          rows="9"
-          :placeholder="$t('dashboardCompany.history.placeholder')" 
-          :pattern="getPattern('long_description', MAX_LONG_DESCRIPTION_LENGTH)"
-          :maxlength="MAX_LONG_DESCRIPTION_LENGTH"
-          :title="$t('dashboardCompany.history.inputTitle')" 
-          v-model="value.history"></textarea>
-      </section>
-
-      <!-- Company Introduction Video -->
-      <section>
-        <h4>Company Introduction Video</h4>
-        <input 
-          type="text"
-          :pattern="getPattern('video', MAX_VIDEO_LENGTH)"
-          :maxlength="MAX_VIDEO_LENGTH"
-          :title="$t('dashboardCompany.video.inputTitle')"
-          placeholder="e.g https://vimeo.com/12345678"
-          v-model="value.video">
-        <h5>Please copy and paste only YouTube or Vimeo link.</h5>
-        <div 
-          id="video-preview-section" 
-          class="preview-container" 
-          tabindex="-1">
-          <div class="video-container">
-            <iframe 
-            class="preview-item"
-            :src="getVideo" 
-            frameborder="0" 
-            allowfullscreen></iframe>
-          </div>
-        </div>
       </section>
 
       <!-- Phone -->
@@ -188,6 +100,71 @@
           </select>
         </section>
       </div>
+
+      <!-- Company Introduction Video -->
+      <section>
+        <h4>Company Introduction Video</h4>
+        <input 
+          type="text"
+          :pattern="getPattern('video', MAX_VIDEO_LENGTH)"
+          :maxlength="MAX_VIDEO_LENGTH"
+          :title="$t('dashboardCompany.video.inputTitle')"
+          placeholder="e.g https://vimeo.com/12345678"
+          v-model="value.video">
+        <h5>Please copy and paste only YouTube or Vimeo link.</h5>
+        <div 
+          id="video-preview-section" 
+          class="preview-container" 
+          tabindex="-1">
+          <div class="video-container">
+            <iframe 
+            class="preview-item"
+            :src="getVideo" 
+            frameborder="0" 
+            allowfullscreen></iframe>
+          </div>
+        </div>
+      </section>
+
+      <!-- Company Short Description -->
+      <section>
+        <h4>
+          Company Short Description
+          <span class="text-counting">{{getRemainLength(value.companyShortDescription, MAX_SHORT_DESCRIPTION_LENGTH)}}</span></h4>
+        <textarea 
+          rows="4"
+          :placeholder="$t('dashboardCompany.shortDescription.placeholder')"
+          :pattern="getPattern('short_description', MAX_SHORT_DESCRIPTION_LENGTH)"
+          :maxLength="MAX_SHORT_DESCRIPTION_LENGTH"
+          :title="$t('dashboardCompany.shortDescription.inputTitle')"
+          v-model="value.companyShortDescription"></textarea>
+      </section>
+
+      <!-- Company Description -->
+      <section>
+        <h4>Company Description
+          <span class="text-counting">{{getRemainLength(value.companyDescription, MAX_LONG_DESCRIPTION_LENGTH)}}</span>
+        </h4>
+        <textarea 
+          rows="9"
+          :pattern="getPattern('long_description', MAX_LONG_DESCRIPTION_LENGTH)"
+          :maxlength="MAX_LONG_DESCRIPTION_LENGTH"
+          :title="$t('dashboardCompany.description.inputTitle')" 
+          v-model="value.companyDescription"></textarea>
+      </section>
+
+      <!-- Company History -->
+      <section>
+        <h4>Company History
+          <span class="text-counting">{{getRemainLength(value.history, MAX_LONG_DESCRIPTION_LENGTH)}}</span></h4>
+        <textarea 
+          rows="9"
+          :placeholder="$t('dashboardCompany.history.placeholder')" 
+          :pattern="getPattern('long_description', MAX_LONG_DESCRIPTION_LENGTH)"
+          :maxlength="MAX_LONG_DESCRIPTION_LENGTH"
+          :title="$t('dashboardCompany.history.inputTitle')" 
+          v-model="value.history"></textarea>
+      </section>
 
       <!-- Trade Capacity -->
       <div class="section-margin">
@@ -283,7 +260,6 @@
 
 <script>
 import axios from '~/plugins/axios'
-import categories from '~/assets/models/categories.json'
 import countries from '~/assets/models/country.json'
 import established_year from '~/assets/models/established_year.json'
 import number_of_employees from '~/assets/models/number_of_employees.json'
@@ -325,13 +301,11 @@ export default {
   },
   data() {
     return {
-      MAX_INDUSTRY_LENGTH: get_pattern_max_length.INDUSTRIES,
       MAX_WEBSITE_LENGTH: get_pattern_max_length.WEBSITE,
       MAX_SHORT_DESCRIPTION_LENGTH: get_pattern_max_length.SHORT_DESCRIPTION,
       MAX_LONG_DESCRIPTION_LENGTH: get_pattern_max_length.LONG_DESCRIPTION,
       MAX_VIDEO_LENGTH: get_pattern_max_length.VIDEO,
       MAX_PHONE_TYPE_LENGTH: get_pattern_max_length.TEL,
-      categories: categories,
       countries: countries,
       establishedYear: established_year,
       numberOfEmployees: number_of_employees,
@@ -376,7 +350,6 @@ export default {
   methods: {
     mappingDatas() {
       const {
-        account_industries,
         website,
         company_short_description,
         company_description,
@@ -394,7 +367,6 @@ export default {
         accepted_payment_type
       } = this.userData.account
 
-      this.value.industries = this.checkboxStringToArray2(this.categories, account_industries)
       this.value.website = website
       this.value.companyShortDescription = company_short_description
       this.value.companyDescription = company_description
@@ -420,41 +392,11 @@ export default {
         accepted_payment_type
       )
     },
-    checkboxStringToArray2(originalArray, string) {
-      let temp = []
-
-      for (const i in originalArray) {
-        const value = originalArray[i].name
-        if (string.includes(value)) {
-          temp.push(value)
-        }
-      }
-      return temp
-    },
-    checkboxArrayToString2(originalArray, array) {
-      let string = ''
-      let removedEmptyArray = removeNullInArray(array)
-
-      for (const originalIndex in originalArray) {
-        const rawValue = originalArray[originalIndex].name
-
-        for (const index in removedEmptyArray) {
-          if (rawValue === removedEmptyArray[index]) {
-            string = string + `, ${rawValue}`
-          }
-        }
-      }
-      return string.substring(2)
-    },
     getRemainLength(string, maxLength) {
       return getRemainInputLength(string, maxLength)
     },
     getPattern(type, max_length, min_length) {
       return get_pattern(type, max_length, min_length)
-    },
-    onChangeIndusties() {
-      const $inputs = '#industry-container input[type=checkbox]'
-      limitCheckboxMaxLength($inputs, this.value.industries, 5)
     },
     listenEventBus() {
       this.listenSaveButton()
@@ -472,7 +414,6 @@ export default {
     },
     updateInformation() {
       const {
-        industries,
         website,
         companyDescription: company_short_description,
         companyShortDescription: company_description,
@@ -489,7 +430,6 @@ export default {
         languageSpoken,
         acceptedPaymentType
       } = this.value
-      const account_industries = this.checkboxArrayToString2(this.categories, industries)
       const accepted_delivery_terms = checkboxArrayToString(
         this.acceptedDeliveryTerms,
         acceptedDeliveryTerms
@@ -506,7 +446,6 @@ export default {
 
       const body = {
         account_data: {
-          account_industries,
           website,
           company_short_description,
           company_description,

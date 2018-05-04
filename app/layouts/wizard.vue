@@ -12,7 +12,7 @@
             <li><a id="nav-menu-1" href="/signup/step1">Basic Company Information</a></li>
             <li><a id="nav-menu-2" href="/signup/step2">Business Details</a></li>
             <li><a id="nav-menu-3" href="/signup/step3">Business Address</a></li>
-            <li><a id="nav-menu-4" href="/signup/step4">Contacts Details</a></li>
+            <li><a id="nav-menu-4" href="/signup/step4">Contact Details</a></li>
             <li><a id="nav-menu-5" href="/signup/step5">Brand Images</a></li>
             <!-- <li><a id="nav-menu-6" href="/signup/step6">Certification & Awards</a></li> -->
           </ul>

@@ -48,6 +48,29 @@
           </div>
         </section>
 
+        <!-- What is your industries? -->
+        <section id="industry-container">
+          <h4>
+            What is your industries?<required-icon/>
+            <span class="text-counting">{{getRemainLength(value.industries, MAX_INDUSTRY_LENGTH)}} Remainings</span></h4>
+          <div id="scroll-container">
+            <div 
+              class="checkbox-row" 
+              v-for="(category, index) in categories" 
+              :key="index">
+              <input
+                type="checkbox"
+                :id="category.name"
+                :value="category.name"
+                v-model="value.industries"
+                @change="onChangeIndusties"/>
+              <label :for="category.name">
+                {{category.name}}
+              </label>
+            </div>
+          </div>
+        </section>
+
         <!-- What do you Buy? -->
         <section v-if="isUserBuyer || isUserBuyerAndSupplier">
           <h4>
@@ -107,6 +130,7 @@
 
 <script>
 import axios from '~/plugins/axios'
+import categories from '~/assets/models/categories.json'
 import business_type from '~/assets/models/business_type.json'
 import static_domains from '~/assets/models/static_domains.json'
 import RequiredIcon from '~/components/Icons/Required'
@@ -137,11 +161,14 @@ export default {
   },
   data() {
     return {
+      MAX_INDUSTRY_LENGTH: get_pattern_max_length.INDUSTRIES,
       MAX_BUSINESS_TYPE_LENGTH: get_pattern_max_length.BUSINESS_TYPE,
       MAX_PRODUCTS_LENGTH: get_pattern_max_length.PRODUCTS,
       MAX_DOMAIN_LENGTH: get_pattern_max_length.DOMAIN,
+      categories: categories,
       businessTypes: business_type,
       value: {
+        industries: [],
         companyName: '',
         accountType: '',
         businessTypes: [],
@@ -172,16 +199,19 @@ export default {
     },
     getApiBody() {
       const {
+        industries,
         accountType: account_type,
         businessTypes,
         buy: products_buy,
         supply: products,
         domain
       } = this.value
+      const account_industries = this.checkboxArrayToString2(this.categories, industries)
       const business_type = checkboxArrayToString(this.businessTypes, businessTypes)
 
       const body = {
         account_data: {
+          account_industries,
           account_type,
           business_type,
           products_buy,
@@ -195,6 +225,7 @@ export default {
   methods: {
     mappingDatas() {
       const {
+        account_industries,
         account_name,
         business_type,
         account_type,
@@ -202,12 +233,40 @@ export default {
         products,
         domain
       } = this.userData.account
+
+      this.value.industries = this.checkboxStringToArray2(this.categories, account_industries)
       this.value.companyName = account_name
       this.value.businessTypes = checkboxStringToArray(this.businessTypes, business_type)
       this.value.accountType = account_type
       this.value.buy = products_buy
       this.value.supply = products
       this.value.domain = domain
+    },
+    checkboxStringToArray2(originalArray, string) {
+      let temp = []
+
+      for (const i in originalArray) {
+        const value = originalArray[i].name
+        if (string.includes(value)) {
+          temp.push(value)
+        }
+      }
+      return temp
+    },
+    checkboxArrayToString2(originalArray, array) {
+      let string = ''
+      let removedEmptyArray = removeNullInArray(array)
+
+      for (const originalIndex in originalArray) {
+        const rawValue = originalArray[originalIndex].name
+
+        for (const index in removedEmptyArray) {
+          if (rawValue === removedEmptyArray[index]) {
+            string = string + `, ${rawValue}`
+          }
+        }
+      }
+      return string.substring(2)
     },
     getRemainLength(string, maxLength) {
       return getRemainInputLength(string, maxLength)
@@ -226,6 +285,10 @@ export default {
       } else {
         this.MAX_BUSINESS_TYPE_LENGTH = 3
       }
+    },
+    onChangeIndusties() {
+      const $inputs = '#industry-container input[type=checkbox]'
+      limitCheckboxMaxLength($inputs, this.value.industries, 5)
     },
     onChangeBusinessTypes() {
       const $inputs = '.business-type-container input[type=checkbox]'
@@ -268,8 +331,9 @@ export default {
             if (!account.account_id) resolve(account.msg)
             // This is mine
             if (account.account_id === this.getAccountId) resolve({ msg: 'This is my domain' })
-            // This is taken
-            else reject({ msg: 'This domain is already taken.' })
+            else
+              // This is taken
+              reject({ msg: 'This domain is already taken.' })
           })
           .catch(err => {
             console.log('checkdomain err', err.response)
