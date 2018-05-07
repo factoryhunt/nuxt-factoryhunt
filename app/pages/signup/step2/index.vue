@@ -77,29 +77,18 @@
         </section>
       </div>
 
-      <div class="table">
-        <!-- Average Lead Time -->
-        <section id="average-lead-time-section" class="table-cell">
-          <h4>Average Lead Time</h4>
-          <input 
-            type="text"
-            v-model="value.averageLeadTime">
-          <span>Day(s)</span>
-        </section>
-        <!-- Total Annual Revenue -->
-        <section id="total-annual-revenue-section" class="table-cell">
-          <h4>Total Annual Revenue</h4>
-          <select 
-            class="table-cell float-left"
-            v-model="value.totalAnnualRevenue">
-            <option value="" disabled>Select</option>
-            <option
-              v-for="(revenue, index) in totalAnnualRevenue"
-              :key="index"
-              :value="revenue.value">{{revenue.value}}</option>
-          </select>
-        </section>
-      </div>
+      <!-- Total Annual Revenue -->
+      <section id="total-annual-revenue-section">
+        <h4>Total Annual Revenue</h4>
+        <select v-model="value.totalAnnualRevenue">
+          <option value="" disabled>Select</option>
+          <option
+            v-for="(revenue, index) in totalAnnualRevenue"
+            :key="index"
+            :value="revenue.value">{{revenue.value}}</option>
+        </select>
+      </section>
+
 
       <!-- Company Introduction Video -->
       <section>
@@ -169,6 +158,14 @@
       <!-- Trade Capacity -->
       <div class="section-margin">
         <h2>Trade Capacity</h2>
+        <!-- Average Lead Time -->
+        <section id="average-lead-time-section">
+          <h4>Average Lead Time</h4>
+          <input 
+            type="text"
+            v-model="value.averageLeadTime">
+          <span>Day(s)</span>
+        </section>
         <!-- Accepted Delivery Terms -->
         <section>
           <h4>Accepted Delivery Terms</h4>
@@ -295,7 +292,11 @@ export default {
     return {
       title: 'Business Details',
       link: [
-        { hid: 'canonical', rel: 'canonical', href: `https://www.factoryhunt.com/signup/step1` }
+        {
+          hid: 'canonical',
+          rel: 'canonical',
+          href: `https://www.factoryhunt.com/signup/step1`
+        }
       ]
     }
   },
@@ -386,7 +387,10 @@ export default {
         this.acceptedPaymentCurrency,
         accepted_payment_currency
       )
-      this.value.languageSpoken = checkboxStringToArray(this.languageSpoken, language_spoken)
+      this.value.languageSpoken = checkboxStringToArray(
+        this.languageSpoken,
+        language_spoken
+      )
       this.value.acceptedPaymentType = checkboxStringToArray(
         this.acceptedPaymentType,
         accepted_payment_type
@@ -438,7 +442,10 @@ export default {
         this.acceptedPaymentCurrency,
         acceptedPaymentCurrency
       )
-      const language_spoken = checkboxArrayToString(this.languageSpoken, languageSpoken)
+      const language_spoken = checkboxArrayToString(
+        this.languageSpoken,
+        languageSpoken
+      )
       const accepted_payment_type = checkboxArrayToString(
         this.acceptedPaymentType,
         acceptedPaymentType
@@ -519,12 +526,6 @@ export default {
     display: inline-block;
     width: 104px;
     margin-right: 8px;
-  }
-}
-#total-annual-revenue-section {
-  padding-left: 80px;
-  select {
-    background-position-x: 95%;
   }
 }
 </style>

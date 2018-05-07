@@ -33,7 +33,7 @@
               class="checkbox-row" 
               v-for="(businessType, index) in businessTypes"
               :key="index"
-              v-show="!isUserBuyer">
+              v-show="!(businessType.value === 'Buying Office' && isUserSupplier)">
               <input
                 type="checkbox"
                 :id="businessType.value"
@@ -141,6 +141,7 @@ import { get_pattern, get_pattern_max_length } from '~/utils/reg_exr'
 import {
   checkboxStringToArray,
   checkboxArrayToString,
+  removeNullInArray,
   limitCheckboxMaxLength
 } from '~/utils/checkbox'
 import { getRemainInputLength } from '~/utils/text'
@@ -155,7 +156,11 @@ export default {
     return {
       title: 'Basic Company Information',
       link: [
-        { hid: 'canonical', rel: 'canonical', href: `https://www.factoryhunt.com/signup/step1` }
+        {
+          hid: 'canonical',
+          rel: 'canonical',
+          href: `https://www.factoryhunt.com/signup/step1`
+        }
       ]
     }
   },
@@ -198,7 +203,7 @@ export default {
       return this.isUserSupplier ? 3 : 4
     },
     getApiBody() {
-      const {
+      let {
         industries,
         accountType: account_type,
         businessTypes,
@@ -206,8 +211,17 @@ export default {
         supply: products,
         domain
       } = this.value
-      const account_industries = this.checkboxArrayToString2(this.categories, industries)
-      const business_type = checkboxArrayToString(this.businessTypes, businessTypes)
+      const account_industries = this.checkboxArrayToString2(
+        this.categories,
+        industries
+      )
+      const business_type = checkboxArrayToString(
+        this.businessTypes,
+        businessTypes
+      )
+
+      if (this.isUserBuyer) products = ''
+      if (this.isUserSupplier) products_buy = ''
 
       const body = {
         account_data: {
@@ -219,6 +233,7 @@ export default {
           domain
         }
       }
+
       return body
     }
   },
@@ -234,9 +249,15 @@ export default {
         domain
       } = this.userData.account
 
-      this.value.industries = this.checkboxStringToArray2(this.categories, account_industries)
+      this.value.industries = this.checkboxStringToArray2(
+        this.categories,
+        account_industries
+      )
       this.value.companyName = account_name
-      this.value.businessTypes = checkboxStringToArray(this.businessTypes, business_type)
+      this.value.businessTypes = checkboxStringToArray(
+        this.businessTypes,
+        business_type
+      )
       this.value.accountType = account_type
       this.value.buy = products_buy
       this.value.supply = products
@@ -293,7 +314,11 @@ export default {
     onChangeBusinessTypes() {
       const $inputs = '.business-type-container input[type=checkbox]'
 
-      limitCheckboxMaxLength($inputs, this.value.businessTypes, this.MAX_BUSINESS_TYPE_LENGTH)
+      limitCheckboxMaxLength(
+        $inputs,
+        this.value.businessTypes,
+        this.MAX_BUSINESS_TYPE_LENGTH
+      )
 
       // Buying Office is always disabled
       const $buyingOffice = document.getElementById('Buying Office')
@@ -330,7 +355,8 @@ export default {
             // Nobody taken
             if (!account.account_id) resolve(account.msg)
             // This is mine
-            if (account.account_id === this.getAccountId) resolve({ msg: 'This is my domain' })
+            if (account.account_id === this.getAccountId)
+              resolve({ msg: 'This is my domain' })
             else
               // This is taken
               reject({ msg: 'This domain is already taken.' })
@@ -345,15 +371,16 @@ export default {
       return new Promise((resolve, reject) => {
         axios
           .put(`/api/data/account/${this.getAccountId}`, this.getApiBody)
-          .then(() => resolve())
+          .then(() => {
+            resolve()
+          })
           .catch(err => {
-            console.log('request updating err', err.msg)
+            console.log('request updating err', err)
             reject(err)
           })
       })
     },
     finishedUpdating() {
-      EventBus.$emit('onLoadingFinished')
       location.href = '/signup/step2'
     },
     failedUploading() {
@@ -372,22 +399,31 @@ export default {
       }
     },
     checkRequiredField() {
-      const { accountType, businessTypes, buy, supply, domain } = this.value
-
-      if (this.isUserBuyer && accountType && businessTypes.length && buy && domain) {
-        EventBus.$emit('enableSaveButton')
-      } else if (this.isUserSupplier && accountType && businessTypes.length && supply && domain) {
-        EventBus.$emit('enableSaveButton')
-      } else if (
-        this.isUserBuyerAndSupplier &&
-        accountType &&
-        businessTypes.length &&
-        buy &&
-        supply &&
+      const {
+        accountType,
+        businessTypes,
+        industries,
+        buy,
+        supply,
         domain
-      ) {
+      } = this.value
+
+      if (
+        !accountType ||
+        !businessTypes.length ||
+        !industries.length ||
+        !domain
+      )
+        return EventBus.$emit('disableSaveButton')
+
+      if (this.isUserBuyer && buy) {
+        EventBus.$emit('enableSaveButton')
+      } else if (this.isUserSupplier && supply) {
+        EventBus.$emit('enableSaveButton')
+      } else if (this.isUserBuyerAndSupplier && buy && supply) {
         EventBus.$emit('enableSaveButton')
       } else {
+        console.log('nono')
         EventBus.$emit('disableSaveButton')
       }
     }
