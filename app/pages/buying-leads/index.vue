@@ -9,7 +9,7 @@
         :categories="categories"
         v-model="value.categorySearch"/>
       <!-- Feeds -->
-      <feed/>
+      <feed :user="this.userData"/>
 
       <!-- Right Activities or Ads -->
       <activity/>
@@ -25,7 +25,9 @@ import Feed from './components/Feed'
 import Activity from './components/Activity'
 // models
 import Categories from '~/assets/models/categories.json'
+import { mapGetters } from 'vuex'
 export default {
+  layout: 'feed',
   components: {
     PageHeader,
     NavigationBar,
@@ -38,8 +40,13 @@ export default {
       categorySearch: ''
     }
   }),
+  computed: {
+    ...mapGetters({
+      userData: 'auth/GET_USER'
+    })
+  },
   mounted() {
-    console.log('mounted')
+    console.log(this.userData)
   }
 }
 </script>
@@ -47,6 +54,7 @@ export default {
 <style lang="less" scoped>
 @import '~assets/css/index';
 @import '~assets/css/less/buying_leads/index';
+@section-margin: 40px;
 
 #contents {
   padding: @section-margin 0;

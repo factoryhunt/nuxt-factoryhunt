@@ -31,9 +31,11 @@ export default {
 <style lang="less" scoped>
 @import '~assets/css/index';
 @import '~assets/css/less/buying_leads/index';
+@font-size: 16px;
+
 nav {
   position: relative;
-  width: 200px !important;
+  width: 210px !important;
   margin-right: @container-margin;
   margin-bottom: @container-margin;
 }
@@ -45,12 +47,14 @@ p {
 input {
   width: 100%;
   padding: 8px 34px 8px 11px !important;
-  font-size: 17px;
+  font-size: @font-size;
   margin-top: 8px;
+  background-color: @color-white !important;
   background: url(~assets/icons/magnifying-glass.svg);
   background-size: 16px;
   background-repeat: no-repeat;
   background-position: 94% 50%;
+  .gray-border;
 }
 
 ul {
@@ -58,19 +62,20 @@ ul {
   margin-top: @container-margin;
 }
 li {
-  background-color: @color-white;
-
   a {
     display: block;
-    padding: 7px;
+    padding: 7px 11px;
     width: 100%;
     height: 100%;
-    font-size: 16px;
+    font-size: @font-size;
     color: @color-font-black;
+    border: 1px solid transparent;
+    border-radius: @border-radius;
     text-decoration: none !important;
 
     &:hover {
       color: @color-orange;
+      .gray-border;
     }
   }
 }
