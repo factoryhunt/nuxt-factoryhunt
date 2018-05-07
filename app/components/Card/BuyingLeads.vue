@@ -3,6 +3,7 @@
     <h2>Buying Leads</h2>
     <div class="card-container">
       <div class="card-wrapper">
+
         <div class="card-wrapper__header">
           <h3>Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusantium aliquid perferendis.</h3>
         </div>
@@ -12,15 +13,6 @@
     </div>
   </div>
 </template>
-
-<script>
-export default {
-  data: () => ({
-    img:
-      'https://images.unsplash.com/photo-1474674556023-efef886fa147?ixlib=rb-0.3.5&s=e2288bfa468d5c55332ef462a11e335d&auto=format&fit=crop&w=1500&q=80'
-  })
-}
-</script>
 
 <style lang="less" scoped>
 @import '~assets/css/index';
