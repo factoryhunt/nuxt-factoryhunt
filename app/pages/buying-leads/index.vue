@@ -14,7 +14,8 @@
         :feeds="this.feeds"/>
 
       <!-- Right Activities or Ads -->
-      <activity/>
+      <activity
+        :user="this.userData"/>
     </div>
   </div>
 </template>
@@ -109,9 +110,6 @@ export default {
     ...mapGetters({
       userData: 'auth/GET_USER'
     })
-  },
-  mounted() {
-    console.log(this.userData)
   }
 }
 </script>

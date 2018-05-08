@@ -35,10 +35,15 @@ export default {
 @font-size: 16px;
 
 nav {
+  display: none;
   position: relative;
   width: 210px !important;
   margin-right: @container-margin;
   margin-bottom: @container-margin;
+
+  @media (min-width: 744px) {
+    display: block;
+  }
 }
 p {
   text-transform: uppercase;

@@ -79,9 +79,6 @@ export default {
     getFeedHref(feed) {
       return `/buying-leads/${feed.id}`
     }
-  },
-  mounted() {
-    console.log('this.user', this.user)
   }
 }
 </script>
@@ -147,30 +144,42 @@ ul {
       flex-direction: row;
       justify-content: space-between;
       align-items: center;
-      font-size: 14px;
+      font-size: 11px;
       color: @color-font-gray;
+
+      @media (min-width: 744px) {
+        font-size: 14px;
+      }
     }
 
     .title {
-      font-size: 19px;
+      font-size: 16px;
       font-weight: 500;
       color: #000;
+      flex: 1;
+
+      @media (min-width: 744px) {
+        font-size: 19px;
+      }
     }
     .date {
-      font-size: 12px;
+      font-size: 9px;
       text-transform: uppercase;
       font-weight: 500;
+
+      @media (min-width: 744px) {
+        font-size: 12px;
+      }
     }
 
     .desc {
       margin-top: 9px;
-      font-size: 16px;
+      font-size: 13px;
       color: @color-font-gray;
-    }
 
-    .country {
-      font-size: 13px !important;
-      margin-top: 12px;
+      @media (min-width: 744px) {
+        font-size: 16px;
+      }
     }
 
     .bottom {
@@ -187,7 +196,7 @@ ul {
       border: 1px solid @color-border-gray;
       border-radius: @border-radius;
       background-color: @color-bg-gray;
-      font-size: 11px;
+      font-size: 9px;
       color: @color-font-gray;
       margin-right: 8px;
       margin-bottom: 8px;
@@ -195,11 +204,15 @@ ul {
       &:last-child {
         margin-bottom: 0;
       }
+
+      @media (min-width: 744px) {
+        font-size: 11px;
+      }
     }
     .quotes {
       color: @color-link;
       font-weight: 600;
-      margin-left: 10px;
+      margin-left: 6px;
       text-transform: uppercase;
     }
   }
