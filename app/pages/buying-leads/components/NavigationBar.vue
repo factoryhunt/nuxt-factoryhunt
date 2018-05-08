@@ -4,6 +4,8 @@
     <p>Category</p>
     <input ref="categorySearchInput" type="text" @input="updateCategorySearch()">
     <ul>
+      <li>
+        <a href="/buying-leads">All</a></li>
       <li 
         v-for="(category, i) in categories"
         :key="i">
@@ -15,7 +17,6 @@
 <script>
 export default {
   props: ['categories'],
-  models: ['search'],
   methods: {
     getItemHref(name) {
       return `/buying-leads/${name}`
@@ -68,13 +69,13 @@ li {
     width: 100%;
     height: 100%;
     font-size: @font-size;
-    color: @color-font-black;
+    color: @color-font-black !important;
     border: 1px solid transparent;
     border-radius: @border-radius;
     text-decoration: none !important;
 
     &:hover {
-      color: @color-orange;
+      color: @color-orange !important;
       .gray-border;
     }
   }
