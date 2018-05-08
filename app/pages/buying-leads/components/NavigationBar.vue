@@ -19,7 +19,7 @@ export default {
   props: ['categories'],
   methods: {
     getItemHref(name) {
-      return `/buying-leads/${name}`
+      return `/buying-leads?category=${name}`
     },
     updateCategorySearch() {
       const value = this.$refs.categorySearchInput.value
