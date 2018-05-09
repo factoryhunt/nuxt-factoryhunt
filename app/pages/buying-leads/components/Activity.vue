@@ -162,7 +162,7 @@ footer {
   font-size: 12px;
 }
 .social {
-  margin-top: 3px;
+  margin-top: 6px;
   a {
     display: inline-flex;
   }

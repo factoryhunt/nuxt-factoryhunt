@@ -21,7 +21,6 @@ export default {
 
 <style lang="less" scoped>
 @import '~assets/css/index';
-@import '~assets/css/less/buying_leads/index';
 #feed {
   background-color: @color-bg-gray;
 }

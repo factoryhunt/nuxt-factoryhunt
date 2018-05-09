@@ -88,6 +88,8 @@ export default {
 @import '~assets/css/index';
 @import '~assets/css/less/buying_leads/index';
 
+@margin-left: 6px;
+
 #feed-container {
   flex: 1 !important;
 }
@@ -157,12 +159,16 @@ ul {
       font-weight: 500;
       color: #000;
       flex: 1;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
 
       @media (min-width: 744px) {
         font-size: 19px;
       }
     }
     .date {
+      margin-left: @margin-left;
       font-size: 9px;
       text-transform: uppercase;
       font-weight: 500;
@@ -212,7 +218,7 @@ ul {
     .quotes {
       color: @color-link;
       font-weight: 600;
-      margin-left: 6px;
+      margin-left: @margin-left;
       text-transform: uppercase;
     }
   }
