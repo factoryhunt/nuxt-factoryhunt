@@ -1,16 +1,16 @@
 <template>
-  <div class="category-container">
+  <div class="select-container">
     <!-- Select -->
     <div 
-      class="select-container"
-      ref="selectContainer"
+      class="input-container"
+      ref="inputContainer"
       @click="onSelectClick()">
       <span>Select</span>
     </div>
     <!-- Options -->
     <div 
       class="option-container"
-      v-if="isVisible">
+      v-show="isVisible">
       <div class="option-wrapper">
         <!-- Step1 -->
         <ul v-show="step1.length">
@@ -139,9 +139,11 @@ export default {
   },
   watch: {
     isVisible: function(bool) {
-      const $selectContainer = this.$refs.selectContainer
-      if (bool) $selectContainer.classList.add('focus')
-      else $selectContainer.classList.remove('focus')
+      const $inputContainer = this.$refs.inputContainer
+
+      bool
+        ? $inputContainer.classList.add('focus')
+        : $inputContainer.classList.remove('focus')
     }
   },
   mounted() {
@@ -153,11 +155,11 @@ export default {
 <style lang="less" scoped>
 @import '~assets/css/index';
 
-.category-container {
+.select-container {
   position: relative;
 }
 
-.select-container {
+.input-container {
   border: 1px solid @color-light-grey;
   border-radius: @border-radius;
   display: block;
@@ -197,7 +199,7 @@ ul {
   margin: 0;
   overflow: scroll;
   width: 250px;
-  max-height: 310px;
+  max-height: 290px;
   height: 100%;
   box-shadow: 2px 2px 4px @color-light-grey;
   border-right: 1px solid @color-light-gray;

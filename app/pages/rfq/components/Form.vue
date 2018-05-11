@@ -3,16 +3,15 @@
     <div class="main-wrapper">
       <div class="form-container">
         <form @submit.prevent="onSubmitButton()">
-          <!-- Title of Form -->
-          <h3 class="form__title">Tell Suppliers What You Looking for</h3>
 
-          <!-- Form Input -->
-          <div class="input-wrapper">
+          <div>
+            <!-- Title of Form -->
+            <h3>Complete Your RFQ</h3>
 
             <!-- Title of Buying Lead -->
-            <section class="title-section">
+            <section>
               <label
-                for="title-input">Title</label>
+                for="title-input">Title<required-icon/></label>
               <text-input
                 id="title-input"
                 class="input"
@@ -24,26 +23,109 @@
             <!-- Category -->
             <section>
               <label 
-                for="category-input">Category</label>
+                for="category-input">Category<required-icon/></label>
               <category-input
                 id="category-input"
                 class="input"/>
             </section>
 
+            <!-- Quantity & Unit -->
+            <section id="preffered-unit-price-section">
+              <label for="">Quantity</label>
+              <div class="section-divider">
+                <text-input
+                  id="quantity"
+                  class="input"
+                  :value="value.title"
+                  placeholder="E.g 10000"
+                  @input="onTitleUpdated"/>
+                <select-input
+                  id="unit"
+                  class="input"
+                  :array="units"/>
+              </div>
+            </section>
+
             <!-- Description -->
             <section id="description-section">
-              <label for="description-input">What you need</label>
+              <label for="description-input">What you need<required-icon/></label>
               <text-area
                 id="description-input"
                 class="input"
+                :rows="11"
                 :value="value.description"
                 @input="onDescriptionUpdated"/>
             </section>
+          </div>
+
+          <!-- Other Requirements -->
+          <div class="section-container">
+            <h3>Other Requirements</h3>
+
+            <!-- Dropzone -->
+            <section id="dropzone-section">
+              <label>Images</label>
+              <dropzone
+                id="dropzone"
+                class="input"
+                :maxFileLength="5"
+                :maxFileSize="1"
+                imageWidth="240px"
+                :s3="getS3Config"/>
+            </section>
+
             <!-- Quantity & Unit -->
+            <section id="preffered-unit-price-section">
+              <label for="">Preferred Unit Price</label>
+              <div class="section-divider">
+                <text-input
+                  id="quantity"
+                  class="input"
+                  :value="value.title"
+                  placeholder="E.g 10000"
+                  @input="onTitleUpdated"/>
+                <select-input
+                  id="unit"
+                  class="input"
+                  :array="units"/>
+              </div>
+            </section>
 
-            <!-- Trade Capacity -->
+            <!-- Delivery Terms -->
+            <div class="section-divider">
+              <section id="delivery-terms-section">
+                <label for="">Delivery Term</label>
+                <select-input
+                  class="input"
+                  :array="deliveryTerms"/>
+              </section>
 
-            <!-- Paid Request -->
+              <!-- Payment Type -->
+              <section id="payment-type-section">
+                <label for="">Payment Type</label>
+                <select-input
+                  class="input"
+                  id="payment-type"
+                  :array="paymentTypes"/>
+              </section>
+            </div>
+
+            <!-- Destination Port -->
+            <section id="destination-port-section">
+              <label for="">Destination Port</label>
+              <text-input
+                class="input"
+                :value="value.title"
+                placeholder="E.g Busan"
+                @input="onTitleUpdated"/>
+            </section>
+
+          </div>
+
+          <!-- Paid Request -->
+
+          <div class="section-container">
+            <h3>Confirm and Submit</h3>
 
             <!-- Agreements -->
             <section
@@ -60,8 +142,8 @@
                 role="submit"
                 class="button-orange">Sumbit Requetion</button>
             </section>
-
           </div>
+
         </form>
       </div>
     </div>
@@ -70,17 +152,35 @@
 
 <script>
 // components
+import RequiredIcon from '~/components/Icons/Required'
+import Dropzone from '~/components/Dropzone/Test'
 import TextInput from '~/components/Inputs/Text'
 import CategoryInput from '~/components/Inputs/Category'
 import TextArea from '~/components/Inputs/Textarea'
+import SelectInput from '~/components/Inputs/Select'
 import Checkbox from '~/components/Inputs/Checkbox'
 export default {
-  props: ['value'],
+  props: ['user', 'value', 'units', 'deliveryTerms', 'paymentTypes'],
   components: {
+    RequiredIcon,
+    Dropzone,
     TextInput,
     CategoryInput,
     TextArea,
+    SelectInput,
     Checkbox
+  },
+  computed: {
+    getContactId() {
+      return this.user.contact.contact_id
+    },
+    getS3Config() {
+      return {
+        mysql_table: 'buying_leads',
+        fieldname: 'rfq_image',
+        api_url: `/api/data/documents/${this.getContactId}`
+      }
+    }
   },
   methods: {
     onTitleUpdated(value) {
@@ -100,8 +200,14 @@ export default {
 @import '~assets/css/index';
 @import '~assets/css/less/rfq/index';
 
+@section-margin: 40px;
+
 main {
   flex: 1;
+}
+
+.section-container {
+  margin-top: @section-margin;
 }
 
 .form-container {
@@ -112,6 +218,7 @@ main {
 .form__title {
   font-weight: 400;
 }
+
 .input-wrapper {
   margin-top: 40px;
 }
@@ -127,8 +234,30 @@ section {
     margin-top: 8px;
   }
 }
+.section-divider {
+  display: flex;
+  align-items: center;
+
+  #delivery-terms-section {
+    flex: 1;
+    margin-right: 10px;
+  }
+  #payment-type-section {
+    flex: 1;
+    margin-left: 10px;
+  }
+
+  #quantity {
+    flex: 2;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+  #unit {
+    flex: 1;
+  }
+}
+
 #agreement-section {
-  margin-top: 40px;
   font-size: 14px;
 }
 #submit-section {

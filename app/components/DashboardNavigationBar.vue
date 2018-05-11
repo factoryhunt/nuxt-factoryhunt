@@ -6,6 +6,7 @@
         <a id="item-company" class="tab" href="/dashboard/company">{{ $t('navigationBar.company') }}</a>
         <a id="item-product" class="tab" href="/dashboard/product">{{ $t('navigationBar.product') }}</a>
         <a id="item-inbox" class="tab" href="/dashboard/inbox" v-show="contact.contact_level === '0'">{{ $t('navigationBar.inbox') }}</a>
+        <a id="item-buying_leads" class="tab" href="/dashboard/buying-leads">{{ $t('navigationBar.buyingLeads') }}</a>
         <a id="item-account" class="tab" href="/dashboard/account">{{ $t('navigationBar.account') }}</a>
         <a id="item-email" class="tab" href="/dashboard/email" v-show="contact.contact_level === '0'">{{ $t('navigationBar.email') }}</a>
       </div>
@@ -35,6 +36,9 @@ export default {
       if (name.indexOf('dashboard-inbox') !== -1) {
         $('#item-inbox').attr('aria-selected', true)
       }
+      if (name.indexOf('dashboard-buying-leads') !== -1) {
+        $('#item-buying_leads').attr('aria-selected', true)
+      }
       if (name.indexOf('dashboard-account') !== -1) {
         $('#item-account').attr('aria-selected', true)
       }
@@ -47,6 +51,7 @@ export default {
       $('#item-company').attr('aria-selected', false)
       $('#item-product').attr('aria-selected', false)
       $('#item-inbox').attr('aria-selected', false)
+      $('#item-buying_leads').attr('aria-selected', false)
       $('#item-account').attr('aria-selected', false)
       $('#item-email').attr('aria-selected', false)
     }
