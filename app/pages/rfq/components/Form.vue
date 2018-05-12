@@ -16,7 +16,7 @@
                 id="title-input"
                 class="input"
                 :value="value.title"
-                placeholder="E.g "
+                placeholder="E.g I'm looking for some product"
                 @input="onTitleUpdated"/>
             </section>
 
@@ -30,19 +30,20 @@
             </section>
 
             <!-- Quantity & Unit -->
-            <section id="preffered-unit-price-section">
+            <section id="quantity-unit-section">
               <label for="">Quantity</label>
               <div class="section-divider">
                 <text-input
-                  id="quantity"
-                  class="input"
-                  :value="value.title"
+                  class="input input-text"
+                  :value="value.quantity"
                   placeholder="E.g 10000"
-                  @input="onTitleUpdated"/>
+                  @input="onQuantityUpdated"/>
                 <select-input
                   id="unit"
-                  class="input"
-                  :array="units"/>
+                  class="input input-select"
+                  :value="value.unit"
+                  :array="units"
+                  @input="onUnitUpdated"/>
               </div>
             </section>
 
@@ -56,11 +57,6 @@
                 :value="value.description"
                 @input="onDescriptionUpdated"/>
             </section>
-          </div>
-
-          <!-- Other Requirements -->
-          <div class="section-container">
-            <h3>Other Requirements</h3>
 
             <!-- Dropzone -->
             <section id="dropzone-section">
@@ -73,56 +69,73 @@
                 imageWidth="240px"
                 :s3="getS3Config"/>
             </section>
+          </div>
 
-            <!-- Quantity & Unit -->
-            <section id="preffered-unit-price-section">
-              <label for="">Preferred Unit Price</label>
-              <div class="section-divider">
-                <text-input
-                  id="quantity"
-                  class="input"
-                  :value="value.title"
-                  placeholder="E.g 10000"
-                  @input="onTitleUpdated"/>
-                <select-input
-                  id="unit"
-                  class="input"
-                  :array="units"/>
-              </div>
-            </section>
+          <!-- Other Requirements -->
+          <div class="section-container">
+            <h3>Other Requirements</h3>
 
             <!-- Delivery Terms -->
             <div class="section-divider">
-              <section id="delivery-terms-section">
+              <section 
+                class="section-half section-half__left">
                 <label for="">Delivery Term</label>
                 <select-input
                   class="input"
-                  :array="deliveryTerms"/>
+                  :value="value.deliveryTerm"
+                  :array="deliveryTerms"
+                  @input="onDeliveryTermUpdated"/>
               </section>
 
               <!-- Payment Type -->
-              <section id="payment-type-section">
+              <section 
+                class="section-half section-half__right">
                 <label for="">Payment Type</label>
                 <select-input
                   class="input"
                   id="payment-type"
-                  :array="paymentTypes"/>
+                  :value="value.paymentType"
+                  :array="paymentTypes"
+                  @input="onPaymentTypeUpdated"/>
               </section>
             </div>
 
-            <!-- Destination Port -->
-            <section id="destination-port-section">
-              <label for="">Destination Port</label>
-              <text-input
-                class="input"
-                :value="value.title"
-                placeholder="E.g Busan"
-                @input="onTitleUpdated"/>
-            </section>
+            <div class="section-divider">
+              <!-- Destination Port -->
+              <section 
+                class="section-half section-half__left">
+                <label for="">Destination Port</label>
+                <text-input
+                  class="input"
+                  :value="value.destinationPort"
+                  placeholder="E.g Busan"
+                  @input="onDestinationPortUpdated"/>
+              </section>
 
+              <!-- Preffered Unit Price -->
+              <section 
+                class="section-half section-half__right">
+                <label for="">Preferred Unit Price</label>
+                <div class="section-divider">
+                  <text-input
+                    id="quantity"
+                    class="input input-text"
+                    :value="value.preferredUnitPrice"
+                    placeholder="E.g 10000"
+                    @input="onPreferredUnitPirceUpdated"/>
+                  <select-input
+                    id="unit"
+                    class="input input-select"
+                    :value="value.preferredUnitPriceCurrency"
+                    :array="paymentCurrentcies"
+                    @input="onPreferredUnitPirceCurrencyUpdated"/>
+                </div>
+              </section>
+            </div>
           </div>
 
           <!-- Paid Request -->
+          <!-- <div></div> -->
 
           <div class="section-container">
             <h3>Confirm and Submit</h3>
@@ -130,8 +143,16 @@
             <!-- Agreements -->
             <section
               id="agreement-section">
-              <checkbox label="I agree to share my Business Card with quoted suppliers."/>
-              <checkbox label="I have read, understood and agreed to abide by Terms and Conditions Governing RFQ"/>
+              <checkbox 
+                id="business-card"
+                label="I agree to share my Business Card with quoted suppliers."
+                :checked="value.businessCard"
+                @change="onBusinessCardUpdated"/>
+              <checkbox 
+                id="terms"
+                label="I have read, understood and agreed to abide by Terms and Conditions Governing RFQ"
+                :checked="value.terms"
+                @change="onTermsUpdated"/>
             </section>
 
             <!-- Submit -->
@@ -141,6 +162,9 @@
                 id="submit-button"
                 role="submit"
                 class="button-orange">Sumbit Requetion</button>
+              <a 
+                id="later-button"
+                @click="onSaveForLaterButton()">Save for Later</a>
             </section>
           </div>
 
@@ -160,7 +184,14 @@ import TextArea from '~/components/Inputs/Textarea'
 import SelectInput from '~/components/Inputs/Select'
 import Checkbox from '~/components/Inputs/Checkbox'
 export default {
-  props: ['user', 'value', 'units', 'deliveryTerms', 'paymentTypes'],
+  props: [
+    'user',
+    'value',
+    'units',
+    'deliveryTerms',
+    'paymentTypes',
+    'paymentCurrentcies'
+  ],
   components: {
     RequiredIcon,
     Dropzone,
@@ -189,8 +220,43 @@ export default {
     onDescriptionUpdated(value) {
       this.$emit('input', { description: value })
     },
+    onCategoryUpdated(value) {
+      this.$emit('input', { category: value })
+    },
+    onQuantityUpdated(value) {
+      this.$emit('input', { quantity: value })
+    },
+    onUnitUpdated(value) {
+      this.$emit('input', { unit: value })
+    },
+    onDeliveryTermUpdated(value) {
+      this.$emit('input', { deliveryTerm: value })
+    },
+    onPaymentTypeUpdated(value) {
+      this.$emit('input', { paymentType: value })
+    },
+    onDestinationPortUpdated(value) {
+      this.$emit('input', { destinationPort: value })
+    },
+    onPreferredUnitPirceUpdated(value) {
+      this.$emit('input', { preferredUnitPrice: value })
+    },
+    onPreferredUnitPirceCurrencyUpdated(value) {
+      this.$emit('input', { preferredUnitPriceCurrency: value })
+    },
+    onBusinessCardUpdated(value) {
+      console.log('business Card', value)
+      this.$emit('input', { businessCard: value })
+    },
+    onTermsUpdated(value) {
+      console.log('terms', value)
+      this.$emit('input', { terms: value })
+    },
     onSubmitButton() {
-      this.$emit('onSubmitButton')
+      this.$emit('onSubmitButton', { status: 'activated' })
+    },
+    onSaveForLaterButton() {
+      this.$emit('onSubmitButton', { status: 'draft' })
     }
   }
 }
@@ -238,23 +304,25 @@ section {
   display: flex;
   align-items: center;
 
-  #delivery-terms-section {
+  .section-half {
     flex: 1;
+  }
+  .section-half__left {
     margin-right: 10px;
   }
-  #payment-type-section {
-    flex: 1;
+  .section-half__right {
     margin-left: 10px;
   }
 
-  #quantity {
-    flex: 2;
-    border-top-right-radius: 0;
-    border-bottom-right-radius: 0;
+  .input-text {
+    flex: 5;
   }
-  #unit {
-    flex: 1;
+  .input-select {
+    flex: 3;
   }
+}
+#unit {
+  max-width: 205px;
 }
 
 #agreement-section {
@@ -265,10 +333,14 @@ section {
     font-size: 18px;
     font-weight: 600;
   }
+  #later-button {
+    padding: 14px 28px;
+    color: @color-orange;
+  }
 }
 
 .right-container {
   flex: 1;
-  margin-left: 20px;
+  margin-left: @section-margin;
 }
 </style>

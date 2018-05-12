@@ -17,10 +17,28 @@ module.exports = async (req, res) => {
       (${account_id}, ${contact_id})
       `,
         (err, result) => {
-          if (err) reject(err)
+          if (err) reject({ msg: 'Creating new RFQ Failed.', err: err })
 
-          const insert_id = result.insertId
-          resolve(insert_id)
+          resolve(result.insertId)
+        }
+      )
+    })
+  }
+
+  const assignTempDomain = id => {
+    return new Promise((resolve, reject) => {
+      mysql.query(
+        `
+      UPDATE
+      ${MYSQL_MODELS.TABLE_BUYING_LEADS}
+      SET
+      domain = "rfq_${id}",
+      last_modified_date = (SELECT NOW())
+      WHERE
+      buying_lead_id = ${id}`,
+        err => {
+          if (err) reject({ msg: 'Assigning RFQ Domain Failed.', err: err })
+          resolve()
         }
       )
     })
@@ -28,6 +46,7 @@ module.exports = async (req, res) => {
 
   try {
     const buying_lead_id = await createNewRecord()
+    await assignTempDomain(buying_lead_id)
     const result = {
       buying_lead_id: buying_lead_id
     }

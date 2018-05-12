@@ -134,6 +134,8 @@
     }
     .quotes {
       flex: 1;
+      text-transform: uppercase;
+      font-size: 15px;
     }
     .status-container {
       flex: 1;
@@ -143,8 +145,24 @@
         flex-direction: column;
       }
     }
+    .status {
+      font-weight: 500;
+      font-size: 15px;
+
+      &.activated {
+        color: @color-green;
+      }
+      &.draft {
+        color: @color-yellow;
+      }
+      &.rejected {
+        color: @color-red;
+      }
+    }
+
     .due-date {
       font-weight: 500;
+      font-size: 15px;
     }
 
     .action-container {

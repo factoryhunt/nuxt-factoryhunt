@@ -32,6 +32,8 @@
         <div class="cards-container">
           <cards 
             :buying_leads="buyingLeads"
+            @onViewBuyingLead="routeRFQDetailPage"
+            @onEditBuyingLead="routeRFQEditPage"
             @onDeleteBuyingLead="onDeleteBuyingLead"/>
         </div>
       </div>
@@ -84,10 +86,22 @@ export default {
       }
     },
     async onDeleteBuyingLead(buying_lead_id) {
-      console.log('id: ', buying_lead_id)
+      try {
+        await axios.delete(`/api/data/buying_leads/${buying_lead_id}`)
+        await this.fetchBuyingLeads()
+      } catch (err) {
+        console.log('onDeleteBuyingLead err', err)
+        alert('Sorry, deleting Buying Lead failed.')
+      }
     },
     onRFQButton() {
       location.href = '/rfq'
+    },
+    routeRFQDetailPage(domain) {
+      location.href = `/rfq/${domain}`
+    },
+    routeRFQEditPage(domain) {
+      location.href = `/rfq?domain=${domain}`
     }
   },
   mounted() {

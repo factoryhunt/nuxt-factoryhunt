@@ -40,18 +40,16 @@ const SELECT_WRAPPER = 'selectWrapper'
 const HIGHLIGHTED = 'highlighted'
 export default {
   props: {
+    value: null,
     array: null,
     placeholder: {
       type: String,
       default: 'Select'
     }
   },
-  data: () => ({
-    currentValue: ''
-  }),
   computed: {
     getCurrentValue() {
-      return this.currentValue ? this.currentValue : 'Select'
+      return this.value ? this.value : 'Select'
     }
   },
   methods: {
@@ -72,7 +70,23 @@ export default {
         }
       })
     },
-    isNotSelected() {},
+    highlightItem() {
+      if (!this.value) return
+
+      this.array.forEach((_, index) => {
+        const item = this.$refs[`item${index}`][0]
+
+        if (this.value === item.innerHTML) {
+          item.classList.add('highlighted')
+          console.log(item.scrollTop)
+          console.log(item.scrollY)
+          // console.log(item.innerHeight)
+          // console.log(item.clientHeight)
+          // console.log(item.offsetHeight)
+          // console.log(item.offsetTop)
+        }
+      })
+    },
     unhighlightItems() {
       const $optionWrapper = this.$refs.optionWrapper
       const $options = $optionWrapper.children
@@ -89,12 +103,14 @@ export default {
 
       this.currentValue = value
       this.isVisible = false
-      this.$emit('onSelect', value)
+      this.$emit('input', value)
     }
   },
   mounted() {
     this.addClickEventListener()
-    this.isNotSelected()
+  },
+  updated() {
+    this.highlightItem()
   }
 }
 </script>
