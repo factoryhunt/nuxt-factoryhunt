@@ -1,18 +1,28 @@
 <template>
   <div class="input-container">
     <input 
+      :id="id"
       type="text"
       :placeholder="placeholder"
       :pattern="pattern"
       :value="value"
       :title="title"
-      @input="$emit('input', $event.target.value)">
+      @input="onInput($event.target.value)">
   </div>
 </template>
 
 <script>
 export default {
-  props: ['value', 'placeholder', 'pattern', 'title']
+  props: ['id', 'dataKey', 'value', 'placeholder', 'pattern', 'title'],
+  methods: {
+    onInput(value) {
+      const result = {
+        dataKey: this.dataKey,
+        value: value
+      }
+      this.$emit('input', result)
+    }
+  }
 }
 </script>
 

@@ -41,7 +41,8 @@ const HIGHLIGHTED = 'highlighted'
 export default {
   props: {
     value: null,
-    array: null,
+    array: Array,
+    dataKey: String,
     placeholder: {
       type: String,
       default: 'Select'
@@ -76,15 +77,7 @@ export default {
       this.array.forEach((_, index) => {
         const item = this.$refs[`item${index}`][0]
 
-        if (this.value === item.innerHTML) {
-          item.classList.add('highlighted')
-          console.log(item.scrollTop)
-          console.log(item.scrollY)
-          // console.log(item.innerHeight)
-          // console.log(item.clientHeight)
-          // console.log(item.offsetHeight)
-          // console.log(item.offsetTop)
-        }
+        if (this.value === item.innerHTML) item.classList.add('highlighted')
       })
     },
     unhighlightItems() {
@@ -103,7 +96,11 @@ export default {
 
       this.currentValue = value
       this.isVisible = false
-      this.$emit('input', value)
+      const result = {
+        dataKey: this.dataKey,
+        value: value
+      }
+      this.$emit('input', result)
     }
   },
   mounted() {

@@ -9,6 +9,7 @@ const inbox = require('./inbox')
 const buying_leads = require('./buying_leads')
 const history = require('./history')
 const search = require('./search')
+const timezone = require('./timezone')
 const sitemap = require('./sitemap')
 
 router.use('/lead', lead)
@@ -20,6 +21,7 @@ router.use('/inbox', inbox)
 router.use('/buying_leads', buying_leads)
 router.use('/history', history)
 router.use('/search', search)
+router.use('/timezone', timezone)
 router.use('/sitemap', sitemap)
 
 module.exports = router

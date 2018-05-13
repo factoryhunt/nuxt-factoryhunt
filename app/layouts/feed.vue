@@ -1,7 +1,7 @@
 <template>
   <div id="feed">
     <navigation-bar></navigation-bar>
-    <div class="body-container">
+    <div>
       <nuxt/>
     </div>
   </div>

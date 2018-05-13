@@ -36,7 +36,7 @@ module.exports = async (req, res) => {
       `,
         (err, results) => {
           if (err) reject(err)
-          if (!results.length) resolve([])
+          if (!results.length) resolve(null)
 
           resolve(results[0])
         }

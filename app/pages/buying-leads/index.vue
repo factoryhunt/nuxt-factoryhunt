@@ -1,21 +1,23 @@
 <template>
   <div id="contents">
-    <!-- Header -->
-    <page-header/>
-    <!-- Contents Body -->
-    <div id="contents__body">
-      <!-- Left Nav Bar -->
-      <navigation-bar
-        :categories="categories"
-        v-model="value.categorySearch"/>
-      <!-- Feeds -->
-      <feed 
-        :user="this.userData"
-        :feeds="this.feeds"/>
+    <div class="body-container">
+      <!-- Header -->
+      <page-header/>
+      <!-- Contents Body -->
+      <div id="contents__body">
+        <!-- Left Nav Bar -->
+        <navigation-bar
+          :categories="categories"
+          v-model="value.categorySearch"/>
+        <!-- Feeds -->
+        <feed 
+          :user="this.userData"
+          :feeds="this.feeds"/>
 
-      <!-- Right Activities or Ads -->
-      <activity
-        :user="this.userData"/>
+        <!-- Right Activities or Ads -->
+        <activity
+          :user="this.userData"/>
+      </div>
     </div>
   </div>
 </template>

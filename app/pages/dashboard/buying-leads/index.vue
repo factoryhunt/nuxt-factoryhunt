@@ -98,7 +98,7 @@ export default {
       location.href = '/rfq'
     },
     routeRFQDetailPage(domain) {
-      location.href = `/rfq/${domain}`
+      location.href = `/buying-leads/${domain}`
     },
     routeRFQEditPage(domain) {
       location.href = `/rfq?domain=${domain}`

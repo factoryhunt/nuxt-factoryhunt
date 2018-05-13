@@ -4,7 +4,7 @@
       :id="id"
       type="checkbox"
       :value="value"
-      @change="$emit('change', $event.target.value)">
+      @change="onChange($event.target.checked)">
     <label :for="id" v-html="label"></label>
   </div>
 </template>
@@ -20,9 +20,19 @@ export default {
       type: String,
       required: true
     },
+    dataKey: String,
     checked: Boolean,
     value: String,
     label: String
+  },
+  methods: {
+    onChange(value) {
+      const result = {
+        dataKey: this.dataKey,
+        value: value
+      }
+      this.$emit('change', result)
+    }
   }
 }
 </script>

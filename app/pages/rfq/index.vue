@@ -10,10 +10,7 @@
           <r-f-q-form
             :user="userData"
             :value="value"
-            :units="units"
-            :paymentTypes="paymentTypes"
-            :deliveryTerms="deliveryTerms"
-            :paymentCurrentcies="paymentCurrentcies"
+            :isSubmiting="toggle.isSubmiting"
             @input="onUpdated"
             @onSubmitButton="submitNewRFQ"/>
 
@@ -31,11 +28,6 @@
 import PageHeader from './components/Header'
 import RFQForm from './components/Form'
 import RightPanel from './components/RightPanel'
-// models
-import units from '~/assets/models/units.json'
-import delivery_terms from '~/assets/models/delivery_terms.json'
-import payment_types from '~/assets/models/payment_type.json'
-import payment_currentcies from '~/assets/models/payment_currentcies.json'
 // libs
 import axios from '~/plugins/axios'
 import { mapGetters } from 'vuex'
@@ -51,10 +43,6 @@ export default {
     RightPanel
   },
   data: () => ({
-    units: units,
-    deliveryTerms: delivery_terms,
-    paymentTypes: payment_types,
-    paymentCurrentcies: payment_currentcies,
     value: {
       buyingLeadId: 0,
       title: '',
@@ -108,10 +96,11 @@ export default {
         const { data } = await axios.get(
           `/api/data/buying_leads/domain/${domain}`
         )
+        await this.canAccess(data.account_id)
         this.mappingData(data)
       } catch (err) {
         console.log('err', err)
-        alert('Sorry, Internal server error occured. - 3')
+        alert(err.msg)
       }
     },
     mappingData(data) {
@@ -180,8 +169,6 @@ export default {
 
       try {
         await axios.put(`/api/data/buying_leads/${buying_lead_id}`, body)
-
-        this.toggle.isSubmiting = false
         location.href = '/dashboard/buying-leads'
       } catch (err) {
         console.log('submitNewRFQ err', err)
@@ -189,11 +176,9 @@ export default {
         this.toggle.isSubmiting = false
       }
     },
-    onSaveForLater() {},
-    onUpdated(value) {
-      const keys = Object.keys(value)
-      const key = keys[0]
-      this.value[keys[0]] = value[keys[0]]
+    onUpdated(object) {
+      const { dataKey, value } = object
+      this.value[dataKey] = value
     },
     isUserHavePermission() {
       const { domain } = this.$route.query
@@ -205,6 +190,12 @@ export default {
       // When editing
       if (domain) this.fetchBuyingLeadData(domain)
       else this.createNewRFQRecord()
+    },
+    canAccess(account_id) {
+      const msg = "This user doesn't have permission to access."
+      return new Promise((resolve, reject) => {
+        account_id === this.getAccountId ? resolve() : reject({ msg })
+      })
     }
   },
   mounted() {

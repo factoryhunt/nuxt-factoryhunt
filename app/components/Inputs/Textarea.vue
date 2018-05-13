@@ -5,7 +5,7 @@
       :placeholder="placeholder"
       :title="title"
       :value="value"
-      @input="$emit('input', $event.target.value)">
+      @input="onInput($event.target.value)">
     </textarea>
   </div>
 </template>
@@ -25,7 +25,17 @@ export default {
       type: String,
       default: ''
     },
-    value: null
+    value: null,
+    dataKey: String
+  },
+  methods: {
+    onInput(value) {
+      const result = {
+        dataKey: this.dataKey,
+        value: value
+      }
+      this.$emit('input', result)
+    }
   }
 }
 </script>

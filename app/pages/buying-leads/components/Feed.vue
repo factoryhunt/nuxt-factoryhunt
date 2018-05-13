@@ -31,20 +31,16 @@
                 <ul class="verification__container">
                   <li class="verification__mark">
                     <tool-tip
-                      label="South Korea"
-                      tip="This buyer posted in South Korea"/></li>
+                      label="South Korea">This buyer posted in South Korea</tool-tip></li>
                   <li class="verification__mark">
                     <tool-tip
-                      label="1K Pieces"
-                      tip="Buyer wants 1K Pieces quantities."/></li>
+                      label="1K Pieces">Buyer wants 1K Pieces quantities.</tool-tip></li>
                   <li class="verification__mark">
                     <tool-tip
-                      label="Email"
-                      tip="This buyer emails is confirmed."/></li>
+                      label="Email">This buyer emails is confirmed.</tool-tip></li>
                   <li class="verification__mark">
                     <tool-tip
-                      label="Active Buyer"
-                      tip="This is test tool-tip box! This is test tool-tip box! This is test tool-tip box! This is test tool-tip box!"/></li>
+                      label="Active Buyer">This is test tool-tip box! This is test tool-tip box! This is test tool-tip box! This is test tool-tip box!</tool-tip></li>
                 </ul>
               </div>
               <div class="quotes">

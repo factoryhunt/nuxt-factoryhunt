@@ -8,7 +8,7 @@
     </div>
     <div class="tip-container" v-show="isActive">
       <div class="tip-wrapper">
-        {{this.tip}}
+        <slot></slot>
       </div>
     </div>
   </div>
@@ -16,7 +16,7 @@
 
 <script>
 export default {
-  props: ['label', 'tip', 'padding'],
+  props: ['label', 'padding'],
   data: () => ({
     isActive: false
   }),

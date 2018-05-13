@@ -1,13 +1,21 @@
 <template>
   <div id="right-panel">
-    Right Panel
-    <p>{{value}}</p>
+    <div class="panel-wrapper">
+      <h3>Completeness of Information</h3>
+      <p>{{value}}</p>
+    </div>
   </div>
 </template>
 
 <script>
 export default {
-  props: ['value']
+  props: ['value'],
+  methods: {
+    activateFixed() {}
+  },
+  mounted() {
+    this.activateFixed()
+  }
 }
 </script>
 
@@ -16,6 +24,7 @@ export default {
 @import '~assets/css/less/rfq/index';
 
 #right-panel {
+  position: relative;
   display: none;
   margin-left: 40px;
 
@@ -26,5 +35,8 @@ export default {
   @media (min-width: 1128px) {
     width: 370px;
   }
+}
+.panel-wrapper {
+  // position: fixed;
 }
 </style>

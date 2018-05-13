@@ -15,9 +15,10 @@
               <text-input
                 id="title-input"
                 class="input"
+                dataKey="title"
                 :value="value.title"
                 placeholder="E.g I'm looking for some product"
-                @input="onTitleUpdated"/>
+                @input="onInput"/>
             </section>
 
             <!-- Category -->
@@ -35,15 +36,17 @@
               <div class="section-divider">
                 <text-input
                   class="input input-text"
+                  dataKey="quantity"
                   :value="value.quantity"
                   placeholder="E.g 10000"
-                  @input="onQuantityUpdated"/>
+                  @input="onInput"/>
                 <select-input
                   id="unit"
                   class="input input-select"
+                  dataKey="unit"
                   :value="value.unit"
                   :array="units"
-                  @input="onUnitUpdated"/>
+                  @input="onInput"/>
               </div>
             </section>
 
@@ -54,8 +57,9 @@
                 id="description-input"
                 class="input"
                 :rows="11"
+                dataKey="description"
                 :value="value.description"
-                @input="onDescriptionUpdated"/>
+                @input="onInput"/>
             </section>
 
             <!-- Dropzone -->
@@ -66,7 +70,10 @@
                 class="input"
                 :maxFileLength="5"
                 :maxFileSize="1"
-                imageWidth="240px"
+                imageWidth="120px"
+                @isUploading="onDropzoneUploading"
+                @fileChanged="onDropzoneFileAdded"
+                @onError="onDropzoneError"
                 :s3="getS3Config"/>
             </section>
           </div>
@@ -82,9 +89,10 @@
                 <label for="">Delivery Term</label>
                 <select-input
                   class="input"
+                  dataKey="deliveryTerm"
                   :value="value.deliveryTerm"
                   :array="deliveryTerms"
-                  @input="onDeliveryTermUpdated"/>
+                  @input="onInput"/>
               </section>
 
               <!-- Payment Type -->
@@ -94,9 +102,10 @@
                 <select-input
                   class="input"
                   id="payment-type"
+                  dataKey="paymentType"
                   :value="value.paymentType"
                   :array="paymentTypes"
-                  @input="onPaymentTypeUpdated"/>
+                  @input="onInput"/>
               </section>
             </div>
 
@@ -107,9 +116,10 @@
                 <label for="">Destination Port</label>
                 <text-input
                   class="input"
+                  dataKey="destinationPort"
                   :value="value.destinationPort"
                   placeholder="E.g Busan"
-                  @input="onDestinationPortUpdated"/>
+                  @input="onInput"/>
               </section>
 
               <!-- Preffered Unit Price -->
@@ -120,15 +130,17 @@
                   <text-input
                     id="quantity"
                     class="input input-text"
+                    dataKey="preferredUnitPrice"
                     :value="value.preferredUnitPrice"
                     placeholder="E.g 10000"
-                    @input="onPreferredUnitPirceUpdated"/>
+                    @input="onInput"/>
                   <select-input
                     id="unit"
                     class="input input-select"
+                    dataKey="preferredUnitPriceCurrency"
                     :value="value.preferredUnitPriceCurrency"
                     :array="paymentCurrentcies"
-                    @input="onPreferredUnitPirceCurrencyUpdated"/>
+                    @input="onInput"/>
                 </div>
               </section>
             </div>
@@ -146,22 +158,27 @@
               <checkbox 
                 id="business-card"
                 label="I agree to share my Business Card with quoted suppliers."
+                dataKey="businessCard"
                 :checked="value.businessCard"
-                @change="onBusinessCardUpdated"/>
+                @change="onChange"/>
               <checkbox 
                 id="terms"
                 label="I have read, understood and agreed to abide by Terms and Conditions Governing RFQ"
+                dataKey="terms"
                 :checked="value.terms"
-                @change="onTermsUpdated"/>
+                @change="onChange"/>
             </section>
 
             <!-- Submit -->
             <section
               id="submit-section">
-              <button 
+              <submit-button
                 id="submit-button"
                 role="submit"
-                class="button-orange">Sumbit Requetion</button>
+                :disabled="!isButtonActive"
+                :isLoading="isSubmiting">
+                Sumbit Requestion
+              </submit-button>
               <a 
                 id="later-button"
                 @click="onSaveForLaterButton()">Save for Later</a>
@@ -183,15 +200,13 @@ import CategoryInput from '~/components/Inputs/Category'
 import TextArea from '~/components/Inputs/Textarea'
 import SelectInput from '~/components/Inputs/Select'
 import Checkbox from '~/components/Inputs/Checkbox'
+import SubmitButton from '~/components/Button'
+// models
+import units from '~/assets/models/units.json'
+import delivery_terms from '~/assets/models/delivery_terms.json'
+import payment_types from '~/assets/models/payment_type.json'
+import payment_currentcies from '~/assets/models/payment_currentcies.json'
 export default {
-  props: [
-    'user',
-    'value',
-    'units',
-    'deliveryTerms',
-    'paymentTypes',
-    'paymentCurrentcies'
-  ],
   components: {
     RequiredIcon,
     Dropzone,
@@ -199,8 +214,17 @@ export default {
     CategoryInput,
     TextArea,
     SelectInput,
-    Checkbox
+    Checkbox,
+    SubmitButton
   },
+  props: ['user', 'value', 'isSubmiting'],
+  data: () => ({
+    units: units,
+    deliveryTerms: delivery_terms,
+    paymentTypes: payment_types,
+    paymentCurrentcies: payment_currentcies,
+    isButtonActive: false
+  }),
   computed: {
     getContactId() {
       return this.user.contact.contact_id
@@ -214,43 +238,20 @@ export default {
     }
   },
   methods: {
-    onTitleUpdated(value) {
-      this.$emit('input', { title: value })
+    onInput(data) {
+      this.$emit('input', data)
     },
-    onDescriptionUpdated(value) {
-      this.$emit('input', { description: value })
+    onChange(data) {
+      this.$emit('input', data)
     },
-    onCategoryUpdated(value) {
-      this.$emit('input', { category: value })
+    onDropzoneUploading(data) {
+      console.log('dropzone uploading started')
     },
-    onQuantityUpdated(value) {
-      this.$emit('input', { quantity: value })
+    onDropzoneFileAdded(files) {
+      console.log(files)
     },
-    onUnitUpdated(value) {
-      this.$emit('input', { unit: value })
-    },
-    onDeliveryTermUpdated(value) {
-      this.$emit('input', { deliveryTerm: value })
-    },
-    onPaymentTypeUpdated(value) {
-      this.$emit('input', { paymentType: value })
-    },
-    onDestinationPortUpdated(value) {
-      this.$emit('input', { destinationPort: value })
-    },
-    onPreferredUnitPirceUpdated(value) {
-      this.$emit('input', { preferredUnitPrice: value })
-    },
-    onPreferredUnitPirceCurrencyUpdated(value) {
-      this.$emit('input', { preferredUnitPriceCurrency: value })
-    },
-    onBusinessCardUpdated(value) {
-      console.log('business Card', value)
-      this.$emit('input', { businessCard: value })
-    },
-    onTermsUpdated(value) {
-      console.log('terms', value)
-      this.$emit('input', { terms: value })
+    onDropzoneError(err) {
+      console.log('dropzone error:\n', err)
     },
     onSubmitButton() {
       this.$emit('onSubmitButton', { status: 'activated' })
@@ -258,6 +259,13 @@ export default {
     onSaveForLaterButton() {
       this.$emit('onSubmitButton', { status: 'draft' })
     }
+  },
+  updated() {
+    const { title, description, businessCard, terms } = this.value
+
+    if (title && description && businessCard && terms)
+      this.isButtonActive = true
+    else this.isButtonActive = false
   }
 }
 </script>
@@ -332,6 +340,9 @@ section {
   button {
     font-size: 18px;
     font-weight: 600;
+  }
+  #submit-button {
+    min-width: 222px;
   }
   #later-button {
     padding: 14px 28px;
