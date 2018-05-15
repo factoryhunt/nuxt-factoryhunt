@@ -1,12 +1,24 @@
 <template>
   <div class="body-container">
     <div class="body__wrapper">
+      <!-- Breadcrumb -->
       <breadcrumb 
         root="Buying Leads"/>
-      <card
-        :data="buyingLead"
-        :currentTime="currentTime"/>
-      <quote/>
+
+      <!-- Buyer RFQ -->
+      <r-f-q 
+        :buyingLead="buyingLead"
+        @onLinkCopy="onLinkCopyButton"
+        @onQuoteNow="onQuoteNowButton"/>
+
+      <!-- Your Quote -->
+      <your-quote
+        :data="yourQuote"/>
+
+      <!-- Supplier Quotes -->
+      <quotes
+      :quotes="quotes"
+      @onChatNow="onChatNowButton"/>
     </div>
   </div>
 </template>
@@ -14,11 +26,11 @@
 <script>
 // components
 import Breadcrumb from '~/components/Breadcrumb'
-import Card from './components/Card'
-import Quote from './components/Quote'
+import RFQ from './components/RFQ'
+import YourQuote from './components/YourQuote'
+import Quotes from './components/Quotes'
 // libs
 import axios from '~/plugins/axios'
-import { getServerTime } from '~/utils/timezone'
 export default {
   layout: 'feed',
   head() {
@@ -93,8 +105,9 @@ export default {
   },
   components: {
     Breadcrumb,
-    Card,
-    Quote
+    RFQ,
+    YourQuote,
+    Quotes
   },
   async asyncData({ error, params }) {
     const { domain } = params
@@ -117,22 +130,30 @@ export default {
   },
   data: () => ({
     currentTime: '',
-    value: {}
+    yourQuote: {
+      text: '',
+      files: []
+    },
+    quotes: [
+      {
+        quote_id: 1
+      },
+      {
+        quote_id: 2
+      },
+      {
+        quote_id: 3
+      }
+    ]
   }),
   methods: {
-    async mappingData() {
-      this.currentTime = await getServerTime()
-    }
-  },
-  mounted() {
-    this.mappingData()
+    onQuoteNowButton() {},
+    onLinkCopyButton() {},
+    onChatNowButton() {}
   }
 }
 </script>
 
 <style lang="less" scoped>
-.body-container {
-  max-width: 780px !important;
-  padding-bottom: 80px;
-}
+@import './styles/index';
 </style>
