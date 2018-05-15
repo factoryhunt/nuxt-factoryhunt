@@ -7,7 +7,8 @@
       :pattern="pattern"
       :value="value"
       :title="title"
-      @input="onInput($event.target.value)">
+      @input="onInput($event.target.value)"
+      @change="onChange($event.target.value)">
   </div>
 </template>
 
@@ -21,6 +22,9 @@ export default {
         value: value
       }
       this.$emit('input', result)
+    },
+    onChange(value) {
+      this.$emit('change', value)
     }
   }
 }

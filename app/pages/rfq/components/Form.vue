@@ -18,7 +18,8 @@
                 dataKey="title"
                 :value="value.title"
                 placeholder="E.g I'm looking for some product"
-                @input="onInput"/>
+                @input="onInput"
+                @change="onInputChange"/>
             </section>
 
             <!-- Category -->
@@ -69,12 +70,10 @@
                 id="dropzone"
                 class="input"
                 :maxFileLength="5"
-                :maxFileSize="1"
-                imageWidth="120px"
+                :maxFileSize="10"
                 @isUploading="onDropzoneUploading"
                 @fileChanged="onDropzoneFileAdded"
-                @onError="onDropzoneError"
-                :s3="getS3Config"/>
+                @onError="onDropzoneError"/>
             </section>
           </div>
 
@@ -228,18 +227,14 @@ export default {
   computed: {
     getContactId() {
       return this.user.contact.contact_id
-    },
-    getS3Config() {
-      return {
-        mysql_table: 'buying_leads',
-        fieldname: 'rfq_image',
-        api_url: `/api/data/documents/${this.getContactId}`
-      }
     }
   },
   methods: {
     onInput(data) {
       this.$emit('input', data)
+    },
+    onInputChange() {
+      this.$emit('change')
     },
     onChange(data) {
       this.$emit('input', data)
@@ -248,7 +243,7 @@ export default {
       console.log('dropzone uploading started')
     },
     onDropzoneFileAdded(files) {
-      console.log(files)
+      this.$emit('fileAdded', files)
     },
     onDropzoneError(err) {
       console.log('dropzone error:\n', err)

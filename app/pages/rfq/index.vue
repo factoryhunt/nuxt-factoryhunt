@@ -12,11 +12,15 @@
             :value="value"
             :isSubmiting="toggle.isSubmiting"
             @input="onUpdated"
+            @change="onChanged"
+            @fileAdded="onFileAdded"
             @onSubmitButton="submitNewRFQ"/>
 
           <!-- Right Panel -->
           <right-panel
-            :value="value"/>
+            :files="value.files"
+            :progress="getProgress"
+            @imageDelete="onFileDelete"/>
         </div>
       </div>
     </div>
@@ -31,6 +35,8 @@ import RightPanel from './components/RightPanel'
 // libs
 import axios from '~/plugins/axios'
 import { mapGetters } from 'vuex'
+// static
+const MAX_FILE_LENGTH = 5
 export default {
   layout: 'minify',
   middleware: 'authenticated',
@@ -56,7 +62,8 @@ export default {
       preferredUnitPrice: '',
       preferredUnitPriceCurrency: '',
       businessCard: '',
-      terms: ''
+      terms: '',
+      files: []
     },
     toggle: {
       isSubmiting: false
@@ -71,6 +78,9 @@ export default {
     },
     getContactId() {
       return this.userData.contact.contact_id
+    },
+    getProgress() {
+      return 10
     }
   },
   methods: {
@@ -82,8 +92,7 @@ export default {
       }
       try {
         let { data } = await axios.post(`/api/data/buying_leads/`, body)
-        data.description =
-          "Dear Sir/Madam, I'm looking for products with the following specifications:"
+        this.mappingDefaultData(data)
         this.mappingData(data)
       } catch (err) {
         console.log('createNewRFQRecord', err)
@@ -102,6 +111,13 @@ export default {
         console.log('err', err)
         alert(err.msg)
       }
+    },
+    mappingDefaultData(data) {
+      data.description =
+        "Dear Sir/Madam, I'm looking for products with the following specifications:"
+      data.delivery_term = 'FOB'
+      data.payment_type = 'T/T'
+      data.preferred_unit_price_currency = 'USD'
     },
     mappingData(data) {
       const {
@@ -179,6 +195,34 @@ export default {
     onUpdated(object) {
       const { dataKey, value } = object
       this.value[dataKey] = value
+    },
+    onChanged() {
+      console.log(this.value)
+      // const progress = this.value.length / 9
+      // console.log(progress)
+    },
+    onFileAdded(files) {
+      let length = this.value.files.length
+
+      // Locally Added
+      for (let i = 0; i < files.length; i++) {
+        if (length >= MAX_FILE_LENGTH) return
+
+        const file = files[i]
+        this.value.files.push(file)
+        length++
+      }
+
+      // Upload to S3
+    },
+    async uploadFilesToS3(file) {
+      try {
+      } catch (err) {
+        console.log('upload to s3 err', err)
+      }
+    },
+    onFileDelete(index) {
+      this.value.files.splice(index, 1)
     },
     isUserHavePermission() {
       const { domain } = this.$route.query

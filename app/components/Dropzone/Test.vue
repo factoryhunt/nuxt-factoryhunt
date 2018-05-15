@@ -1,31 +1,18 @@
 <template>
-  <div :id="id" class="dropzone-container" v-show="toggle.isMounted">
+  <div 
+    :id="id" 
+    class="dropzone-container" 
+    v-show="toggle.isMounted">
     <label class="drop-label" :for="`${id}-input`">
       <div class="dropzone-container__wrapper">
         <!-- images -->
-        <div 
-          v-for="(file, i) in value.files" 
-          :key="i"
-          class="image-container"
-          :id="`image-${i + 1}`">
-          <div class="progress-bar-wrapper">
-            <div class="progress-bar"></div>
-          </div>
-          <img 
-            class="remove-button" 
-            @click="onRemoveFile($event, i)"
-            src="~assets/icons/cancel.svg">
-          <div class="image-wrapper">
-            <img 
-              class="file-image" 
-              :src="file.url">
-          </div>
+        <div class="image-preview-container">
+          <slot name="preview"></slot>
         </div>
       </div>
       <!-- Placeholder -->
       <div
-        class="placeholder-container"
-        v-show="!value.files.length">
+        class="placeholder-container">
         <p>{{placeholder}}</p>
       </div>
     </label>
@@ -46,6 +33,10 @@ export default {
     id: {
       type: String,
       required: true
+    },
+    files: {
+      type: Array,
+      default: () => []
     },
     placeholder: {
       type: String,
@@ -89,9 +80,6 @@ export default {
   },
   data() {
     return {
-      value: {
-        files: []
-      },
       toggle: {
         isMounted: false,
         isUploading: false
@@ -159,44 +147,25 @@ export default {
 
       this.toggle.isUploading = true
       this.$emit('isUploading')
-      const length = this.value.files.length
 
       // Validate files
-      files = await this.validateFiles(files)
-
-      // Get local files data
-      for (let i = 0; i < files.length; i++) {
-        let file = files[i]
-        const index = length + i + 1
-        this.value.files.push(file)
-        this.renderImageContainer(index)
-      }
-
-      // Upload files to S3
-      for (let i = 0; i < files.length; i++) {
-        const file = files[i]
-        const index = length + i + 1
-        this.updateProgressBar(index, '70%')
-        const { data } = await this.getFileUrlFromS3(file, index)
-        this.updateProgressBar(index, '100%')
-        this.value.files[length + i].location = data.location
-      }
+      const result = await this.validateFiles(files)
 
       this.toggle.isUploading = false
-      // return files to parent
 
-      this.$emit('fileChanged', this.value.files)
+      // return files to parent
+      this.$emit('fileChanged', result)
     },
     async validateFiles(files) {
-      let length = this.value.files.length
       let validatedFiles = []
+
+      // Max File Length
+      if (files.length > this.maxFileLength) {
+        this.onError({ msg: `Maximum file length is ${this.maxFileLength}.` })
+      }
 
       for (let i = 0; i < files.length; i++) {
         let file = files[i]
-
-        if (length >= this.maxFileLength) {
-          this.onError({ msg: `Maximum file length is ${this.maxFileLength}.` })
-        }
 
         // File format
         const fileFilter = /\/(jpg|jpeg|png)$/
@@ -217,93 +186,14 @@ export default {
         if (
           fileFilter.test(file.type) &&
           kilobyteToMegabyte(file.size) < this.maxFileSize &&
-          length < this.maxFileLength
+          i < this.maxFileLength
         ) {
           file.url = await getFileURL(file)
           validatedFiles.push(file)
-          length++
         }
       }
 
       return validatedFiles
-    },
-    renderImageContainer(index) {
-      if (!this.imageWidth)
-        return this.onError({ msg: `imageWidth is not defined.` })
-
-      // index would be started from 1
-      const nuxt = this
-      const $dropzone = document.getElementById(this.id)
-      const $label = $dropzone.children[0]
-      const $wrapper = $label.children[0]
-
-      this.$nextTick(() => {
-        const $imageContainer = $wrapper.childNodes[index - 1]
-
-        if (this.margin)
-          $imageContainer.style.margin = `0 ${this.margin} ${this.margin} 0`
-        nuxt.updateProgressBar(index, '18%')
-
-        setTimeout(() => {
-          $imageContainer.style.width = this.imageWidth
-        }, 100)
-      })
-    },
-    updateProgressBar(index, percent) {
-      this.$nextTick(() => {
-        const $dropzone = document.getElementById(this.id)
-        const $label = $dropzone.children[0]
-        const $wrapper = $label.children[0]
-        const $imageContainer = $wrapper.childNodes[index - 1]
-        const $progressBar = $imageContainer.children[0]
-
-        if (percent) {
-          $progressBar.style.width = percent
-          $progressBar.style.opacity = 1
-        }
-
-        if (percent === '100%') {
-          setTimeout(() => {
-            $progressBar.style.opacity = 0
-          }, 1800)
-        }
-      })
-    },
-    getFileUrlFromS3(file, index) {
-      let { api_url, fieldname, mysql_table } = this.s3
-      // fieldname = `${fieldname}_${index}`
-
-      const formData = new FormData()
-      const config = {
-        headers: { 'content-type': 'multipart/form-data' }
-      }
-
-      formData.append('table', mysql_table)
-      formData.append('document', file)
-
-      return new Promise((resolve, reject) => {
-        axios
-          .post(api_url, formData, config)
-          .then(res => {
-            resolve(res)
-          })
-          .catch(err => {
-            console.log(err)
-            this.toggle.isUploading = false
-            reject(err)
-          })
-      })
-    },
-    onRemoveFile(event, index) {
-      this.fileDragLeave(event)
-
-      if (this.toggle.isUploading)
-        return this.onError({
-          msg: `You can't remove file while file uploading. Please try it after file uploading.`
-        })
-
-      this.value.files.splice(index, 1)
-      this.$emit('fileChanged', this.value.files)
     },
     onError(err) {
       this.$emit('onError', err)
