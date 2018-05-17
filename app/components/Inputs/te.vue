@@ -1,13 +1,9 @@
 <template>
   <div class="input-container">
-    <span 
-      class="counting"
-      v-if="maxlength">{{getRemainLength(value, maxlength)}}</span>
     <input 
       :id="id"
       ref="input"
       type="text"
-      :required="required"
       :placeholder="placeholder"
       :pattern="pattern"
       :value="value"
@@ -19,15 +15,10 @@
 </template>
 
 <script>
-import { getRemainInputLength } from '~/utils/text'
 export default {
   props: {
     id: {
       type: null
-    },
-    required: {
-      type: Boolean,
-      default: false
     },
     value: {
       type: null,
@@ -48,17 +39,10 @@ export default {
   },
   methods: {
     onInput(value) {
-      const result = {
-        dataKey: this.dataKey,
-        value: value
-      }
-      this.$emit('input', result)
+      this.$emit('onInput', value)
     },
     onChange(value) {
-      this.$emit('change', value)
-    },
-    getRemainLength(string, maxLength) {
-      return getRemainInputLength(string, maxLength)
+      this.$emit('onChange', value)
     }
   }
 }
@@ -67,19 +51,4 @@ export default {
 <style lang="less" scoped>
 @import '~assets/css/index';
 @import './style/index';
-
-.input-container {
-  position: relative;
-}
-
-input {
-  width: 100%;
-  padding: 11px;
-  font-size: inherit;
-  transition: border-color linear 0.2s;
-
-  &:focus {
-    border-color: @color-link;
-  }
-}
 </style>

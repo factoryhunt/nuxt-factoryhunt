@@ -1,6 +1,5 @@
 <template>
   <div 
-    :id="id" 
     class="image">
     <div class="image__container">
       <img :src="url">
@@ -51,6 +50,10 @@ export default {
 <style lang="less" scoped>
 @import '~assets/css/index';
 
+.deleting {
+  opacity: 0.4;
+}
+
 .image {
   display: inline-flex;
   justify-content: center;
@@ -58,6 +61,7 @@ export default {
   box-shadow: 0 2px 4px @color-light-gray;
   border-radius: @border-radius;
   overflow: hidden;
+  background-color: @color-white;
 
   &:hover {
     .action__container {
@@ -90,14 +94,15 @@ export default {
     box-shadow: 0 2px 4px @color-light-gray;
     border-radius: 50%;
     background-color: @color-white;
+
+    &:hover {
+      cursor: pointer;
+      box-shadow: 0px 2px 8px @color-light-gray;
+    }
   }
   .button {
     width: 100%;
     padding: 6px;
-
-    &:hover {
-      cursor: pointer;
-    }
   }
 }
 </style>

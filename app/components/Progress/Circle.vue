@@ -12,9 +12,7 @@
     </svg>
     <span 
       class="progress__number"
-      ref="progressNumber">
-      {{progress}}%
-    </span>
+      ref="progressNumber">{{getProgress}}</span>
   </div>
 </template>
 
@@ -50,6 +48,10 @@ export default {
   computed: {
     getCircumfercent() {
       return 2 * Math.PI * this.radius
+    },
+    getProgress() {
+      const value = this.progress < 100 ? this.progress : 100
+      return `${value}%`
     }
   },
   methods: {
@@ -66,19 +68,24 @@ export default {
       if (this.size) $progressNumber.style.lineHeight = `${this.size}px`
 
       this.isMounted = true
-      this.onProgress($progressValue, this.progress)
+      this.onProgress(this.progress)
     },
-    onProgress(target, progress) {
+    onProgress(progress) {
+      const $progressValue = document.querySelector('.progress__value')
+
       const value = progress / 100
       const dashoffset = this.getCircumfercent * (1 - value)
 
       if (this.storkeColor) $progressValue.style.stroke = this.strokeColor
 
-      target.style.strokeDashoffset = dashoffset
+      $progressValue.style.strokeDashoffset = dashoffset
     }
   },
   mounted() {
     this.initProgressCircle()
+  },
+  updated() {
+    this.onProgress(this.progress)
   }
 }
 </script>

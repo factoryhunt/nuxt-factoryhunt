@@ -42,7 +42,10 @@
           <!-- Main Content -->
           <section class="content">
             <h1>{{buyingLead.title}}</h1>
-            <div class="description" v-html="buyingLead.description"></div>
+            <textarea 
+              class="description" 
+              readonly 
+              :value="buyingLead.description"></textarea>
           </section>
 
           <!-- Other Requirement -->
@@ -148,8 +151,12 @@ h1 {
   font-size: 28px;
 }
 .description {
-  padding-top: @card-padding;
+  margin-top: @card-padding;
   font-size: 16px;
+  padding: 0;
+  border: 0 !important;
+  resize: none;
+  min-height: 300px;
 }
 
 // Other Requirements

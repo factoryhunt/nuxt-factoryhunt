@@ -8,6 +8,20 @@
             <!-- Title of Form -->
             <h3>Complete Your RFQ</h3>
 
+            <section>
+              <label
+                for="title-input">TEST<required-icon/></label>
+              <test-input
+                inputType="textarea"
+                dataKey="title"
+                placeholder="E.g I'm looking for some product"
+                :value="value.title"
+                :maxlengthDisplay="true"
+                maxlength="1000"
+                @input="onInput"
+                @change="onInputChange"/>
+            </section>
+
             <!-- Title of Buying Lead -->
             <section>
               <label
@@ -18,6 +32,7 @@
                 dataKey="title"
                 :value="value.title"
                 placeholder="E.g I'm looking for some product"
+                maxlength="50"
                 @input="onInput"
                 @change="onInputChange"/>
             </section>
@@ -26,6 +41,14 @@
             <section>
               <label 
                 for="category-input">Category<required-icon/></label>
+              <text-input
+                id="category-input"
+                class="input"
+                dataKey="category"
+                :value="value.category"
+                placeholder="E.g Steel"
+                @input="onInput"
+                @change="onInputChange"/>
               <category-input
                 id="category-input"
                 class="input"/>
@@ -60,6 +83,7 @@
                 :rows="11"
                 dataKey="description"
                 :value="value.description"
+                maxlength="1000"
                 @input="onInput"/>
             </section>
 
@@ -192,6 +216,7 @@
 
 <script>
 // components
+import TestInput from '~/components/Inputs/index'
 import RequiredIcon from '~/components/Icons/Required'
 import Dropzone from '~/components/Dropzone/Test'
 import TextInput from '~/components/Inputs/Text'
@@ -207,6 +232,7 @@ import payment_types from '~/assets/models/payment_type.json'
 import payment_currentcies from '~/assets/models/payment_currentcies.json'
 export default {
   components: {
+    TestInput,
     RequiredIcon,
     Dropzone,
     TextInput,

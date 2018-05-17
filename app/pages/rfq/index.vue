@@ -19,7 +19,7 @@
           <!-- Right Panel -->
           <right-panel
             :files="value.files"
-            :progress="getProgress"
+            :progress="progress"
             @imageDelete="onFileDelete"/>
         </div>
       </div>
@@ -35,6 +35,7 @@ import RightPanel from './components/RightPanel'
 // libs
 import axios from '~/plugins/axios'
 import { mapGetters } from 'vuex'
+import { convertEnterToBrTag } from '~/utils/text'
 // static
 const MAX_FILE_LENGTH = 5
 export default {
@@ -49,8 +50,9 @@ export default {
     RightPanel
   },
   data: () => ({
+    progress: 0,
+    buyingLeadId: 0,
     value: {
-      buyingLeadId: 0,
       title: '',
       category: '',
       description: '',
@@ -78,12 +80,14 @@ export default {
     },
     getContactId() {
       return this.userData.contact.contact_id
-    },
-    getProgress() {
-      return 10
     }
   },
   methods: {
+    onDownload() {
+      const href =
+        'https://s3.us-west-1.amazonaws.com/factoryhunt.com/accounts/4/pdf'
+      window.open(href)
+    },
     // When create New RFQ
     async createNewRFQRecord() {
       const body = {
@@ -134,7 +138,7 @@ export default {
         preferred_unit_price_currency
       } = data
 
-      this.value.buyingLeadId = buying_lead_id
+      this.buyingLeadId = buying_lead_id
       this.value.title = title
       this.value.category = category
       this.value.description = description
@@ -147,12 +151,12 @@ export default {
       this.value.preferredUnitPriceCurrency = preferred_unit_price_currency
     },
     async submitNewRFQ(data) {
-      if (!this.value.buyingLeadId)
+      if (!this.buyingLeadId)
         return alert('Sorry, Internal server error occured. - 4')
 
       this.toggle.isSubmiting = true
+      const buying_lead_id = this.buyingLeadId
       const {
-        buyingLeadId: buying_lead_id,
         title,
         category,
         description,
@@ -197,32 +201,65 @@ export default {
       this.value[dataKey] = value
     },
     onChanged() {
-      console.log(this.value)
-      // const progress = this.value.length / 9
-      // console.log(progress)
+      this.progress += 10
     },
-    onFileAdded(files) {
-      let length = this.value.files.length
+    async onFileAdded(files) {
+      const beforeLength = this.value.files.length
 
       // Locally Added
       for (let i = 0; i < files.length; i++) {
-        if (length >= MAX_FILE_LENGTH) return
+        const length = beforeLength + i
 
-        const file = files[i]
-        this.value.files.push(file)
-        length++
+        if (length < MAX_FILE_LENGTH) {
+          const file = files[i]
+          this.value.files.push(file)
+        }
       }
 
       // Upload to S3
-    },
-    async uploadFilesToS3(file) {
-      try {
-      } catch (err) {
-        console.log('upload to s3 err', err)
+      for (let i = 0; i < files.length; i++) {
+        const length = beforeLength + i
+        if (length < MAX_FILE_LENGTH) {
+          const file = files[i]
+          const { insertId } = await this.uploadFilesToS3(file)
+          this.value.files[length].id = insertId
+        }
       }
     },
-    onFileDelete(index) {
-      this.value.files.splice(index, 1)
+    uploadFilesToS3(file) {
+      const formData = new FormData()
+      const config = {
+        headers: { 'content-type': 'multipart/form-data' }
+      }
+      formData.append('parent_table', 'buying_leads')
+      formData.append('parent_id', this.buyingLeadId)
+      formData.append('document', file)
+
+      return new Promise((resolve, reject) => {
+        axios
+          .post('/api/data/documents/single', formData, config)
+          .then(res => {
+            resolve(res.data)
+          })
+          .catch(err => {
+            console.log('err', err)
+          })
+      })
+    },
+    async onFileDelete(index) {
+      const { id } = this.value.files[index]
+      const data = {
+        data: {
+          id: id
+        }
+      }
+
+      try {
+        await axios.delete('/api/data/documents/single', { data })
+        this.value.files.splice(index, 1)
+      } catch (err) {
+        console.log('err', err)
+      }
     },
     isUserHavePermission() {
       const { domain } = this.$route.query

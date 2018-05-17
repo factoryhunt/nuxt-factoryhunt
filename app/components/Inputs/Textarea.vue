@@ -1,5 +1,8 @@
 <template>
-  <div>
+  <div class="textarea-container">
+    <span 
+      class="counting"
+      v-if="maxlength">{{getRemainLength(value, maxlength)}}</span>
     <textarea 
       :rows="rows"
       :placeholder="placeholder"
@@ -11,6 +14,7 @@
 </template>
 
 <script>
+import { getRemainInputLength } from '~/utils/text'
 export default {
   props: {
     rows: {
@@ -26,7 +30,10 @@ export default {
       default: ''
     },
     value: null,
-    dataKey: String
+    dataKey: String,
+    maxlength: {
+      type: [Number, String]
+    }
   },
   methods: {
     onInput(value) {
@@ -35,6 +42,9 @@ export default {
         value: value
       }
       this.$emit('input', result)
+    },
+    getRemainLength(string, maxLength) {
+      return getRemainInputLength(string, maxLength)
     }
   }
 }
@@ -42,6 +52,11 @@ export default {
 
 <style lang="less" scoped>
 @import '~assets/css/index';
+
+.textarea-container {
+  position: relative;
+}
+
 textarea {
   width: 100%;
   padding: 11px;
