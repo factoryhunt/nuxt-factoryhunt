@@ -1,16 +1,8 @@
 <template>
-  <div class="select-container">
-    <!-- Select -->
-    <div 
-      class="input-container"
-      ref="inputContainer"
-      @click="onSelectClick()">
-      <span>Select</span>
-    </div>
+  <div class="container">
     <!-- Options -->
     <div 
-      class="option-container"
-      v-show="isVisible">
+      class="option-container">
       <div class="option-wrapper">
         <!-- Step1 -->
         <ul v-show="step1.length">
@@ -55,7 +47,6 @@ import categories from '~/assets/models/category.json'
 export default {
   data: () => ({
     categories,
-    isVisible: false,
     step1: [],
     step2: [],
     step3: [],
@@ -154,10 +145,7 @@ export default {
 
 <style lang="less" scoped>
 @import '~assets/css/index';
-
-.select-container {
-  position: relative;
-}
+@import './style/index';
 
 .input-container {
   border: 1px solid @color-light-grey;

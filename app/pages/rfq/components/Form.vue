@@ -8,20 +8,6 @@
             <!-- Title of Form -->
             <h3>Complete Your RFQ</h3>
 
-            <section>
-              <label
-                for="title-input">TEST<required-icon/></label>
-              <test-input
-                inputType="textarea"
-                dataKey="title"
-                placeholder="E.g I'm looking for some product"
-                :value="value.title"
-                :maxlengthDisplay="true"
-                maxlength="1000"
-                @input="onInput"
-                @change="onInputChange"/>
-            </section>
-
             <!-- Title of Buying Lead -->
             <section>
               <label
@@ -32,7 +18,8 @@
                 dataKey="title"
                 :value="value.title"
                 placeholder="E.g I'm looking for some product"
-                maxlength="50"
+                :maxlength="50"
+                :maxlengthDisplay="true"
                 @input="onInput"
                 @change="onInputChange"/>
             </section>
@@ -41,17 +28,15 @@
             <section>
               <label 
                 for="category-input">Category<required-icon/></label>
-              <text-input
-                id="category-input"
-                class="input"
-                dataKey="category"
-                :value="value.category"
-                placeholder="E.g Steel"
-                @input="onInput"
-                @change="onInputChange"/>
-              <category-input
-                id="category-input"
-                class="input"/>
+                <search-input
+                  class="input"
+                  dataKey="category"
+                  placeholder="E.g Steel"
+                  :value="value.category"
+                  :array="getCategories"
+                  :maxlength="100"
+                  @input="onInput"
+                  @change="onInputChange"/>
             </section>
 
             <!-- Quantity & Unit -->
@@ -83,7 +68,8 @@
                 :rows="11"
                 dataKey="description"
                 :value="value.description"
-                maxlength="1000"
+                :maxlength="1000"
+                :maxlengthDisplay="true"
                 @input="onInput"/>
             </section>
 
@@ -216,26 +202,27 @@
 
 <script>
 // components
-import TestInput from '~/components/Inputs/index'
+import SearchInput from '~/components/Inputs/Search'
+import TextInput from '~/components/Inputs/Text'
 import RequiredIcon from '~/components/Icons/Required'
 import Dropzone from '~/components/Dropzone/Test'
-import TextInput from '~/components/Inputs/Text'
 import CategoryInput from '~/components/Inputs/Category'
 import TextArea from '~/components/Inputs/Textarea'
 import SelectInput from '~/components/Inputs/Select'
 import Checkbox from '~/components/Inputs/Checkbox'
 import SubmitButton from '~/components/Button'
 // models
+import categories from '~/assets/models/category.json'
 import units from '~/assets/models/units.json'
 import delivery_terms from '~/assets/models/delivery_terms.json'
 import payment_types from '~/assets/models/payment_type.json'
 import payment_currentcies from '~/assets/models/payment_currentcies.json'
 export default {
   components: {
-    TestInput,
+    SearchInput,
+    TextInput,
     RequiredIcon,
     Dropzone,
-    TextInput,
     CategoryInput,
     TextArea,
     SelectInput,
@@ -244,6 +231,7 @@ export default {
   },
   props: ['user', 'value', 'isSubmiting'],
   data: () => ({
+    categories: categories,
     units: units,
     deliveryTerms: delivery_terms,
     paymentTypes: payment_types,
@@ -253,6 +241,9 @@ export default {
   computed: {
     getContactId() {
       return this.user.contact.contact_id
+    },
+    getCategories() {
+      return this.categories
     }
   },
   methods: {

@@ -16,7 +16,6 @@
       :maxlength="maxlength"
       @onInput="onInput"
       @onChange="onChange"/>
-
     
     <!-- Textarea -->
     <textarea-input
@@ -41,10 +40,19 @@
         @onInput="onInput"/>
     </select-input>
 
-    <!-- Multi Select Input -->
-
     <!-- Search Input -->
     <div v-if="inputType === 'search'">
+      <text-input
+        :required="required"
+        :value="value"
+        :title="title"
+        :placeholder="placeholder"
+        :maxlength="maxlength"
+        @onInput="onInput"
+        @onChange="onChange"/>
+      <select-box
+        :array="array"
+        @onInput="onInput"/>
     </div>
 
     <!-- Custom -->

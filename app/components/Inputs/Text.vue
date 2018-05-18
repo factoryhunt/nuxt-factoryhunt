@@ -1,11 +1,11 @@
 <template>
   <div class="input-container">
-    <span 
-      class="counting"
-      v-if="maxlength">{{getRemainLength(value, maxlength)}}</span>
+    <remain-length
+      :value="value"
+      :maxlength="maxlength"
+      :isHidden="!maxlengthDisplay"/>
     <input 
       :id="id"
-      ref="input"
       type="text"
       :required="required"
       :placeholder="placeholder"
@@ -19,22 +19,26 @@
 </template>
 
 <script>
-import { getRemainInputLength } from '~/utils/text'
+import RemainLength from './components/RemainLength'
 export default {
+  components: {
+    RemainLength
+  },
   props: {
     id: {
       type: null
     },
-    required: {
-      type: Boolean,
-      default: false
-    },
+    dataKey: String,
     value: {
       type: null,
       default: ''
     },
     placeholder: {
       type: String
+    },
+    required: {
+      type: Boolean,
+      default: false
     },
     pattern: {
       type: null
@@ -44,6 +48,10 @@ export default {
     },
     maxlength: {
       type: [String, Number]
+    },
+    maxlengthDisplay: {
+      type: Boolean,
+      default: false
     }
   },
   methods: {
@@ -55,10 +63,7 @@ export default {
       this.$emit('input', result)
     },
     onChange(value) {
-      this.$emit('change', value)
-    },
-    getRemainLength(string, maxLength) {
-      return getRemainInputLength(string, maxLength)
+      this.$emit('input', value)
     }
   }
 }
@@ -67,19 +72,4 @@ export default {
 <style lang="less" scoped>
 @import '~assets/css/index';
 @import './style/index';
-
-.input-container {
-  position: relative;
-}
-
-input {
-  width: 100%;
-  padding: 11px;
-  font-size: inherit;
-  transition: border-color linear 0.2s;
-
-  &:focus {
-    border-color: @color-link;
-  }
-}
 </style>

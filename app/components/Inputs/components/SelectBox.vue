@@ -5,30 +5,33 @@
     <ul 
       class="option-wrapper"
       ref="optionWrapper">
-      <li 
-        class="option"
-        @click="onOptionClick('')">
-        <span
-          class="placeholder no-drag"
-          ref="item-0">{{placeholder}}</span></li>
-      <li 
-        v-for="(item, i) in array"
+      <!-- Placeholder -->
+      <select-item
+        :item="placeholder"
+        :index="0"
+        @onItemClick="onOptionClick"/>
+        
+      <!-- Items -->
+      <select-item
+        v-for="(item, index) in array"
+        :value="value"
         :key="item"
-        class="option"
-        ref="option"
-        @click="onOptionClick(item, i + 1)">
-        <span 
-          class="item no-drag"
-          :ref="`item-${i + 1}`">{{item}}</span></li>
+        :item="item"
+        :index="index + 1"
+        @onItemClick="onOptionClick"/>
     </ul>
   </div>
 </template>
 
 <script>
+import SelectItem from './SelectItem'
+const OPTION_CONTAINER = 'optionContainer'
 const OPTION_WRAPPER = 'optionWrapper'
-const OPTION = 'option'
 const HIGHLIGHTED = 'highlighted'
 export default {
+  components: {
+    SelectItem
+  },
   props: {
     value: {
       type: null
@@ -42,34 +45,53 @@ export default {
       default: 'Select'
     }
   },
+  computed: {
+    getOptions() {
+      const $optionWrapper = this.$refs[OPTION_WRAPPER]
+      const $options = $optionWrapper.children
+      return $options
+    }
+  },
   methods: {
+    init() {
+      this.highlightItem()
+      this.addClickEventListener()
+    },
     highlightItem() {
       if (!this.value) return
 
-      this.array.forEach((_, index) => {
-        const item = this.$refs[`item-${index + 1}`]
+      for (let i = 0; i < this.getOptions.length; i++) {
+        const $option = this.getOptions[i]
+        const $item = $option.children[0]
 
-        if (this.value === item.innerHTML) item.classList.add('highlighted')
-      })
+        if (this.value === $item.innerHTML) $item.classList.add('highlighted')
+      }
     },
     unhighlightItems() {
-      const $options = this.$refs[OPTION]
-
-      this.array.forEach((_, index) => {
-        const $item = this.$refs[`item-${index + 1}`][0]
+      for (let i = 0; i < this.getOptions.length; i++) {
+        const $option = this.getOptions[i]
+        const $item = $option.children[0]
         $item.classList.remove(HIGHLIGHTED)
-      })
-    },
-    onOptionClick(value, index) {
-      this.unhighlightItems()
-
-      if (index) {
-        const $item = this.$refs[`item-${index}`][0]
-        $item.classList.add(HIGHLIGHTED)
       }
-
+    },
+    onOptionClick(value) {
+      this.unhighlightItems()
       this.$emit('onInput', value)
+    },
+    addClickEventListener() {
+      const $optionContainer = this.$refs[OPTION_CONTAINER]
+      const $optionWrapper = this.$refs[OPTION_WRAPPER]
+
+      document.addEventListener('click', function(event) {
+        const target = event.target
+        // console.log(target)
+        // console.log('oc', $optionContainer)
+        // console.log('ow', $optionWrapper)
+      })
     }
+  },
+  mounted() {
+    this.init()
   },
   updated() {
     this.highlightItem()

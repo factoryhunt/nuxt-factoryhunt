@@ -1,12 +1,16 @@
 <template>
   <div class="textarea-container">
-    <span 
-      class="counting"
-      v-if="maxlength">{{getRemainLength(value, maxlength)}}</span>
+    <remain-length
+      :value="value"
+      :maxlength="maxlength"
+      :isHidden="!maxlengthDisplay"/>
     <textarea 
       :rows="rows"
+      :required="required"
       :placeholder="placeholder"
+      :pattern="pattern"
       :title="title"
+      :maxlength="maxlength"
       :value="value"
       @input="onInput($event.target.value)">
     </textarea>
@@ -14,25 +18,43 @@
 </template>
 
 <script>
-import { getRemainInputLength } from '~/utils/text'
+import RemainLength from './components/RemainLength'
 export default {
+  components: {
+    RemainLength
+  },
   props: {
     rows: {
       type: Number,
       default: 8
     },
-    placeholder: {
-      type: String,
+    id: {
+      type: null
+    },
+    dataKey: String,
+    value: {
+      type: null,
       default: ''
+    },
+    placeholder: {
+      type: String
+    },
+    required: {
+      type: Boolean,
+      default: false
+    },
+    pattern: {
+      type: null
     },
     title: {
-      type: String,
-      default: ''
+      type: String
     },
-    value: null,
-    dataKey: String,
     maxlength: {
-      type: [Number, String]
+      type: [String, Number]
+    },
+    maxlengthDisplay: {
+      type: Boolean,
+      default: false
     }
   },
   methods: {
