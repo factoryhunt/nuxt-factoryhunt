@@ -15,6 +15,7 @@ module.exports = async (req, res) => {
         ${MYSQL_MODELS.TABLE_BUYING_LEADS}
       WHERE 
         account_id = ${account_id} AND
+        status != "Archived" AND
         is_deleted != 1
       ORDER BY
         last_modified_date DESC

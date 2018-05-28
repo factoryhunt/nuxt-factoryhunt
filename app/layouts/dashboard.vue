@@ -8,7 +8,7 @@
         <nuxt/>
       </div>
     </div>
-    <copyright-bar ref="copyrightBar"></copyright-bar>
+    <copyright-bar></copyright-bar>
   </div>
 </template>
 

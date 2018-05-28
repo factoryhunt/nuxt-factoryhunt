@@ -136,18 +136,8 @@ export default {
       this.readFiles(files)
     },
     async readFiles(files) {
-      if (this.toggle.isUploading)
-        return this.onError({
-          msg: `Your files are being uploaded now. Please try it after file uploading.`
-        })
-
-      this.toggle.isUploading = true
-      this.$emit('isUploading')
-
       // Validate files
       const result = await this.validateFiles(files)
-
-      this.toggle.isUploading = false
 
       // return files to parent
       this.$emit('fileChanged', result)

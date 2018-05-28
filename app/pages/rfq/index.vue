@@ -13,7 +13,6 @@
             :isSubmiting="toggle.isSubmiting"
             @input="onUpdated"
             @change="onChanged"
-            @fileUploading="onFileUploading"
             @fileAdded="onFileAdded"
             @onSubmitButton="submitNewRFQ"/>
 
@@ -72,7 +71,7 @@ export default {
     },
     toggle: {
       isSubmiting: false,
-      isUploading: false
+      isFileProcessing: false
     }
   }),
   computed: {
@@ -171,9 +170,14 @@ export default {
     async submitNewRFQ(data) {
       if (!this.buyingLeadId) return alert('Sorry, Internal server error occured. - 4')
 
-      if (this.isUploading) return alert('File is uploading now. Please try again later.')
+      if (this.toggle.isFileProcessing)
+        return showTopAlert(this.$store, false, 'File is uploading now. Please try again later.')
+
+      if (this.toggle.isSubmiting)
+        return showTopAlert(this.$store, false, 'System is Submiting now. Please try again later.')
 
       this.toggle.isSubmiting = true
+
       const buying_lead_id = this.buyingLeadId
       const {
         title,
@@ -253,10 +257,11 @@ export default {
 
       this.progress = completeness
     },
-    onFileUploading() {
-      console.log('file uploading start')
-    },
     async onFileAdded(files) {
+      if (this.toggle.isFileProcessing)
+        return showTopAlert(this.$store, false, 'File is uploading now. Please try again later.')
+
+      this.toggle.isFileProcessing = true
       const beforeLength = this.value.files.length
 
       // Locally Added
@@ -279,6 +284,7 @@ export default {
         }
       }
 
+      this.toggle.isFileProcessing = false
       this.checkProcess()
     },
     uploadFilesToS3(file) {
@@ -298,10 +304,15 @@ export default {
           })
           .catch(err => {
             console.log('err', err)
+            this.toggle.isFileProcessing = false
+            resolve(err)
           })
       })
     },
     async onFileDelete(index) {
+      if (this.toggle.isFileProcessing)
+        return showTopAlert(this.$store, false, 'File is uploading now. Please try again later.')
+
       const { id } = this.value.files[index]
       const data = {
         data: {
@@ -313,11 +324,12 @@ export default {
         await axios.delete('/api/data/documents/single', { data })
         this.value.files.splice(index, 1)
         this.checkProcess()
+        this.toggle.isFileProcessing = false
       } catch (err) {
         console.log('err', err)
+        this.toggle.isFileProcessing = false
       }
     },
-    showFileAlert() {},
     isUserHavePermission() {
       const { domain } = this.$route.query
 

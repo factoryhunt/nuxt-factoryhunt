@@ -91,7 +91,6 @@
                 class="input"
                 :maxFileLength="5"
                 :maxFileSize="10"
-                @isUploading="onDropzoneUploading"
                 @fileChanged="onDropzoneFileAdded"
                 @onError="onDropzoneError"/>
             </section>
@@ -202,7 +201,7 @@
               </submit-button>
               <a 
                 id="later-button"
-                @click="onSaveForLaterButton()">Save for Later</a>
+                @click="onSaveForLaterButton()">Save Draft</a>
             </section>
           </div>
 
@@ -269,9 +268,6 @@ export default {
     },
     onCategoryInput(data) {
       this.category = data.value
-    },
-    onDropzoneUploading(data) {
-      this.$emit('fileUploading')
     },
     onDropzoneFileAdded(files) {
       this.$emit('fileAdded', files)

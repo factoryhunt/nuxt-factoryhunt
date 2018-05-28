@@ -13,7 +13,9 @@
         <!-- Title -->
         <h2 class="title section">{{getTitle(buyingLead.title)}}</h2>
         <!-- Description -->
-        <p class="description section">{{getDescription(buyingLead.description)}}</p>
+        <p class="description section"
+          @click="onViewButton(buyingLead.domain)"
+          >{{getDescription(buyingLead.description)}}</p>
         <!-- How many quotes -->
         <p class="quotes section">3 Quoted</p>
         <!-- Status -->
@@ -28,11 +30,8 @@
         <!-- Actions -->
         <div class="action-container section">
           <div class="action-wrapper">
-            <div>
-              <span @click="onViewButton(buyingLead.domain)">View</span> 
-              | 
-              <span @click="onEditButton(buyingLead.domain)">Edit</span></div>
-            <div><span @click="onDeleteButton(buyingLead.buying_lead_id)">Delete</span></div>
+            <div><span @click="onEditButton(buyingLead.domain)">Edit</span></div>
+            <div><span @click="onArchiveButton(buyingLead.buying_lead_id)">Archive</span></div>
           </div>
         </div>
       </li>
@@ -59,12 +58,12 @@ export default {
     onEditButton(domain) {
       this.$emit('onEditBuyingLead', domain)
     },
-    onDeleteButton(buying_lead_id) {
+    onArchiveButton(buying_lead_id) {
       // Blur Card
       const $cardContainer = this.$refs[`cardContainer-${buying_lead_id}`][0]
       $cardContainer.classList.add('deleting')
 
-      this.$emit('onDeleteBuyingLead', buying_lead_id)
+      this.$emit('onArchiveBuyingLead', buying_lead_id)
     }
   }
 }

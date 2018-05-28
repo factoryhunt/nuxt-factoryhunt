@@ -34,7 +34,7 @@
             :buying_leads="buyingLeads"
             @onViewBuyingLead="routeRFQDetailPage"
             @onEditBuyingLead="routeRFQEditPage"
-            @onDeleteBuyingLead="onDeleteBuyingLead"/>
+            @onArchiveBuyingLead="onArchiveBuyingLead"/>
         </div>
       </div>
     </main>
@@ -75,9 +75,7 @@ export default {
   methods: {
     async fetchBuyingLeads() {
       try {
-        const { data } = await axios.get(
-          `/api/data/buying_leads/${this.getAccountId}`
-        )
+        const { data } = await axios.get(`/api/data/buying_leads/${this.getAccountId}`)
         this.buyingLeads = data
         this.toggle.isDataFetched = true
       } catch (err) {
@@ -85,13 +83,18 @@ export default {
         this.toggle.isDataFetched = true
       }
     },
-    async onDeleteBuyingLead(buying_lead_id) {
+    async onArchiveBuyingLead(buying_lead_id) {
+      const body = {
+        buying_lead_body: {
+          status: 'Archived'
+        }
+      }
       try {
-        await axios.delete(`/api/data/buying_leads/${buying_lead_id}`)
+        await axios.put(`/api/data/buying_leads/${buying_lead_id}`, body)
         await this.fetchBuyingLeads()
       } catch (err) {
         console.log('onDeleteBuyingLead err', err)
-        alert('Sorry, deleting Buying Lead failed.')
+        alert('Sorry, archiving Buying Lead failed.')
       }
     },
     onRFQButton() {

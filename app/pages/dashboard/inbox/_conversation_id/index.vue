@@ -90,13 +90,6 @@ export default {
     }
   },
   methods: {
-    init() {
-      this.hideCopyrightBar()
-    },
-    hideCopyrightBar() {
-      const $copyrightBar = this.$parent.$parent.$parent.$refs.copyrightBar.$el
-      $copyrightBar.style.display = 'none'
-    },
     async onSendMessage() {
       try {
         await this.postMessageToServer()
@@ -127,9 +120,6 @@ export default {
           })
       })
     }
-  },
-  created() {
-    this.init()
   }
 }
 </script>
