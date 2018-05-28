@@ -1,9 +1,9 @@
 <template>
   <div 
     class="box__container">
-    <div class="box__wrapper">
+    <ul class="box__wrapper">
       <slot></slot>
-    </div>
+    </ul>
   </div>
 </template>
 

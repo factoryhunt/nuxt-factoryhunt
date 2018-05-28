@@ -11,12 +11,12 @@ module.exports = async (req, res) => {
       mysql.query(
         `
       UPDATE
-      ${MYSQL_MODELS.TABLE_BUYING_LEADS}
+        ${MYSQL_MODELS.TABLE_BUYING_LEADS}
       SET
-      ?,
-      last_modified_date = (SELECT NOW())
+        ?,
+        last_modified_date = (SELECT NOW())
       WHERE
-      buying_lead_id = ${buying_lead_id}`,
+        buying_lead_id = ${buying_lead_id}`,
         buying_lead_body,
         err => {
           if (err) reject({ msg: 'Failed to update database', err: err })

@@ -2,7 +2,7 @@
   <li 
     class="option-container"
     @click="onOption">
-    <span class="option">{{option}}</span></li>
+    <span class="no-drag option">{{option}}</span></li>
 </template>
 
 <script>
@@ -19,7 +19,7 @@ export default {
   },
   methods: {
     onOption() {
-      this.$emit('input', this.option)
+      this.$emit('change', this.option)
     }
   }
 }

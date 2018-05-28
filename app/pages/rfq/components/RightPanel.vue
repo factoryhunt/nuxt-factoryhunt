@@ -15,10 +15,11 @@
               :progress="progress"
               :size="80"/>
             <div class="info">
-              You might need more informations.
+              {{getProgressMsg}}
             </div>
           </div>
         </div>
+
         <!-- Image Preview -->
         <div 
           class="containers preview-container" 
@@ -66,6 +67,18 @@ export default {
     progress: {
       type: Number,
       default: 0
+    }
+  },
+  computed: {
+    getProgressMsg() {
+      let msg = ''
+
+      if (this.progress < 30) msg = 'You might need more informations.'
+      if (this.progress >= 30 && this.progress < 50) msg = 'Good, but Need more information.'
+      if (this.progress >= 50 && this.progress < 80) msg = 'Great!'
+      if (this.progress >= 80 && this.progress <= 100) msg = 'Perfect.'
+
+      return msg
     }
   },
   methods: {

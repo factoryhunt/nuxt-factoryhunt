@@ -33,12 +33,19 @@
 </template>
 
 <script>
+// components
+import Box from './components/Box'
+import BoxOption from './components/BoxOption'
 // models
 const INPUT_CONTAINER = 'inputContainer'
 const INPUT_TEXT = 'inputText'
 const SELECT_WRAPPER = 'selectWrapper'
 const HIGHLIGHTED = 'highlighted'
 export default {
+  components: {
+    Box,
+    BoxOption
+  },
   props: {
     value: null,
     array: Array,
@@ -63,8 +70,7 @@ export default {
         const target = event.target
 
         if ($inputContainer === target || $inputText === target) {
-          if ($selectWrapper.classList.contains('focus'))
-            $selectWrapper.classList.remove('focus')
+          if ($selectWrapper.classList.contains('focus')) $selectWrapper.classList.remove('focus')
           else $selectWrapper.classList.add('focus')
         } else {
           $selectWrapper.classList.remove('focus')
@@ -100,7 +106,7 @@ export default {
         dataKey: this.dataKey,
         value: value
       }
-      this.$emit('input', result)
+      this.$emit('change', result)
     }
   },
   mounted() {

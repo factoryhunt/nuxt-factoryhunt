@@ -50,10 +50,6 @@ export default {
       type: String,
       default: '100%'
     },
-    imageWidth: {
-      type: String,
-      default: '100%'
-    },
     margin: {
       type: String,
       default: '6px'

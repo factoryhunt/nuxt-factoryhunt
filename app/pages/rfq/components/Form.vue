@@ -32,11 +32,19 @@
                   class="input"
                   dataKey="category"
                   placeholder="E.g Steel"
-                  :value="value.category"
+                  :value="category"
                   :array="getCategories"
                   :maxlength="100"
-                  @input="onInput"
+                  @input="onCategoryInput"
                   @change="onInputChange"/>
+              <div class="category-selected-container">
+                <div 
+                  class="selected"
+                  v-show="value.category">Selected: {{value.category}}</div>
+                <div class="expand">
+                  
+                </div>
+              </div>
             </section>
 
             <!-- Quantity & Unit -->
@@ -48,14 +56,15 @@
                   dataKey="quantity"
                   :value="value.quantity"
                   placeholder="E.g 10000"
-                  @input="onInput"/>
+                  @input="onInput"
+                  @change="onInputChange"/>
                 <select-input
                   id="unit"
                   class="input input-select"
                   dataKey="unit"
                   :value="value.unit"
                   :array="units"
-                  @input="onInput"/>
+                  @change="onInputChange"/>
               </div>
             </section>
 
@@ -70,7 +79,8 @@
                 :value="value.description"
                 :maxlength="1000"
                 :maxlengthDisplay="true"
-                @input="onInput"/>
+                @input="onInput"
+                @change="onInputChange"/>
             </section>
 
             <!-- Dropzone -->
@@ -101,7 +111,7 @@
                   dataKey="deliveryTerm"
                   :value="value.deliveryTerm"
                   :array="deliveryTerms"
-                  @input="onInput"/>
+                  @change="onInputChange"/>
               </section>
 
               <!-- Payment Type -->
@@ -114,7 +124,7 @@
                   dataKey="paymentType"
                   :value="value.paymentType"
                   :array="paymentTypes"
-                  @input="onInput"/>
+                  @change="onInputChange"/>
               </section>
             </div>
 
@@ -128,7 +138,8 @@
                   dataKey="destinationPort"
                   :value="value.destinationPort"
                   placeholder="E.g Busan"
-                  @input="onInput"/>
+                  @input="onInput"
+                  @change="onInputChange"/>
               </section>
 
               <!-- Preffered Unit Price -->
@@ -142,14 +153,15 @@
                     dataKey="preferredUnitPrice"
                     :value="value.preferredUnitPrice"
                     placeholder="E.g 10000"
-                    @input="onInput"/>
+                    @input="onInput"
+                    @change="onInputChange"/>
                   <select-input
                     id="unit"
                     class="input input-select"
                     dataKey="preferredUnitPriceCurrency"
                     :value="value.preferredUnitPriceCurrency"
                     :array="paymentCurrentcies"
-                    @input="onInput"/>
+                    @change="onInputChange"/>
                 </div>
               </section>
             </div>
@@ -169,13 +181,13 @@
                 label="I agree to share my Business Card with quoted suppliers."
                 dataKey="businessCard"
                 :checked="value.businessCard"
-                @change="onChange"/>
+                @change="onInputChange"/>
               <checkbox 
                 id="terms"
                 label="I have read, understood and agreed to abide by Terms and Conditions Governing RFQ"
                 dataKey="terms"
                 :checked="value.terms"
-                @change="onChange"/>
+                @change="onInputChange"/>
             </section>
 
             <!-- Submit -->
@@ -186,7 +198,7 @@
                 role="submit"
                 :disabled="!isButtonActive"
                 :isLoading="isSubmiting">
-                Sumbit Requestion
+                Submit Requestion
               </submit-button>
               <a 
                 id="later-button"
@@ -236,7 +248,9 @@ export default {
     deliveryTerms: delivery_terms,
     paymentTypes: payment_types,
     paymentCurrentcies: payment_currentcies,
-    isButtonActive: false
+    isButtonActive: false,
+    isFileUploading: false,
+    category: ''
   }),
   computed: {
     getContactId() {
@@ -250,14 +264,14 @@ export default {
     onInput(data) {
       this.$emit('input', data)
     },
-    onInputChange() {
-      this.$emit('change')
+    onInputChange(value) {
+      this.$emit('change', value)
     },
-    onChange(data) {
-      this.$emit('input', data)
+    onCategoryInput(data) {
+      this.category = data.value
     },
     onDropzoneUploading(data) {
-      console.log('dropzone uploading started')
+      this.$emit('fileUploading')
     },
     onDropzoneFileAdded(files) {
       this.$emit('fileAdded', files)
@@ -275,8 +289,7 @@ export default {
   updated() {
     const { title, description, businessCard, terms } = this.value
 
-    if (title && description && businessCard && terms)
-      this.isButtonActive = true
+    if (title && description && businessCard && terms) this.isButtonActive = true
     else this.isButtonActive = false
   }
 }
@@ -341,6 +354,15 @@ section {
     flex: 3;
   }
 }
+
+.category-selected-container {
+  margin-top: 8px;
+
+  .selected {
+    font-size: 15px;
+  }
+}
+
 #unit {
   max-width: 205px;
 }

@@ -10,12 +10,12 @@ module.exports = async (req, res) => {
       mysql.query(
         `
       UPDATE 
-      ${MYSQL_MODELS.TABLE_BUYING_LEADS} 
+        ${MYSQL_MODELS.TABLE_BUYING_LEADS} 
       SET
-      isDeleted = 1,
-      last_modified_date = (SELECT NOW())
+        is_deleted = 1,
+        last_modified_date = (SELECT NOW())
       WHERE 
-      buying_lead_id = ${buying_lead_id}
+        buying_lead_id = ${buying_lead_id}
       `,
         err => {
           if (err) reject(err)

@@ -11,10 +11,10 @@ module.exports = async (req, res) => {
       mysql.query(
         `
       INSERT INTO
-      ${MYSQL_MODELS.TABLE_BUYING_LEADS}
-      (account_id, author_id)
+        ${MYSQL_MODELS.TABLE_BUYING_LEADS}
+        (account_id, author_id)
       VALUES
-      (${account_id}, ${contact_id})
+        (${account_id}, ${contact_id})
       `,
         (err, result) => {
           if (err) reject({ msg: 'Creating new RFQ Failed.', err: err })
@@ -30,12 +30,12 @@ module.exports = async (req, res) => {
       mysql.query(
         `
       UPDATE
-      ${MYSQL_MODELS.TABLE_BUYING_LEADS}
+        ${MYSQL_MODELS.TABLE_BUYING_LEADS}
       SET
-      domain = "rfq_${id}",
-      last_modified_date = (SELECT NOW())
+        domain = "rfq_${id}",
+        last_modified_date = (SELECT NOW())
       WHERE
-      buying_lead_id = ${id}`,
+        buying_lead_id = ${id}`,
         err => {
           if (err) reject({ msg: 'Assigning RFQ Domain Failed.', err: err })
           resolve()

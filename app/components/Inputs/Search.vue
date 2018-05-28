@@ -11,11 +11,17 @@
       @input="onInput"/>
     <box 
       v-show="!isHidden && value">
+      <box-option 
+        v-show="isSearching"
+        option="Searching.."/>
       <box-option
         v-for="data in results"
         :key="data.id"
-        :option="data.name"
-        @input="onOption"/>
+        :option="data.identity"
+        @change="onOption"/>
+      <box-option 
+        v-show="!results.length && !isSearching"
+        option="No result."/>
     </box>
   </div>
 </template>
@@ -52,11 +58,13 @@ export default {
   },
   data: () => ({
     isHidden: false,
+    isSearching: false,
     results: []
   }),
   methods: {
     init() {
       this.addEventListener()
+      this.DelayKeyupEvent()
     },
     addEventListener() {
       const $textInput = this.$refs['textInput'].$el.children[0]
@@ -70,21 +78,25 @@ export default {
     },
     getRelatedKeywords() {
       const input = this.value.toLowerCase()
+      const reducer = function(accumulator, value) {
+        const { name, identity } = value
+        const regex = new RegExp(input, 'gi')
 
-      const results = this.array
-        .filter(item => {
-          const id = item.id
-          const name = item.name.toLowerCase()
+        // const word = identity.match(regex)
+        // if (word) console.log(word)
+        // value.identity = identity.replace(regex, `<strong>${input}</strong>`)
 
-          return name.indexOf(input) > -1
-        })
-        .sort()
+        if (regex.test(name)) accumulator.push(value)
+
+        return accumulator
+      }
+
+      const results = this.array.reduce(reducer, [])
 
       return results
     },
     onInput(data) {
       this.isHidden = false
-      this.results = this.getRelatedKeywords()
       this.$emit('input', data)
     },
     onOption(value) {
@@ -93,7 +105,33 @@ export default {
         dataKey: this.dataKey,
         value: value
       }
-      this.$emit('input', result)
+      this.$emit('change', result)
+    },
+    DelayKeyupEvent() {
+      const $input = this.$refs.textInput.$refs.input
+
+      var delay = (() => {
+        var timer = 0
+        return function(callback, ms) {
+          clearTimeout(timer)
+          timer = setTimeout(callback, ms)
+        }
+      })()
+
+      $input.addEventListener('keydown', () => {
+        this.isSearching = true
+        this.results = []
+
+        delay(() => {
+          this.isSearching = false
+          this.results = this.getRelatedKeywords()
+        }, 800)
+      })
+    }
+  },
+  watch: {
+    value() {
+      // this.results = this.getRelatedKeywords()
     }
   },
   mounted() {

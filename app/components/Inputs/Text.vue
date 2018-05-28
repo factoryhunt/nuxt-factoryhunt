@@ -7,6 +7,7 @@
     <input 
       :id="id"
       type="text"
+      ref="input"
       :required="required"
       :placeholder="placeholder"
       :pattern="pattern"
@@ -55,15 +56,19 @@ export default {
     }
   },
   methods: {
-    onInput(value) {
+    getData(value) {
       const result = {
         dataKey: this.dataKey,
         value: value
       }
-      this.$emit('input', result)
+
+      return result
+    },
+    onInput(value) {
+      this.$emit('input', this.getData(value))
     },
     onChange(value) {
-      this.$emit('input', value)
+      this.$emit('change', this.getData(value))
     }
   }
 }

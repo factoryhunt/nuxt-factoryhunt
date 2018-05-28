@@ -47,9 +47,7 @@ export default {
         {
           hid: 'description',
           name: 'description',
-          content: `${this.buyingLead.description}, ${
-            this.buyingLead.category
-          } | Factory Hunt`
+          content: `${this.buyingLead.description}, ${this.buyingLead.category} | Factory Hunt`
         },
         {
           hid: 'og-title',
@@ -81,24 +79,19 @@ export default {
         {
           hid: 'twitter-image',
           property: 'twitter:image',
-          content:
-            'https://s3-us-west-1.amazonaws.com/factoryhunt.com/logo2.png'
+          content: 'https://s3-us-west-1.amazonaws.com/factoryhunt.com/logo2.png'
         },
         {
           hid: 'twitter-domain',
           property: 'twitter:domain',
-          content: `https://www.factoryhunt.com/buying-leads/${
-            this.buyingLead.domain
-          }`
+          content: `https://www.factoryhunt.com/buying-leads/${this.buyingLead.domain}`
         }
       ],
       link: [
         {
           hid: 'canonical',
           rel: 'canonical',
-          href: `https://www.factoryhunt.com/buying-leads/${
-            this.buyingLead.domain
-          }`
+          href: `https://www.factoryhunt.com/buying-leads/${this.buyingLead.domain}`
         }
       ]
     }
@@ -113,15 +106,13 @@ export default {
     const { domain } = params
 
     try {
-      const { data } = await axios.get(
-        `/api/data/buying_leads/domain/${domain}`
-      )
+      const { data } = await axios.get(`/api/data/buying_leads/domain/${domain}`)
 
       // Domain is not available
-      if (!data) error({ statusCode: 404, message: 'Page not found' })
+      if (!data.buying_lead) error({ statusCode: 404, message: 'Page not found' })
 
       return {
-        buyingLead: data
+        buyingLead: data.buying_lead
       }
     } catch (err) {
       console.log('buying-lead/domain err', err)

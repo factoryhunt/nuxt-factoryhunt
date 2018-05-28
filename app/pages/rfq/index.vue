@@ -13,11 +13,13 @@
             :isSubmiting="toggle.isSubmiting"
             @input="onUpdated"
             @change="onChanged"
+            @fileUploading="onFileUploading"
             @fileAdded="onFileAdded"
             @onSubmitButton="submitNewRFQ"/>
 
           <!-- Right Panel -->
           <right-panel
+            :test="value"
             :files="value.files"
             :progress="progress"
             @imageDelete="onFileDelete"/>
@@ -34,6 +36,7 @@ import RFQForm from './components/Form'
 import RightPanel from './components/RightPanel'
 // libs
 import axios from '~/plugins/axios'
+import { showTopAlert } from '~/utils/alert'
 import { mapGetters } from 'vuex'
 import { convertEnterToBrTag } from '~/utils/text'
 // static
@@ -68,7 +71,8 @@ export default {
       files: []
     },
     toggle: {
-      isSubmiting: false
+      isSubmiting: false,
+      isUploading: false
     }
   }),
   computed: {
@@ -84,8 +88,7 @@ export default {
   },
   methods: {
     onDownload() {
-      const href =
-        'https://s3.us-west-1.amazonaws.com/factoryhunt.com/accounts/4/pdf'
+      const href = 'https://s3.us-west-1.amazonaws.com/factoryhunt.com/accounts/4/pdf'
       window.open(href)
     },
     // When create New RFQ
@@ -106,11 +109,10 @@ export default {
     // When edit New RFQ
     async fetchBuyingLeadData(domain) {
       try {
-        const { data } = await axios.get(
-          `/api/data/buying_leads/domain/${domain}`
-        )
-        await this.canAccess(data.account_id)
-        this.mappingData(data)
+        const { data } = await axios.get(`/api/data/buying_leads/domain/${domain}`)
+        await this.canAccess(data.buying_lead.account_id)
+        this.mappingData(data.buying_lead)
+        this.mappingDocuments(data.documents)
       } catch (err) {
         console.log('err', err)
         alert(err.msg)
@@ -119,9 +121,9 @@ export default {
     mappingDefaultData(data) {
       data.description =
         "Dear Sir/Madam, I'm looking for products with the following specifications:"
-      data.delivery_term = 'FOB'
-      data.payment_type = 'T/T'
-      data.preferred_unit_price_currency = 'USD'
+      // data.delivery_term = 'FOB'
+      // data.payment_type = 'T/T'
+      // data.preferred_unit_price_currency = 'USD'
     },
     mappingData(data) {
       const {
@@ -149,10 +151,27 @@ export default {
       this.value.destinationPort = destination_port
       this.value.preferredUnitPrice = preferred_unit_price
       this.value.preferredUnitPriceCurrency = preferred_unit_price_currency
+
+      this.checkProcess()
+    },
+    mappingDocuments(documents) {
+      for (let i = 0; i < documents.length; i++) {
+        const document = documents[i]
+        const { id, original_name, content_type, body_length, location } = document
+        let file = new File([''], original_name, {
+          type: content_type,
+          size: body_length
+        })
+        file.id = id
+        file.url = location
+
+        this.value.files.push(file)
+      }
     },
     async submitNewRFQ(data) {
-      if (!this.buyingLeadId)
-        return alert('Sorry, Internal server error occured. - 4')
+      if (!this.buyingLeadId) return alert('Sorry, Internal server error occured. - 4')
+
+      if (this.isUploading) return alert('File is uploading now. Please try again later.')
 
       this.toggle.isSubmiting = true
       const buying_lead_id = this.buyingLeadId
@@ -184,8 +203,7 @@ export default {
         }
       }
 
-      if (data.status === 'activated')
-        body.buying_lead_body.status = 'Activated'
+      if (data.status === 'activated') body.buying_lead_body.status = 'Activated'
 
       try {
         await axios.put(`/api/data/buying_leads/${buying_lead_id}`, body)
@@ -196,12 +214,47 @@ export default {
         this.toggle.isSubmiting = false
       }
     },
-    onUpdated(object) {
-      const { dataKey, value } = object
+    onUpdated(data) {
+      const { dataKey, value } = data
       this.value[dataKey] = value
     },
-    onChanged() {
-      this.progress += 10
+    onChanged(data) {
+      this.onUpdated(data)
+      this.checkProcess()
+    },
+    checkProcess() {
+      const {
+        title,
+        category,
+        description,
+        quantity,
+        unit,
+        deliveryTerm,
+        paymentType,
+        destinationPort,
+        preferredUnitPrice,
+        preferredUnitPriceCurrency,
+        files
+      } = this.value
+
+      let completeness = 0
+
+      if (title) completeness += 9
+      if (category) completeness += 15
+      if (description) completeness += 15
+      if (files.length) completeness += 21
+      if (quantity && unit) completeness += 13
+      if (deliveryTerm) completeness += 7
+      if (paymentType) completeness += 7
+      if (destinationPort) completeness += 6
+      if (preferredUnitPrice && preferredUnitPriceCurrency) completeness += 7
+
+      if (completeness > 100) completeness = 100
+
+      this.progress = completeness
+    },
+    onFileUploading() {
+      console.log('file uploading start')
     },
     async onFileAdded(files) {
       const beforeLength = this.value.files.length
@@ -225,6 +278,8 @@ export default {
           this.value.files[length].id = insertId
         }
       }
+
+      this.checkProcess()
     },
     uploadFilesToS3(file) {
       const formData = new FormData()
@@ -257,10 +312,12 @@ export default {
       try {
         await axios.delete('/api/data/documents/single', { data })
         this.value.files.splice(index, 1)
+        this.checkProcess()
       } catch (err) {
         console.log('err', err)
       }
     },
+    showFileAlert() {},
     isUserHavePermission() {
       const { domain } = this.$route.query
 

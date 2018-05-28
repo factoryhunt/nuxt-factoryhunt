@@ -10,14 +10,14 @@ module.exports = async (req, res) => {
       mysql.query(
         `
       SELECT 
-      *
+        *
       FROM
-      ${MYSQL_MODELS.TABLE_BUYING_LEADS}
+        ${MYSQL_MODELS.TABLE_BUYING_LEADS}
       WHERE 
-      account_id = ${account_id} AND
-      isDeleted != 1
+        account_id = ${account_id} AND
+        is_deleted != 1
       ORDER BY
-      last_modified_date DESC
+        last_modified_date DESC
       `,
         (err, results) => {
           if (err) reject(err)
