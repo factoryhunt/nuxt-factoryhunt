@@ -1,0 +1,58 @@
+@import '~assets/css/index';
+
+@margin-top: 40px;
+@card-padding: 20px;
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+.body-container {
+  max-width: 780px !important;
+  padding-bottom: 80px;
+}
+.section {
+  margin-top: @margin-top;
+}
+.section__title {
+  text-transform: uppercase;
+  color: @color-deep-gray;
+  font-size: 14px;
+  margin: 0;
+}
+
+.button {
+  padding: 11px 14px;
+  margin-right: 16px;
+  text-transform: uppercase;
+}
+
+.card {
+  margin-top: 30px;
+
+  &:first-child {
+    margin-top: 12px;
+  }
+}
+
+.name-container {
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Helvetica, Arial,
+    sans-serif;
+  .dot {
+    margin: 0 4px;
+  }
+  .name {
+    font-weight: 600;
+
+    a {
+      color: @color-black;
+    }
+  }
+  .sub-name {
+    color: @color-font-gray;
+  }
+  .company {
+    color: @color-link;
+  }
+}

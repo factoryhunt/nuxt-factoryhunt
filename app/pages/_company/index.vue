@@ -126,10 +126,10 @@
             <!--•-->
             <!--<h4 class="review-title"> <small>(0)개의 평가</small></h4>-->
           </div>
-          <div class="video-container" v-show="getVideoURL">
+          <div class="video-container" v-show="getVideo">
             <iframe
               id="intro-video"
-              :src="getVideoURL"
+              :src="getVideo"
               frameborder="0"
               allowfullscreen></iframe>
           </div>
@@ -305,6 +305,7 @@ import axios from '~/plugins/axios'
 import pdflib from 'pdfjs-dist'
 import Loader from '~/components/Loader'
 import { validateURL } from '~/utils/text'
+import { getVideoURL } from '~/utils/fileReader'
 import { sendEmail } from '~/utils/email'
 export default {
   scrollToTop: true,
@@ -370,10 +371,8 @@ export default {
   async asyncData({ params, query, error, redirect }) {
     try {
       let { data } = await axios.get(`/api/data/account/domain/${params.company}`)
-
       console.log(data)
       if (!data.account) error({ statusCode: 404, message: 'Page not found' })
-
       return {
         queryInput: query.input || '',
         vendor: data.account,
@@ -959,12 +958,10 @@ export default {
       left: 0;
       right: 0;
       bottom: 0;
-
       .cache-image-wrapper {
         width: 100px;
         position: relative;
         list-style: none;
-
         li {
           width: 100px;
         }
@@ -1055,7 +1052,6 @@ export default {
 
     #brochure-container {
       margin: 0;
-
       img {
         width: 100%;
       }
@@ -1146,7 +1142,6 @@ export default {
   .body-container {
     .left-container {
       position: relative;
-
       // shared
       textarea {
         color: @color-font-black;
@@ -1293,12 +1288,13 @@ export default {
             outline: none !important;
             font-size: 16px;
           }
+
         }
 
         textarea {
           font-size: @font-size-medium;
         }
-
+        
         .quote {
           color: grey;
           font-size: 0.9rem;
