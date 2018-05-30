@@ -19,12 +19,12 @@ module.exports = async (req, res) => {
         description,
         quantity,
         unit,
-        duration,
         preferred_unit_price,
         preferred_unit_price_currency,
         delivery_term,
         destination_port,
         payment_type,
+        due_date,
         created_date,
         last_modified_date
       FROM

@@ -10,31 +10,44 @@ module.exports = async (req, res) => {
     return new Promise((resolve, reject) => {
       const SQL = `
       SELECT
-        buying_lead_id,
-        account_id,
-        author_id,
-        status,
-        domain,
-        category,
-        title,
-        description,
-        quantity,
-        unit,
-        duration,
-        preferred_unit_price,
-        preferred_unit_price_currency,
-        delivery_term,
-        destination_port,
-        payment_type,
-        created_date,
-        last_modified_date
+        bl.buying_lead_id,
+        bl.status,
+        bl.domain,
+        bl.category,
+        bl.title,
+        bl.description,
+        bl.quantity,
+        bl.unit,
+        bl.preferred_unit_price,
+        bl.preferred_unit_price_currency,
+        bl.delivery_term,
+        bl.destination_port,
+        bl.payment_type,
+        bl.due_date,
+        bl.created_date,
+        bl.last_modified_date,
+        c.contact_id,
+        c.account_id,
+        c.first_name,
+        c.last_name,
+        c.contact_title,
+        c.mailing_country,
+        TIMESTAMPDIFF(DAY, now(), bl.due_date) as due_diff,
+        TIMESTAMPDIFF(YEAR, bl.created_date, now()) as year_diff,
+        TIMESTAMPDIFF(MONTH, bl.created_date, now()) as month_diff,
+        TIMESTAMPDIFF(WEEK, bl.created_date, now()) as week_diff,
+        DATEDIFF(NOW(), bl.created_date) as day_diff,
+        TIMESTAMPDIFF(HOUR, bl.created_date, now()) as hour_diff,
+        TIMESTAMPDIFF(MINUTE, bl.created_date, now()) as minute_diff,
+        TIMESTAMPDIFF(SECOND, bl.created_date, now()) as second_diff
       FROM
-        ${MYSQL_MODELS.TABLE_BUYING_LEADS}
-      WHERE 
-        domain = "${domain}" AND
-        is_deleted != 1
+        ${MYSQL_MODELS.TABLE_BUYING_LEADS} bl,
+        ${MYSQL_MODELS.TABLE_CONTACTS} c
+      WHERE
+        bl.domain = "${domain}" AND
+        bl.author_id = c.contact_id
       `
-      const ERROR_MSG = 'Malformed Buying Leads Query.'
+      const ERR_MSG = 'Malformed Buying Leads Query.'
 
       mysql.query(SQL, (err, results) => {
         if (err) reject(onError(1001, ERR_MSG, err))
@@ -63,10 +76,10 @@ module.exports = async (req, res) => {
         parent_id = ${buying_lead_id} AND
         is_deleted != 1
       `
-      const ERROR_MSG = 'Malformed Documents Query.'
+      const ERR_MSG = 'Malformed Documents Query.'
 
       mysql.query(SQL, (err, results) => {
-        if (err) reject(onError(1002, ERROR_MSG, err))
+        if (err) reject(onError(1002, ERR_MSG, err))
         if (!results.length) resolve([])
 
         resolve(results)

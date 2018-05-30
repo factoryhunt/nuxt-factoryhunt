@@ -1,15 +1,22 @@
 <template>
   <div class="body-container">
     <div class="body__wrapper">
+      <!-- Modal -->
+      <report 
+        table="buying_leads"
+        :isHidden="toggle.isReportHidden"
+        :payload="reportData"
+        @close="closeReport"/>
+
       <!-- Breadcrumb -->
       <breadcrumb 
-        root="Buying Leads"/>
+        :payload="breadcrumb"/>
 
       <!-- Buyer RFQ -->
       <r-f-q 
         :buyingLead="buyingLead"
-        @onLinkCopy="onLinkCopyButton"
-        @onQuoteNow="onQuoteNowButton"/>
+        :documents="documents"
+        @onReport="onReport"/>
 
       <!-- Your Quote -->
       <your-quote
@@ -17,14 +24,15 @@
 
       <!-- Supplier Quotes -->
       <quotes
-      :quotes="quotes"
-      @onChatNow="onChatNowButton"/>
+        :quotes="quotes"
+        @onReport="onReport"/>
     </div>
   </div>
 </template>
 
 <script>
 // components
+import Report from '~/components/Modal/Report'
 import Breadcrumb from '~/components/Breadcrumb'
 import RFQ from './components/RFQ'
 import YourQuote from './components/YourQuote'
@@ -97,6 +105,7 @@ export default {
     }
   },
   components: {
+    Report,
     Breadcrumb,
     RFQ,
     YourQuote,
@@ -112,7 +121,8 @@ export default {
       if (!data.buying_lead) error({ statusCode: 404, message: 'Page not found' })
 
       return {
-        buyingLead: data.buying_lead
+        buyingLead: data.buying_lead,
+        documents: data.documents
       }
     } catch (err) {
       console.log('buying-lead/domain err', err)
@@ -121,26 +131,64 @@ export default {
   },
   data: () => ({
     currentTime: '',
+    reportData: {},
+    breadcrumb: [],
     yourQuote: {
       text: '',
       files: []
     },
     quotes: [
       {
-        quote_id: 1
+        id: 1
       },
       {
-        quote_id: 2
+        id: 2
       },
       {
-        quote_id: 3
+        id: 3
       }
-    ]
+    ],
+    toggle: {
+      isReportHidden: true
+    }
   }),
   methods: {
-    onQuoteNowButton() {},
-    onLinkCopyButton() {},
-    onChatNowButton() {}
+    init() {
+      this.setBreadcrumb()
+    },
+    setBreadcrumb() {
+      let array = this.buyingLead.category.split(' > ')
+
+      const initialValue = [
+        {
+          value: 'Buying Leads',
+          uri: '/buying-leads'
+        }
+      ]
+      const reducer = function(accumulator, value) {
+        const item = {
+          value: value,
+          uri: '/'
+        }
+        accumulator.push(item)
+
+        return accumulator
+      }
+
+      array = array.reduce(reducer, initialValue)
+      this.breadcrumb = array
+    },
+    onChatNowButton() {},
+    onReport(payload) {
+      this.reportData = payload
+      this.toggle.isReportHidden = false
+    },
+    closeReport() {
+      this.toggle.isReportHidden = true
+    }
+  },
+  mounted() {
+    this.init()
   }
 }
 </script>

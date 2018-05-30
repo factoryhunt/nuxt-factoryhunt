@@ -21,6 +21,7 @@
             :test="value"
             :files="value.files"
             :progress="progress"
+            :fileProgress="value.fileProgress"
             @imageDelete="onFileDelete"/>
         </div>
       </div>
@@ -67,7 +68,8 @@ export default {
       preferredUnitPriceCurrency: '',
       businessCard: '',
       terms: '',
-      files: []
+      files: [],
+      fileProgress: 0
     },
     toggle: {
       isSubmiting: false,
@@ -166,6 +168,8 @@ export default {
 
         this.value.files.push(file)
       }
+
+      this.checkProcess()
     },
     async submitNewRFQ(data) {
       if (!this.buyingLeadId) return alert('Sorry, Internal server error occured. - 4')
@@ -178,7 +182,12 @@ export default {
 
       this.toggle.isSubmiting = true
 
-      const buying_lead_id = this.buyingLeadId
+      const getDomain = title =>
+        title
+          .trim()
+          .toLowerCase()
+          .replace(/\s/g, '-') + `-${this.buyingLeadId}`
+
       const {
         title,
         category,
@@ -191,10 +200,13 @@ export default {
         preferredUnitPrice: preferred_unit_price,
         preferredUnitPriceCurrency: preferred_unit_price_currency
       } = this.value
+      const buying_lead_id = this.buyingLeadId
+      const domain = getDomain(title)
 
       let body = {
         buying_lead_body: {
           title,
+          domain,
           category,
           description,
           quantity,
@@ -207,7 +219,9 @@ export default {
         }
       }
 
-      if (data.status === 'activated') body.buying_lead_body.status = 'Activated'
+      if (data.status === 'activated') {
+        body.buying_lead_body.status = 'Activated'
+      }
 
       try {
         await axios.put(`/api/data/buying_leads/${buying_lead_id}`, body)
@@ -262,6 +276,7 @@ export default {
         return showTopAlert(this.$store, false, 'File is uploading now. Please try again later.')
 
       this.toggle.isFileProcessing = true
+      this.value.fileProgress = 0
       const beforeLength = this.value.files.length
 
       // Locally Added
@@ -274,16 +289,20 @@ export default {
         }
       }
 
+      this.value.fileProgress = 1
+
       // Upload to S3
       for (let i = 0; i < files.length; i++) {
         const length = beforeLength + i
         if (length < MAX_FILE_LENGTH) {
           const file = files[i]
           const { insertId } = await this.uploadFilesToS3(file)
+          this.value.fileProgress += 100 / files.length - 1
           this.value.files[length].id = insertId
         }
       }
 
+      this.value.fileProgress = 100
       this.toggle.isFileProcessing = false
       this.checkProcess()
     },

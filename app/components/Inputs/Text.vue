@@ -41,9 +41,7 @@ export default {
       type: Boolean,
       default: false
     },
-    pattern: {
-      type: null
-    },
+    pattern: null,
     title: {
       type: String
     },

@@ -8,7 +8,7 @@
         :key="buyingLead.buying_lead_id"
         :ref="`cardContainer-${buyingLead.buying_lead_id}`">
         <div class="img-container">
-          <img src="https://zdnet2.cbsistatic.com/hub/i/r/2017/07/18/071068d1-e257-4abf-811d-48a626f621f7/resize/770xauto/72e298cc964f48604e0edb0a3ee72339/bear.jpg">
+          <img :src="getImageUrl(buyingLead.location)">
         </div>
         <!-- Title -->
         <h2 class="title section">{{getTitle(buyingLead.title)}}</h2>
@@ -52,6 +52,9 @@ export default {
     getStatus(status) {
       return status.toLowerCase()
     },
+    getImageUrl(url) {
+      return url ? url : require('~/assets/icons/pictures.svg')
+    },
     onViewButton(domain) {
       this.$emit('onViewBuyingLead', domain)
     },
@@ -65,6 +68,9 @@ export default {
 
       this.$emit('onArchiveBuyingLead', buying_lead_id)
     }
+  },
+  mounted() {
+    console.log(this.buying_leads)
   }
 }
 </script>

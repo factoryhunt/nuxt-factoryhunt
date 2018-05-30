@@ -24,15 +24,17 @@
         <div 
           class="containers preview-container" 
           v-if="files.length">
+          <!-- Title -->
           <h3 class="panel__title">Preview</h3>
           <!-- Big Size Viewer -->
           <div 
             class="sections preview-wrapper">
-
             <image-viewer 
               class="viewer"
               :url="files[0].url"
               @delete="onDeleteButton(0)"/>
+              <!-- Loading Bar -->
+            <div class="file-progress" :style="getProgressWidth"></div>
           </div>
           <!-- Small Size Viewer -->
           <div class="sections small-preview-wrapper">
@@ -67,6 +69,10 @@ export default {
     progress: {
       type: Number,
       default: 0
+    },
+    fileProgress: {
+      type: Number,
+      default: 0
     }
   },
   computed: {
@@ -79,6 +85,13 @@ export default {
       if (this.progress >= 80 && this.progress <= 100) msg = 'Perfect.'
 
       return msg
+    },
+    getProgressWidth() {
+      let style = {
+        width: `${this.fileProgress}%`,
+        opacity: this.fileProgress === 100 ? 0 : 1
+      }
+      return style
     }
   },
   methods: {
@@ -161,6 +174,7 @@ export default {
 }
 .sections {
   margin-top: @sectionMargin;
+  position: relative;
 }
 
 .progress-container {
@@ -184,6 +198,16 @@ export default {
       width: 100%;
       height: 222px;
     }
+  }
+  .file-progress {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 1%;
+    max-width: 100% !important;
+    height: 2px !important;
+    background-color: @color-orange;
+    transition: width 2s, opacity 2s;
   }
 
   .small-preview-wrapper {

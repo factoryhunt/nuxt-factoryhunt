@@ -12,9 +12,13 @@ module.exports = async (req, res) => {
         `
       INSERT INTO
         ${MYSQL_MODELS.TABLE_BUYING_LEADS}
-        (account_id, author_id)
+        (account_id, 
+          author_id, 
+          due_date)
       VALUES
-        (${account_id}, ${contact_id})
+        (${account_id}, 
+          ${contact_id},
+        DATE_ADD(NOW(), INTERVAL 30 DAY))
       `,
         (err, result) => {
           if (err) reject({ msg: 'Creating new RFQ Failed.', err: err })

@@ -7,24 +7,38 @@ module.exports = async (req, res) => {
 
   const getBuyingLeads = () => {
     return new Promise((resolve, reject) => {
-      mysql.query(
-        `
+      const SQL = `
       SELECT 
-        *
-      FROM
-        ${MYSQL_MODELS.TABLE_BUYING_LEADS}
-      WHERE 
-        account_id = ${account_id} AND
-        status != "Archived" AND
-        is_deleted != 1
+        bl.buying_lead_id,
+        bl.status,
+        bl.domain,
+        bl.category,
+        bl.title,
+        bl.description,
+        bl.quantity,
+        bl.unit,
+        bl.due_date,
+        docs.id, 
+        docs.location
+      FROM 
+        ${MYSQL_MODELS.TABLE_BUYING_LEADS} bl
+      LEFT JOIN 
+        ${MYSQL_MODELS.TABLE_DOCUMENTS} docs
+      ON 
+        bl.account_id = ${account_id} AND
+        bl.is_deleted != 1 AND
+        docs.parent_table = "${MYSQL_MODELS.TABLE_BUYING_LEADS}" AND
+        docs.parent_id = bl.buying_lead_id AND
+        docs.is_deleted != 1
+      GROUP BY 
+        bl.buying_lead_id
       ORDER BY
-        last_modified_date DESC
-      `,
-        (err, results) => {
-          if (err) reject(err)
-          resolve(results)
-        }
-      )
+        bl.last_modified_date DESC
+      `
+      mysql.query(SQL, (err, results) => {
+        if (err) reject(err)
+        resolve(results)
+      })
     })
   }
 

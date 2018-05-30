@@ -1,11 +1,15 @@
 <template>
   <nav itemscope>
     <ul>
-      <li><a href="#">{{root}}</a></li>
-      <li><a href="#">> step1</a></li>
-      <li><a href="#">> step2</a></li>
-      <li><a href="#">> step3</a></li>
-      <li><a href="#">> step4</a></li>
+      <li 
+        v-for="(value,index) in payload"
+        :key="value.value">
+        <i 
+          class="fa fa-angle-right angle" 
+          aria-hidden="true"
+          v-show="index"></i>
+        <a :href="value.uri">
+          {{value.value}}</a></li>
     </ul>
   </nav>
 </template>
@@ -13,15 +17,13 @@
 <script>
 export default {
   props: {
-    root: {
-      type: String,
-      default: 'Breadcrumb'
-    },
-    branches: Array
+    payload: null
   },
-  methods: {},
-  mounted() {
-    // console.log('branches', this.branches)
+  methods: {
+    getBreadcrumb() {}
+  },
+  watch: {
+    payload(data) {}
   }
 }
 </script>
@@ -41,10 +43,15 @@ ul {
 }
 li {
   display: inline-block;
-  margin-left: 6px;
 
   &:first-child {
     margin-left: 0 !important;
   }
+}
+.angle {
+  margin-left: 8px;
+  margin-right: 6px;
+  padding: 0;
+  color: @color-font-black;
 }
 </style>

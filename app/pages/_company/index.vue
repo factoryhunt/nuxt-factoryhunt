@@ -1009,9 +1009,6 @@ export default {
         right: 0 !important;
       }
     }
-
-    .body-container {
-    }
   }
 
   .body-container {
@@ -1230,9 +1227,6 @@ export default {
             text-decoration: underline;
           }
         }
-      }
-
-      .review-container {
       }
     }
 

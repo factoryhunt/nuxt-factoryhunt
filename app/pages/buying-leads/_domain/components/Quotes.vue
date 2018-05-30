@@ -10,7 +10,7 @@
         v-for="(quote,index) in quotes"
         :key="index"
         :data="quote"
-        @onReport="onReportButton(index)">
+        @onReport="onReportButton(quote.id)">
         <!-- Name -->
         <div 
           slot="name"
@@ -56,9 +56,17 @@ export default {
     BasicButton,
     TextInput
   },
-  onReportButton() {},
-  onChatButton(index) {
-    this.$emit('onChatNow', index)
+  methods: {
+    onReportButton(id) {
+      const payload = {
+        table: 'quotes',
+        id: id
+      }
+      this.$emit('onReport', payload)
+    },
+    onChatButton() {
+      this.$emit('onChatNow')
+    }
   }
 }
 </script>

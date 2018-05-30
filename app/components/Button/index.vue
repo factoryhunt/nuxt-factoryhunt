@@ -4,7 +4,7 @@
     :role="role"
     :class="getClass"
     :disabled="disabled || isLoading"
-    @click="onButtonPress">
+    @click="$emit('click')">
     <dot-spinner
       v-show="isLoading"
       color="#fff"/>
@@ -22,11 +22,6 @@ export default {
   computed: {
     getClass() {
       return this.type
-    }
-  },
-  methods: {
-    onButtonPress() {
-      this.$emit('onButton')
     }
   }
 }

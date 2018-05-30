@@ -18,6 +18,7 @@
                 dataKey="title"
                 :value="value.title"
                 placeholder="E.g I'm looking for some product"
+                pattern="[A-Za-z0-9 ]{2,50}"
                 :maxlength="50"
                 :maxlengthDisplay="true"
                 @input="onInput"

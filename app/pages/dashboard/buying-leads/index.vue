@@ -3,10 +3,12 @@
     <!-- Header -->
     <header>
       <div class="header__list">
+        <!-- Title -->
         <section 
           class="title-section">
           <h1>Buying Leads</h1>
         </section>
+        <!-- Button -->
         <section 
           class="button-section">
           <button 
@@ -20,14 +22,14 @@
     <main
       class="body__container">
       <!-- Loader -->
-      <div 
-        v-if="!toggle.isDataFetched">
+      <div v-if="!toggle.isDataFetched">
         <dot-spinner
           color="#f2583d"/>
       </div>
       <!-- Body -->
       <div 
-        class="body__wrapper" v-else>
+        class="body__wrapper" 
+        v-else>
         <!-- Cards -->
         <div class="cards-container">
           <cards 

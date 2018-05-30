@@ -19,8 +19,8 @@
             </div>
           </div>
           <!-- History -->
-          <div class="header__history">
-            <span>1 Hours ago</span>
+          <div class="header__history" v-show="topDateDiff">
+            <span>{{topDateDiff}}</span>
           </div>
         </section>
 
@@ -41,11 +41,17 @@
           </div>
           <!-- Right -->
           <div class="right-container">
+            <!-- Created Date Diff -->
+            <div 
+              class="date-diff-container"
+              v-show="bottomDateDiff">
+              {{bottomDateDiff}}
+            </div>
             <!-- Report Button -->
             <div 
-              class="report-container"
-              @click="onReportButton">
-              <img src="~assets/icons/flag.svg" alt="options">
+              class="item report-container"
+              @click="onReportButton()">
+              <img src="~assets/icons/flag.svg" alt="flag">
             </div>
           </div>
         </section>
@@ -57,12 +63,15 @@
 
 <script>
 export default {
-  props: ['data', 'currentTime'],
+  props: ['data', 'topDateDiff', 'bottomDateDiff'],
+  computed: {},
   methods: {
-    onQuoteButton() {},
     onReportButton() {
       this.$emit('onReport')
     }
+  },
+  mounted() {
+    console.log(this.data)
   }
 }
 </script>
@@ -123,6 +132,22 @@ main {
   font-size: 13px;
   font-weight: 600;
 
+  .right-container {
+    display: flex;
+    align-items: center;
+  }
+
+  .item {
+    margin-left: 6px;
+  }
+
+  .date-diff-container {
+    // border: 1px solid @color-border-gray;
+    // border-radius: @border-radius;
+    color: @color-deep-gray;
+    font-weight: 400;
+    padding: 8px;
+  }
   .report-container {
     width: 22px;
     height: 22px;
