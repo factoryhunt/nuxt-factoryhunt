@@ -8,24 +8,21 @@ module.exports = async (req, res) => {
 
   const createNewRecord = () => {
     return new Promise((resolve, reject) => {
-      mysql.query(
-        `
+      const SQL = `
       INSERT INTO
         ${MYSQL_MODELS.TABLE_BUYING_LEADS}
         (account_id, 
-          author_id, 
-          due_date)
+          author_id)
       VALUES
         (${account_id}, 
-          ${contact_id},
-        DATE_ADD(NOW(), INTERVAL 30 DAY))
-      `,
-        (err, result) => {
-          if (err) reject({ msg: 'Creating new RFQ Failed.', err: err })
+          ${contact_id})
+      `
+      mysql.query(SQL, (err, result) => {
+        if (err) reject({ msg: 'Creating new RFQ Failed.', err: err })
+        console.log(result)
 
-          resolve(result.insertId)
-        }
-      )
+        resolve(result.insertId)
+      })
     })
   }
 
@@ -36,8 +33,7 @@ module.exports = async (req, res) => {
       UPDATE
         ${MYSQL_MODELS.TABLE_BUYING_LEADS}
       SET
-        domain = "rfq_${id}",
-        last_modified_date = (SELECT NOW())
+        domain = "rfq_${id}"
       WHERE
         buying_lead_id = ${id}`,
         err => {

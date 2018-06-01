@@ -6,7 +6,8 @@
         class="card-container"
         v-for="buyingLead in buying_leads"
         :key="buyingLead.buying_lead_id"
-        :ref="`cardContainer-${buyingLead.buying_lead_id}`">
+        :ref="`cardContainer-${buyingLead.buying_lead_id}`"
+        v-if="buyingLead.status !== `Archived`">
         <div class="img-container">
           <img :src="getImageUrl(buyingLead.location)">
         </div>

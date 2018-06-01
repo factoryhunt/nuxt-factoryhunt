@@ -46,7 +46,7 @@
 </template>
 
 <script>
-import Card from './Card'
+import Card from './common/Card'
 import BasicButton from '~/components/Button'
 import TextInput from '~/components/Inputs/Text'
 export default {

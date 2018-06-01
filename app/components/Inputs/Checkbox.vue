@@ -3,8 +3,8 @@
     <input 
       :id="id"
       type="checkbox"
-      :value="value"
-      @change="onChange($event.target.checked)">
+      :checked="checked"
+      @input="inputHanlder">
     <label :for="id" v-html="label"></label>
   </div>
 </template>
@@ -17,21 +17,18 @@ export default {
   },
   props: {
     id: {
-      type: String,
-      required: true
+      type: String
     },
-    dataKey: String,
-    checked: Boolean,
     value: String,
     label: String
   },
+  data: () => ({
+    checked: this.value
+  }),
   methods: {
-    onChange(value) {
-      const result = {
-        dataKey: this.dataKey,
-        value: value
-      }
-      this.$emit('change', result)
+    inputHanlder(event) {
+      this.checked = !this.checked
+      this.$emit('change', this.checked)
     }
   }
 }

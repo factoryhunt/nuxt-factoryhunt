@@ -7,7 +7,8 @@
         <card
           class="card">
           <text-input 
-            placeholder="Suggest your product with a quote."/>
+            placeholder="Suggest your product with a quote."
+            @click="$emit('click')"/>
         </card>
       </div>
     </div>
@@ -15,7 +16,7 @@
 </template>
 
 <script>
-import Card from './Card'
+import Card from './common/Card'
 import TextInput from '~/components/Inputs/Text'
 export default {
   components: {

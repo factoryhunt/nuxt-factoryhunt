@@ -32,7 +32,7 @@ export default {
 button {
   font-size: inherit;
   font-family: inherit;
-  padding: 14px 28px;
+  padding: 10px 24px;
   font-weight: 500;
   color: @color-white;
   background-color: @color-orange;
@@ -40,6 +40,10 @@ button {
   outline: 0;
   border: 0;
   transition: background-color linear 0.2s;
+
+  @media (min-width: 744px) {
+    padding: 14px 28px;
+  }
 
   &:hover {
     background-color: @color-dark-orange;

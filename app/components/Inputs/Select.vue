@@ -22,7 +22,7 @@
             v-for="(value,i) in array"
             :key="i"
             class="option"
-            @click="onOptionClick(value, i)">
+            @click="onOptionClick(value)">
             <span  
               class="no-drag"
               :ref="`item${i}`">{{value}}</span></li>
@@ -49,7 +49,6 @@ export default {
   props: {
     value: null,
     array: Array,
-    dataKey: String,
     placeholder: {
       type: String,
       default: 'Select'
@@ -58,6 +57,11 @@ export default {
   computed: {
     getCurrentValue() {
       return this.value ? this.value : 'Select'
+    }
+  },
+  watch: {
+    value(value) {
+      this.unhighlightItems()
     }
   },
   methods: {
@@ -94,19 +98,9 @@ export default {
         $item.classList.remove(HIGHLIGHTED)
       }
     },
-    onOptionClick(value, index) {
-      this.unhighlightItems()
-
-      const $item = this.$refs[`item${index}`][0]
-      $item.classList.add(HIGHLIGHTED)
-
-      this.currentValue = value
-      this.isVisible = false
-      const result = {
-        dataKey: this.dataKey,
-        value: value
-      }
-      this.$emit('change', result)
+    onOptionClick(value) {
+      this.$emit('input', value)
+      this.$emit('change', value)
     }
   },
   mounted() {

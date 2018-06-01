@@ -31,15 +31,23 @@ export default {
 <style lang="less" scoped>
 @import '~assets/css/index';
 [itemscope] {
-  margin: 30px 0;
+  margin: 18px 0;
   text-transform: uppercase;
+
+  @media (min-width: 744px) {
+    margin: 30px 0;
+  }
 }
 ul {
   list-style: none;
   padding: 0;
   margin: 0;
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 400;
+
+  @media (min-width: 744px) {
+    font-size: 13px;
+  }
 }
 li {
   display: inline-block;
@@ -49,8 +57,8 @@ li {
   }
 }
 .angle {
-  margin-left: 8px;
-  margin-right: 6px;
+  margin-left: 6px;
+  margin-right: 2px;
   padding: 0;
   color: @color-font-black;
 }

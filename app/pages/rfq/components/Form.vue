@@ -15,14 +15,11 @@
               <text-input
                 id="title-input"
                 class="input"
-                dataKey="title"
-                :value="value.title"
+                v-model="value.title"
                 placeholder="E.g I'm looking for some product"
                 pattern="[A-Za-z0-9 ]{2,50}"
                 :maxlength="50"
-                :maxlengthDisplay="true"
-                @input="onInput"
-                @change="onInputChange"/>
+                :maxlengthDisplay="true"/>
             </section>
 
             <!-- Category -->
@@ -31,13 +28,10 @@
                 for="category-input">Category<required-icon/></label>
                 <search-input
                   class="input"
-                  dataKey="category"
                   placeholder="E.g Steel"
-                  :value="category"
+                  v-model="value.category"
                   :array="getCategories"
-                  :maxlength="100"
-                  @input="onCategoryInput"
-                  @change="onInputChange"/>
+                  :maxlength="100"/>
               <div class="category-selected-container">
                 <div 
                   class="selected"
@@ -54,18 +48,13 @@
               <div class="section-divider">
                 <text-input
                   class="input input-text"
-                  dataKey="quantity"
-                  :value="value.quantity"
-                  placeholder="E.g 10000"
-                  @input="onInput"
-                  @change="onInputChange"/>
+                  v-model="value.quantity"
+                  placeholder="E.g 10000"/>
                 <select-input
                   id="unit"
                   class="input input-select"
-                  dataKey="unit"
-                  :value="value.unit"
-                  :array="units"
-                  @change="onInputChange"/>
+                  v-model="value.unit"
+                  :array="units"/>
               </div>
             </section>
 
@@ -76,12 +65,9 @@
                 id="description-input"
                 class="input"
                 :rows="11"
-                dataKey="description"
-                :value="value.description"
+                v-model="value.description"
                 :maxlength="1000"
-                :maxlengthDisplay="true"
-                @input="onInput"
-                @change="onInputChange"/>
+                :maxlengthDisplay="true"/>
             </section>
 
             <!-- Dropzone -->
@@ -108,10 +94,8 @@
                 <label for="">Delivery Term</label>
                 <select-input
                   class="input"
-                  dataKey="deliveryTerm"
-                  :value="value.deliveryTerm"
-                  :array="deliveryTerms"
-                  @change="onInputChange"/>
+                  v-model="value.deliveryTerm"
+                  :array="deliveryTerms"/>
               </section>
 
               <!-- Payment Type -->
@@ -121,10 +105,8 @@
                 <select-input
                   class="input"
                   id="payment-type"
-                  dataKey="paymentType"
-                  :value="value.paymentType"
-                  :array="paymentTypes"
-                  @change="onInputChange"/>
+                  v-model="value.paymentType"
+                  :array="paymentTypes"/>
               </section>
             </div>
 
@@ -135,11 +117,8 @@
                 <label for="">Destination Port</label>
                 <text-input
                   class="input"
-                  dataKey="destinationPort"
-                  :value="value.destinationPort"
-                  placeholder="E.g Busan"
-                  @input="onInput"
-                  @change="onInputChange"/>
+                  v-model="value.destinationPort"
+                  placeholder="E.g Busan"/>
               </section>
 
               <!-- Preffered Unit Price -->
@@ -150,18 +129,13 @@
                   <text-input
                     id="quantity"
                     class="input input-text"
-                    dataKey="preferredUnitPrice"
-                    :value="value.preferredUnitPrice"
-                    placeholder="E.g 10000"
-                    @input="onInput"
-                    @change="onInputChange"/>
+                    v-model="value.preferredUnitPrice"
+                    placeholder="E.g 10000"/>
                   <select-input
                     id="unit"
                     class="input input-select"
-                    dataKey="preferredUnitPriceCurrency"
-                    :value="value.preferredUnitPriceCurrency"
-                    :array="paymentCurrentcies"
-                    @change="onInputChange"/>
+                    v-model="value.preferredUnitPriceCurrency"
+                    :array="paymentCurrentcies"/>
                 </div>
               </section>
             </div>
@@ -179,15 +153,11 @@
               <checkbox 
                 id="business-card"
                 label="I agree to share my Business Card with quoted suppliers."
-                dataKey="businessCard"
-                :checked="value.businessCard"
-                @change="onInputChange"/>
+                v-model="value.businessCard"/>
               <checkbox 
                 id="terms"
                 label="I have read, understood and agreed to abide by Terms and Conditions Governing RFQ"
-                dataKey="terms"
-                :checked="value.terms"
-                @change="onInputChange"/>
+                v-model="value.terms"/>
             </section>
 
             <!-- Submit -->
@@ -198,11 +168,12 @@
                 role="submit"
                 :disabled="!isButtonActive"
                 :isLoading="isSubmiting">
-                Submit Requestion
+                {{getSubmitButtonLabel}}
               </submit-button>
               <a 
                 id="later-button"
-                @click="onSaveForLaterButton()">Save Draft</a>
+                v-show="!isActivated"
+                @click="onSaveDraft()">Save Draft</a>
             </section>
           </div>
 
@@ -229,6 +200,7 @@ import units from '~/assets/models/units.json'
 import delivery_terms from '~/assets/models/delivery_terms.json'
 import payment_types from '~/assets/models/payment_type.json'
 import payment_currentcies from '~/assets/models/payment_currentcies.json'
+import { mapGetters } from 'vuex'
 export default {
   components: {
     SearchInput,
@@ -241,7 +213,7 @@ export default {
     Checkbox,
     SubmitButton
   },
-  props: ['user', 'value', 'isSubmiting'],
+  props: ['value', 'isSubmiting'],
   data: () => ({
     categories: categories,
     units: units,
@@ -253,23 +225,23 @@ export default {
     category: ''
   }),
   computed: {
+    ...mapGetters({
+      user: 'auth/GET_USER'
+    }),
     getContactId() {
       return this.user.contact.contact_id
     },
     getCategories() {
       return this.categories
+    },
+    isActivated() {
+      return this.value.status === 'Activated'
+    },
+    getSubmitButtonLabel() {
+      return this.isActivated ? 'Edit Requestion' : 'Sumbit Requestion'
     }
   },
   methods: {
-    onInput(data) {
-      this.$emit('input', data)
-    },
-    onInputChange(value) {
-      this.$emit('change', value)
-    },
-    onCategoryInput(data) {
-      this.category = data.value
-    },
     onDropzoneFileAdded(files) {
       this.$emit('fileAdded', files)
     },
@@ -277,16 +249,17 @@ export default {
       console.log('dropzone error:\n', err)
     },
     onSubmitButton() {
-      this.$emit('onSubmitButton', { status: 'activated' })
+      this.$emit('submit')
     },
-    onSaveForLaterButton() {
-      this.$emit('onSubmitButton', { status: 'draft' })
+    onSaveDraft() {
+      this.$emit('saveDraft')
     }
   },
   updated() {
-    const { title, description, businessCard, terms } = this.value
+    this.$emit('changed')
+    const { title, category, description, businessCard, terms } = this.value
 
-    if (title && description && businessCard && terms) this.isButtonActive = true
+    if (title && description && category && businessCard && terms) this.isButtonActive = true
     else this.isButtonActive = false
   }
 }

@@ -1,12 +1,14 @@
 <template>
-  <div 
-    v-show="!isHidden"
-    ref="modalBackground"
-    class="modal-background">
-    <div class="modal-content">
-      <slot></slot>
+  <transition name="modal">
+    <div 
+      v-if="!isHidden"
+      ref="modalBackground"
+      class="modal-background">
+      <div class="modal-content">
+        <slot></slot>
+      </div>
     </div>
-  </div>
+  </transition>
 </template>
 
 <script>
@@ -28,6 +30,14 @@ export default {
   },
   mounted() {
     this.init()
+  },
+  destroyed() {
+    console.log('destroyed modal container')
+  },
+  watch: {
+    isHidden(isHidden) {
+      console.log('isHidden changed', isHidden)
+    }
   }
 }
 </script>
@@ -36,5 +46,29 @@ export default {
 @import '~assets/css/index';
 .modal-background {
   display: block;
+  transition: opacity 0.3s ease;
+}
+.modal-content {
+  padding: 0 20px;
+  transition: all 0.3s ease;
+
+  @media (min-width: 744px) {
+    padding: 0;
+  }
+}
+
+// Transtition
+.modal-enter {
+  opacity: 0;
+}
+
+.modal-leave-active {
+  opacity: 0;
+}
+
+.modal-enter .modal-content,
+.modal-leave-active .modal-content {
+  -webkit-transform: scale(1.1);
+  transform: scale(1.1);
 }
 </style>

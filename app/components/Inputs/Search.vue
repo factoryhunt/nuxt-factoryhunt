@@ -2,15 +2,13 @@
   <div class="container">
     <text-input
       ref="textInput"
-      :value="value"
-      :dataKey="dataKey"
+      v-model="keyword"
       :placeholder="placeholder"
       :maxlength="maxlength"
       :maxlengthDisplay="maxlengthDisplay"
-      :pattern="pattern"
-      @input="onInput"/>
+      :pattern="pattern"/>
     <box 
-      v-show="!isHidden && value">
+      v-show="!isHidden && keyword">
       <box-option 
         v-show="isSearching"
         option="Searching.."/>
@@ -18,7 +16,7 @@
         v-for="data in results"
         :key="data.id"
         :option="data.identity"
-        @change="onOption"/>
+        @click="$emit('input', data.identity)"/>
       <box-option 
         v-show="!results.length && !isSearching"
         option="No result."/>
@@ -57,6 +55,7 @@ export default {
     }
   },
   data: () => ({
+    keyword: '',
     isHidden: false,
     isSearching: false,
     results: []
@@ -77,7 +76,7 @@ export default {
       })
     },
     getRelatedKeywords() {
-      const input = this.value.toLowerCase()
+      const input = this.keyword.toLowerCase()
       const reducer = function(accumulator, value) {
         const { name, identity } = value
         const regex = new RegExp(input, 'gi')
@@ -130,8 +129,8 @@ export default {
     }
   },
   watch: {
-    value() {
-      // this.results = this.getRelatedKeywords()
+    keyword(value) {
+      value ? (this.isHidden = false) : (this.isHidden = true)
     }
   },
   mounted() {

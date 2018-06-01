@@ -26,26 +26,32 @@ module.exports = async (req, res) => {
         bl.due_date,
         bl.created_date,
         bl.last_modified_date,
+        a.account_name,
+        a.domain,
         c.contact_id,
         c.account_id,
         c.first_name,
         c.last_name,
         c.contact_title,
         c.mailing_country,
-        TIMESTAMPDIFF(DAY, now(), bl.due_date) as due_diff,
-        TIMESTAMPDIFF(YEAR, bl.created_date, now()) as year_diff,
-        TIMESTAMPDIFF(MONTH, bl.created_date, now()) as month_diff,
-        TIMESTAMPDIFF(WEEK, bl.created_date, now()) as week_diff,
+        TIMESTAMPDIFF(DAY, now(), bl.due_date) as due_day_diff,
+        TIMESTAMPDIFF(HOUR, now(), bl.due_date) as due_hour_diff,
+        TIMESTAMPDIFF(MINUTE, now(), bl.due_date) as due_minute_diff,
+        TIMESTAMPDIFF(YEAR, bl.created_date, NOW()) as year_diff,
+        TIMESTAMPDIFF(MONTH, bl.created_date, NOW()) as month_diff,
+        TIMESTAMPDIFF(WEEK, bl.created_date, NOW()) as week_diff,
         DATEDIFF(NOW(), bl.created_date) as day_diff,
-        TIMESTAMPDIFF(HOUR, bl.created_date, now()) as hour_diff,
-        TIMESTAMPDIFF(MINUTE, bl.created_date, now()) as minute_diff,
-        TIMESTAMPDIFF(SECOND, bl.created_date, now()) as second_diff
+        TIMESTAMPDIFF(HOUR, bl.created_date, NOW()) as hour_diff,
+        TIMESTAMPDIFF(MINUTE, bl.created_date, NOW()) as minute_diff,
+        TIMESTAMPDIFF(SECOND, bl.created_date, NOW()) as second_diff
       FROM
         ${MYSQL_MODELS.TABLE_BUYING_LEADS} bl,
-        ${MYSQL_MODELS.TABLE_CONTACTS} c
+        ${MYSQL_MODELS.TABLE_CONTACTS} c,
+        ${MYSQL_MODELS.TABLE_ACCOUNTS} a
       WHERE
         bl.domain = "${domain}" AND
-        bl.author_id = c.contact_id
+        bl.author_id = c.contact_id AND
+        c.account_id = a.account_id
       `
       const ERR_MSG = 'Malformed Buying Leads Query.'
 

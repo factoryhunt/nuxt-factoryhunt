@@ -12,7 +12,7 @@
       :title="title"
       :maxlength="maxlength"
       :value="value"
-      @input="onInput($event.target.value)">
+      @input="event => $emit('input', event.target.value)">
     </textarea>
   </div>
 </template>

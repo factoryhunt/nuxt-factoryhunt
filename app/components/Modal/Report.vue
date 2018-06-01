@@ -131,10 +131,19 @@ export default {
 .description {
   font-weight: 500;
   color: @color-black;
+  font-size: 16px;
+
+  @media (min-width: 744px) {
+    font-size: 18px;
+  }
 }
 .checkbox-container {
   margin-top: @margin-top;
-  font-size: 16px;
+  font-size: 14px;
+
+  @media (min-width: 744px) {
+    font-size: 16px;
+  }
 
   .checkbox {
     margin-top: @margin-top;
@@ -147,5 +156,10 @@ export default {
 }
 .submit {
   margin-top: @section-margin-top;
+  font-size: 16px;
+
+  @media (min-width: 744px) {
+    font-size: 18px;
+  }
 }
 </style>

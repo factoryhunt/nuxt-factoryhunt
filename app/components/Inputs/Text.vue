@@ -6,7 +6,7 @@
       :isHidden="!maxlengthDisplay"/>
     <input 
       :id="id"
-      type="text"
+      :type="type"
       ref="input"
       :required="required"
       :placeholder="placeholder"
@@ -14,8 +14,13 @@
       :value="value"
       :title="title"
       :maxlength="maxlength"
-      @input="onInput($event.target.value)"
+      @click="$emit('click')"
+      @input="event => $emit('input', event.target.value)"
       @change="onChange($event.target.value)">
+    <img 
+      class="icon"
+      v-show="image" 
+      :src="image">
   </div>
 </template>
 
@@ -29,7 +34,10 @@ export default {
     id: {
       type: null
     },
-    dataKey: String,
+    type: {
+      type: String,
+      default: 'text'
+    },
     value: {
       type: null,
       default: ''
@@ -51,7 +59,8 @@ export default {
     maxlengthDisplay: {
       type: Boolean,
       default: false
-    }
+    },
+    image: String
   },
   methods: {
     getData(value) {
@@ -75,4 +84,17 @@ export default {
 <style lang="less" scoped>
 @import '~assets/css/index';
 @import './style/index';
+.input-container {
+  position: relative;
+}
+input {
+  padding-right: 38px;
+}
+.icon {
+  position: absolute;
+  top: 11px;
+  right: 11px;
+  width: 20px;
+  height: 20px;
+}
 </style>

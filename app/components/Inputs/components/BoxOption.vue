@@ -1,7 +1,7 @@
 <template>
   <li 
     class="option-container"
-    @click="onOption">
+    @click="$emit('click', option)">
     <span class="no-drag option">{{option}}</span></li>
 </template>
 
@@ -15,11 +15,6 @@ export default {
     highlight: {
       type: Boolean,
       default: false
-    }
-  },
-  methods: {
-    onOption() {
-      this.$emit('change', this.option)
     }
   }
 }

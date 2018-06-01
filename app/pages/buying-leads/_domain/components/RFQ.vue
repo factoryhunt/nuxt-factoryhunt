@@ -4,7 +4,6 @@
       <card
         :data="buyingLead"
         :topDateDiff="getDueDateDiff"
-        :bottomDateDiff="getCreatedDateDiff"
         @onReport="onReportButton()">
 
         <!-- User Name -->
@@ -13,7 +12,17 @@
           class="name-container">
           <div class="name">
             <a href="/user">{{getAuthorName}}</a></div>
-          <div class="sub-name">{{buyingLead.contact_title}}</div>
+          <div class="sub-name">
+            <span v-show="buyingLead.contact_title">
+              {{buyingLead.contact_title}}</span>
+            <span v-show="buyingLead.account_name || buyingLead.contact_title"> 
+              @
+            <!-- <span>{{getEncryptedCompanyName}}</span>  -->
+              <a 
+                  :href="getCompanyDomain"
+                  target="_blank">{{getEncryptedCompanyName}}</a></span>
+            <span> · Posted {{getCreatedDateDiff}}</span>
+          </div>
         </div>
 
         <!-- Verified Mark -->
@@ -100,11 +109,12 @@
 
 <script>
 // components
-import Card from './Card'
+import Card from './common/Card'
 import BasicButton from '~/components/Button'
 import ToolTip from '~/components/ToolTip'
 // libs
 import Clipboard from 'clipboard'
+import { mapGetters } from 'vuex'
 // static
 const DESCRIPTION = 'description'
 const MAX_HEIGHT = 190
@@ -120,6 +130,10 @@ export default {
     copyLink: 'Link Copy'
   }),
   computed: {
+    ...mapGetters({
+      isLoggedIn: 'auth/IS_LOGGED_IN',
+      user: 'auth/GET_USER'
+    }),
     getAuthorName() {
       const { first_name, last_name } = this.buyingLead
 
@@ -165,36 +179,51 @@ export default {
         second_diff
       } = this.buyingLead
 
-      if (year_diff) {
-        return year_diff === 1 ? `A Year Ago` : `${year_diff} Years Ago`
-      }
-      if (month_diff) {
-        return month_diff === 1 ? `A Month Ago` : `${month_diff} Months Ago`
-      }
-      if (week_diff) {
-        return week_diff === 1 ? `A Week Ago` : `${week_diff} Weeks Ago`
-      }
-      if (day_diff) {
-        return month_diff === 1 ? `A Day Ago` : `${day_diff} Days Ago`
-      }
-      if (hour_diff) {
-        return hour_diff === 1 ? `A Hour Ago` : `${hour_diff} Hours Ago`
-      }
-      if (minute_diff) {
-        return minute_diff === 1 ? `A Minute Ago` : `${minute_diff} Minutes Ago`
-      }
-      if (second_diff) {
-        return second_diff === 1 ? `A Second Ago` : `${second_diff} Seconds Ago`
-      }
+      if (year_diff) return year_diff === 1 ? `a year ago` : `${year_diff} Years ago`
+
+      if (month_diff) return month_diff === 1 ? `a month ago` : `${month_diff} months ago`
+
+      if (week_diff) return week_diff === 1 ? `a week ago` : `${week_diff} weeks ago`
+
+      if (day_diff) return day_diff === 1 ? `a day ago` : `${day_diff} days ago`
+
+      if (hour_diff) return hour_diff === 1 ? `an hour ago` : `${hour_diff} hours ago`
+
+      if (minute_diff) return minute_diff === 1 ? `a minute ago` : `${minute_diff} minutes ago`
+
+      if (second_diff) return second_diff === 1 ? `a second ago` : `${second_diff} seconds ago`
 
       return ''
     },
     getDueDateDiff() {
-      const { due_diff } = this.buyingLead
+      const { status, due_day_diff, due_hour_diff, due_minute_diff } = this.buyingLead
 
-      if (due_diff) return `${due_diff} Days Left`
+      if (status !== 'Activated') return 'Not Activated'
 
-      return 'Closed'
+      // More than a day left
+      if (due_day_diff > 0) return due_day_diff === 1 ? 'A Day Left' : `${due_day_diff} Days Left`
+
+      // Less a day
+      if (due_hour_diff > 0)
+        return due_hour_diff === 1 ? 'An Hour Left' : `${due_hour_diff} Hours Left`
+
+      if (due_minute_diff > 0)
+        return due_minute_diff === 1 ? 'A Minute Left' : `${due_minute_diff} Minutes Left`
+
+      return 'Deal Closed'
+    },
+    getCompanyDomain() {
+      return '#'
+      // return this.isLoggedIn ? `/${this.buyingLead.domain}` : '#'
+    },
+    getEncryptedCompanyName() {
+      const { account_name } = this.buyingLead
+
+      const firstLetter = account_name.charAt(0)
+      const starlize = account_name.slice(1).replace(/[^(\s)]/gi, '*')
+      const result = `${firstLetter}${starlize}`
+
+      return result
     }
   },
   methods: {
@@ -258,25 +287,43 @@ ul {
   li {
     .gray-border;
     display: inline-flex;
-    margin-right: 12px;
-    margin-bottom: 12px;
+    margin-right: 6px;
+    margin-bottom: 6px;
     background-color: @color-bg-gray;
-    font-size: 13px;
+    font-size: 11px;
+
+    @media (min-width: 744px) {
+      margin-right: 12px;
+      margin-bottom: 12px;
+      font-size: 13px;
+    }
   }
 }
 
 // Content
 h1 {
-  font-size: 28px;
+  font-size: 24px;
+
+  @media (min-width: 744px) {
+    font-size: 28px;
+  }
 }
 .description {
   margin-top: @card-padding;
-  font-size: 16px;
+  font-size: 14px;
   padding: 0;
   border: 0 !important;
   resize: none;
   overflow: hidden;
   line-height: 1.7;
+
+  @media (min-width: 744px) {
+    font-size: 16px;
+  }
+}
+.posted-in {
+  font-size: 13px;
+  color: @color-font-gray;
 }
 .read-more {
   font-size: 15px;
@@ -298,21 +345,30 @@ h1 {
 
 // Product Images
 .product {
-  margin-top: @margin-top;
+  margin-top: 30px;
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 .product__image-container {
   display: inline-flex;
-  width: 135px;
-  height: 135px;
+  width: 105px;
+  height: 105px;
   box-shadow: 0px 2px 4px @color-light-gray;
   border-radius: @border-radius;
   overflow: hidden;
   margin-right: 12px;
   margin-bottom: 12px;
   cursor: pointer;
+
+  @media (min-width: 375px) {
+    width: 130px;
+    height: 130px;
+  }
+  @media (min-width: 744px) {
+    width: 135px;
+    height: 135px;
+  }
 
   img {
     width: 100%;

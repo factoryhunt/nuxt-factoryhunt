@@ -2,11 +2,14 @@
   <div class="body-container">
     <div class="body__wrapper">
       <!-- Modal -->
-      <report 
+      <modal-report 
         table="buying_leads"
         :isHidden="toggle.isReportHidden"
         :payload="reportData"
         @close="closeReport"/>
+      <modal-auth
+        :isHidden="toggle.isAuthHidden"
+        @close="closeSigningIn"/>
 
       <!-- Breadcrumb -->
       <breadcrumb 
@@ -20,7 +23,8 @@
 
       <!-- Your Quote -->
       <your-quote
-        :data="yourQuote"/>
+        :data="yourQuote"
+        @click="onSendQuote"/>
 
       <!-- Supplier Quotes -->
       <quotes
@@ -32,13 +36,15 @@
 
 <script>
 // components
-import Report from '~/components/Modal/Report'
+import ModalReport from '~/components/Modal/Report'
+import ModalAuth from '~/components/Modal/Auth'
 import Breadcrumb from '~/components/Breadcrumb'
 import RFQ from './components/RFQ'
 import YourQuote from './components/YourQuote'
 import Quotes from './components/Quotes'
 // libs
 import axios from '~/plugins/axios'
+import { mapGetters } from 'vuex'
 export default {
   layout: 'feed',
   head() {
@@ -105,7 +111,8 @@ export default {
     }
   },
   components: {
-    Report,
+    ModalReport,
+    ModalAuth,
     Breadcrumb,
     RFQ,
     YourQuote,
@@ -149,9 +156,16 @@ export default {
       }
     ],
     toggle: {
-      isReportHidden: true
+      isReportHidden: true,
+      isAuthHidden: true
     }
   }),
+  computed: {
+    ...mapGetters({
+      isLoggedIn: 'auth/IS_LOGGED_IN',
+      isUserSupplier: 'auth/IS_USER_SUPPLIER'
+    })
+  },
   methods: {
     init() {
       this.setBreadcrumb()
@@ -183,8 +197,15 @@ export default {
       this.reportData = payload
       this.toggle.isReportHidden = false
     },
+    onSendQuote() {
+      if (!this.isLoggedIn) this.toggle.isAuthHidden = false
+      if (!this.isUserSupplier) alert('Sorry, you are not supplier')
+    },
     closeReport() {
       this.toggle.isReportHidden = true
+    },
+    closeSigningIn() {
+      this.toggle.isAuthHidden = true
     }
   },
   mounted() {

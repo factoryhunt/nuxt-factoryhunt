@@ -8,17 +8,15 @@
         <div class="page-container">
           <!-- Form -->
           <r-f-q-form
-            :user="userData"
             :value="value"
             :isSubmiting="toggle.isSubmiting"
-            @input="onUpdated"
-            @change="onChanged"
+            @changed="checkProcess()"
             @fileAdded="onFileAdded"
-            @onSubmitButton="submitNewRFQ"/>
+            @submit="sumbitRequestion"
+            @saveDraft="saveDraft"/>
 
           <!-- Right Panel -->
           <right-panel
-            :test="value"
             :files="value.files"
             :progress="progress"
             :fileProgress="value.fileProgress"
@@ -56,6 +54,7 @@ export default {
     progress: 0,
     buyingLeadId: 0,
     value: {
+      status: 'Draft',
       title: '',
       category: '',
       description: '',
@@ -85,6 +84,44 @@ export default {
     },
     getContactId() {
       return this.userData.contact.contact_id
+    },
+    areRequiredFieldsFilled() {
+      const { title, category, description } = this.value
+
+      if (title && category && description) return true
+
+      return false
+    },
+    getSubmitData() {
+      const {
+        title,
+        category,
+        description,
+        quantity,
+        unit,
+        deliveryTerm: delivery_term,
+        paymentType: payment_type,
+        destinationPort: destination_port,
+        preferredUnitPrice: preferred_unit_price,
+        preferredUnitPriceCurrency: preferred_unit_price_currency
+      } = this.value
+      const buying_lead_id = this.buyingLeadId
+      const domain = this.getDomain(title)
+
+      let body = {
+        title,
+        domain,
+        category,
+        description,
+        quantity,
+        unit,
+        delivery_term,
+        payment_type,
+        destination_port,
+        preferred_unit_price,
+        preferred_unit_price_currency
+      }
+      return body
     }
   },
   methods: {
@@ -129,6 +166,7 @@ export default {
     mappingData(data) {
       const {
         buying_lead_id,
+        status,
         title,
         category,
         description,
@@ -142,6 +180,7 @@ export default {
       } = data
 
       this.buyingLeadId = buying_lead_id
+      this.value.status = status
       this.value.title = title
       this.value.category = category
       this.value.description = description
@@ -171,8 +210,30 @@ export default {
 
       this.checkProcess()
     },
-    async submitNewRFQ(data) {
-      if (!this.buyingLeadId) return alert('Sorry, Internal server error occured. - 4')
+    getDomain(title) {
+      return (
+        title
+          .trim()
+          .toLowerCase()
+          .replace(/\s/g, '-') + `-${this.buyingLeadId}`
+      )
+    },
+    sumbitRequestion() {
+      if (!this.areRequiredFieldsFilled)
+        return showTopAlert(this.$store, false, 'Please fill in required field.')
+
+      let body = this.getSubmitData
+      body.status = 'Activated'
+
+      this.submitNewRFQ(body)
+    },
+    saveDraft() {
+      let body = this.getSubmitData
+      this.submitNewRFQ(body)
+    },
+    async submitNewRFQ(body) {
+      if (!this.buyingLeadId)
+        return showTopAlert(this.$store, false, 'Sorry, Internal server error occured. - 4')
 
       if (this.toggle.isFileProcessing)
         return showTopAlert(this.$store, false, 'File is uploading now. Please try again later.')
@@ -182,63 +243,16 @@ export default {
 
       this.toggle.isSubmiting = true
 
-      const getDomain = title =>
-        title
-          .trim()
-          .toLowerCase()
-          .replace(/\s/g, '-') + `-${this.buyingLeadId}`
-
-      const {
-        title,
-        category,
-        description,
-        quantity,
-        unit,
-        deliveryTerm: delivery_term,
-        paymentType: payment_type,
-        destinationPort: destination_port,
-        preferredUnitPrice: preferred_unit_price,
-        preferredUnitPriceCurrency: preferred_unit_price_currency
-      } = this.value
-      const buying_lead_id = this.buyingLeadId
-      const domain = getDomain(title)
-
-      let body = {
-        buying_lead_body: {
-          title,
-          domain,
-          category,
-          description,
-          quantity,
-          unit,
-          delivery_term,
-          payment_type,
-          destination_port,
-          preferred_unit_price,
-          preferred_unit_price_currency
-        }
-      }
-
-      if (data.status === 'activated') {
-        body.buying_lead_body.status = 'Activated'
-      }
-
       try {
-        await axios.put(`/api/data/buying_leads/${buying_lead_id}`, body)
+        await axios.put(`/api/data/buying_leads/${this.buyingLeadId}`, {
+          buying_lead_body: body
+        })
         location.href = '/dashboard/buying-leads'
       } catch (err) {
         console.log('submitNewRFQ err', err)
         alert('Sorry, Internal server error occured. - 3')
         this.toggle.isSubmiting = false
       }
-    },
-    onUpdated(data) {
-      const { dataKey, value } = data
-      this.value[dataKey] = value
-    },
-    onChanged(data) {
-      this.onUpdated(data)
-      this.checkProcess()
     },
     checkProcess() {
       const {

@@ -70,14 +70,12 @@ export default {
       this.$emit('onReport')
     }
   },
-  mounted() {
-    console.log(this.data)
-  }
+  mounted() {}
 }
 </script>
 
 <style lang="less" scoped>
-@import '../styles/index';
+@import '../../styles/index';
 
 .card-container {
   .gray-border;
@@ -92,13 +90,18 @@ export default {
 }
 .header__profile {
   display: flex;
-  align-items: center;
+  align-items: top;
 
   .user-img-container {
-    width: 40px;
-    height: 40px;
+    width: 36px;
+    height: 36px;
     border: 1px solid @color-lightest-grey;
     border-radius: 50%;
+
+    @media (min-width: 744px) {
+      width: 40px;
+      height: 40px;
+    }
   }
   img {
     width: 100%;
@@ -108,15 +111,25 @@ export default {
     display: flex;
     flex: 1;
     margin-left: 12px;
-    font-size: 14px;
+    font-size: 12px;
     font-weight: 400;
+
+    @media (min-width: 744px) {
+      font-size: 14px;
+    }
   }
 }
 .header__history {
-  font-size: 14px;
+  font-size: 12px;
+  white-space: nowrap;
   font-weight: 500;
   color: @color-font-gray;
   text-transform: uppercase;
+  margin-left: 8px;
+
+  @media (min-width: 744px) {
+    font-size: 14px;
+  }
 }
 
 main {
@@ -129,8 +142,12 @@ main {
   align-items: center;
   padding-top: @card-padding;
   border-top: 1px solid @color-border-gray;
-  font-size: 13px;
+  font-size: 11px;
   font-weight: 600;
+
+  @media (min-width: 744px) {
+    font-size: 13px;
+  }
 
   .right-container {
     display: flex;
@@ -149,9 +166,14 @@ main {
     padding: 8px;
   }
   .report-container {
-    width: 22px;
-    height: 22px;
+    width: 18px;
+    height: 18px;
     cursor: pointer;
+
+    @media (min-width: 744px) {
+      width: 22px;
+      height: 22px;
+    }
 
     img {
       width: 100%;
