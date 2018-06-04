@@ -58,5 +58,8 @@
     "eslint-plugin-vue": "^4.0.0",
     "less": "^2.7.3",
     "less-loader": "^4.0.5"
+  },
+  "resolutions": {
+    "@vue/component-compiler-utils/prettier": "1.12.1"
   }
 }

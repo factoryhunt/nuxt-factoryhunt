@@ -1,9 +1,9 @@
 {
-  "title": "Pricing & Membership for Supplier",
+  "title": "Supplier Membership",
   "starter": "Starter",
   "standard": "Standard",
   "premium": "Premium",
-  "getStarted": "Get started",
-  "comingSoon": "Coming soon",
-  "tellMe": "Tell us what you need."
+  "select": "Select",
+  "contact": "Contact",
+  "tellMe": "Tell us what you want."
 }
