@@ -10,6 +10,9 @@
       <modal-auth
         :isHidden="toggle.isAuthHidden"
         @close="closeSigningIn"/>
+      <modal-image-viwer
+        :isHidden="toggle.isModalImageHidden"
+        @close="toggle.isModalImageHidden = true"/>
 
       <!-- Breadcrumb -->
       <breadcrumb 
@@ -19,17 +22,30 @@
       <r-f-q 
         :buyingLead="buyingLead"
         :documents="documents"
-        @onReport="onReport"/>
+        @onReport="onReport"
+        @clickImage="showModalImage"/>
 
       <!-- Your Quote -->
       <your-quote
         :data="yourQuote"
-        @click="onSendQuote"/>
+        :isSubmitting="toggle.isSubmitting"
+        @focus="onSendQuote"
+        @fileChange="onYourQuoteFileChange"
+        @fileDelete="onYourQuoteFileDelete"
+        @submit="onSubmitButton"/>
 
       <!-- Supplier Quotes -->
       <quotes
         :quotes="quotes"
         @onReport="onReport"/>
+
+      <!-- Your Quote -->
+      <your-quote
+        :data="yourQuote"
+        @click="onSendQuote"
+        @fileChange="onYourQuoteFileChange"
+        @fileDelete="onYourQuoteFileDelete"
+        v-if="quotes.length"/>
     </div>
   </div>
 </template>
@@ -38,6 +54,7 @@
 // components
 import ModalReport from '~/components/Modal/Report'
 import ModalAuth from '~/components/Modal/Auth'
+import ModalImageViwer from '~/components/Modal/ImageViewer'
 import Breadcrumb from '~/components/Breadcrumb'
 import RFQ from './components/RFQ'
 import YourQuote from './components/YourQuote'
@@ -113,6 +130,7 @@ export default {
   components: {
     ModalReport,
     ModalAuth,
+    ModalImageViwer,
     Breadcrumb,
     RFQ,
     YourQuote,
@@ -129,7 +147,8 @@ export default {
 
       return {
         buyingLead: data.buying_lead,
-        documents: data.documents
+        documents: data.documents,
+        quotes: data.quotes
       }
     } catch (err) {
       console.log('buying-lead/domain err', err)
@@ -142,29 +161,32 @@ export default {
     breadcrumb: [],
     yourQuote: {
       text: '',
-      files: []
+      files: [],
+      errorMsg: '',
+      rows: 1
     },
-    quotes: [
-      {
-        id: 1
-      },
-      {
-        id: 2
-      },
-      {
-        id: 3
-      }
-    ],
     toggle: {
       isReportHidden: true,
-      isAuthHidden: true
+      isAuthHidden: true,
+      isModalImageHidden: true,
+      isSubmitting: false
     }
   }),
   computed: {
     ...mapGetters({
+      contact: 'auth/GET_CONTACT',
       isLoggedIn: 'auth/IS_LOGGED_IN',
       isUserSupplier: 'auth/IS_USER_SUPPLIER'
-    })
+    }),
+    getSubmittingBody() {
+      let body = {
+        buying_lead_id: this.buyingLead.buying_lead_id,
+        contact_id: this.contact.contact_id,
+        description: this.yourQuote.text
+      }
+
+      return body
+    }
   },
   methods: {
     init() {
@@ -197,15 +219,39 @@ export default {
       this.reportData = payload
       this.toggle.isReportHidden = false
     },
+    showModalImage(document) {
+      this.toggle.isModalImageHidden = false
+    },
     onSendQuote() {
-      if (!this.isLoggedIn) this.toggle.isAuthHidden = false
-      if (!this.isUserSupplier) alert('Sorry, you are not supplier')
+      if (!this.isLoggedIn) return (this.toggle.isAuthHidden = false)
+
+      if (!this.isUserSupplier) return alert('Sorry, sending quote is serviced only for suppliers.')
+
+      this.yourQuote.rows = 7
     },
     closeReport() {
       this.toggle.isReportHidden = true
     },
     closeSigningIn() {
       this.toggle.isAuthHidden = true
+    },
+    onYourQuoteFileChange(files) {
+      this.yourQuote.files = files
+    },
+    onYourQuoteFileDelete(index) {
+      this.yourQuote.files.splice(index, 1)
+    },
+    async onSubmitButton() {
+      this.toggle.isSubmitting = true
+
+      try {
+        const body = this.getSubmittingBody
+        await axios.post('/api/data/quotes', { body })
+        location.reload()
+      } catch (error) {
+        console.log('submit error', error)
+        this.toggle.isSubmitting = false
+      }
     }
   },
   mounted() {

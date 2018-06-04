@@ -9,7 +9,7 @@
         <img 
           class="button cancle__button" 
           src="~assets/icons/cancel.svg"
-          @click="onDeleteButton">
+          @click="$emit('delete')">
       </div>
     </div>
   </div>
@@ -31,18 +31,6 @@ export default {
     height: {
       type: String
     }
-  },
-  data: () => ({
-    isMounted: false
-  }),
-  methods: {
-    initImageViewer() {},
-    onDeleteButton() {
-      this.$emit('delete')
-    }
-  },
-  mounted() {
-    this.initImageViewer()
   }
 }
 </script>
@@ -82,10 +70,14 @@ export default {
 
 .action__container {
   position: absolute;
-  display: none;
+  display: block;
   top: 6px;
   right: 6px;
   z-index: 2;
+
+  @media (min-width: 1128px) {
+    display: none;
+  }
 
   .button-container {
     width: 24px;

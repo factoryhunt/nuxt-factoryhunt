@@ -5,6 +5,7 @@ module.exports = {
   TABLE_CS: 'customer_services',
   TABLE_PRODUCTS: 'products',
   TABLE_DOCUMENTS: 'documents',
+  TABLE_QUOTES: 'quotes',
   TABLE_INBOX: 'inbox',
   TABLE_BUYING_LEADS: 'buying_leads',
   TABLE_HISTORIES: 'histories',

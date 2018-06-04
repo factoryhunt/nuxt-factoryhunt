@@ -77,7 +77,7 @@ export default {
 
       try {
         await this.$store.dispatch('auth/login', data)
-        location.href = this.$route.fullPath
+        location.reload()
       } catch (err) {
         this.toggle.isLoading = false
         this.setErrMessage(err.data.code)

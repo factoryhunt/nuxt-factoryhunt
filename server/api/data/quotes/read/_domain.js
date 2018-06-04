@@ -2,7 +2,7 @@ const mysql = require('../../../mysql')
 const MYSQL_MODELS = require('../../../mysql/model')
 const { onError } = require('../../../../utils/error')
 
-// GET /api/data/buying_leads/domain/:domain
+// GET /api/data/quotes/domain/:domain
 module.exports = async (req, res) => {
   const { domain } = req.params
 
@@ -93,56 +93,12 @@ module.exports = async (req, res) => {
     })
   }
 
-  const getQuotes = buying_lead_id => {
-    return new Promise((resolve, reject) => {
-      const SQL = `
-      SELECT
-        q.id as quote_id,
-        q.description,
-				TIMESTAMPDIFF(YEAR, q.created_date, NOW()) as year_diff,
-				TIMESTAMPDIFF(MONTH, q.created_date, NOW()) as month_diff,
-        TIMESTAMPDIFF(WEEK, q.created_date, NOW()) as week_diff,
-				TIMESTAMPDIFF(DAY, q.created_date, NOW()) as day_diff,
-				TIMESTAMPDIFF(HOUR, q.created_date, NOW()) as hour_diff,
-				TIMESTAMPDIFF(MINUTE, q.created_date, NOW()) as minute_diff,
-        TIMESTAMPDIFF(SECOND, q.created_date, NOW()) as second_diff,
-        a.account_name,
-        a.domain as account_domain,
-        c.salutation,
-        c.first_name,
-        c.last_name,
-        c.contact_title
-      FROM
-        ${MYSQL_MODELS.TABLE_QUOTES} q,
-        ${MYSQL_MODELS.TABLE_ACCOUNTS} a,
-        ${MYSQL_MODELS.TABLE_CONTACTS} c
-      WHERE
-      	q.buying_lead_id = ${buying_lead_id} AND
-        q.is_deleted != 1 AND
-        a.account_id = c.account_id AND
-        q.contact_id = c.contact_id 
-      ORDER BY
-      	q.created_date 
-      `
-      const ERR_MSG = 'Malformed Quotes Query.'
-
-      mysql.query(SQL, (err, results) => {
-        if (err) reject(onError(1003, ERR_MSG, err))
-
-        resolve(results)
-      })
-    })
-  }
-
   try {
     const buying_lead = await getBuyingLead()
     const documents = await getDocuments(buying_lead.buying_lead_id)
-    const quotes = await getQuotes(buying_lead.buying_lead_id)
-
     const result = {
       buying_lead,
-      documents,
-      quotes
+      documents
     }
     res.status(200).json(result)
   } catch (err) {

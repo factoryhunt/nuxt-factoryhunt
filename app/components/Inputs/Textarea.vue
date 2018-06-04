@@ -5,6 +5,7 @@
       :maxlength="maxlength"
       :isHidden="!maxlengthDisplay"/>
     <textarea 
+      ref="textarea"
       :rows="rows"
       :required="required"
       :placeholder="placeholder"
@@ -12,7 +13,9 @@
       :title="title"
       :maxlength="maxlength"
       :value="value"
-      @input="event => $emit('input', event.target.value)">
+      @input="onInput($event.target.value)"
+      @focus="$emit('focus')"
+      @blur="$emit('blur')">
     </textarea>
   </div>
 </template>
@@ -55,19 +58,38 @@ export default {
     maxlengthDisplay: {
       type: Boolean,
       default: false
+    },
+    autoresize: {
+      type: Boolean,
+      default: false
     }
   },
   methods: {
-    onInput(value) {
-      const result = {
-        dataKey: this.dataKey,
-        value: value
-      }
-      this.$emit('input', result)
+    init() {
+      if (this.autoresize) this.activateAutoResize()
+    },
+    activateAutoResize() {
+      const $textarea = this.$refs['textarea']
+      $textarea.style.overflow = 'hidden'
+
+      $textarea.addEventListener('keydown', event => {
+        const target = event.target
+        const { scrollHeight } = event.target
+        console.log(scrollHeight)
+        target.style.height = `${scrollHeight}px`
+      })
     },
     getRemainLength(string, maxLength) {
       return getRemainInputLength(string, maxLength)
+    },
+    onInput(value) {
+      // if (this.autoresize) this.resize()
+
+      this.$emit('input', value)
     }
+  },
+  mounted() {
+    this.init()
   }
 }
 </script>

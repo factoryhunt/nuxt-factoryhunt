@@ -21,7 +21,7 @@
               <a 
                   :href="getCompanyDomain"
                   target="_blank">{{getEncryptedCompanyName}}</a></span>
-            <span> · Posted {{getCreatedDateDiff}}</span>
+            <span> · Posted {{getPostedDate}}</span>
           </div>
         </div>
 
@@ -77,7 +77,9 @@
                 class="product__image-container"
                 v-for="document in documents"
                 :key="document.document_id">
-                <img :src="document.location">
+                <img 
+                  :src="document.location"
+                  @click="$emit('clickImage', document)">
               </div>
             </div>
           </section>
@@ -115,6 +117,7 @@ import ToolTip from '~/components/ToolTip'
 // libs
 import Clipboard from 'clipboard'
 import { mapGetters } from 'vuex'
+import { getCreatedDateDiff } from '~/utils/timezone'
 // static
 const DESCRIPTION = 'description'
 const MAX_HEIGHT = 190
@@ -168,32 +171,19 @@ export default {
     getURL() {
       return `https://www.factoryhunt.com/buying-leads/${this.buyingLead.domain}`
     },
-    getCreatedDateDiff() {
-      const {
-        year_diff,
-        month_diff,
-        week_diff,
-        day_diff,
-        hour_diff,
-        minute_diff,
-        second_diff
-      } = this.buyingLead
+    getPostedDate() {
+      const payload = {
+        year_diff: this.buyingLead.year_diff,
+        month_diff: this.buyingLead.month_diff,
+        week_diff: this.buyingLead.week_diff,
+        day_diff: this.buyingLead.day_diff,
+        hour_diff: this.buyingLead.hour_diff,
+        minute_diff: this.buyingLead.minute_diff,
+        second_diff: this.buyingLead.second_diff
+      }
+      const result = getCreatedDateDiff(payload)
 
-      if (year_diff) return year_diff === 1 ? `a year ago` : `${year_diff} Years ago`
-
-      if (month_diff) return month_diff === 1 ? `a month ago` : `${month_diff} months ago`
-
-      if (week_diff) return week_diff === 1 ? `a week ago` : `${week_diff} weeks ago`
-
-      if (day_diff) return day_diff === 1 ? `a day ago` : `${day_diff} days ago`
-
-      if (hour_diff) return hour_diff === 1 ? `an hour ago` : `${hour_diff} hours ago`
-
-      if (minute_diff) return minute_diff === 1 ? `a minute ago` : `${minute_diff} minutes ago`
-
-      if (second_diff) return second_diff === 1 ? `a second ago` : `${second_diff} seconds ago`
-
-      return ''
+      return result
     },
     getDueDateDiff() {
       const { status, due_day_diff, due_hour_diff, due_minute_diff } = this.buyingLead

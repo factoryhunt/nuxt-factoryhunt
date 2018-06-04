@@ -6,3 +6,15 @@
 .fade-leave-to {
   opacity: 0;
 }
+
+.expand-enter-active,
+.expand-leave-active {
+  transition: all 0.2s ease;
+  transition-property: opacity, height, transform;
+  transform-origin: 0% 0%;
+}
+.expand-enter,
+.expand-leave-to {
+  transform: scaleY(0);
+  opacity: 0;
+}

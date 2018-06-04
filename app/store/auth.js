@@ -24,13 +24,16 @@ export const getters = {
     return state.user !== null
   },
   IS_USER_ADMIN: state => {
-    if (state.user) return state.user.account.indexOf('Admin') > -1
+    if (state.user) return state.user.account.account_type.indexOf('Admin') > -1
+    else return false
   },
   IS_USER_BUYER: state => {
-    if (state.user) return state.user.account.indexOf('Buyer') > -1
+    if (state.user) return state.user.account.account_type.indexOf('Buyer') > -1
+    else return false
   },
   IS_USER_SUPPLIER: state => {
-    if (state.user) return state.user.account.indexOf('Supplier') > -1
+    if (state.user) return state.user.account.account_type.indexOf('Supplier') > -1
+    else return false
   }
 }
 

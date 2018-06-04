@@ -78,6 +78,7 @@
                 class="input"
                 :maxFileLength="5"
                 :maxFileSize="10"
+                allowFileTypes="\/(png|jpeg|jpg)$"
                 @fileChanged="onDropzoneFileAdded"
                 @onError="onDropzoneError"/>
             </section>

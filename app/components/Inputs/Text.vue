@@ -15,6 +15,8 @@
       :title="title"
       :maxlength="maxlength"
       @click="$emit('click')"
+      @focus="$emit('focus')"
+      @blur="$emit('blur')"
       @input="event => $emit('input', event.target.value)"
       @change="onChange($event.target.value)">
     <img 

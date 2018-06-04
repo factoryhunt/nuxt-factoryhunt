@@ -205,7 +205,7 @@ export default {
     left: 0;
     width: 1%;
     max-width: 100% !important;
-    height: 2px !important;
+    height: 3px !important;
     background-color: @color-orange;
     transition: width 2s, opacity 2s;
   }

@@ -12,7 +12,8 @@
       </div>
       <!-- Placeholder -->
       <div
-        class="placeholder-container">
+        class="placeholder-container"
+        v-if="placeholder">
         <p>{{placeholder}}</p>
       </div>
     </label>
@@ -20,8 +21,7 @@
       :id="`${id}-input`"
       type="file"
       @change="fileAdded($event.target.files)"
-      :multiple="multiple"
-      accept="image/jpeg, image/jpg, image/png"/>
+      :multiple="multiple"/>
   </div>
 </template>
 
@@ -82,6 +82,13 @@ export default {
       }
     }
   },
+  computed: {
+    getAllowFileTypes() {
+      // /\/(jpg|jpeg|png)$/
+      let fileType = new RegExp(this.allowFileTypes)
+      return fileType
+    }
+  },
   methods: {
     initDropzone() {
       const dropLabel = document.getElementById(this.id).children[0]
@@ -100,7 +107,7 @@ export default {
         $dropzoneContainer.style.width = this.width
       }
       if (this.height) {
-        $dropzoneContainer.style.height = this.height
+        $dropzoneContainer.style.minHeight = this.height
       }
     },
     preventEvent(e) {
@@ -154,10 +161,10 @@ export default {
         let file = files[i]
 
         // File format
-        const fileFilter = /\/(jpg|jpeg|png)$/
+        const filetype = this.getAllowFileTypes
 
         // Check accpeted file format
-        if (!fileFilter.test(file.type)) {
+        if (!filetype.test(file.type)) {
           this.onError({ msg: `Unaccpeted format. ${file.type}` })
         }
 
@@ -170,7 +177,7 @@ export default {
 
         // Aceppted
         if (
-          fileFilter.test(file.type) &&
+          filetype.test(file.type) &&
           kilobyteToMegabyte(file.size) < this.maxFileSize &&
           i < this.maxFileLength
         ) {
