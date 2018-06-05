@@ -19,14 +19,14 @@ module.exports = async (req, res) => {
       mysql.query(SQL, body, (err, result) => {
         if (err) reject(onError(1001, err, ERR_MSG))
 
-        resolve()
+        resolve(result)
       })
     })
   }
 
   try {
-    await create()
-    res.status(200).json({ result: true })
+    const result = await create()
+    res.status(200).json(result)
   } catch (err) {
     console.log('create quote err', err)
     res.status(403).json(err)

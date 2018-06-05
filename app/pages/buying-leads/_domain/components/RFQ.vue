@@ -1,5 +1,16 @@
 <template>
   <div class="rfq-container">
+    <!-- Modal -->
+      <modal-report 
+        :isHidden="isReportHidden"
+        :payload="getReportData"
+        @close="isReportHidden = true"/>
+      <modal-image-viwer
+        :isHidden="isModalImageHidden"
+        :files="documents"
+        :index="currentImageIndex"
+        @close="isModalImageHidden = true"/>
+
     <!-- Buyer RFQ Card -->
       <card
         :data="buyingLead"
@@ -75,11 +86,11 @@
             <div class="product-wrapper">
               <div 
                 class="product__image-container"
-                v-for="document in documents"
+                v-for="(document,index) in documents"
                 :key="document.document_id">
                 <img 
                   :src="document.location"
-                  @click="$emit('clickImage', document)">
+                  @click="onImageClick(index)">
               </div>
             </div>
           </section>
@@ -111,6 +122,8 @@
 
 <script>
 // components
+import ModalReport from '~/components/Modal/Report'
+import ModalImageViwer from '~/components/Modal/ImageViewer'
 import Card from './common/Card'
 import BasicButton from '~/components/Button'
 import ToolTip from '~/components/ToolTip'
@@ -123,13 +136,18 @@ const DESCRIPTION = 'description'
 const MAX_HEIGHT = 190
 export default {
   components: {
+    ModalReport,
+    ModalImageViwer,
     Card,
     BasicButton,
     ToolTip
   },
   props: ['buyingLead', 'documents'],
   data: () => ({
+    isModalImageHidden: true,
+    isReportHidden: true,
     isReadmoreButtonHidden: true,
+    currentImageIndex: '',
     copyLink: 'Link Copy'
   }),
   computed: {
@@ -137,6 +155,12 @@ export default {
       isLoggedIn: 'auth/IS_LOGGED_IN',
       user: 'auth/GET_USER'
     }),
+    getReportData() {
+      return {
+        id: this.buyingLead.buying_lead_id,
+        table: 'buying_leads'
+      }
+    },
     getAuthorName() {
       const { first_name, last_name } = this.buyingLead
 
@@ -239,6 +263,10 @@ export default {
         e.clearSelection()
       })
     },
+    onImageClick(index) {
+      this.currentImageIndex = index
+      this.isModalImageHidden = false
+    },
     onExpandReadmore() {
       const $description = this.$refs[DESCRIPTION]
       const height = $description.scrollHeight
@@ -247,13 +275,8 @@ export default {
       this.isReadmoreButtonHidden = true
     },
     onReportButton() {
-      const payload = {
-        table: 'buying_leads',
-        id: this.buyingLead.buying_lead_id
-      }
-      this.$emit('onReport', payload)
+      this.isReportHidden = false
     },
-    onQuoteButton() {},
     onLinkCopyButton() {
       this.copyLink = 'Link Copied!'
     }

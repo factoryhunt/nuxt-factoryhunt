@@ -1,19 +1,6 @@
 <template>
   <div class="body-container">
     <div class="body__wrapper">
-      <!-- Modal -->
-      <modal-report 
-        table="buying_leads"
-        :isHidden="toggle.isReportHidden"
-        :payload="reportData"
-        @close="closeReport"/>
-      <modal-auth
-        :isHidden="toggle.isAuthHidden"
-        @close="closeSigningIn"/>
-      <modal-image-viwer
-        :isHidden="toggle.isModalImageHidden"
-        @close="toggle.isModalImageHidden = true"/>
-
       <!-- Breadcrumb -->
       <breadcrumb 
         :payload="breadcrumb"/>
@@ -21,30 +8,20 @@
       <!-- Buyer RFQ -->
       <r-f-q 
         :buyingLead="buyingLead"
-        :documents="documents"
-        @onReport="onReport"
-        @clickImage="showModalImage"/>
+        :documents="documents"/>
 
       <!-- Your Quote -->
       <your-quote
-        :data="yourQuote"
-        :isSubmitting="toggle.isSubmitting"
-        @focus="onSendQuote"
-        @fileChange="onYourQuoteFileChange"
-        @fileDelete="onYourQuoteFileDelete"
-        @submit="onSubmitButton"/>
+        :buyingLead="buyingLead"/>
 
       <!-- Supplier Quotes -->
       <quotes
-        :quotes="quotes"
-        @onReport="onReport"/>
+        :buyingLead="buyingLead"
+        :quotes="quotes"/>
 
       <!-- Your Quote -->
-      <your-quote
-        :data="yourQuote"
-        @click="onSendQuote"
-        @fileChange="onYourQuoteFileChange"
-        @fileDelete="onYourQuoteFileDelete"
+      <your-quote 
+        :buyingLead="buyingLead"
         v-if="quotes.length"/>
     </div>
   </div>
@@ -52,16 +29,12 @@
 
 <script>
 // components
-import ModalReport from '~/components/Modal/Report'
-import ModalAuth from '~/components/Modal/Auth'
-import ModalImageViwer from '~/components/Modal/ImageViewer'
 import Breadcrumb from '~/components/Breadcrumb'
 import RFQ from './components/RFQ'
 import YourQuote from './components/YourQuote'
 import Quotes from './components/Quotes'
 // libs
 import axios from '~/plugins/axios'
-import { mapGetters } from 'vuex'
 export default {
   layout: 'feed',
   head() {
@@ -128,9 +101,6 @@ export default {
     }
   },
   components: {
-    ModalReport,
-    ModalAuth,
-    ModalImageViwer,
     Breadcrumb,
     RFQ,
     YourQuote,
@@ -156,38 +126,8 @@ export default {
     }
   },
   data: () => ({
-    currentTime: '',
-    reportData: {},
-    breadcrumb: [],
-    yourQuote: {
-      text: '',
-      files: [],
-      errorMsg: '',
-      rows: 1
-    },
-    toggle: {
-      isReportHidden: true,
-      isAuthHidden: true,
-      isModalImageHidden: true,
-      isSubmitting: false
-    }
+    breadcrumb: []
   }),
-  computed: {
-    ...mapGetters({
-      contact: 'auth/GET_CONTACT',
-      isLoggedIn: 'auth/IS_LOGGED_IN',
-      isUserSupplier: 'auth/IS_USER_SUPPLIER'
-    }),
-    getSubmittingBody() {
-      let body = {
-        buying_lead_id: this.buyingLead.buying_lead_id,
-        contact_id: this.contact.contact_id,
-        description: this.yourQuote.text
-      }
-
-      return body
-    }
-  },
   methods: {
     init() {
       this.setBreadcrumb()
@@ -213,45 +153,6 @@ export default {
 
       array = array.reduce(reducer, initialValue)
       this.breadcrumb = array
-    },
-    onChatNowButton() {},
-    onReport(payload) {
-      this.reportData = payload
-      this.toggle.isReportHidden = false
-    },
-    showModalImage(document) {
-      this.toggle.isModalImageHidden = false
-    },
-    onSendQuote() {
-      if (!this.isLoggedIn) return (this.toggle.isAuthHidden = false)
-
-      if (!this.isUserSupplier) return alert('Sorry, sending quote is serviced only for suppliers.')
-
-      this.yourQuote.rows = 7
-    },
-    closeReport() {
-      this.toggle.isReportHidden = true
-    },
-    closeSigningIn() {
-      this.toggle.isAuthHidden = true
-    },
-    onYourQuoteFileChange(files) {
-      this.yourQuote.files = files
-    },
-    onYourQuoteFileDelete(index) {
-      this.yourQuote.files.splice(index, 1)
-    },
-    async onSubmitButton() {
-      this.toggle.isSubmitting = true
-
-      try {
-        const body = this.getSubmittingBody
-        await axios.post('/api/data/quotes', { body })
-        location.reload()
-      } catch (error) {
-        console.log('submit error', error)
-        this.toggle.isSubmitting = false
-      }
     }
   },
   mounted() {

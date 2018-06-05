@@ -45,11 +45,12 @@ export default {
 <style lang="less" scoped>
 @import '~assets/css/index';
 .modal-background {
-  display: block;
+  display: block !important;
   transition: opacity 0.3s ease;
 }
 .modal-content {
-  padding: 0 20px;
+  // padding: 0 20px;
+  padding: 0;
   transition: all 0.3s ease;
 
   @media (min-width: 744px) {

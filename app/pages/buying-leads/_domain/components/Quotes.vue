@@ -1,5 +1,10 @@
 <template>
   <div class="section quotes-container">
+    <!-- Modal -->
+    <modal-report 
+      :isHidden="isReportHidden"
+      :payload="getReportData"
+      @close="isReportHidden = true"/>
     <!-- Title -->
     <h4 
       class="section__title"
@@ -61,32 +66,37 @@
 </template>
 
 <script>
+import ModalReport from '~/components/Modal/Report'
 import Card from './common/Card'
 import BasicButton from '~/components/Button'
 import TextInput from '~/components/Inputs/Text'
 import { getCreatedDateDiff } from '~/utils/timezone'
 export default {
-  props: ['quotes'],
   components: {
+    ModalReport,
     Card,
     BasicButton,
     TextInput
   },
+  props: ['buyingLead', 'quotes'],
+  data: () => ({
+    isReportHidden: true,
+    reportId: 0
+  }),
   computed: {
     getQuotesLength() {
       return this.quotes.length === 1 ? '1 Quote' : `${this.quotes.length} Quotes`
+    },
+    getReportData() {
+      return {
+        id: this.reportId,
+        table: 'quotes'
+      }
     }
   },
   methods: {
     init() {
       this.resizeTextarea()
-    },
-    onReportButton(id) {
-      const payload = {
-        table: 'quotes',
-        id: id
-      }
-      this.$emit('onReport', payload)
     },
     getUserName(quote) {
       const { first_name, last_name } = quote
@@ -125,6 +135,10 @@ export default {
     },
     onChatButton() {
       this.$emit('onChatNow')
+    },
+    onReportButton(quote_id) {
+      this.isReportHidden = false
+      this.reportId = quote_id
     }
   },
   mounted() {

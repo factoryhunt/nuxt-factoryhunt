@@ -22,7 +22,8 @@ const upload = multer({
       let mimetype = file.mimetype.split('/')
       mimetype = mimetype[mimetype.length - 1]
 
-      const path = `${parent_table}/${parent_id}/${originalname}.${mimetype}`
+      // const path = `${parent_table}/${parent_id}/${originalname}.${mimetype}`
+      const path = `${parent_table}/${parent_id}/${originalname}`
 
       cb(null, path)
     }

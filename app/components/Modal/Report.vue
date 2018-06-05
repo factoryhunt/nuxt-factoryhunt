@@ -63,7 +63,7 @@ export default {
     TextareaInput,
     SubmitButton
   },
-  props: ['payload', 'isHidden'],
+  props: ['isHidden', 'payload'],
   data: () => ({
     title: 'Report Question',
     isSubmiited: false,
