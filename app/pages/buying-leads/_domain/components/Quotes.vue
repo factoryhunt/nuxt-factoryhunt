@@ -5,6 +5,11 @@
       :isHidden="isReportHidden"
       :payload="getReportData"
       @close="isReportHidden = true"/>
+    <modal-image-viewer
+      :isHidden="isModalImageViewerHidden"
+      :files="currentImages"
+      :index="currentIndex"
+      @close="isModalImageViewerHidden = true"/>
     <!-- Title -->
     <h4 
       class="section__title"
@@ -49,6 +54,20 @@
             :value="quote.description"
             readonly>
           </textarea>
+          <div class="file-container">
+            <square-image
+              v-for="(url) in quote.files"
+              :key="url"
+              :url="url"
+              @click="onPdfClick(url)"
+              v-if="isPdfType(url)"/>
+            <square-image
+              v-for="(url, fileIndex) in quote.files"
+              :key="url"
+              :url="url"
+              @click="onImageClick(quote.files, fileIndex)"
+              v-if="!isPdfType(url)"/>
+          </div>
         </div>
         <!-- Card Footer -->
         <div slot="footer">
@@ -67,6 +86,8 @@
 
 <script>
 import ModalReport from '~/components/Modal/Report'
+import ModalImageViewer from '~/components/Modal/ImageViewer'
+import SquareImage from '~/components/Image/Square'
 import Card from './common/Card'
 import BasicButton from '~/components/Button'
 import TextInput from '~/components/Inputs/Text'
@@ -74,6 +95,8 @@ import { getCreatedDateDiff } from '~/utils/timezone'
 export default {
   components: {
     ModalReport,
+    ModalImageViewer,
+    SquareImage,
     Card,
     BasicButton,
     TextInput
@@ -81,7 +104,11 @@ export default {
   props: ['buyingLead', 'quotes'],
   data: () => ({
     isReportHidden: true,
-    reportId: 0
+    isModalImageViewerHidden: true,
+    reportId: 0,
+    currentPdf: '',
+    currentImages: [],
+    currentIndex: 0
   }),
   computed: {
     getQuotesLength() {
@@ -97,6 +124,9 @@ export default {
   methods: {
     init() {
       this.resizeTextarea()
+    },
+    isPdfType(type) {
+      return type.indexOf('.pdf') > -1
     },
     getUserName(quote) {
       const { first_name, last_name } = quote
@@ -126,12 +156,21 @@ export default {
     },
     resizeTextarea() {
       const $textareas = this.$refs.textarea
+      if (!$textareas) return
 
       for (let i = 0; i < $textareas.length; i++) {
         const $textarea = $textareas[i]
         const scrollHeight = $textarea.scrollHeight
         $textarea.style.height = `${scrollHeight}px`
       }
+    },
+    onPdfClick(url) {
+      window.open(url)
+    },
+    onImageClick(images, index) {
+      this.currentImages = images
+      this.currentIndex = index
+      this.isModalImageViewerHidden = false
     },
     onChatButton() {
       this.$emit('onChatNow')
@@ -150,6 +189,11 @@ export default {
 <style lang="less" scoped>
 @import '../styles/index';
 
+iframe {
+  width: 100%;
+  height: 100%;
+}
+
 .description {
   padding: 0;
   border: 0;
@@ -161,5 +205,12 @@ export default {
   @media (min-width: 744px) {
     font-size: 16px;
   }
+}
+
+.file-container {
+  margin-top: 20px;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  grid-gap: 10px;
 }
 </style>

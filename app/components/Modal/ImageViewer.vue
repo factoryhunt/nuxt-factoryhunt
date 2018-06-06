@@ -25,7 +25,7 @@
           <div class="image-container">
             <img 
               class="image"
-              :src="currentImage.location">
+              :src="currentImage">
           </div>
           <div 
             class="angle-container right"

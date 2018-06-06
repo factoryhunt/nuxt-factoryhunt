@@ -111,16 +111,20 @@ module.exports = async (req, res) => {
         c.salutation,
         c.first_name,
         c.last_name,
-        c.contact_title
+        c.contact_title,
+        d.location
       FROM
         ${MYSQL_MODELS.TABLE_QUOTES} q,
+        ${MYSQL_MODELS.TABLE_DOCUMENTS} d,
         ${MYSQL_MODELS.TABLE_ACCOUNTS} a,
         ${MYSQL_MODELS.TABLE_CONTACTS} c
       WHERE
       	q.buying_lead_id = ${buying_lead_id} AND
         q.is_deleted != 1 AND
         a.account_id = c.account_id AND
-        q.contact_id = c.contact_id 
+        q.contact_id = c.contact_id AND
+        d.parent_table = "${MYSQL_MODELS.TABLE_QUOTES}" AND
+        d.parent_id = q.id
       ORDER BY
       	q.created_date 
       `
@@ -134,10 +138,37 @@ module.exports = async (req, res) => {
     })
   }
 
+  const cleanQuotes = quotes => {
+    const reducer = function(accumulator, quote, index) {
+      if (index === 0) {
+        quote.files = []
+        quote.files.push(quote.location)
+        accumulator.push(quote)
+      } else {
+        const lastQuote = accumulator[accumulator.length - 1]
+        const isSameQuote = lastQuote.quote_id === quote.quote_id
+
+        if (isSameQuote) {
+          accumulator[accumulator.length - 1].files.push(quote.location)
+        } else {
+          quote.files = []
+          quote.files.push(quote.location)
+          accumulator.push(quote)
+        }
+      }
+
+      return accumulator
+    }
+    const result = quotes.reduce(reducer, [])
+
+    return result
+  }
+
   try {
     const buying_lead = await getBuyingLead()
     const documents = await getDocuments(buying_lead.buying_lead_id)
-    const quotes = await getQuotes(buying_lead.buying_lead_id)
+    let quotes = await getQuotes(buying_lead.buying_lead_id)
+    if (quotes.length) quotes = cleanQuotes([...quotes])
 
     const result = {
       buying_lead,

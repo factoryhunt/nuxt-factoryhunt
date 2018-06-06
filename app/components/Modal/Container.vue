@@ -26,17 +26,24 @@ export default {
         const isModalContainer = target.classList.contains('modal-content')
         if (!this.isHidden && isModalContainer) this.$emit('close')
       })
+    },
+    fixScroll() {
+      document.body.style.position = 'fixed'
+    },
+    unfixScroll() {
+      document.body.style.position = 'unset'
     }
   },
   mounted() {
     this.init()
   },
   destroyed() {
-    console.log('destroyed modal container')
+    this.unfixScroll()
   },
   watch: {
     isHidden(isHidden) {
       console.log('isHidden changed', isHidden)
+      this.fixScroll()
     }
   }
 }

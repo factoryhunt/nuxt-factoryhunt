@@ -20,6 +20,10 @@
             <!-- Form -->
             <div class="form-main">
               <form @submit.prevent="onSumbit()">
+                <error 
+                  class="error"
+                  v-show="errorMsg"
+                  :message="errorMsg"/>
                 <text-area 
                   class="text-input"
                   placeholder="Suggest your product with a quote."
@@ -35,13 +39,13 @@
                         class="img-container"
                         v-for="(file,index) in files"
                         :key="index"
+                        :mimetype="file.type"
                         :url="file.url"
                         @delete="onFileDelete(index)"/>
                     </div>
-                    <error 
-                      class="error"
-                      v-show="errorMsg"
-                      :message="errorMsg"/>
+                    <div class="caution">
+                      <span>PDF, PNG, JPG, JPEG only, maximum file count is 5 and 1MB each.</span>
+                    </div>
                     <div class="submit-container">
                       <submit-button
                         class="button"
@@ -53,11 +57,12 @@
                         class="file-input"
                         label="File Attachment"
                         multiple="true"
-                        :maxFileLength="4"
+                        :maxFileLength="5"
                         :maxFileSize="2"
                         accept="\/(pdf|png|jpeg|jpg)$"
                         @change="onFileChange"
-                        @error="onFileError"/>
+                        @error="onFileError">
+                      </file-input>
                     </div>
                 </div>
               </form>
@@ -74,6 +79,7 @@
 import ModalAuth from '~/components/Modal/Auth'
 import Card from './common/Card'
 import TextArea from '~/components/Inputs/Textarea'
+import ToolTip from '~/components/ToolTip'
 import Button from '~/components/Button'
 import Dropzone from '~/components/Dropzone/Test'
 import FileInput from '~/components/Inputs/File'
@@ -91,6 +97,7 @@ export default {
     Card,
     TextArea,
     SubmitButton: Button,
+    ToolTip,
     Dropzone,
     FileInput,
     ImageViewer,
@@ -205,6 +212,13 @@ export default {
   display: flex;
   width: 100%;
 }
+.error {
+  margin-bottom: 8px;
+
+  @media (min-width: 744px) {
+    margin-bottom: 14px;
+  }
+}
 img.profile {
   width: 36px;
   height: 36px;
@@ -231,15 +245,24 @@ img.profile {
   grid-gap: 6px;
 
   @media (min-width: 744px) {
-    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
     grid-auto-rows: 130px;
   }
 }
 .img-container {
   padding: 11px;
 }
+
+.caution {
+  margin-top: 18px;
+
+  @media (min-width: 744px) {
+    margin-top: 24px;
+  }
+}
+
 .submit-container {
-  margin-top: 24px;
+  margin-top: 12px;
   display: flex;
   align-items: center;
 }

@@ -2,7 +2,8 @@
   <div 
     class="image">
     <div class="image__container">
-      <img :src="url">
+      <img v-if="isPdfType" :class="{pdf: isPdfType}" src="~assets/icons/pdf.svg">
+      <img v-else :src="url">
     </div>
     <div class="action__container">
       <div class="button-container">
@@ -25,11 +26,17 @@ export default {
       type: String,
       default: ''
     },
+    mimetype: String,
     width: {
       type: String
     },
     height: {
       type: String
+    }
+  },
+  computed: {
+    isPdfType() {
+      return this.mimetype.indexOf('pdf') > -1
     }
   }
 }
@@ -64,7 +71,12 @@ export default {
 
   img {
     width: 100%;
+    // height: 100%;
     object-fit: contain;
+
+    &.pdf {
+      width: 50px;
+    }
   }
 }
 

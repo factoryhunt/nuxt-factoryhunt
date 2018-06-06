@@ -7,8 +7,8 @@
         @close="isReportHidden = true"/>
       <modal-image-viwer
         :isHidden="isModalImageHidden"
-        :files="documents"
-        :index="currentImageIndex"
+        :files="modalImages"
+        :index="modalImageIndex"
         @close="isModalImageHidden = true"/>
 
     <!-- Buyer RFQ Card -->
@@ -83,16 +83,11 @@
           <section 
             class="product"
             v-if="documents.length">
-            <div class="product-wrapper">
-              <div 
-                class="product__image-container"
-                v-for="(document,index) in documents"
-                :key="document.document_id">
-                <img 
-                  :src="document.location"
-                  @click="onImageClick(index)">
-              </div>
-            </div>
+            <square-image
+              v-for="(document,index) in documents"
+              :key="document.document_id"
+              :url="document.location"
+              @click="onImageClick(index)"/>
           </section>
         </div>
 
@@ -124,6 +119,7 @@
 // components
 import ModalReport from '~/components/Modal/Report'
 import ModalImageViwer from '~/components/Modal/ImageViewer'
+import SquareImage from '~/components/Image/Square'
 import Card from './common/Card'
 import BasicButton from '~/components/Button'
 import ToolTip from '~/components/ToolTip'
@@ -138,6 +134,7 @@ export default {
   components: {
     ModalReport,
     ModalImageViwer,
+    SquareImage,
     Card,
     BasicButton,
     ToolTip
@@ -147,7 +144,8 @@ export default {
     isModalImageHidden: true,
     isReportHidden: true,
     isReadmoreButtonHidden: true,
-    currentImageIndex: '',
+    modalImageIndex: '',
+    modalImages: [],
     copyLink: 'Link Copy'
   }),
   computed: {
@@ -244,6 +242,7 @@ export default {
     init() {
       this.resizeTextarea()
       this.activateClipboard()
+      this.mappingModalFiles()
     },
     resizeTextarea() {
       const $description = this.$refs[DESCRIPTION]
@@ -263,8 +262,14 @@ export default {
         e.clearSelection()
       })
     },
+    mappingModalFiles() {
+      this.modalImages = this.documents.map(document => {
+        return document.location
+      })
+    },
     onImageClick(index) {
-      this.currentImageIndex = index
+      this.modalImageIndex = index
+
       this.isModalImageHidden = false
     },
     onExpandReadmore() {
@@ -359,9 +364,13 @@ h1 {
 // Product Images
 .product {
   margin-top: 30px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-gap: 10px;
+
+  @media (min-width: 744px) {
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  }
 }
 .product__image-container {
   display: inline-flex;
