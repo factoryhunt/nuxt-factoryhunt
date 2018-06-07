@@ -103,3 +103,11 @@ exports.getFullAddress = ({
 
   return country + state + city + street_address + street_address_2
 }
+
+exports.encryptCompanyName = string => {
+  const firstLetter = string.charAt(0)
+  const starlize = string.slice(1).replace(/[^(\s)]/gi, '*')
+  const result = `${firstLetter}${starlize}`
+
+  return result
+}

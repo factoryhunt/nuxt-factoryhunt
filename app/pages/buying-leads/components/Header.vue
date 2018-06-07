@@ -11,8 +11,10 @@
 
 <style lang="less" scoped>
 @import '~assets/css/index';
-@import '~assets/css/less/buying_leads/index';
-
+* {
+  margin: 0;
+  padding: 0;
+}
 .header-wrapper {
   display: flex;
   justify-content: space-between;
@@ -21,5 +23,13 @@
 .title-container {
   display: flex;
   flex-direction: column;
+}
+
+h1 {
+  font-size: 24px;
+
+  @media (min-width: 744px) {
+    font-size: 30px;
+  }
 }
 </style>

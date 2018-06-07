@@ -18,9 +18,15 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
-  box-sizing: border-box;
+  overflow-y: auto;
 
   .placeholder(300);
+
+  &.no-scroll {
+    height: 100% !important;
+    margin: 0 !important;
+    overflow: hidden !important;
+  }
 }
 
 body {

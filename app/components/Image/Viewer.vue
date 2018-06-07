@@ -36,7 +36,9 @@ export default {
   },
   computed: {
     isPdfType() {
-      return this.mimetype.indexOf('pdf') > -1
+      if (this.mimetype) return this.mimetype.indexOf('pdf') > -1
+
+      return this.url.indexOf('.pdf') > -1
     }
   }
 }

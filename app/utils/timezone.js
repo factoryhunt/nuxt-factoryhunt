@@ -34,3 +34,17 @@ export const getCreatedDateDiff = diffs => {
 
   return ''
 }
+
+export const getTimeLeft = (minute = 0, hour = 0, day = 0, month = 0) => {
+  if (month > 0) return month === 1 ? 'A Month Left' : `${month} Months Left`
+
+  // More than a day left
+  if (day > 0) return day === 1 ? 'A Day Left' : `${day} Days Left`
+
+  // Less a day
+  if (hour > 0) return hour === 1 ? 'An Hour Left' : `${hour} Hours Left`
+
+  if (minute > 0) return minute === 1 ? 'A Minute Left' : `${minute} Minutes Left`
+
+  return ''
+}

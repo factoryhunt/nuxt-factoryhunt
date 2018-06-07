@@ -35,7 +35,6 @@ import { mapGetters } from 'vuex'
 import axios from '~/plugins/axios'
 const BUYING_LEADS = 'Buying Leads'
 export default {
-  scrollToTop: true,
   layout: 'feed',
   head() {
     return {
@@ -91,9 +90,7 @@ export default {
   },
   async asyncData({ error }) {
     try {
-      const { data } = await axios.get(
-        'https://jsonplaceholder.typicode.com/users'
-      )
+      const { data } = await axios.get('/api/data/buying_leads')
       return {
         feeds: data
       }

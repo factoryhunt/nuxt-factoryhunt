@@ -35,7 +35,7 @@
         <!-- Footer -->
         <section 
           class="footer"
-          v-if="data">
+          v-if="!isBottomHidden">
           <div class="left-container">
             <slot name="footer"/>
           </div>
@@ -63,7 +63,7 @@
 
 <script>
 export default {
-  props: ['data', 'topDateDiff', 'bottomDateDiff'],
+  props: ['data', 'topDateDiff', 'bottomDateDiff', 'isBottomHidden'],
   computed: {},
   methods: {
     onReportButton() {

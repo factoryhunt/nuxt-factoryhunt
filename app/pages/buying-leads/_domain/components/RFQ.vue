@@ -40,7 +40,7 @@
         <section class="verify-container">
           <ul>
             <li><tool-tip
-                label="South Korea">This buyer posted in South Korea</tool-tip></li>
+                :label="buyingLead.mailing_country">This buyer posted in {{buyingLead.mailing_country}}</tool-tip></li>
             <li v-show="getQuantity"><tool-tip
                 :label="getQuantity">Buyer wants {{getQuantity}} quantities.</tool-tip></li>
             <!-- <li><tool-tip
@@ -126,7 +126,8 @@ import ToolTip from '~/components/ToolTip'
 // libs
 import Clipboard from 'clipboard'
 import { mapGetters } from 'vuex'
-import { getCreatedDateDiff } from '~/utils/timezone'
+import { getCreatedDateDiff, getTimeLeft } from '~/utils/timezone'
+import { encryptCompanyName } from '~/utils/text'
 // static
 const DESCRIPTION = 'description'
 const MAX_HEIGHT = 190
@@ -212,15 +213,9 @@ export default {
 
       if (status !== 'Activated') return 'Not Activated'
 
-      // More than a day left
-      if (due_day_diff > 0) return due_day_diff === 1 ? 'A Day Left' : `${due_day_diff} Days Left`
+      const timeLeft = getTimeLeft(due_minute_diff, due_hour_diff, due_day_diff)
 
-      // Less a day
-      if (due_hour_diff > 0)
-        return due_hour_diff === 1 ? 'An Hour Left' : `${due_hour_diff} Hours Left`
-
-      if (due_minute_diff > 0)
-        return due_minute_diff === 1 ? 'A Minute Left' : `${due_minute_diff} Minutes Left`
+      if (timeLeft) return timeLeft
 
       return 'Deal Closed'
     },
@@ -230,12 +225,7 @@ export default {
     },
     getEncryptedCompanyName() {
       const { account_name } = this.buyingLead
-
-      const firstLetter = account_name.charAt(0)
-      const starlize = account_name.slice(1).replace(/[^(\s)]/gi, '*')
-      const result = `${firstLetter}${starlize}`
-
-      return result
+      return encryptCompanyName(account_name)
     }
   },
   methods: {

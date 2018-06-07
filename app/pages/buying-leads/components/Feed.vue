@@ -6,46 +6,53 @@
         :key="index">
         <a 
           class="feed-wrapper" 
-          href="/buying-leads">
+          :href="getFeedHref(feed)">
           <!-- Image -->
           <div class="img-container">
-            <img src="https://zdnet2.cbsistatic.com/hub/i/r/2017/07/18/071068d1-e257-4abf-811d-48a626f621f7/resize/770xauto/72e298cc964f48604e0edb0a3ee72339/bear.jpg">
+            <img 
+              :src="getImageLink(feed)">
           </div>
           <!-- Quotes -->
           <div class="content-container">
             <section class="header">
               <!-- Title -->
-              <h2 class="title">{{feed.company.bs}}</h2>
+              <h2 class="title">{{feed.title}}</h2>
               <!-- Date -->
-              <div class="date">
-                1 Hours Ago
-              </div>
+              <div class="date">{{getDueDateLeft(feed)}}</div>
             </section>
             <!-- Desc -->
-            <p class="desc">Lorem ipsum dolor sit amet consectetur adipisicing elit. Omnis, accusamus nulla consequatur unde, sapiente facilis alias.</p>
-            <!-- Country -->
-            <!-- <div class="country">Buyer from South Korea 🇰🇷 </div> -->
+            <p class="desc">{{feed.description}}</p>
             <!-- Bottom -->
             <section class="bottom">
               <div class="verification">
                 <ul class="verification__container">
+                  <!-- Country -->
                   <li class="verification__mark">
                     <tool-tip
-                      label="South Korea">This buyer posted in South Korea</tool-tip></li>
+                      v-show="getCountry(feed)"
+                      :label="getCountry(feed)">This buyer posted in {{getCountry(feed)}}</tool-tip></li>
+                  <!-- Quantity -->
                   <li class="verification__mark">
                     <tool-tip
-                      label="1K Pieces">Buyer wants 1K Pieces quantities.</tool-tip></li>
-                  <li class="verification__mark">
+                      v-show="getQuantity(feed)"
+                      :label="getQuantity(feed)">Buyer wants {{getQuantity(feed)}}quantities.</tool-tip></li>
+                  <!-- Email Verification -->
+                  <li 
+                    class="verification__mark"
+                    v-show="false">
                     <tool-tip
                       label="Email">This buyer emails is confirmed.</tool-tip></li>
-                  <li class="verification__mark">
+                  <!-- Active Buyer -->
+                  <li 
+                    class="verification__mark"
+                    v-show="false">
                     <tool-tip
-                      label="Active Buyer">This is test tool-tip box! This is test tool-tip box! This is test tool-tip box! This is test tool-tip box!</tool-tip></li>
+                      label="Active Buyer">This buyer has sent inquiries or posted Buying Requests frequently within the last 90 days.</tool-tip></li>
                 </ul>
               </div>
-              <div class="quotes">
-                3 Quoted
-              </div>
+              <div 
+                class="quotes"
+                :class="{'no-quote': isNoQuote(feed)}">{{feed.quote_length}} Quoted</div>
             </section>
           </div>
         </a>
@@ -57,6 +64,7 @@
 <script>
 import axios from '~/plugins/axios'
 import ToolTip from '~/components/ToolTip'
+import { getTimeLeft } from '~/utils/timezone'
 export default {
   props: {
     user: {
@@ -73,7 +81,30 @@ export default {
   },
   methods: {
     getFeedHref(feed) {
-      return `/buying-leads/${feed.id}`
+      return `/buying-leads/${feed.domain}`
+    },
+    getImageLink(feed) {
+      const { location } = feed
+
+      return location ? location : require('~/assets/icons/pictures.svg')
+    },
+    getQuantity(feed) {
+      const { quantity, unit } = feed
+
+      const exist = quantity && unit
+      const result = exist ? `${quantity} ${unit}` : ''
+
+      return result
+    },
+    getDueDateLeft(feed) {
+      const { due_day_diff, due_hour_diff, due_minute_diff } = feed
+      return getTimeLeft(due_minute_diff, due_hour_diff, due_day_diff)
+    },
+    getCountry(feed) {
+      return feed.mailing_country
+    },
+    isNoQuote(feed) {
+      return feed.quote_length === 0
     }
   }
 }
@@ -88,6 +119,7 @@ export default {
 
 #feed-container {
   flex: 1 !important;
+  width: 100%;
 }
 ul {
   list-style: none;
@@ -122,13 +154,19 @@ ul {
   .img-container {
     position: relative;
     display: inline-flex;
-    width: 80px;
-    height: 80px;
+    width: 50px;
+    height: 50px;
     border-radius: @border-radius;
+    border: 1px solid @color-border-gray;
+
+    @media (min-width: 744px) {
+      width: 80px;
+      height: 80px;
+    }
   }
   img {
     width: 100%;
-    object-fit: contain;
+    object-fit: cover;
     border-radius: @border-radius;
   }
   .content-container {
@@ -165,7 +203,7 @@ ul {
     }
     .date {
       margin-left: @margin-left;
-      font-size: 9px;
+      font-size: 11px;
       text-transform: uppercase;
       font-weight: 500;
 
@@ -177,10 +215,17 @@ ul {
     .desc {
       margin-top: 9px;
       font-size: 13px;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      text-overflow: ellipsis;
       color: @color-font-gray;
+      max-height: 32px;
 
       @media (min-width: 744px) {
         font-size: 16px;
+        max-height: 40px;
       }
     }
 
@@ -216,6 +261,9 @@ ul {
       font-weight: 600;
       margin-left: @margin-left;
       text-transform: uppercase;
+    }
+    .no-quote {
+      font-weight: 500;
     }
   }
 }

@@ -10,7 +10,8 @@
       <h4 class="section__title">Your Quote</h4>
       <div class="your-quote-wrapper">
         <card
-          class="card">
+          class="card"
+          :isBottomHidden="true">
           <!-- Form Header -->
           <div class="quote-form">
             <!-- Profile Image -->
@@ -28,6 +29,7 @@
                   class="text-input"
                   placeholder="Suggest your product with a quote."
                   :rows="rows"
+                  :maxlength="1000"
                   v-model="description"
                   @click="$emit('click')"
                   @focus="onFocus()"/>

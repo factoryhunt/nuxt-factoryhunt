@@ -28,10 +28,10 @@ export default {
       })
     },
     fixScroll() {
-      document.body.style.position = 'fixed'
+      document.body.classList.add('no-scroll')
     },
     unfixScroll() {
-      document.body.style.position = 'unset'
+      document.body.classList.remove('no-scroll')
     }
   },
   mounted() {
@@ -42,8 +42,8 @@ export default {
   },
   watch: {
     isHidden(isHidden) {
-      console.log('isHidden changed', isHidden)
-      this.fixScroll()
+      if (isHidden) this.unfixScroll()
+      else this.fixScroll()
     }
   }
 }

@@ -1,6 +1,6 @@
 <template>
   <modal 
-    v-if="!isHidden"
+    :isHidden="isHidden"
     @close="$emit('close')">
     <div 
       class="container">
@@ -24,8 +24,14 @@
           </div>
           <div class="image-container">
             <img 
+              class="image pdf-img"
+              src="~assets/icons/pdf.svg"
+              @click="onPdf()"
+              v-if="isPdf">
+            <img 
               class="image"
-              :src="currentImage">
+              :src="currentImage"
+              v-else>
           </div>
           <div 
             class="angle-container right"
@@ -49,7 +55,7 @@ export default {
   props: ['files', 'index', 'isHidden'],
   data: () => ({
     currentImage: '',
-    currentIndex: 0
+    currentIndex: null
   }),
   computed: {
     isFileEmpty() {
@@ -63,6 +69,9 @@ export default {
     },
     isLastImage() {
       return this.currentIndex === this.getLength - 1
+    },
+    isPdf() {
+      return this.currentImage.indexOf('.pdf') > -1
     }
   },
   methods: {
@@ -97,6 +106,9 @@ export default {
       else this.currentIndex++
 
       this.renderImage()
+    },
+    onPdf() {
+      window.open(this.currentImage)
     }
   },
   mounted() {
@@ -107,7 +119,7 @@ export default {
       if (this.isFileEmpty) return
 
       this.currentIndex = index
-      this.currentImage = this.files[this.currentIndex]
+      this.renderImage()
     }
   }
 }
@@ -162,6 +174,7 @@ main {
     // max-width: 105vh;
     // flex: 1;
     // width: 100%;
+    padding: 0;
     object-fit: contain;
     position: absolute;
     top: 0;
@@ -170,6 +183,16 @@ main {
     left: 0;
     width: 100%;
     height: 100%;
+
+    @media (min-width: 744px) {
+      padding: 0 50px;
+    }
+  }
+
+  .pdf-img {
+    &:hover {
+      cursor: pointer;
+    }
   }
 
   .angle-container {

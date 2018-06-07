@@ -1,7 +1,8 @@
 const mysql = require('../../../mysql')
 const MYSQL_MODELS = require('../../../mysql/model')
 
-// GET /api/data/buying_leads/:account_id
+// GET /api/data/buying_leads/:account_id?filter=
+// filter = Draft, Activated, Archived,
 module.exports = async (req, res) => {
   const { account_id } = req.params
 
@@ -25,11 +26,12 @@ module.exports = async (req, res) => {
       LEFT JOIN 
         ${MYSQL_MODELS.TABLE_DOCUMENTS} docs
       ON 
-        bl.account_id = ${account_id} AND
-        bl.is_deleted != 1 AND
         docs.parent_table = "${MYSQL_MODELS.TABLE_BUYING_LEADS}" AND
         docs.parent_id = bl.buying_lead_id AND
         docs.is_deleted != 1
+      WHERE
+        bl.account_id = ${account_id} AND
+        bl.is_deleted != 1
       GROUP BY 
         bl.buying_lead_id
       ORDER BY

@@ -23,7 +23,8 @@
         :key="quote.quote_id"
         :data="quote"
         :topDateDiff="getPostedDate(quote)"
-        @onReport="onReportButton(quote.quote_id)">
+        @onReport="onReportButton(quote.quote_id)"
+        :isBottomHidden="!isThisUserCanRead(quote)">
         <!-- Name -->
         <div 
           slot="name"
@@ -36,41 +37,62 @@
           </div>
           <div class="sub-name">
             <span>
-              {{quote.contact_title}}</span>
+              {{getRole(quote)}}</span>
             <span 
               class="dot">@</span>
             <span>
               <a 
                 class="company" 
                 :href="`/${quote.account_domain}`" 
-                target="_blank">{{quote.account_name}}</a></span>
+                target="_blank">{{getCompany(quote)}}</a></span>
           </div>
         </div>
+        <!-- Tags -->
+        <div class="tag-container">
+          <ul>
+            <li>
+              <tool-tip :label="quote.mailing_country">This supplier posted in {{quote.mailing_country}}</tool-tip></li>
+            <li>
+              <tool-tip :label="quote.business_type">Supplier's Business Type</tool-tip></li>
+          </ul>
+        </div>
         <!-- Main -->
-        <div slot="main">
-          <textarea 
-            ref="textarea"
+        <div 
+          slot="main">
+          <!-- Show Content -->
+          <div v-if="isThisUserCanRead(quote)">  
+            <textarea 
+              ref="textarea"
+              class="description"
+              :value="quote.description"
+              readonly>
+            </textarea>
+            <div class="file-container">
+              <square-image
+                v-for="(url) in quote.files"
+                :key="url"
+                :url="url"
+                @click="onPdfClick(url)"
+                v-if="isPdfType(url)"/>
+              <square-image
+                v-for="(url, fileIndex) in quote.files"
+                :id="fileIndex"
+                :key="url"
+                :url="url"
+                @click="onImageClick(quote.files, fileIndex)"
+                v-if="!isPdfType(url)"/>
+            </div>
+          </div>
+          <!-- Hide Content -->
+          <div 
             class="description"
-            :value="quote.description"
-            readonly>
-          </textarea>
-          <div class="file-container">
-            <square-image
-              v-for="(url) in quote.files"
-              :key="url"
-              :url="url"
-              @click="onPdfClick(url)"
-              v-if="isPdfType(url)"/>
-            <square-image
-              v-for="(url, fileIndex) in quote.files"
-              :key="url"
-              :url="url"
-              @click="onImageClick(quote.files, fileIndex)"
-              v-if="!isPdfType(url)"/>
+            v-else>
+            This content is visible only to the author.
           </div>
         </div>
         <!-- Card Footer -->
-        <div slot="footer">
+        <div 
+          slot="footer">
           <!-- Chat Now Button -->
           <basic-button
             id="quote-button"
@@ -85,13 +107,18 @@
 </template>
 
 <script>
+// components
 import ModalReport from '~/components/Modal/Report'
 import ModalImageViewer from '~/components/Modal/ImageViewer'
 import SquareImage from '~/components/Image/Square'
 import Card from './common/Card'
 import BasicButton from '~/components/Button'
 import TextInput from '~/components/Inputs/Text'
+import ToolTip from '~/components/ToolTip'
+// libs
 import { getCreatedDateDiff } from '~/utils/timezone'
+import { encryptCompanyName } from '~/utils/text'
+import { mapGetters } from 'vuex'
 export default {
   components: {
     ModalReport,
@@ -99,7 +126,8 @@ export default {
     SquareImage,
     Card,
     BasicButton,
-    TextInput
+    TextInput,
+    ToolTip
   },
   props: ['buyingLead', 'quotes'],
   data: () => ({
@@ -108,9 +136,12 @@ export default {
     reportId: 0,
     currentPdf: '',
     currentImages: [],
-    currentIndex: 0
+    currentIndex: -1
   }),
   computed: {
+    ...mapGetters({
+      contact: 'auth/GET_CONTACT'
+    }),
     getQuotesLength() {
       return this.quotes.length === 1 ? '1 Quote' : `${this.quotes.length} Quotes`
     },
@@ -125,6 +156,13 @@ export default {
     init() {
       this.resizeTextarea()
     },
+    isRfqAuthor() {
+      return true
+    },
+    isThisUserCanRead(quote) {
+      const { contact_id } = quote
+      return this.contact.contact_id === contact_id
+    },
     isPdfType(type) {
       return type.indexOf('.pdf') > -1
     },
@@ -138,7 +176,17 @@ export default {
       if (first_name && last_name) name = `${first_name} ${last_name}`
       if (!first_name && !last_name) name = 'Unknown'
 
+      if (!this.isThisUserCanRead(quote)) return encryptCompanyName(name)
+
       return name
+    },
+    getRole(quote) {
+      return quote.contact_title
+    },
+    getCompany(quote) {
+      if (!this.isThisUserCanRead(quote)) return encryptCompanyName(quote.account_name)
+
+      return quote.account_name
     },
     getPostedDate(quote) {
       const payload = {
@@ -168,8 +216,8 @@ export default {
       window.open(url)
     },
     onImageClick(images, index) {
-      this.currentImages = images
       this.currentIndex = index
+      this.currentImages = images
       this.isModalImageViewerHidden = false
     },
     onChatButton() {
@@ -188,10 +236,27 @@ export default {
 
 <style lang="less" scoped>
 @import '../styles/index';
+ul {
+  list-style: none;
+  padding: 0;
+  margin-left: 0;
+  margin-top: @card-padding;
+}
+.tag-container {
+  li {
+    .gray-border;
+    display: inline-flex;
+    margin-right: 6px;
+    margin-bottom: 6px;
+    background-color: @color-bg-gray;
+    font-size: 11px;
 
-iframe {
-  width: 100%;
-  height: 100%;
+    @media (min-width: 744px) {
+      margin-right: 12px;
+      margin-bottom: 12px;
+      font-size: 13px;
+    }
+  }
 }
 
 .description {

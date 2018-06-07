@@ -300,6 +300,8 @@ export default {
         if (length < MAX_FILE_LENGTH) {
           const file = files[i]
           this.value.files.push(file)
+        } else {
+          showTopAlert(this.$store, false, `Maximum file count is ${MAX_FILE_LENGTH}`)
         }
       }
 

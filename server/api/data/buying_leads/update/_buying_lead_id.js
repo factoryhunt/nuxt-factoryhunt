@@ -14,8 +14,7 @@ module.exports = async (req, res) => {
       UPDATE
         ${MYSQL_MODELS.TABLE_BUYING_LEADS}
       SET
-        ?,
-        due_date = DATE_ADD(NOW(), INTERVAL 30 DAY)
+        ?
       WHERE
         buying_lead_id = ${buying_lead_id}`
       mysql.query(SQL, buying_lead_body, err => {
