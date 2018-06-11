@@ -73,364 +73,382 @@
 </template>
 
 <script>
-  import Spinkit from '~/components/Loader'
-  export default {
-    components: {
-      Spinkit
-    },
-    data () {
-      return {
-        value: {
-          company: '',
-          email: '',
-          password: ''
-        },
-        toggle: {
-          isDropdownShown: false
-        }
+import Spinkit from '~/components/Loader'
+export default {
+  components: {
+    Spinkit
+  },
+  data() {
+    return {
+      value: {
+        company: '',
+        email: '',
+        password: ''
+      },
+      toggle: {
+        isDropdownShown: false
+      }
+    }
+  },
+  methods: {
+    async onSignUpButton() {
+      const $spinkit = $('#sign-up-spinkit')
+      const $signUpButton = $('.btn-signup')
+      try {
+        $spinkit.removeClass().addClass('spinkit-input')
+        $signUpButton.css('display', 'none')
+        await this.signUp()
+        alert(this.$t('signUp.signUpSuccess'))
+
+        location.href = '/signup/step1'
+      } catch (err) {
+        $spinkit.removeClass().addClass('invisible')
+        $signUpButton.css('display', 'inherit')
+        alert(err.msg_kor)
       }
     },
-    methods: {
-      async onSignUpButton () {
-        const $spinkit = $('#sign-up-spinkit')
-        const $signUpButton = $('.btn-signup')
-        try {
-          $spinkit.removeClass().addClass('spinkit-input')
-          $signUpButton.css('display', 'none')
-          await this.signUp()
-          alert(this.$t('signUp.signUpSuccess'))
-          this.$router.push('/dashboard')
-        } catch (err) {
-          $spinkit.removeClass().addClass('invisible')
-          $signUpButton.css('display', 'inherit')
-          alert(err.msg_kor)
+    signUp() {
+      return new Promise((resolve, reject) => {
+        const data = {
+          company: this.value.company,
+          email: this.value.email,
+          password: this.value.password
         }
-      },
-      signUp () {
-        return new Promise((resolve, reject) => {
-          const data = {
-            company: this.value.company,
-            email: this.value.email,
-            password: this.value.password
-          }
-          this.$store.dispatch('auth/signUp', data)
-            .then(() => { resolve() })
-            .catch((err) => { reject(err.response.data) })
-        })
-      },
-      onLoginButton () {
-        this.$router.push('login')
-      },
-      onLogoutButton () {
-        this.$store.dispatch('auth/logout')
-      },
-      onProfileImage () {
-        const dropdown = $('.dropdown-content')
+        this.$store
+          .dispatch('auth/signUp', data)
+          .then(() => {
+            resolve()
+          })
+          .catch(err => {
+            reject(err.response.data)
+          })
+      })
+    },
+    onLoginButton() {
+      this.$router.push('login')
+    },
+    onLogoutButton() {
+      this.$store.dispatch('auth/logout')
+    },
+    onProfileImage() {
+      const dropdown = $('.dropdown-content')
 
-        if (this.toggle.isDropdownShown) dropdown.css({'display': 'none'})
-        else dropdown.css({'display': 'inherit'})
-        this.toggle.isDropdownShown = !this.toggle.isDropdownShown
-      },
-      activateJquery () {
-        //    Show and hide menu
-//      $(document).ready(function () {
-//
-//        $(window).scroll(function () {
-//
-//          if ($(window).scrollTop() < 80) {
-//            $('.navbar').css({
-//              'margin-top': '-100px',
-//              'opacity': '0'
-//            })
-//            $('.navbar-default').css({
-//              'background-color': 'rgba(59, 59, 59, 0)'
-//            })
-//          } else {
-//            $('.navbar').css({
-//              'margin-top': '0px',
-//              'opacity': '1'
-//            })
-//            $('.navbar-default').css({
-//              'background-color': 'rgba(59, 59, 59, 0.7)',
-//              'border-color': '#444'
-//            })
-//            $('.navbar-brand img').css({
-//              'height': '35px',
-//              'padding-top': '0px'
-//            })
-//            $('.navbar-nav > li > a').css({
-//              'padding-top': '15px'
-//            })
-//          }
-//        })
-//      })
-        //    Active menu item on user click
-        $(document).ready(function () {
-          $('.navbar-nav li a').click(function () {
-            $('.navbar-nav li a').parent().removeClass('active')
-            $(this).parent().addClass('active')
+      if (this.toggle.isDropdownShown) dropdown.css({ display: 'none' })
+      else dropdown.css({ display: 'inherit' })
+      this.toggle.isDropdownShown = !this.toggle.isDropdownShown
+    },
+    activateJquery() {
+      //    Show and hide menu
+      //      $(document).ready(function () {
+      //
+      //        $(window).scroll(function () {
+      //
+      //          if ($(window).scrollTop() < 80) {
+      //            $('.navbar').css({
+      //              'margin-top': '-100px',
+      //              'opacity': '0'
+      //            })
+      //            $('.navbar-default').css({
+      //              'background-color': 'rgba(59, 59, 59, 0)'
+      //            })
+      //          } else {
+      //            $('.navbar').css({
+      //              'margin-top': '0px',
+      //              'opacity': '1'
+      //            })
+      //            $('.navbar-default').css({
+      //              'background-color': 'rgba(59, 59, 59, 0.7)',
+      //              'border-color': '#444'
+      //            })
+      //            $('.navbar-brand img').css({
+      //              'height': '35px',
+      //              'padding-top': '0px'
+      //            })
+      //            $('.navbar-nav > li > a').css({
+      //              'padding-top': '15px'
+      //            })
+      //          }
+      //        })
+      //      })
+      //    Active menu item on user click
+      $(document).ready(function() {
+        $('.navbar-nav li a').click(function() {
+          $('.navbar-nav li a')
+            .parent()
+            .removeClass('active')
+          $(this)
+            .parent()
+            .addClass('active')
+        })
+        //    Highlight menu item on scroll
+        $(window).scroll(function() {
+          //
+          //          $(".navbar-nav li a[href='#HOME']").parent().removeClass('active')
+          $('section').each(function() {
+            var bb = $(this).attr('id') // ABOUT, CONTACT, CHECK
+            var hei = $(this).outerHeight()
+            var grttop = $(this).offset().top - 70
+            if ($(window).scrollTop() > grttop && $(window).scrollTop() < grttop + hei) {
+              $(".navbar-nav li a[href='#" + bb + "']")
+                .parent()
+                .addClass('active')
+            } else {
+              $(".navbar-nav li a[href='#" + bb + "']")
+                .parent()
+                .removeClass('active')
+            }
           })
-          //    Highlight menu item on scroll
-          $(window).scroll(function () {
-//
-//          $(".navbar-nav li a[href='#HOME']").parent().removeClass('active')
-            $('section').each(function () {
-              var bb = $(this).attr('id') // ABOUT, CONTACT, CHECK
-              var hei = $(this).outerHeight()
-              var grttop = $(this).offset().top - 70
-              if ($(window).scrollTop() > grttop && $(window).scrollTop() < grttop + hei) {
-                $(".navbar-nav li a[href='#" + bb + "']").parent().addClass('active')
-              } else {
-                $(".navbar-nav li a[href='#" + bb + "']").parent().removeClass('active')
-              }
-            })
-          })
-          // customized error _conversation_id
-          var passwordInput = document.getElementById('userPassword')
-          passwordInput.addEventListener('invalid', function (e) {
+        })
+        // customized error _conversation_id
+        var passwordInput = document.getElementById('userPassword')
+        passwordInput.addEventListener(
+          'invalid',
+          function(e) {
             if (passwordInput.validity.valueMissing) {
               e.target.setCustomValidity('비밀번호를 입력해 주세요.')
             } else if (!passwordInput.validity.valid) {
-              e.target.setCustomValidity('비밀번호는 문자와 숫자의 조합으로 최소 8 문자를 포함해야 합니다.')
+              e.target.setCustomValidity(
+                '비밀번호는 문자와 숫자의 조합으로 최소 8 문자를 포함해야 합니다.'
+              )
             }
             // to avoid the 'sticky' invlaid problem when resuming typing after getting a custom invalid _conversation_id
-            passwordInput.addEventListener('input', function (e) {
+            passwordInput.addEventListener('input', function(e) {
               e.target.setCustomValidity('')
             })
-          }, false)
-        })
-      }
-    },
-    mounted () {
-      this.activateJquery()
+          },
+          false
+        )
+      })
     }
+  },
+  mounted() {
+    this.activateJquery()
   }
+}
 </script>
 
 <style lang="less" scoped>
+#sign-up-spinkit {
+  margin-bottom: 20px;
+}
 
-  #sign-up-spinkit {
-    margin-bottom: 20px;
+/* Small Devices */
+@media only screen and (max-width: 767px) {
+  #loginButton {
+    display: none;
   }
-
-  /* Small Devices */
-  @media only screen and (max-width: 767px) {
-    #loginButton {
-      display: none;
-    }
-    #factoryhunt-navbar-collapse-1 {
-      border-top-width: 0;
-    }
-    #startButton {
-      display: none;
-    }
-    .header-container {
-      padding-top: 40px !important;
-    }
-    .header-btns {
-      margin-top: 40px !important;
-      margin-bottom: 10px !important;
-    }
-    .signup-form {
-      display: none;
-    }
+  #factoryhunt-navbar-collapse-1 {
+    border-top-width: 0;
   }
-  /* Small Devices and Tablets */
-  @media only screen and (max-width: 768px) {
-    #loginButton {
-      display: none;
-    }
-    #factoryhunt-navbar-collapse-1 {
-      border-top-width: 0px;
-    }
-    #startButton {
-      display: none;
-    }
-    .header-container {
-      padding-top: 40px !important;
-    }
-    .header-btns {
-      margin-top: 40px !important;
-      margin-bottom: 10px !important;
-    }
-    .signup-form {
-      display: none;
-    }
+  #startButton {
+    display: none;
   }
-  /* Medium Devices and Desktop */
-  @media only screen and (max-width: 992px) {
-  }
-  /* Large Devices and Wide Screen */
-  @media only screen and (max-width: 1200px) {
-  }
-
-  /*=============== Header ===============*/
   .header-container {
-    padding-top: 100px;
-    padding-bottom: 100px;
-  }
-  .header {
-    background-image: url(https://s3-us-west-1.amazonaws.com/factoryhunt.com/img/header-bg.jpg);
-    background-attachment: fixed;
-    background-repeat: no-repeat;
-    background-position: 50% 50%;
-    background-size: cover;
-    -moz-background-size: cover;
-    -o-background-size: cover;
-    -webkit-background-size: cover;
-  }
-  .header-overlay {
-    background-color: rgba(31, 31, 31, .75);
-  }
-  .logo img {
-    width: 55px;
-    padding-bottom: 50px;
-  }
-  .header-text h1 {
-    color: #fff;
-    font-size: 35px;
-    font-weight: 300;
-    line-height: 40px;
-    padding-top: 30px;
-    padding-bottom: 11px;
-  }
-  .header-text p {
-    color: #fff;
-    font-size: 20px;
-    line-height: 32px;
-    font-weight: 300;
-    margin-bottom: 3px;
+    padding-top: 40px !important;
   }
   .header-btns {
-    margin-top: 90px;
-    margin-bottom: 50px;
+    margin-top: 40px !important;
+    margin-bottom: 10px !important;
   }
-  .btn-check,
-  .btn-check:focus,
-  .btn-check:active,
-  .btn-check:visited {
-    color: #F2583D;
-    background: transparent;
-    border: 1px solid #F2583D;
-    padding-top: 10px;
-    padding-bottom: 10px;
-    padding-left: 30px;
-    padding-right: 30px;
-    font-size: 19px;
-    -webkit-border-radius: 3px;
-    -moz-border-radius: 3px;
-    border-radius: 3px;
-    -webkit-transition: all 500ms;
-    -moz-transition: all 500ms;
-    -ms-transition: all 500ms;
-    -o-transition: all 500ms;
-    transition: all 500ms;
-  }
-  .btn-check:hover {
-    background-color: #F2583D;
-    color: #fff;
-  }
-  .btn-tour,
-  .btn-tour:focus,
-  .btn-tour:active,
-  .btn-tour:visited {
-    color: #A9ADB0;
-    margin-left: 20px;
-    font-size: 19px;
-    font-weight: 500;
-    background: transparent;
-    -webkit-transition: all 500ms;
-    -moz-transition: all 500ms;
-    -ms-transition: all 500ms;
-    -o-transition: all 500ms;
-    transition: all 500ms;
-  }
-  .btn-tour:hover {
-    color: #fff;
-  }
-  .btn-tour i {
-    font-size: 20px;
-    padding-left: 5px;
-    color: #F2583D;
-  }
-  .signup-form .form-control {
-    display: block;
-    width: 100%;
-    height: 50px;
-    padding: 6px 12px;
-    font-size: 14px;
-    line-height: 21px;
-    color: #555;
-    background-color: transparent;
-    border: 1px solid #aeaeae;
-    -webkit-border-radius: 3px;
-    -moz-border-radius: 3px;
-    border-radius: 3px;
-    margin-bottom: 15px;
-    opacity: .8;
-    outline: 0px !important;
-    -webkit-transition: all 500ms;
-    -moz-transition: all 500ms;
-    -ms-transition: all 500ms;
-    -o-transition: all 500ms;
-    transition: all 500ms;
-  }
-  .form-group-password {
-    margin-bottom: 15px;
-  }
-  #HOME {
-    outline: none !important;
-  }
-
-  /*=============== SignUp Form ===============*/
   .signup-form {
-    padding-top: 24px !important;
-    padding-bottom: 24px !important;
-    padding-right: 24px !important;
-    padding-left: 24px !important;
-    border-radius: 3px !important;
-    font-size: 18px !important;
+    display: none;
   }
-  .bg-gray-light {
-    background-color: #fafbfc !important;
+}
+/* Small Devices and Tablets */
+@media only screen and (max-width: 768px) {
+  #loginButton {
+    display: none;
   }
-  .text-gray {
-    color: #586069 !important;
+  #factoryhunt-navbar-collapse-1 {
+    border-top-width: 0px;
   }
-  .form-control-note1 {
-    margin-top: 5px;
-    margin-bottom: 0;
-    font-size: 13px;
-    color: #6a737d;
+  #startButton {
+    display: none;
   }
-  .form-control-note2 {
-    margin-top: 15px;
-    margin-bottom: 0;
-    font-size: 12px;
-    color: #6a737d;
+  .header-container {
+    padding-top: 40px !important;
   }
-  .btn-signup {
-    font-size: 16px;
-    padding: 0.75em 1.25em;
-    border-radius: 6px;
-    color: #fff;
-    background-color: #F2583D;
-    background-image: linear-gradient(-180deg, #ff844a 0%, #F2583D 90%);
-    border: none;
+  .header-btns {
+    margin-top: 40px !important;
+    margin-bottom: 10px !important;
   }
-  .btn-signup,
-  .btn-signup:focus,
-  .btn-signup:active,
-  .btn-signup:visited,
-  .btn-signup:hover {
-    outline: none;
+  .signup-form {
+    display: none;
   }
+}
+/* Medium Devices and Desktop */
+@media only screen and (max-width: 992px) {
+}
+/* Large Devices and Wide Screen */
+@media only screen and (max-width: 1200px) {
+}
 
-  /* When the pattern is matched */
-  input[type=text]:valid,
-  input[type=email]:valid,
-  input[type=password]:valid {
-    border: 0.5px solid #009933;
-  }
+/*=============== Header ===============*/
+.header-container {
+  padding-top: 100px;
+  padding-bottom: 100px;
+}
+.header {
+  background-image: url(https://s3-us-west-1.amazonaws.com/factoryhunt.com/img/header-bg.jpg);
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  background-position: 50% 50%;
+  background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  -webkit-background-size: cover;
+}
+.header-overlay {
+  background-color: rgba(31, 31, 31, 0.75);
+}
+.logo img {
+  width: 55px;
+  padding-bottom: 50px;
+}
+.header-text h1 {
+  color: #fff;
+  font-size: 35px;
+  font-weight: 300;
+  line-height: 40px;
+  padding-top: 30px;
+  padding-bottom: 11px;
+}
+.header-text p {
+  color: #fff;
+  font-size: 20px;
+  line-height: 32px;
+  font-weight: 300;
+  margin-bottom: 3px;
+}
+.header-btns {
+  margin-top: 90px;
+  margin-bottom: 50px;
+}
+.btn-check,
+.btn-check:focus,
+.btn-check:active,
+.btn-check:visited {
+  color: #f2583d;
+  background: transparent;
+  border: 1px solid #f2583d;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 30px;
+  padding-right: 30px;
+  font-size: 19px;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  -webkit-transition: all 500ms;
+  -moz-transition: all 500ms;
+  -ms-transition: all 500ms;
+  -o-transition: all 500ms;
+  transition: all 500ms;
+}
+.btn-check:hover {
+  background-color: #f2583d;
+  color: #fff;
+}
+.btn-tour,
+.btn-tour:focus,
+.btn-tour:active,
+.btn-tour:visited {
+  color: #a9adb0;
+  margin-left: 20px;
+  font-size: 19px;
+  font-weight: 500;
+  background: transparent;
+  -webkit-transition: all 500ms;
+  -moz-transition: all 500ms;
+  -ms-transition: all 500ms;
+  -o-transition: all 500ms;
+  transition: all 500ms;
+}
+.btn-tour:hover {
+  color: #fff;
+}
+.btn-tour i {
+  font-size: 20px;
+  padding-left: 5px;
+  color: #f2583d;
+}
+.signup-form .form-control {
+  display: block;
+  width: 100%;
+  height: 50px;
+  padding: 6px 12px;
+  font-size: 14px;
+  line-height: 21px;
+  color: #555;
+  background-color: transparent;
+  border: 1px solid #aeaeae;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  margin-bottom: 15px;
+  opacity: 0.8;
+  outline: 0px !important;
+  -webkit-transition: all 500ms;
+  -moz-transition: all 500ms;
+  -ms-transition: all 500ms;
+  -o-transition: all 500ms;
+  transition: all 500ms;
+}
+.form-group-password {
+  margin-bottom: 15px;
+}
+#HOME {
+  outline: none !important;
+}
 
+/*=============== SignUp Form ===============*/
+.signup-form {
+  padding-top: 24px !important;
+  padding-bottom: 24px !important;
+  padding-right: 24px !important;
+  padding-left: 24px !important;
+  border-radius: 3px !important;
+  font-size: 18px !important;
+}
+.bg-gray-light {
+  background-color: #fafbfc !important;
+}
+.text-gray {
+  color: #586069 !important;
+}
+.form-control-note1 {
+  margin-top: 5px;
+  margin-bottom: 0;
+  font-size: 13px;
+  color: #6a737d;
+}
+.form-control-note2 {
+  margin-top: 15px;
+  margin-bottom: 0;
+  font-size: 12px;
+  color: #6a737d;
+}
+.btn-signup {
+  font-size: 16px;
+  padding: 0.75em 1.25em;
+  border-radius: 6px;
+  color: #fff;
+  background-color: #f2583d;
+  background-image: linear-gradient(-180deg, #ff844a 0%, #f2583d 90%);
+  border: none;
+}
+.btn-signup,
+.btn-signup:focus,
+.btn-signup:active,
+.btn-signup:visited,
+.btn-signup:hover {
+  outline: none;
+}
+
+/* When the pattern is matched */
+input[type='text']:valid,
+input[type='email']:valid,
+input[type='password']:valid {
+  border: 0.5px solid #009933;
+}
 </style>

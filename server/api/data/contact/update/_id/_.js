@@ -6,28 +6,34 @@ module.exports = async (req, res) => {
   const contact_id = req.params.contact_id
   const { contact_data } = req.body
 
-  const changeContact = () => {
+  const update = () => {
     return new Promise((resolve, reject) => {
-      mysql.query(`
+      mysql.query(
+        `
       UPDATE 
       ${CONFIG_MYSQL.TABLE_CONTACTS} 
       SET 
-      notes = CONCAT("${contact_data.notes}", notes),
+      ?,
+      notes = CONCAT("${contact_data.notes || ''}", notes),
       last_modified_date = (SELECT NOW()) 
       WHERE 
       contact_id = ${contact_id}
-      `, contact_data,
-        (err) => {
+      `,
+        contact_data,
+        err => {
           if (err) reject(err)
           resolve()
-        })
+        }
+      )
     })
   }
 
   try {
-    await changeContact()
-    res.status(200).json({result: true, msg: 'Contact information has been updated successfully.'})
+    await update()
+    res
+      .status(200)
+      .json({ result: true, msg: 'Contact information has been updated successfully.' })
   } catch (err) {
-    res.status(200).json({result: false})
+    res.status(200).json({ result: false })
   }
 }

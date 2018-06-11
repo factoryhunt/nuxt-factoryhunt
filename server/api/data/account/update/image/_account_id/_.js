@@ -3,18 +3,17 @@ const CONFIG_MYSQL = require('../../../../../mysql/model')
 const AWS = require('aws-sdk')
 const config = require('../../../../../.config')
 
-// PUT /api/data/account/image/:contact_id
+// PUT /api/data/account/image/:account_id
 module.exports = async (req, res) => {
   const account_id = req.params.account_id
   const db_column = req.body.db_column
 
   const urlUpdate = () => {
     return new Promise((resolve, reject) => {
-      let data = {};
+      let data = {}
       if (db_column === 'logo_url') {
         data = { logo_url: req.files.logo[0].location }
-      }
-      else if (db_column === 'cover_image_url_1') {
+      } else if (db_column === 'cover_image_url_1') {
         data.cover_image_url_1 = req.body.cover_image_url_1 ? req.body.cover_image_url_1 : ''
         data.cover_image_url_2 = req.body.cover_image_url_2 ? req.body.cover_image_url_2 : ''
         data.cover_image_url_3 = req.body.cover_image_url_3 ? req.body.cover_image_url_3 : ''
@@ -34,23 +33,30 @@ module.exports = async (req, res) => {
         if (req.files.cover_8) data.cover_image_url_8 = req.files.cover_8[0].location
       }
 
-      mysql.query(`
-      UPDATE ${CONFIG_MYSQL.TABLE_ACCOUNTS} 
-      SET ?,
+      mysql.query(
+        `
+      UPDATE 
+      ${CONFIG_MYSQL.TABLE_ACCOUNTS} 
+      SET 
+      ?,
       last_modified_date = (SELECT NOW()) 
-      WHERE account_id = ${account_id}`, data,
-        (err) => {
+      WHERE account_id = ${account_id}`,
+        data,
+        err => {
           if (err) reject(err)
           resolve()
-        })
+        }
+      )
     })
   }
 
   try {
     await urlUpdate()
-    res.status(200).json({result: true, msg: 'Account single image has been changed successfully.'})
+    res
+      .status(200)
+      .json({ result: true, msg: 'Account single image has been changed successfully.' })
   } catch (err) {
     console.log(err)
-    res.status(403).json({result: false})
+    res.status(403).json({ result: false })
   }
 }

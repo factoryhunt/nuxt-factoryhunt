@@ -5,9 +5,12 @@
 @import './less/properties';
 @import './less/bulit-in';
 @import './less/custom';
+@import './less/transition';
 
-html, body {
-  font-family: "Roboto", -apple-system, BlinkMacSystemFont, Segoe UI, Helvetica Neue, Arial, sans-serif !important;
+html,
+body {
+  font-family: 'Roboto', -apple-system, BlinkMacSystemFont, Segoe UI, Helvetica Neue, Arial,
+    sans-serif !important;
   color: @color-font-black;
   font-size: @font-size-medium;
   font-weight: @font-weight-medium;
@@ -15,16 +18,24 @@ html, body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
-  box-sizing: border-box;
+  overflow-y: auto;
 
   .placeholder(300);
+
+  &.no-scroll {
+    height: 100% !important;
+    margin: 0 !important;
+    overflow: hidden !important;
+  }
 }
 
 body {
-  margin:0 !important;
-  padding:0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
 }
 
-*, *:before, *:after {
+*,
+*:before,
+*:after {
   box-sizing: border-box;
 }

@@ -126,10 +126,10 @@
             <!--•-->
             <!--<h4 class="review-title"> <small>(0)개의 평가</small></h4>-->
           </div>
-          <div class="video-container" v-show="getVideoURL">
+          <div class="video-container" v-show="getVideo">
             <iframe
               id="intro-video"
-              :src="getVideoURL"
+              :src="getVideo"
               frameborder="0"
               allowfullscreen></iframe>
           </div>
@@ -305,6 +305,7 @@ import axios from '~/plugins/axios'
 import pdflib from 'pdfjs-dist'
 import Loader from '~/components/Loader'
 import { validateURL } from '~/utils/text'
+import { getVideoURL } from '~/utils/fileReader'
 import { sendEmail } from '~/utils/email'
 export default {
   scrollToTop: true,
@@ -446,36 +447,8 @@ export default {
       if (this.vendor.language_spoken) return true
       return false
     },
-    getVideoURL() {
-      // API list: https://developers.google.com/youtube/player_parameters
-      if (!this.vendor.account_video_url) return
-      const videoUrl = this.vendor.account_video_url
-      let videoId = ''
-      let url = ''
-
-      // Youtube
-      if (videoUrl.indexOf('youtube.com/watch?v=') > -1) {
-        videoId = this.vendor.account_video_url.split('v=')[1]
-        const ampersandPosition = videoId.indexOf('&')
-
-        // If video query exists
-        if (ampersandPosition !== -1) videoId = videoId.substring(0, ampersandPosition)
-
-        url = `https://www.youtube.com/embed/${videoId}?rel=0&autoplay=1&controls=2&showinfo=0&autohide=1&modestbranding=1`
-
-        // Youtube
-      } else if (videoUrl.indexOf('youtu.be/') > -1) {
-        videoId = this.vendor.account_video_url.split('.be/')[1]
-        url = `https://www.youtube.com/embed/${videoId}?rel=0&autoplay=1&controls=2&showinfo=0&autohide=1&modestbranding=1`
-
-        // Vimeo
-      } else if (videoUrl.indexOf('vimeo.com') > -1) {
-        videoId = this.vendor.account_video_url.split('.com/')[1]
-        url = `https://player.vimeo.com/video/${videoId}?autoplay=1&title=0&byline=0&portrait=0`
-      } else {
-        url = ''
-      }
-      return url
+    getVideo() {
+      return getVideoURL(this.vendor.account_video_url)
     }
   },
   methods: {
@@ -1039,9 +1012,6 @@ export default {
         right: 0 !important;
       }
     }
-
-    .body-container {
-    }
   }
 
   .body-container {
@@ -1261,9 +1231,6 @@ export default {
           }
         }
       }
-
-      .review-container {
-      }
     }
 
     .right-container {
@@ -1294,103 +1261,103 @@ export default {
             font-size: 16px;
           }
         }
-
-        textarea {
-          font-size: @font-size-medium;
-        }
-
-        .quote {
-          color: grey;
-          font-size: 0.9rem;
-          font-weight: 400;
-          text-align: center;
-        }
-
-        button {
-          width: 100%;
-          height: 50px;
-          font-weight: 500;
-          font-size: 16px;
-        }
       }
     }
 
-    .address-container {
-      outline: none;
-      padding-bottom: 30px;
+    textarea {
+      font-size: @font-size-medium;
+    }
 
-      #map {
-        width: 100%;
-        min-height: 330px;
-      }
+    .quote {
+      color: grey;
+      font-size: 0.9rem;
+      font-weight: 400;
+      text-align: center;
+    }
+
+    button {
+      width: 100%;
+      height: 50px;
+      font-weight: 500;
+      font-size: 16px;
     }
   }
+}
 
-  .product-body-container {
-    max-width: 1040px;
-    margin: 0 auto;
-    padding: 0;
+.address-container {
+  outline: none;
+  padding-bottom: 30px;
 
-    .products-container {
-      outline: none;
-      padding-bottom: 1.6rem;
+  #map {
+    width: 100%;
+    min-height: 330px;
+  }
+}
 
-      .section-title {
+.product-body-container {
+  max-width: 1040px;
+  margin: 0 auto;
+  padding: 0;
+
+  .products-container {
+    outline: none;
+    padding-bottom: 1.6rem;
+
+    .section-title {
+      padding-left: 20px;
+      padding-right: 20px;
+    }
+    .product-wrapper {
+      .product-container {
+        vertical-align: top;
+        margin-bottom: 2rem;
         padding-left: 20px;
         padding-right: 20px;
-      }
-      .product-wrapper {
-        .product-container {
-          vertical-align: top;
-          margin-bottom: 2rem;
-          padding-left: 20px;
-          padding-right: 20px;
-          cursor: pointer;
+        cursor: pointer;
 
-          .image-container {
+        .image-container {
+          position: relative;
+          box-shadow: @box-shadow;
+
+          &::after {
+            content: '';
+            display: block;
+            padding-bottom: 100%;
             position: relative;
-            box-shadow: @box-shadow;
-
-            &::after {
-              content: '';
-              display: block;
-              padding-bottom: 100%;
-              position: relative;
-            }
-            .image-wrapper {
-              position: absolute;
-              display: flex;
-              width: 100%;
-              height: 100%;
-            }
-            img {
-              width: auto !important;
-              height: auto !important;
-              max-width: 100% !important;
-              max-height: 100% !important;
-              margin: auto !important;
-            }
           }
-          .content-container {
-            .primary-category {
-              text-overflow: ellipsis;
-              overflow: hidden;
-              white-space: nowrap;
-              margin: 8px 0 0 0;
-              font-size: @font-size-extra-small;
-              font-weight: @font-weight-bold;
-              color: @color-font-gray;
-            }
-            .product-name {
-              margin: 0;
-              font-size: @font-size-medium;
-              font-weight: @font-weight-medium;
-            }
-            .star-container {
-              i {
-                font-size: @font-size-small;
-                color: @color-link;
-              }
+          .image-wrapper {
+            position: absolute;
+            display: flex;
+            width: 100%;
+            height: 100%;
+          }
+          img {
+            width: auto !important;
+            height: auto !important;
+            max-width: 100% !important;
+            max-height: 100% !important;
+            margin: auto !important;
+          }
+        }
+        .content-container {
+          .primary-category {
+            text-overflow: ellipsis;
+            overflow: hidden;
+            white-space: nowrap;
+            margin: 8px 0 0 0;
+            font-size: @font-size-extra-small;
+            font-weight: @font-weight-bold;
+            color: @color-font-gray;
+          }
+          .product-name {
+            margin: 0;
+            font-size: @font-size-medium;
+            font-weight: @font-weight-medium;
+          }
+          .star-container {
+            i {
+              font-size: @font-size-small;
+              color: @color-link;
             }
           }
         }
@@ -1398,6 +1365,7 @@ export default {
     }
   }
 }
+
 @media (min-width: 744px) {
   #container {
     .main-image-container {

@@ -3,10 +3,12 @@
   "becomeSeller": "제조업체 등록",
   "dashboard": "관리자 센터",
   "login": "로그인",
+  "register": "회원가입",
   "logout": "로그아웃",
   "company": "회사",
   "product": "제품",
   "inbox": "메시지",
+  "buyingLeads": "리드 구매",
   "account": "내 계정",
   "email": "이메일",
   "search": "검색"

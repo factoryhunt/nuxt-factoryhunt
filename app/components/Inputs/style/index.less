@@ -1,0 +1,25 @@
+.input-container,
+.container {
+  position: relative;
+}
+
+.counting {
+  top: -21px;
+  right: 0;
+  font-size: 14px;
+  font-weight: 500;
+  position: absolute;
+  color: @color-font-gray;
+}
+
+textarea,
+input {
+  width: 100%;
+  padding: 11px;
+  font-size: inherit;
+  transition: border-color linear 0.2s;
+
+  &:focus {
+    border-color: @color-link;
+  }
+}

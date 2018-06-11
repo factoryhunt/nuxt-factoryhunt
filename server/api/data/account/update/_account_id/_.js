@@ -8,23 +8,30 @@ module.exports = async (req, res) => {
 
   const update = () => {
     return new Promise((resolve, reject) => {
-      mysql.query(`
-      UPDATE ${CONFIG_MYSQL.TABLE_ACCOUNTS} 
-      SET ?,
+      mysql.query(
+        `
+      UPDATE 
+      ${CONFIG_MYSQL.TABLE_ACCOUNTS} 
+      SET
+      ?,
       last_modified_date = (SELECT NOW()) 
-      WHERE account_id = ${account_id}`, account_data,
-        (err) => {
+      WHERE 
+      account_id = ${account_id}
+      `,
+        account_data,
+        err => {
           if (err) reject(err)
           resolve()
-        })
+        }
+      )
     })
   }
 
   try {
     await update()
-    res.status(200).json({result: true, msg: 'Account has been updated.'})
+    res.status(200).json({ result: true, msg: 'Account has been updated.' })
   } catch (err) {
     console.log(err)
-    res.status(403).json({result: false})
+    res.status(403).json({ result: false })
   }
 }
