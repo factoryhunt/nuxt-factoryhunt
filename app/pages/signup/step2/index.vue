@@ -387,10 +387,7 @@ export default {
         this.acceptedPaymentCurrency,
         accepted_payment_currency
       )
-      this.value.languageSpoken = checkboxStringToArray(
-        this.languageSpoken,
-        language_spoken
-      )
+      this.value.languageSpoken = checkboxStringToArray(this.languageSpoken, language_spoken)
       this.value.acceptedPaymentType = checkboxStringToArray(
         this.acceptedPaymentType,
         accepted_payment_type
@@ -403,6 +400,7 @@ export default {
       return get_pattern(type, max_length, min_length)
     },
     listenEventBus() {
+      EventBus.$emit('enableSaveButton')
       this.listenSaveButton()
       this.listenSkipThisStep()
     },
@@ -442,10 +440,7 @@ export default {
         this.acceptedPaymentCurrency,
         acceptedPaymentCurrency
       )
-      const language_spoken = checkboxArrayToString(
-        this.languageSpoken,
-        languageSpoken
-      )
+      const language_spoken = checkboxArrayToString(this.languageSpoken, languageSpoken)
       const accepted_payment_type = checkboxArrayToString(
         this.acceptedPaymentType,
         acceptedPaymentType
@@ -481,15 +476,6 @@ export default {
           console.log('update information err', err)
           EventBus.$emit('onLoadingFailed', err)
         })
-    },
-    checkRequiredField() {
-      const { industries } = this.value
-
-      if (industries.length) {
-        EventBus.$emit('enableSaveButton')
-      } else {
-        EventBus.$emit('disableSaveButton')
-      }
     }
   },
   mounted() {
@@ -497,7 +483,7 @@ export default {
     this.mappingDatas()
   },
   updated() {
-    this.checkRequiredField()
+    EventBus.$emit('enableSaveButton')
   }
 }
 </script>

@@ -11,6 +11,7 @@ module.exports = async (req, res) => {
       const SQL = `
       SELECT
         bl.buying_lead_id,
+        bl.author_id,
         bl.status,
         bl.domain,
         bl.category,

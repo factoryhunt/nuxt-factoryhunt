@@ -24,7 +24,7 @@
         :data="quote"
         :topDateDiff="getPostedDate(quote)"
         @onReport="onReportButton(quote.quote_id)"
-        :isBottomHidden="!isThisUserCanRead(quote)">
+        :isBottomHidden="isBottomHidden(quote)">
         <!-- Name -->
         <div 
           slot="name"
@@ -87,7 +87,7 @@
           <div 
             class="description"
             v-else>
-            This content is visible only to the author.
+            This content is visible only to the author of RFQ.
           </div>
         </div>
         <!-- Card Footer -->
@@ -150,18 +150,33 @@ export default {
         id: this.reportId,
         table: 'quotes'
       }
+    },
+    isAuthorOfRfq() {
+      const { author_id } = this.buyingLead
+      const contact_id = this.contact.contact_id
+      return author_id === contact_id
     }
   },
   methods: {
     init() {
       this.resizeTextarea()
     },
-    isRfqAuthor() {
-      return true
-    },
     isThisUserCanRead(quote) {
       const { contact_id } = quote
+
+      if (this.isAuthorOfRfq) return true
+
       return this.contact.contact_id === contact_id
+    },
+    isBottomHidden(quote) {
+      const quote_author_id = quote.contact_id
+      const contact_id = this.contact.contact_id
+
+      if (this.isAuthorOfRfq) return false
+
+      if (quote_author_id === contact_id) return true
+
+      return true
     },
     isPdfType(type) {
       return type.indexOf('.pdf') > -1
@@ -176,6 +191,8 @@ export default {
       if (first_name && last_name) name = `${first_name} ${last_name}`
       if (!first_name && !last_name) name = 'Unknown'
 
+      if (this.isAuthorOfRfq) return name
+
       if (!this.isThisUserCanRead(quote)) return encryptCompanyName(name)
 
       return name
@@ -184,7 +201,11 @@ export default {
       return quote.contact_title
     },
     getCompany(quote) {
-      if (!this.isThisUserCanRead(quote)) return encryptCompanyName(quote.account_name)
+      const company = quote.account_name
+
+      if (this.isAuthorOfRfq) return company
+
+      if (!this.isThisUserCanRead(quote)) return encryptCompanyName(company)
 
       return quote.account_name
     },

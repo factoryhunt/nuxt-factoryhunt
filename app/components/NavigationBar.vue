@@ -42,13 +42,13 @@
             <!--</div>-->
             <!--</div>-->
             <!--</li>-->
-            <li v-if="!isLoggedIn" class="button-item-container">
+            <!-- <li v-if="!isLoggedIn" class="button-item-container">
               <div class="button-item-wrapper">
                 <div class="button-item">
                   <a id="promote-company" href="/for-supplier">{{ $t('navigationBar.promote') }}</a>
                 </div>
               </div>
-            </li>
+            </li> -->
             <!--<li class="button-item-container">-->
             <!--<div class="button-item-wrapper">-->
             <!--<div class="button-item">-->
@@ -56,6 +56,13 @@
             <!--</div>-->
             <!--</div>-->
             <!--</li>-->
+            <li class="button-item-container">
+              <div class="button-item-wrapper">
+                <div class="button-item">
+                  <a href="/buying-leads">{{ $t('navigationBar.buyingLeads') }}</a>
+                </div>
+              </div>
+            </li>
             <li v-if="!isLoggedIn" class="button-item-container">
               <div class="button-item-wrapper">
                 <div class="button-item">

@@ -18,11 +18,6 @@
       <quotes
         :buyingLead="buyingLead"
         :quotes="quotes"/>
-
-      <!-- Your Quote -->
-      <your-quote 
-        :buyingLead="buyingLead"
-        v-if="quotes.length"/>
     </div>
   </div>
 </template>
