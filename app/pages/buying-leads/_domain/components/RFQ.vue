@@ -40,9 +40,9 @@
         <section class="verify-container">
           <ul>
             <li><tool-tip
-                :label="buyingLead.mailing_country">This buyer posted in {{buyingLead.mailing_country}}</tool-tip></li>
+                :label="buyingLead.mailing_country">The buyer posted in {{buyingLead.mailing_country}}.</tool-tip></li>
             <li v-show="getQuantity"><tool-tip
-                :label="getQuantity">Buyer wants {{getQuantity}} quantities.</tool-tip></li>
+                :label="getQuantity">The buyer wants {{getQuantity}}.</tool-tip></li>
             <!-- <li><tool-tip
                 label="Email Confirmed">This buyer emails is confirmed.</tool-tip></li> -->
             <li><tool-tip
@@ -191,9 +191,6 @@ export default {
 
       return payment
     },
-    getURL() {
-      return `https://www.factoryhunt.com/buying-leads/${this.buyingLead.domain}`
-    },
     getPostedDate() {
       const payload = {
         year_diff: this.buyingLead.year_diff,
@@ -226,6 +223,10 @@ export default {
     getEncryptedCompanyName() {
       const { account_name } = this.buyingLead
       return encryptCompanyName(account_name)
+    },
+    getURL() {
+      const domain = this.buyingLead.domain
+      return `https://www.factoryhunt.com/buying-leads/${domain}`
     }
   },
   methods: {
@@ -303,7 +304,7 @@ ul {
     @media (min-width: 744px) {
       margin-right: 12px;
       margin-bottom: 12px;
-      font-size: 13px;
+      font-size: 14px;
     }
   }
 }
@@ -313,7 +314,7 @@ h1 {
   font-size: 24px;
 
   @media (min-width: 744px) {
-    font-size: 28px;
+    font-size: 29px;
   }
 }
 .description {
@@ -326,7 +327,7 @@ h1 {
   line-height: 1.7;
 
   @media (min-width: 744px) {
-    font-size: 16px;
+    font-size: 17px;
   }
 }
 .posted-in {
@@ -334,7 +335,7 @@ h1 {
   color: @color-font-gray;
 }
 .read-more {
-  font-size: 15px;
+  font-size: 16px;
 }
 
 // Other Requirements

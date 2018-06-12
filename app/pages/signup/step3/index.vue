@@ -7,6 +7,17 @@
       <div id="address-container">
         <h2>Office Address</h2>
         <div class="table">
+          <!-- Map Preview -->
+          <div 
+            class="preview-container" 
+            tabindex="-1">
+            <div class="preview-wrapper">
+              <div id="no-map" class="preview-item" v-show="!value.office.isMapDisplayed">
+                <span>{{value.office.mapPreview}}</span>
+              </div>
+              <div id="office-map" class="preview-item" v-show="value.office.isMapDisplayed"></div>
+            </div>
+          </div>
           <!-- Country -->
           <section class="table-cell">
             <h4>Country<required-icon/></h4>
@@ -34,17 +45,6 @@
               v-model="value.office.state" 
               @change="delayKeyup(ADDRESS_TYPE_OFFICE)">
           </section>
-          <!-- Map Preview -->
-          <div 
-            class="preview-container" 
-            tabindex="-1">
-            <div class="preview-wrapper">
-              <div id="no-map" class="preview-item" v-show="!value.office.isMapDisplayed">
-                <span>{{value.office.mapPreview}}</span>
-              </div>
-              <div id="office-map" class="preview-item" v-show="value.office.isMapDisplayed"></div>
-            </div>
-          </div>
         </div>
         <!-- City -->
         <section>

@@ -5,7 +5,7 @@
         <a id="item-dashboard" class="tab" href="/dashboard">{{ $t('navigationBar.dashboard') }}</a>
         <a id="item-company" class="tab" href="/dashboard/company">{{ $t('navigationBar.company') }}</a>
         <a id="item-product" class="tab" href="/dashboard/product">{{ $t('navigationBar.product') }}</a>
-        <a id="item-inbox" class="tab" href="/dashboard/inbox" v-show="contact.contact_level === '0'">{{ $t('navigationBar.inbox') }}</a>
+        <a id="item-inbox" class="tab" href="/dashboard/inbox">{{ $t('navigationBar.inbox') }}</a>
         <a id="item-buying_leads" class="tab" href="/dashboard/buying-leads">{{ $t('navigationBar.buyingLeads') }}</a>
         <a id="item-account" class="tab" href="/dashboard/account">{{ $t('navigationBar.account') }}</a>
         <a id="item-email" class="tab" href="/dashboard/email" v-show="contact.contact_level === '0'">{{ $t('navigationBar.email') }}</a>

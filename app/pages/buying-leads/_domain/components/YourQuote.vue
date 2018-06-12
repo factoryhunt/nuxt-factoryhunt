@@ -207,7 +207,7 @@ export default {
   font-size: 13px;
 
   @media (min-width: 744px) {
-    font-size: 15px;
+    font-size: 16px;
   }
 }
 .quote-form {

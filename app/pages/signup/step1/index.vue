@@ -93,7 +93,7 @@
             <span class="text-counting">{{getRemainLength(value.supply, MAX_PRODUCTS_LENGTH)}}</span></h4>
           <input 
             type="text" 
-            placeholder="e.g Steal"
+            placeholder="e.g Steel"
             :pattern="getPattern('products', MAX_PRODUCTS_LENGTH)"
             :maxlength="MAX_PRODUCTS_LENGTH"
             :title="$t('dashboardCompany.company.products.inputTitle')"
@@ -211,14 +211,8 @@ export default {
         supply: products,
         domain
       } = this.value
-      const account_industries = this.checkboxArrayToString2(
-        this.categories,
-        industries
-      )
-      const business_type = checkboxArrayToString(
-        this.businessTypes,
-        businessTypes
-      )
+      const account_industries = this.checkboxArrayToString2(this.categories, industries)
+      const business_type = checkboxArrayToString(this.businessTypes, businessTypes)
 
       if (this.isUserBuyer) products = ''
       if (this.isUserSupplier) products_buy = ''
@@ -249,19 +243,13 @@ export default {
         domain
       } = this.userData.account
 
-      this.value.industries = this.checkboxStringToArray2(
-        this.categories,
-        account_industries
-      )
+      this.value.industries = this.checkboxStringToArray2(this.categories, account_industries)
       this.value.companyName = account_name
-      this.value.businessTypes = checkboxStringToArray(
-        this.businessTypes,
-        business_type
-      )
+      this.value.businessTypes = checkboxStringToArray(this.businessTypes, business_type)
       this.value.accountType = account_type
       this.value.buy = products_buy
       this.value.supply = products
-      this.value.domain = domain
+      // this.value.domain = domain
     },
     checkboxStringToArray2(originalArray, string) {
       let temp = []
@@ -314,11 +302,7 @@ export default {
     onChangeBusinessTypes() {
       const $inputs = '.business-type-container input[type=checkbox]'
 
-      limitCheckboxMaxLength(
-        $inputs,
-        this.value.businessTypes,
-        this.MAX_BUSINESS_TYPE_LENGTH
-      )
+      limitCheckboxMaxLength($inputs, this.value.businessTypes, this.MAX_BUSINESS_TYPE_LENGTH)
 
       // Buying Office is always disabled
       const $buyingOffice = document.getElementById('Buying Office')
@@ -355,8 +339,7 @@ export default {
             // Nobody taken
             if (!account.account_id) resolve(account.msg)
             // This is mine
-            if (account.account_id === this.getAccountId)
-              resolve({ msg: 'This is my domain' })
+            if (account.account_id === this.getAccountId) resolve({ msg: 'This is my domain' })
             else
               // This is taken
               reject({ msg: 'This domain is already taken.' })
@@ -399,21 +382,9 @@ export default {
       }
     },
     checkRequiredField() {
-      const {
-        accountType,
-        businessTypes,
-        industries,
-        buy,
-        supply,
-        domain
-      } = this.value
+      const { accountType, businessTypes, industries, buy, supply, domain } = this.value
 
-      if (
-        !accountType ||
-        !businessTypes.length ||
-        !industries.length ||
-        !domain
-      )
+      if (!accountType || !businessTypes.length || !industries.length || !domain)
         return EventBus.$emit('disableSaveButton')
 
       if (this.isUserBuyer && buy) {

@@ -165,7 +165,7 @@ export default {
     },
     listenSkipThisStep() {
       EventBus.$on('onSkipThisStep', () => {
-        location.href = '/signup/step4'
+        location.href = '/signup/step5'
       })
     },
     updateInformation() {
@@ -174,7 +174,7 @@ export default {
         firstname: first_name,
         lastname: last_name,
         title: contact_title,
-        mobile: contact_phone
+        mobile: contact_mobile
       } = this.value
 
       const body = {
@@ -183,7 +183,7 @@ export default {
           first_name,
           last_name,
           contact_title,
-          contact_phone
+          contact_mobile
         }
       }
 

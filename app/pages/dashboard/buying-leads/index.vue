@@ -48,8 +48,8 @@
           <!-- Select -->
           <select-input
             class="filter"
-            v-model="filter"
-            @change="onFilterChange"
+            :value="filter"
+            @input="onFilterChange"
             :array="status"/>
           <!-- List -->
           <cards 
@@ -114,14 +114,20 @@ export default {
       this.fetchFilterQueryString()
     },
     fetchFilterQueryString() {
-      // get filter query
       const { filter } = this.$route.query
-      if (filter) this.filter = filter
-      else this.filter = status[0] || 'All'
+
+      const result = status.indexOf(filter)
+
+      if (status.indexOf(filter) !== -1) {
+        if (filter) this.filter = filter
+        else this.filter = status[0] || 'All'
+      } else this.filter = status[0] || 'All'
     },
     async fetchBuyingLeads() {
       try {
-        const { data } = await axios.get(`/api/data/buying_leads/${this.getAccountId}`)
+        let apiAddress = `/api/data/buying_leads/${this.getAccountId}`
+        if (this.filter) apiAddress = apiAddress + `?filter=${this.filter}`
+        const { data } = await axios.get(apiAddress)
         this.buyingLeads = data
         this.toggle.isDataFetched = true
       } catch (err) {

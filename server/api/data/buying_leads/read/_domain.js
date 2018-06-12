@@ -28,7 +28,7 @@ module.exports = async (req, res) => {
         bl.created_date,
         bl.last_modified_date,
         a.account_name,
-        a.domain,
+        a.domain as account_domain,
         a.mailing_country,
         c.contact_id,
         c.account_id,

@@ -8,26 +8,31 @@
         v-for="buyingLead in buying_leads"
         :key="buyingLead.buying_lead_id"
         :ref="`cardContainer-${buyingLead.buying_lead_id}`">
+        <!-- Image Preview -->
         <div class="img-container">
           <img :src="getImageUrl(buyingLead.location)">
         </div>
+
         <!-- Title -->
         <h2 class="title section">{{getTitle(buyingLead.title)}}</h2>
+
         <!-- Description -->
         <p class="description section"
-          @click="onViewButton(buyingLead.domain)"
-          >{{getDescription(buyingLead.description)}}</p>
+          @click="onViewButton(buyingLead.domain)">{{getDescription(buyingLead.description)}}</p>
+
         <!-- How many quotes -->
-        <p class="quotes section">3 Quoted</p>
+        <p class="quotes section">{{buyingLead.quote_count}} Quoted</p>
+
         <!-- Status -->
         <div class="status-container section">
           <div class="status-wrapper">
             <!-- Progress -->
             <div><span :class="['status', `${getStatus(buyingLead.status)}`]">{{buyingLead.status}}</span></div>
             <!-- Due date -->
-            <div><span class="due-date">{{buyingLead.duration}} Days Left</span></div>
+            <div><span class="due-date">{{getDueDateLeft(buyingLead)}}</span></div>
           </div>
         </div>
+
         <!-- Actions -->
         <div class="action-container section">
           <div class="action-wrapper">
@@ -41,6 +46,7 @@
 </template>
 
 <script>
+import { getTimeLeft } from '~/utils/timezone'
 export default {
   props: ['buying_leads'],
   methods: {
@@ -56,6 +62,14 @@ export default {
     getImageUrl(url) {
       return url ? url : require('~/assets/icons/pictures.svg')
     },
+    getQuoteCount(buying_lead) {
+      const { quote_count } = buying_lead
+      return quote_count
+    },
+    getDueDateLeft(buying_lead) {
+      const { due_day_diff, due_hour_diff, due_minute_diff } = buying_lead
+      return getTimeLeft(due_minute_diff, due_hour_diff, due_day_diff)
+    },
     onViewButton(domain) {
       this.$emit('onViewBuyingLead', domain)
     },
@@ -69,9 +83,6 @@ export default {
 
       this.$emit('onArchiveBuyingLead', buying_lead_id)
     }
-  },
-  mounted() {
-    console.log(this.buying_leads)
   }
 }
 </script>

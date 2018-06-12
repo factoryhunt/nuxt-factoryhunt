@@ -5,7 +5,8 @@
         <!-- Header -->
         <page-header/>
 
-        <div class="page-container">
+        <loader v-if="!toggle.isFetched"/>
+        <div v-else class="page-container">
           <!-- Form -->
           <r-f-q-form
             :value="value"
@@ -32,6 +33,7 @@
 import PageHeader from './components/Header'
 import RFQForm from './components/Form'
 import RightPanel from './components/RightPanel'
+import Loader from '~/components/Spinner/Dots'
 // libs
 import axios from '~/plugins/axios'
 import { showTopAlert } from '~/utils/alert'
@@ -48,7 +50,8 @@ export default {
   components: {
     PageHeader,
     RFQForm,
-    RightPanel
+    RightPanel,
+    Loader
   },
   data: () => ({
     progress: 0,
@@ -71,6 +74,7 @@ export default {
       fileProgress: 0
     },
     toggle: {
+      isFetched: false,
       isSubmiting: false,
       isFileProcessing: false
     }
@@ -193,6 +197,7 @@ export default {
       this.value.preferredUnitPriceCurrency = preferred_unit_price_currency
 
       this.checkProcess()
+      this.toggle.isFetched = true
     },
     mappingDocuments(documents) {
       for (let i = 0; i < documents.length; i++) {

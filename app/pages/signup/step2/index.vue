@@ -417,8 +417,8 @@ export default {
     updateInformation() {
       const {
         website,
-        companyDescription: company_short_description,
-        companyShortDescription: company_description,
+        companyDescription: company_description,
+        companyShortDescription: company_short_description,
         history,
         video: account_video_url,
         phone,

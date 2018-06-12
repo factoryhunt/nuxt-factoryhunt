@@ -115,7 +115,7 @@ export default {
     font-weight: 400;
 
     @media (min-width: 744px) {
-      font-size: 14px;
+      font-size: 15px;
     }
   }
 }
@@ -128,7 +128,7 @@ export default {
   margin-left: 8px;
 
   @media (min-width: 744px) {
-    font-size: 14px;
+    font-size: 15px;
   }
 }
 
@@ -146,7 +146,7 @@ main {
   font-weight: 600;
 
   @media (min-width: 744px) {
-    font-size: 13px;
+    font-size: 14px;
   }
 
   .right-container {

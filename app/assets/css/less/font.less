@@ -13,13 +13,21 @@
 @font-weight-ultra-bold: 900;
 
 .header__title {
-  font-size: 30px;
+  font-size: 24px;
+
+  @media (min-width: 744px) {
+    font-size: 30px;
+  }
 }
 .header__sub-title {
   margin-top: 8px;
-  font-size: 18px;
+  font-size: 16px;
   font-weight: normal;
   color: @color-font-gray;
+
+  @media (min-width: 744px) {
+    font-size: 18px;
+  }
 }
 
 // mark.js plugins

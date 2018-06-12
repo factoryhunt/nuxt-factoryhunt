@@ -12,7 +12,8 @@
 
       <!-- Your Quote -->
       <your-quote
-        :buyingLead="buyingLead"/>
+        :buyingLead="buyingLead"
+        v-show="!isAuthorOfRfq"/>
 
       <!-- Supplier Quotes -->
       <quotes
@@ -30,6 +31,7 @@ import YourQuote from './components/YourQuote'
 import Quotes from './components/Quotes'
 // libs
 import axios from '~/plugins/axios'
+import { mapGetters } from 'vuex'
 export default {
   layout: 'feed',
   head() {
@@ -123,6 +125,16 @@ export default {
   data: () => ({
     breadcrumb: []
   }),
+  computed: {
+    ...mapGetters({
+      contact: 'auth/GET_CONTACT'
+    }),
+    isAuthorOfRfq() {
+      const { author_id } = this.buyingLead
+      const contact_id = this.contact.contact_id
+      return author_id === contact_id
+    }
+  },
   methods: {
     init() {
       this.setBreadcrumb()

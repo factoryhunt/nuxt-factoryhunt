@@ -146,7 +146,7 @@
           <!-- <div></div> -->
 
           <div class="section-container">
-            <h3>Confirm and Submit</h3>
+            <h3>Confirm and Submit<required-icon/></h3>
 
             <!-- Agreements -->
             <section

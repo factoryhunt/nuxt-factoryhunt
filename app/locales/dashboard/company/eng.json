@@ -51,7 +51,7 @@
   "company": {
     "title": "Company Information",
     "desc": "Please fill out the information below.",
-    "desc2": "Address Information",
+    "desc2": "Office Address",
     "products": {
       "title": "Products",
       "placeholder": "E.g LED, Light bulbs, ...",
@@ -62,7 +62,7 @@
       "title": "Website",
       "placeholder": "E.g www.factoryhunt.com",
       "inputTitle":
-        "It must be 1-100 characters and can only contain letters, numbers, hyphens, slash and periods."
+        "It must be 1-200 characters and can only contain letters, numbers, hyphens, slash, comma and periods."
     },
     "phone": {
       "title": "Phone",

@@ -27,7 +27,7 @@
     // border: 1px solid @color-lightest-grey;
     width: 100%;
     height: 260px;
-    background-image: url(https://s3-us-west-1.amazonaws.com/factoryhunt.com/img/buying-leads-0.jpg);
+    background-image: url(https://images.unsplash.com/photo-1526455026374-a105e60a65a3?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=70e749a80820e194cf84f25fb9375f4d&auto=format&fit=crop&w=1584&q=80);
     background-repeat: no-repeat;
     background-position: 50% 50%;
     background-size: cover;
@@ -36,7 +36,7 @@
 
     @media (min-width: 744px) {
       padding: 44px;
-      height: 300px;
+      height: 280px;
     }
   }
   .card-wrapper {
@@ -56,7 +56,11 @@
     margin: 0 !important;
     padding: 0 !important;
     font-weight: normal;
-    font-size: 24px;
+    font-size: 20px;
+
+    @media (min-width: 744px) {
+      font-size: 24px;
+    }
   }
   a {
     position: absolute;
@@ -67,15 +71,17 @@
     outline: 0;
     border: 0;
     border-radius: @border-radius;
-    font-size: 16px;
+    font-size: 14px;
     font-weight: bold;
     width: 100%;
     color: @color-link;
     text-decoration: none;
     transition: background-color linear 0.3s;
+    text-align: center;
 
     @media (min-width: 744px) {
       width: unset;
+      font-size: 16px;
     }
 
     &:hover {

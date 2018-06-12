@@ -24,12 +24,4 @@
   display: flex;
   flex-direction: column;
 }
-
-h1 {
-  font-size: 24px;
-
-  @media (min-width: 744px) {
-    font-size: 30px;
-  }
-}
 </style>

@@ -46,35 +46,37 @@
       </form>
     </header>
 
-    <!-- Buying Leads -->
-    <buying-leads/>
-
-    <!-- Featured Suppliers -->
     <loader v-show="!isLoaded" id="loader" class="spinkit-default"/>
-    <div class="featured-container" v-show="isLoaded">
+    <div v-show="isLoaded">
+      <!-- Buying Leads -->
+      <buying-leads/>
 
-      <!-- Title -->
-      <h2 class="title">{{ $t('home.featured') }}</h2>
+      <!-- Featured Suppliers -->
+      <div class="featured-container">
 
-      <!-- Featured Supplier -->
-      <div class="contents-container">
-        <div class="card-container" v-for="(feature,index) in features" :key="index" v-if="index < value.featuresLength">
-          <div class="image-container">
-            <a :href="`/${feature.domain}`" target="_blank" class="image-wrapper">
-              <img id="featured-image" :src="feature.cover_image_url_1" alt="featured-image">
-            </a>
-          </div>
-          <div class="description-container">
-            <div class="description-contents">
-              <p class="product">{{ feature.products }}</p>
-              <h2 class="company-name">{{ feature.account_name }}</h2>
-              <h3 class="short-description">{{ feature.company_short_description }}</h3>
-              <button @click="routeAccountProfilePage(feature)" class="view-more-button">{{ $t('home.viewMore') }}</button>
+        <!-- Title -->
+        <h2 class="title">{{ $t('home.featured') }}</h2>
+
+        <!-- Featured Supplier -->
+        <div class="contents-container">
+          <div class="card-container" v-for="(feature,index) in features" :key="index" v-if="index < value.featuresLength">
+            <div class="image-container">
+              <a :href="`/${feature.domain}`" target="_blank" class="image-wrapper">
+                <img id="featured-image" :src="feature.cover_image_url_1" alt="featured-image">
+              </a>
+            </div>
+            <div class="description-container">
+              <div class="description-contents">
+                <p class="product">{{ feature.products }}</p>
+                <h2 class="company-name">{{ feature.account_name }}</h2>
+                <h3 class="short-description">{{ feature.company_short_description }}</h3>
+                <button @click="routeAccountProfilePage(feature)" class="view-more-button">{{ $t('home.viewMore') }}</button>
+              </div>
             </div>
           </div>
-        </div>
-        <div class="show-more-button-container" v-if="features.length > value.featuresLength">
-          <button @click="onShowMoreButton"><i><img src="~assets/icons/arrow-angle-down.png" alt="show more"></i>{{$t('home.showMore')}}</button>
+          <div class="show-more-button-container" v-if="features.length > value.featuresLength">
+            <button @click="onShowMoreButton"><i><img src="~assets/icons/arrow-angle-down.png" alt="show more"></i>{{$t('home.showMore')}}</button>
+          </div>
         </div>
       </div>
     </div>
@@ -110,7 +112,7 @@ export default {
       return { features: data }
     } catch (err) {
       return {
-        features: {}
+        features: []
       }
     }
   },

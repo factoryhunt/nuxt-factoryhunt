@@ -1,6 +1,8 @@
 <template>
   <main id="feed-container">
-    <ul class="feed__leads">
+    <ul 
+      class="feed__leads"
+      v-if="feeds.length">
       <li 
         v-for="(feed, index) in feeds"
         :key="index">
@@ -30,12 +32,12 @@
                   <li class="verification__mark">
                     <tool-tip
                       v-show="getCountry(feed)"
-                      :label="getCountry(feed)">This buyer posted in {{getCountry(feed)}}</tool-tip></li>
+                      :label="getCountry(feed)">The buyer posted in {{getCountry(feed)}}</tool-tip></li>
                   <!-- Quantity -->
                   <li class="verification__mark">
                     <tool-tip
                       v-show="getQuantity(feed)"
-                      :label="getQuantity(feed)">Buyer wants {{getQuantity(feed)}}quantities.</tool-tip></li>
+                      :label="getQuantity(feed)">The buyer wants {{getQuantity(feed)}}.</tool-tip></li>
                   <!-- Email Verification -->
                   <li 
                     class="verification__mark"
@@ -58,6 +60,12 @@
         </a>
       </li>
     </ul>
+    <div 
+      class="no-rfq-container"
+      v-else>
+      <p>Sorry, there is no RFQ.</p>
+      <img src="~assets/icons/magnifier.svg">
+    </div>
   </main>
 </template>
 
@@ -120,6 +128,7 @@ export default {
 #feed-container {
   flex: 1 !important;
   width: 100%;
+  min-height: 100vh;
 }
 ul {
   list-style: none;
@@ -131,6 +140,33 @@ ul {
   .gray-border;
 }
 
+.no-rfq-container {
+  background-color: @color-white;
+  border: 1px solid @color-border-gray;
+  border-radius: @border-radius;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 50px 0;
+
+  p {
+    font-size: 17px;
+    color: @color-black;
+
+    @media (min-width: 744px) {
+      font-size: 20px;
+    }
+  }
+  img {
+    margin-left: 16px;
+    width: 38px;
+    height: 38px;
+    @media (min-width: 744px) {
+      width: 46px;
+      height: 46px;
+    }
+  }
+}
 // Buying Leads Feed Lists
 .feed__leads {
   .gray-border;

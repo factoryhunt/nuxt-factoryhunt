@@ -107,7 +107,7 @@
           <div class="right-contents">
             <input
               type="text"
-              pattern="[A-Za-z0-9 ',-()]{1,200}"
+            b  pattern="[A-Za-z0-9 ',-()]{1,200}"
               :title="$t('dashboardCompany.company.products.inputTitle')"
               maxlength="200"
               :placeholder="$t('dashboardCompany.company.products.placeholder')"
@@ -120,9 +120,9 @@
           <div class="right-contents">
             <input
               type="text"
-              pattern="[A-Za-z0-9 ./-]{1,100}"
+              pattern="[A-Za-z0-9,./-]{1,200}"
               :title="$t('dashboardCompany.company.website.inputTitle')"
-              maxlength="100"
+              maxlength="200"
               :placeholder="$t('dashboardCompany.company.website.placeholder')"
               v-model="value.website"
               spellcheck="false">

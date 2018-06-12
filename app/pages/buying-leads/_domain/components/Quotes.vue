@@ -12,8 +12,7 @@
       @close="isModalImageViewerHidden = true"/>
     <!-- Title -->
     <h4 
-      class="section__title"
-      v-if="quotes.length">{{getQuotesLength}} Record</h4>
+      class="section__title">{{getQuotesLength}} Record</h4>
     <!-- Contents -->
     <div class="quote-container">
       <!-- Supplier Cards -->
@@ -275,7 +274,7 @@ ul {
     @media (min-width: 744px) {
       margin-right: 12px;
       margin-bottom: 12px;
-      font-size: 13px;
+      font-size: 14px;
     }
   }
 }
@@ -289,7 +288,7 @@ ul {
   line-height: 1.7;
 
   @media (min-width: 744px) {
-    font-size: 16px;
+    font-size: 17px;
   }
 }
 
