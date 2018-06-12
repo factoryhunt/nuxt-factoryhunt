@@ -1,5 +1,5 @@
-const mysql = require('../../../../../mysql')
-const CONFIG_MYSQL = require('../../../../../mysql/model')
+const mysql = require('../../../../mysql')
+const CONFIG_MYSQL = require('../../../../mysql/model')
 
 // GET /api/data/inbox/contact_id/:contact_id
 module.exports = async (req, res) => {
@@ -61,6 +61,6 @@ module.exports = async (req, res) => {
     const messages = await getAllMessages()
     res.status(200).json(messages)
   } catch (err) {
-    res.status(403).json({result: false})
+    res.status(403).json({ result: false })
   }
 }

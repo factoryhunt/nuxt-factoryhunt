@@ -108,8 +108,7 @@
           <div class="table">
             <p class="table-cell">www.factoryhunt.com/</p>
             <input 
-              type="text" 
-              :pattern="getPattern('domain', MAX_DOMAIN_LENGTH, 3)" 
+              type="text"  
               :maxlength="MAX_DOMAIN_LENGTH"
               :title="$t('dashboardCompany.domain.inputTitle')" 
               spellcheck="false" 
@@ -118,6 +117,7 @@
               autocapitalize="off"
               v-model="value.domain">
           </div>
+          <span class="notice">Website Address must be only contain lowercased letters, numbers and periods.</span>
         </section>
       </div>
     </div>
@@ -249,7 +249,7 @@ export default {
       this.value.accountType = account_type
       this.value.buy = products_buy
       this.value.supply = products
-      // this.value.domain = domain
+      this.value.domain = domain
     },
     checkboxStringToArray2(originalArray, string) {
       let temp = []
@@ -326,22 +326,32 @@ export default {
       const { domain } = this.value
       for (let i = 0; i < static_domains.length; i++) {
         const _domain = static_domains[i]
-        if (domain === _domain) throw { msg: 'This is static domain.' }
+        if (domain === _domain) throw { msg: 'This domain is not available.' }
       }
     },
     checkDomain() {
+      const { domain } = this.value
+      const domainFilter = new RegExp('a-z0-9.')
+      const result = domainFilter.test(domain)
+
       return new Promise((resolve, reject) => {
+        // This is mine
+        if (domain === this.userData.account.domain) resolve({ msg: 'This is my domain' })
+
+        if (!result)
+          reject({
+            msg: 'Website Address must be only contain lowercased letters, numbers and periods.'
+          })
+
         axios
-          .get(`/api/data/account/check_domain/${this.value.domain}`)
+          .get(`/api/data/account/check_domain/${domain}`)
           .then(res => {
             const account = res.data
 
             // Nobody taken
             if (!account.account_id) resolve(account.msg)
-            // This is mine
-            if (account.account_id === this.getAccountId) resolve({ msg: 'This is my domain' })
             else
-              // This is taken
+              // Taken
               reject({ msg: 'This domain is already taken.' })
           })
           .catch(err => {
@@ -420,6 +430,12 @@ export default {
   p {
     font-size: 18px;
     width: 144px;
+  }
+  .notice {
+    display: inline-block;
+    margin-top: 14px;
+    color: @color-font-gray;
+    font-size: 14px;
   }
 }
 </style>

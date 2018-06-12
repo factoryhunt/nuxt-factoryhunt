@@ -7,22 +7,22 @@ module.exports = async (req, res) => {
 
   const getAccount = () => {
     return new Promise((resolve, reject) => {
-      mysql.query(
-        `
-      SELECT 
-      * 
-      FROM 
-      ${CONFIG_MYSQL.TABLE_ACCOUNTS} 
-      WHERE 
-      domain = "${domain}"`,
-        (err, rows) => {
-          if (err) reject(err)
+      const SQL = `
+        SELECT 
+          account_id,
+          domain
+        FROM 
+          ${CONFIG_MYSQL.TABLE_ACCOUNTS} 
+        WHERE 
+          domain = "${domain}"
+      `
+      mysql.query(SQL, (err, rows) => {
+        if (err) reject(err)
 
-          if (!rows.length) resolve({ msg: 'This account domain is not taken.' })
+        if (!rows.length) resolve({ msg: 'This account domain is not taken.' })
 
-          resolve(rows[0])
-        }
-      )
+        resolve(rows[0])
+      })
     })
   }
 

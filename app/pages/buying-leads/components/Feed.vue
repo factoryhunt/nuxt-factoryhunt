@@ -73,6 +73,7 @@
 import axios from '~/plugins/axios'
 import ToolTip from '~/components/ToolTip'
 import { getTimeLeft } from '~/utils/timezone'
+import { nFormatter } from '~/utils/text'
 export default {
   props: {
     user: {
@@ -97,7 +98,8 @@ export default {
       return location ? location : require('~/assets/icons/pictures.svg')
     },
     getQuantity(feed) {
-      const { quantity, unit } = feed
+      let { quantity, unit } = feed
+      quantity = nFormatter(quantity, 1)
 
       const exist = quantity && unit
       const result = exist ? `${quantity} ${unit}` : ''

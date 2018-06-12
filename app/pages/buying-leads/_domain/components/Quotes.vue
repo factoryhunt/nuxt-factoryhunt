@@ -18,7 +18,7 @@
       <!-- Supplier Cards -->
       <card
         class="card"
-        v-for="(quote,index) in quotes"
+        v-for="quote in quotes"
         :key="quote.quote_id"
         :data="quote"
         :topDateDiff="getPostedDate(quote)"
@@ -96,7 +96,7 @@
           <basic-button
             id="quote-button"
             class="button"
-            @onButton="onChatNowButton(index)">
+            @click="onChatNowButton(quote)">
             Chat Now
           </basic-button>
         </div>
@@ -115,6 +115,7 @@ import BasicButton from '~/components/Button'
 import TextInput from '~/components/Inputs/Text'
 import ToolTip from '~/components/ToolTip'
 // libs
+import axios from '~/plugins/axios'
 import { getCreatedDateDiff } from '~/utils/timezone'
 import { encryptCompanyName } from '~/utils/text'
 import { mapGetters } from 'vuex'
@@ -141,6 +142,9 @@ export default {
     ...mapGetters({
       contact: 'auth/GET_CONTACT'
     }),
+    getContactId() {
+      return this.contact.contact_id
+    },
     getQuotesLength() {
       return this.quotes.length === 1 ? '1 Quote' : `${this.quotes.length} Quotes`
     },
@@ -240,8 +244,31 @@ export default {
       this.currentImages = images
       this.isModalImageViewerHidden = false
     },
-    onChatButton() {
-      this.$emit('onChatNow')
+    async onChatNowButton(quote) {
+      const quote_contact_id = quote.contact_id
+
+      let conversationId = ''
+      if (quote_contact_id > this.getContactId)
+        conversationId = `${this.getContactId}_${quote_contact_id}`
+      else conversationId = `${quote_contact_id}_${this.getContactId}`
+
+      const API = `/api/data/inbox`
+      const body = {
+        sender_id: this.getContactId,
+        recipient_id: quote_contact_id,
+        conversation_id: conversationId,
+        body: `New Chatting is just stared.
+        Have fun.
+        `
+      }
+      const chatRoomURL = `/dashboard/inbox/${conversationId}`
+
+      try {
+        await axios.put(API, { body })
+        location.href = chatRoomURL
+      } catch (err) {
+        console.log('on chat error', err)
+      }
     },
     onReportButton(quote_id) {
       this.isReportHidden = false

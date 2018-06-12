@@ -127,7 +127,7 @@ import ToolTip from '~/components/ToolTip'
 import Clipboard from 'clipboard'
 import { mapGetters } from 'vuex'
 import { getCreatedDateDiff, getTimeLeft } from '~/utils/timezone'
-import { encryptCompanyName } from '~/utils/text'
+import { encryptCompanyName, nFormatter } from '~/utils/text'
 // static
 const DESCRIPTION = 'description'
 const MAX_HEIGHT = 190
@@ -173,7 +173,8 @@ export default {
       return name
     },
     getQuantity() {
-      const { quantity, unit } = this.buyingLead
+      let { quantity, unit } = this.buyingLead
+      quantity = nFormatter(quantity, 1)
 
       let result = ''
 

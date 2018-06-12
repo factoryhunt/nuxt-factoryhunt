@@ -1,7 +1,7 @@
 const router = require('express').Router()
 
-const message = require('./message')
+const _ = require('./_')
 
-router.put('/message', message)
+router.post('/', _)
 
 module.exports = router
