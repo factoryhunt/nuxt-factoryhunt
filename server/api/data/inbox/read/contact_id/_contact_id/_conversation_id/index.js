@@ -7,39 +7,39 @@ module.exports = async (req, res) => {
   const conversation_id = req.params.conversation_id
 
   const getConversation = () => {
-    return new Promise((resolve, reject) => {
-      mysql.query(`
+    const SQL = `
       SELECT 
-      ${CONFIG_MYSQL.TABLE_INBOX}.inbox_id,
-      ${CONFIG_MYSQL.TABLE_INBOX}.sender_id,
-      ${CONFIG_MYSQL.TABLE_INBOX}.recipient_id,
-      ${CONFIG_MYSQL.TABLE_INBOX}.conversation_id,
-      ${CONFIG_MYSQL.TABLE_INBOX}.body,
-      ${CONFIG_MYSQL.TABLE_INBOX}.created_date,
-      ${CONFIG_MYSQL.TABLE_CONTACTS}.contact_id,
-      ${CONFIG_MYSQL.TABLE_CONTACTS}.first_name,
-      ${CONFIG_MYSQL.TABLE_CONTACTS}.last_name,
-      ${CONFIG_MYSQL.TABLE_INBOX}.created_date,
-      ${CONFIG_MYSQL.TABLE_ACCOUNTS}.account_id,
-      ${CONFIG_MYSQL.TABLE_ACCOUNTS}.account_name,
-      ${CONFIG_MYSQL.TABLE_ACCOUNTS}.logo_url
-      
+        i.inbox_id,
+        i.sender_id,
+        i.recipient_id,
+        i.conversation_id,
+        i.body,
+        i.created_date,
+        c.contact_id,
+        c.first_name,
+        c.last_name,
+        i.created_date,
+        a.account_id,
+        a.account_name,
+        a.logo_url
       FROM 
-      ${CONFIG_MYSQL.TABLE_INBOX},
-      ${CONFIG_MYSQL.TABLE_CONTACTS},
-      ${CONFIG_MYSQL.TABLE_ACCOUNTS}
+        ${CONFIG_MYSQL.TABLE_INBOX} i,
+        ${CONFIG_MYSQL.TABLE_CONTACTS} c,
+        ${CONFIG_MYSQL.TABLE_ACCOUNTS} a
       WHERE 
-      ${CONFIG_MYSQL.TABLE_INBOX}.conversation_id = "${conversation_id}"
-      
+        i.conversation_id = "${conversation_id}"
       AND
-      (${CONFIG_MYSQL.TABLE_INBOX}.sender_id = ${CONFIG_MYSQL.TABLE_CONTACTS}.contact_id OR
-      ${CONFIG_MYSQL.TABLE_INBOX}.recipient_id = ${CONFIG_MYSQL.TABLE_CONTACTS}.contact_id)
+        (i.sender_id = c.contact_id OR
+        i.recipient_id = c.contact_id)
       AND
-      ${CONFIG_MYSQL.TABLE_CONTACTS}.contact_id != ${contact_id}
+        c.contact_id = i.sender_id
       AND
-      ${CONFIG_MYSQL.TABLE_CONTACTS}.account_id = ${CONFIG_MYSQL.TABLE_ACCOUNTS}.account_id
+        c.account_id = a.account_id
       ORDER BY
-      ${CONFIG_MYSQL.TABLE_INBOX}.inbox_id`, (err, rows) => {
+        i.inbox_id
+      `
+    return new Promise((resolve, reject) => {
+      mysql.query(SQL, (err, rows) => {
         if (err) reject(err)
         resolve(rows)
       })
@@ -51,6 +51,8 @@ module.exports = async (req, res) => {
     console.log('api returns', conversation)
     res.status(200).json(conversation)
   } catch (err) {
-    res.status(403).json({result: false})
+    res.status(403).json({
+      result: false
+    })
   }
 }
