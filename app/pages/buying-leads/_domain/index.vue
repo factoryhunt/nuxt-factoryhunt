@@ -127,6 +127,7 @@ export default {
   }),
   computed: {
     ...mapGetters({
+      isLoggedIn: 'auth/IS_LOGGED_IN',
       contact: 'auth/GET_CONTACT'
     }),
     isAuthorOfRfq() {

@@ -31,8 +31,6 @@ export default {
         $items.forEach($item => {
           const { textContent } = $item
 
-          console.log(textContent)
-
           if (textContent === category) {
             return $item.children[0].classList.add('highlight')
           }

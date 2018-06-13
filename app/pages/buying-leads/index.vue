@@ -160,6 +160,8 @@ export default {
       let url = new URL(this.api)
       url.searchParams.append('offset', this.feedOffset)
 
+      console.log(url)
+
       try {
         const { data } = await axios.get(url.href)
         this.feeds = this.feeds.concat(data)

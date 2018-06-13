@@ -13,6 +13,7 @@
           class="button-section"
           v-if="buyingLeads.length">
           <button 
+            v-show="!isUserSupplier"
             class="button-orange"
             @click="onRFQButton()">Request for Quotes</button>
         </section>
@@ -33,12 +34,13 @@
         <!-- No exists-->
         <no-item-card 
           class="no-item-container"
-          v-if="!buyingLeads.length">
+          v-if="!buyingLeadsCount.count">
           <h2 
             class="title">Let the right supplier find you with RFQ</h2>
           <p class="description">Get quotes, and close deals one click.</p>
           <basic-button 
             class="rfq-button"
+            v-show="!isUserSupplier"
             @click="onRFQButton()">Request First Quotation</basic-button>
         </no-item-card>
         <!-- Exists -->
@@ -51,12 +53,19 @@
             :value="filter"
             @input="onFilterChange"
             :array="status"/>
-          <!-- List -->
-          <cards 
-            :buying_leads="buyingLeads"
-            @onViewBuyingLead="routeRFQDetailPage"
-            @onEditBuyingLead="routeRFQEditPage"
-            @onArchiveBuyingLead="onArchiveBuyingLead"/>
+            <!-- List -->
+            <cards 
+              class="cards"
+              v-if="buyingLeads.length"
+              :buying_leads="buyingLeads"
+              @onViewBuyingLead="routeRFQDetailPage"
+              @onEditBuyingLead="routeRFQEditPage"
+              @onArchiveBuyingLead="onArchiveBuyingLead"/>
+            <no-item-card  
+              class="no-item-container"
+              v-else>
+              <h2 class="title">No Filtered Result.</h2>
+            </no-item-card>
         </div>
       </div>
     </main>
@@ -88,6 +97,7 @@ export default {
   },
   data: () => ({
     buyingLeads: [],
+    buyingLeadsCount: null,
     status: status,
     filter: '',
     toggle: {
@@ -96,7 +106,8 @@ export default {
   }),
   computed: {
     ...mapGetters({
-      user: 'auth/GET_USER'
+      user: 'auth/GET_USER',
+      isUserSupplier: 'auth/IS_USER_SUPPLIER'
     }),
     getAccountId() {
       return this.user.account.account_id
@@ -128,7 +139,8 @@ export default {
         let apiAddress = `/api/data/buying_leads/${this.getAccountId}`
         if (this.filter) apiAddress = apiAddress + `?filter=${this.filter}`
         const { data } = await axios.get(apiAddress)
-        this.buyingLeads = data
+        this.buyingLeads = data.buying_leads
+        this.buyingLeadsCount = data.count
         this.toggle.isDataFetched = true
       } catch (err) {
         console.log('err', err)
@@ -215,6 +227,8 @@ main {
   margin-top: @section-margin;
 }
 .no-item-container {
+  margin-top: 12px;
+
   .title {
     font-weight: 500;
     font-size: 24px;
@@ -228,5 +242,8 @@ main {
 }
 .filter {
   width: 200px;
+}
+.cards {
+  margin-top: 12px;
 }
 </style>

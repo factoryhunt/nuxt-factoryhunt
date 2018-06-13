@@ -54,24 +54,74 @@ module.exports = async (req, res) => {
         docs.parent_id = bl.buying_lead_id AND
         docs.is_deleted != 1
       WHERE
-        bl.account_id = ${account_id} AND
+        bl.account_id = ? AND
         bl.is_deleted != 1 AND
-        IF ("${getStatus()}" = "", status != "", status = "${getStatus()}")
+        IF ("${getStatus()}" = "", status != "Archived", status = "${getStatus()}")
       GROUP BY 
         bl.buying_lead_id
       ORDER BY
         bl.last_modified_date DESC
       `
-      mysql.query(SQL, (err, results) => {
+      mysql.query(SQL, [account_id], (err, results) => {
         if (err) reject(err)
         resolve(results)
       })
     })
   }
 
+  const getBuyingLeadsCount = () => {
+    return new Promise((resolve, reject) => {
+      const SQL = `
+      SELECT
+        COUNT(buying_lead_id) as count,
+        (SELECT
+	        COUNT(buying_lead_id)
+        FROM
+        	buying_leads
+        WHERE
+        	account_id = ? AND
+        	is_deleted != 1 AND
+        	status = "Draft") AS draft_count,
+        (SELECT
+	        COUNT(buying_lead_id)
+        FROM
+        	buying_leads
+        WHERE
+        	account_id = ? AND
+        	is_deleted != 1 AND
+        	status = "Activated") AS activated_count,
+        (SELECT
+	        COUNT(buying_lead_id)
+        FROM
+        	buying_leads
+        WHERE
+        	account_id = ? AND
+        	is_deleted != 1 AND
+        	status = "Archived"
+        ) AS archived_count
+      FROM
+        ${MYSQL_MODELS.TABLE_BUYING_LEADS}
+      WHERE
+        account_id = ?
+      `
+      mysql.query(SQL, [account_id, account_id, account_id, account_id], (err, rows) => {
+        if (err) reject(err)
+
+        if (!rows.length) resolve(0)
+        resolve(rows[0])
+      })
+    })
+  }
+
   try {
-    const buying_leads = await getBuyingLeads()
-    res.status(200).json(buying_leads)
+    const promise = await Promise.all([getBuyingLeads(), getBuyingLeadsCount()])
+
+    const result = {
+      buying_leads: promise[0],
+      count: promise[1]
+    }
+
+    res.status(200).json(result)
   } catch (err) {
     console.log('err', err)
     res.status(403).json(err)

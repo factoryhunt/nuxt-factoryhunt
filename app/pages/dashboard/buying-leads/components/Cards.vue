@@ -41,7 +41,9 @@
 
         <!-- Actions -->
         <div class="action-container section">
-          <div class="action-wrapper">
+          <div 
+            class="action-wrapper"
+            v-show="buyingLead.status !== 'Archived'">
             <div><span @click="onEditButton(buyingLead.domain)">Edit</span></div>
             <div><span @click="onArchiveButton(buyingLead.buying_lead_id)">Archive</span></div>
           </div>
@@ -105,7 +107,6 @@ export default {
 .card-wrapper {
   border-radius: @border-radius;
   border: 1px solid @color-light-gray;
-  margin-top: 12px;
 }
 .card-container {
   padding: 20px;

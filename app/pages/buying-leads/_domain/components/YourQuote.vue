@@ -15,9 +15,7 @@
           <!-- Form Header -->
           <div class="quote-form">
             <!-- Profile Image -->
-            <img 
-              class="profile"
-              :src="account.logo_url">
+            <circle-img class="logo" :url="getLogoURL"/>
             <!-- Form -->
             <div class="form-main">
               <form @submit.prevent="onSumbit()">
@@ -87,6 +85,7 @@ import Dropzone from '~/components/Dropzone/Test'
 import FileInput from '~/components/Inputs/File'
 import ImageViewer from '~/components/Image/Viewer'
 import Error from '~/components/Alert/Error'
+import CircleImg from '~/components/Image/CircleViewer'
 // libs
 import axios from '~/plugins/axios'
 import { uploadDocument } from '~/utils/api'
@@ -103,7 +102,8 @@ export default {
     Dropzone,
     FileInput,
     ImageViewer,
-    Error
+    Error,
+    CircleImg
   },
   props: ['buyingLead'],
   data: () => ({
@@ -122,6 +122,14 @@ export default {
       isLoggedIn: 'auth/IS_LOGGED_IN',
       isUserSupplier: 'auth/IS_USER_SUPPLIER'
     }),
+    getLogoURL() {
+      const noImage = require('~/assets/icons/user.svg')
+      if (!this.isLoggedIn) return noImage
+
+      const { logo_url } = this.account
+
+      return logo_url ? logo_url : noImage
+    },
     getPostedDate() {
       const payload = {
         year_diff: this.data.year_diff,
@@ -222,20 +230,17 @@ export default {
     margin-bottom: 14px;
   }
 }
-img.profile {
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  border: 1px solid @color-border-gray;
-  overflow: hidden;
+.logo {
+  width: 36px !important;
+  height: 36px !important;
 
   @media (min-width: 744px) {
-    width: 40px;
-    height: 40px;
+    width: 40px !important;
+    height: 40px !important;
   }
 }
 .form-main {
-  width: 100%;
+  flex: 1;
   margin-left: 12px;
 }
 #dropzone {

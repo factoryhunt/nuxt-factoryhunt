@@ -1,6 +1,9 @@
 <template>
   <div ref="page" class="dashboard-page-container">
-
+    <modal-report
+      :isHidden="toggle.isReportHidden"
+      :payload="getReportData"
+      @close="toggle.isReportHidden = true"/>
     <loader 
       color="#f2583d"
       v-show="!toggle.isFetched"/>
@@ -69,6 +72,7 @@
 
 <script>
 // components
+import ModalReport from '~/components/Modal/Report'
 import Loader from '~/components/Spinner/Dots'
 import ChatButtle from './components/ChatBubble'
 import CircleImg from '~/components/Image/CircleViewer'
@@ -78,6 +82,7 @@ import { showTopAlert } from '~/utils/alert'
 import { mapGetters } from 'vuex'
 export default {
   components: {
+    ModalReport,
     Loader,
     ChatButtle,
     CircleImg
@@ -126,6 +131,12 @@ export default {
       if (last_name) return last_name
 
       return 'Unknown'
+    },
+    getReportData() {
+      return {
+        id: this.recipient.contact_id,
+        table: 'contacts'
+      }
     }
   },
   methods: {
@@ -175,7 +186,7 @@ export default {
       }
     },
     onReportButton() {
-      console.log('report')
+      this.toggle.isReportHidden = false
     },
     isMyMessage(message) {
       const { sender_id } = message

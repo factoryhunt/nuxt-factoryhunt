@@ -300,6 +300,7 @@ button {
             padding: 0 8px;
 
             p {
+              white-space: nowrap;
               font-size: 15px;
               font-weight: 400;
               color: @color-font-gray;
