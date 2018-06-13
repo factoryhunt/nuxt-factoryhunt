@@ -8,7 +8,8 @@
           class="fa fa-angle-right angle" 
           aria-hidden="true"
           v-show="index"></i>
-        <a :href="value.uri">
+        <a 
+          :href="value.uri">
           {{value.value}}</a></li>
     </ul>
   </nav>

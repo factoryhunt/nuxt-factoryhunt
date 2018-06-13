@@ -26,9 +26,9 @@ module.exports = async (req, res) => {
       ON
         c.account_id = a.account_id
       WHERE
-        contact_id = ${recipient_id}
+        contact_id = ?
       `
-      mysql.query(SQL, (err, rows) => {
+      mysql.query(SQL, [recipient_id], (err, rows) => {
         if (err) reject(err)
 
         if (!rows.length) resolve([])
@@ -56,12 +56,12 @@ module.exports = async (req, res) => {
       FROM 
         ${CONFIG_MYSQL.TABLE_INBOX}
       WHERE 
-        conversation_id = "${conversation_id}"
+        conversation_id = ?
       ORDER BY
         inbox_id DESC
       `
     return new Promise((resolve, reject) => {
-      mysql.query(SQL, (err, rows) => {
+      mysql.query(SQL, [conversation_id], (err, rows) => {
         if (err) reject(err)
         resolve(rows)
       })

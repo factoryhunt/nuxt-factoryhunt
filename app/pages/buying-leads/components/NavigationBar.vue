@@ -2,14 +2,16 @@
   <nav 
     itemscope>
     <p>Category</p>
-    <input ref="categorySearchInput" type="text" @input="updateCategorySearch()">
+    <!-- <input ref="categorySearchInput" type="text" @input="updateCategorySearch()"> -->
     <ul>
       <li>
-        <a href="/buying-leads">All</a></li>
+        <a ref="rootItem" href="/buying-leads">All</a></li>
       <li 
+        ref="item"
         v-for="(category, i) in categories"
         :key="i">
-        <a :href="getItemHref(category.name)">{{category.name}}</a></li>
+        <a 
+          :href="getItemHref(category.name)">{{category.name}}</a></li>
     </ul>
   </nav>
 </template>
@@ -18,12 +20,40 @@
 export default {
   props: ['categories'],
   methods: {
+    highlightItem() {
+      const { category } = this.$route.query
+
+      if (!category) this.$refs.rootItem.classList.add('highlight')
+
+      const highlight = () => {
+        const $items = this.$refs.item
+
+        $items.forEach($item => {
+          const { textContent } = $item
+
+          console.log(textContent)
+
+          if (textContent === category) {
+            return $item.children[0].classList.add('highlight')
+          }
+        })
+      }
+
+      this.$nextTick(() => {
+        highlight()
+      })
+    },
     getItemHref(name) {
       return `/buying-leads?category=${name}`
     },
     updateCategorySearch() {
       const value = this.$refs.categorySearchInput.value
       this.$emit('input', value)
+    }
+  },
+  watch: {
+    categories() {
+      this.highlightItem()
     }
   }
 }
@@ -65,7 +95,8 @@ input {
 
 ul {
   list-style: none;
-  margin-top: @container-margin;
+  // margin-top: @container-margin;
+  margin-top: 10px;
 }
 li {
   a {
@@ -81,6 +112,13 @@ li {
 
     &:hover {
       color: @color-orange !important;
+      background-color: @color-white;
+      .gray-border;
+    }
+
+    &.highlight {
+      color: @color-orange !important;
+      background-color: @color-white;
       .gray-border;
     }
   }

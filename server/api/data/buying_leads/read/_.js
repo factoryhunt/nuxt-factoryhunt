@@ -2,12 +2,23 @@ const mysql = require('../../../mysql')
 const MYSQL_MODELS = require('../../../mysql/model')
 
 // GET /api/data/buying_leads
-// Query: category,
+// query: category, offset
 module.exports = async (req, res) => {
+  // static
+  const QUERY_LIMIT = 20
+
+  // LIKE query
+  let category = req.query.category || ''
+  category = `%${category}%`
+
+  // Pagination
+  let offset = req.query.offset || 0
+  offset = offset * QUERY_LIMIT
+
+  // Promises
   const getBuyingLeads = () => {
     return new Promise((resolve, reject) => {
-      mysql.query(
-        `
+      const SQL = `
       SELECT 
         bl.buying_lead_id,
         bl.account_id,
@@ -53,24 +64,21 @@ module.exports = async (req, res) => {
         bl.account_id = a.account_id
       WHERE 
         bl.status = "Activated" AND
-        bl.is_deleted != 1 
+        bl.is_deleted != 1 AND
+        bl.category LIKE ?
       GROUP BY 
         bl.buying_lead_id
       ORDER BY
         bl.created_date DESC
-      `,
-        (err, results) => {
-          if (err) reject({ msg: 'Getting Buying Lead Failed. - 1', err: err })
-          resolve(results)
-        }
-      )
-    })
-  }
-  const getQuotes = () => {
-    return new Promise((resolve, reject) => {
-      const SQL = `
-      asd
+      LIMIT
+        ${QUERY_LIMIT}
+      OFFSET
+        ?
       `
+      mysql.query(SQL, [category, offset], (err, results) => {
+        if (err) reject({ msg: 'Getting Buying Lead Failed. - 1', err: err })
+        resolve(results)
+      })
     })
   }
 

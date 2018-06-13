@@ -7,44 +7,46 @@ module.exports = async (req, res) => {
 
   const getAccount = () => {
     return new Promise((resolve, reject) => {
-      mysql.query(
-        `
+      const SQL = `
       SELECT 
-      * 
+        * 
       FROM 
-      ${CONFIG_MYSQL.TABLE_ACCOUNTS} 
+        ${CONFIG_MYSQL.TABLE_ACCOUNTS} 
       WHERE 
-      domain = "${domain}" AND
-      isDeleted != 1`,
-        (err, rows) => {
-          if (err) reject(err)
-          if (!rows.length) resolve()
+        domain = ?
+      AND
+        isDeleted != 1
+      `
+      mysql.query(SQL, [domain], (err, rows) => {
+        if (err) reject(err)
+        if (!rows.length) resolve()
 
-          resolve(rows[0])
-        }
-      )
+        resolve(rows[0])
+      })
     })
   }
 
   const getAccountProducts = account_id => {
     return new Promise((resolve, reject) => {
-      mysql.query(
-        `
+      const SQL = `
       SELECT 
-      * 
-      FROM ${CONFIG_MYSQL.TABLE_PRODUCTS} 
+        * 
+      FROM 
+        ${CONFIG_MYSQL.TABLE_PRODUCTS} 
       WHERE 
-      account_id = ${account_id} AND 
-      product_status = "approved" AND
-      isDeleted != 1
+        account_id = ?
+      AND 
+        product_status = "approved" 
+      AND
+        isDeleted != 1
       ORDER BY 
-      last_modified_date DESC`,
-        (err, rows) => {
-          if (err) reject(err)
+        last_modified_date DESC
+      `
+      mysql.query(SQL, [account_id], (err, rows) => {
+        if (err) reject(err)
 
-          resolve(rows)
-        }
-      )
+        resolve(rows)
+      })
     })
   }
 

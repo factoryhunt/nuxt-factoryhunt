@@ -31,8 +31,7 @@
           <div>
             <span 
               class="name">
-              <a 
-                href="/user">{{getUserName(quote)}}</a></span>
+              <a href="/user">{{getUserName(quote)}}</a></span>
           </div>
           <div class="sub-name">
             <span>
@@ -42,7 +41,7 @@
             <span>
               <a 
                 class="company" 
-                :href="`/${quote.account_domain}`" 
+                :href="getCompanyDomain(quote)" 
                 target="_blank">{{getCompany(quote)}}</a></span>
           </div>
         </div>
@@ -212,6 +211,15 @@ export default {
 
       return quote.account_name
     },
+    getCompanyDomain(quote) {
+      const { account_domain } = quote
+
+      if (this.isAuthorOfRfq) return `/${account_domain}`
+
+      if (!this.isThisUserCanRead(quote)) return `#`
+
+      return `/${account_domain}`
+    },
     getPostedDate(quote) {
       const payload = {
         year_diff: quote.year_diff,
@@ -257,8 +265,7 @@ export default {
         sender_id: this.getContactId,
         recipient_id: quote_contact_id,
         conversation_id: conversationId,
-        body: `New Chatting is just stared.
-        Have fun.
+        body: `New Chatting is just started.\nHave fun.
         `
       }
       const chatRoomURL = `/dashboard/inbox/${conversationId}`

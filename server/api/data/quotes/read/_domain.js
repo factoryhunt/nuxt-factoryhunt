@@ -49,13 +49,13 @@ module.exports = async (req, res) => {
         ${MYSQL_MODELS.TABLE_CONTACTS} c,
         ${MYSQL_MODELS.TABLE_ACCOUNTS} a
       WHERE
-        bl.domain = "${domain}" AND
+        bl.domain = ? AND
         bl.author_id = c.contact_id AND
         c.account_id = a.account_id
       `
       const ERR_MSG = 'Malformed Buying Leads Query.'
 
-      mysql.query(SQL, (err, results) => {
+      mysql.query(SQL, [domain], (err, results) => {
         if (err) reject(onError(1001, ERR_MSG, err))
 
         if (!results.length) resolve(null)
@@ -78,13 +78,15 @@ module.exports = async (req, res) => {
       FROM
         ${MYSQL_MODELS.TABLE_DOCUMENTS}
       WHERE
-        parent_table = "buying_leads" AND
-        parent_id = ${buying_lead_id} AND
+        parent_table = "buying_leads" 
+      AND
+        parent_id = ?
+      AND
         is_deleted != 1
       `
       const ERR_MSG = 'Malformed Documents Query.'
 
-      mysql.query(SQL, (err, results) => {
+      mysql.query(SQL, [buying_lead_id], (err, results) => {
         if (err) reject(onError(1002, ERR_MSG, err))
         if (!results.length) resolve([])
 

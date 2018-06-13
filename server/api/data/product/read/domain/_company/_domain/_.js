@@ -8,42 +8,45 @@ module.exports = async (req, res) => {
 
   const getAccount = () => {
     return new Promise((resolve, reject) => {
-      mysql.query(`
+      const SQL = `
       SELECT 
-      * 
+        * 
       FROM 
-      ${CONFIG_MYSQL.TABLE_ACCOUNTS} 
+        ${CONFIG_MYSQL.TABLE_ACCOUNTS} 
       WHERE 
-      domain = "${company}" AND
-      isDeleted != 1
-      `,
-        (err, rows) => {
-          if (err) reject(err)
-          if (!rows.length) reject({msg:'This account domain is not available.'})
+        domain = ? 
+      AND
+        isDeleted != 1
+      `
+      mysql.query(SQL, [company], (err, rows) => {
+        if (err) reject(err)
+        if (!rows.length) reject({ msg: 'This account domain is not available.' })
 
-          resolve(rows[0])
-        })
+        resolve(rows[0])
+      })
     })
   }
 
-  const getProduct = (account_id) => {
+  const getProduct = account_id => {
     return new Promise((resolve, reject) => {
-      mysql.query(`
+      const SQL = `
       SELECT 
-      * 
+        * 
       FROM 
-      ${CONFIG_MYSQL.TABLE_PRODUCTS} 
+        ${CONFIG_MYSQL.TABLE_PRODUCTS} 
       WHERE 
-      account_id = ${account_id} AND 
-      product_domain = "${domain}" AND
-      isDeleted != 1
-      `,
-        (err, rows) => {
-          if (err) reject(err)
-          if (!rows.length) reject({ msg: 'This product domain is not available.' })
+        account_id = ?
+      AND 
+        product_domain = ? 
+      AND
+        isDeleted != 1
+      `
+      mysql.query(SQL, [account_id, domain], (err, rows) => {
+        if (err) reject(err)
+        if (!rows.length) reject({ msg: 'This product domain is not available.' })
 
-          resolve(rows[0])
-        })
+        resolve(rows[0])
+      })
     })
   }
 
@@ -59,6 +62,6 @@ module.exports = async (req, res) => {
     res.status(200).json(result)
   } catch (err) {
     console.log(err)
-    res.status(403).json({result: false})
+    res.status(403).json({ result: false })
   }
 }

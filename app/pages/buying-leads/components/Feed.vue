@@ -128,9 +128,7 @@ export default {
 @margin-left: 6px;
 
 #feed-container {
-  flex: 1 !important;
   width: 100%;
-  min-height: 100vh;
 }
 ul {
   list-style: none;

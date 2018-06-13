@@ -29,14 +29,12 @@
             :key="index"
             :id="`list-${index}`" 
             class="list">
-            <div class="image-container">
-              <img 
-                class="product-image" 
-                :src="message.logo_url">
-            </div>
+            <circle-img 
+              class="logo"
+              :url="message.logo_url"/>
             <div class="category-container">
-              <p class="primary-text">{{message.account_name}}</p>
-              <p class="secondary-text">{{message.first_name}} {{message.last_name}}</p>
+              <p class="primary-text">{{getUserName(message)}}</p>
+              <p class="secondary-text">{{getUserTitle(message)}}</p>
             </div>
             <div class="product-name-container">
               <p 
@@ -44,7 +42,7 @@
                 @click="routeChatRoom(index)">{{message.body}}</p>
             </div>
             <div class="date-container">
-              <p>{{message.created_date}}</p>
+              <p>{{getCreatedDate(message)}}</p>
             </div>
             <div class="tool-container">
               <a 
@@ -59,10 +57,15 @@
 </template>
 
 <script>
+import CircleImg from '~/components/Image/CircleViewer'
+import { getCreatedDateDiff } from '~/utils/timezone'
 export default {
   head: () => ({
     title: 'Messages'
   }),
+  components: {
+    CircleImg
+  },
   props: {
     account: {
       type: Object,
@@ -92,6 +95,34 @@ export default {
     }
   },
   methods: {
+    getUserName(message) {
+      const { first_name, last_name } = message
+
+      if (first_name && last_name) return `${first_name} ${last_name}`
+
+      if (first_name) return first_name
+      if (last_name) return last_name
+
+      return 'Unknown'
+    },
+    getUserTitle(message) {
+      const { contact_title, account_name } = message
+      return `${contact_title} @ ${account_name}`
+    },
+    getCreatedDate(message) {
+      const payload = {
+        year_diff: message.year_diff,
+        month_diff: message.month_diff,
+        week_diff: message.week_diff,
+        day_diff: message.day_diff,
+        hour_diff: message.hour_diff,
+        minute_diff: message.minute_diff,
+        second_diff: message.second_diff
+      }
+      const result = getCreatedDateDiff(payload)
+
+      return result
+    },
     routeChatRoom(index) {
       const url = `/dashboard/inbox/${this.inbox[index].conversation_id}`
       location.href = url
@@ -196,22 +227,14 @@ button {
 
           &:hover {
             .tool-container {
-              visibility: visible;
+              // visibility: visible;
             }
           }
 
           // 9%
-          .image-container {
-            width: 9%;
-            display: table-cell;
-            vertical-align: middle;
-
-            img {
-              width: 60px;
-              height: 60px;
-              border-radius: 50%;
-              border: 2px solid #dbdbdb;
-            }
+          .logo {
+            width: 60px !important;
+            height: 60px !important;
           }
 
           // 18%
@@ -231,8 +254,11 @@ button {
               text-overflow: ellipsis;
             }
             .secondary-text {
+              font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu,
+                Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
               font-size: 15px;
-              font-weight: 300;
+              font-weight: 400;
+              color: @color-font-gray;
               display: -webkit-box;
               -webkit-line-clamp: 2; /* 라인수 */
               -webkit-box-orient: vertical;
@@ -275,7 +301,8 @@ button {
 
             p {
               font-size: 15px;
-              font-weight: 300;
+              font-weight: 400;
+              color: @color-font-gray;
             }
           }
 

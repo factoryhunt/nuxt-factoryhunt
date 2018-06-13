@@ -17,7 +17,7 @@
             <!-- Profile Image -->
             <img 
               class="profile"
-              src="~assets/icons/user.svg">
+              :src="account.logo_url">
             <!-- Form -->
             <div class="form-main">
               <form @submit.prevent="onSumbit()">
@@ -117,6 +117,7 @@ export default {
   }),
   computed: {
     ...mapGetters({
+      account: 'auth/GET_ACCOUNT',
       contact: 'auth/GET_CONTACT',
       isLoggedIn: 'auth/IS_LOGGED_IN',
       isUserSupplier: 'auth/IS_USER_SUPPLIER'
@@ -225,6 +226,8 @@ img.profile {
   width: 36px;
   height: 36px;
   border-radius: 50%;
+  border: 1px solid @color-border-gray;
+  overflow: hidden;
 
   @media (min-width: 744px) {
     width: 40px;

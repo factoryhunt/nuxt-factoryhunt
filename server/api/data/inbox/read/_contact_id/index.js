@@ -17,10 +17,18 @@ module.exports = async (req, res) => {
         c.contact_id,
         c.first_name,
         c.last_name,
+        c.contact_title,
         i.created_date,
         a.account_id,
         a.account_name,
-        a.logo_url
+        a.logo_url,
+        TIMESTAMPDIFF(YEAR, i.created_date, NOW()) as year_diff,
+				TIMESTAMPDIFF(MONTH, i.created_date, NOW()) as month_diff,
+        TIMESTAMPDIFF(WEEK, i.created_date, NOW()) as week_diff,
+				TIMESTAMPDIFF(DAY, i.created_date, NOW()) as day_diff,
+				TIMESTAMPDIFF(HOUR, i.created_date, NOW()) as hour_diff,
+				TIMESTAMPDIFF(MINUTE, i.created_date, NOW()) as minute_diff,
+        TIMESTAMPDIFF(SECOND, i.created_date, NOW()) as second_diff
       FROM
         ${CONFIG_MYSQL.TABLE_INBOX} i,
         ${CONFIG_MYSQL.TABLE_CONTACTS} c,

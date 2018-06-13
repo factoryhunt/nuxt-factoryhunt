@@ -66,7 +66,9 @@
             <li v-if="!isLoggedIn" class="button-item-container">
               <div class="button-item-wrapper">
                 <div class="button-item">
-                  <a href="/signup">{{ $t('navigationBar.register') }}</a>
+                  <a 
+                    class="sign-up"
+                    href="/signup">{{ $t('navigationBar.register') }}</a>
                 </div>
               </div>
             </li>
@@ -286,13 +288,17 @@ export default {
                 line-height: 1;
 
                 a {
-                  color: @color-font-gray;
-                  font-weight: 400;
+                  color: @color-font-black;
+                  font-weight: 500;
                   font-size: 16px;
                   text-decoration: none;
 
                   &:hover {
                     text-decoration: underline;
+                  }
+
+                  &.sign-up {
+                    color: @color-link !important;
                   }
                 }
 

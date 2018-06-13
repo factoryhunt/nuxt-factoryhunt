@@ -369,10 +369,12 @@ export default {
     Loader
   },
   async asyncData({ params, query, error, redirect }) {
-    try {
-      let { data } = await axios.get(`/api/data/account/domain/${params.company}`)
+    const { company } = params
 
-      console.log(data)
+    try {
+      let API = `/api/data/account/domain/${company}`
+      let { data } = await axios.get(API)
+
       if (!data.account) error({ statusCode: 404, message: 'Page not found' })
 
       return {

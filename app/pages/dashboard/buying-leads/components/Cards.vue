@@ -27,9 +27,15 @@
         <div class="status-container section">
           <div class="status-wrapper">
             <!-- Progress -->
-            <div><span :class="['status', `${getStatus(buyingLead.status)}`]">{{buyingLead.status}}</span></div>
+            <div>
+              <span 
+                :class="['status', `${getStatus(buyingLead.status)}`]">
+                {{buyingLead.status}}</span></div>
             <!-- Due date -->
-            <div><span class="due-date">{{getDueDateLeft(buyingLead)}}</span></div>
+            <div>
+              <span 
+                class="due-date"
+                v-show="buyingLead.status === 'Activated'">{{getDueDateLeft(buyingLead)}}</span></div>
           </div>
         </div>
 

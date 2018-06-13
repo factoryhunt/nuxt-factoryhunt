@@ -15,17 +15,19 @@
         class="logo recipient-img" 
         :url="logoUrl"
         v-show="!isMine"/>
-      <textarea 
-        ref="textarea"
-        :class="{mine: isMine}"
-        :value="message.body"
-        readonly></textarea>
+      <div class="text-container">
+        <textarea 
+          ref="textarea"
+          :class="{mine: isMine}"
+          :value="message.body"
+          readonly></textarea>
+        <div class="time">{{getCreatedDate}}</div>
+      </div>
       <circle-img 
         class="logo user-img" 
         :url="account.logo_url"
         v-show="isMine"/>
     </div>
-    <div class="time">{{getCreatedDate}}</div>
   </div>
 </template>
 
@@ -100,8 +102,10 @@ export default {
   width: 100%;
   position: relative;
 }
-textarea {
+.text-container {
   flex: 1;
+}
+textarea {
   font-size: 18px;
   padding: 22px;
   line-height: 1.6;
@@ -137,7 +141,7 @@ textarea {
   }
 }
 .time {
-  margin-top: 6px;
+  margin-top: 3px;
   margin-right: 6px;
   text-align: right;
   font-size: 12px;

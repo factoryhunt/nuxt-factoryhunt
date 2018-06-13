@@ -10,8 +10,7 @@
           <div class="header__profile">
             <div class="user-img-container">
               <a href="/user">
-                <img 
-                  src="~assets/icons/user.svg">
+                <img :src="getLogoUrl">
               </a>
             </div>
             <div class="identity-container">
@@ -19,7 +18,9 @@
             </div>
           </div>
           <!-- History -->
-          <div class="header__history" v-show="topDateDiff">
+          <div 
+            class="header__history" 
+            v-show="topDateDiff">
             <span>{{topDateDiff}}</span>
           </div>
         </section>
@@ -64,7 +65,11 @@
 <script>
 export default {
   props: ['data', 'topDateDiff', 'bottomDateDiff', 'isBottomHidden'],
-  computed: {},
+  computed: {
+    getLogoUrl() {
+      return this.data.logo_url ? this.data.logo_url : require('~/assets/icons/user.svg')
+    }
+  },
   methods: {
     onReportButton() {
       this.$emit('onReport')
@@ -97,6 +102,7 @@ export default {
     height: 36px;
     border: 1px solid @color-lightest-grey;
     border-radius: 50%;
+    overflow: hidden;
 
     @media (min-width: 744px) {
       width: 40px;
@@ -105,6 +111,8 @@ export default {
   }
   img {
     width: 100%;
+    height: 100%;
+    object-fit: contain;
   }
 
   .identity-container {

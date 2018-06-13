@@ -151,7 +151,7 @@ export default {
       const reducer = function(accumulator, value) {
         const item = {
           value: value,
-          uri: '/'
+          uri: `/buying-leads?category=${value}`
         }
         accumulator.push(item)
 

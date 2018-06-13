@@ -109,6 +109,7 @@ module.exports = async (req, res) => {
         TIMESTAMPDIFF(SECOND, q.created_date, NOW()) as second_diff,
         a.account_id,
         a.account_name,
+        a.logo_url,
         a.domain as account_domain,
         a.mailing_country,
         a.business_type,

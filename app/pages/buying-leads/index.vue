@@ -7,13 +7,18 @@
       <div id="contents__body">
         <!-- Left Nav Bar -->
         <navigation-bar
-          :categories="categories"
+          :categories="category"
           v-model="value.categorySearch"/>
         <!-- Feeds -->
-        <feed 
-          :user="this.userData"
-          :feeds="this.feeds"/>
-
+        <div class="feed-wrapper">
+          <feed 
+            :user="this.userData"
+            :feeds="this.feeds"/>
+          <loader 
+            class="loader"
+            color="#f2583d"
+            v-show="toggle.isFetching"/>
+        </div>
         <!-- Right Activities or Ads -->
         <activity
           :user="this.userData"/>
@@ -28,10 +33,11 @@ import PageHeader from './components/Header'
 import NavigationBar from './components/NavigationBar'
 import Feed from './components/Feed'
 import Activity from './components/Activity'
+import Loader from '~/components/Spinner/Dots'
 // models
-import Categories from '~/assets/models/categories.json'
-import { mapGetters } from 'vuex'
+import Category from '~/assets/models/category.json'
 // libs
+import { mapGetters } from 'vuex'
 import axios from '~/plugins/axios'
 const BUYING_LEADS = 'Buying Leads'
 export default {
@@ -86,29 +92,88 @@ export default {
     PageHeader,
     NavigationBar,
     Feed,
-    Activity
+    Activity,
+    Loader
   },
-  async asyncData({ error }) {
+  data: () => ({
+    feeds: [],
+    api: '',
+    category: [],
+    feedOffset: 0,
+    value: {
+      categorySearch: ''
+    },
+    toggle: {
+      canFetch: true,
+      isFetching: false
+    }
+  }),
+  async asyncData({ error, query }) {
+    let { category } = query
+
+    let API = new URL('http://localhost:3000/api/data/buying_leads')
+    if (category) API.searchParams.append('category', category)
+
     try {
-      const { data } = await axios.get('/api/data/buying_leads')
+      const { data } = await axios.get(API.href)
       return {
-        feeds: data
+        feeds: data,
+        api: API
       }
     } catch (err) {
       console.log('err')
       error({ statusCode: 404, message: 'Page not found' })
     }
   },
-  data: () => ({
-    categories: Categories,
-    value: {
-      categorySearch: ''
-    }
-  }),
   computed: {
     ...mapGetters({
       userData: 'auth/GET_USER'
     })
+  },
+  methods: {
+    init() {
+      this.addEventListeners()
+      this.filterCategory()
+    },
+    addEventListeners() {
+      window.addEventListener('scroll', event => {
+        const isBottomOfScreen = window.innerHeight + window.scrollY >= document.body.offsetHeight
+
+        if (isBottomOfScreen) this.fetchMoreFeeds()
+      })
+    },
+    filterCategory() {
+      const rx = new RegExp('..000000$')
+      this.category = Category.filter(cat => {
+        const filter = rx.test(cat.id)
+        return filter
+      })
+    },
+    async fetchMoreFeeds() {
+      if (!this.toggle.canFetch) return
+      if (this.toggle.isFetching) return
+
+      this.toggle.isFetching = true
+      this.feedOffset += 1
+      const lastFeedLength = this.feeds.length
+
+      let url = new URL(this.api)
+      url.searchParams.append('offset', this.feedOffset)
+
+      try {
+        const { data } = await axios.get(url.href)
+        this.feeds = this.feeds.concat(data)
+        const isLastFeed = lastFeedLength === this.feeds.length
+        if (isLastFeed) this.toggle.canFetch = false
+        this.toggle.isFetching = false
+      } catch (err) {
+        console.log('err')
+        this.toggle.isFetching = false
+      }
+    }
+  },
+  mounted() {
+    this.init()
   }
 }
 </script>
@@ -127,5 +192,15 @@ export default {
   position: relative;
   width: 100%;
   margin-top: @section-margin;
+}
+
+.feed-wrapper {
+  flex: 1 !important;
+  width: 100%;
+  min-height: 100vh;
+}
+.loader {
+  display: block;
+  margin-top: 30px !important;
 }
 </style>

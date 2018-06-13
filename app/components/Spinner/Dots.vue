@@ -1,8 +1,8 @@
 <template>
-  <div id="spinner">
-    <div class="dot bounce1"></div>
-    <div class="dot bounce2"></div>
-    <div class="dot bounce3"></div>
+  <div ref="spinner" id="spinner">
+    <div ref="dot" class="dot bounce1"></div>
+    <div ref="dot" class="dot bounce2"></div>
+    <div ref="dot" class="dot bounce3"></div>
   </div>
 </template>
 
@@ -25,8 +25,8 @@ export default {
   methods: {
     setAttribute() {
       const { color, size, width } = this
-      const $spinner = document.getElementById('spinner')
-      const $bounces = document.getElementsByClassName('dot')
+      const $spinner = this.$refs.spinner
+      const $bounces = $spinner.children
 
       if (width) $spinner.style.width = width
 

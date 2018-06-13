@@ -23,6 +23,9 @@
               <a 
                 :href="`/${recipient.account_domain}`"
                 target="_blank">{{recipient.account_name}}</a></span>
+            <a 
+              class="report"
+              @click="onReportButton">Report</a>
           </div>
         </div>
       </div>
@@ -37,7 +40,6 @@
               <textarea
                 ref="textarea"
                 placeholder="Enter Message Here."
-                rows="5"
                 v-model="msg"></textarea>
               <button>Send Message</button>
             </div>
@@ -46,6 +48,10 @@
               :url="account.logo_url"/>
           </div>
         </form>
+        <!-- Policy -->
+        <div class="policy-container">
+          <p>All content, including files attached to this chat room, is securely stored and never leaked to the outside world.</p>
+        </div>
         <!-- Chatting -->
         <div class="chat-container">
           <chat-buttle
@@ -96,7 +102,8 @@ export default {
       messages: [],
       recipient: [],
       toggle: {
-        isFetched: false
+        isFetched: false,
+        isReportHidden: true
       }
     }
   },
@@ -150,7 +157,7 @@ export default {
         this.changeTitle()
       } catch (err) {
         console.log('err', err)
-        // this.redirectInbox()
+        this.redirectInbox()
       }
     },
     async sendMessage() {
@@ -167,6 +174,9 @@ export default {
         showTopAlert(this.$store, false, 'Sorry, failed sending message. Please try again later.')
       }
     },
+    onReportButton() {
+      console.log('report')
+    },
     isMyMessage(message) {
       const { sender_id } = message
       const isMine = this.contact.contact_id === sender_id
@@ -174,6 +184,13 @@ export default {
       if (isMine) return true
 
       return false
+    },
+    autoResize($textarea) {
+      const $wrapper = this.$refs.textareaWrapper
+      const { scrollHeight } = $textarea
+      console.log('scroll height', scrollHeight)
+      $wrapper.style.height = `${scrollHeight}px`
+      console.log('wrapper height', $wrapper.style.height)
     },
     redirectInbox() {
       location.href = '/dashboard/inbox'
@@ -221,8 +238,9 @@ ul {
   margin-top: 20px;
 }
 .recipient-name {
-  font-size: 20px;
   display: block;
+  font-size: 20px;
+  font-weight: 500;
 }
 .recipient-title {
   display: block;
@@ -231,6 +249,11 @@ ul {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell,
     'Open Sans', 'Helvetica Neue', sans-serif;
   color: @color-font-gray;
+}
+.report {
+  display: inline-block;
+  margin-top: 10px;
+  font-size: 15px;
 }
 
 .right-container {
@@ -253,6 +276,7 @@ ul {
     text-align: right;
   }
   textarea {
+    min-height: 180px;
     padding: 22px;
     line-height: 1.6;
     transition: border 0.3s;
@@ -280,8 +304,17 @@ ul {
     margin-left: 20px;
   }
 }
+
+.policy-container {
+  border-top: 1px solid @color-border-gray;
+  padding: 10px 20px;
+  margin-top: 60px;
+  color: @color-font-gray;
+  font-size: 16px;
+}
+
 .chat-container {
-  margin-top: 140px;
+  margin-top: 50px;
 }
 .chat-bubble {
   margin-top: 30px;
