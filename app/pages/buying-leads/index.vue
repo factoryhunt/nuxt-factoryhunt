@@ -111,11 +111,11 @@ export default {
   async asyncData({ error, query }) {
     let { category } = query
 
-    let API = new URL('http://localhost:3000/api/data/buying_leads')
-    if (category) API.searchParams.append('category', category)
+    let API = '/api/data/buying_leads'
+    if (category) API = `${API}?category=${category}`
 
     try {
-      const { data } = await axios.get(API.href)
+      const { data } = await axios.get(API)
       return {
         feeds: data,
         api: API
@@ -157,13 +157,10 @@ export default {
       this.feedOffset += 1
       const lastFeedLength = this.feeds.length
 
-      let url = new URL(this.api)
-      url.searchParams.append('offset', this.feedOffset)
-
-      console.log(url)
+      const API = this.setOffsetQuery(this.api)
 
       try {
-        const { data } = await axios.get(url.href)
+        const { data } = await axios.get(API)
         this.feeds = this.feeds.concat(data)
         const isLastFeed = lastFeedLength === this.feeds.length
         if (isLastFeed) this.toggle.canFetch = false
@@ -172,6 +169,14 @@ export default {
         console.log('err')
         this.toggle.isFetching = false
       }
+    },
+    setOffsetQuery(url) {
+      const query = Object.keys(this.$route.query)
+
+      if (!query.length) url = `${url}?offset=${this.feedOffset}`
+      else url = `${url}&offset=${this.feedOffset}`
+
+      return url
     }
   },
   mounted() {
