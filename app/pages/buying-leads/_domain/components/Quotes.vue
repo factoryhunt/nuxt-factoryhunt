@@ -22,8 +22,9 @@
         :key="quote.quote_id"
         :data="quote"
         :topDateDiff="getPostedDate(quote)"
-        @onReport="onReportButton(quote.quote_id)"
-        :isBottomHidden="isBottomHidden(quote)">
+        :isAuthorOfRfq="isAuthorOfRfq"
+        :isBottomHidden="isBottomHidden(quote)"
+        @onReport="onReportButton(quote.quote_id)">
         <!-- Name -->
         <div 
           slot="name"

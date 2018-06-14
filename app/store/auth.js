@@ -18,6 +18,8 @@ export const getters = {
     return state.user
   },
   GET_USER_NAME: state => {
+    if (!state.user) return 'Unknown'
+
     const { first_name, last_name } = state.user.contact
 
     if (first_name && last_name) return `${first_name} ${last_name}`

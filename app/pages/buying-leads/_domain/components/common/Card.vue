@@ -63,11 +63,27 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 export default {
-  props: ['data', 'topDateDiff', 'bottomDateDiff', 'isBottomHidden'],
+  props: ['data', 'topDateDiff', 'bottomDateDiff', 'isBottomHidden', 'isAuthorOfRfq'],
   computed: {
+    ...mapGetters({
+      contact: 'auth/GET_CONTACT'
+    }),
     getLogoUrl() {
-      return this.data.logo_url ? this.data.logo_url : require('~/assets/icons/user.svg')
+      const hiddenLogo = require('~/assets/icons/user.svg')
+      const userLogo = this.data.logo_url ? this.data.logo_url : hiddenLogo
+
+      if (this.isAuthorOfRfq) return userLogo
+
+      if (!this.isThisUserCanRead) return hiddenLogo
+
+      return userLogo
+    },
+    isThisUserCanRead() {
+      const { contact_id } = this.data
+
+      return this.contact.contact_id === contact_id
     }
   },
   methods: {
