@@ -139,7 +139,8 @@ export default {
   }),
   computed: {
     ...mapGetters({
-      contact: 'auth/GET_CONTACT'
+      contact: 'auth/GET_CONTACT',
+      userName: 'auth/GET_USER_NAME'
     }),
     getContactId() {
       return this.contact.contact_id
@@ -253,6 +254,8 @@ export default {
       this.isModalImageViewerHidden = false
     },
     async onChatNowButton(quote) {
+      let { domain, title } = this.buyingLead
+      domain = `https://www.factoryhunt.com/buying-leads/${domain}`
       const quote_contact_id = quote.contact_id
 
       let conversationId = ''
@@ -265,13 +268,12 @@ export default {
         sender_id: this.getContactId,
         recipient_id: quote_contact_id,
         conversation_id: conversationId,
-        body: `New Chatting is just started.\nHave fun.
-        `
+        body: `${this.userName} was started conversation about the quote, ${domain}`
       }
       const chatRoomURL = `/dashboard/inbox/${conversationId}`
 
       try {
-        await axios.put(API, { body })
+        await axios.post(API, { body })
         location.href = chatRoomURL
       } catch (err) {
         console.log('on chat error', err)

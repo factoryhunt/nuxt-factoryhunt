@@ -17,6 +17,15 @@ export const getters = {
   GET_USER: state => {
     return state.user
   },
+  GET_USER_NAME: state => {
+    const { first_name, last_name } = state.user.contact
+
+    if (first_name && last_name) return `${first_name} ${last_name}`
+    if (first_name) return first_name
+    if (last_name) return last_name
+
+    return 'Unknown'
+  },
   isLoggedIn: state => {
     return state.user !== null
   },

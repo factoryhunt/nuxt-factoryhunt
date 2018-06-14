@@ -16,11 +16,22 @@
         :url="logoUrl"
         v-show="!isMine"/>
       <div class="text-container">
-        <textarea 
-          ref="textarea"
-          :class="{mine: isMine}"
-          :value="message.body"
-          readonly></textarea>
+        <div 
+          class="bubble-wrapper"
+          ref="bubbleWrapper"
+          :class="{mine: isMine}">
+          <div 
+            class="chat"
+            v-html="getBody"></div>
+          <a
+            class="link-preview" 
+            v-show="extractedUrl"
+            target="_blank"
+            :href="extractedUrl">
+            <i 
+              class="fa fa-globe globe" 
+              aria-hidden="true"></i>Open Attached Link on New Tab</a>
+        </div>
         <div class="time">{{getCreatedDate}}</div>
       </div>
       <circle-img 
@@ -36,7 +47,9 @@
 import ModalReport from '~/components/Modal/Report'
 import CircleImg from '~/components/Image/CircleViewer'
 // libs
+import axios from '~/plugins/axios'
 import { getCreatedDateDiff } from '~/utils/timezone'
+import { urlify } from '~/utils/text'
 import { mapGetters } from 'vuex'
 export default {
   components: {
@@ -45,6 +58,7 @@ export default {
   },
   props: ['message', 'logoUrl', 'isMine'],
   data: () => ({
+    extractedUrl: '',
     isReportHidden: true
   }),
   computed: {
@@ -73,16 +87,23 @@ export default {
       const result = getCreatedDateDiff(payload)
 
       return result
+    },
+    getBody() {
+      let { body } = this.message
+      body = urlify(body)
+      body = body.replace(/\n/g, '<br>')
+      return body
     }
   },
   methods: {
     init() {
-      this.resizeTextarea()
+      // this.resizeTextarea()
+      this.extractUrl()
     },
-    resizeTextarea() {
-      const textarea = this.$refs['textarea']
-      const height = textarea.scrollHeight
-      textarea.style.height = `${height}px`
+    extractUrl() {
+      const urls = this.message.body.match(/\bhttps?:\/\/\S+/gi)
+
+      if (urls) this.extractedUrl = urls[0]
     },
     onReportButton() {
       console.log('onreport')
@@ -95,6 +116,7 @@ export default {
 }
 </script>
 
+
 <style lang="less" scoped>
 @import '~assets/css/index';
 .bubble {
@@ -105,17 +127,34 @@ export default {
 .text-container {
   flex: 1;
 }
-textarea {
-  font-size: 18px;
+.bubble-wrapper {
+  font-size: 16px;
   padding: 22px;
   line-height: 1.6;
-  resize: none;
   border: 1px solid @color-border-gray;
   border-radius: @border-radius;
-  overflow: hidden;
 
   &.mine {
     background-color: @color-bg-gray;
+  }
+
+  .link-preview {
+    display: block;
+    color: @color-font-black;
+    line-height: unset;
+    background-color: @color-white;
+    padding: 20px 11px;
+    margin-top: 50px;
+    border: 1px solid @color-border-gray;
+    text-decoration: none;
+    transition: border linear 0.3s;
+
+    &:hover {
+      border-color: @color-link;
+    }
+  }
+  .globe {
+    margin: 0 6px;
   }
 }
 .logo {

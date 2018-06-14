@@ -27,6 +27,19 @@ exports.nFormatter = (num, digits) => {
   return (num / si[i].value).toFixed(digits).replace(rx, '$1') + si[i].symbol
 }
 
+exports.isContainUrl = string => {
+  const rx = new RegExp(/(https?:\/\/[^\s]+)/)
+
+  return rx.test(string)
+}
+
+exports.urlify = string => {
+  const rx = new RegExp(/(https?:\/\/[^\s]+)/)
+  return string.replace(rx, url => {
+    return `<a class="link" href="${url}" target="_blank">${url}</a>`
+  })
+}
+
 exports.getRemainInputLength = (string, maxLength) => {
   const length = string.length
   const gap = maxLength - length > 0 ? maxLength - length : 0

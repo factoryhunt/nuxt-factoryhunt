@@ -53,7 +53,7 @@
         </form>
         <!-- Policy -->
         <div class="policy-container">
-          <p>All content, including files attached to this chat room, is securely stored and never leaked to the outside world.</p>
+          <p>All content, including files attached to this chat room, is securely stored and never leaked to the outside.</p>
         </div>
         <!-- Chatting -->
         <div class="chat-container">
@@ -287,6 +287,7 @@ ul {
     text-align: right;
   }
   textarea {
+    font-size: 16px;
     min-height: 180px;
     padding: 22px;
     line-height: 1.6;
