@@ -5,22 +5,20 @@
         <span class="title">My Activity</span>
       </div>
       <div class="body">
-        <div 
-          class="no-login"
-          v-if="!user">
-          <span>Login and Request for Quotations.</span>
-          <a 
-            class="button orange"
-            href="/login">Login</a>
+        <div class="activity-wrapper">
+          <div v-if="user">
+            <ul>
+              <li v-show="isUserBuyer" class="activity-item">Total 0 Request(s)</li>
+              <li v-show="isUserSupplier" class="activity-item">Total 0 Quote(s)</li>
+            </ul>
+          </div>
+          <div v-else>
+            <span>Please Login to Request Quotes.</span>
+          </div>
         </div>
-        <div v-else>
-          <ul class="activity-list">
-            <li>0 Active Request(s)</li>
-          </ul>
-          <a 
-            href="/rfq" 
-            class="button orange">Request for Quotes</a>
-        </div>
+        <a 
+          @click="clickRequest()"
+          class="button orange">Request Quote</a>
       </div>
     </section>
     <section id="ads-section">
@@ -53,19 +51,43 @@
             target="_blank"><img src="~assets/icons/youtube_black.svg"></a>
         </div>
     </footer>
+    <!-- Modal -->
+    <modal-auth
+      :isHidden="isModalAuthHidden"
+      @close="isModalAuthHidden = true"/>
   </div>
 </template>
 
 <script>
+import ModalAuth from '~/components/Modal/Auth'
 import social_links from '~/assets/models/social_links.json'
+import { mapGetters } from 'vuex'
 export default {
   props: ['user'],
+  components: {
+    ModalAuth
+  },
   data: () => ({
-    socialLinks: social_links
-  })
+    socialLinks: social_links,
+    isModalAuthHidden: true
+  }),
+  computed: {
+    ...mapGetters({
+      isUserBuyer: 'auth/IS_USER_BUYER',
+      isUserSupplier: 'auth/IS_USER_SUPPLIER'
+    })
+  },
+  methods: {
+    clickRequest() {
+      if (!this.user) return (this.isModalAuthHidden = false)
+
+      if (!this.isUserBuyer) return alert('This service is only for Buyers.')
+
+      location.href = '/dashboard/rqs'
+    }
+  }
 }
 </script>
-
 
 <style lang="less" scoped>
 @import '~assets/css/index';
@@ -104,12 +126,25 @@ section {
   .body {
     font-size: 14px;
     font-weight: 400;
-    padding-top: @container-margin;
+  }
+  .no-login {
+    padding-top: 20px;
   }
 
-  .activity-list {
+  .activity-wrapper {
     border-bottom: 1px solid @color-border-gray;
-    padding-bottom: 12px;
+    padding: 20px 11px;
+  }
+  .activity-item {
+    margin-top: 6px;
+
+    &:first-child {
+      margin-top: 0;
+    }
+
+    @media (min-width: 744px) {
+      font-size: 14px;
+    }
   }
 
   .button {

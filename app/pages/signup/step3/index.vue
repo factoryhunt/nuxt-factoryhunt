@@ -12,10 +12,16 @@
             class="preview-container" 
             tabindex="-1">
             <div class="preview-wrapper">
-              <div id="no-map" class="preview-item" v-show="!value.office.isMapDisplayed">
+              <div 
+                id="no-map" 
+                class="preview-item" 
+                v-show="!value.office.isMapDisplayed">
                 <span>{{value.office.mapPreview}}</span>
               </div>
-              <div id="office-map" class="preview-item" v-show="value.office.isMapDisplayed"></div>
+              <div 
+                id="office-map" 
+                class="preview-item" 
+                v-show="value.office.isMapDisplayed"></div>
             </div>
           </div>
           <!-- Country -->
@@ -452,8 +458,32 @@ export default {
 @import '~assets/css/index';
 @import '~assets/css/less/wizard/index';
 
-.preview-wrapper {
-  padding-bottom: 100% !important;
+.preview-container {
+  position: absolute;
+  top: 0;
+  right: -290px;
+  width: 260px;
+  border-radius: @border-radius;
+  outline: 0;
+
+  .preview-wrapper {
+    position: relative;
+    overflow: hidden;
+    height: 0;
+    padding-bottom: 100% !important;
+    border-radius: @border-radius;
+    outline: 0;
+
+    .preview-item {
+      position: absolute;
+      border-radius: @border-radius;
+      outline: 0;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+  }
 }
 #no-map {
   display: flex;

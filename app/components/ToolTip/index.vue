@@ -3,10 +3,14 @@
     class="tooltip-container" 
     @mouseover="isActive = true"
     @mouseout="isActive = false">
-    <div class="label">
+    <div 
+      ref="label" 
+      class="label">
       {{this.label}}
     </div>
-    <div class="tip-container" v-show="isActive">
+    <div 
+      class="tip-container" 
+      v-show="isActive">
       <div class="tip-wrapper">
         <slot></slot>
       </div>
@@ -16,18 +20,22 @@
 
 <script>
 export default {
-  props: ['label', 'padding'],
+  props: ['label', 'padding', 'maxWidth'],
   data: () => ({
     isActive: false
   }),
   methods: {
-    style() {
-      if (this.padding) {
+    init() {
+      const { maxWidth } = this
+      const $label = this.$refs.label
+
+      if (maxWidth) {
+        $label.style.maxWidth = `${maxWidth}px`
       }
     }
   },
   mounted() {
-    this.style()
+    this.init()
   }
 }
 </script>
@@ -45,6 +53,9 @@ export default {
 }
 .label {
   text-transform: uppercase;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 }
 
 .tip-container {
@@ -59,8 +70,12 @@ export default {
   box-shadow: 0px 2px 4px @color-lightest-grey;
 }
 .tip-wrapper {
-  font-size: 14px;
+  font-size: 13px;
   padding: 14px;
   text-transform: none;
+
+  @media (min-width: 744px) {
+    font-size: 14px;
+  }
 }
 </style>

@@ -42,7 +42,7 @@ import { convertEnterToBrTag } from '~/utils/text'
 // static
 const MAX_FILE_LENGTH = 5
 export default {
-  layout: 'minify',
+  layout: 'dashboard',
   middleware: 'authenticated',
   head: () => ({
     title: 'Request for Quotation'

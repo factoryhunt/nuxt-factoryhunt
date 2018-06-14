@@ -1,6 +1,6 @@
 <template>
   <header>
-    <h1 class="header__title">Request for Quotation</h1>
+    <h1 class="header__title">Request Quotes</h1>
     <h2 class="header__sub-title">One Request, Multiple Quotes</h2>
   </header>
 </template>

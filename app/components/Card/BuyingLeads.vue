@@ -2,13 +2,14 @@
   <div id="buying-leads-container">
     <h2>Buying Leads</h2>
     <div class="card-container">
+      <div class="layer"></div>
       <div class="card-wrapper">
 
         <div class="card-wrapper__header">
-          <h3>Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusantium aliquid perferendis.</h3>
+          <h3>Connect with the worldwide community of manufacturers, wholesale suppliers and buyers. </h3>
         </div>
 
-        <a href="/buying-leads">Get Started with Your Instead</a> 
+        <a href="/buying-leads">View All Buying Leads</a> 
       </div>
     </div>
   </div>
@@ -22,6 +23,7 @@
   margin-bottom: 50px;
 
   .card-container {
+    position: relative;
     border-radius: @border-radius;
     overflow: hidden;
     // border: 1px solid @color-lightest-grey;
@@ -32,11 +34,27 @@
     background-position: 50% 50%;
     background-size: cover;
     color: @color-white;
+
     padding: 30px;
 
     @media (min-width: 744px) {
-      padding: 44px;
-      height: 280px;
+      color: @color-white;
+      padding: 36px;
+      height: 300px;
+    }
+  }
+  .layer {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+
+    @media (min-width: 744px) {
+      display: none;
     }
   }
   .card-wrapper {
@@ -56,7 +74,7 @@
     margin: 0 !important;
     padding: 0 !important;
     font-weight: normal;
-    font-size: 20px;
+    font-size: 18px;
 
     @media (min-width: 744px) {
       font-size: 24px;

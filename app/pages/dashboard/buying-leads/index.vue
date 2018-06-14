@@ -13,7 +13,6 @@
           class="button-section"
           v-if="buyingLeads.length">
           <button 
-            v-show="!isUserSupplier"
             class="button-orange"
             @click="onRFQButton()">Request for Quotes</button>
         </section>
@@ -31,28 +30,26 @@
       <div 
         class="body__wrapper" 
         v-else>
+        <!-- Select -->
+        <select-input
+          class="filter"
+          :value="filter"
+          @input="onFilterChange"
+          :array="status"/>
         <!-- No exists-->
         <no-item-card 
-          class="no-item-container"
-          v-if="!buyingLeadsCount.count">
-          <h2 
-            class="title">Let the right supplier find you with RFQ</h2>
+          v-if="!buyingLeads.length"
+          class="no-item-container">
+          <h2 class="title">No buying leads yet.</h2>
           <p class="description">Get quotes, and close deals one click.</p>
           <basic-button 
             class="rfq-button"
-            v-show="!isUserSupplier"
             @click="onRFQButton()">Request First Quotation</basic-button>
         </no-item-card>
         <!-- Exists -->
         <div 
-          class="cards-container"
-          v-else>
-          <!-- Select -->
-          <select-input
-            class="filter"
-            :value="filter"
-            @input="onFilterChange"
-            :array="status"/>
+          v-else
+          class="cards-container">
             <!-- List -->
             <cards 
               class="cards"
@@ -107,13 +104,13 @@ export default {
   computed: {
     ...mapGetters({
       user: 'auth/GET_USER',
-      isUserSupplier: 'auth/IS_USER_SUPPLIER'
+      isUserBuyer: 'auth/IS_USER_SUPPLIER'
     }),
     getAccountId() {
       return this.user.account.account_id
     },
     getContactId() {
-      return this.user.account.contact_id
+      return this.user.contact.contact_id
     }
   },
   methods: {
@@ -136,11 +133,11 @@ export default {
     },
     async fetchBuyingLeads() {
       try {
-        let apiAddress = `/api/data/buying_leads/${this.getAccountId}`
-        if (this.filter) apiAddress = apiAddress + `?filter=${this.filter}`
-        const { data } = await axios.get(apiAddress)
+        let API = `/api/data/buying_leads/${this.getContactId}`
+        if (this.filter) API = API + `?filter=${this.filter}`
+        const { data } = await axios.get(API)
         this.buyingLeads = data.buying_leads
-        this.buyingLeadsCount = data.count
+        // this.buyingLeadsCount = data.count
         this.toggle.isDataFetched = true
       } catch (err) {
         console.log('err', err)
@@ -166,7 +163,9 @@ export default {
       location.href = `${path}?filter=${value}`
     },
     onRFQButton() {
-      location.href = '/rfq'
+      if (!this.isUserBuyer) return alert('This service is only for Buyers.')
+
+      location.href = '/dashboard/rqs'
     },
     routeRFQDetailPage(domain) {
       location.href = `/buying-leads/${domain}`

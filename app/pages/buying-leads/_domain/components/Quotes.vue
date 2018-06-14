@@ -38,6 +38,7 @@
             <span>
               {{getRole(quote)}}</span>
             <span 
+              v-show="getRole(quote)"
               class="dot">@</span>
             <span>
               <a 
@@ -49,10 +50,14 @@
         <!-- Tags -->
         <div class="tag-container">
           <ul>
+            <li v-show="quote.mailing_country">
+              <tool-tip 
+                :label="quote.mailing_country">This supplier posted in {{quote.mailing_country}}</tool-tip></li>
             <li>
-              <tool-tip :label="quote.mailing_country">This supplier posted in {{quote.mailing_country}}</tool-tip></li>
-            <li>
-              <tool-tip :label="quote.business_type">Supplier's Business Type</tool-tip></li>
+              <tool-tip 
+                maxWidth="118"
+                :label="quote.business_type">
+                  Supplier's Business Type<br><br>{{quote.business_type}}</tool-tip></li>
           </ul>
         </div>
         <!-- Main -->
@@ -186,14 +191,14 @@ export default {
       return type.indexOf('.pdf') > -1
     },
     getUserName(quote) {
-      const { first_name, last_name } = quote
+      const { first_name, last_name, contact_email } = quote
 
       let name = ''
 
       if (first_name || !last_name) name = first_name
       if (!first_name || last_name) name = last_name
       if (first_name && last_name) name = `${first_name} ${last_name}`
-      if (!first_name && !last_name) name = 'Unknown'
+      if (!first_name && !last_name) name = contact_email || 'Unknown'
 
       if (this.isAuthorOfRfq) return name
 
@@ -205,7 +210,7 @@ export default {
       return quote.contact_title
     },
     getCompany(quote) {
-      const company = quote.account_name
+      const company = quote.account_name || ''
 
       if (this.isAuthorOfRfq) return company
 

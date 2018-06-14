@@ -117,6 +117,7 @@ module.exports = async (req, res) => {
         c.salutation,
         c.first_name,
         c.last_name,
+        c.contact_email,
         c.contact_title,
         d.location
       FROM

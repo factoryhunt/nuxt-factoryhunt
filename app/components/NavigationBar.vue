@@ -1,5 +1,8 @@
 <template>
   <nav class="navigation-container" id="CONTAINER">
+    <modal-auth
+      :isHidden="toggle.isModalHidden"
+      @close="toggle.isModalHidden = true"/>
     <div class="navigation-inner-container">
 
       <!-- Left Main Logo -->
@@ -75,7 +78,7 @@
             <li v-if="!isLoggedIn" class="button-item-container">
               <div class="button-item-wrapper">
                 <div class="button-item">
-                  <a href="/login">{{ $t('navigationBar.login') }}</a>
+                  <a @click="login">{{ $t('navigationBar.login') }}</a>
                 </div>
               </div>
             </li>
@@ -122,15 +125,20 @@
 </template>
 
 <script>
+import ModalAuth from '~/components/Modal/Auth'
 import { mapGetters } from 'vuex'
 import { removeTextSpace } from '~/utils/text'
 export default {
+  components: {
+    ModalAuth
+  },
   data() {
     return {
       value: {
         input: this.$route.query.q
       },
       toggle: {
+        isModalHidden: true,
         isProfileDropdownShown: false
       }
     }
@@ -143,6 +151,9 @@ export default {
     })
   },
   methods: {
+    login() {
+      this.toggle.isModalHidden = false
+    },
     onLogoutButton() {
       this.$store.dispatch('auth/logout').then(() => {
         location.reload()

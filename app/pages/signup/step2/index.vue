@@ -105,6 +105,7 @@
           id="video-preview-section" 
           class="preview-container" 
           tabindex="-1">
+          <span class="preview">Video Preview</span>
           <div class="video-container">
             <iframe 
             class="preview-item"
@@ -491,6 +492,43 @@ export default {
 <style lang="less" scoped>
 @import '~assets/css/index';
 @import '~assets/css/less/wizard/index';
+
+#video-preview-section {
+  position: absolute;
+  top: 0;
+  right: -290px;
+  width: 260px;
+  border-radius: @border-radius;
+  outline: 0;
+
+  .preview {
+    display: block;
+    color: @color-font-gray;
+    text-transform: uppercase;
+    font-weight: 500;
+    font-size: 15px;
+  }
+
+  .video-container {
+    position: relative;
+    overflow: hidden;
+    height: 0;
+    padding-bottom: 56.25%;
+    margin-top: 6px;
+    background-color: @color-light-gray;
+    border-radius: @border-radius;
+  }
+
+  iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+  }
+}
 
 #established-year-section {
   width: 164px;

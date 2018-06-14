@@ -1,10 +1,10 @@
 const mysql = require('../../../mysql')
 const MYSQL_MODELS = require('../../../mysql/model')
 
-// GET /api/data/buying_leads/:account_id?filter=
+// GET /api/data/buying_leads/:contact_id?filter=
 // filter = Draft, Activated, Archived,
 module.exports = async (req, res) => {
-  const { account_id } = req.params
+  const { contact_id } = req.params
   const { filter } = req.query
 
   const getStatus = () => {
@@ -22,7 +22,7 @@ module.exports = async (req, res) => {
 
   const getBuyingLeads = () => {
     return new Promise((resolve, reject) => {
-      const SQL = `
+      const SQL1 = `
       SELECT 
         bl.buying_lead_id,
         bl.status,
@@ -62,7 +62,56 @@ module.exports = async (req, res) => {
       ORDER BY
         bl.last_modified_date DESC
       `
-      mysql.query(SQL, [account_id], (err, results) => {
+
+      const SQL = `
+      SELECT
+        bl.buying_lead_id,
+        bl.status,
+        bl.domain,
+        bl.category,
+        bl.title,
+        bl.description,
+        bl.quantity,
+        bl.unit,
+        bl.due_date,
+        docs.id,
+        docs.location,
+        (
+        SELECT
+	        COUNT(q.id)
+        FROM
+	        ${MYSQL_MODELS.TABLE_QUOTES} q
+        WHERE
+          q.buying_lead_id = bl.buying_lead_id) AS quote_count,
+        TIMESTAMPDIFF(DAY, now(), bl.due_date) AS due_day_diff,
+        TIMESTAMPDIFF(HOUR, now(), bl.due_date) AS due_hour_diff,
+        TIMESTAMPDIFF(MINUTE, now(), bl.due_date) AS due_minute_diff
+      FROM
+        buying_leads bl
+      LEFT JOIN 
+        quotes q
+      ON 
+        bl.buying_lead_id = q.buying_lead_id
+      LEFT JOIN 
+        documents docs
+      ON 
+        (docs.parent_table = "${MYSQL_MODELS.TABLE_BUYING_LEADS}" AND 
+        docs.parent_id = q.buying_lead_id)
+      WHERE 
+        (IF ("${getStatus()}" = "", bl.status != "Archived", bl.status = "${getStatus()}") AND
+        bl.is_deleted != 1
+      AND 
+        (
+          (q.contact_id = ? AND 
+          q.is_deleted != 1)
+        OR 
+          (bl.author_id = ? AND 
+          bl.is_deleted != 1)
+        )
+      )
+      GROUP BY bl.buying_lead_id
+      `
+      mysql.query(SQL, [contact_id, contact_id], (err, results) => {
         if (err) reject(err)
         resolve(results)
       })
@@ -102,7 +151,8 @@ module.exports = async (req, res) => {
       FROM
         ${MYSQL_MODELS.TABLE_BUYING_LEADS}
       WHERE
-        account_id = ?
+        account_id = ? AND
+        is_deleted != 1
       `
       mysql.query(SQL, [account_id, account_id, account_id, account_id], (err, rows) => {
         if (err) reject(err)
@@ -114,11 +164,10 @@ module.exports = async (req, res) => {
   }
 
   try {
-    const promise = await Promise.all([getBuyingLeads(), getBuyingLeadsCount()])
+    const promise = await Promise.all([getBuyingLeads()])
 
     const result = {
-      buying_leads: promise[0],
-      count: promise[1]
+      buying_leads: promise[0]
     }
 
     res.status(200).json(result)

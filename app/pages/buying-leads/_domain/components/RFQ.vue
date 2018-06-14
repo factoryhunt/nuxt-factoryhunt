@@ -24,9 +24,11 @@
           <div class="name">
             <a href="/user">{{getAuthorName}}</a></div>
           <div class="sub-name">
-            <span v-show="buyingLead.contact_title">
+            <span 
+              v-show="buyingLead.contact_title">
               {{buyingLead.contact_title}}</span>
-            <span v-show="buyingLead.account_name || buyingLead.contact_title"> 
+            <span 
+              v-show="buyingLead.account_name || buyingLead.contact_title"> 
               @
             <!-- <span>{{getEncryptedCompanyName}}</span>  -->
               <a 

@@ -78,33 +78,6 @@ export default {
       }
     }
   },
-  messages: {
-    eng: {
-      company: 'Company',
-      email: 'Email',
-      password: 'Password',
-      caution: 'Password must be at least 8 characters.',
-      terms:
-        'By clicking Sign Up, you agree to our <a href="/terms">Terms</a> and that you have read our <a href="/privacy">Privacy Policy</a>, including our Cookie Use.',
-      login: 'Login',
-      alreadyHaveAccount: 'Did you already have account?',
-      signUp: 'Sign Up',
-      signUpSuccess:
-        'You have signed up successfully. \nPlease check your email to activate your account.'
-    },
-    kor: {
-      company: '회사명',
-      email: '이메일',
-      password: '비밀번호',
-      terms:
-        '계정 만들기 버튼을 클릭하면, Factory Hunt의 <a href="/terms">이용약관</a>에 동의하며 쿠키 사용을 포함한 Factory Hunt의 <a href="/privacy">개인정보 보호정책</a>을 읽었음을 인정하게 됩니다.',
-      caution: '비밀번호는 문자와 숫자의 조합으로 최소 8 문자를 포함해야 합니다.',
-      login: '로그인',
-      alreadyHaveAccount: '계정이 이미 있으신가요?',
-      signUp: '계정 만들기',
-      signUpSuccess: '성공적으로 가입되었습니다. \n계정 활성화를 위해 이메일을 확인해주세요.'
-    }
-  },
   methods: {
     async onSignUpButton() {
       const $loader = $('#sign-up-loader')
