@@ -17,7 +17,7 @@
         <div class="profile-container">
           <circle-img 
             class="recipient-logo"
-            :url="recipient.logo_url"/>
+            :url="getRecipientLogoUrl"/>
           <div class="contents-container">
             <span class="recipient-name">{{ getRecipientName }}</span>
             <span 
@@ -52,9 +52,9 @@
           </div>
         </form>
         <!-- Policy -->
-        <div class="policy-container">
+        <!-- <div class="policy-container">
           <p>All content, including files attached to this chat room, is securely stored and never leaked to the outside.</p>
-        </div>
+        </div> -->
         <!-- Chatting -->
         <div class="chat-container">
           <chat-buttle
@@ -131,6 +131,10 @@ export default {
       if (last_name) return last_name
 
       return 'Unknown'
+    },
+    getRecipientLogoUrl() {
+      const { logo_url } = this.recipient
+      return logo_url ? logo_url : require('~/assets/icons/user.svg')
     },
     getReportData() {
       return {
@@ -300,19 +304,22 @@ ul {
   button {
     margin-top: 8px;
     padding: 11px 20px;
-    border: 1px solid @color-deep-gray;
     border-radius: @border-radius;
     font-size: 16px;
-    transition: border 0.3s, color 0.3s;
-    background-color: @color-white;
+    font-weight: 500;
+    transition: background-color 0.3s;
+    color: @color-white;
+    background-color: @color-link;
+    border: 0;
 
     &:hover {
-      border-color: @color-link;
-      color: @color-link;
+      background-color: @color-dark-link;
     }
   }
 
   .user-logo {
+    width: 50px !important;
+    height: 50px !important;
     margin-left: 20px;
   }
 }

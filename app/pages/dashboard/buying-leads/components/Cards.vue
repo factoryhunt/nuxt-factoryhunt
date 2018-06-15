@@ -13,12 +13,21 @@
           <img :src="getImageUrl(buyingLead.location)">
         </div>
 
-        <!-- Title -->
-        <h2 class="title section">{{getTitle(buyingLead.title)}}</h2>
+        <!-- Author -->
+        <div class="author section">
+          by {{buyingLead.account_name}}
+        </div>
 
-        <!-- Description -->
-        <p class="description section"
-          @click="onViewButton(buyingLead.domain)">{{getDescription(buyingLead.description)}}</p>
+        <!-- Content -->
+        <div 
+          class="content section"
+          @click="onViewButton(buyingLead.domain)">
+          <!-- Title -->
+          <h2 class="title">{{getTitle(buyingLead.title)}}</h2>
+
+          <!-- Description -->
+          <p class="description">{{getDescription(buyingLead.description)}}</p>
+        </div>
 
         <!-- How many quotes -->
         <p class="quotes section">{{buyingLead.quote_count}} Quoted</p>
@@ -43,7 +52,7 @@
         <div class="action-container section">
           <div 
             class="action-wrapper"
-            v-show="buyingLead.status !== 'Archived'">
+            v-show="!isActionBarHidden(buyingLead)">
             <div><span @click="onEditButton(buyingLead.domain)">Edit</span></div>
             <div><span @click="onArchiveButton(buyingLead.buying_lead_id)">Archive</span></div>
           </div>
@@ -55,8 +64,17 @@
 
 <script>
 import { getTimeLeft } from '~/utils/timezone'
+import { mapGetters } from 'vuex'
 export default {
   props: ['buying_leads'],
+  computed: {
+    ...mapGetters({
+      account: 'auth/GET_ACCOUNT'
+    }),
+    getAccountId() {
+      return this.account.account_id
+    }
+  },
   methods: {
     getTitle(title) {
       return title || 'Title of Your RFQ'
@@ -77,6 +95,13 @@ export default {
     getDueDateLeft(buying_lead) {
       const { due_day_diff, due_hour_diff, due_minute_diff } = buying_lead
       return getTimeLeft(due_minute_diff, due_hour_diff, due_day_diff)
+    },
+    isActionBarHidden(buyingLead) {
+      const { account_id, status } = buyingLead
+
+      if (status === 'Archived') return true
+
+      if (account_id !== this.getAccountId) return true
     },
     onViewButton(domain) {
       this.$emit('onViewBuyingLead', domain)
@@ -151,29 +176,32 @@ export default {
     }
   }
 
-  .title {
-    font-size: 18px;
-    font-weight: 400;
+  .author {
     width: 180px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
   }
-  .description {
-    font-weight: 400;
-    color: @color-font-gray;
+
+  .content {
     width: 350px;
-    max-height: 100px;
-    display: -webkit-box;
-    -webkit-line-clamp: 2; /* 라인수 */
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    text-overflow: ellipsis;
 
     &:hover {
       cursor: pointer;
     }
   }
+  .title {
+    text-align: left;
+    font-size: 18px;
+    font-weight: 500;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .description {
+    color: @color-font-gray;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
   .quotes {
     flex: 1;
     text-transform: uppercase;

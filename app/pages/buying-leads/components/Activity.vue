@@ -2,14 +2,15 @@
   <div id="activity-container">
     <section id="activity-section">
       <div class="header">
-        <span class="title">My Activity</span>
+        <span class="title">My Activities</span>
       </div>
       <div class="body">
         <div class="activity-wrapper">
           <div v-if="user">
             <ul>
-              <li v-show="isUserBuyer" class="activity-item">Total 0 Request(s)</li>
-              <li v-show="isUserSupplier" class="activity-item">Total 0 Quote(s)</li>
+              <!-- <li v-show="isUserBuyer" class="activity-item">{{getTotalBuyingLead}}</li> -->
+              <li v-show="isUserBuyer" class="activity-item">{{getTotalRequest}}</li>
+              <li v-show="isUserSupplier" class="activity-item">{{getTotalQuote}}</li>
             </ul>
           </div>
           <div v-else>
@@ -59,8 +60,10 @@
 </template>
 
 <script>
+import axios from '~/plugins/axios'
 import ModalAuth from '~/components/Modal/Auth'
 import social_links from '~/assets/models/social_links.json'
+import { addComma } from '~/utils/text'
 import { mapGetters } from 'vuex'
 export default {
   props: ['user'],
@@ -69,15 +72,64 @@ export default {
   },
   data: () => ({
     socialLinks: social_links,
-    isModalAuthHidden: true
+    isModalAuthHidden: true,
+    totalRequest: 0,
+    totalQuote: 0
   }),
   computed: {
     ...mapGetters({
+      contact: 'auth/GET_CONTACT',
       isUserBuyer: 'auth/IS_USER_BUYER',
       isUserSupplier: 'auth/IS_USER_SUPPLIER'
-    })
+    }),
+    getContactId() {
+      return this.contact.contact_id
+    },
+    getTotalBuyingLead() {
+      const { totalRequest, totalQuote } = this
+
+      const totalBuyingLead = totalRequest + totalQuote
+      let result = `Total ${totalBuyingLead}`
+      result = totalBuyingLead <= 1 ? `${result} Buying Lead` : `${result} Buying Leads`
+
+      return addComma(result)
+    },
+    getTotalRequest() {
+      const { totalRequest } = this
+
+      let result = `Total ${totalRequest}`
+      result = totalRequest <= 1 ? `${result} Request` : `${result} Requests`
+
+      return addComma(result)
+    },
+    getTotalQuote() {
+      const { totalQuote } = this
+
+      let result = `Total ${totalQuote}`
+      result = totalQuote <= 1 ? `${result} Quote` : `${result} Quotes`
+
+      return addComma(result)
+    }
   },
   methods: {
+    init() {
+      this.fetchMyActivities()
+    },
+    async fetchMyActivities() {
+      const API = `/api/data/buying_leads/activity/${this.getContactId}`
+      try {
+        const { data } = await axios.get(API)
+        this.mappingData(data)
+      } catch (err) {
+        console.log('err', err)
+      }
+    },
+    mappingData(data) {
+      const { request_count, quote_count } = data
+
+      this.totalRequest = request_count
+      this.totalQuote = quote_count
+    },
     clickRequest() {
       if (!this.user) return (this.isModalAuthHidden = false)
 
@@ -85,6 +137,9 @@ export default {
 
       location.href = '/dashboard/rqs'
     }
+  },
+  mounted() {
+    this.init()
   }
 }
 </script>
@@ -133,7 +188,7 @@ section {
 
   .activity-wrapper {
     border-bottom: 1px solid @color-border-gray;
-    padding: 20px 11px;
+    padding: 20px 6px;
   }
   .activity-item {
     margin-top: 6px;

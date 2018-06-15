@@ -1,6 +1,12 @@
 <template>
   <div class="section quotes-container">
     <!-- Modal -->
+    <modal-confirm 
+      :isHidden="isConfirmHidden"
+      @close="isConfirmHidden = true"
+      @confirm="removeQuote()">
+      Are you sure?
+    </modal-confirm>
     <modal-report 
       :isHidden="isReportHidden"
       :payload="getReportData"
@@ -18,6 +24,7 @@
       <!-- Supplier Cards -->
       <card
         class="card"
+        :ref="`card-${quote.quote_id}`"
         v-for="quote in quotes"
         :key="quote.quote_id"
         :data="quote"
@@ -25,6 +32,14 @@
         :isAuthorOfRfq="isAuthorOfRfq"
         :isBottomHidden="isBottomHidden(quote)"
         @onReport="onReportButton(quote.quote_id)">
+        <div 
+          class="remove-wrapper"
+          v-show="isMyQuote(quote)"
+          @click="onRemoveButton(quote)">
+          <img 
+            class="remove-button" 
+            src="~/assets/icons/cancel-white.svg">
+        </div>
         <!-- Name -->
         <div 
           slot="name"
@@ -71,7 +86,9 @@
               :value="quote.description"
               readonly>
             </textarea>
-            <div class="file-container">
+            <div 
+              class="file-container"
+              v-show="quote.files.length">
               <square-image
                 v-for="(url) in quote.files"
                 :key="url"
@@ -112,6 +129,7 @@
 
 <script>
 // components
+import ModalConfirm from '~/components/Modal/Confirm'
 import ModalReport from '~/components/Modal/Report'
 import ModalImageViewer from '~/components/Modal/ImageViewer'
 import SquareImage from '~/components/Image/Square'
@@ -126,6 +144,7 @@ import { encryptCompanyName } from '~/utils/text'
 import { mapGetters } from 'vuex'
 export default {
   components: {
+    ModalConfirm,
     ModalReport,
     ModalImageViewer,
     SquareImage,
@@ -136,8 +155,10 @@ export default {
   },
   props: ['buyingLead', 'quotes'],
   data: () => ({
+    isConfirmHidden: true,
     isReportHidden: true,
     isModalImageViewerHidden: true,
+    quoteIdForRemove: 0,
     reportId: 0,
     currentPdf: '',
     currentImages: [],
@@ -174,6 +195,11 @@ export default {
       const { contact_id } = quote
 
       if (this.isAuthorOfRfq) return true
+
+      return this.contact.contact_id === contact_id
+    },
+    isMyQuote(quote) {
+      const { contact_id } = quote
 
       return this.contact.contact_id === contact_id
     },
@@ -249,6 +275,30 @@ export default {
         const $textarea = $textareas[i]
         const scrollHeight = $textarea.scrollHeight
         $textarea.style.height = `${scrollHeight}px`
+      }
+    },
+    onRemoveButton(quote) {
+      const { quote_id } = quote
+      this.quoteIdForRemove = quote_id
+      this.isConfirmHidden = false
+    },
+    async removeQuote(quote) {
+      this.isConfirmHidden = true
+      const { quoteIdForRemove } = this
+      const $card = this.$refs[`card-${quoteIdForRemove}`][0].$el
+
+      if ($card.classList.contains('loading')) return
+
+      $card.classList.add('loading')
+
+      const API = `/api/data/quotes/${quoteIdForRemove}`
+
+      try {
+        await axios.delete(API)
+        location.reload()
+      } catch (err) {
+        console.log('remove quote err', err)
+        $card.classList.remove('loading')
       }
     },
     onPdfClick(url) {
@@ -332,6 +382,23 @@ ul {
   @media (min-width: 744px) {
     font-size: 17px;
   }
+}
+
+.remove-wrapper {
+  position: absolute;
+  top: -30px;
+  right: -30px;
+
+  &:hover {
+    cursor: pointer;
+  }
+}
+.remove-button {
+  width: 24px;
+  height: 24px;
+  padding: 5px;
+  background-color: @color-font-gray;
+  border-radius: 50%;
 }
 
 .file-container {

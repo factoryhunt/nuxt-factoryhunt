@@ -103,6 +103,9 @@ export default {
   background-color: @color-white;
   padding: @card-padding;
 }
+.card-wrapper {
+  position: relative;
+}
 
 .header {
   display: flex;

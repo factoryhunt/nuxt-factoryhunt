@@ -22,50 +22,10 @@ module.exports = async (req, res) => {
 
   const getBuyingLeads = () => {
     return new Promise((resolve, reject) => {
-      const SQL1 = `
-      SELECT 
-        bl.buying_lead_id,
-        bl.status,
-        bl.domain,
-        bl.category,
-        bl.title,
-        bl.description,
-        bl.quantity,
-        bl.unit,
-        bl.due_date,
-        docs.id, 
-        docs.location,
-        (
-        SELECT
-	        COUNT(q.id)
-        FROM
-	        ${MYSQL_MODELS.TABLE_QUOTES} q
-        WHERE
-          q.buying_lead_id = bl.buying_lead_id) as quote_count,
-          TIMESTAMPDIFF(DAY, now(), bl.due_date) as due_day_diff,
-          TIMESTAMPDIFF(HOUR, now(), bl.due_date) as due_hour_diff,
-          TIMESTAMPDIFF(MINUTE, now(), bl.due_date) as due_minute_diff
-      FROM
-        ${MYSQL_MODELS.TABLE_BUYING_LEADS} bl
-      LEFT JOIN 
-        ${MYSQL_MODELS.TABLE_DOCUMENTS} docs
-      ON 
-        docs.parent_table = "${MYSQL_MODELS.TABLE_BUYING_LEADS}" AND
-        docs.parent_id = bl.buying_lead_id AND
-        docs.is_deleted != 1
-      WHERE
-        bl.account_id = ? AND
-        bl.is_deleted != 1 AND
-        IF ("${getStatus()}" = "", status != "Archived", status = "${getStatus()}")
-      GROUP BY 
-        bl.buying_lead_id
-      ORDER BY
-        bl.last_modified_date DESC
-      `
-
       const SQL = `
       SELECT
         bl.buying_lead_id,
+        bl.author_id,
         bl.status,
         bl.domain,
         bl.category,
@@ -74,8 +34,9 @@ module.exports = async (req, res) => {
         bl.quantity,
         bl.unit,
         bl.due_date,
-        docs.id,
+        docs.id as document_id,
         docs.location,
+        a.account_name,
         (
         SELECT
 	        COUNT(q.id)
@@ -87,16 +48,20 @@ module.exports = async (req, res) => {
         TIMESTAMPDIFF(HOUR, now(), bl.due_date) AS due_hour_diff,
         TIMESTAMPDIFF(MINUTE, now(), bl.due_date) AS due_minute_diff
       FROM
-        buying_leads bl
+        ${MYSQL_MODELS.TABLE_BUYING_LEADS} bl
       LEFT JOIN 
-        quotes q
+        ${MYSQL_MODELS.TABLE_QUOTES} q
       ON 
         bl.buying_lead_id = q.buying_lead_id
       LEFT JOIN 
-        documents docs
+        ${MYSQL_MODELS.TABLE_DOCUMENTS} docs
       ON 
         (docs.parent_table = "${MYSQL_MODELS.TABLE_BUYING_LEADS}" AND 
         docs.parent_id = q.buying_lead_id)
+      LEFT JOIN
+        ${MYSQL_MODELS.TABLE_ACCOUNTS} a
+      ON
+        bl.account_id = a.account_id
       WHERE 
         (IF ("${getStatus()}" = "", bl.status != "Archived", bl.status = "${getStatus()}") AND
         bl.is_deleted != 1

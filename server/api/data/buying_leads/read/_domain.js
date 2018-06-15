@@ -27,6 +27,7 @@ module.exports = async (req, res) => {
         bl.due_date,
         bl.created_date,
         bl.last_modified_date,
+        GROUP_CONCAT(d.location SEPARATOR '||') AS location,
         a.account_name,
         a.domain as account_domain,
         a.mailing_country,
@@ -46,50 +47,34 @@ module.exports = async (req, res) => {
         TIMESTAMPDIFF(MINUTE, bl.created_date, NOW()) as minute_diff,
         TIMESTAMPDIFF(SECOND, bl.created_date, NOW()) as second_diff
       FROM
-        ${MYSQL_MODELS.TABLE_BUYING_LEADS} bl,
-        ${MYSQL_MODELS.TABLE_CONTACTS} c,
+        ${MYSQL_MODELS.TABLE_BUYING_LEADS} bl
+      LEFT JOIN 
+        ${MYSQL_MODELS.TABLE_DOCUMENTS} d
+      ON 
+        d.parent_id = bl.buying_lead_id AND 
+        d.parent_table = "${MYSQL_MODELS.TABLE_BUYING_LEADS}" AND
+        d.is_deleted != 1
+      LEFT JOIN
+        ${MYSQL_MODELS.TABLE_CONTACTS} c
+      ON
+        bl.author_id = c.contact_id
+      LEFT JOIN
         ${MYSQL_MODELS.TABLE_ACCOUNTS} a
-      WHERE
-        bl.domain = "${domain}" AND
-        bl.author_id = c.contact_id AND
+      ON
         c.account_id = a.account_id
+      WHERE
+        bl.is_deleted != 1
       `
       const ERR_MSG = 'Malformed Buying Leads Query.'
 
-      mysql.query(SQL, (err, results) => {
+      mysql.query(SQL, [domain], (err, rows) => {
         if (err) reject(onError(1001, ERR_MSG, err))
 
-        if (!results.length) resolve(null)
+        if (!rows.length) resolve(null)
 
-        resolve(results[0])
-      })
-    })
-  }
+        const result = extractFiles(rows)
 
-  const getDocuments = buying_lead_id => {
-    return new Promise((resolve, reject) => {
-      const SQL = `
-      SELECT
-        id,
-        original_name,
-        content_type,
-        body_length,
-        body_length_compressed,
-        location
-      FROM
-        ${MYSQL_MODELS.TABLE_DOCUMENTS}
-      WHERE
-        parent_table = "buying_leads" AND
-        parent_id = ${buying_lead_id} AND
-        is_deleted != 1
-      `
-      const ERR_MSG = 'Malformed Documents Query.'
-
-      mysql.query(SQL, (err, results) => {
-        if (err) reject(onError(1002, ERR_MSG, err))
-        if (!results.length) resolve([])
-
-        resolve(results)
+        resolve(rows[0])
       })
     })
   }
@@ -100,89 +85,77 @@ module.exports = async (req, res) => {
       SELECT
         q.id as quote_id,
         q.description,
-				TIMESTAMPDIFF(YEAR, q.created_date, NOW()) as year_diff,
-				TIMESTAMPDIFF(MONTH, q.created_date, NOW()) as month_diff,
+        TIMESTAMPDIFF(YEAR, q.created_date, NOW()) as year_diff,
+        TIMESTAMPDIFF(MONTH, q.created_date, NOW()) as month_diff,
         TIMESTAMPDIFF(WEEK, q.created_date, NOW()) as week_diff,
-				TIMESTAMPDIFF(DAY, q.created_date, NOW()) as day_diff,
-				TIMESTAMPDIFF(HOUR, q.created_date, NOW()) as hour_diff,
-				TIMESTAMPDIFF(MINUTE, q.created_date, NOW()) as minute_diff,
+        TIMESTAMPDIFF(DAY, q.created_date, NOW()) as day_diff,
+        TIMESTAMPDIFF(HOUR, q.created_date, NOW()) as hour_diff,
+        TIMESTAMPDIFF(MINUTE, q.created_date, NOW()) as minute_diff,
         TIMESTAMPDIFF(SECOND, q.created_date, NOW()) as second_diff,
+        GROUP_CONCAT(d.location SEPARATOR '||') AS location,
         a.account_id,
         a.account_name,
         a.logo_url,
-        a.domain as account_domain,
+        a.domain AS account_domain,
         a.mailing_country,
         a.business_type,
         c.contact_id,
-        c.salutation,
         c.first_name,
         c.last_name,
-        c.contact_email,
         c.contact_title,
-        d.location
+        c.contact_email
       FROM
-        ${MYSQL_MODELS.TABLE_QUOTES} q,
-        ${MYSQL_MODELS.TABLE_DOCUMENTS} d,
-        ${MYSQL_MODELS.TABLE_ACCOUNTS} a,
-        ${MYSQL_MODELS.TABLE_CONTACTS} c
-      WHERE
-      	q.buying_lead_id = ${buying_lead_id} AND
-        q.is_deleted != 1 AND
-        a.account_id = c.account_id AND
-        q.contact_id = c.contact_id AND
+        ${MYSQL_MODELS.TABLE_QUOTES} q
+      LEFT JOIN 
+        ${MYSQL_MODELS.TABLE_DOCUMENTS} d
+      ON 
+        d.parent_id = q.id AND 
         d.parent_table = "${MYSQL_MODELS.TABLE_QUOTES}" AND
-        d.parent_id = q.id
-      ORDER BY
-      	q.created_date 
+        d.is_deleted != 1
+      LEFT JOIN
+        ${MYSQL_MODELS.TABLE_CONTACTS} c
+      ON
+        q.contact_id = c.contact_id
+      LEFT JOIN
+        ${MYSQL_MODELS.TABLE_ACCOUNTS} a
+      ON
+        c.account_id = a.account_id
+      WHERE
+        q.is_deleted != 1
+      GROUP BY q.id
       `
       const ERR_MSG = 'Malformed Quotes Query.'
 
-      mysql.query(SQL, (err, results) => {
+      mysql.query(SQL, (err, rows) => {
         if (err) reject(onError(1003, ERR_MSG, err))
 
-        resolve(results)
+        if (!rows.length) resolve([])
+
+        const result = extractFiles(rows)
+        resolve(result)
       })
     })
   }
 
-  const cleanQuotes = quotes => {
-    const reducer = function(accumulator, quote, index) {
-      if (index === 0) {
-        quote.files = []
-        quote.files.push(quote.location)
-        accumulator.push(quote)
-      } else {
-        const lastQuote = accumulator[accumulator.length - 1]
-        const isSameQuote = lastQuote.quote_id === quote.quote_id
-
-        if (isSameQuote) {
-          accumulator[accumulator.length - 1].files.push(quote.location)
-        } else {
-          quote.files = []
-          quote.files.push(quote.location)
-          accumulator.push(quote)
-        }
-      }
-
-      return accumulator
+  const extractFiles = rows => {
+    const mapHandler = row => {
+      let { location } = row
+      row.files = location ? location.split('||') : []
+      return row
     }
-    const result = quotes.reduce(reducer, [])
 
-    return result
+    return rows.map(mapHandler)
   }
 
   try {
     const buying_lead = await getBuyingLead()
-    const documents = await getDocuments(buying_lead.buying_lead_id)
-    let quotes = await getQuotes(buying_lead.buying_lead_id)
-    if (quotes.length) quotes = cleanQuotes([...quotes])
+    const quotes = await getQuotes(buying_lead.buying_lead_id)
 
-    const result = {
+    const payload = {
       buying_lead,
-      documents,
       quotes
     }
-    res.status(200).json(result)
+    res.status(200).json(payload)
   } catch (err) {
     console.log('err', err)
     res.status(403).json(err)

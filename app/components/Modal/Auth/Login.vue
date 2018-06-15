@@ -25,7 +25,7 @@
         :isLoading="isLoading">Login</submit-button>
       <div class="footer">
         <span>Do not have Factory Hunt account?</span>
-        <a href="/signup">Sign Up</a>
+        <a @click="$emit('showSignUp')">Sign Up</a>
       </div>
     </form>
   </div>
@@ -48,7 +48,6 @@ export default {
     async login() {
       this.$emit('resetError')
       this.isLoading = true
-      this.errorMessage = ''
 
       const data = {
         email: this.email,

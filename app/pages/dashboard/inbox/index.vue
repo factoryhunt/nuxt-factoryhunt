@@ -31,7 +31,7 @@
             class="list">
             <circle-img 
               class="logo"
-              :url="message.logo_url"/>
+              :url="getLogoUrl(message)"/>
             <div class="category-container">
               <p class="primary-text">{{getUserName(message)}}</p>
               <p class="secondary-text">{{getUserTitle(message)}}</p>
@@ -104,6 +104,11 @@ export default {
       if (last_name) return last_name
 
       return 'Unknown'
+    },
+    getLogoUrl(message) {
+      const { logo_url } = message
+
+      return logo_url ? logo_url : require('~/assets/icons/user.svg')
     },
     getUserTitle(message) {
       const { contact_title, account_name } = message

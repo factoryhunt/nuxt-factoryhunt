@@ -10,13 +10,20 @@
         <!-- Login Form -->
         <login
           v-if="isStatusLogin"
-          @resetError="resetError"
+          @resetError="resetErrorMsg"
           @showForgotPassword="changeStatus('forgot')"
+          @showSignUp="changeStatus('signUp')"
+          @error="setErrMessage"/>
+        <!-- Sign Up Form -->
+        <sign-up
+          v-if="isStatusSignUp"
+          @resetError="resetErrorMsg"
+          @showLogin="changeStatus('login')"
           @error="setErrMessage"/>
         <!-- Forgot Password Form -->
         <forgot-password
           v-if="isStatusForgot"
-          @resetError="resetError"
+          @resetError="resetErrorMsg"
           @showLogin="changeStatus('login')"
           @error="setErrMessage"/>
       </div>
@@ -27,6 +34,7 @@
 <script>
 import Modal from '../Container'
 import Login from './Login'
+import SignUp from './SignUp'
 import ForgotPassword from './ForgotPassword'
 import Card from '~/components/Card/Modal'
 export default {
@@ -34,6 +42,7 @@ export default {
     Modal,
     Card,
     Login,
+    SignUp,
     ForgotPassword
   },
   props: ['isHidden', 'status'],
@@ -56,15 +65,20 @@ export default {
     },
     isStatusForgot() {
       return this.currentStatus === 'forgot'
+    },
+    isStatusSignUp() {
+      return this.currentStatus === 'signUp'
     }
   },
   methods: {
-    resetError() {
+    resetErrorMsg() {
       this.errorMessage = ''
     },
     setErrMessage(code) {
-      console.log(code)
       switch (code) {
+        case 6002:
+          this.errorMessage = 'The email is already taken.'
+          break
         case 7002:
           this.errorMessage = 'The email does not exist.'
           break
@@ -86,6 +100,9 @@ export default {
       } else if (status === 'forgot') {
         this.currentStatus = 'forgot'
         this.currentTitle = 'Forgot Password'
+      } else if (status === 'signUp') {
+        this.currentStatus = 'signUp'
+        this.currentTitle = 'Sign Up'
       }
     }
   },

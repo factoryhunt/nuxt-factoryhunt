@@ -84,11 +84,11 @@
           <!-- Images -->
           <section 
             class="product"
-            v-if="documents.length">
+            v-if="buyingLead.files.length">
             <square-image
-              v-for="(document,index) in documents"
-              :key="document.document_id"
-              :url="document.location"
+              v-for="(file,index) in buyingLead.files"
+              :key="index"
+              :url="file"
               @click="onImageClick(index)"/>
           </section>
         </div>
@@ -142,7 +142,7 @@ export default {
     BasicButton,
     ToolTip
   },
-  props: ['buyingLead', 'documents'],
+  props: ['buyingLead'],
   data: () => ({
     isModalImageHidden: true,
     isReportHidden: true,
@@ -257,9 +257,7 @@ export default {
       })
     },
     mappingModalFiles() {
-      this.modalImages = this.documents.map(document => {
-        return document.location
-      })
+      this.modalImages = this.buyingLead.files
     },
     onImageClick(index) {
       this.modalImageIndex = index

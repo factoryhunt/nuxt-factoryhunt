@@ -7,8 +7,7 @@
 
       <!-- Buyer RFQ -->
       <r-f-q 
-        :buyingLead="buyingLead"
-        :documents="documents"/>
+        :buyingLead="buyingLead"/>
 
       <!-- Your Quote -->
       <your-quote
@@ -114,7 +113,6 @@ export default {
 
       return {
         buyingLead: data.buying_lead,
-        documents: data.documents,
         quotes: data.quotes
       }
     } catch (err) {

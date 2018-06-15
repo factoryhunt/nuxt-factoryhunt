@@ -4,6 +4,7 @@
       class="feed__leads"
       v-if="feeds.length">
       <li 
+        class="feed__lead"
         v-for="(feed, index) in feeds"
         :key="index">
         <a 
@@ -169,6 +170,15 @@ ul {
 }
 // Buying Leads Feed Lists
 .feed__leads {
+  overflow: hidden;
+
+  .feed__lead {
+    border-bottom: 1px solid @color-border-gray;
+
+    &:last-child {
+      border-bottom: 0;
+    }
+  }
   .gray-border;
   flex-direction: column;
   justify-content: space-between;
@@ -177,7 +187,6 @@ ul {
   .feed-wrapper {
     display: flex;
     padding: @section-padding;
-    border-bottom: 1px solid @color-border-gray !important;
     background-color: @color-white;
     color: @color-font-black;
     text-decoration: none;

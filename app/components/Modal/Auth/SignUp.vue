@@ -4,11 +4,12 @@
       <div class="inputs">
         <text-input 
           class="input"
-          placeholder="Email"
-          :image="require('~/assets/icons/email.svg')"
+          placeholder="Official Company Name"
+          :image="require('~/assets/icons/building.svg')"
           v-model="company"/>
         <text-input 
           class="input"
+          type="email"
           placeholder="Email"
           :image="require('~/assets/icons/email.svg')"
           v-model="email"/>
@@ -18,16 +19,17 @@
           placeholder="Password"
           :image="require('~/assets/icons/lock.svg')"
           v-model="password"/>
+        <span class="notice">Use at least one letter, one numeral, and eight characters.</span>
       </div>
       <div class="help-container">
-        <a @click="$emit('showForgotPassword')">Forgot your password?</a>
+        <span>By clicking Create Account, you agree to our <a href="/terms" target="_blank">Terms</a> and that you have read our <a href="privacy" target="_blank">Privacy Policy</a>, including our Cookie Use.</span>
       </div>
       <submit-button 
         class="submit"
-        :isLoading="isLoading">Login</submit-button>
+        :isLoading="isLoading">Create Account</submit-button>
       <div class="footer">
-        <span>Do not have Factory Hunt account?</span>
-        <a href="/signup">Sign Up</a>
+        <span>Did you already have account?</span>
+        <a @click="$emit('showLogin')">Login</a>
       </div>
     </form>
   </div>
@@ -47,32 +49,23 @@ export default {
     password: '',
     isLoading: false
   }),
-  computed: {
-    getPayload() {
-      return {
-        company: this.value.company,
-        email: this.value.email,
-        password: this.value.password
-      }
-    }
-  },
   methods: {
     async signUp() {
       this.$emit('resetError')
       this.isLoading = true
-      this.errorMessage = ''
 
       const data = {
+        company: this.company,
         email: this.email,
         password: this.password
       }
 
       try {
         await this.$store.dispatch('auth/signUp', data)
-        locaton.href = '/signup/step1'
+        location.href = '/signup/step1'
       } catch (err) {
         this.isLoading = false
-        this.$emit('error', err.reponse.data)
+        this.$emit('error', err.response.data.code)
       }
     }
   }
@@ -82,13 +75,23 @@ export default {
 <style lang="less" scoped>
 @import './style.less';
 
-.help-container {
-  margin-top: 30px;
-  font-size: 14px;
-  font-weight: @link-weight;
+.notice {
+  font-size: 11px;
+  color: @color-font-gray;
 
   @media (min-width: 744px) {
-    font-size: 15px;
+    font-size: 13px;
+  }
+}
+
+.help-container {
+  margin-top: 30px;
+  text-align: center;
+  font-size: 12px;
+  color: @color-font-gray;
+
+  @media (min-width: 744px) {
+    font-size: 14px;
   }
 }
 .submit {

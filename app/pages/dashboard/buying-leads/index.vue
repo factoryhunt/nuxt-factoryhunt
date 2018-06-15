@@ -171,7 +171,7 @@ export default {
       location.href = `/buying-leads/${domain}`
     },
     routeRFQEditPage(domain) {
-      location.href = `/rfq?domain=${domain}`
+      location.href = `/dashboard/rqs?domain=${domain}`
     }
   },
   mounted() {

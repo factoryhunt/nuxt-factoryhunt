@@ -1,7 +1,7 @@
 <template>
   <nav 
     itemscope>
-    <p>Category</p>
+    <p>Categories</p>
     <!-- <input ref="categorySearchInput" type="text" @input="updateCategorySearch()"> -->
     <ul>
       <li>

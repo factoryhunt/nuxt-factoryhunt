@@ -44,6 +44,7 @@ module.exports = async (req, res) => {
           if (err)
             reject({
               result: false,
+              code: 6001,
               msg: 'Checking email failed.',
               msg_kor: '서버 오류. 다시 시도해주세요.'
             })
@@ -52,6 +53,7 @@ module.exports = async (req, res) => {
           if (rows.length > 0)
             reject({
               result: false,
+              code: 6002,
               msg: 'That email is taken. Try another.',
               msg_kor: '이미 존재하는 이메일입니다. 다른 이메일로 시도해주세요.'
             })
@@ -67,7 +69,12 @@ module.exports = async (req, res) => {
       crypto.randomBytes(64, (err, buf) => {
         //randomBtyes로 salt를 생성 -> buf로 바꿈
         crypto.pbkdf2(password, buf.toString('base64'), 100000, 64, 'sha512', (err, key) => {
-          if (err) reject({ msg: 'Encrypting password failed.', msg_kor: '비밀번호 암호화 실패' })
+          if (err)
+            reject({
+              code: 6001,
+              msg: 'Encrypting password failed.',
+              msg_kor: '비밀번호 암호화 실패'
+            })
           password = key.toString('base64')
           password_salt = buf.toString('base64')
           resolve()
@@ -91,7 +98,12 @@ module.exports = async (req, res) => {
           ?
       `
       mysql.query(SQL, lead, (err, rows) => {
-        if (err) reject({ msg: 'Create lead failed.', msg_kor: '도메인 업데이트 실패' })
+        if (err)
+          reject({
+            code: 6001,
+            msg: 'Create lead failed.',
+            msg_kor: '도메인 업데이트 실패'
+          })
 
         last_lead_id = rows.insertId
         resolve()
@@ -113,7 +125,12 @@ module.exports = async (req, res) => {
         ?
       `
       mysql.query(SQL, account, (err, rows) => {
-        if (err) reject({ msg: 'Create account failed.', msg_kor: '도메인 업데이트 실패' })
+        if (err)
+          reject({
+            code: 6001,
+            msg: 'Create account failed.',
+            msg_kor: '도메인 업데이트 실패'
+          })
         last_account_id = rows.insertId
         resolve()
       })
@@ -137,7 +154,12 @@ module.exports = async (req, res) => {
         ?
       `
       mysql.query(SQL, contact, (err, rows) => {
-        if (err) reject({ msg: 'Create contact failed.', msg_kor: '도메인 업데이트 실패' })
+        if (err)
+          reject({
+            code: 6001,
+            msg: 'Create contact failed.',
+            msg_kor: '도메인 업데이트 실패'
+          })
         last_contact_id = rows.insertId
         resolve()
       })
@@ -162,7 +184,12 @@ module.exports = async (req, res) => {
         lead_id = ${last_lead_id}
       `
       mysql.query(SQL, lead_update, err => {
-        if (err) reject({ msg: 'Convert lead failed.', msg_kor: '도메인 업데이트 실패' })
+        if (err)
+          reject({
+            code: 6001,
+            msg: 'Convert lead failed.',
+            msg_kor: '도메인 업데이트 실패'
+          })
         resolve()
       })
     })
@@ -181,7 +208,12 @@ module.exports = async (req, res) => {
         account_id = ${last_account_id}
       `
       mysql.query(SQL, account_update, err => {
-        if (err) reject({ msg: 'Domain update failed.', msg_kor: '도메인 업데이트 실패' })
+        if (err)
+          reject({
+            code: 6001,
+            msg: 'Domain update failed.',
+            msg_kor: '도메인 업데이트 실패'
+          })
         resolve()
       })
     })
@@ -196,11 +228,7 @@ module.exports = async (req, res) => {
   }
 
   const onError = err => {
-    res.status(403).json({
-      result: false,
-      msg: err.msg,
-      msg_kor: err.msg_kor
-    })
+    res.status(403).json({ result: false, code: err.code, msg: err.msg, msg_kor: err.msg_kor })
   }
 
   try {

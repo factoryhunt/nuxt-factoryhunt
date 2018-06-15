@@ -37,6 +37,7 @@
             <span v-show="!toggle.isLoading">Save & Continue</span>
           </button>
           <a 
+            v-show="!isFirstStep"
             id="skip-button"
             @click="onSkipThisStep">
             Skip this step <i class='fa fa-angle-right' aria-hidden='true'></i></a>
@@ -72,6 +73,11 @@ export default {
       isLoading: false
     }
   }),
+  computed: {
+    isFirstStep() {
+      return this.$route.name === 'signup-step1'
+    }
+  },
   methods: {
     preventEvents() {
       // this.onEscapePage()

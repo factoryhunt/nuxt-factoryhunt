@@ -2,6 +2,7 @@
   <nav class="navigation-container" id="CONTAINER">
     <modal-auth
       :isHidden="toggle.isModalHidden"
+      :status="authType"
       @close="toggle.isModalHidden = true"/>
     <div class="navigation-inner-container">
 
@@ -71,7 +72,7 @@
                 <div class="button-item">
                   <a 
                     class="sign-up"
-                    href="/signup">{{ $t('navigationBar.register') }}</a>
+                    @click="signUp">{{ $t('navigationBar.register') }}</a>
                 </div>
               </div>
             </li>
@@ -134,6 +135,7 @@ export default {
   },
   data() {
     return {
+      authType: 'login',
       value: {
         input: this.$route.query.q
       },
@@ -151,7 +153,12 @@ export default {
     })
   },
   methods: {
+    signUp() {
+      this.authType = 'signUp'
+      this.toggle.isModalHidden = false
+    },
     login() {
+      this.authType = 'login'
       this.toggle.isModalHidden = false
     },
     onLogoutButton() {
