@@ -63,7 +63,8 @@ module.exports = async (req, res) => {
       ON
         c.account_id = a.account_id
       WHERE
-        bl.is_deleted != 1
+        bl.is_deleted != 1 AND
+        bl.domain = ?
       `
       const ERR_MSG = 'Malformed Buying Leads Query.'
 
@@ -121,12 +122,14 @@ module.exports = async (req, res) => {
       ON
         c.account_id = a.account_id
       WHERE
-        q.is_deleted != 1
-      GROUP BY q.id
+        q.is_deleted != 1 AND
+        q.buying_lead_id = ?
+      GROUP BY 
+        q.id
       `
       const ERR_MSG = 'Malformed Quotes Query.'
 
-      mysql.query(SQL, (err, rows) => {
+      mysql.query(SQL, [buying_lead_id], (err, rows) => {
         if (err) reject(onError(1003, ERR_MSG, err))
 
         if (!rows.length) resolve([])

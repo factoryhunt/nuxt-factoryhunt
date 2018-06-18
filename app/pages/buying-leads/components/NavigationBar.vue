@@ -11,17 +11,23 @@
         v-for="(category, i) in categories"
         :key="i">
         <a 
-          :href="getItemHref(category.name)">{{category.name}}</a></li>
+          :href="getItemHref(category.url)">{{category.name}}</a></li>
     </ul>
   </nav>
 </template>
 
 <script>
+import CATEGORY from '~/assets/models/category.json'
 export default {
   props: ['categories'],
   methods: {
     highlightItem() {
       const { category } = this.$route.query
+      let originalCategory
+
+      CATEGORY.forEach(({ url, name }) => {
+        if (category === url) originalCategory = name
+      })
 
       if (!category) this.$refs.rootItem.classList.add('highlight')
 
@@ -31,7 +37,7 @@ export default {
         $items.forEach($item => {
           const { textContent } = $item
 
-          if (textContent === category) {
+          if (textContent === originalCategory) {
             return $item.children[0].classList.add('highlight')
           }
         })

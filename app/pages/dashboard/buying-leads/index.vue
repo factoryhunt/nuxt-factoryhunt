@@ -104,7 +104,7 @@ export default {
   computed: {
     ...mapGetters({
       user: 'auth/GET_USER',
-      isUserBuyer: 'auth/IS_USER_SUPPLIER'
+      isUserBuyer: 'auth/IS_USER_BUYER'
     }),
     getAccountId() {
       return this.user.account.account_id

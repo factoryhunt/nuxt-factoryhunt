@@ -35,7 +35,7 @@ import Feed from './components/Feed'
 import Activity from './components/Activity'
 import Loader from '~/components/Spinner/Dots'
 // models
-import Category from '~/assets/models/category.json'
+import CATEGORY from '~/assets/models/category.json'
 // libs
 import { mapGetters } from 'vuex'
 import axios from '~/plugins/axios'
@@ -112,7 +112,12 @@ export default {
     let { category } = query
 
     let API = '/api/data/buying_leads'
-    if (category) API = `${API}?category=${category}`
+
+    if (category) {
+      CATEGORY.forEach(({ name, url }) => {
+        if (category === url) API = `${API}?category=${name}`
+      })
+    }
 
     try {
       const { data } = await axios.get(API)
@@ -144,7 +149,7 @@ export default {
     },
     filterCategory() {
       const rx = new RegExp('..000000$')
-      this.category = Category.filter(cat => {
+      this.category = CATEGORY.filter(cat => {
         const filter = rx.test(cat.id)
         return filter
       })

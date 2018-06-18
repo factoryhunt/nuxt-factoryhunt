@@ -17,9 +17,6 @@ yarn-error.log
 # redis
 dump.rdb
 
-# log
-log
-
 # Code Editor
 .idea
 .editorconfig

@@ -151,7 +151,7 @@ export default {
     // When edit New RFQ
     async fetchBuyingLeadData(domain) {
       try {
-        const { data } = await axios.get(`/api/data/buying_leads/domain/${domain}`)
+        const { data } = await axios.get(`/api/data/buying_leads/rqs/${domain}`)
         await this.canAccess(data.buying_lead.account_id)
         this.mappingData(data.buying_lead)
         this.mappingDocuments(data.documents)

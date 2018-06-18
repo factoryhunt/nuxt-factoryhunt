@@ -25,6 +25,7 @@ module.exports = async (req, res) => {
       const SQL = `
       SELECT
         bl.buying_lead_id,
+        bl.account_id,
         bl.author_id,
         bl.status,
         bl.domain,
@@ -57,7 +58,7 @@ module.exports = async (req, res) => {
         ${MYSQL_MODELS.TABLE_DOCUMENTS} docs
       ON 
         (docs.parent_table = "${MYSQL_MODELS.TABLE_BUYING_LEADS}" AND 
-        docs.parent_id = q.buying_lead_id)
+        docs.parent_id = bl.buying_lead_id)
       LEFT JOIN
         ${MYSQL_MODELS.TABLE_ACCOUNTS} a
       ON
@@ -74,7 +75,10 @@ module.exports = async (req, res) => {
           bl.is_deleted != 1)
         )
       )
-      GROUP BY bl.buying_lead_id
+      GROUP BY 
+        bl.buying_lead_id
+      ORDER BY 
+        bl.last_modified_date DESC
       `
       mysql.query(SQL, [contact_id, contact_id], (err, results) => {
         if (err) reject(err)

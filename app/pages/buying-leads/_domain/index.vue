@@ -30,6 +30,7 @@ import YourQuote from './components/YourQuote'
 import Quotes from './components/Quotes'
 // libs
 import axios from '~/plugins/axios'
+import CATEGORY from '~/assets/models/category.json'
 import { mapGetters } from 'vuex'
 export default {
   layout: 'feed',
@@ -139,7 +140,8 @@ export default {
       this.setBreadcrumb()
     },
     setBreadcrumb() {
-      let array = this.buyingLead.category.split(' > ')
+      const { category } = this.buyingLead
+      let categories = category.split(' > ')
 
       const initialValue = [
         {
@@ -148,17 +150,23 @@ export default {
         }
       ]
       const reducer = function(accumulator, value) {
+        let uri = ''
+        CATEGORY.forEach(({ name, url }) => {
+          if (value === name) uri = url
+        })
+
         const item = {
           value: value,
-          uri: `/buying-leads?category=${value}`
+          uri: `/buying-leads?category=${uri}`
         }
+
         accumulator.push(item)
 
         return accumulator
       }
 
-      array = array.reduce(reducer, initialValue)
-      this.breadcrumb = array
+      categories = categories.reduce(reducer, initialValue)
+      this.breadcrumb = categories
     }
   },
   mounted() {
