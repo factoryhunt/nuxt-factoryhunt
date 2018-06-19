@@ -6,17 +6,20 @@
           class="input"
           placeholder="Official Company Name"
           :image="require('~/assets/icons/building.svg')"
+          :required="true"
           v-model="company"/>
         <text-input 
           class="input"
           type="email"
           placeholder="Email"
+          :required="true"
           :image="require('~/assets/icons/email.svg')"
           v-model="email"/>
         <text-input 
           class="input"
           type="password"
           placeholder="Password"
+          :required="true"
           :image="require('~/assets/icons/lock.svg')"
           v-model="password"/>
         <span class="notice">Use at least one letter, one numeral, and eight characters.</span>
@@ -51,6 +54,7 @@ export default {
   }),
   methods: {
     async signUp() {
+      if (!company || !email || !password) return
       this.$emit('resetError')
       this.isLoading = true
 

@@ -47,8 +47,8 @@
                 :label="getQuantity">The buyer wants {{getQuantity}}.</tool-tip></li>
             <!-- <li><tool-tip
                 label="Email Confirmed">This buyer emails is confirmed.</tool-tip></li> -->
-            <li><tool-tip
-                label="Active Buyer">This buyer has sent inquiries or posted Buying Requests frequently within the last 90 days.</tool-tip></li>
+            <!-- <li><tool-tip
+                label="Active Buyer">This buyer has sent inquiries or posted Buying Requests frequently within the last 90 days.</tool-tip></li> -->
             <!-- Delivery Term -->
             <li v-show="buyingLead.delivery_term"><tool-tip
                 :label="buyingLead.delivery_term">Delivery Term</tool-tip></li>
