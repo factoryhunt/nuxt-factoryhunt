@@ -78,11 +78,11 @@ export default {
   computed: {
     getProgressMsg() {
       let msg = ''
+      let defaultMsg = 'The more specific your information, the more response from suppliers.'
 
-      if (this.progress < 30) msg = 'You might need more informations.'
-      if (this.progress >= 30 && this.progress < 50) msg = 'Good, but Need more information.'
-      if (this.progress >= 50 && this.progress < 80) msg = 'Great!'
-      if (this.progress >= 80 && this.progress <= 100) msg = 'Perfect.'
+      if (this.progress < 30) msg = defaultMsg
+      if (this.progress >= 50 && this.progress < 80) msg = `Great! ${defaultMsg}`
+      if (this.progress >= 80 && this.progress <= 100) msg = `Perfect! ${defaultMsg}`
 
       return msg
     },

@@ -141,11 +141,12 @@ export default {
       }
       try {
         let { data } = await axios.post(`/api/data/buying_leads/`, body)
-        this.mappingDefaultData(data)
+        // this.mappingDefaultData(data)
         this.mappingData(data)
       } catch (err) {
         console.log('createNewRFQRecord', err)
         alert('Sorry, Internal server error occured. - 1')
+        this.$route.go(-1)
       }
     },
     // When edit New RFQ
@@ -157,7 +158,8 @@ export default {
         this.mappingDocuments(data.documents)
       } catch (err) {
         console.log('err', err)
-        alert(err.msg)
+        alert('Sorry, Internal server error occured. - 1')
+        this.$route.go(-1)
       }
     },
     mappingDefaultData(data) {

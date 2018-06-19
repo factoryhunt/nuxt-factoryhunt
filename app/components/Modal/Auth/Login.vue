@@ -24,7 +24,7 @@
         class="submit"
         :isLoading="isLoading">Login</submit-button>
       <div class="footer">
-        <span>Do not have Factory Hunt account?</span>
+        <span>Do not have a Factory Hunt account?</span>
         <a @click="$emit('showSignUp')">Sign Up</a>
       </div>
     </form>

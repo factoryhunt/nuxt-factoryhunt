@@ -1,6 +1,7 @@
 <template>
   <div ref="page" class="dashboard-page-container">
     <modal-report
+      title="User"
       :isHidden="toggle.isReportHidden"
       :payload="getReportData"
       @close="toggle.isReportHidden = true"/>
@@ -44,7 +45,8 @@
                 ref="textarea"
                 placeholder="Enter Message Here."
                 v-model="msg"></textarea>
-              <button>Send Message</button>
+              <button 
+                :disabled="toggle.isSending">{{toggle.isSending ? 'Sending..' : 'Send Message'}}</button>
             </div>
             <circle-img 
               class="user-logo" 
@@ -108,6 +110,7 @@ export default {
       recipient: [],
       toggle: {
         isFetched: false,
+        isSending: false,
         isReportHidden: true
       }
     }
@@ -180,6 +183,7 @@ export default {
 
       const API = '/api/data/inbox'
       const body = this.getMessageBody
+      this.toggle.isSending = true
 
       try {
         await axios.post(API, { body })
@@ -187,6 +191,7 @@ export default {
       } catch (err) {
         alert('sending message failed')
         showTopAlert(this.$store, false, 'Sorry, failed sending message. Please try again later.')
+        this.toggle.isSending = false
       }
     },
     onReportButton() {

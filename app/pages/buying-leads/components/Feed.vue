@@ -55,7 +55,7 @@
               </div>
               <div 
                 class="quotes"
-                :class="{'no-quote': isNoQuote(feed)}">{{feed.quote_length}} Quoted</div>
+                :class="{'no-quote': isNoQuote(feed)}">{{feed.quote_length}} Quotes</div>
             </section>
           </div>
         </a>
@@ -101,6 +101,7 @@ export default {
     getQuantity(feed) {
       let { quantity, unit } = feed
       quantity = nFormatter(quantity, 1)
+      unit = unit.toLowerCase()
 
       const exist = quantity && unit
       const result = exist ? `${quantity} ${unit}` : ''

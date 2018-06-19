@@ -14,7 +14,7 @@
           v-if="buyingLeads.length">
           <button 
             class="button-orange"
-            @click="onRFQButton()">Request for Quotes</button>
+            @click="onRFQButton()">Request Quotes</button>
         </section>
       </div>
     </header>

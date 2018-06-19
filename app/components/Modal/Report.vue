@@ -3,13 +3,13 @@
     :isHidden="isHidden"
     @close="$emit('close')">
     <card 
-      :title="title"
+      :title="`Report ${title}`"
       @close="$emit('close')">
       <!-- Before Reporting -->
       <div 
         class="report" 
         v-if="!isSubmiited">
-        <div class="description">This question is:</div>
+        <div class="description">{{getTitle}}</div>
         <!-- Cheeckbox -->
         <div class="checkbox-container">
           <div 
@@ -37,7 +37,7 @@
         class="submitted" 
         v-else>
         <div>
-          Your report has been sent to us successfully.<br>We will check it out as soons as possible.</div>
+          Your report has been sent to us successfully.<br>We will check it and get back to you shortly.</div>
         <!-- Close -->
         <submit-button
           class="submit"
@@ -54,7 +54,6 @@ import Card from '~/components/Card/Modal'
 import SubmitButton from '~/components/Button'
 import TextareaInput from '~/components/Inputs/Textarea'
 import { EventBus } from '~/eventBus'
-import Reports from '~/assets/models/reports.json'
 import { mapGetters } from 'vuex'
 export default {
   components: {
@@ -63,18 +62,31 @@ export default {
     TextareaInput,
     SubmitButton
   },
-  props: ['isHidden', 'payload'],
+  props: {
+    isHidden: null,
+    payload: Object,
+    title: {
+      type: String,
+      default: ''
+    },
+    reports: {
+      type: Array,
+      default: () => []
+    }
+  },
   data: () => ({
-    title: 'Report Question',
     isSubmiited: false,
     isSubmitting: false,
-    reports: Reports,
     requestion: ''
   }),
   computed: {
     ...mapGetters({
       contact: 'auth/GET_CONTACT'
-    })
+    }),
+    getTitle() {
+      const title = this.title.toLowerCase()
+      return `This ${title} is:`
+    }
   },
   methods: {
     async onSubmit() {

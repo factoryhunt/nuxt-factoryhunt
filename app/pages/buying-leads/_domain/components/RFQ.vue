@@ -2,8 +2,10 @@
   <div class="rfq-container">
     <!-- Modal -->
       <modal-report 
+        title="Buying Lead"
         :isHidden="isReportHidden"
         :payload="getReportData"
+        :reports="reports"
         @close="isReportHidden = true"/>
       <modal-image-viwer
         :isHidden="isModalImageHidden"
@@ -22,7 +24,7 @@
           slot="name"
           class="name-container">
           <div class="name">
-            <a href="/user">{{getAuthorName}}</a></div>
+            <a>{{getAuthorName}}</a></div>
           <div class="sub-name">
             <span 
               v-show="buyingLead.contact_title">
@@ -30,10 +32,14 @@
             <span 
               v-show="buyingLead.account_name || buyingLead.contact_title"> 
               @
-            <!-- <span>{{getEncryptedCompanyName}}</span>  -->
-              <a 
+            <div class="company">
+              <a>{{getEncryptedCompanyName}}</a> 
+              <div class="tool-tip">The buyer details will be visible when your quote is accepted.</div>
+            </div>
+              <!-- <a 
                   :href="getCompanyDomain"
-                  target="_blank">{{getEncryptedCompanyName}}</a></span>
+                  target="_blank">{{getEncryptedCompanyName}}</a> -->
+                  </span>
             <span> · Posted {{getPostedDate}}</span>
           </div>
         </div>
@@ -43,8 +49,6 @@
           <ul>
             <li><tool-tip
                 :label="buyingLead.mailing_country">The buyer posted in {{buyingLead.mailing_country}}.</tool-tip></li>
-            <li v-show="getQuantity"><tool-tip
-                :label="getQuantity">The buyer wants {{getQuantity}}.</tool-tip></li>
             <!-- <li><tool-tip
                 label="Email Confirmed">This buyer emails is confirmed.</tool-tip></li> -->
             <!-- <li><tool-tip
@@ -61,6 +65,8 @@
             <!-- Preffered Unit Price -->
             <li v-show="getPaymentUnitPrice"><tool-tip
                 :label="getPaymentUnitPrice">Preffered Unit Price</tool-tip></li>
+            <li v-show="getQuantity"><tool-tip
+              :label="getQuantity">The buyer wants {{getQuantity}}.</tool-tip></li>
           </ul>
         </section>
 
@@ -128,6 +134,7 @@ import ToolTip from '~/components/ToolTip'
 // libs
 import Clipboard from 'clipboard'
 import { mapGetters } from 'vuex'
+import Reports from '~/assets/models/reports.json'
 import { getCreatedDateDiff, getTimeLeft } from '~/utils/timezone'
 import { encryptCompanyName, nFormatter } from '~/utils/text'
 // static
@@ -144,6 +151,7 @@ export default {
   },
   props: ['buyingLead'],
   data: () => ({
+    reports: Reports,
     isModalImageHidden: true,
     isReportHidden: true,
     isReadmoreButtonHidden: true,
@@ -177,6 +185,7 @@ export default {
     getQuantity() {
       let { quantity, unit } = this.buyingLead
       quantity = nFormatter(quantity, 1)
+      unit = unit.toLowerCase()
 
       let result = ''
 
@@ -206,7 +215,7 @@ export default {
       }
       const result = getCreatedDateDiff(payload)
 
-      return result
+      return result.toLowerCase()
     },
     getDueDateDiff() {
       const { status, due_day_diff, due_hour_diff, due_minute_diff } = this.buyingLead
@@ -307,6 +316,36 @@ ul {
       margin-bottom: 12px;
       font-size: 14px;
     }
+  }
+}
+.company {
+  display: inline-block;
+  position: relative;
+
+  a {
+    text-decoration: none !important;
+    cursor: help !important;
+  }
+
+  &:hover {
+    .tool-tip {
+      display: block;
+    }
+  }
+
+  .tool-tip {
+    display: none;
+    position: absolute;
+    min-width: 250px;
+    bottom: 110%;
+    left: 5%;
+    width: 100%;
+    color: @color-font-black;
+    box-shadow: 0 2px 4px @color-light-gray;
+    z-index: 2;
+    background-color: @color-white;
+    padding: 11px;
+    border-radius: @border-radius;
   }
 }
 

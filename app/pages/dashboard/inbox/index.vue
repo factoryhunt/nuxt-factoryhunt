@@ -111,8 +111,8 @@ export default {
       return logo_url ? logo_url : require('~/assets/icons/user.svg')
     },
     getUserTitle(message) {
-      const { contact_title, account_name } = message
-      return `${contact_title} @ ${account_name}`
+      const { account_name } = message
+      return account_name
     },
     getCreatedDate(message) {
       const payload = {
@@ -155,6 +155,7 @@ button {
 }
 
 .dashboard-page-container {
+  padding-bottom: 30px;
   // Header
   .header-container {
     .title {

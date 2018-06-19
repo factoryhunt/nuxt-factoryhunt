@@ -3,7 +3,7 @@
     :isHidden="isHidden"
     @close="$emit('close')">
     <card 
-      title="Confirm"
+      :title="title"
       @close="$emit('close')">
       <div class="wrapper">
         <slot></slot>
@@ -34,7 +34,13 @@ export default {
     Card,
     SubmitButton
   },
-  props: ['isHidden'],
+  props: {
+    isHidden: null,
+    title: {
+      type: String,
+      default: 'Confirm'
+    }
+  },
   methods: {
     init() {
       this.addEventListeners()

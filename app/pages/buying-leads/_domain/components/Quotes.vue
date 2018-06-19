@@ -2,12 +2,15 @@
   <div class="section quotes-container">
     <!-- Modal -->
     <modal-confirm 
+      title="Delete Quote"
       :isHidden="isConfirmHidden"
       @close="isConfirmHidden = true"
       @confirm="removeQuote()">
-      Are you sure?
+      Are you sure you want to delete the quote?
     </modal-confirm>
     <modal-report 
+      title="Quote"
+      :reports="reports"
       :isHidden="isReportHidden"
       :payload="getReportData"
       @close="isReportHidden = true"/>
@@ -18,7 +21,7 @@
       @close="isModalImageViewerHidden = true"/>
     <!-- Title -->
     <h4 
-      class="section__title">{{getQuotesLength}} Record</h4>
+      class="section__title">{{getQuotesLength}} Submitted</h4>
     <!-- Contents -->
     <div class="quote-container">
       <!-- Supplier Cards -->
@@ -47,7 +50,7 @@
           <div>
             <span 
               class="name">
-              <a href="/user">{{getUserName(quote)}}</a></span>
+              <a>{{getUserName(quote)}}</a></span>
           </div>
           <div class="sub-name">
             <span>
@@ -108,7 +111,7 @@
           <div 
             class="description"
             v-else>
-            This content is visible only to the author of RFQ.
+            The content is visible only to the author of the buying lead.
           </div>
         </div>
         <!-- Card Footer -->
@@ -139,6 +142,7 @@ import TextInput from '~/components/Inputs/Text'
 import ToolTip from '~/components/ToolTip'
 // libs
 import axios from '~/plugins/axios'
+import Reports from '~/assets/models/reports.json'
 import { getCreatedDateDiff } from '~/utils/timezone'
 import { encryptCompanyName } from '~/utils/text'
 import { mapGetters } from 'vuex'
@@ -155,6 +159,7 @@ export default {
   },
   props: ['buyingLead', 'quotes'],
   data: () => ({
+    reports: Reports,
     isConfirmHidden: true,
     isReportHidden: true,
     isModalImageViewerHidden: true,
@@ -173,7 +178,9 @@ export default {
       return this.contact.contact_id
     },
     getQuotesLength() {
-      return this.quotes.length === 1 ? '1 Quote' : `${this.quotes.length} Quotes`
+      return this.quotes.length <= 1
+        ? `${this.quotes.length} Quote`
+        : `${this.quotes.length} Quotes`
     },
     getReportData() {
       return {
@@ -324,7 +331,9 @@ export default {
         sender_id: this.getContactId,
         recipient_id: quote_contact_id,
         conversation_id: conversationId,
-        body: `${this.userName} was started conversation about the quote, ${domain}`
+        body: `${this.userName ||
+          this.contact
+            .contact_email} wants to have a conversation with you regarding the buying lead. ${domain}`
       }
       const chatRoomURL = `/dashboard/inbox/${conversationId}`
 

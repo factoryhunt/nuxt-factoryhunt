@@ -49,7 +49,7 @@ export default {
     },
     placeholder: {
       type: String,
-      default: 'Drop or drag image(s) to this area'
+      default: 'Click, or drag and drop file(s) to this area'
     },
     width: {
       type: String,

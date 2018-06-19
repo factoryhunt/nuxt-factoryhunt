@@ -2,6 +2,7 @@
   <div>
     <div class="bubble">
       <modal-report
+        title="Message"
         :isHidden="isReportHidden"
         :payload="getReportData"
         @close="isReportHidden = true"/>
@@ -30,7 +31,7 @@
             :href="extractedUrl">
             <i 
               class="fa fa-globe globe" 
-              aria-hidden="true"></i>Open Attached Link on New Tab</a>
+              aria-hidden="true"></i>Open the attached link on a new tab</a>
         </div>
         <div class="time">{{getCreatedDate}}</div>
       </div>

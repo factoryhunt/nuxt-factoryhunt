@@ -3,7 +3,7 @@
     <div class="header-wrapper">
       <div class="title-container">
         <h1 class="header__title">Buying Leads</h1>
-        <h2 class="header__sub-title">Buy Leads contains Buying requests from Buyers located Globally.</h2>
+        <h2 class="header__sub-title">Check the latest buying leads and submit your quotes.</h2>
       </div>
     </div>
   </header>

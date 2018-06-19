@@ -6,7 +6,7 @@
 
           <div>
             <!-- Title of Form -->
-            <h3>Complete Your RFQ</h3>
+            <h3>Complete Your Request</h3>
 
             <!-- Title of Buying Lead -->
             <section>
@@ -16,7 +16,6 @@
                 id="title-input"
                 class="input"
                 v-model="value.title"
-                placeholder="E.g I'm looking for some product"
                 pattern="[A-Za-z0-9 ]{2,50}"
                 :maxlength="50"
                 :maxlengthDisplay="true"/>
@@ -28,7 +27,6 @@
                 for="category-input">Category<required-icon/></label>
                 <search-input
                   class="input"
-                  placeholder="E.g Steel"
                   v-model="value.category"
                   :array="getCategories"
                   :maxlength="100"/>
@@ -60,7 +58,7 @@
 
             <!-- Description -->
             <section id="description-section">
-              <label for="description-input">What you need<required-icon/></label>
+              <label for="description-input">Description<required-icon/></label>
               <text-area
                 id="description-input"
                 class="input"
@@ -72,12 +70,12 @@
 
             <!-- Dropzone -->
             <section id="dropzone-section">
-              <label>Images</label>
+              <label>Attachments</label>
               <dropzone
                 id="dropzone"
                 class="input"
                 :maxFileLength="5"
-                :maxFileSize="10"
+                :maxFileSize="2"
                 allowFileTypes="\/(png|jpeg|jpg)$"
                 @fileChanged="onDropzoneFileAdded"
                 @onError="onDropzoneError"/>
@@ -119,7 +117,7 @@
                 <text-input
                   class="input"
                   v-model="value.destinationPort"
-                  placeholder="E.g Busan"/>
+                  placeholder="E.g Port of Los Angeles"/>
               </section>
 
               <!-- Preffered Unit Price -->
@@ -153,12 +151,12 @@
               id="agreement-section">
               <checkbox 
                 id="business-card"
-                label="I agree to share my Business Card with quoted suppliers."
+                label="I agree to share my contact details with selected suppliers."
                 v-model="value.businessCard"/>
-              <checkbox 
+              <!-- <checkbox 
                 id="terms"
-                label="I have read, understood and agreed to abide by Terms and Conditions Governing RFQ"
-                v-model="value.terms"/>
+                label="I agree to our Terms and that you have read our Privacy Policy."
+                v-model="value.terms"/> -->
             </section>
 
             <!-- Submit -->
@@ -239,7 +237,7 @@ export default {
       return this.value.status === 'Activated'
     },
     getSubmitButtonLabel() {
-      return this.isActivated ? 'Edit Requestion' : 'Sumbit Requestion'
+      return this.isActivated ? 'Edit Request' : 'Sumbit Request'
     }
   },
   methods: {
@@ -258,9 +256,9 @@ export default {
   },
   updated() {
     this.$emit('changed')
-    const { title, category, description, businessCard, terms } = this.value
+    const { title, category, description, businessCard } = this.value
 
-    if (title && description && category && businessCard && terms) this.isButtonActive = true
+    if (title && description && category && businessCard) this.isButtonActive = true
     else this.isButtonActive = false
   }
 }

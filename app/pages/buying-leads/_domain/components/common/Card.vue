@@ -9,7 +9,7 @@
           <!-- User Profile -->
           <div class="header__profile">
             <div class="user-img-container">
-              <a href="/user">
+              <a>
                 <img :src="getLogoUrl">
               </a>
             </div>

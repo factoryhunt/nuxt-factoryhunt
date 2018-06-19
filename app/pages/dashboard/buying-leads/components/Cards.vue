@@ -196,6 +196,7 @@ export default {
     white-space: nowrap;
   }
   .description {
+    text-align: left;
     color: @color-font-gray;
     overflow: hidden;
     text-overflow: ellipsis;
