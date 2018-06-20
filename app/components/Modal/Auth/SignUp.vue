@@ -54,18 +54,21 @@ export default {
   }),
   methods: {
     async signUp() {
+      const { company, email, password } = this
       if (!company || !email || !password) return
+
       this.$emit('resetError')
       this.isLoading = true
 
       const data = {
-        company: this.company,
-        email: this.email,
-        password: this.password
+        company,
+        email,
+        password
       }
 
       try {
         await this.$store.dispatch('auth/signUp', data)
+        alert(this.$t('signUp.signUpSuccess'))
         location.href = '/signup/step1'
       } catch (err) {
         this.isLoading = false
