@@ -31,7 +31,7 @@
         class="submit"
         :isLoading="isLoading">Create Account</submit-button>
       <div class="footer">
-        <span>Did you already have account?</span>
+        <span>Already have a Factory Hunt account?</span>
         <a @click="$emit('showLogin')">Login</a>
       </div>
     </form>

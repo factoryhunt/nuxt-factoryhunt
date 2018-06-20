@@ -1,14 +1,15 @@
 <template>
   <div>
-    <h1>Hi, {{value.companyName}}</h1>
-    <h3>In this step, we will help you to fill in your company information to connect your potential business partner easier.</h3>
+    <h1>Let's setup your company page.</h1>
+    <h3 class="sub-title">Connect your business and showcase your products to the worldwide community of manufacturers, wholesale suppliers, and buyers on Factory Hunt. </h3>
+
 
     <div id="contents">
-      <h2>Basic Company Information</h2>
+      <!-- <h2>Basic Company Information</h2> -->
 
       <!-- Buyer or Supplier => Business Type -->
       <section>
-        <h4>Are you a buyer or supplier?</h4>
+        <h4>Are you a buyer or supplier?<required-icon/></h4>
         <select 
           v-model="value.accountType" 
           @change="onChangedUserType"
@@ -103,7 +104,7 @@
         <!-- Factory Hunt Domain -->
         <section id="domain-section">
           <h4>
-            Website Address in Factory Hunt<required-icon/>
+            Customized Domain for Your Factory Hunt Page<required-icon/>
             <span class="text-counting">{{getRemainLength(value.domain, MAX_DOMAIN_LENGTH)}}</span></h4>
           <div class="table">
             <p class="table-cell">www.factoryhunt.com/</p>
@@ -117,7 +118,7 @@
               autocapitalize="off"
               v-model="value.domain">
           </div>
-          <span class="notice">Website Address must be only contain lowercased letters, numbers and periods.</span>
+          <span class="notice">The customized domain must contain only lowercased letters, numbers and periods.</span>
         </section>
       </div>
     </div>
@@ -340,7 +341,7 @@ export default {
 
         if (!result)
           reject({
-            msg: 'Website Address must be only contain lowercased letters, numbers and periods.'
+            msg: 'The customized domain must contain only lowercased letters, numbers and periods.'
           })
 
         axios

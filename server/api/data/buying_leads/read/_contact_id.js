@@ -58,7 +58,8 @@ module.exports = async (req, res) => {
         ${MYSQL_MODELS.TABLE_DOCUMENTS} docs
       ON 
         (docs.parent_table = "${MYSQL_MODELS.TABLE_BUYING_LEADS}" AND 
-        docs.parent_id = bl.buying_lead_id)
+        docs.parent_id = bl.buying_lead_id AND
+        docs.is_deleted != 1)
       LEFT JOIN
         ${MYSQL_MODELS.TABLE_ACCOUNTS} a
       ON

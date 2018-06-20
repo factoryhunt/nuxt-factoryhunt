@@ -9,8 +9,8 @@
       Are you sure you want to delete the quote?
     </modal-confirm>
     <modal-report 
-      title="Quote"
-      :reports="reports"
+      title="Report Quote"
+      type="checkbox"
       :isHidden="isReportHidden"
       :payload="getReportData"
       @close="isReportHidden = true"/>
@@ -142,7 +142,6 @@ import TextInput from '~/components/Inputs/Text'
 import ToolTip from '~/components/ToolTip'
 // libs
 import axios from '~/plugins/axios'
-import Reports from '~/assets/models/reports.json'
 import { getCreatedDateDiff } from '~/utils/timezone'
 import { encryptCompanyName } from '~/utils/text'
 import { mapGetters } from 'vuex'
@@ -159,7 +158,6 @@ export default {
   },
   props: ['buyingLead', 'quotes'],
   data: () => ({
-    reports: Reports,
     isConfirmHidden: true,
     isReportHidden: true,
     isModalImageViewerHidden: true,

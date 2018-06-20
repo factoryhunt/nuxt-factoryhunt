@@ -5,7 +5,7 @@
       src="~assets/img/logo_orange_small.png" 
       alt="brand-logo"/>
     <p id="brand-container__title">Factory Hunt</p>
-    <p id="brand-container__slogan">A SAFE B2B Wholesale Trading Website</p>
+    <p id="brand-container__slogan">A Global B2B Matching Service</p>
   </div>
 </template>
 

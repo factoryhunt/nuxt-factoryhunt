@@ -1,7 +1,7 @@
 <template>
   <div ref="page" class="dashboard-page-container">
     <modal-report
-      title="User"
+      title="What's the issue?"
       :isHidden="toggle.isReportHidden"
       :payload="getReportData"
       @close="toggle.isReportHidden = true"/>
@@ -189,8 +189,11 @@ export default {
         await axios.post(API, { body })
         location.reload()
       } catch (err) {
-        alert('sending message failed')
-        showTopAlert(this.$store, false, 'Sorry, failed sending message. Please try again later.')
+        showTopAlert(
+          this.$store,
+          false,
+          'Sorry, server connection is not stable. Please try it later again.'
+        )
         this.toggle.isSending = false
       }
     },

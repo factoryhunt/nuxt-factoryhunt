@@ -146,7 +146,7 @@ export default {
       } catch (err) {
         console.log('createNewRFQRecord', err)
         alert('Sorry, Internal server error occured. - 1')
-        this.$route.go(-1)
+        this.$router.go(-1)
       }
     },
     // When edit New RFQ
@@ -158,8 +158,8 @@ export default {
         this.mappingDocuments(data.documents)
       } catch (err) {
         console.log('err', err)
-        alert('Sorry, Internal server error occured. - 1')
-        this.$route.go(-1)
+        alert(err.msg)
+        this.$router.go(-1)
       }
     },
     mappingDefaultData(data) {
@@ -227,7 +227,7 @@ export default {
     },
     sumbitRequestion() {
       if (!this.areRequiredFieldsFilled)
-        return showTopAlert(this.$store, false, 'Please fill in required field.')
+        return showTopAlert(this.$store, false, 'Please fill in all required fields.')
 
       let body = this.getSubmitData
       body.status = 'Activated'
@@ -243,10 +243,18 @@ export default {
         return showTopAlert(this.$store, false, 'Sorry, Internal server error occured. - 4')
 
       if (this.toggle.isFileProcessing)
-        return showTopAlert(this.$store, false, 'File is uploading now. Please try again later.')
+        return showTopAlert(
+          this.$store,
+          false,
+          'The files are being uploaded now. Please try it later again.'
+        )
 
       if (this.toggle.isSubmiting)
-        return showTopAlert(this.$store, false, 'System is Submiting now. Please try again later.')
+        return showTopAlert(
+          this.$store,
+          false,
+          'Your request is being submitted now. Please try it later again.'
+        )
 
       this.toggle.isSubmiting = true
 
@@ -294,7 +302,11 @@ export default {
     },
     async onFileAdded(files) {
       if (this.toggle.isFileProcessing)
-        return showTopAlert(this.$store, false, 'File is uploading now. Please try again later.')
+        return showTopAlert(
+          this.$store,
+          false,
+          'The files are being uploaded now. Please try it later again.'
+        )
 
       this.toggle.isFileProcessing = true
       this.value.fileProgress = 0
@@ -308,7 +320,11 @@ export default {
           const file = files[i]
           this.value.files.push(file)
         } else {
-          showTopAlert(this.$store, false, `Maximum file count is ${MAX_FILE_LENGTH}`)
+          showTopAlert(
+            this.$store,
+            false,
+            `Maximum number of files you can upload is ${MAX_FILE_LENGTH}`
+          )
         }
       }
 
@@ -353,7 +369,11 @@ export default {
     },
     async onFileDelete(index) {
       if (this.toggle.isFileProcessing)
-        return showTopAlert(this.$store, false, 'File is uploading now. Please try again later.')
+        return showTopAlert(
+          this.$store,
+          false,
+          'The files are being uploaded now. Please try it later again.'
+        )
 
       const { id } = this.value.files[index]
       const data = {
@@ -384,7 +404,7 @@ export default {
       else this.createNewRFQRecord()
     },
     canAccess(account_id) {
-      const msg = "This user doesn't have permission to access."
+      const msg = 'Your are trying to access the page without permission.'
       return new Promise((resolve, reject) => {
         account_id === this.getAccountId ? resolve() : reject({ msg })
       })

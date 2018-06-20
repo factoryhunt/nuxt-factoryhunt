@@ -10,7 +10,7 @@
           <dropzone 
             id="logo-dropzone"
             class="dropzone"
-            placeholder="Click or drag image to this area (1MB MAX)"
+            placeholder="Click, or drag and drop an image to this area (1MB MAX)"
             width="200px"
             :maxFileSize="1"
             :maxFileLength="1"
@@ -21,7 +21,7 @@
             @fileChanged="onLogoFileAdded"
             @onError="onLogoFileError"/>
         </div>
-          <h5>Logo image is recommended with square size.</h5>
+          <h5>Square logo image is recommended.</h5>
       </section>
 
       <section>
@@ -30,7 +30,7 @@
           <dropzone 
             id="cover-image-dropzone"
             class="dropzone"
-            placeholder="Click or drag image(s) to this area (Each 3MB MAX)"
+            placeholder="Click, or drag and drop image(s) to this area (Each 3MB MAX)"
             :maxFileSize="4"
             :maxFileLength="8"
             margin="6px"
@@ -40,7 +40,7 @@
             @fileChanged="onCoverImageFileAdded"
             @onError="onCoverImageFileError"/>
         </div>
-          <h5>Up to 8 images.</h5>
+          <h5>You can upload up to 8 images.</h5>
       </section>
     </div>
 

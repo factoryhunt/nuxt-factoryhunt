@@ -7,9 +7,9 @@
         <!-- Left Fixed Bar -->
         <div id="left-bar">
           <brand/>
-          <p id="wizard-container__title">Submit Information</p>
+          <p id="wizard-container__title">Compnay Page Setup</p>
           <ul>
-            <li><a id="nav-menu-1" href="/signup/step1">Basic Company Information</a></li>
+            <li><a id="nav-menu-1" href="/signup/step1">Basic Information</a></li>
             <li><a id="nav-menu-2" href="/signup/step2">Business Details</a></li>
             <li><a id="nav-menu-3" href="/signup/step3">Business Address</a></li>
             <li><a id="nav-menu-4" href="/signup/step4">Contact Details</a></li>

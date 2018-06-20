@@ -1,7 +1,7 @@
 <template>
   <div>
     <h1>Business Details</h1>
-    <h3>상세한 정보를 제공하는 회사는 상대 비즈니스와 거래가 성사될 가능성이 높습니다.</h3>
+    <h3>The more specific your information, the more response from suppliers.</h3>
 
     <div id="contents">
       <!-- Website -->

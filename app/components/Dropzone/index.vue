@@ -154,7 +154,7 @@ export default {
     async readFiles(files) {
       if (this.toggle.isUploading)
         return this.onError({
-          msg: `Your files are being uploaded now. Please try it after file uploading.`
+          msg: `Your files are being uploaded now. Please try it later again.`
         })
 
       this.toggle.isUploading = true
@@ -195,7 +195,7 @@ export default {
         let file = files[i]
 
         if (length >= this.maxFileLength) {
-          this.onError({ msg: `Maximum file length is ${this.maxFileLength}.` })
+          this.onError({ msg: `Maximum number of files you can upload is ${this.maxFileLength}.` })
         }
 
         // File format
@@ -203,12 +203,12 @@ export default {
 
         // Check accpeted file format
         if (!fileFilter.test(file.type)) {
-          this.onError({ msg: `Unaccpeted format. ${file.type}` })
+          this.onError({ msg: `${file.type} is not acceptable format.` })
         }
 
         // File size over
         if (kilobyteToMegabyte(file.size) >= this.maxFileSize) {
-          this.onError({ msg: `Maxium file size is each ${this.maxFileSize}MB.` })
+          this.onError({ msg: `Maximum file size is ${this.maxFileSize}MB each.` })
         }
 
         // Aceppted
@@ -295,7 +295,7 @@ export default {
 
       if (this.toggle.isUploading)
         return this.onError({
-          msg: `You can't remove file while file uploading. Please try it after file uploading.`
+          msg: 'Your files are being uploaded now. Please try it later again.'
         })
 
       this.value.files.splice(index, 1)

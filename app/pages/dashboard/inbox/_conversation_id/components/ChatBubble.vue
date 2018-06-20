@@ -2,7 +2,8 @@
   <div>
     <div class="bubble">
       <modal-report
-        title="Message"
+        title="Report Message"
+        type="checkbox"
         :isHidden="isReportHidden"
         :payload="getReportData"
         @close="isReportHidden = true"/>
@@ -47,6 +48,7 @@
 // components
 import ModalReport from '~/components/Modal/Report'
 import CircleImg from '~/components/Image/CircleViewer'
+import Reports from '~/assets/models/reports.json'
 // libs
 import axios from '~/plugins/axios'
 import { getCreatedDateDiff } from '~/utils/timezone'
@@ -59,6 +61,7 @@ export default {
   },
   props: ['message', 'logoUrl', 'isMine'],
   data: () => ({
+    reports: Reports,
     extractedUrl: '',
     isReportHidden: true
   }),

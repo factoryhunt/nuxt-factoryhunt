@@ -25,7 +25,7 @@
                   :message="errorMsg"/>
                 <text-area 
                   class="text-input"
-                  placeholder="Suggest your product with a quote."
+                  placeholder="Type comments about your quote."
                   :rows="rows"
                   :maxlength="1000"
                   v-model="description"
@@ -44,7 +44,7 @@
                         @delete="onFileDelete(index)"/>
                     </div>
                     <div class="caution">
-                      <span>PDF, PNG, JPG, JPEG only, maximum file count is 5 and 1MB each.</span>
+                      <span>PDF, PNG, JPG, JPEG only. You can attach up to 5 files and the maxium file size is 5MB each.</span>
                     </div>
                     <div class="submit-container">
                       <submit-button
@@ -55,10 +55,10 @@
                       </submit-button>
                       <file-input
                         class="file-input"
-                        label="File Attachment"
+                        label="Attach file"
                         multiple="true"
                         :maxFileLength="5"
-                        :maxFileSize="2"
+                        :maxFileSize="7"
                         accept="\/(pdf|png|jpeg|jpg)$"
                         @change="onFileChange"
                         @error="onFileError">
@@ -91,7 +91,7 @@ import axios from '~/plugins/axios'
 import { uploadDocument } from '~/utils/api'
 import { mapGetters } from 'vuex'
 // static
-const MAX_FILE_LENGTH = 4
+const MAX_FILE_LENGTH = 5
 export default {
   components: {
     ModalAuth,
@@ -112,7 +112,6 @@ export default {
     rows: 1,
     isModalAuthHidden: true,
     isSubmitting: false,
-    placeholder: 'Drop or drag PDF file(s) to this area.',
     errorMsg: ''
   }),
   computed: {
@@ -157,7 +156,7 @@ export default {
     onFocus() {
       if (!this.isLoggedIn) return (this.isModalAuthHidden = false)
 
-      if (!this.isUserSupplier) return alert('Sorry, sending quote is serviced only for suppliers.')
+      if (!this.isUserSupplier) return alert('Sorry, the service is only available for suppliers.')
 
       this.isFormHidden = false
       this.rows = 7
@@ -182,6 +181,7 @@ export default {
         location.reload()
       } catch (err) {
         console.log('submit error', err)
+        alert('Sorry, Internal server error occured. - 1')
         this.isSubmitting = false
       }
     },

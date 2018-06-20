@@ -1,7 +1,7 @@
 <template>
   <div>
     <h1>Contact details</h1>
-    <h3>In this step, we will help you to fill in your company information to connect your potential target easier.</h3>
+    <!-- <h3>In this step, we will help you to fill in your company information to connect your potential target easier.</h3> -->
 
     <div id="contents">
       <div id="contacts-container">

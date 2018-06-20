@@ -2,10 +2,10 @@
   <div class="rfq-container">
     <!-- Modal -->
       <modal-report 
-        title="Buying Lead"
+        title="Report Buying Lead"
+        type="checkbox"
         :isHidden="isReportHidden"
         :payload="getReportData"
-        :reports="reports"
         @close="isReportHidden = true"/>
       <modal-image-viwer
         :isHidden="isModalImageHidden"
@@ -134,7 +134,6 @@ import ToolTip from '~/components/ToolTip'
 // libs
 import Clipboard from 'clipboard'
 import { mapGetters } from 'vuex'
-import Reports from '~/assets/models/reports.json'
 import { getCreatedDateDiff, getTimeLeft } from '~/utils/timezone'
 import { encryptCompanyName, nFormatter } from '~/utils/text'
 // static
@@ -151,7 +150,6 @@ export default {
   },
   props: ['buyingLead'],
   data: () => ({
-    reports: Reports,
     isModalImageHidden: true,
     isReportHidden: true,
     isReadmoreButtonHidden: true,

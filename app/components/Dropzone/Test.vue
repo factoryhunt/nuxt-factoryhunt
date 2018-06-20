@@ -12,9 +12,8 @@
       </div>
       <!-- Placeholder -->
       <div
-        class="placeholder-container"
-        v-if="placeholder">
-        <p>{{placeholder}}</p>
+        class="placeholder-container">
+        <p>Click, drag and drop file(s) to this area.<br v-show="placeholder">{{placeholder}}</p>
       </div>
     </label>
     <input
@@ -40,7 +39,7 @@ export default {
     },
     placeholder: {
       type: String,
-      default: 'Click, or drag and drop file(s) to this area'
+      default: ''
     },
     width: {
       type: String,
@@ -154,7 +153,7 @@ export default {
 
       // Max File Length
       if (files.length > this.maxFileLength) {
-        this.onError({ msg: `Maximum file length is ${this.maxFileLength}.` })
+        this.onError({ msg: `Maximum number of files you can upload is ${this.maxFileLength}.` })
       }
 
       for (let i = 0; i < files.length; i++) {
@@ -165,13 +164,13 @@ export default {
 
         // Check accpeted file format
         if (!filetype.test(file.type)) {
-          this.onError({ msg: `Unaccpeted format. ${file.type}` })
+          this.onError({ msg: `${file.type} is not acceptable format.` })
         }
 
         // File size over
         if (kilobyteToMegabyte(file.size) >= this.maxFileSize) {
           this.onError({
-            msg: `Maxium file size is each ${this.maxFileSize}MB.`
+            msg: `Maximum file size is ${this.maxFileSize}MB each.`
           })
         }
 

@@ -3,15 +3,17 @@
     :isHidden="isHidden"
     @close="$emit('close')">
     <card 
-      :title="`Report ${title}`"
+      :title="`${title}`"
       @close="$emit('close')">
       <!-- Before Reporting -->
       <div 
         class="report" 
         v-if="!isSubmiited">
-        <div class="description">{{getTitle}}</div>
         <!-- Cheeckbox -->
-        <div class="checkbox-container">
+        <div 
+          class="checkbox-container"
+          v-show="type === 'checkbox'">
+          <div class="description">Why are you reporting this?</div>
           <div 
             class="checkbox"
             v-for="report in reports"
@@ -20,15 +22,22 @@
               type="radio"
               :id="report"
               :value="report"
-              v-model="requestion">
+              v-model="reason">
             <label 
               :for="report">{{report}}</label>
           </div>
         </div>
+        <div v-show="!type">
+          <!-- Textarea -->
+          <div class="description">Help us understand why you're reporting this person.</div>
+          <text-area 
+            class="textarea"
+            v-model="reason"/>
+        </div>
         <!-- Submit -->
         <submit-button
           class="submit"
-          :disabled="!requestion"
+          :disabled="!reason"
           :isLoading="isSubmitting"
           @click="onSubmit()">Submit</submit-button>
       </div>
@@ -52,43 +61,39 @@ import axios from '~/plugins/axios'
 import Modal from '~/components/Modal/Container'
 import Card from '~/components/Card/Modal'
 import SubmitButton from '~/components/Button'
-import TextareaInput from '~/components/Inputs/Textarea'
+import TextArea from '~/components/Inputs/Textarea'
+import Reports from '~/assets/models/reports.json'
 import { EventBus } from '~/eventBus'
 import { mapGetters } from 'vuex'
 export default {
   components: {
     Modal,
     Card,
-    TextareaInput,
+    TextArea,
     SubmitButton
   },
   props: {
     isHidden: null,
+    type: String,
     payload: Object,
     title: {
       type: String,
       default: ''
-    },
-    reports: {
-      type: Array,
-      default: () => []
     }
   },
   data: () => ({
+    reports: Reports,
     isSubmiited: false,
     isSubmitting: false,
-    requestion: ''
+    reason: ''
   }),
   computed: {
     ...mapGetters({
       contact: 'auth/GET_CONTACT'
-    }),
-    getTitle() {
-      const title = this.title.toLowerCase()
-      return `This ${title} is:`
-    }
+    })
   },
   methods: {
+    init() {},
     async onSubmit() {
       const { table, id } = this.payload
 
@@ -101,7 +106,7 @@ export default {
         table: ${table || 'Undefined'}
         id: ${id || 0}
         reason:
-        ${this.requestion || 'Undefined'}
+        ${this.reason || 'Undefined'}
         `
       }
 
@@ -125,8 +130,11 @@ export default {
       this.title = 'Report Question'
       this.isSubmiited = false
       this.isSubmitting = false
-      this.requestion = ''
+      this.reason = ''
     }
+  },
+  mounted() {
+    this.init()
   }
 }
 </script>
@@ -142,7 +150,6 @@ export default {
 }
 .description {
   font-weight: 500;
-  color: @color-black;
   font-size: 16px;
 
   @media (min-width: 744px) {
@@ -166,6 +173,11 @@ export default {
     cursor: pointer;
   }
 }
+
+.textarea {
+  margin-top: @margin-top;
+}
+
 .submit {
   margin-top: @section-margin-top;
   font-size: 16px;

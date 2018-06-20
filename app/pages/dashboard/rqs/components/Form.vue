@@ -79,6 +79,8 @@
                 allowFileTypes="\/(png|jpeg|jpg)$"
                 @fileChanged="onDropzoneFileAdded"
                 @onError="onDropzoneError"/>
+              <span 
+                class="label">PNG, JPEG, JPG Only. You can upload up to 5, and maxmimum file size is 2MB each.</span>
             </section>
           </div>
 
@@ -329,6 +331,14 @@ section {
 
   .selected {
     font-size: 15px;
+  }
+}
+
+#dropzone-section {
+  .label {
+    color: @color-font-gray;
+    font-size: 14px;
+    margin-top: 4px;
   }
 }
 
