@@ -69,6 +69,11 @@
       "placeholder": "E.g +1-917-1234-5678",
       "inputTitle": "It must be 1-21 characters and can only contain numbers, plus, and hyphens."
     },
+    "fax": {
+      "title": "Fax",
+      "placeholder": "E.g +1-917-1234-5678",
+      "inputTitle": "It must be 1-21 characters and can only contain numbers, plus, and hyphens."
+    },
     "averageLeadTime": {
       "title": "Average Lead Time (Days)",
       "inputTitle": "Please enter the average production time. Numbers only."

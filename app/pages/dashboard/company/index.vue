@@ -32,7 +32,8 @@
     <form class="form-container" @submit.prevent="onEditButton">
 
       <!-- Company Name -->
-      <div class="account-name-container input-container">
+      <div 
+        class="account-name-container input-container">
         <p class="title">{{ $t('dashboardCompany.name.title') }}</p>
         <span class="required-text" v-html="$t('dashboardCompany.name.required')"></span>
         <p class="sub-title">{{ $t('dashboardCompany.name.desc') }}</p>
@@ -52,24 +53,36 @@
       </div>
 
       <!-- Business Type -->
-      <div class='business-type-container input-container'>
+      <div 
+        class='business-type-container input-container'>
         <p class="title">{{ $t('dashboardCompany.businessType.title') }}</p>
-        <span class="required-text" v-html="$t('dashboardCompany.name.required')"></span>
-        <p class="sub-title">{{ $t('dashboardCompany.businessType.desc') }}</p>
-        <div class="checkbox-container" v-for="(business, index) in business_type" :key="index">
+        <span 
+          class="required-text" 
+          v-html="$t('dashboardCompany.name.required')"></span>
+        <p 
+          class="sub-title">Select up to {{maxBusinessTypeLength}} business types.</p>
+        <div 
+          class="checkbox-container" 
+          v-for="(business, index) in business_type" 
+          :key="index"
+          v-show="!(business.value === 'Buying Office' && isUserSupplier && !isUserBuyer)">
           <input
             class="business-type-checkbox"
             type="checkbox"
             :id="business.value"
             :value="business.value"
             v-model="value.businessTypes"
-            @change="onCheckbox">
-          <label class="checkbox-label" :for="business.value">{{business.value}}</label>
+            :disabled="business.value === 'Buying Office'"
+            @change="onChangeBusinessTypes()">
+          <label 
+            class="checkbox-label" 
+            :for="business.value">{{business.value}}</label>
         </div>
       </div>
 
       <!-- Company Short Description -->
-      <div class="short-description-container input-container">
+      <div 
+        class="short-description-container input-container">
         <p class="title">{{ $t('dashboardCompany.shortDescription.title') }}</p>
         <p class="sub-title">{{ $t('dashboardCompany.shortDescription.desc') }}</p>
         <input
@@ -84,7 +97,8 @@
       </div>
 
       <!-- Company Video -->
-      <div class="short-description-container input-container">
+      <div 
+        class="short-description-container input-container">
         <p class="title">{{ $t('dashboardCompany.video.title') }}</p>
         <p class="sub-title">{{ $t('dashboardCompany.video.desc') }}</p>
         <input
@@ -98,84 +112,117 @@
       </div>
 
       <!-- Company Information -->
-      <div class="information-container input-container">
+      <div 
+        class="information-container input-container">
         <p class="title">{{ $t('dashboardCompany.company.title') }}</p>
         <p class="sub-title">{{ $t('dashboardCompany.company.desc') }}</p>
-        <!-- Products -->
-        <div class="box-container">
-          <div class="left-contents">{{ $t('dashboardCompany.company.products.title') }}</div>
-          <div class="right-contents">
-            <input
-              type="text"
-            b  pattern="[A-Za-z0-9 ',-()]{1,200}"
-              :title="$t('dashboardCompany.company.products.inputTitle')"
-              maxlength="200"
-              :placeholder="$t('dashboardCompany.company.products.placeholder')"
-              v-model="value.products">
+        <div>
+          <!-- What do you buy -->
+          <div 
+            class="box-container"
+            v-show="isUserBuyer">
+            <div class="left-contents">What do you buy</div>
+            <div class="right-contents">
+              <input
+                type="text"
+                pattern="[A-Za-z0-9 ',-()]{1,200}"
+                :title="$t('dashboardCompany.company.products.inputTitle')"
+                maxlength="200"
+                :placeholder="$t('dashboardCompany.company.products.placeholder')"
+                v-model="value.productsBuy">
+            </div>
           </div>
-        </div>
-        <!-- Website -->
-        <div class="box-container">
-          <div class="left-contents">{{ $t('dashboardCompany.company.website.title') }}</div>
-          <div class="right-contents">
-            <input
-              type="text"
-              pattern="[A-Za-z0-9 ,./-]{1,200}"
-              :title="$t('dashboardCompany.company.website.inputTitle')"
-              maxlength="200"
-              :placeholder="$t('dashboardCompany.company.website.placeholder')"
-              v-model="value.website"
-              spellcheck="false">
+          <!-- What do you supplier -->
+          <div 
+            class="box-container"
+            v-show="isUserSupplier">
+            <div class="left-contents">What do you supplier</div>
+            <div class="right-contents">
+              <input
+                type="text"
+                pattern="[A-Za-z0-9 ',-()]{1,200}"
+                :title="$t('dashboardCompany.company.products.inputTitle')"
+                maxlength="200"
+                :placeholder="$t('dashboardCompany.company.products.placeholder')"
+                v-model="value.products">
+            </div>
           </div>
-        </div>
-        <!-- Phone -->
-        <div class="box-container">
-          <div class="left-contents">{{ $t('dashboardCompany.company.phone.title') }}</div>
-          <div class="right-contents">
-            <input 
-              type="text" 
-              maxlength="21" 
-              pattern="[0-9 +-]{1,21}" 
-              :title="$t('dashboardCompany.company.phone.inputTitle')" 
-              :placeholder="$t('dashboardCompany.company.phone.placeholder')" v-model="value.phone"></div>
-        </div>
-        <!-- Average Lead Time -->
-        <div class="box-container">
-          <div class="left-contents">{{ $t('dashboardCompany.company.averageLeadTime.title') }}</div>
-          <div class="right-contents"><input type="text" maxlength="3" pattern="[0-9]{1,3}" :title="$t('dashboardCompany.company.averageLeadTime.inputTitle')" v-model="value.averageLeadTime"></div>
-        </div>
-        <!-- Established Year -->
-        <div class="box-container">
-          <div class="left-contents">{{ $t('dashboardCompany.company.year.title') }}</div>
-          <div class="right-contents">
-            <select name="established-year" v-model="value.establishedYear">
-              <option value="" disabled>{{ $t('dashboardCompany.company.year.placeholder') }}</option>
-              <option v-for="(year,index) in established_year" :key="index" :value="year.year">{{year.year}}</option>
-            </select>
+          <!-- Website -->
+          <div class="box-container">
+            <div class="left-contents">{{ $t('dashboardCompany.company.website.title') }}</div>
+            <div class="right-contents">
+              <input
+                type="text"
+                pattern="[A-Za-z0-9 ,./-]{1,200}"
+                :title="$t('dashboardCompany.company.website.inputTitle')"
+                maxlength="200"
+                :placeholder="$t('dashboardCompany.company.website.placeholder')"
+                v-model="value.website"
+                spellcheck="false">
+            </div>
           </div>
-        </div>
-        <!--  Number of Employees -->
-        <div class="box-container">
-          <div class="left-contents">{{ $t('dashboardCompany.company.numberOfEmployees.title') }}</div>
-          <div class="right-contents">
-            <select name="established-year" v-model="value.numberOfEmployees">
-              <option value="" disabled>{{ $t('dashboardCompany.company.numberOfEmployees.placeholder') }}</option>
-              <option v-for="(number,index) in number_of_employees" :key="index" :value="number.value">{{number.value}}</option>
-            </select>
+          <!-- Phone -->
+          <div class="box-container">
+            <div class="left-contents">{{ $t('dashboardCompany.company.phone.title') }}</div>
+            <div class="right-contents">
+              <input 
+                type="text" 
+                maxlength="21" 
+                pattern="[0-9 +-]{1,21}" 
+                :title="$t('dashboardCompany.company.phone.inputTitle')" 
+                :placeholder="$t('dashboardCompany.company.phone.placeholder')" v-model="value.phone"></div>
           </div>
-        </div>
-        <!--  Total annual revenue -->
-        <div class="box-container">
-          <div class="left-contents">{{ $t('dashboardCompany.company.totalAnnualRevenue.title') }}</div>
-          <div class="right-contents">
-            <select name="established-year" v-model="value.totalAnnualRevenue">
-              <option value="" disabled>{{ $t('dashboardCompany.company.totalAnnualRevenue.placeholder') }}</option>
-              <option v-for="(revenue,index) in total_annual_revenue" :key="index" :value="revenue.value">{{revenue.value}}</option>
-            </select>
+          <!-- Fax -->
+          <div class="box-container">
+            <div class="left-contents">{{ $t('dashboardCompany.company.fax.title') }}</div>
+            <div class="right-contents">
+              <input 
+                type="text" 
+                maxlength="21" 
+                pattern="[0-9 +-]{1,21}" 
+                :title="$t('dashboardCompany.company.fax.inputTitle')" 
+                :placeholder="$t('dashboardCompany.company.fax.placeholder')" v-model="value.fax"></div>
+          </div>
+          <!-- Average Lead Time -->
+          <div 
+            class="box-container"
+            v-show="isUserSupplier">
+            <div class="left-contents">{{ $t('dashboardCompany.company.averageLeadTime.title') }}</div>
+            <div class="right-contents"><input type="text" maxlength="3" pattern="[0-9]{1,3}" :title="$t('dashboardCompany.company.averageLeadTime.inputTitle')" v-model="value.averageLeadTime"></div>
+          </div>
+          <!-- Established Year -->
+          <div class="box-container">
+            <div class="left-contents">{{ $t('dashboardCompany.company.year.title') }}</div>
+            <div class="right-contents">
+              <select name="established-year" v-model="value.establishedYear">
+                <option value="" disabled>{{ $t('dashboardCompany.company.year.placeholder') }}</option>
+                <option v-for="(year,index) in established_year" :key="index" :value="year.year">{{year.year}}</option>
+              </select>
+            </div>
+          </div>
+          <!--  Number of Employees -->
+          <div class="box-container">
+            <div class="left-contents">{{ $t('dashboardCompany.company.numberOfEmployees.title') }}</div>
+            <div class="right-contents">
+              <select name="established-year" v-model="value.numberOfEmployees">
+                <option value="" disabled>{{ $t('dashboardCompany.company.numberOfEmployees.placeholder') }}</option>
+                <option v-for="(number,index) in number_of_employees" :key="index" :value="number.value">{{number.value}}</option>
+              </select>
+            </div>
+          </div>
+          <!--  Total annual revenue -->
+          <div class="box-container">
+            <div class="left-contents">{{ $t('dashboardCompany.company.totalAnnualRevenue.title') }}</div>
+            <div class="right-contents">
+              <select name="established-year" v-model="value.totalAnnualRevenue">
+                <option value="" disabled>{{ $t('dashboardCompany.company.totalAnnualRevenue.placeholder') }}</option>
+                <option v-for="(revenue,index) in total_annual_revenue" :key="index" :value="revenue.value">{{revenue.value}}</option>
+              </select>
+            </div>
           </div>
         </div>
 
-        <!-- Text -->
+        <!-- Office Address -->
         <p class="sub-title" style="margin-top: 22px">{{ $t('dashboardCompany.company.desc2') }}</p>
         <!-- Country -->
         <div class="box-container">
@@ -241,10 +288,83 @@
               :title="$t('dashboardCompany.company.postal.inputTitle')" 
               :placeholder="$t('dashboardCompany.company.postal.placeholder')" v-model="value.postalCode"></div>
         </div>
+
+        <!-- Factory Address -->
+        <div v-show="isUserSupplier">
+          <p 
+            class="sub-title" 
+            style="margin-top: 22px">Factory Address</p>
+          <!-- Country -->
+          <div class="box-container">
+            <div class="left-contents">{{ $t('dashboardCompany.company.country.title') }}</div>
+            <div class="right-contents">
+              <select title="required" v-model="value.factoryCountry">
+                <option id="disabled-option" disabled value="">{{ $t('dashboardCompany.company.country.defaultValue') }}</option>
+                <option v-for="(country,index) in country_list" :key="index" :value="country.country_name">{{country.country_name}}</option>
+              </select>
+            </div>
+          </div>
+          <!-- State -->
+          <div class="box-container">
+            <div class="left-contents">{{ $t('dashboardCompany.company.state.title') }}</div>
+            <div class="right-contents">
+              <input 
+                type="text" 
+                maxlength="50" 
+                pattern="[A-Za-z -]{1,50}" 
+                :title="$t('dashboardCompany.company.state.inputTitle')" 
+                :placeholder="$t('dashboardCompany.company.state.placeholder')" v-model="value.factoryState"></div>
+          </div>
+          <!-- City -->
+          <div class="box-container">
+            <div class="left-contents">{{ $t('dashboardCompany.company.city.title') }}</div>
+            <div class="right-contents">
+              <input 
+                type="text" 
+                maxlength="50" 
+                pattern="[A-Za-z -]{1,50}" 
+                :title="$t('dashboardCompany.company.city.inputTitle')" 
+                :placeholder="$t('dashboardCompany.company.city.placeholder')" v-model="value.factoryCity"></div>
+          </div>
+          <!-- Street Address -->
+          <div class="box-container">
+            <div class="left-contents">{{ $t('dashboardCompany.company.street.title') }}</div>
+            <div class="right-contents">
+              <input 
+                type="text" 
+                maxlength="100" 
+                pattern="[A-Za-z0-9 -.,#()/]{1,100}" 
+                :title="$t('dashboardCompany.company.street.inputTitle')" 
+                :placeholder="$t('dashboardCompany.company.street.placeholder')" v-model="value.factoryStreetAddress"></div>
+          </div>
+          <!-- Street Address Detail -->
+          <div class="box-container">
+            <div class="left-contents">{{ $t('dashboardCompany.company.street2.title') }}</div>
+            <div class="right-contents">
+              <input 
+              type="text" 
+              maxlength="100" 
+              pattern="[A-Za-z0-9 -.,#()/]{1,100}" 
+              :title="$t('dashboardCompany.company.street2.inputTitle')" 
+              :placeholder="$t('dashboardCompany.company.street2.placeholder')" v-model="value.factoryStreetAddressDetail"></div>
+          </div>
+          <!-- Postal Code -->
+          <div class="box-container">
+            <div class="left-contents">{{ $t('dashboardCompany.company.postal.title') }}</div>
+            <div class="right-contents">
+              <input 
+                type="text" 
+                pattern="[0-9-]{1,10}" 
+                :title="$t('dashboardCompany.company.postal.inputTitle')" 
+                :placeholder="$t('dashboardCompany.company.postal.placeholder')" v-model="value.factoryPostalCode"></div>
+          </div>
+        </div>
       </div>
 
       <!-- Company Long Description -->
-      <div class="description-container input-container">
+      <div 
+        class="description-container input-container"
+        v-show="isUserSupplier">
         <p class="title">{{ $t('dashboardCompany.description.title') }}</p>
         <p class="sub-title">{{ $t('dashboardCompany.description.desc') }}</p>
         <textarea 
@@ -257,7 +377,9 @@
       </div>
 
       <!-- Company Brochure -->
-      <div class="catalog-container input-container">
+      <div 
+        class="catalog-container input-container"
+        v-show="isUserSupplier">
         <p class="title">{{ $t('dashboardCompany.catalog.title') }}</p>
         <p class="sub-title">{{ $t('dashboardCompany.catalog.desc') }}</p>
         <label for="pdf-input">{{ $t('dashboardProductEdit.catalog.button') }}</label>
@@ -269,7 +391,9 @@
       </div>
 
       <!-- Company History -->
-      <div class="history-container input-container">
+      <div 
+        class="history-container input-container"
+        v-show="isUserSupplier">
         <p class="title">{{ $t('dashboardCompany.history.title') }}</p>
         <p class="sub-title" v-html="$t('dashboardCompany.history.desc')"></p>
         <textarea 
@@ -282,7 +406,9 @@
       </div>
 
       <!-- Accepted Delivery Terms -->
-      <div class='accepted-delivery-terms-container input-container'>
+      <div 
+        class='accepted-delivery-terms-container input-container'
+        v-show="isUserSupplier">
         <p class="title">{{ $t('dashboardCompany.acceptedDeliveryTerms.title') }}</p>
         <br><br>
         <div class="checkbox-container" v-for="(term, index) in accepted_delivery_terms" :key="index">
@@ -297,7 +423,9 @@
       </div>
 
       <!-- Accepted Payment Currency -->
-      <div class='accepted-payment-currency-container input-container'>
+      <div 
+        class='accepted-payment-currency-container input-container'
+        v-show="isUserSupplier">
         <p class="title">{{ $t('dashboardCompany.acceptedPaymentCurrency.title') }}</p>
         <br><br>
         <div class="checkbox-container" v-for="(currency, index) in accepted_payment_currency" :key="index">
@@ -312,7 +440,9 @@
       </div>
 
       <!-- Accepted Payment Type -->
-      <div class='accepted-payment-type-container input-container'>
+      <div 
+        class='accepted-payment-type-container input-container'
+        v-show="isUserSupplier">
         <p class="title">{{ $t('dashboardCompany.acceptedPaymentType.title') }}</p>
         <br><br>
         <div class="checkbox-container" v-for="(type, index) in accepted_payment_type" :key="index">
@@ -327,7 +457,9 @@
       </div>
 
       <!-- Language Spoken -->
-      <div class='language-spoken-container input-container'>
+      <div 
+        class='language-spoken-container input-container'
+        v-show="isUserSupplier">
         <p class="title">{{ $t('dashboardCompany.languageSpoken.title') }}</p>
         <br><br>
         <div class="checkbox-container" v-for="(language, index) in language_spoken" :key="index">
@@ -364,7 +496,11 @@ import numberOfEmployees from '~/assets/models/number_of_employees.json'
 import totalAnnualRevenue from '~/assets/models/total_annual_revenue.json'
 import loader from '~/components/Loader'
 import { mapGetters } from 'vuex'
-import { checkboxStringToArray, checkboxArrayToString } from '~/utils/checkbox'
+import {
+  checkboxStringToArray,
+  checkboxArrayToString,
+  limitCheckboxMaxLength
+} from '~/utils/checkbox'
 import { showTopAlert } from '~/utils/alert'
 import { updateUserDataToVuex } from '~/utils/auth'
 export default {
@@ -395,6 +531,7 @@ export default {
       number_of_employees: numberOfEmployees,
       total_annual_revenue: totalAnnualRevenue,
       country_list: country,
+      maxBusinessTypeLength: 3,
       value: {
         contact: {},
         mainImageUrl: '',
@@ -408,8 +545,10 @@ export default {
         video: '',
         description: '',
         products: '',
+        productsBuy: '',
         website: '',
         phone: '',
+        fax: '',
         averageLeadTime: '',
         establishedYear: '',
         numberOfEmployees: '',
@@ -420,6 +559,12 @@ export default {
         postalCode: '',
         streetAddress: '',
         streetAddressDetail: '',
+        factoryCountry: '',
+        factoryState: '',
+        factoryCity: '',
+        factoryPostalCode: '',
+        factoryStreetAddress: '',
+        factoryStreetAddressDetail: '',
         history: '',
         acceptedDeliveryTerms: [],
         acceptedPaymentCurrency: [],
@@ -440,7 +585,9 @@ export default {
   computed: {
     ...mapGetters({
       account: 'auth/GET_ACCOUNT',
-      contact: 'auth/GET_CONTACT'
+      contact: 'auth/GET_CONTACT',
+      isUserBuyer: 'auth/IS_USER_BUYER',
+      isUserSupplier: 'auth/IS_USER_SUPPLIER'
     }),
     checkVideoLink() {
       if (this.value.video.length < 1) return true
@@ -448,7 +595,6 @@ export default {
       const sc = this.value.video.indexOf('youtu.be/') !== -1
       const vc = this.value.video.indexOf('vimeo.com') !== -1
       const result = fc || sc || vc
-      console.log(result)
       return result
     }
   },
@@ -456,8 +602,9 @@ export default {
     applyAttributes() {
       // when login user is page admin, keep going
       this.applyLocalData(this.account)
-      this.onCheckbox()
+      this.onChangeBusinessTypes()
       this.applyInputFocusBlurEvent()
+      this.maxBusinessTypeLength = this.isUserBuyer && this.isUserSupplier ? 4 : 3
     },
     changeSelectPlaceholderColor() {
       const selects = document.querySelectorAll('.dashboard-page-container select')
@@ -477,8 +624,10 @@ export default {
       this.value.shortDescriptionCount = account.company_short_description.length
       this.value.video = account.account_video_url
       this.value.products = account.products
+      this.value.productsBuy = account.products_buy
       this.value.phone = account.phone
       this.value.website = account.website
+      this.value.fax = account.fax
       this.value.averageLeadTime = account.average_lead_time
       this.value.establishedYear = account.established_year
       this.value.numberOfEmployees = account.number_of_employees
@@ -489,6 +638,12 @@ export default {
       this.value.postalCode = account.mailing_postal_code
       this.value.streetAddress = account.mailing_street_address
       this.value.streetAddressDetail = account.mailing_street_address_2
+      this.value.factoryCountry = account.factory_country
+      this.value.factoryState = account.factory_state
+      this.value.factoryCity = account.factory_city
+      this.value.factoryPostalCode = account.factory_postal_code
+      this.value.factoryStreetAddress = account.factory_street_address
+      this.value.factoryStreetAddressDetail = account.factory_street_address_2
       this.value.history = account.history
       this.value.acceptedDeliveryTerms = checkboxStringToArray(
         acceptedDeliveryTerms,
@@ -528,13 +683,14 @@ export default {
       this.msg.pdfText = ''
       $('#pdf-cancel-button').css('display', 'none')
     },
-    onCheckbox() {
-      if (this.value.businessTypes.length > 2) {
-        $('.business-type-container input[type=checkbox]').attr('disabled', 'disabled')
-      } else {
-        $('.business-type-container input[type=checkbox]').removeAttr('disabled')
-      }
-      $('.business-type-container input[type=checkbox]:checked').removeAttr('disabled')
+    onChangeBusinessTypes() {
+      const $inputs = '.business-type-container input[type=checkbox]'
+
+      limitCheckboxMaxLength($inputs, this.value.businessTypes, this.maxBusinessTypeLength)
+
+      // Buying Office is always disabled
+      const $buyingOffice = document.getElementById('Buying Office')
+      $buyingOffice.setAttribute('disabled', 'disabled')
     },
     getYear(date) {
       if (date === '0000-00-00') {
@@ -597,8 +753,10 @@ export default {
         company_description: this.value.description,
         account_video_url: this.value.video,
         products: this.value.products,
+        products_type: this.value.products_buy,
         website: this.value.website,
         phone: this.value.phone,
+        fax: this.value.fax,
         average_lead_time: this.value.averageLeadTime,
         established_year: this.value.establishedYear,
         number_of_employees: this.value.numberOfEmployees,
@@ -609,6 +767,12 @@ export default {
         mailing_postal_code: this.value.postalCode,
         mailing_street_address: this.value.streetAddress,
         mailing_street_address_2: this.value.streetAddressDetail,
+        factory_country: this.value.factoryCountry,
+        factory_state: this.value.factoryState,
+        factory_city: this.value.factoryCity,
+        factory_postal_code: this.value.factoryPostalCode,
+        factory_street_address: this.value.factoryStreetAddress,
+        factory_street_address_2: this.value.factoryStreetAddressDetail,
         history: this.value.history,
         accepted_delivery_terms: checkboxArrayToString(
           acceptedDeliveryTerms,
@@ -719,9 +883,6 @@ export default {
   },
   mounted() {
     this.applyAttributes()
-  },
-  updated() {
-    this.onCheckbox()
   }
 }
 </script>

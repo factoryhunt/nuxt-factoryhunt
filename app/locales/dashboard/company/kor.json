@@ -53,7 +53,8 @@
     "products": {
       "title": "취급 품목",
       "placeholder": "LED, Light bulbs, ...",
-      "inputTitle": "1~200자의 영어와 숫자, 쉼표, 하이픈, 엠퍼샌드(&), 소괄호 그리고 작은따옴표만 입력해주세요."
+      "inputTitle":
+        "1~200자의 영어와 숫자, 쉼표, 하이픈, 엠퍼샌드(&), 소괄호 그리고 작은따옴표만 입력해주세요."
     },
     "website": {
       "title": "웹사이트",
@@ -64,6 +65,11 @@
       "title": "전화번호",
       "placeholder": "+82-31-123-4567",
       "inputTitle": "1~21자의 숫자와 더하기, 그리고 하이픈만 입력해주세요."
+    },
+    "fax": {
+      "title": "Phone",
+      "placeholder": "E.g +1-917-1234-5678",
+      "inputTitle": "It must be 1-21 characters and can only contain numbers, plus, and hyphens."
     },
     "averageLeadTime": {
       "title": "평균 납품 소요시간 (일)",
@@ -98,12 +104,14 @@
     "street": {
       "title": "도로명 주소",
       "placeholder": "20, Gongdan-daero",
-      "inputTitle": "1~100자의 영어와 숫자, 하이픈, 마침표, 쉼표, 샵, 슬래시 그리고 소괄호만 입력해주세요."
+      "inputTitle":
+        "1~100자의 영어와 숫자, 하이픈, 마침표, 쉼표, 샵, 슬래시 그리고 소괄호만 입력해주세요."
     },
     "street2": {
       "title": "상세 주소",
       "placeholder": "Gongdan Building Floor 2",
-      "inputTitle": "1~100자의 영어와 숫자, 하이픈, 마침표, 쉼표, 샵, 슬래시 그리고 소괄호만 입력해주세요."
+      "inputTitle":
+        "1~100자의 영어와 숫자, 하이픈, 마침표, 쉼표, 샵, 슬래시 그리고 소괄호만 입력해주세요."
     },
     "postal": {
       "title": "우편번호",
@@ -119,11 +127,13 @@
     "title": "연혁",
     "desc": "회사의 연혁을 입력해주세요.",
     "inputTitle": "이 항목은 25000자로 제한됩니다.",
-    "placeholder": "1984 : B brand founded<br>2000 : Management buyout from C and merged with D <br>2005 : E leads a management buyout of the Group as CEO, backed by F<br>2009 : Group opens Chinese facility<br>2013 : LED lighting range is launched Group’s Chinese facility expanded<br>2015 : Group achieves sales of $100m for the first time Offices opened in United States<br>2016 : Group’s Chinese facility is expanded to 52,500 square metres Offices opened in Hong Kong and Spain"
+    "placeholder":
+      "1984 : B brand founded<br>2000 : Management buyout from C and merged with D <br>2005 : E leads a management buyout of the Group as CEO, backed by F<br>2009 : Group opens Chinese facility<br>2013 : LED lighting range is launched Group’s Chinese facility expanded<br>2015 : Group achieves sales of $100m for the first time Offices opened in United States<br>2016 : Group’s Chinese facility is expanded to 52,500 square metres Offices opened in Hong Kong and Spain"
   },
   "save": {
     "title": "확인 및 저장",
-    "desc": "저장할 정보를 다시 한 번 확인하고 내용이 맞다면 저장하기 버튼을 눌러주세요. 바로 웹사이트에 반영됩니다!",
+    "desc":
+      "저장할 정보를 다시 한 번 확인하고 내용이 맞다면 저장하기 버튼을 눌러주세요. 바로 웹사이트에 반영됩니다!",
     "button": "저장하기"
   },
   "domain": {
@@ -141,7 +151,8 @@
   },
   "cover": {
     "title": "대표 이미지 수정",
-    "desc": "홈페이지에 가장 먼저 노출되고 강조되는 부분입니다.<br>첫 번째 사진에는 대표 이미지를 올려주세요. 최대 8개까지 등록할 수 있습니다.",
+    "desc":
+      "홈페이지에 가장 먼저 노출되고 강조되는 부분입니다.<br>첫 번째 사진에는 대표 이미지를 올려주세요. 최대 8개까지 등록할 수 있습니다.",
     "caution": "대표 이미지의 사이즈는 가로 1280픽셀과 세로 487픽셀에 최적화 되어있습니다.",
     "button": "파일 선택"
   },

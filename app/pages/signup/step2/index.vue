@@ -23,7 +23,8 @@
       </section>
 
       <!-- Phone -->
-      <section class="phone-type-section">
+      <section 
+        class="phone-type-section">
         <h4>Phone</h4>
         <input 
           type="text"
@@ -36,7 +37,8 @@
       </section>
 
       <!-- Fax -->
-      <section class="phone-type-section">
+      <section 
+        class="phone-type-section">
         <h4>Fax</h4>
         <input 
           type="text"
@@ -160,7 +162,9 @@
       <div class="section-margin">
         <h2>Trade Capacity</h2>
         <!-- Average Lead Time -->
-        <section id="average-lead-time-section">
+        <section 
+          id="average-lead-time-section"
+          v-show="isUserSupplier">
           <h4>Average Lead Time</h4>
           <input 
             type="text"
@@ -168,7 +172,7 @@
           <span>Day(s)</span>
         </section>
         <!-- Accepted Delivery Terms -->
-        <section>
+        <section v-show="isUserSupplier">
           <h4>Accepted Delivery Terms</h4>
           <div id="scroll-container">
             <div 
@@ -188,7 +192,7 @@
           </div>
         </section>
         <!-- Accepted Payment Currency -->
-        <section>
+        <section v-show="isUserSupplier">
           <h4>Accepted Payment Currency</h4>
           <div id="scroll-container">
             <div 
@@ -228,7 +232,7 @@
           </div>
         </section>
         <!-- Accepted Payment Type -->
-        <section>
+        <section v-show="isUserSupplier">
           <h4>Accepted Payment Type</h4>
           <div id="scroll-container">
             <div 
@@ -340,7 +344,8 @@ export default {
   },
   computed: {
     ...mapGetters({
-      userData: 'auth/GET_USER'
+      userData: 'auth/GET_USER',
+      isUserSupplier: 'auth/IS_USER_SUPPLIER'
     }),
     getVideo() {
       return getVideoURL(this.value.video)

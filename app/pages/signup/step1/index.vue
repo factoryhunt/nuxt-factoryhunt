@@ -42,7 +42,8 @@
                 v-model="value.businessTypes"
                 :disabled="businessType.value === 'Buying Office'"
                 @change="onChangeBusinessTypes"/>
-              <label :for="businessType.value">
+              <label 
+                :for="businessType.value">
                 {{businessType.value}}
               </label>
             </div>
@@ -102,7 +103,9 @@
         </section>
 
         <!-- Factory Hunt Domain -->
-        <section id="domain-section">
+        <section 
+          id="domain-section"
+          v-if="isUserSupplier || isUserBuyerAndSupplier">
           <h4>
             Customized Domain for Your Factory Hunt Page<required-icon/>
             <span class="text-counting">{{getRemainLength(value.domain, MAX_DOMAIN_LENGTH)}}</span></h4>
@@ -332,7 +335,7 @@ export default {
     },
     checkDomain() {
       const { domain } = this.value
-      const domainFilter = new RegExp('a-z0-9.')
+      const domainFilter = new RegExp('[a-z0-9.]')
       const result = domainFilter.test(domain)
 
       return new Promise((resolve, reject) => {

@@ -66,6 +66,23 @@
             :title="$t('dashboardMyAccount.body.titles.inputTitle')" 
             v-model="value.title">
         </section>
+        <!-- Direct Phone -->
+        <section>
+          <div class="table">
+            <h4>Direct Phone Number & Ext.</h4>
+            <input 
+              class="phone"
+              type="text" 
+              :pattern="getPattern('tel', MAX_TEL_LENGTH)"
+              :placeholder="$t('dashboardMyAccount.body.mobile.placeholder')" 
+              :title="$t('dashboardMyAccount.body.mobile.inputTitle')" 
+              v-model="value.phone">
+            <input 
+              class="ext"
+              type="text"
+              v-model="value.ext">
+          </div>
+        </section>
         <!-- Mobile -->
         <section>
           <h4>Mobile</h4>
@@ -121,6 +138,8 @@ export default {
         firstname: '',
         lastname: '',
         title: '',
+        phone: '',
+        ext: '',
         mobile: ''
       }
     }
@@ -141,7 +160,9 @@ export default {
         first_name,
         last_name,
         contact_title,
-        contact_phone
+        contact_phone,
+        contact_phone_ext,
+        contact_mobile
       } = this.userData.contact
 
       this.value.email = contact_email
@@ -149,7 +170,9 @@ export default {
       this.value.firstname = first_name
       this.value.lastname = last_name
       this.value.title = contact_title
-      this.value.mobile = contact_phone
+      this.value.phone = contact_phone
+      this.value.ext = contact_phone_ext
+      this.value.mobile = contact_mobile
     },
     getPattern(type, max_length, min_length) {
       return get_pattern(type, max_length, min_length)
@@ -174,6 +197,8 @@ export default {
         firstname: first_name,
         lastname: last_name,
         title: contact_title,
+        phone: contact_phone,
+        ext: contact_phone_ext,
         mobile: contact_mobile
       } = this.value
 
@@ -183,6 +208,8 @@ export default {
           first_name,
           last_name,
           contact_title,
+          contact_phone,
+          contact_phone_ext,
           contact_mobile
         }
       }
@@ -240,5 +267,13 @@ export default {
     width: 200px;
     margin-left: 12px;
   }
+}
+
+.phone {
+  width: 75% !important;
+}
+.ext {
+  margin-left: 10px !important;
+  width: 20% !important;
 }
 </style>

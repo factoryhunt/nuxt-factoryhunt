@@ -65,6 +65,27 @@
                 v-model="value.title"></div>
           </div>
 
+          <!-- Phone -->
+          <div class="box-container">
+            <div class="left-contents">{{ $t('dashboardMyAccount.body.phone.title') }}</div>
+            <div class="right-contents">
+              <input 
+                type="text" 
+                pattern="[0-9+-]{1,21}" 
+                :placeholder="$t('dashboardMyAccount.body.phone.placeholder')" :title="$t('dashboardMyAccount.body.phone.inputTitle')" v-model="value.phone"></div>
+          </div>
+
+          <!-- Ext -->
+          <div class="box-container">
+            <div class="left-contents">{{ $t('dashboardMyAccount.body.ext.title') }}</div>
+            <div class="right-contents">
+              <input 
+                type="text" 
+                pattern="[0-9+-]{1,21}" 
+                :placeholder="$t('dashboardMyAccount.body.ext.placeholder')" 
+                :title="$t('dashboardMyAccount.body.ext.inputTitle')" v-model="value.ext"></div>
+          </div>
+
           <!-- Mobile -->
           <div class="box-container">
             <div class="left-contents">{{ $t('dashboardMyAccount.body.mobile.title') }}</div>
@@ -75,12 +96,6 @@
                 :placeholder="$t('dashboardMyAccount.body.mobile.placeholder')" 
                 :title="$t('dashboardMyAccount.body.mobile.inputTitle')" 
                 v-model="value.mobile"></div>
-          </div>
-
-          <!-- Phone -->
-          <div class="box-container">
-            <div class="left-contents">{{ $t('dashboardMyAccount.body.officeNumber.title') }}</div>
-            <div class="right-contents"><input type="text" pattern="[0-9+-]{1,21}" :placeholder="$t('dashboardMyAccount.body.officeNumber.placeholder')" :title="$t('dashboardMyAccount.body.officeNumber.inputTitle')" v-model="value.phone"></div>
           </div>
         </div>
 
@@ -132,6 +147,7 @@ export default {
         title: '',
         languages: '',
         phone: '',
+        ext: '',
         mobile: '',
         type: ''
       },
@@ -151,10 +167,8 @@ export default {
         last_name: this.value.lastName,
         contact_title: this.value.title,
         contact_phone: this.value.phone,
+        contact_phone_ext: this.value.ext,
         contact_mobile: this.value.mobile
-        //          first_name: this.value.firstNameEnglish,
-        //          last_name: this.value.lastNameEnglish
-        //          languages: this.value.languages,
       }
       axios
         .put(`/api/data/contact/${this.contact.contact_id}`, {
@@ -174,6 +188,7 @@ export default {
       this.value.lastName = this.contact.last_name
       this.value.title = this.contact.contact_title
       this.value.phone = this.contact.contact_phone
+      this.value.ext = this.contact.contact_phone_ext
       this.value.mobile = this.contact.contact_mobile
     },
     activateLoader() {

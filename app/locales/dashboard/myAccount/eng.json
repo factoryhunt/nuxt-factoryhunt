@@ -7,7 +7,8 @@
   "editFail": "Edit failed. Please try again.",
   "header": {
     "title": "Account Information",
-    "subTitle": "Please upload all information below. It will make easier for buyers to contact you."
+    "subTitle":
+      "Please upload all information below. It will make easier for buyers to contact you."
   },
   "body": {
     "email": {
@@ -31,20 +32,26 @@
       "placeholder": "CEO, Manager, ..",
       "inputTitle": "It must be 1-30 characters and can only contain letters, and comma."
     },
+    "phone": {
+      "title": "Direct Phone Number",
+      "placeholder": "+1-917-123-4567",
+      "inputTitle": "It must be 1-21 characters and can only contain numbers, plus, and hyphens."
+    },
+    "ext": {
+      "title": "Ext.",
+      "placeholder": "1",
+      "inputTitle": "It must be 1-10 characters and can only contain numbers."
+    },
     "mobile": {
       "title": "Mobile Number",
       "placeholder": "+1-917-1234-5678",
-      "inputTitle": "It must be 1-21 characters and can only contain numbers, plus, and hyphens."
-    },
-    "officeNumber": {
-      "title": "Office Phone",
-      "placeholder": "+1-917-123-4567",
       "inputTitle": "It must be 1-21 characters and can only contain numbers, plus, and hyphens."
     }
   },
   "confirm": {
     "title": "Confirm and Save",
-    "subTitle": "Please confirm the information above before you save it. All information will be updated immediately.",
+    "subTitle":
+      "Please confirm the information above before you save it. All information will be updated immediately.",
     "button": "Save"
   },
   "password": {
@@ -67,7 +74,8 @@
   "deleteAccountButton": "Delete account",
   "drop": {
     "subTitle": "Could you tell us why you want to stop using the service?",
-    "placeholder": "If you tell us the reason why you want to delete the account, we will do our best to improve the service to make users happy."
+    "placeholder":
+      "If you tell us the reason why you want to delete the account, we will do our best to improve the service to make users happy."
   },
   "caution": {
     "title": "What happens when a user delete account.",
@@ -80,7 +88,8 @@
     "subTitle": "Are you sure you want to delete your account?",
     "delete": "Delete",
     "cancel": "Cancel",
-    "success": "Your account has been deleted successfully. Thank you for using Factory Hunt so far.",
+    "success":
+      "Your account has been deleted successfully. Thank you for using Factory Hunt so far.",
     "fail": "Sorry, please try again later."
   }
 }

@@ -103,7 +103,10 @@
         </section>
       </div>
       <!-- Factory Address -->
-      <div id="address-container" class="section-margin">
+      <div 
+        id="address-container" 
+        class="section-margin"
+        v-show="isUserSupplier">
         <h2>Factory Address</h2>
         <div class="table">
           <!-- Country -->
@@ -261,7 +264,8 @@ export default {
   },
   computed: {
     ...mapGetters({
-      userData: 'auth/GET_USER'
+      userData: 'auth/GET_USER',
+      isUserSupplier: 'auth/IS_USER_SUPPLIER'
     }),
     getAccountId() {
       return this.userData.account.account_id
