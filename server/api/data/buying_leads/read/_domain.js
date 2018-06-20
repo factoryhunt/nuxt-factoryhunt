@@ -29,6 +29,7 @@ module.exports = async (req, res) => {
         bl.last_modified_date,
         GROUP_CONCAT(d.location SEPARATOR '||') AS location,
         a.account_name,
+        a.account_type,
         a.domain as account_domain,
         a.mailing_country,
         c.contact_id,

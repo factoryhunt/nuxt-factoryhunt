@@ -50,7 +50,7 @@
           <div>
             <span 
               class="name">
-              <a>{{getUserName(quote)}}</a></span>
+              <span>{{getUserName(quote)}}</span></span>
           </div>
           <div class="sub-name">
             <span>

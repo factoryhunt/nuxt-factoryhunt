@@ -24,7 +24,7 @@
           slot="name"
           class="name-container">
           <div class="name">
-            <a>{{getAuthorName}}</a></div>
+            <span>{{getAuthorName}}</span></div>
           <div class="sub-name">
             <span 
               v-show="buyingLead.contact_title">
@@ -67,6 +67,8 @@
                 :label="getPaymentUnitPrice">Preffered Unit Price</tool-tip></li>
             <li v-show="getQuantity"><tool-tip
               :label="getQuantity">The buyer wants {{getQuantity}}.</tool-tip></li>
+            <li v-if="isAdmin"><tool-tip
+              label="Posted by FH">This buying lead is posted by Factory Hunt</tool-tip></li>
           </ul>
         </section>
 
@@ -162,6 +164,13 @@ export default {
       isLoggedIn: 'auth/IS_LOGGED_IN',
       user: 'auth/GET_USER'
     }),
+    isAdmin() {
+      const { account_type } = this.buyingLead
+
+      if (account_type.indexOf('Admin') !== -1) return true
+
+      return false
+    },
     getReportData() {
       return {
         id: this.buyingLead.buying_lead_id,
@@ -176,7 +185,7 @@ export default {
       if (first_name || !last_name) name = first_name
       if (!first_name || last_name) name = last_name
       if (first_name && last_name) name = `${first_name} ${last_name}`
-      if (!first_name && !last_name) name = 'Unknown'
+      if (!first_name && !last_name) name = ''
 
       return name
     },

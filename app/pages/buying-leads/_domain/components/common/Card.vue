@@ -140,6 +140,7 @@ export default {
     margin-left: 12px;
     font-size: 12px;
     font-weight: 400;
+    align-items: center;
 
     @media (min-width: 744px) {
       font-size: 15px;
