@@ -72,7 +72,6 @@
             :id="business.value"
             :value="business.value"
             v-model="value.businessTypes"
-            :disabled="business.value === 'Buying Office'"
             @change="onChangeBusinessTypes()">
           <label 
             class="checkbox-label" 
@@ -572,6 +571,7 @@ export default {
         languageSpoken: []
       },
       toggle: {
+        isLoaded: false,
         isSaving: false,
         isDomainAvailable: null,
         isAccountNameAvailable: null,
@@ -602,9 +602,11 @@ export default {
     applyAttributes() {
       // when login user is page admin, keep going
       this.applyLocalData(this.account)
+      this.maxBusinessTypeLength = this.isUserBuyer && this.isUserSupplier ? 4 : 3
       this.onChangeBusinessTypes()
       this.applyInputFocusBlurEvent()
-      this.maxBusinessTypeLength = this.isUserBuyer && this.isUserSupplier ? 4 : 3
+
+      this.toggle.isLoaded = true
     },
     changeSelectPlaceholderColor() {
       const selects = document.querySelectorAll('.dashboard-page-container select')
@@ -684,13 +686,25 @@ export default {
       $('#pdf-cancel-button').css('display', 'none')
     },
     onChangeBusinessTypes() {
-      const $inputs = '.business-type-container input[type=checkbox]'
+      const { businessTypes } = this.value
+      const className = '.business-type-container input[type=checkbox]'
+      const $inputs = $(className)
 
-      limitCheckboxMaxLength($inputs, this.value.businessTypes, this.maxBusinessTypeLength)
+      if (businessTypes.length >= this.maxBusinessTypeLength) {
+        $inputs.attr('disabled', 'disabled')
+      } else {
+        $inputs.removeAttr('disabled')
+      }
 
-      // Buying Office is always disabled
-      const $buyingOffice = document.getElementById('Buying Office')
-      $buyingOffice.setAttribute('disabled', 'disabled')
+      this.$nextTick(() => {
+        for (let i = 0; i < $inputs.length; i++) {
+          const $input = $inputs[i]
+          if ($input.checked) $input.disabled = false
+        }
+
+        const $buyingOffice = document.getElementById('Buying Office')
+        $buyingOffice.setAttribute('disabled', 'disabled')
+      })
     },
     getYear(date) {
       if (date === '0000-00-00') {

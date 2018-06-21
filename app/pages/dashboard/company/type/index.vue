@@ -25,6 +25,7 @@
 import SubmitButton from '~/components/Button'
 import SelectInput from '~/components/Inputs/Select'
 // libs
+import BusinessTypes from '~/assets/models/business_type.json'
 import axios from '~/plugins/axios'
 import { showTopAlert } from '~/utils/alert'
 export default {
@@ -38,6 +39,14 @@ export default {
     type: '',
     isLoading: false
   }),
+  computed: {
+    willBeBuyer() {
+      return this.type.indexOf('Buyer') !== -1
+    },
+    willBeSupplier() {
+      return this.type.indexOf('Supplier') !== -1
+    }
+  },
   methods: {
     init() {
       this.mappingData()
@@ -47,12 +56,35 @@ export default {
     },
     async update() {
       this.isLoading = true
+
+      let { account_id, business_type } = this.account
+      let businessType = []
+      const isAlreadyBuyer = business_type.indexOf('Buying Office') !== -1
+
+      const iterator = ({ value }) => {
+        if (isAlreadyBuyer && !this.willBeBuyer) {
+          // remove buying office
+          if (business_type.indexOf(value) !== -1 && value !== 'Buying Office')
+            businessType.push(value)
+        } else if (!isAlreadyBuyer && this.willBeBuyer) {
+          // add buying office
+          if (business_type.indexOf(value) !== -1 || value === 'Buying Office')
+            businessType.push(value)
+        } else {
+          // supplier to supplier
+          if (business_type.indexOf(value) !== -1) businessType.push(value)
+        }
+      }
+
+      BusinessTypes.forEach(iterator)
+
       const data = {
-        account_type: this.type
+        account_type: this.type,
+        business_type: businessType.join(', ')
       }
 
       try {
-        await axios.put(`/api/data/account/${this.account.account_id}`, {
+        await axios.put(`/api/data/account/${account_id}`, {
           account_data: data
         })
         location.reload()
