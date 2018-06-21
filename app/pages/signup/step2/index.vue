@@ -168,6 +168,8 @@
           <h4>Average Lead Time</h4>
           <input 
             type="text"
+            pattern="[0-9]{1,3}"
+            :title="$t('dashboardCompany.company.averageLeadTime.inputTitle')" 
             v-model="value.averageLeadTime">
           <span>Day(s)</span>
         </section>

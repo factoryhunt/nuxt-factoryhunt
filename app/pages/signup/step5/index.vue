@@ -10,9 +10,9 @@
           <dropzone 
             id="logo-dropzone"
             class="dropzone"
-            placeholder="Click, or drag and drop an image to this area (1MB MAX)"
+            placeholder="Click, or drag and drop an image to this area (2MB MAX)"
             width="200px"
-            :maxFileSize="1"
+            :maxFileSize="3"
             :maxFileLength="1"
             margin="0"
             :multiple="false"

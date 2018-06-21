@@ -160,7 +160,7 @@ export default {
     },
     async addNewImage(file) {
       if (file.size < 0) return
-      if (kilobyteToMegabyte(file.size) > 7)
+      if (kilobyteToMegabyte(file.size) > 3)
         return showTopAlert(
           this.$store,
           false,

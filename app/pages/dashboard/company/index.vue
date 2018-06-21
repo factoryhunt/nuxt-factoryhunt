@@ -54,7 +54,8 @@
 
       <!-- Business Type -->
       <div 
-        class='business-type-container input-container'>
+        class='business-type-container input-container'
+        v-show="isUserSupplier">
         <p class="title">{{ $t('dashboardCompany.businessType.title') }}</p>
         <span 
           class="required-text" 
@@ -131,11 +132,11 @@
                 v-model="value.productsBuy">
             </div>
           </div>
-          <!-- What do you supplier -->
+          <!-- What do you sell -->
           <div 
             class="box-container"
             v-show="isUserSupplier">
-            <div class="left-contents">What do you supplier</div>
+            <div class="left-contents">What do you sell</div>
             <div class="right-contents">
               <input
                 type="text"
@@ -228,7 +229,7 @@
           <div class="left-contents">{{ $t('dashboardCompany.company.country.title') }}</div>
           <div class="right-contents">
             <select title="required" v-model="value.country">
-              <option id="disabled-option" disabled value="">{{ $t('dashboardCompany.company.country.defaultValue') }}</option>
+              <option id="disabled-option" value="">Select</option>
               <option v-for="(country,index) in country_list" :key="index" :value="country.country_name">{{country.country_name}}</option>
             </select>
           </div>
@@ -298,7 +299,7 @@
             <div class="left-contents">{{ $t('dashboardCompany.company.country.title') }}</div>
             <div class="right-contents">
               <select title="required" v-model="value.factoryCountry">
-                <option id="disabled-option" disabled value="">{{ $t('dashboardCompany.company.country.defaultValue') }}</option>
+                <option id="disabled-option" value="">Select</option>
                 <option v-for="(country,index) in country_list" :key="index" :value="country.country_name">{{country.country_name}}</option>
               </select>
             </div>

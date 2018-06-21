@@ -44,7 +44,7 @@
           <p class="description">Get quotes, and close deals one click.</p>
           <basic-button 
             class="rfq-button"
-            @click="onRFQButton()">Request First Quotation</basic-button>
+            @click="onRFQButton()">Request Quotes</basic-button>
         </no-item-card>
         <!-- Exists -->
         <div 

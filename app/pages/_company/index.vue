@@ -151,9 +151,13 @@
               <div class="left-contents">{{ $t('company.information.phone') }}</div>
               <div class="right-contents">{{ vendor.phone }}</div>
             </div>
-            <div class="list-container" v-show="getAddress">
-              <div class="left-contents">{{ $t('company.information.address') }}</div>
-              <div class="right-contents">{{ getAddress }}</div>
+            <div class="list-container" v-show="getOfficeAddress">
+              <div class="left-contents">Office Address</div>
+              <div class="right-contents">{{ getOfficeAddress }}</div>
+            </div>
+            <div class="list-container" v-show="getFactoryAddress">
+              <div class="left-contents">Factory Address</div>
+              <div class="right-contents">{{ getFactoryAddress }}</div>
             </div>
             <div class="list-container" v-show="vendor.account_type">
               <div class="left-contents">{{ $t('company.information.businessType') }}</div>
@@ -428,7 +432,7 @@ export default {
       const country = this.vendor.mailing_country
       return city + state + country
     },
-    getAddress() {
+    getOfficeAddress() {
       const street = this.vendor.mailing_street_address
         ? this.vendor.mailing_street_address + ', '
         : ''
@@ -438,6 +442,18 @@ export default {
       const city = this.vendor.mailing_city ? this.vendor.mailing_city + ', ' : ''
       const state = this.vendor.mailing_state ? this.vendor.mailing_state + ', ' : ''
       const country = this.vendor.mailing_country
+      return street + street2 + city + state + country
+    },
+    getFactoryAddress() {
+      const street = this.vendor.factory_street_address
+        ? this.vendor.factory_street_address + ', '
+        : ''
+      const street2 = this.vendor.factory_street_address_2
+        ? this.vendor.factory_street_address_2 + ', '
+        : ''
+      const city = this.vendor.factory_city ? this.vendor.factory_city + ', ' : ''
+      const state = this.vendor.factory_state ? this.vendor.factory_state + ', ' : ''
+      const country = this.vendor.factory_country
       return street + street2 + city + state + country
     },
     tradeCapacityExist() {

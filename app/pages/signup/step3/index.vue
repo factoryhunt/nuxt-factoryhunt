@@ -77,9 +77,9 @@
             v-model="value.office.streetAddress"
             @change="delayKeyup(ADDRESS_TYPE_OFFICE)">
         </section>
-        <!-- Street Address Details -->
+        <!-- Street Address 2 -->
         <section>
-          <h4>Street Address Details</h4>
+          <h4>Street Address 2</h4>
           <input 
             type="text" 
             :maxlength="MAX_STREET_LENGTH"
@@ -109,6 +109,17 @@
         v-show="isUserSupplier">
         <h2>Factory Address</h2>
         <div class="table">
+          <!-- Map Preview -->
+          <div 
+            class="preview-container" 
+            tabindex="-1">
+            <div class="preview-wrapper">
+              <div id="no-map" class="preview-item" v-show="!value.factory.isMapDisplayed">
+                <span>{{value.factory.mapPreview}}</span>
+              </div>
+              <div id="factory-map" class="preview-item" v-show="value.factory.isMapDisplayed"></div>
+            </div>
+          </div>
           <!-- Country -->
           <section class="table-cell">
             <h4>Country</h4>
@@ -135,17 +146,6 @@
               v-model="value.factory.state" 
               @change="delayKeyup(ADDRESS_TYPE_FACTORY)">
           </section>
-          <!-- Map Preview -->
-          <div 
-            class="preview-container" 
-            tabindex="-1">
-            <div class="preview-wrapper">
-              <div id="no-map" class="preview-item" v-show="!value.factory.isMapDisplayed">
-                <span>{{value.factory.mapPreview}}</span>
-              </div>
-              <div id="factory-map" class="preview-item" v-show="value.factory.isMapDisplayed"></div>
-            </div>
-          </div>
         </div>
         <!-- City -->
         <section>
@@ -172,9 +172,9 @@
             v-model="value.factory.streetAddress"
             @change="delayKeyup(ADDRESS_TYPE_FACTORY)">
         </section>
-        <!-- Street Address Details -->
+        <!-- Street Address 2 -->
         <section>
-          <h4>Street Address Details</h4>
+          <h4>Street Address 2</h4>
           <input 
             type="text" 
             :maxlength="MAX_STREET_LENGTH"
