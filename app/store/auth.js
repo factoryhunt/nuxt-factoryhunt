@@ -21,12 +21,13 @@ export const getters = {
     if (!state.user) return 'Unknown'
 
     const { first_name, last_name } = state.user.contact
+    const { account_name } = state.user.account
 
     if (first_name && last_name) return `${first_name} ${last_name}`
     if (first_name) return first_name
     if (last_name) return last_name
 
-    return 'Unknown'
+    return account_name || 'Unknown'
   },
   isLoggedIn: state => {
     return state.user !== null

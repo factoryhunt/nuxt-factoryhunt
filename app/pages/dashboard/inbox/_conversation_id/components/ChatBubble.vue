@@ -15,7 +15,7 @@
         @click="onReportButton">
       <circle-img 
         class="logo recipient-img" 
-        :url="logoUrl"
+        :url="getLogoUrl"
         v-show="!isMine"/>
       <div class="text-container">
         <div 
@@ -38,7 +38,7 @@
       </div>
       <circle-img 
         class="logo user-img" 
-        :url="account.logo_url"
+        :url="getLogoUrl"
         v-show="isMine"/>
     </div>
   </div>
@@ -69,7 +69,7 @@ export default {
     ...mapGetters({
       account: 'auth/GET_ACCOUNT'
     }),
-    getRecipientLogoUrl() {
+    getLogoUrl() {
       return this.logoUrl ? this.logoUrl : require('~/assets/icons/user.svg')
     },
     getReportData() {

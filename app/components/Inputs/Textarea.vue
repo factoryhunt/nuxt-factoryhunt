@@ -14,7 +14,7 @@
       :maxlength="maxlength"
       :value="value"
       @input="onInput($event.target.value)"
-      @focus="$emit('focus')"
+      @focus="$emit('focus', $event)"
       @blur="$emit('blur')">
     </textarea>
   </div>

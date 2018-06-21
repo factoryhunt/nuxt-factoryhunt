@@ -24,7 +24,7 @@
           <h5>Square logo image is recommended.</h5>
       </section>
 
-      <section>
+      <section v-show="isUserSupplier">
         <h4>Cover Images</h4>
         <div class="dropzone-margin-top">
           <dropzone 
@@ -78,7 +78,8 @@ export default {
   },
   computed: {
     ...mapGetters({
-      userData: 'auth/GET_USER'
+      userData: 'auth/GET_USER',
+      isUserSupplier: 'auth/IS_USER_SUPPLIER'
     }),
     getAccountId() {
       return this.userData.account.account_id

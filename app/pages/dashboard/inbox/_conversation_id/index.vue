@@ -43,14 +43,14 @@
             <div class="input-inner-container">
               <textarea
                 ref="textarea"
-                placeholder="Enter Message Here."
+                placeholder="Enter message here."
                 v-model="msg"></textarea>
               <button 
                 :disabled="toggle.isSending">{{toggle.isSending ? 'Sending..' : 'Send Message'}}</button>
             </div>
             <circle-img 
               class="user-logo" 
-              :url="account.logo_url"/>
+              :url="getMyLogoUrl"/>
           </div>
         </form>
         <!-- Policy -->
@@ -137,6 +137,10 @@ export default {
     },
     getRecipientLogoUrl() {
       const { logo_url } = this.recipient
+      return logo_url ? logo_url : require('~/assets/icons/user.svg')
+    },
+    getMyLogoUrl() {
+      const { logo_url } = this.account
       return logo_url ? logo_url : require('~/assets/icons/user.svg')
     },
     getReportData() {

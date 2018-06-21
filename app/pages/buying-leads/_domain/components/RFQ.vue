@@ -47,7 +47,8 @@
         <!-- Verified Mark -->
         <section class="verify-container">
           <ul>
-            <li><tool-tip
+            <li v-show="buyingLead.mailing_country">
+              <tool-tip
                 :label="buyingLead.mailing_country">The buyer posted in {{buyingLead.mailing_country}}.</tool-tip></li>
             <!-- <li><tool-tip
                 label="Email Confirmed">This buyer emails is confirmed.</tool-tip></li> -->

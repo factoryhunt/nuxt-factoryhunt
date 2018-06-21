@@ -13,7 +13,7 @@ export const get_pattern_max_length = {
   STREET: 100,
   POSTAL: 10,
   NAME: 20,
-  ROLE: 30
+  ROLE: 60
 }
 
 export const get_pattern_config = {
@@ -34,7 +34,7 @@ export const get_pattern_config = {
   STREET: 100,
   POSTAL: 10,
   NAME: 20,
-  ROLE: 30
+  ROLE: 60
 }
 
 export const get_pattern = (type, max_length, min_length = 1) => {

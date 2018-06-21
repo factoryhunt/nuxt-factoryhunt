@@ -30,7 +30,7 @@
                   :maxlength="1000"
                   v-model="description"
                   @click="$emit('click')"
-                  @focus="onFocus()"/>
+                  @focus="onFocus"/>
                 <div 
                   class="submit-form"
                   v-show="rows > 1">
@@ -153,10 +153,14 @@ export default {
     }
   },
   methods: {
-    onFocus() {
+    onFocus(target) {
+      target.blur()
       if (!this.isLoggedIn) return (this.isModalAuthHidden = false)
 
       if (!this.isUserSupplier) return alert('Sorry, the service is only available for suppliers.')
+
+      if (this.buyingLead.status !== 'Activated')
+        return alert('Sorry, this buying lead is not activated.')
 
       this.isFormHidden = false
       this.rows = 7

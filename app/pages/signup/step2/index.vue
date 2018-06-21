@@ -1,7 +1,7 @@
 <template>
   <div>
     <h1>Business Details</h1>
-    <h3>The more specific your information, the more response from suppliers.</h3>
+    <h3>The more specific your information, the more connections with business partners.</h3>
 
     <div id="contents">
       <!-- Website -->

@@ -30,7 +30,7 @@
     "titles": {
       "title": "Title",
       "placeholder": "CEO, Manager, ..",
-      "inputTitle": "It must be 1-30 characters and can only contain letters, and comma."
+      "inputTitle": "It must be 1-60 characters and can only contain letters, and comma."
     },
     "phone": {
       "title": "Direct Phone Number",
@@ -88,8 +88,7 @@
     "subTitle": "Are you sure you want to delete your account?",
     "delete": "Delete",
     "cancel": "Cancel",
-    "success":
-      "Your account has been deleted successfully. Thank you for using Factory Hunt so far.",
+    "success": "Your account has been deleted successfully. Thank you for using Factory Hunt",
     "fail": "Sorry, please try again later."
   }
 }

@@ -41,7 +41,7 @@
           v-if="!buyingLeads.length"
           class="no-item-container">
           <h2 class="title">No buying leads yet.</h2>
-          <p class="description">Get quotes, and close deals one click.</p>
+          <p class="description">Post a buying lead here and discover new business opportunities.</p>
           <basic-button 
             class="rfq-button"
             @click="onRFQButton()">Request Quotes</basic-button>
@@ -233,6 +233,7 @@ main {
     font-size: 24px;
   }
   .description {
+    margin-top: 8px;
     font-weight: 300;
   }
   .rfq-button {

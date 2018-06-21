@@ -14,8 +14,8 @@
         v-if="!inbox.length"
         class="product-empty-container">
         <div class="empty">
-          <p class="title">{{ $t('dashboardProduct.empty.title') }}</p>
-          <p class="sub-title">{{ $t('dashboardProduct.empty.subTitle') }}</p>
+          <p class="title">No messages yet.</p>
+          <p class="sub-title">When you start conversations with<br> potential business partners, read messages here.</p>
         </div>
       </div>
 
@@ -96,14 +96,14 @@ export default {
   },
   methods: {
     getUserName(message) {
-      const { first_name, last_name } = message
+      const { first_name, last_name, account_name } = message
 
       if (first_name && last_name) return `${first_name} ${last_name}`
 
       if (first_name) return first_name
       if (last_name) return last_name
 
-      return 'Unknown'
+      return account_name || 'Unknown'
     },
     getLogoUrl(message) {
       const { logo_url } = message
@@ -203,6 +203,7 @@ button {
           font-size: 24px;
         }
         .sub-title {
+          margin-top: 8px;
           font-weight: 300;
           font-size: 18px;
           margin-bottom: 28px;

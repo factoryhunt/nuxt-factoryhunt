@@ -70,7 +70,7 @@
           <ul>
             <li v-show="quote.mailing_country">
               <tool-tip 
-                :label="quote.mailing_country">This supplier posted in {{quote.mailing_country}}</tool-tip></li>
+                :label="quote.mailing_country">The supplier posted in {{quote.mailing_country}}</tool-tip></li>
             <li>
               <tool-tip 
                 maxWidth="118"

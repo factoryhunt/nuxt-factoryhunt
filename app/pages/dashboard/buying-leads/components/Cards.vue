@@ -30,7 +30,7 @@
         </div>
 
         <!-- How many quotes -->
-        <p class="quotes section">{{buyingLead.quote_count}} Quoted</p>
+        <p class="quotes section">{{buyingLead.quote_count}} Quotes</p>
 
         <!-- Status -->
         <div class="status-container section">
@@ -77,7 +77,7 @@ export default {
   },
   methods: {
     getTitle(title) {
-      return title || 'Title of Your RFQ'
+      return title || 'Title of Your Request Quote'
     },
     getDescription(desc) {
       return desc || 'Please fill in description about what you need'

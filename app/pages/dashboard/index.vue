@@ -14,7 +14,11 @@
               <p class="title">{{ account.account_name }}</p>
               <p v-if="contact.first_name" class="sub-title">{{contact.first_name + ' ' + contact.last_name}}<small></small></p>
             </div>
-            <button id="view-button" @click="routeCompanyPage" class="view-button button-white">{{ $t('dashboard.viewWebsite') }}</button>
+            <button 
+              id="view-button" 
+              @click="routeCompanyPage" 
+              class="view-button button-white"
+              v-show="isUserSupplier">{{ $t('dashboard.viewWebsite') }}</button>
             <button id="edit-button" @click="routeCompanyEditPage" class="edit-button button-white">{{ $t('dashboard.edit') }}</button>
           </div>
         </div>
@@ -43,13 +47,13 @@
 
         <p class="title">{{ $t('dashboard.dashboard') }}</p>
 
-        <div class="box-container">
+        <div class="box-container" v-show="isUserSupplier">
           <div class="title-container">
             <nuxt-link to="/dashboard/company/domain" class="button">{{ $t('dashboard.edit') }}</nuxt-link>
             <p class="title">{{ $t('dashboard.domain.title') }}</p>
           </div>
           <div class="text-container">
-            <p class="text">{{ $t('dashboard.domain.desc') }}</p>
+            <p class="text">Customized your page URL and share it with your potential business partners.</p>
             <a id="clipboard" data-clipboard-target="#domain-text">
               <span id="domain-text" class="text">https://www.factoryhunt.com/{{account.domain}}
               </span>
@@ -64,11 +68,11 @@
             <p class="title">{{ $t('dashboard.company.title') }}</p>
           </div>
           <div class="text-container">
-            <p class="text">{{ $t('dashboard.company.desc') }}</p>
+            <p class="text">Update company information and create a company page in a minute.</p>
           </div>
         </div>
 
-        <div class="box-container">
+        <div class="box-container" v-show="isUserSupplier">
           <div class="title-container">
             <nuxt-link to="/dashboard/product" class="button">{{ $t('dashboard.edit') }}</nuxt-link>
             <p class="title">{{ $t('dashboard.product.title') }}</p>
@@ -84,7 +88,7 @@
             <p class="title">{{ $t('dashboard.account.title') }}</p>
           </div>
           <div class="text-container">
-            <p class="text">{{ $t('dashboard.account.desc') }}</p>
+            <p class="text">Update your contact details. You will be connected with potential business partner.</p>
           </div>
         </div>
 
@@ -122,7 +126,8 @@ export default {
     ...mapGetters({
       account: 'auth/GET_ACCOUNT',
       contact: 'auth/GET_CONTACT',
-      isLoggedIn: 'auth/isLoggedIn'
+      isLoggedIn: 'auth/isLoggedIn',
+      isUserSupplier: 'auth/IS_USER_SUPPLIER'
     }),
     isTesterAccount() {
       return this.contact.contact_level === '0'

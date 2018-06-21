@@ -33,7 +33,7 @@
                   <li class="verification__mark">
                     <tool-tip
                       v-show="getCountry(feed)"
-                      :label="getCountry(feed)">The buyer posted in {{getCountry(feed)}}</tool-tip></li>
+                      :label="getCountry(feed)">The buyer posted in {{getCountry(feed)}}.</tool-tip></li>
                   <!-- Quantity -->
                   <li class="verification__mark">
                     <tool-tip
@@ -64,7 +64,7 @@
     <div 
       class="no-rfq-container"
       v-else>
-      <p>Sorry, there is no RFQ.</p>
+      <p>Sorry, there is no buying lead.</p>
       <img src="~assets/icons/magnifier.svg">
     </div>
   </main>
