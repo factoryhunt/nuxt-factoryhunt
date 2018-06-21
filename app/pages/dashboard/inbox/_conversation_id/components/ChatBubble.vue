@@ -38,7 +38,7 @@
       </div>
       <circle-img 
         class="logo user-img" 
-        :url="getLogoUrl"
+        :url="getMylogoUrl"
         v-show="isMine"/>
     </div>
   </div>
@@ -69,6 +69,10 @@ export default {
     ...mapGetters({
       account: 'auth/GET_ACCOUNT'
     }),
+    getMylogoUrl() {
+      const { logo_url } = this.account
+      return logo_url ? logo_url : require('~/assets/icons/user.svg')
+    },
     getLogoUrl() {
       return this.logoUrl ? this.logoUrl : require('~/assets/icons/user.svg')
     },

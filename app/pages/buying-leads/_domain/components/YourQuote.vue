@@ -153,14 +153,18 @@ export default {
     }
   },
   methods: {
-    onFocus(target) {
-      target.blur()
+    onFocus(event) {
       if (!this.isLoggedIn) return (this.isModalAuthHidden = false)
 
-      if (!this.isUserSupplier) return alert('Sorry, the service is only available for suppliers.')
+      if (!this.isUserSupplier) {
+        event.target.blur()
+        return alert('Sorry, the service is only available for suppliers.')
+      }
 
-      if (this.buyingLead.status !== 'Activated')
+      if (this.buyingLead.status !== 'Activated') {
+        event.target.blur()
         return alert('Sorry, this buying lead is not activated.')
+      }
 
       this.isFormHidden = false
       this.rows = 7

@@ -20,10 +20,13 @@
             class="recipient-logo"
             :url="getRecipientLogoUrl"/>
           <div class="contents-container">
-            <span class="recipient-name">{{ getRecipientName }}</span>
+            <span 
+              class="recipient-name"
+              v-show="getRecipientName">{{ getRecipientName }}</span>
             <span 
               class="recipient-title">
-              {{recipient.contact_title}} @ 
+              {{recipient.contact_title}} 
+              <br>@ 
               <a 
                 :href="`/${recipient.account_domain}`"
                 target="_blank">{{recipient.account_name}}</a></span>
@@ -65,7 +68,7 @@
             class="chat-bubble"
             :message="message"
             :isMine="isMyMessage(message)"
-            :logoUrl="recipient.logo_url"/>
+            :logoUrl="getRecipientLogoUrl"/>
         </div>
       </div>
     </div>
@@ -133,7 +136,7 @@ export default {
       if (first_name) return fisrt_name
       if (last_name) return last_name
 
-      return 'Unknown'
+      return ''
     },
     getRecipientLogoUrl() {
       const { logo_url } = this.recipient

@@ -33,7 +33,7 @@
               class="logo"
               :url="getLogoUrl(message)"/>
             <div class="category-container">
-              <p class="primary-text">{{getUserName(message)}}</p>
+              <p class="primary-text" v-show="getUserName(message)">{{getUserName(message)}}</p>
               <p class="secondary-text">{{getUserTitle(message)}}</p>
             </div>
             <div class="product-name-container">
@@ -96,14 +96,14 @@ export default {
   },
   methods: {
     getUserName(message) {
-      const { first_name, last_name, account_name } = message
+      const { first_name, last_name } = message
 
       if (first_name && last_name) return `${first_name} ${last_name}`
 
       if (first_name) return first_name
       if (last_name) return last_name
 
-      return account_name || 'Unknown'
+      return ''
     },
     getLogoUrl(message) {
       const { logo_url } = message
