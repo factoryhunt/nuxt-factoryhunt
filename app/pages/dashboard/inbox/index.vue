@@ -108,7 +108,7 @@ export default {
     getLogoUrl(message) {
       const { logo_url } = message
 
-      return logo_url ? logo_url : require('~/assets/icons/user.svg')
+      return logo_url ? logo_url : require('~/assets/img/temp-logo-image_english_512.png')
     },
     getUserTitle(message) {
       const { account_name } = message

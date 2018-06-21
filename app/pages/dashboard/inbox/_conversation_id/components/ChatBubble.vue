@@ -71,10 +71,10 @@ export default {
     }),
     getMylogoUrl() {
       const { logo_url } = this.account
-      return logo_url ? logo_url : require('~/assets/icons/user.svg')
+      return logo_url ? logo_url : require('~/assets/img/temp-logo-image_english_512.png')
     },
     getLogoUrl() {
-      return this.logoUrl ? this.logoUrl : require('~/assets/icons/user.svg')
+      return this.logoUrl ? this.logoUrl : require('~/assets/img/temp-logo-image_english_512.png')
     },
     getReportData() {
       return {

@@ -140,11 +140,11 @@ export default {
     },
     getRecipientLogoUrl() {
       const { logo_url } = this.recipient
-      return logo_url ? logo_url : require('~/assets/icons/user.svg')
+      return logo_url ? logo_url : require('~/assets/img/temp-logo-image_english_512.png')
     },
     getMyLogoUrl() {
       const { logo_url } = this.account
-      return logo_url ? logo_url : require('~/assets/icons/user.svg')
+      return logo_url ? logo_url : require('~/assets/img/temp-logo-image_english_512.png')
     },
     getReportData() {
       return {

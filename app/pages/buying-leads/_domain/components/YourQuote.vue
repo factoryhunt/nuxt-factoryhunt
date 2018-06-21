@@ -122,7 +122,7 @@ export default {
       isUserSupplier: 'auth/IS_USER_SUPPLIER'
     }),
     getLogoURL() {
-      const noImage = require('~/assets/icons/user.svg')
+      const noImage = require('~/assets/img/temp-logo-image_english_512.png')
       if (!this.isLoggedIn) return noImage
 
       const { logo_url } = this.account

@@ -72,7 +72,9 @@ export default {
     }),
     getLogoUrl() {
       const hiddenLogo = require('~/assets/icons/user.svg')
-      const userLogo = this.data.logo_url ? this.data.logo_url : hiddenLogo
+      const userLogo = this.data.logo_url
+        ? this.data.logo_url
+        : require('~/assets/img/temp-logo-image_english_512.png')
 
       if (this.isAuthorOfRfq) return userLogo
 
