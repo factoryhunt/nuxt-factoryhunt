@@ -11,6 +11,7 @@ module.exports = async (req, res) => {
       const SQL = `
       SELECT
         bl.buying_lead_id,
+        bl.temp_author_id,
         bl.author_id,
         bl.status,
         bl.domain,
@@ -38,6 +39,12 @@ module.exports = async (req, res) => {
         c.first_name,
         c.last_name,
         c.contact_title,
+        l.company AS temp_account_name,
+        l.email as temp_email,
+        l.mailing_country AS temp_mailing_country,
+        l.first_name AS temp_first_name,
+        l.last_name AS temp_last_name,
+        l.contact_title as temp_contact_title,
         TIMESTAMPDIFF(DAY, now(), bl.due_date) as due_day_diff,
         TIMESTAMPDIFF(HOUR, now(), bl.due_date) as due_hour_diff,
         TIMESTAMPDIFF(MINUTE, now(), bl.due_date) as due_minute_diff,
@@ -64,6 +71,10 @@ module.exports = async (req, res) => {
         ${MYSQL_MODELS.TABLE_ACCOUNTS} a
       ON
         c.account_id = a.account_id
+      LEFT JOIN
+        ${MYSQL_MODELS.TABLE_LEADS} l
+      ON
+        bl.temp_author_id = l.lead_id
       WHERE
         bl.is_deleted != 1 AND
         bl.domain = ?

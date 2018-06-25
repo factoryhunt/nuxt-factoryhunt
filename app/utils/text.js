@@ -144,3 +144,12 @@ exports.encryptCompanyName = string => {
 
   return result
 }
+
+exports.getName = (first, last) => {
+  let name = ''
+  if (first || !last) name = first
+  if (!first || last) name = last
+  if (first && last) name = `${first} ${last}`
+  if (!first && !last) name = ''
+  return name
+}

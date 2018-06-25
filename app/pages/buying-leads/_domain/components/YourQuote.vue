@@ -89,6 +89,7 @@ import CircleImg from '~/components/Image/CircleViewer'
 // libs
 import axios from '~/plugins/axios'
 import { uploadDocument } from '~/utils/api'
+import { getName } from '~/utils/text'
 import { mapGetters } from 'vuex'
 // static
 const MAX_FILE_LENGTH = 5
@@ -186,6 +187,7 @@ export default {
         const body = this.getSubmittingBody
         const { data } = await axios.post('/api/data/quotes', { body })
         await this.uploadDocuments(data.insertId)
+        // await this.sendConvertEmailToAuthorOfBuyingLead(data.insertId)
         location.reload()
       } catch (err) {
         console.log('submit error', err)
@@ -207,6 +209,55 @@ export default {
           }
           resolve()
         } catch (err) {
+          reject(err)
+        }
+      })
+    },
+    sendConvertEmailToAuthorOfBuyingLead(quote_id) {
+      return new Promise(async (resolve, reject) => {
+        const { author_id, account_type, temp_author_id } = this.buyingLead
+        const isLeadUser = account_type.indexOf('Admin') !== -1
+
+        const sendConvertMail = () => {
+          return new Promise((resolve, reject) => {
+            const body = {
+              quote_id,
+              temp_author_id
+            }
+            axios
+              .post('/api/mail/convert', { body })
+              .then(_ => {
+                resolve()
+              })
+              .catch(err => {
+                reject(err)
+              })
+          })
+        }
+
+        const sendNewQuoteMail = () => {
+          return new Promise((resolve, reject) => {
+            const body = {
+              quote_id,
+              author_id
+            }
+            axios
+              .post('/api/mail/new_quote', { body })
+              .then(_ => {
+                resolve()
+              })
+              .catch(err => {
+                reject(err)
+              })
+          })
+        }
+
+        try {
+          if (isLeadUser) await sendConvertMail()
+          else await sendNewQuoteMail()
+          console.log('sent mail successfully.')
+        } catch (err) {
+          console.error(err)
           reject(err)
         }
       })

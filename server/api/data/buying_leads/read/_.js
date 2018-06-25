@@ -41,15 +41,18 @@ module.exports = async (req, res) => {
         TIMESTAMPDIFF(DAY, now(), bl.due_date) as due_day_diff,
         TIMESTAMPDIFF(HOUR, now(), bl.due_date) as due_hour_diff,
         TIMESTAMPDIFF(MINUTE, now(), bl.due_date) as due_minute_diff,
+        a.account_type,
         a.mailing_country,
         docs.id as document_id,
         docs.location,
+        l.mailing_country AS temp_mailing_country,
         (SELECT
           COUNT(q.id)
         FROM
           quotes q
         WHERE
-          q.buying_lead_id = bl.buying_lead_id) as quote_length
+          q.buying_lead_id = bl.buying_lead_id AND
+          q.is_deleted != 1) as quote_length
       FROM
         ${MYSQL_MODELS.TABLE_BUYING_LEADS} bl
       LEFT JOIN
@@ -62,6 +65,10 @@ module.exports = async (req, res) => {
         ${MYSQL_MODELS.TABLE_ACCOUNTS} a
       ON
         bl.account_id = a.account_id
+      LEFT JOIN
+        ${MYSQL_MODELS.TABLE_LEADS} l
+      ON
+        bl.temp_author_id = l.lead_id
       WHERE 
         bl.status = "Activated" AND
         bl.is_deleted != 1 AND

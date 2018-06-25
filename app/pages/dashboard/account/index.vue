@@ -59,7 +59,7 @@
             <div class="right-contents">
               <input 
                 type="text" 
-                pattern="[A-Za-z ,]{1,60}" 
+                pattern="[A-Za-z ,/]{1,60}" 
                 :placeholder="$t('dashboardMyAccount.body.titles.placeholder')" 
                 :title="$t('dashboardMyAccount.body.titles.inputTitle')" 
                 v-model="value.title"></div>

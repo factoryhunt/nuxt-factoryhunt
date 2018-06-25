@@ -30,14 +30,16 @@
               <div class="verification">
                 <ul class="verification__container">
                   <!-- Country -->
-                  <li class="verification__mark">
+                  <li 
+                    class="verification__mark"
+                    v-show="getCountry(feed)">
                     <tool-tip
-                      v-show="getCountry(feed)"
                       :label="getCountry(feed)">The buyer posted in {{getCountry(feed)}}.</tool-tip></li>
                   <!-- Quantity -->
-                  <li class="verification__mark">
+                  <li 
+                    class="verification__mark"
+                    v-show="getQuantity(feed)">
                     <tool-tip
-                      v-show="getQuantity(feed)"
                       :label="getQuantity(feed)">The buyer wants {{getQuantity(feed)}}.</tool-tip></li>
                   <!-- Email Verification -->
                   <li 
@@ -90,6 +92,11 @@ export default {
     ToolTip
   },
   methods: {
+    isAdmin({ account_type }) {
+      if (account_type.indexOf('Admin') !== -1) return true
+
+      return false
+    },
     getFeedHref(feed) {
       return `/buying-leads/${feed.domain}`
     },
@@ -113,7 +120,10 @@ export default {
       return getTimeLeft(due_minute_diff, due_hour_diff, due_day_diff)
     },
     getCountry(feed) {
-      return feed.mailing_country
+      const { author_id, temp_mailing_country, mailing_country } = feed
+
+      if (this.isAdmin(feed)) return temp_mailing_country || ''
+      return mailing_country
     },
     isNoQuote(feed) {
       return feed.quote_length === 0

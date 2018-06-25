@@ -31,25 +31,25 @@
               {{buyingLead.contact_title}}</span>
             <span 
               v-show="buyingLead.account_name || buyingLead.contact_title"> 
-              @
-            <div class="company">
-              <a>{{getEncryptedCompanyName}}</a> 
-              <div class="tool-tip">The buyer details will be visible when your quote is accepted.</div>
-            </div>
-              <!-- <a 
-                  :href="getCompanyDomain"
-                  target="_blank">{{getEncryptedCompanyName}}</a> -->
-                  </span>
-            <span> · Posted {{getPostedDate}}</span>
+              <span v-show="getEncryptedCompanyName"> @ </span>
+              <div class="company">
+                <a>{{getEncryptedCompanyName}}</a> 
+                <div class="tool-tip">The buyer details will be visible when your quote is accepted.</div>
+              </div>
+                <!-- <a 
+                    :href="getCompanyDomain"
+                    target="_blank">{{getEncryptedCompanyName}}</a> -->
+                    </span>
+              <span> · Posted {{getPostedDate}}</span>
           </div>
         </div>
 
         <!-- Verified Mark -->
         <section class="verify-container">
           <ul>
-            <li v-show="buyingLead.mailing_country">
+            <li v-show="getCountry">
               <tool-tip
-                :label="buyingLead.mailing_country">The buyer posted in {{buyingLead.mailing_country}}.</tool-tip></li>
+                :label="getCountry">The buyer posted in {{getCountry}}.</tool-tip></li>
             <!-- <li><tool-tip
                 label="Email Confirmed">This buyer emails is confirmed.</tool-tip></li> -->
             <!-- <li><tool-tip
@@ -138,7 +138,7 @@ import ToolTip from '~/components/ToolTip'
 import Clipboard from 'clipboard'
 import { mapGetters } from 'vuex'
 import { getCreatedDateDiff, getTimeLeft } from '~/utils/timezone'
-import { encryptCompanyName, nFormatter } from '~/utils/text'
+import { encryptCompanyName, nFormatter, getName } from '~/utils/text'
 // static
 const DESCRIPTION = 'description'
 const MAX_HEIGHT = 190
@@ -172,6 +172,13 @@ export default {
 
       return false
     },
+    getCountry() {
+      const { author_id, mailing_country, temp_mailing_country } = this.buyingLead
+
+      if (this.isAdmin) return temp_mailing_country || ''
+
+      return mailing_country || ''
+    },
     getReportData() {
       return {
         id: this.buyingLead.buying_lead_id,
@@ -179,16 +186,11 @@ export default {
       }
     },
     getAuthorName() {
-      const { first_name, last_name } = this.buyingLead
+      const { first_name, last_name, temp_first_name, temp_last_name } = this.buyingLead
 
-      let name = ''
+      if (this.isAdmin) return getName(temp_first_name, temp_last_name)
 
-      if (first_name || !last_name) name = first_name
-      if (!first_name || last_name) name = last_name
-      if (first_name && last_name) name = `${first_name} ${last_name}`
-      if (!first_name && !last_name) name = ''
-
-      return name
+      return getName(first_name, last_name)
     },
     getQuantity() {
       let { quantity, unit } = this.buyingLead
@@ -241,8 +243,10 @@ export default {
       // return this.isLoggedIn ? `/${this.buyingLead.domain}` : '#'
     },
     getEncryptedCompanyName() {
-      const { account_name } = this.buyingLead
-      return encryptCompanyName(account_name)
+      const { account_name, temp_account_name } = this.buyingLead
+
+      if (this.isAdmin) return encryptCompanyName(temp_account_name || '')
+      return encryptCompanyName(account_name || '')
     },
     getURL() {
       const domain = this.buyingLead.domain
