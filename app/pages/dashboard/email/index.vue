@@ -29,9 +29,10 @@
         <select v-model="value.emailTemplate">
           <option value="A">A</option>
           <option value="B">B</option>
+          <option value="Custom">Custom</option>
         </select>
-        <div>
-          <div class="template" v-show="value.emailTemplate === 'A'">
+        <div class="template">
+          <div v-show="value.emailTemplate === 'A'">
             <p>
               This is Daniel Jeong, CEO at Factory Hunt.
             </p>
@@ -41,8 +42,28 @@
               Please feel free to directly contact me if you have any questions regarding the service. Thank you for your time. 
             </p>
           </div>
-          <div class="template" v-show="value.emailTemplate === 'B'">
+          <div v-show="value.emailTemplate === 'B'">
             <p>This is Daniel Jeong, Co-founder and CEO at Factory Hunt. We are a tech startup in Seoul, Korea developing B2B wholesale trading website. We are trying to make a helpful website for wholesale suppliers. If you don't mind, please take a moment and upload your product catalog on our website. You will be able to make a very attractive webpage in a few clicks and promote your business to potential buyers.</p>
+          </div>
+          <div 
+            v-show="value.emailTemplate === 'Custom'">
+            <text-input 
+              placeholder="Subject"
+              v-model="value.subject"/>
+            <p>Dear ${User Name}</p>
+            <text-area 
+              placeholder="Enter a content."
+              v-model="value.description"/>
+            <p>P.S. If you aren't the right person to contact about this, please let me know or here's where you can go to unsubscribe.</p>
+            <p>Best regards,</p>
+            <p>
+              Daniel Jeong<br>Co-founder & CEO</p>
+            <p>
+              Factory Hunt<br>
+              Website: www.factoryhunt.com<br>
+              Email: daniel.jeong@factoryhunt.com<br>
+              Address: 133 Bongeunsa-ro, Floor 8, Gangnam-gu, Seoul, South Korea<br>
+            </p>
           </div>
         </div>
       </div>
@@ -55,7 +76,11 @@
         id="data-loader"
         v-if="toggle.isSearching"
       />
-      <div v-for="(lead,index) in value.leads" :key="index" class="lead-container">
+
+      <div 
+        v-for="(lead,index) in value.leads" 
+        :key="index" 
+        class="lead-container">
         <p>
           {{lead.lead_id}} {{lead.company}}<br>
           <span v-if="lead.notes">note: {{lead.notes}}</span>
@@ -78,116 +103,130 @@
 </template>
 
 <script>
-  import axios from '~/plugins/axios'
-  import loader from '~/components/Loader'
-  export default {
-    components: {
-      loader
-    },
-    data () {
-      return {
-        value: {
-          leads: [],
-          picked: 'lead-filter-type-one',
-          minLeadId: 0,
-          maxLeadId: 0,
-          leadIds: '',
-          emailTemplate: 'A'
-        },
-        toggle: {
-          isSearching: false,
-          isSendingEmail: false
-        }
-      }
-    },
-    computed: {
-      getLeadDataToPostServer () {
-        let data = {
-          email_template: this.value.emailTemplate,
-          lead_filter_type: this.value.picked
-        }
-
-        if (this.value.picked === "lead-filter-type-one") {
-          data.min_lead_id = this.value.minLeadId
-          data.max_lead_id = this.value.maxLeadId
-        }
-        else if (this.value.picked === "lead-filter-type-two") {
-          data.lead_ids = this.value.leadIds
-        }
-        else {
-          data = {}
-        }
-
-        return data
-      }
-    },
-    methods: {
-      sendEmail () {
-        const result = confirm('Are you sure?')
-        if (!result) return
-
-        const data = this.getLeadDataToPostServer
-
-        return new Promise((resolve, reject) => {
-          axios.post('/api/mail/ads', data)
-            .then(() => {
-              resolve()
-            })
-            .catch((err) => {
-              reject(err)
-            })
-        })
+import axios from '~/plugins/axios'
+import { convertEnterToBrTag } from '~/utils/text'
+import loader from '~/components/Loader'
+import TextInput from '~/components/Inputs/Text'
+import TextArea from '~/components/Inputs/Textarea'
+export default {
+  components: {
+    loader,
+    TextInput,
+    TextArea
+  },
+  data() {
+    return {
+      value: {
+        leads: [],
+        picked: 'lead-filter-type-one',
+        minLeadId: 0,
+        maxLeadId: 0,
+        leadIds: '',
+        emailTemplate: 'A',
+        subject: '',
+        description: ''
       },
-      async onSendEmailButton () {
-        this.toggle.isSendingEmail = true
-        try {
-          await this.sendEmail()
-          this.toggle.isSendingEmail = false
-        } catch (err) {
-          console.log(err)
-          this.toggle.isSendingEmail = false
-        }
-      },
-      onSearchButton () {
-        this.toggle.isSearching = true
-        const data = this.getLeadDataToPostServer
-
-        axios.post(`/api/data/lead/email`, data)
-          .then(res => {
-            this.toggle.isSearching = false
-            this.value.leads = res.data
-          })
-          .catch(err => {
-            console.log(err)
-            this.toggle.isSearching = false
-          })
+      toggle: {
+        isSearching: false,
+        isSendingEmail: false
       }
     }
+  },
+  computed: {
+    getLeadDataToPostServer() {
+      let data = {
+        email_template: this.value.emailTemplate,
+        lead_filter_type: this.value.picked,
+        subject: this.value.subject,
+        description: convertEnterToBrTag(this.value.description)
+      }
+
+      if (this.value.picked === 'lead-filter-type-one') {
+        data.min_lead_id = this.value.minLeadId
+        data.max_lead_id = this.value.maxLeadId
+      } else if (this.value.picked === 'lead-filter-type-two') {
+        data.lead_ids = this.value.leadIds
+      } else {
+        data = {}
+      }
+
+      return data
+    }
+  },
+  methods: {
+    sendEmail() {
+      const result = confirm('Are you sure?')
+      if (!result) return
+
+      const data = this.getLeadDataToPostServer
+
+      return new Promise((resolve, reject) => {
+        axios
+          .post('/api/mail/ads', data)
+          .then(() => {
+            resolve()
+          })
+          .catch(err => {
+            reject(err)
+          })
+      })
+    },
+    async onSendEmailButton() {
+      this.toggle.isSendingEmail = true
+      try {
+        await this.sendEmail()
+        this.toggle.isSendingEmail = false
+      } catch (err) {
+        console.log(err)
+        this.toggle.isSendingEmail = false
+      }
+    },
+    onSearchButton() {
+      this.toggle.isSearching = true
+      const data = this.getLeadDataToPostServer
+
+      axios
+        .post(`/api/data/lead/email`, data)
+        .then(res => {
+          this.toggle.isSearching = false
+          this.value.leads = res.data
+        })
+        .catch(err => {
+          console.log(err)
+          this.toggle.isSearching = false
+        })
+    }
   }
+}
 </script>
 
 <style lang="less" scoped>
-  @import "~assets/css/index.less";
+@import '~assets/css/index.less';
 
-  .button-orange {
-    font-size: @font-size-large;
-    font-weight: @font-weight-bold;
-    margin: 10px 0;
-  }
+.button-orange {
+  font-size: @font-size-large;
+  font-weight: @font-weight-bold;
+  margin: 10px 0;
+}
 
-  .each-container {
-    margin-top: 20px;
+.each-container {
+  margin-top: 20px;
+}
+.lead-container {
+  margin: 8px 0;
+}
+.filter-container {
+  div {
+    margin-top: 12px;
   }
-  .lead-container {
-    margin: 8px 0;
+  #lead-id-target {
+    display: inline-block;
+    width: 90%;
   }
-  .filter-container {
-    div {
-      margin-top: 12px;
-    }
-    #lead-id-target {
-      display: inline-block;
-      width: 90%;
-    }
-  }
+}
+.template {
+  padding: 11px;
+  background-color: @color-border-gray;
+  border-radius: @border-radius;
+}
 </style>

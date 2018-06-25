@@ -1,5 +1,5 @@
 exports.convertEnterToBrTag = message => {
-  return message.replace(/\n/g, '<br />')
+  return message.replace(/\n/g, '<br/>')
 }
 
 exports.addComma = number => {
