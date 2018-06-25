@@ -208,6 +208,7 @@ export default {
     white-space: nowrap;
   }
   .description {
+    margin-top: 4px;
     text-align: left;
     color: @color-font-gray;
     overflow: hidden;

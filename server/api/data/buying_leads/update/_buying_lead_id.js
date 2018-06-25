@@ -16,8 +16,9 @@ module.exports = async (req, res) => {
       SET
         ?
       WHERE
-        buying_lead_id = ${buying_lead_id}`
-      mysql.query(SQL, buying_lead_body, err => {
+        buying_lead_id = ?
+      `
+      mysql.query(SQL, [buying_lead_body, buying_lead_id], err => {
         if (err) reject({ msg: 'Failed to update database', err: err })
 
         resolve()
@@ -31,10 +32,12 @@ module.exports = async (req, res) => {
       UPDATE
         ${MYSQL_MODELS.TABLE_BUYING_LEADS}
       SET
-        due_date = DATE_ADD(NOW(), INTERVAL 30 DAY)
+        due_date = DATE_ADD(NOW(), INTERVAL 30 DAY),
+        created_date = (SELECT NOW())
       WHERE
-        buying_lead_id = ${buying_lead_id}`
-      mysql.query(SQL, buying_lead_body, err => {
+        buying_lead_id = ?
+      `
+      mysql.query(SQL, buying_lead_id, err => {
         if (err) reject({ msg: 'Failed to update database', err: err })
 
         resolve()

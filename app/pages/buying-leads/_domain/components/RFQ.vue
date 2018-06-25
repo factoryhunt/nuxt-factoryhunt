@@ -31,8 +31,8 @@
               {{buyingLead.contact_title}}</span>
             <span 
               v-show="buyingLead.account_name || buyingLead.contact_title"> 
-              <span v-show="getEncryptedCompanyName"> @ </span>
-              <div class="company">
+              <div class="company" v-show="getEncryptedCompanyName">
+                 @ 
                 <a>{{getEncryptedCompanyName}}</a> 
                 <div class="tool-tip">The buyer details will be visible when your quote is accepted.</div>
               </div>

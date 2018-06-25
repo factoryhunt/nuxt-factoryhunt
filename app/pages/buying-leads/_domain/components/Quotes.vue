@@ -53,15 +53,12 @@
               <span>{{getUserName(quote)}}</span></span>
           </div>
           <div class="sub-name">
+            <span>{{getRole(quote)}}</span>
             <span>
-              {{getRole(quote)}}</span>
-            <span 
-              v-show="getRole(quote)"
-              class="dot">@</span>
-            <span>
-              <a  
+               @ 
+              <span  
                 v-if="!isThisUserCanRead(quote)" 
-                class="company">{{getCompany(quote)}}</a>
+                class="company">{{getCompany(quote)}}</span>
               <a 
                 v-else
                 class="company" 

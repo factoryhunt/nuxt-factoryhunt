@@ -64,9 +64,9 @@
           </div>
           <div 
             class="row"
-            v-show="recipient.products_buy">
+            v-show="recipient.products">
             <dt>Sell</dt>
-            <dd>{{recipient.products_buy}}</dd>
+            <dd>{{recipient.products}}</dd>
           </div>
           <div 
             class="row"
