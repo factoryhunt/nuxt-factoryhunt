@@ -27,12 +27,11 @@
             <span>{{getAuthorName}}</span></div>
           <div class="sub-name">
             <span 
-              v-show="buyingLead.contact_title">
-              {{buyingLead.contact_title}}</span>
+              v-show="buyingLead.contact_title">{{buyingLead.contact_title}} </span>
             <span 
               v-show="buyingLead.account_name || buyingLead.contact_title"> 
               <div class="company" v-show="getEncryptedCompanyName">
-                 @ 
+                <span class="at">@ </span>
                 <a>{{getEncryptedCompanyName}}</a> 
                 <div class="tool-tip">The buyer details will be visible when your quote is accepted.</div>
               </div>
@@ -334,6 +333,10 @@ ul {
   display: inline-block;
   position: relative;
 
+  .at {
+    color: @color-font-gray;
+  }
+
   a {
     text-decoration: none !important;
     cursor: help !important;
@@ -388,20 +391,6 @@ h1 {
 }
 .read-more {
   font-size: 16px;
-}
-
-// Other Requirements
-.other-requirement-container {
-  dl {
-    display: flex;
-  }
-  dt {
-    width: 120px;
-  }
-  dd {
-    flex: 1;
-    margin-left: 12px;
-  }
 }
 
 // Product Images

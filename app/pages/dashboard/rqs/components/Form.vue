@@ -65,7 +65,7 @@
                 class="input"
                 :rows="11"
                 v-model="value.description"
-                :maxlength="1000"
+                :maxlength="25000"
                 :maxlengthDisplay="true"/>
             </section>
 
