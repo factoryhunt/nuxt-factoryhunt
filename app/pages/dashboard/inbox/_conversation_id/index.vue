@@ -15,6 +15,7 @@
 
       <!-- Left-side -->
       <div class="left-container">
+        <!-- Profile -->
         <div class="profile-container">
           <circle-img 
             class="recipient-logo"
@@ -25,16 +26,91 @@
               v-show="getRecipientName">{{ getRecipientName }}</span>
             <span 
               class="recipient-title">
-              {{recipient.contact_title}} 
-              <br>@ 
-              <a 
+              <span v-show="recipient.contact_title">{{recipient.contact_title}}<br></span>
+              <span>@ <a 
                 :href="`/${recipient.account_domain}`"
                 target="_blank">{{recipient.account_name}}</a></span>
+            </span>
             <a 
               class="report"
               @click="onReportButton">Report</a>
           </div>
         </div>
+        <!-- Details -->
+        <dl class="details">
+          <div 
+            class="row"
+            v-show="recipient.account_type">
+            <dt>Account Type</dt>
+            <dd>{{recipient.account_type}}</dd>
+          </div>
+          <div 
+            class="row"
+            v-show="recipient.business_type">
+            <dt>Business Type</dt>
+            <dd>{{recipient.business_type}}</dd>
+          </div>
+          <div 
+            class="row"
+            v-show="recipient.account_industries">
+            <dt>Industries</dt>
+            <dd>{{recipient.account_industries}}</dd>
+          </div>
+          <div 
+            class="row"
+            v-show="recipient.products_buy">
+            <dt>Buy</dt>
+            <dd>{{recipient.products_buy}}</dd>
+          </div>
+          <div 
+            class="row"
+            v-show="recipient.products_buy">
+            <dt>Sell</dt>
+            <dd>{{recipient.products_buy}}</dd>
+          </div>
+          <div 
+            class="row"
+            v-show="getRecipientAddress">
+            <dt>Address</dt>
+            <dd>{{getRecipientAddress}}</dd>
+          </div>
+          <div 
+            class="row"
+            v-show="recipient.phone">
+            <dt>Phone</dt>
+            <dd>{{recipient.phone}}</dd>
+          </div>
+          <div 
+            class="row"
+            v-show="recipient.website">
+            <dt>Website</dt>
+            <dd><a :href="getRecipientWebsite" target="_blank">{{recipient.website}}</a></dd>
+          </div>
+          <div 
+            class="row"
+            v-show="recipient.number_of_employees">
+            <dt>Number of Employees</dt>
+            <dd>{{recipient.number_of_employees}}</dd>
+          </div>
+          <div 
+            class="row"
+            v-show="recipient.established_year">
+            <dt>Established Year</dt>
+            <dd>{{recipient.established_year}}</dd>
+          </div>
+          <div 
+            class="row"
+            v-show="recipient.total_annual_revenue">
+            <dt>Total Annual Revenue</dt>
+            <dd>{{recipient.total_annual_revenue}}</dd>
+          </div>
+          <div 
+            class="row" 
+            v-show="recipient.language_spoken">
+            <dt>Language</dt>
+            <dd>{{recipient.language_spoken}}</dd>
+          </div>
+        </dl>
       </div>
 
       <!-- Right-side -->
@@ -84,6 +160,7 @@ import CircleImg from '~/components/Image/CircleViewer'
 // libs
 import axios from '~/plugins/axios'
 import { showTopAlert } from '~/utils/alert'
+import { getFullAddress, validateURL } from '~/utils/text'
 import { mapGetters } from 'vuex'
 export default {
   components: {
@@ -129,7 +206,7 @@ export default {
       }
     },
     getRecipientName() {
-      const { first_name, last_name } = this.recipient
+      const { first_name, last_name, account_name } = this.recipient
 
       if (first_name && last_name) return `${first_name} ${last_name}`
 
@@ -137,6 +214,26 @@ export default {
       if (last_name) return last_name
 
       return ''
+    },
+    getRecipientWebsite() {
+      return validateURL(this.recipient.website)
+    },
+    getRecipientAddress() {
+      const {
+        mailing_country,
+        mailing_state,
+        mailing_city,
+        mailing_street_address,
+        mailing_street_address_2
+      } = this.recipient
+      const payload = {
+        country: mailing_country,
+        state: mailing_state,
+        city: mailing_city,
+        street_address: mailing_street_address,
+        street_address_2: mailing_street_address_2
+      }
+      return getFullAddress(payload)
     },
     getRecipientLogoUrl() {
       const { logo_url } = this.recipient
@@ -151,6 +248,10 @@ export default {
         id: this.recipient.contact_id,
         table: 'contacts'
       }
+    },
+    isRecipientSupplier() {
+      const { account_type, business_type } = this.recipient
+      return true
     }
   },
   methods: {
@@ -158,7 +259,8 @@ export default {
       this.getData()
     },
     changeTitle() {
-      document.title = `Chatting with ${this.getRecipientName}`
+      const { account_name } = this.recipient
+      document.title = `Chatting with ${this.getRecipientName || account_name}`
     },
     async getData() {
       const { conversation_id } = this.$route.params
@@ -253,8 +355,8 @@ ul {
 .left-container {
   border: 1px solid @color-border-gray;
   border-radius: @border-radius;
-  padding: 50px 40px;
-  max-width: 300px;
+  padding: 50px 28px;
+  width: 284px;
 }
 .profile-container {
   text-align: center;
@@ -282,8 +384,30 @@ ul {
 }
 .report {
   display: inline-block;
-  margin-top: 10px;
+  margin-top: 8px;
   font-size: 15px;
+}
+.details {
+  margin-top: 30px;
+
+  .row {
+    margin-top: 32px;
+    &:first-child {
+      margin-top: 0;
+    }
+  }
+
+  dt {
+    margin-top: 14px;
+    font-size: 14px;
+    text-transform: uppercase;
+    font-weight: 500;
+    color: #bbbbbb;
+  }
+  dd {
+    font-size: 17px;
+    margin-top: 4px;
+  }
 }
 
 .right-container {

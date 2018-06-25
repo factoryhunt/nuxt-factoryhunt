@@ -59,7 +59,11 @@
               v-show="getRole(quote)"
               class="dot">@</span>
             <span>
+              <a  
+                v-if="!isThisUserCanRead(quote)" 
+                class="company">{{getCompany(quote)}}</a>
               <a 
+                v-else
                 class="company" 
                 :href="getCompanyDomain(quote)" 
                 target="_blank">{{getCompany(quote)}}</a></span>
@@ -254,7 +258,7 @@ export default {
 
       if (this.isAuthorOfRfq) return `/${account_domain}`
 
-      if (!this.isThisUserCanRead(quote)) return `#`
+      if (!this.isThisUserCanRead(quote)) return ``
 
       return `/${account_domain}`
     },

@@ -91,7 +91,7 @@
         <!-- What do you Supply? -->
         <section v-if="isUserSupplier || isUserBuyerAndSupplier">
           <h4>
-            What do you supply?<required-icon/>
+            What do you sell?<required-icon/>
             <span class="text-counting">{{getRemainLength(value.supply, MAX_PRODUCTS_LENGTH)}}</span></h4>
           <input 
             type="text" 

@@ -16,9 +16,25 @@ module.exports = async (req, res) => {
         c.contact_title,
         a.account_id,
         a.account_name,
+        a.account_type,
+        a.business_type,
+        a.account_industries,
+        a.products,
+        a.products_buy,
+        a.number_of_employees,
+        a.established_year,
+        a.phone,
+        a.website,
+        a.total_annual_revenue,
+        a.language_spoken,
+        a.mailing_country,
+        a.mailing_state,
+        a.mailing_city,
+        a.mailing_street_address,
+        a.mailing_street_address_2,
+        a.mailing_postal_code,
         a.domain as account_domain,
-        a.logo_url,
-        a.mailing_country
+        a.logo_url
       FROM
         contacts c
       LEFT JOIN

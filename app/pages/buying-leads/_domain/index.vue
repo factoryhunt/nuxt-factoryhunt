@@ -112,6 +112,9 @@ export default {
       // Domain is not available
       if (!data.buying_lead) error({ statusCode: 404, message: 'Page not found' })
 
+      // Domain is not available
+      if (!data.buying_lead.buying_lead_id) error({ statusCode: 404, message: 'Page not found' })
+
       return {
         buyingLead: data.buying_lead,
         quotes: data.quotes

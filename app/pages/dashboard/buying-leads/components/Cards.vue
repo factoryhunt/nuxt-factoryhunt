@@ -15,7 +15,7 @@
 
         <!-- Author -->
         <div class="author section">
-          by {{buyingLead.account_name}}
+          by {{getCompany(buyingLead)}}
         </div>
 
         <!-- Content -->
@@ -64,20 +64,32 @@
 
 <script>
 import { getTimeLeft } from '~/utils/timezone'
+import { encryptCompanyName } from '~/utils/text'
 import { mapGetters } from 'vuex'
 export default {
   props: ['buying_leads'],
   computed: {
     ...mapGetters({
-      account: 'auth/GET_ACCOUNT'
+      account: 'auth/GET_ACCOUNT',
+      contact: 'auth/GET_CONTACT'
     }),
     getAccountId() {
       return this.account.account_id
+    },
+    getContactId() {
+      return this.contact.contact_id
     }
   },
   methods: {
     getTitle(title) {
       return title || 'Title of Your Request Quote'
+    },
+    getCompany({ author_id, account_name, temp_account_name, account_type }) {
+      if (author_id === this.getContactId) return account_name
+
+      if (account_type.indexOf('Admin') !== -1) return encryptCompanyName(temp_account_name)
+
+      return encryptCompanyName(account_name)
     },
     getDescription(desc) {
       return desc || 'Please fill in description about what you need'

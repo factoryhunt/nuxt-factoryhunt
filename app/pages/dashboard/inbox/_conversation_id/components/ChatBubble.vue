@@ -137,13 +137,14 @@ export default {
 }
 .bubble-wrapper {
   font-size: 16px;
-  padding: 22px;
+  padding: 22px 55px 22px 22px;
   line-height: 1.6;
   border: 1px solid @color-border-gray;
   border-radius: @border-radius;
 
   &.mine {
     background-color: @color-bg-gray;
+    padding-right: 22px;
   }
 
   .link-preview {

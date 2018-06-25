@@ -38,6 +38,8 @@ module.exports = async (req, res) => {
         docs.id as document_id,
         docs.location,
         a.account_name,
+        a.account_type,
+        l.company AS temp_account_name,
         (
         SELECT
 	        COUNT(q.id)
@@ -64,6 +66,10 @@ module.exports = async (req, res) => {
         ${MYSQL_MODELS.TABLE_ACCOUNTS} a
       ON
         bl.account_id = a.account_id
+      LEFT JOIN
+        ${MYSQL_MODELS.TABLE_LEADS} l
+      ON
+        bl.temp_author_id = l.lead_id
       WHERE 
         (IF ("${getStatus()}" = "", bl.status != "Archived", bl.status = "${getStatus()}") AND
         bl.is_deleted != 1
