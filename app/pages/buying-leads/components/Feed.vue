@@ -9,7 +9,8 @@
         :key="index">
         <a 
           class="feed-wrapper" 
-          :href="getFeedHref(feed)">
+          :href="getFeedHref(feed)"
+          target="_blank">
           <!-- Image -->
           <div class="img-container">
             <img 
@@ -252,9 +253,11 @@ ul {
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
+      max-width: 140px;
 
       @media (min-width: 744px) {
         font-size: 19px;
+        max-width: unset;
       }
     }
     .date {

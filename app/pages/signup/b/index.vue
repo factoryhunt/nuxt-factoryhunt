@@ -21,7 +21,6 @@ export default {
     try {
       if (!token) throw new Error()
       const { data } = await axios.post('/api/jwt/decode', { token })
-      console.log('\ntoken data\n', data)
 
       return {
         lead_id: data.lead_id

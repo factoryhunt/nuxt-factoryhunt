@@ -2,7 +2,7 @@ const mysql = require('../../../mysql')
 const MYSQL_MODELS = require('../../../mysql/model')
 
 // GET /api/data/buying_leads
-// query: category, offset
+// query string: category, offset
 module.exports = async (req, res) => {
   // static
   const QUERY_LIMIT = 20
@@ -70,7 +70,7 @@ module.exports = async (req, res) => {
       ON
         bl.temp_author_id = l.lead_id
       WHERE 
-        bl.status = "Activated" AND
+        TIMESTAMPDIFF(SECOND, bl.due_date, now()) < 0 AND
         bl.is_deleted != 1 AND
         bl.category LIKE ?
       GROUP BY 

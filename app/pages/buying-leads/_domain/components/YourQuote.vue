@@ -187,7 +187,7 @@ export default {
         const body = this.getSubmittingBody
         const { data } = await axios.post('/api/data/quotes', { body })
         await this.uploadDocuments(data.insertId)
-        // await this.sendConvertEmailToAuthorOfBuyingLead(data.insertId)
+        // this.sendConvertEmailToAuthorOfBuyingLead(data.insertId)
         location.reload()
       } catch (err) {
         console.log('submit error', err)
@@ -225,7 +225,7 @@ export default {
               temp_author_id
             }
             axios
-              .post('/api/mail/convert', { body })
+              .post('/api/mail/convert', body)
               .then(_ => {
                 resolve()
               })
@@ -242,7 +242,7 @@ export default {
               author_id
             }
             axios
-              .post('/api/mail/new_quote', { body })
+              .post('/api/mail/new_quote', body)
               .then(_ => {
                 resolve()
               })

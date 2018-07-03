@@ -85,7 +85,7 @@ export default {
         // if (word) console.log(word)
         // value.identity = identity.replace(regex, `<strong>${input}</strong>`)
 
-        if (regex.test(name)) accumulator.push(value)
+        if (regex.test(identity)) accumulator.push(value)
 
         return accumulator
       }

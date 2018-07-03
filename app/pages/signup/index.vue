@@ -72,6 +72,7 @@ export default {
   data() {
     return {
       value: {
+        lead_id: 0,
         email: '',
         company: '',
         password: ''
@@ -79,6 +80,16 @@ export default {
     }
   },
   methods: {
+    init() {
+      this.getToken()
+    },
+    async getToken() {
+      const { token } = this.$route.query
+      if (!token) return
+
+      const { data } = await axios.post('/api/jwt/decode', { token })
+      this.value.lead_id = data.lead_id
+    },
     async onSignUpButton() {
       const $loader = $('#sign-up-loader')
       const $signUpButton = $('#sign-up-button')
@@ -100,6 +111,7 @@ export default {
     signUp() {
       return new Promise((resolve, reject) => {
         const data = {
+          lead_id: this.value.lead_id,
           company: this.value.company,
           email: this.value.email,
           password: this.value.password
@@ -114,6 +126,9 @@ export default {
           })
       })
     }
+  },
+  mounted() {
+    this.init()
   }
 }
 </script>

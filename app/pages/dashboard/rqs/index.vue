@@ -222,6 +222,7 @@ export default {
         title
           .trim()
           .toLowerCase()
+          .replace(/\%/g, '')
           .replace(/\s/g, '-') + `-${this.buyingLeadId}`
       )
     },

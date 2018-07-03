@@ -49,7 +49,8 @@ module.exports = async (req, res) => {
           q.buying_lead_id = bl.buying_lead_id) AS quote_count,
         TIMESTAMPDIFF(DAY, now(), bl.due_date) AS due_day_diff,
         TIMESTAMPDIFF(HOUR, now(), bl.due_date) AS due_hour_diff,
-        TIMESTAMPDIFF(MINUTE, now(), bl.due_date) AS due_minute_diff
+        TIMESTAMPDIFF(MINUTE, now(), bl.due_date) AS due_minute_diff,
+        TIMESTAMPDIFF(SECOND, now(), bl.due_date) AS due_second_diff
       FROM
         ${MYSQL_MODELS.TABLE_BUYING_LEADS} bl
       LEFT JOIN 

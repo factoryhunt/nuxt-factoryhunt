@@ -16,8 +16,8 @@
                 id="title-input"
                 class="input"
                 v-model="value.title"
-                pattern="[A-Za-z0-9 ()-/.]{2,50}"
-                title="It must be 2-50 and can only contain letters, numbers, hyphen(-), slash(/) and periods."
+                pattern="[A-Za-z0-9 -/.()%]{2,50}"
+                title="It must be 2-50 and can only contain letters, numbers, hyphen(-), slash(/), percent(%) and periods."
                 :maxlength="50"
                 :maxlengthDisplay="true"/>
             </section>

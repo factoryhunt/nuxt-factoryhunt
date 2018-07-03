@@ -72,6 +72,7 @@ export const actions = {
   },
   signUp({ dispatch }, payload) {
     const data = {
+      lead_id: payload.lead_id,
       company: payload.company,
       email: payload.email,
       password: payload.password
@@ -80,6 +81,18 @@ export const actions = {
       return new Promise((resolve, reject) => {
         axios
           .post('/api/auth/register', data)
+          .then(res => {
+            resolve(res.data)
+          })
+          .catch(err => {
+            reject(err)
+          })
+      })
+    }
+    const convert = () => {
+      return new Promise((resolve, reject) => {
+        axios
+          .post('/api/auth/convert_buyer', data)
           .then(res => {
             resolve(res.data)
           })
@@ -119,11 +132,13 @@ export const actions = {
       })
     }
     return new Promise(async (resolve, reject) => {
+      let result
       try {
-        const data = await register()
+        if (payload.lead_id > 0) await convert()
+        else result = await register()
         await login()
         sendVerifyEmail()
-        resolve(data)
+        resolve(result)
       } catch (err) {
         reject(err)
       }

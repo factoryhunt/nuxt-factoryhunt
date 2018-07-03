@@ -38,8 +38,8 @@
             <!-- Progress -->
             <div>
               <span 
-                :class="['status', `${getStatus(buyingLead.status)}`]">
-                {{buyingLead.status}}</span></div>
+                :class="['status', `${getStatusCSS(buyingLead)}`]">
+                {{getStatus(buyingLead)}}</span></div>
             <!-- Due date -->
             <div>
               <span 
@@ -94,8 +94,15 @@ export default {
     getDescription(desc) {
       return desc || 'Please fill in description about what you need'
     },
-    getStatus(status) {
+    getStatusCSS({ status, due_second_diff }) {
+      if (due_second_diff < 0) return 'closed'
+
       return status.toLowerCase()
+    },
+    getStatus({ status, due_second_diff }) {
+      if (due_second_diff < 0) return 'Closed'
+
+      return status
     },
     getImageUrl(url) {
       return url ? url : require('~/assets/icons/pictures.svg')
@@ -238,6 +245,9 @@ export default {
     }
     &.draft {
       color: @color-yellow;
+    }
+    &.closed {
+      color: @color-font-gray;
     }
     &.rejected {
       color: @color-red;
