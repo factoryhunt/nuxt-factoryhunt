@@ -56,7 +56,8 @@ module.exports = async (req, res) => {
       LEFT JOIN 
         ${MYSQL_MODELS.TABLE_QUOTES} q
       ON 
-        bl.buying_lead_id = q.buying_lead_id
+        bl.buying_lead_id = q.buying_lead_id AND
+        q.is_deleted != 1
       LEFT JOIN 
         ${MYSQL_MODELS.TABLE_DOCUMENTS} docs
       ON 
