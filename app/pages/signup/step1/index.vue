@@ -398,17 +398,18 @@ export default {
     checkRequiredField() {
       const { accountType, businessTypes, industries, buy, supply, domain } = this.value
 
-      if (!accountType || !businessTypes.length || !industries.length || !domain)
-        return EventBus.$emit('disableSaveButton')
+      // if (!accountType || !businessTypes.length || !industries.length || !domain)
+      //   return EventBus.$emit('disableSaveButton')
+
+      if (!industries.length) return EventBus.$emit('disableSaveButton')
 
       if (this.isUserBuyer && buy) {
         EventBus.$emit('enableSaveButton')
-      } else if (this.isUserSupplier && supply) {
+      } else if (this.isUserSupplier && supply && businessTypes.length) {
         EventBus.$emit('enableSaveButton')
-      } else if (this.isUserBuyerAndSupplier && buy && supply) {
+      } else if (this.isUserBuyerAndSupplier && buy && supply && businessTypes.length) {
         EventBus.$emit('enableSaveButton')
       } else {
-        console.log('nono')
         EventBus.$emit('disableSaveButton')
       }
     }
