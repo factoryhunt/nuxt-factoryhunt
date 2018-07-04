@@ -225,7 +225,7 @@ export default {
               temp_author_id
             }
             axios
-              .post('/api/mail/convert', body)
+              .post('/api/mail/convert_lead_buyer', body)
               .then(_ => {
                 resolve()
               })
