@@ -127,6 +127,7 @@ import VButton from '~/components/Button'
 // libs
 import axios from '~/plugins/axios'
 import { validateURL } from '~/utils/text'
+import { createChatRoom } from '~/utils/chatting'
 import { mapGetters } from 'vuex'
 export default {
   scrollToTop: true,
@@ -229,8 +230,12 @@ export default {
   },
   computed: {
     ...mapGetters({
-      isLoggedIn: 'auth/IS_LOGGED_IN'
+      isLoggedIn: 'auth/IS_LOGGED_IN',
+      contact: 'auth/GET_CONTACT'
     }),
+    getContactId() {
+      return this.contact.contact_id
+    },
     getLocation() {
       const city = this.lead.mailing_city ? `${this.lead.mailing_city}, ` : ''
       const state = this.lead.mailing_state ? `${this.lead.mailing_state}, ` : ''
@@ -291,8 +296,13 @@ export default {
       }
 
       try {
-        await sendConvertMail()
-        location.reload()
+        const chatRoomUrl = await createChatRoom(
+          this.getContactId,
+          this.lead.lead_id,
+          this.value.inquiry
+        )
+        sendConvertMail()
+        location.href = chatRoomUrl
       } catch (err) {
         this.toggle.isEmailSending = false
         alert(this.$t('alert.email.fail'))

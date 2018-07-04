@@ -5,6 +5,9 @@ const { onError } = require('../../../utils/error')
 
 // POST /api/auth/convert_buyer
 module.exports = async (req, res) => {
+  let { lead_id, company, email, password: raw_password } = req.body
+  email = email.toLowerCase()
+
   const checkEmail = email => {
     return new Promise((resolve, reject) => {
       const ERR_QUERY = 'Malformed check email query.'
@@ -125,9 +128,6 @@ module.exports = async (req, res) => {
       })
     })
   }
-
-  let { lead_id, company, email, password: raw_password } = req.body
-  email = email.toLowerCase()
 
   try {
     await checkEmail(email)
