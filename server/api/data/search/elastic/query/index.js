@@ -1,6 +1,6 @@
 const R = require('ramda')
 
-exports.getQueryBody = (options) => {
+exports.getQueryBody = options => {
   // OPTIONS
   // input: String
   // page: Int
@@ -9,27 +9,30 @@ exports.getQueryBody = (options) => {
   // country: String -> Filter Query
   // aggs: String(ES Column) -> Aggregation Query
 
-  const {
-    page,
-    numberOfResults,
-    fuzziness,
-    input,
-    country
-  } = options
+  const { page, numberOfResults, fuzziness, input, country } = options
 
   // Filter Query
   // filter - account_status
-  const filter = [{
-    match: {
-      account_status: {
-        query: 'open approved',
-        operator: 'or'
+  const filter = [
+    {
+      match: {
+        account_status: {
+          query: 'open approved',
+          operator: 'or'
+        }
+      }
+    },
+    {
+      match: {
+        account_type: {
+          query: 'Supplier'
+        }
       }
     }
-  }]
+  ]
   // filter - country
   const countryFilter = {
-    'match_phrase': {
+    match_phrase: {
       mailing_country: country
     }
   }
@@ -39,13 +42,21 @@ exports.getQueryBody = (options) => {
     {
       dis_max: {
         tie_breaker: 0.7,
-        queries: [{
-          multi_match: {
-            query: input,
-            fields: ['account_name', 'products', 'company_description', 'company_short_description', 'website'],
-            fuzziness: fuzziness
+        queries: [
+          {
+            multi_match: {
+              query: input,
+              fields: [
+                'account_name',
+                'products',
+                'company_description',
+                'company_short_description',
+                'website'
+              ],
+              fuzziness: fuzziness
+            }
           }
-        }]
+        ]
       }
     }
     // {
@@ -71,9 +82,11 @@ exports.getQueryBody = (options) => {
   ]
 
   if (options.input === '*') {
-     must = [{
-         'match_all': {}
-       }]
+    must = [
+      {
+        match_all: {}
+      }
+    ]
   }
 
   // should
@@ -138,14 +151,14 @@ exports.getQueryBody = (options) => {
       }
     }
   }
-  
+
   // filtered body
   let query = R.clone(body)
   query.body.from = page
   query.body.size = numberOfResults // size는 쿼리 갯수만 제한시키고 aggs나 highlight엔 영향을 안준다.
   query.body.highlight = highlight
   if (options.country) query.body.query.bool.filter.push(countryFilter)
-  
+
   // unset-filtered body
   let aggsQuery = R.clone(body)
   aggsQuery.body.aggs = aggs
@@ -153,6 +166,4 @@ exports.getQueryBody = (options) => {
   return [query, aggsQuery]
 }
 
-exports.getSuggestQuery = (options) => {
-
-}
+exports.getSuggestQuery = options => {}
