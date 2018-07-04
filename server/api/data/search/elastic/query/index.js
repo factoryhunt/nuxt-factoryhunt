@@ -46,13 +46,7 @@ exports.getQueryBody = options => {
           {
             multi_match: {
               query: input,
-              fields: [
-                'account_name',
-                'products',
-                'company_description',
-                'company_short_description',
-                'website'
-              ],
+              fields: ['account_name', 'products', 'company_description', 'website'],
               fuzziness: fuzziness
             }
           }
