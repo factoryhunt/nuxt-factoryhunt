@@ -8,14 +8,19 @@ module.exports = async (req, res) => {
   const getAccount = () => {
     return new Promise((resolve, reject) => {
       const SQL = `
-      SELECT 
-        * 
-      FROM 
-        ${CONFIG_MYSQL.TABLE_ACCOUNTS} 
-      WHERE 
-        domain = ?
-      AND
-        isDeleted != 1
+      SELECT
+        a.*,
+        c.contact_id,
+        c.contact_email
+      FROM
+        ${CONFIG_MYSQL.TABLE_ACCOUNTS} a,
+        ${CONFIG_MYSQL.TABLE_CONTACTS} c
+      WHERE
+        a.isDeleted != 1 AND
+        c.isDeleted != 1 AND
+        a.domain = ? AND
+        c.account_id = a.account_id AND
+        c.contact_level = 1 
       `
       mysql.query(SQL, [domain], (err, rows) => {
         if (err) reject(err)

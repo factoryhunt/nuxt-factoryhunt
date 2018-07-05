@@ -16,59 +16,63 @@ module.exports = async (req, res, next) => {
     })
   }
 
-  const getAccountData = (account_id) => {
+  const getAccountData = account_id => {
     return new Promise((resolve, reject) => {
-      mysql.query(`
+      const SQL = `
       SELECT 
-      * 
+        *,
+        TIMESTAMPDIFF(SECOND, NOW(), membership_valid_until) as membership_left_time
       FROM 
-      ${CONFIG_MYSQL.TABLE_ACCOUNTS} 
+        ${CONFIG_MYSQL.TABLE_ACCOUNTS} 
       WHERE 
-      account_id = ${account_id} AND
-      isDeleted != 1`,
-        (err, rows) => {
-          if (err) reject(err)
+        account_id = ? AND
+        isDeleted != 1
+      `
+      mysql.query(SQL, account_id, (err, rows) => {
+        if (err) reject(err)
 
-          if (!rows.length) resolve({})
+        if (!rows.length) resolve({})
 
-          resolve(rows[0])
-        })
+        resolve(rows[0])
+      })
     })
   }
 
-  const getContactData = (contact_id) => {
+  const getContactData = contact_id => {
     return new Promise((resolve, reject) => {
-      mysql.query(`
+      const SQL = `
       SELECT 
-      contact_id, 
-      contact_email, 
-      contact_level, 
-      contact_mobile, 
-      contact_phone, 
-      contact_phone_ext, 
-      contact_title, 
-      created_date, 
-      first_name, 
-      last_name, 
-      lead_source, 
-      management_level, 
-      notes, 
-      salutation 
-      FROM ${CONFIG_MYSQL.TABLE_CONTACTS}
+        contact_id, 
+        contact_email, 
+        contact_level, 
+        contact_mobile, 
+        contact_phone, 
+        contact_phone_ext, 
+        contact_title, 
+        created_date, 
+        first_name, 
+        last_name, 
+        lead_source, 
+        management_level, 
+        notes, 
+        salutation 
+      FROM 
+        ${CONFIG_MYSQL.TABLE_CONTACTS}
       WHERE 
-      contact_id = ${contact_id} AND
-      isDeleted != 1`,
-        (err, rows) => {
-          if (err) reject(err)
-          if (!rows.length) resolve({})
-          
-          resolve(rows[0])
-        })
+        contact_id = ? AND
+        isDeleted != 1
+      `
+      mysql.query(SQL, contact_id, (err, rows) => {
+        if (err) reject(err)
+        if (!rows.length) resolve({})
+
+        resolve(rows[0])
+      })
     })
   }
 
   // if it has failed to verify, it will return an error _conversation_id
-  const onError = (error) => {
+  const onError = error => {
     res.status(403).json({
       result: false,
       message: error.message
@@ -76,15 +80,9 @@ module.exports = async (req, res, next) => {
   }
 
   try {
-    const {
-      account_id,
-      contact_id
-    } = await decodeToken()
+    const { account_id, contact_id } = await decodeToken()
 
-    const promise = await Promise.all([
-      getAccountData(account_id),
-      getContactData(contact_id)
-    ])
+    const promise = await Promise.all([getAccountData(account_id), getContactData(contact_id)])
 
     req.user = {
       account: promise[0],

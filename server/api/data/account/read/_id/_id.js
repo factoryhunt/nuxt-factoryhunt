@@ -8,13 +8,22 @@ module.exports = async (req, res) => {
 
   const getAccount = () => {
     return new Promise((resolve, reject) => {
-      mysql.query(`
+      const SQL = `
       SELECT 
-      *
+        a.*,
+        c.contact_id,
+        c.contact_email
       FROM
-      ${CONFIG_MYSQL.TABLE_ACCOUNTS} 
+        ${CONFIG_MYSQL.TABLE_ACCOUNTS} a,
+        ${CONFIG_MYSQL.TABLE_CONTACTS} c
       WHERE 
-      account_id = ${account_id}`,(err, rows) => {
+        a.isDeleted != 1 AND
+        c.isDeleted != 1 AND
+        a.account_id = ? AND
+        c.account_id = a.account_id AND
+        c.contact_level = 1 
+      `
+      mysql.query(SQL, account_id, (err, rows) => {
         if (err) reject(err)
         resolve(rows[0])
       })
@@ -25,6 +34,6 @@ module.exports = async (req, res) => {
     const account = await getAccount()
     res.status(200).send(account)
   } catch (err) {
-    res.status(403).json({result: false})
+    res.status(403).json({ result: false })
   }
 }

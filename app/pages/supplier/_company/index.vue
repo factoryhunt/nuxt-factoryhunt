@@ -94,7 +94,7 @@
           <text-area 
             v-model="value.inquiry" 
             :rows="10" 
-            @focus="focusTextarea()"
+            @focus="focusTextarea($event.target)"
             :placeholder="$t('company.contact.messagePlaceholder')"/>
 
           <p class="quote">{{ $t('company.contact.quote') }}</p>
@@ -462,8 +462,12 @@ export default {
       })
       /* eslint-enable no-unused-vars */
     },
-    focusTextarea() {
-      if (!this.isLoggedIn) return (this.toggle.isModalAuthHidden = false)
+    focusTextarea(el) {
+      if (!this.isLoggedIn) {
+        el.blur()
+        this.toggle.isModalAuthHidden = false
+        return
+      }
     }
   },
   mounted() {
@@ -853,7 +857,7 @@ export default {
           display: inherit;
           position: absolute;
           background-color: @color-white;
-          z-index: 2;
+          z-index: 1;
           height: 50px;
           line-height: 50px;
           width: 100%;

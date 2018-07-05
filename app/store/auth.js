@@ -46,6 +46,11 @@ export const getters = {
   IS_USER_SUPPLIER: state => {
     if (state.user) return state.user.account.account_type.indexOf('Supplier') > -1
     else return false
+  },
+  IS_MEMBERSHIP_USER: state => {
+    if (state.user) {
+      return state.user.account.membership_left_time > 0
+    } else return false
   }
 }
 

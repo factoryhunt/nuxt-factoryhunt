@@ -72,6 +72,10 @@
 
     </div>
 
+    <modal-auth
+      :isHidden="toggle.isModalAuthHidden"
+      @close="toggle.isModalAuthHidden = true"/>
+
     <!-- Main Image -->
     <div class="main-image-container">
       <div v-if="!vendor.cover_image_url_1" class="no-main-image"></div>
@@ -247,19 +251,19 @@
       <div class="right-container">
         <form @submit.prevent="sendInquiry" class="form-container">
           <h2 class="title">{{ $t('company.contact.title') }}</h2>
-          <div class="input-container">
-            <input required v-model="value.email" type="email" :placeholder="$t('company.contact.emailPlaceholder')">
-            <i class="fa fa-envelope-o" aria-hidden="true"></i>
-          </div>
 
-          <textarea required v-model="value.inquiry" rows="10" :placeholder="$t('company.contact.messagePlaceholder')"></textarea>
+          <text-area 
+            v-model="value.inquiry" 
+            :rows="10" 
+            :placeholder="$t('company.contact.messagePlaceholder')"
+            @focus="focusTextarea($event.target)"/>
 
           <p class="quote">{{ $t('company.contact.quote') }}</p>
 
-          <div class="button-container">
-            <loader v-show="toggle.isEmailSending" class="spinkit-input"/>
-            <button v-show="!toggle.isEmailSending" type="submit" class="button-orange">{{ $t('company.contact.button') }}</button>
-          </div>
+          <submit-button
+            :isLoading="toggle.isEmailSending">
+            {{ $t('company.contact.button') }}
+          </submit-button>
         </form>
       </div>
 
@@ -305,12 +309,17 @@
 </template>
 
 <script>
+import ModalAuth from '~/components/Modal/Auth'
+import Loader from '~/components/Loader'
+import TextArea from '~/components/Inputs/Textarea'
+import SubmitButton from '~/components/Button'
 import axios from '~/plugins/axios'
 import pdflib from 'pdfjs-dist'
-import Loader from '~/components/Loader'
 import { validateURL } from '~/utils/text'
 import { getVideoURL } from '~/utils/fileReader'
 import { sendEmail } from '~/utils/email'
+import { createChatRoom } from '~/utils/chatting'
+import { mapGetters } from 'vuex'
 export default {
   scrollToTop: true,
   layout: 'minify',
@@ -370,7 +379,10 @@ export default {
     }
   },
   components: {
-    Loader
+    Loader,
+    ModalAuth,
+    TextArea,
+    SubmitButton
   },
   async asyncData({ params, query, error, redirect }) {
     const { company } = params
@@ -392,6 +404,8 @@ export default {
   },
   data() {
     return {
+      vendor: {},
+      products: [],
       value: {
         company: this.$route.params.company,
         input: this.$route.query.q ? this.$route.query.q : '',
@@ -419,6 +433,7 @@ export default {
         coverImageChanging: false,
         isCoverImageLoaded: false,
         brochure: false,
+        isModalAuthHidden: true,
         isBrochureLoaded: false,
         isModalOn: false,
         isEmailSending: false
@@ -426,6 +441,13 @@ export default {
     }
   },
   computed: {
+    ...mapGetters({
+      isLoggedIn: 'auth/IS_LOGGED_IN',
+      contact: 'auth/GET_CONTACT'
+    }),
+    getContactId() {
+      return this.contact.contact_id
+    },
     getLocation() {
       const city = this.vendor.mailing_city ? this.vendor.mailing_city + ', ' : ''
       const state = this.vendor.mailing_state ? this.vendor.mailing_state + ', ' : ''
@@ -654,23 +676,39 @@ export default {
         // })
       }
     },
+    focusTextarea(el) {
+      if (!this.isLoggedIn) {
+        el.blur()
+        this.toggle.isModalAuthHidden = false
+        return
+      }
+    },
     async sendInquiry() {
-      this.toggle.isEmailSending = true
+      if (!this.value.inquiry) return
 
+      this.toggle.isEmailSending = true
       const data = {
-        email: this.value.email,
         company: this.vendor.account_name,
         products: this.vendor.products,
         domain: this.vendor.domain,
         inquiry: this.value.inquiry,
-        subject: 'Inquiry for verified supplier'
+        contact_email: this.vendor.contact_email,
+        sender_id: this.getContactId,
+        subject: 'You have got a new inquiry from a buyer.'
+      }
+
+      const sendMessage = () => {
+        return new Promise((resolve, reject) => {
+          createChatRoom(this.getContactId, this.vendor.contact_id, this.value.inquiry)
+            .then(url => resolve(url))
+            .catch(err => reject(err))
+        })
       }
 
       try {
-        await sendEmail(data)
-        this.toggle.isEmailSending = false
-        alert(this.$t('alert.email.success'))
-        location.reload()
+        const chatRoomUrl = await sendMessage()
+        sendEmail(data)
+        location.href = chatRoomUrl
       } catch (err) {
         this.toggle.isEmailSending = false
         alert(this.$t('alert.email.fail'))
@@ -1156,6 +1194,7 @@ export default {
 
       .sticky-outer-container {
         display: none;
+        z-index: 1;
       }
 
       .header-container {
@@ -1544,7 +1583,6 @@ export default {
           display: inherit;
           position: absolute;
           background-color: @color-white;
-          z-index: 3;
           height: 50px;
           line-height: 50px;
           width: 100%;

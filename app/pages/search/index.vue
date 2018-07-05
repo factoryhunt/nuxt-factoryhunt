@@ -68,16 +68,51 @@
       <div class="supplier-outer-container each-container">
         <loader id="loader"/>
         <div v-if="account_count > 0">
-          <section class="supplier-container">
-            <div class="supplier-wrapper" v-for="(account,index) in accounts" :key="index">
-              <h1 class="company-name" @click="routeSupplierPage(account._source)">{{account._source.account_name}}</h1>
-              <i v-show="isApprovedAccount(account)" id="verified-mark" class="fa fa-check-circle" aria-hidden="true"></i>
-              <h3 class="website">{{account._source.website}}</h3>
-              <h2 class="product" v-html="account.highlight ? account.highlight.products[0] : account._source.products"></h2>
-              <h3 class="phone">{{account._source.phone}}</h3>
-              <h3 class="address">{{account._source.mailing_country}}</h3>
+          <div class="flex">
+            <div class="supplier-container">
+              <!-- Sponsored -->
+              <!-- <div class="supplier-wrapper">
+                <h1 class="company-name">INUNI Co., Ltd.</h1>
+                <div class="tag-wrapper">
+                  <span class="tag verified">Sponsored</span>
+                </div>
+                <h3 class="website">www.ullala.kr</h3>
+                <h2 class="product">Underwear, Pajamas, Lounge, Cross-curve Drawers, Hidden pocket Drawers, 3D solid Volume Bra</h2>
+                <h3 class="phone">+82-2-2233-5540</h3>
+                <h3 class="address">South Korea</h3>
+              </div> -->
+              <div 
+                class="supplier-wrapper" 
+                v-for="(account,index) in accounts" 
+                :key="index">
+                <div class="header">
+                  <h1 
+                    class="company-name" 
+                    @click="routeSupplierPage(account._source)">{{account._source.account_name}}</h1>
+                  <div class="tag-wrapper">
+                    <img 
+                      v-if="account._source.membership_left_time"
+                      class="tag verified"
+                      src="~assets/icons/check_white.svg" 
+                      alt="verified">
+                    <span 
+                      v-if="account._source.membership_left_time && index < 2"
+                      class="tag powered">Powered</span>
+                </div>
+                </div>
+                <h3 class="website">{{account._source.website}}</h3>
+                <h2 
+                  class="product" 
+                  v-html="account.highlight ? account.highlight.products[0] : account._source.products"></h2>
+                <h3 class="phone">{{account._source.phone}}</h3>
+                <h3 class="address">{{account._source.mailing_country}}</h3>
+              </div>
             </div>
-          </section>
+            <!-- Promotion -->
+            <div class="promotion-container">
+              <promotion/>
+            </div>
+          </div>
           <ul class="pagination" role="navigation" >
             <li v-show="page !== 0" @click="movePreviousPage"><i class="fa fa-angle-left"></i></li>
             <li
@@ -102,9 +137,10 @@
 </template>
 
 <script>
-import axios from '~/plugins/axios'
 import FilterBar from '~/components/SearchFilterBar'
 import Loader from '~/components/Loader'
+import Promotion from './components/Promotion'
+import axios from '~/plugins/axios'
 import { Inflectors } from 'en-inflectors'
 import synonyms from 'synonyms'
 import { addComma, removeNullInArray } from '~/utils/text'
@@ -114,7 +150,8 @@ export default {
   layout: 'minify',
   components: {
     FilterBar,
-    Loader
+    Loader,
+    Promotion
   },
   head() {
     return {
@@ -401,22 +438,78 @@ export default {
 
   .supplier-outer-container {
     @margin: 1.5px 0;
-
     padding-bottom: 2rem;
 
-    .supplier-container {
-      .supplier-wrapper {
-        padding-bottom: 2rem;
+    .flex {
+      @media (min-width: 1128px) {
+        display: flex;
+      }
+    }
 
+    .supplier-container {
+      @media (min-width: 1128px) {
+        flex: 1;
+      }
+
+      .supplier-wrapper {
+        padding-top: 2rem;
+
+        &:first-child {
+          padding-top: 0;
+        }
+
+        .header {
+          display: inline-block;
+          vertical-align: middle;
+        }
         .company-name {
-          display: inline;
-          margin: 0 0 2px 0;
+          display: inline-block;
+          vertical-align: middle;
+          margin: 0;
           font-weight: @font-weight-medium;
           font-size: 19px;
 
           &:hover {
             cursor: pointer;
             text-decoration: underline;
+          }
+        }
+        .tag-wrapper {
+          margin-left: 4px;
+          display: inline-block;
+
+          .tag {
+            display: inline-block;
+            vertical-align: middle;
+            border: 1px solid @color-border-gray;
+            border-radius: @border-radius;
+            background-color: @color-white;
+            padding: 3px 4px;
+            font-size: 12px;
+            margin-left: 6px;
+
+            &:hover {
+              cursor: help;
+            }
+
+            &:first-child {
+              margin-left: 0;
+            }
+          }
+          .powered {
+            border-color: @color-link;
+            background-color: @color-white;
+            font-weight: 500;
+            color: @color-link;
+            text-transform: uppercase;
+          }
+          .verified {
+            background-color: @color-link;
+            border-radius: 50%;
+            padding: 3px;
+            overflow: hidden;
+            width: 14px;
+            height: 14px;
           }
         }
         #verified-mark {
@@ -456,8 +549,18 @@ export default {
       }
     }
 
+    .promotion-container {
+      padding-top: 2rem;
+
+      @media (min-width: 1128px) {
+        padding-top: 0;
+        padding-left: 2rem;
+        width: 350px;
+      }
+    }
+
     .pagination {
-      margin: 0;
+      margin: 2rem 0 0 0;
       padding: 0;
       display: flex;
 
@@ -487,16 +590,6 @@ export default {
           color: @color-white;
         }
       }
-    }
-  }
-}
-
-@media (min-width: 744px) {
-}
-@media (min-width: 1128px) {
-  #container {
-    .supplier-container {
-      padding-right: 350px;
     }
   }
 }
