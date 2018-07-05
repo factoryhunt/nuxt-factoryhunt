@@ -5,7 +5,7 @@
       <div class="card-wrapper">
 
         <div class="card-wrapper__header">
-          <h3>Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusantium aliquid perferendis.</h3>
+          <!-- <h3>Connect with world community of buyers</h3> -->
         </div>
 
         <a href="/buying-leads">Get Started with Your Instead</a> 
@@ -27,7 +27,7 @@
     // border: 1px solid @color-lightest-grey;
     width: 100%;
     height: 260px;
-    background-image: url(https://images.unsplash.com/photo-1526455026374-a105e60a65a3?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=70e749a80820e194cf84f25fb9375f4d&auto=format&fit=crop&w=1584&q=80);
+    background-image: url(https://nrtranslation.com/images/quality/03.jpg);
     background-repeat: no-repeat;
     background-position: 50% 50%;
     background-size: cover;
@@ -36,7 +36,7 @@
 
     @media (min-width: 744px) {
       padding: 44px;
-      height: 280px;
+      height: 300px;
     }
   }
   .card-wrapper {
@@ -53,10 +53,11 @@
     }
   }
   h3 {
-    margin: 0 !important;
+    margin: 20px 0 0 0 !important;
     padding: 0 !important;
     font-weight: normal;
     font-size: 20px;
+    color: black;
 
     @media (min-width: 744px) {
       font-size: 24px;

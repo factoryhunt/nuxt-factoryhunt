@@ -434,10 +434,6 @@ export default {
                 /*<!--border-radius: @border-radius;-->*/
                 /*<!--padding: 5px 12px;-->*/
                 /*<!--background-color: @color-light-grey;-->*/
-
-                &:hover {
-                  //
-                }
               }
             }
 
