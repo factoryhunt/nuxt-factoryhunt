@@ -487,8 +487,38 @@ export default {
       if (this.vendor.language_spoken) return true
       return false
     },
-    getVideo() {
-      return getVideoURL(this.vendor.account_video_url)
+
+    getVideoURL() {
+      // API list: https://developers.google.com/youtube/player_parameters
+      if (!this.vendor.account_video_url) return
+      const videoUrl = this.vendor.account_video_url
+      let videoId = ''
+      let url = ''
+
+      // Youtube
+      if (videoUrl.indexOf('youtube.com/watch?v=') > -1) {
+        videoId = this.vendor.account_video_url.split('v=')[1]
+        const ampersandPosition = videoId.indexOf('&')
+
+        // If video query exists
+        if (ampersandPosition !== -1) videoId = videoId.substring(0, ampersandPosition)
+
+        url = `https://www.youtube.com/embed/${videoId}?rel=0&autoplay=1&controls=2&showinfo=0&autohide=1&modestbranding=1`
+
+        // Youtube
+      } else if (videoUrl.indexOf('youtu.be/') > -1) {
+        videoId = this.vendor.account_video_url.split('.be/')[1]
+        url = `https://www.youtube.com/embed/${videoId}?rel=0&autoplay=1&controls=2&showinfo=0&autohide=1&modestbranding=1`
+
+        // Vimeo
+      } else if (videoUrl.indexOf('vimeo.com') > -1) {
+        videoId = this.vendor.account_video_url.split('.com/')[1]
+        url = `https://player.vimeo.com/video/${videoId}?autoplay=1&title=0&byline=0&portrait=0`
+      } else {
+        url = ''
+      }
+      return url
+
     }
   },
   methods: {
@@ -1317,20 +1347,22 @@ export default {
             outline: none !important;
             font-size: 16px;
           }
+
         }
       }
     }
 
-    textarea {
-      font-size: @font-size-medium;
-    }
 
-    .quote {
-      color: grey;
-      font-size: 0.9rem;
-      font-weight: 400;
-      text-align: center;
-    }
+        textarea {
+          font-size: @font-size-medium;
+        }
+        
+        .quote {
+          color: grey;
+          font-size: 0.9rem;
+          font-weight: 400;
+          text-align: center;
+        }
 
     button {
       width: 100%;

@@ -126,7 +126,7 @@ import ModalAuth from '~/components/Modal/Auth'
 import VButton from '~/components/Button'
 // libs
 import axios from '~/plugins/axios'
-import { validateURL } from '~/utils/text'
+import { validateURL, convertEnterToBrTag } from '~/utils/text'
 import { createChatRoom } from '~/utils/chatting'
 import { mapGetters } from 'vuex'
 export default {
@@ -285,7 +285,8 @@ export default {
       const sendConvertMail = () => {
         const payload = {
           lead_id: this.lead.lead_id,
-          inquiry: this.value.inquiry
+          sender_id: this.getContactId,
+          inquiry: convertEnterToBrTag(this.value.inquiry)
         }
         return new Promise((resolve, reject) => {
           axios

@@ -34,7 +34,6 @@
     background-position: 50% 50%;
     background-size: cover;
     color: @color-white;
-
     padding: 30px;
 
     @media (min-width: 744px) {
@@ -71,7 +70,7 @@
     }
   }
   h3 {
-    margin: 0 !important;
+    margin: 0 0 0 0 !important;
     padding: 0 !important;
     font-weight: normal;
     font-size: 18px;
