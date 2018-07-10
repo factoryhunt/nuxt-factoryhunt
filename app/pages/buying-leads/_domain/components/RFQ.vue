@@ -32,8 +32,13 @@
               v-show="buyingLead.account_name || buyingLead.contact_title"> 
               <div class="company" v-show="getEncryptedCompanyName">
                 <span class="at">@ </span>
-                <a>{{getEncryptedCompanyName}}</a> 
-                <div class="tool-tip">The buyer details will be visible when your quote is accepted.</div>
+                <a 
+                  class="cursor-default" 
+                  v-if="account.membership_left_time">{{getCompanyName}}</a>
+                <a v-else>{{getEncryptedCompanyName}}</a>
+                <div 
+                  v-if="!account.membership_left_time" 
+                  class="tool-tip">The buyer details will be visible when your quote is accepted.</div>
               </div>
                 <!-- <a 
                     :href="getCompanyDomain"
@@ -67,8 +72,10 @@
                 :label="getPaymentUnitPrice">Preffered Unit Price</tool-tip></li>
             <li v-show="getQuantity"><tool-tip
               :label="getQuantity">The buyer wants {{getQuantity}}.</tool-tip></li>
-            <li v-if="isAdmin"><tool-tip
-              label="Posted by FH">This buying lead is posted by Factory Hunt</tool-tip></li>
+            <li v-show="getQuantity"><tool-tip
+              :label="getQuantity">The buyer wants {{getQuantity}}.</tool-tip></li>
+            <li v-if="account.membership_left_time"><tool-tip
+              :label="getEmail">Buyer's Email</tool-tip></li>
           </ul>
         </section>
 
@@ -162,7 +169,8 @@ export default {
   computed: {
     ...mapGetters({
       isLoggedIn: 'auth/IS_LOGGED_IN',
-      user: 'auth/GET_USER'
+      user: 'auth/GET_USER',
+      account: 'auth/GET_ACCOUNT'
     }),
     isAdmin() {
       const { account_type } = this.buyingLead
@@ -190,6 +198,13 @@ export default {
       if (this.isAdmin) return getName(temp_first_name, temp_last_name)
 
       return getName(first_name, last_name)
+    },
+    getEmail() {
+      const { contact_email, temp_contact_email } = this.buyingLead
+
+      if (this.isAdmin) return temp_contact_email
+
+      return contact_email
     },
     getQuantity() {
       let { quantity, unit } = this.buyingLead
@@ -246,6 +261,12 @@ export default {
 
       if (this.isAdmin) return encryptCompanyName(temp_account_name || '')
       return encryptCompanyName(account_name || '')
+    },
+    getCompanyName() {
+      const { account_name, temp_account_name } = this.buyingLead
+
+      if (this.isAdmin) return temp_account_name
+      return account_name
     },
     getURL() {
       const domain = this.buyingLead.domain
@@ -339,7 +360,7 @@ ul {
 
   a {
     text-decoration: none !important;
-    cursor: help !important;
+    cursor: help;
   }
 
   &:hover {
@@ -391,6 +412,9 @@ h1 {
 }
 .read-more {
   font-size: 16px;
+}
+.cursor-default {
+  cursor: text !important;
 }
 
 // Product Images

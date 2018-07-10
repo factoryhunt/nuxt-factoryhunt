@@ -7,6 +7,21 @@
 @button-padding: 15px 28px;
 @input-padding: 8px 12px;
 
+.desktop {
+  display: none;
+
+  @media (min-width: 1128px) {
+    display: inherit;
+  }
+}
+.mobile {
+  display: inherit;
+
+  @media (min-width: 1128px) {
+    display: none;
+  }
+}
+
 .invisible {
   display: none !important;
 }

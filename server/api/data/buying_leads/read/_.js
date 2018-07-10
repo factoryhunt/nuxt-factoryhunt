@@ -70,7 +70,6 @@ module.exports = async (req, res) => {
       ON
         bl.temp_author_id = l.lead_id
       WHERE 
-        TIMESTAMPDIFF(SECOND, bl.due_date, now()) < 0 AND
         bl.is_deleted != 1 AND
         bl.category LIKE ?
       GROUP BY 

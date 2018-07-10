@@ -30,13 +30,15 @@
     <!-- Nav -->
     <nav class="info">
       <ul>
-        <li><a href="/about">About</a></li>
+        <li><a href="/about" target="_blank">About</a></li>
         <li class="dot">•</li>
-        <li><a href="/contact">Contact</a></li>
+        <li><a href="/contact" target="_blank">Contact</a></li>
         <li class="dot">•</li>
-        <li><a href="/terms">Terms</a></li>
+        <li><a href="/pricing" target="_blank">Pricing</a></li>
         <li class="dot">•</li>
-        <li><a href="/privacy">Privacy</a></li>
+        <li><a href="/terms" target="_blank">Terms</a></li>
+        <li class="dot">•</li>
+        <li><a href="/privacy" target="_blank">Privacy</a></li>
       </ul>
     </nav>
     <footer>

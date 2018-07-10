@@ -118,6 +118,9 @@ export default {
     },
     getDueDateLeft(feed) {
       const { due_day_diff, due_hour_diff, due_minute_diff } = feed
+
+      if (due_minute_diff < 1) return 'Closed'
+
       return getTimeLeft(due_minute_diff, due_hour_diff, due_day_diff)
     },
     getCountry(feed) {

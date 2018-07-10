@@ -68,6 +68,7 @@ export default {
   props: ['data', 'topDateDiff', 'bottomDateDiff', 'isBottomHidden', 'isAuthorOfRfq'],
   computed: {
     ...mapGetters({
+      account: 'auth/GET_ACCOUNT',
       contact: 'auth/GET_CONTACT'
     }),
     getLogoUrl() {
@@ -77,6 +78,8 @@ export default {
         : require('~/assets/img/temp-logo-image_english_512.png')
 
       if (this.isAuthorOfRfq) return userLogo
+
+      if (this.account.membership_left_time) return userLogo
 
       if (!this.isThisUserCanRead) return hiddenLogo
 

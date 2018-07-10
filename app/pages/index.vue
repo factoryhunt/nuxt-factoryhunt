@@ -46,53 +46,30 @@
       </form>
     </header>
 
-    <loader v-show="!isLoaded" id="loader" class="spinkit-default"/>
-    <div v-show="isLoaded">
+    <!-- Suppliers -->
+    <supplier-card-placeholder 
+      v-show="!isFeaturesLoaded" 
+      class="card"/>
+
+    <div v-show="isFeaturesLoaded">
       <!-- Buying Leads -->
       <buying-leads/>
-
-      <!-- Featured Suppliers -->
-      <div class="featured-container">
-
-        <!-- Title -->
-        <h2 class="title">{{ $t('home.featured') }}</h2>
-
-        <!-- Featured Supplier -->
-        <div class="contents-container">
-          <div class="card-container" v-for="(feature,index) in features" :key="index" v-if="index < value.featuresLength">
-            <div class="image-container">
-              <a :href="`/${feature.domain}`" target="_blank" class="image-wrapper">
-                <img id="featured-image" :src="feature.cover_image_url_1" alt="featured-image">
-              </a>
-            </div>
-            <div class="description-container">
-              <div class="description-contents">
-                <p class="product">{{ feature.products }}</p>
-                <h2 class="company-name">{{ feature.account_name }}</h2>
-                <h3 class="short-description">{{ feature.company_short_description }}</h3>
-                <button @click="routeAccountProfilePage(feature)" class="view-more-button">{{ $t('home.viewMore') }}</button>
-              </div>
-            </div>
-          </div>
-          <div class="show-more-button-container" v-if="features.length > value.featuresLength">
-            <button @click="onShowMoreButton"><i><img src="~assets/icons/arrow-angle-down.png" alt="show more"></i>{{$t('home.showMore')}}</button>
-          </div>
-        </div>
-      </div>
+      
+      <supplier-card
+        class="card"
+        v-for="(country, index1) in Object.keys(features)"
+        :key="`${country}-1`"
+        v-show="features[country].length >= 3 && index1 <= Object.keys(features).length - 5"
+        :suppliers="features[country]"/>
+      <membership-card class="card"/>
+      <supplier-card
+        class="card"
+        v-for="(country, index2) in Object.keys(features)"
+        :key="`${country}-2`"
+        v-show="features[country].length >= 3 && index2 > Object.keys(features).length - 5"
+        :suppliers="features[country]"/>
     </div>
 
-    <!-- Test -->
-    <!--<img src="~assets/img/logo.png" alt="Nuxt.js Logo" class="logo" />-->
-    <!--<h1 class="title">-->
-    <!--USERS-->
-    <!--</h1>-->
-    <!--<ul class="users">-->
-    <!--<li v-for="(user, index) in users" :key="index" class="user">-->
-    <!--<nuxt-link :to="{ name: 'id', params: { id: index }}">-->
-    <!--{{ user.name }}-->
-    <!--</nuxt-link>-->
-    <!--</li>-->
-    <!--</ul>-->
   </section>
 </template>
 
@@ -100,15 +77,22 @@
 import axios from '~/plugins/axios'
 import Loader from '~/components/Loader.vue'
 import BuyingLeads from '~/components/Card/BuyingLeads'
+import SupplierCardPlaceholder from '~/components/Placeholder/Supplier.vue'
+import SupplierCard from '~/components/Card/Supplier'
+import MembershipCard from '~/components/Card/Membership'
 import { removeTextSpace } from '~/utils/text'
 export default {
   components: {
     Loader,
-    BuyingLeads
+    BuyingLeads,
+    SupplierCardPlaceholder,
+    SupplierCard,
+    MembershipCard
   },
   async asyncData() {
+    const api = '/api/data/account/featured'
     try {
-      let { data } = await axios.get('/api/data/account/featured')
+      let { data } = await axios.get(api)
       return { features: data }
     } catch (err) {
       return {
@@ -118,6 +102,7 @@ export default {
   },
   data() {
     return {
+      features: [],
       value: {
         input: '',
         featuresLength: 10
@@ -125,19 +110,28 @@ export default {
       suggestions: {
         options: []
       },
-      isLoaded: false,
+      isFeaturesLoaded: false,
       canUpdateSuggestion: true
     }
   },
-  // watch: {
-  //   async 'value.input' (input) {
-  //     if (this.canUpdateSuggestion) {
-  //       const { data } = await this.getSearchSuggestion(input)
-  //       this.suggestions = data
-  //     }
-  //   }
-  // },
   methods: {
+    async init() {
+      await this.getFeatures()
+      this.calculateWindowHeight()
+    },
+    async getFeatures() {
+      const api = '/api/data/account/featured'
+      return new Promise((resolve, reject) => {
+        axios
+          .get(api)
+          .then(({ data }) => {
+            this.features = data
+            this.isFeaturesLoaded = true
+            resolve()
+          })
+          .catch(err => reject(err))
+      })
+    },
     onSearchKeypress() {
       const nuxt = this
       const $input = $('#search-input')
@@ -201,30 +195,14 @@ export default {
       const length = this.features.length
       if (this.value.featuresLength < length) this.value.featuresLength += 10
     },
-    routeAccountProfilePage(feature) {
-      const domain = feature.domain
-      window.open(`/${domain}`)
-    },
-    activateJquery() {
-      $(document).ready(() => {
-        this.calculateWindowHeight()
-        // this.onSearchKeypress()
-        this.deactivateLoader()
-        this.isLoaded = true
-      })
-    },
     calculateWindowHeight() {
       const windowHeight = window.innerHeight * 0.74
       const $headerContainer = $('.header-container')
       $headerContainer.css('min-height', `${windowHeight}px`)
-    },
-    deactivateLoader() {
-      const $loader = $('#loader')
-      $loader.removeClass().addClass('invisible')
     }
   },
   mounted() {
-    this.activateJquery()
+    this.init()
   }
 }
 </script>
@@ -232,7 +210,13 @@ export default {
 <style lang="less" scoped>
 @import '~assets/css/index';
 
+.card {
+  margin-top: 40px;
+}
+
 #container {
+  padding-bottom: 40px;
+
   .header-container {
     .short-description-container {
       padding-top: 54px;

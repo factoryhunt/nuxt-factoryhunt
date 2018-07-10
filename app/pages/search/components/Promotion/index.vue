@@ -3,7 +3,8 @@
     <div 
       class="card premium"
       v-if="!isMembershipUser && isUserSupplier">
-      <h2 class="title">Premium Membership</h2>
+      <h2 class="title mobile">Premium<br>Supplier Membership</h2>
+      <h2 class="title desktop">Premium Supplier Membership</h2>
       <p class="description">
         Your company can be always exposed on top of search results.
       </p>
@@ -127,7 +128,7 @@ export default {
     color: #bdbcbc;
   }
   .button {
-    background-color: #c32512;
+    background-color: @color-premium-red;
     color: @color-white !important;
 
     &:hover {

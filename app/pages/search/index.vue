@@ -90,14 +90,20 @@
                     class="company-name" 
                     @click="routeSupplierPage(account._source)">{{account._source.account_name}}</h1>
                   <div class="tag-wrapper">
-                    <img 
-                      v-if="account._source.membership_left_time"
-                      class="tag verified"
-                      src="~assets/icons/check_white.svg" 
-                      alt="verified">
+                    <!-- Verified -->
+                    <div 
+                      class="tooltip"
+                      v-if="account._source.membership_left_time">
+                      <img 
+                        class="tag verified"
+                        src="~assets/icons/check_white.svg" 
+                        alt="verified">
+                      <div class="tooltip-label">Membership User</div>
+                    </div>
+                    <!-- Powered -->
                     <span 
-                      v-if="account._source.membership_left_time && index < 2"
-                      class="tag powered">Powered</span>
+                        v-if="account._source.membership_left_time && index < 2"
+                        class="tag powered">Powered</span>
                 </div>
                 </div>
                 <h3 class="website">{{account._source.website}}</h3>
@@ -488,20 +494,20 @@ export default {
             font-size: 12px;
             margin-left: 6px;
 
-            &:hover {
-              cursor: help;
-            }
-
             &:first-child {
               margin-left: 0;
             }
           }
-          .powered {
-            border-color: @color-link;
-            background-color: @color-white;
-            font-weight: 500;
-            color: @color-link;
-            text-transform: uppercase;
+          .tooltip {
+            position: relative;
+            display: inline-block;
+
+            &:hover {
+              cursor: help;
+              .tooltip-label {
+                visibility: visible;
+              }
+            }
           }
           .verified {
             background-color: @color-link;
@@ -510,6 +516,27 @@ export default {
             overflow: hidden;
             width: 14px;
             height: 14px;
+          }
+          .tooltip-label {
+            visibility: hidden;
+            position: absolute;
+            white-space: nowrap;
+            bottom: 100%;
+            left: 0;
+            padding: 8px;
+            border-radius: @border-radius;
+            border: 1px solid @color-border-gray;
+            background-color: @color-bg-gray;
+            box-shadow: 0 1px 1px @color-light-gray;
+            font-size: 15px;
+          }
+          .powered {
+            border-color: @color-link;
+            background-color: @color-white;
+            font-weight: 500;
+            color: @color-link;
+            text-transform: uppercase;
+            cursor: default !important;
           }
         }
         #verified-mark {
