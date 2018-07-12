@@ -1,5 +1,9 @@
 <template>
   <main class="wrapper">
+    <modal-auth
+      :isHidden="isModalAuthHidden"
+      @close="isModalAuthHidden = true"/>
+
     <div class="maxwidth">
       <div class="table">
         <!-- Free -->
@@ -24,12 +28,10 @@
           class="table-item">
           <h2 class="title">Standard</h2>
           <div class="price-wrapper">
-            <p class="sale"><i>$ 10/month</i></p>
-            <p class="line">$ 50/month</p>
+            <p class="sale"><i>$ 100/year</i></p>
+            <p><span class="line">$ 500/year</span><i class="promotion">Limited Promotion</i> </p>
           </div>
-          <a 
-            class="button standard" 
-            href="/">Get Started</a>
+          <paypal-payment/>
           <ul>
             <li>Modern Company Webpage</li>
             <li>Priority Ranking (2nd)</li>
@@ -57,6 +59,32 @@
     </div>
   </main>
 </template>
+
+<script>
+import PaypalPayment from '~/components/Payments/Paypal'
+import ModalAuth from '~/components/Modal/Auth'
+import { mapGetters } from 'vuex'
+export default {
+  components: {
+    ModalAuth,
+    PaypalPayment
+  },
+  data: _ => ({
+    isModalAuthHidden: true
+  }),
+  computed: {
+    ...mapGetters({
+      isLoggedIn: 'auth/IS_LOGGED_IN'
+    })
+  },
+  methods: {
+    onStandard() {
+      if (!this.isLoggedIn) this.isModalAuthHidden = false
+    }
+  }
+}
+</script>
+
 
 <style>
 .body-container {
@@ -145,11 +173,17 @@
 }
 .line {
   margin-top: 4px;
-  font-size: 16px;
+  font-size: 14px;
   text-decoration: line-through;
 }
 .small {
   font-size: 20px;
+}
+.promotion {
+  margin-left: 5px;
+  font-size: 13px;
+  font-weight: 600;
+  color: @color-premium-red;
 }
 
 .button {

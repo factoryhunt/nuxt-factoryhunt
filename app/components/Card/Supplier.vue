@@ -17,7 +17,7 @@
               class="products">{{supplier.products}}</span>
           </div>
           <div class="company">{{supplier.account_name}}</div>
-          <div class="total" v-show="supplier.total_product_length">Total {{supplier.total_product_length}} products</div>
+          <div class="total" v-show="supplier.total_product_length">{{getTotalProducts(supplier)}}</div>
         </a>
       </div>
     </div>
@@ -26,7 +26,14 @@
 
 <script>
 export default {
-  props: ['suppliers']
+  props: ['suppliers'],
+  methods: {
+    getTotalProducts({ total_product_length }) {
+      return total_product_length < 2
+        ? `Total ${total_product_length} product`
+        : `Total ${total_product_length} products`
+    }
+  }
 }
 </script>
 
@@ -38,13 +45,13 @@ export default {
   padding: 0;
 }
 .cards {
-  @gap: 12px;
+  @gap: 16px;
   overflow: scroll;
   display: grid;
   margin-top: 22px;
   grid-template-columns: 1fr 1fr 1fr 1fr;
   grid-column-gap: @gap;
-  grid-row-gap: @gap * 2;
+  grid-row-gap: @gap * 3;
 }
 
 .card {
@@ -62,11 +69,11 @@ export default {
     box-shadow: 0 1px 1px 1px @color-border-gray;
   }
   .products-wrapper {
-    margin-top: 5px;
+    margin-top: 6px;
     display: block;
     text-transform: uppercase;
-    font-size: 11px;
-    font-weight: 500;
+    font-size: 10px;
+    font-weight: 600;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell,
       'Open Sans', 'Helvetica Neue', sans-serif;
     color: @color-link;
@@ -88,17 +95,17 @@ export default {
   .products {
     display: inline-block;
     vertical-align: middle;
-    font-size: 13px;
+    font-size: 12px;
   }
   .company {
-    margin-top: 3px;
+    margin-top: 4px;
     width: 100%;
-    font-weight: 400;
-    font-size: 19px;
+    font-weight: 600;
+    font-size: 18px;
     color: @color-font-black;
   }
   .total {
-    margin-top: 1px;
+    margin-top: 5px;
     font-size: 14px;
     color: @color-font-gray;
   }

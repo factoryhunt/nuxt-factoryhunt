@@ -71,6 +71,8 @@ module.exports = async (req, res) => {
         bl.temp_author_id = l.lead_id
       WHERE 
         bl.is_deleted != 1 AND
+        bl.due_date != 0 AND
+        bl.status != "Archived" AND
         bl.category LIKE ?
       GROUP BY 
         bl.buying_lead_id

@@ -2,8 +2,7 @@
   <main>
     <div class="main-wrapper">
       <div class="form-container">
-        <form @submit.prevent="onSubmitButton()">
-
+        <form @submit.prevent="onSubmitButton">
           <div>
             <!-- Title of Form -->
             <h3>Complete Your Request</h3>
@@ -16,8 +15,8 @@
                 id="title-input"
                 class="input"
                 v-model="value.title"
-                pattern="[A-Za-z0-9 -/.()%]{2,50}"
-                title="It must be 2-50 and can only contain letters, numbers, hyphen(-), slash(/), percent(%) and periods."
+                pattern="[A-Za-z0-9 /.,()%-]{2,50}"
+                title="It must be 2-50 and can only contain letters, numbers, hyphen(-), slash(/), comma(,), percent(%) and periods."
                 :maxlength="50"
                 :maxlengthDisplay="true"/>
             </section>
@@ -165,17 +164,17 @@
             <!-- Submit -->
             <section
               id="submit-section">
-              <submit-button
+              <input
                 id="submit-button"
-                role="submit"
+                type="submit"
+                :value="getSubmitButtonLabel"
                 :disabled="!isButtonActive"
-                :isLoading="isSubmiting">
-                {{getSubmitButtonLabel}}
-              </submit-button>
-              <a 
+                :isLoading="isSubmiting"/>
+              <!-- <input
                 id="later-button"
+                type="submit"
                 v-show="!isActivated"
-                @click="onSaveDraft()">Save Draft</a>
+                value="Save Draft"/> -->
             </section>
           </div>
 
@@ -250,7 +249,7 @@ export default {
     onDropzoneError(err) {
       console.log('dropzone error:\n', err)
     },
-    onSubmitButton() {
+    onSubmitButton(status) {
       this.$emit('submit')
     },
     onSaveDraft() {
@@ -351,15 +350,25 @@ section {
   font-size: 14px;
 }
 #submit-section {
-  button {
+  input {
+    padding: 14px 28px;
     font-size: 18px;
-    font-weight: 600;
+    &:hover {
+      cursor: pointer;
+    }
+    &[disabled] {
+      cursor: not-allowed;
+      opacity: 0.5;
+    }
   }
   #submit-button {
-    min-width: 222px;
+    background-color: @color-orange;
+    color: @color-white;
+    font-weight: 500;
+    border: 0;
   }
   #later-button {
-    padding: 14px 28px;
+    margin-left: 12px;
     color: @color-orange;
   }
 }

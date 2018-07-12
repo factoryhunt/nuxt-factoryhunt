@@ -218,11 +218,14 @@ export default {
       this.checkProcess()
     },
     getDomain(title) {
+      if (!title) return ''
+
       return (
         title
           .trim()
           .toLowerCase()
-          .replace(/\%/g, '')
+          .replace(/[/.,()%-]/g, '')
+          .replace(/\s\s/g, '')
           .replace(/\s/g, '-') + `-${this.buyingLeadId}`
       )
     },
