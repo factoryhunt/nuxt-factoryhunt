@@ -325,7 +325,8 @@ export default {
         conversationId = `${this.getContactId}_${quote_contact_id}`
       else conversationId = `${quote_contact_id}_${this.getContactId}`
 
-      const API = `/api/data/inbox`
+      const api = `/api/data/inbox`
+      const chatRoomURL = `/dashboard/inbox/${conversationId}`
       const body = {
         sender_id: this.getContactId,
         recipient_id: quote_contact_id,
@@ -334,10 +335,9 @@ export default {
           this.contact
             .contact_email} wants to have a conversation with you regarding the buying lead. ${domain}`
       }
-      const chatRoomURL = `/dashboard/inbox/${conversationId}`
 
       try {
-        await axios.post(API, { body })
+        await axios.post(api, { body })
         location.href = chatRoomURL
       } catch (err) {
         console.log('on chat error', err)

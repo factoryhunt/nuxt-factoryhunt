@@ -59,14 +59,14 @@
         class="card"
         v-for="(country, index1) in Object.keys(features)"
         :key="`${country}-1`"
-        v-show="features[country].length >= 3 && index1 <= Object.keys(features).length - 5"
+        v-show="features[country].length >= 2 && index1 <= Object.keys(features).length - 5"
         :suppliers="features[country]"/>
       <membership-card class="card"/>
       <supplier-card
         class="card"
         v-for="(country, index2) in Object.keys(features)"
         :key="`${country}-2`"
-        v-show="features[country].length >= 3 && index2 > Object.keys(features).length - 5"
+        v-show="features[country].length >= 2 && index2 > Object.keys(features).length - 5"
         :suppliers="features[country]"/>
     </div>
 

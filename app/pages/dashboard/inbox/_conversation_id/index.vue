@@ -210,7 +210,7 @@ export default {
 
       if (first_name && last_name) return `${first_name} ${last_name}`
 
-      if (first_name) return fisrt_name
+      if (first_name) return first_name
       if (last_name) return last_name
 
       return ''
@@ -274,17 +274,17 @@ export default {
       if (ids[0] === `${contact_id}`) recipient_id = ids[1]
       else recipient_id = ids[0]
 
-      const API = `/api/data/inbox/conversation_id/${conversation_id}/${recipient_id}`
+      let api = `/api/data/inbox/conversation_id/${conversation_id}/${recipient_id}`
 
       try {
-        const { data } = await axios.get(API)
+        const { data } = await axios.get(api)
         this.messages = data.messages
         this.recipient = data.recipient
         this.toggle.isFetched = true
         this.changeTitle()
       } catch (err) {
         console.log('err', err)
-        this.redirectInbox()
+        // this.redirectInbox()
       }
     },
     async sendMessage() {

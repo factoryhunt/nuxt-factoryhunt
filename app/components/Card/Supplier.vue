@@ -6,7 +6,7 @@
         class="card"
         v-for="(supplier,index) in suppliers"
         :key="supplier.account_name"
-        v-if="index < 8">
+        v-if="index < 6">
         <a :href="supplier.domain" target="_blank">
           <img class="img" :src="supplier.cover_image_url_1">
           <div class="products-wrapper">
@@ -45,13 +45,21 @@ export default {
   padding: 0;
 }
 .cards {
-  @gap: 16px;
+  @gap: 24px;
   overflow: scroll;
   display: grid;
   margin-top: 22px;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr;
   grid-column-gap: @gap;
-  grid-row-gap: @gap * 3;
+  grid-row-gap: @gap;
+}
+
+h2 {
+  font-size: 18px;
+
+  @media (min-width: 744px) {
+    font-size: 26px;
+  }
 }
 
 .card {
@@ -64,9 +72,13 @@ export default {
   .img {
     border-radius: @border-radius;
     width: 100%;
-    height: 150px;
+    height: 160px;
     object-fit: cover;
     box-shadow: 0 1px 1px 1px @color-border-gray;
+
+    @media (min-width: 744px) {
+      height: 200px;
+    }
   }
   .products-wrapper {
     margin-top: 6px;
@@ -96,6 +108,8 @@ export default {
     display: inline-block;
     vertical-align: middle;
     font-size: 12px;
+    text-overflow: ellipsis;
+    overflow: hidden;
   }
   .company {
     margin-top: 4px;

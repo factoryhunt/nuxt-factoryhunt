@@ -228,7 +228,10 @@ export default {
     .logo-container {
       .logo-inner-container {
         position: relative;
-        padding: 11.5px;
+        a {
+          display: block;
+          padding: 11.5px;
+        }
         #logo {
           display: table-cell;
           vertical-align: middle;
@@ -360,7 +363,7 @@ export default {
       display: none;
       position: relative;
       right: 0;
-      top: 75px;
+      top: 35px;
       z-index: 9999 !important;
 
       .dropdown-container {

@@ -155,7 +155,11 @@ export default {
   },
   methods: {
     onFocus(event) {
-      if (!this.isLoggedIn) return (this.isModalAuthHidden = false)
+      if (!this.isLoggedIn) {
+        this.isModalAuthHidden = false
+        event.target.blur()
+        return
+      }
 
       if (!this.isUserSupplier) {
         event.target.blur()
@@ -187,7 +191,7 @@ export default {
         const body = this.getSubmittingBody
         const { data } = await axios.post('/api/data/quotes', { body })
         await this.uploadDocuments(data.insertId)
-        // this.sendConvertEmailToAuthorOfBuyingLead(data.insertId)
+        this.sendConvertEmailToAuthorOfBuyingLead(data.insertId)
         location.reload()
       } catch (err) {
         console.log('submit error', err)

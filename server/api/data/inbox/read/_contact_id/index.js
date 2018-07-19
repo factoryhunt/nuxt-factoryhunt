@@ -1,5 +1,4 @@
 const mysql = require('../../../../mysql')
-const CONFIG_MYSQL = require('../../../../mysql/model')
 
 // GET /api/data/inbox/contact_id/:contact_id
 module.exports = async (req, res) => {
@@ -30,9 +29,9 @@ module.exports = async (req, res) => {
 				TIMESTAMPDIFF(MINUTE, i.created_date, NOW()) as minute_diff,
         TIMESTAMPDIFF(SECOND, i.created_date, NOW()) as second_diff
       FROM
-        ${CONFIG_MYSQL.TABLE_INBOX} i,
-        ${CONFIG_MYSQL.TABLE_CONTACTS} c,
-        ${CONFIG_MYSQL.TABLE_ACCOUNTS} a
+        inbox i,
+        contacts c,
+        accounts a
       WHERE
         (i.inbox_id
         IN
@@ -40,7 +39,7 @@ module.exports = async (req, res) => {
           SELECT 
             MAX(i.inbox_id)
           FROM
-            ${CONFIG_MYSQL.TABLE_INBOX} i
+            inbox i
           WHERE
             (i.sender_id = ${contact_id} OR
             i.recipient_id = ${contact_id})
@@ -52,13 +51,13 @@ module.exports = async (req, res) => {
         (i.sender_id = c.contact_id OR
         i.recipient_id = c.contact_id)
       AND
-        c.contact_id != ${contact_id}
+        c.contact_id != ?
       AND
         c.account_id = a.account_id
       ORDER BY
         i.inbox_id DESC
       `
-      mysql.query(SQL, (err, rows) => {
+      mysql.query(SQL, contact_id, (err, rows) => {
         if (err) reject(err)
         resolve(rows)
       })

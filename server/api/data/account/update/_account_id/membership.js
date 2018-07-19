@@ -1,9 +1,9 @@
 const mysql = require('../../../../mysql')
 
-// PUT /api/data/account/:id
+// PUT /api/data/account/:id/membership
 module.exports = async (req, res) => {
   const { account_id } = req.params
-  const { account_data } = req.body
+  const { membership_type, duration } = req.body
 
   const update = () => {
     return new Promise((resolve, reject) => {
@@ -11,11 +11,13 @@ module.exports = async (req, res) => {
       UPDATE
         accounts
       SET
-        ?
+        membership_type = ?,
+        membership_start_date = (SELECT NOW()),
+        membership_valid_until = DATE_ADD(NOW(), INTERVAL ${duration || 0} DAY)
       WHERE 
         account_id = ?
       `
-      mysql.query(sql, [account_data, account_id], err => {
+      mysql.query(sql, [membership_type, account_id], err => {
         if (err) reject(err)
         resolve()
       })

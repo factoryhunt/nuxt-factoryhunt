@@ -300,11 +300,13 @@ export default {
         const chatRoomUrl = await createChatRoom(
           this.getContactId,
           this.lead.lead_id,
-          this.value.inquiry
+          this.value.inquiry,
+          true
         )
         sendConvertMail()
         location.href = chatRoomUrl
       } catch (err) {
+        console.log(err)
         this.toggle.isEmailSending = false
         alert(this.$t('alert.email.fail'))
       }

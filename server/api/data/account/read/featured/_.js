@@ -1,5 +1,4 @@
 const mysql = require('../../../../mysql/index')
-const CONFIG_MYSQL = require('../../../../mysql/model')
 const { onError } = require('../../../../../utils/error')
 
 // GET /api/data/account/featured
@@ -23,10 +22,12 @@ module.exports = async (req, res) => {
               p.isDeleted != 1 AND
               account_id = a.account_id) AS total_product_length
       FROM
-        ${CONFIG_MYSQL.TABLE_ACCOUNTS} a
+        accounts a
       WHERE
         a.isDeleted != 1 AND
-        a.customer_priority > 1 AND
+        a.account_status = "approved" AND
+        a.customer_priority > 2 AND
+        a.account_name > "" AND
         a.products > "" AND
         a.cover_image_url_1 > "" AND
         a.mailing_country > ""

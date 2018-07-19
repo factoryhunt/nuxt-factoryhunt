@@ -1,6 +1,6 @@
 import axios from '~/plugins/axios'
 
-export const createChatRoom = (sender_id, recipient_id, msg) => {
+export const createChatRoom = (sender_id, recipient_id, msg, is_lead) => {
   if (!sender_id || !recipient_id || !msg) return 'Not enough datas.'
 
   const getConversationId = () => {
@@ -12,8 +12,24 @@ export const createChatRoom = (sender_id, recipient_id, msg) => {
   }
 
   const API = `/api/data/inbox`
-  const body = { sender_id, recipient_id, conversation_id: getConversationId(), body: msg }
-  const chatRoomURL = `/dashboard/inbox/${getConversationId()}`
+  let body
+  if (is_lead) {
+    body = {
+      sender_id,
+      temp_recipient_id: recipient_id,
+      temp_conversation_id: getConversationId(),
+      body: msg
+    }
+  } else {
+    body = {
+      sender_id,
+      recipient_id,
+      conversation_id: getConversationId(),
+      body: msg
+    }
+  }
+
+  let chatRoomURL = `/dashboard/inbox/${getConversationId()}`
 
   return new Promise(async (resolve, reject) => {
     try {

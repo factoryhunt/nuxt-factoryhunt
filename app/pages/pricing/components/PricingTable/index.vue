@@ -1,9 +1,5 @@
 <template>
   <main class="wrapper">
-    <modal-auth
-      :isHidden="isModalAuthHidden"
-      @close="isModalAuthHidden = true"/>
-
     <div class="maxwidth">
       <div class="table">
         <!-- Free -->
@@ -18,7 +14,7 @@
             href="/signup">Sign Up</a>
           <ul>
             <li>Modern Company Webpage</li>
-            <li>Priority Ranking (3rd)</li>
+            <li>Online Product Catalog</li>
             <li>Product Posting (Limited)</li>
             <li>Submit Quotes for Buying Leads (Limited)</li>
           </ul>
@@ -28,18 +24,18 @@
           class="table-item">
           <h2 class="title">Standard</h2>
           <div class="price-wrapper">
-            <p class="sale"><i>$ 100/year</i></p>
-            <p><span class="line">$ 500/year</span><i class="promotion">Limited Promotion</i> </p>
+            <p class="line"><i>$ 500/year</i></p>
+            <p class="sale"><span>$ 100/year</span><i class="promotion">Limited Promotion</i> </p>
           </div>
           <paypal-payment/>
           <ul>
             <li>Modern Company Webpage</li>
-            <li>Priority Ranking (2nd)</li>
+            <li>Online Product Catalog</li>
+            <li>Priority Ranking</li>
+            <li>Verified Icon</li>
             <li>Product Posting (Unlimited)</li>
             <li>Submit Quotes for Buying Leads (Unlimited)</li>
-            <li>Online Product Catalog</li>
             <li>Access to Buyer Information</li>
-            <li>Verified Icon</li>
             <li>Free Display Marketing</li>
             <li>Personalized Customer Service</li>
           </ul>
@@ -47,7 +43,7 @@
         <!-- Premium -->
         <div
           class="table-item premium">
-          <h2 class="title">Premium</h2>
+          <h2 class="title">Enterprise</h2>
           <div class="price-wrapper">
             <p class="small"><i>Please tell us what you need.</i></p>
           </div>
@@ -62,25 +58,15 @@
 
 <script>
 import PaypalPayment from '~/components/Payments/Paypal'
-import ModalAuth from '~/components/Modal/Auth'
 import { mapGetters } from 'vuex'
 export default {
   components: {
-    ModalAuth,
     PaypalPayment
   },
-  data: _ => ({
-    isModalAuthHidden: true
-  }),
   computed: {
     ...mapGetters({
       isLoggedIn: 'auth/IS_LOGGED_IN'
     })
-  },
-  methods: {
-    onStandard() {
-      if (!this.isLoggedIn) this.isModalAuthHidden = false
-    }
   }
 }
 </script>
@@ -166,22 +152,23 @@ export default {
 .price-wrapper {
   padding: 14px 0;
   text-align: center;
-  height: 86px;
+  height: 97px;
   font-size: 26px;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell,
     'Open Sans', 'Helvetica Neue', sans-serif;
 }
 .line {
   margin-top: 4px;
-  font-size: 14px;
   text-decoration: line-through;
+}
+.sale {
+  font-size: 18px;
 }
 .small {
   font-size: 20px;
 }
 .promotion {
   margin-left: 5px;
-  font-size: 13px;
   font-weight: 600;
   color: @color-premium-red;
 }

@@ -86,10 +86,18 @@ exports.getQueryBody = options => {
   // should
   const should = [
     {
+      match_phrase: {
+        products: {
+          query: input,
+          boost: 10
+        }
+      }
+    },
+    {
       match: {
         account_status: {
           query: 'approved',
-          boost: 1000
+          boost: 5000
         }
       }
     },

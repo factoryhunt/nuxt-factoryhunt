@@ -72,8 +72,6 @@
                 :label="getPaymentUnitPrice">Preffered Unit Price</tool-tip></li>
             <li v-show="getQuantity"><tool-tip
               :label="getQuantity">The buyer wants {{getQuantity}}.</tool-tip></li>
-            <li v-show="getQuantity"><tool-tip
-              :label="getQuantity">The buyer wants {{getQuantity}}.</tool-tip></li>
             <li v-if="account.membership_left_time"><tool-tip
               :label="getEmail">Buyer's Email</tool-tip></li>
           </ul>

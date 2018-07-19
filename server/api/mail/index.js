@@ -7,6 +7,7 @@ const product = require('./product')
 const sign_up = require('./sign_up')
 const ads = require('./ads')
 
+const new_quote = require('./quote/new')
 const convert_lead_buyer = require('./convert/lead_buyer')
 const convert_lead_supplier = require('./convert/lead_supplier')
 
@@ -16,6 +17,7 @@ router.post('/find_password', find_password)
 router.post('/product', product)
 router.post('/sign_up', sign_up)
 router.post('/ads', ads)
+router.post('/new_quote', new_quote)
 router.post('/convert_lead_buyer', convert_lead_buyer)
 router.post('/convert_lead_supplier', convert_lead_supplier)
 

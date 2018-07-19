@@ -1,6 +1,6 @@
 <template>
   <div class="header">
-    <h1 class="title">Membership for Supplier</h1>
+    <h1 class="title">Supplier Membership</h1>
     <h2 class="sub-title">Connect your business and showcase your products to the worldwide community of buyers on Factory Hunt.</h2>
   </div>
 </template>

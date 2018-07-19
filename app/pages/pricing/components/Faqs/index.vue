@@ -23,6 +23,11 @@ export default {
   data: _ => ({
     cards: [
       {
+        title: 'What is paid Supplier Membership on Factoryhunt.com?',
+        description:
+          'Suppliers with paid membership are provided with comprehensive ways to promote their products and to maximize business exposure to potential buyers.'
+      },
+      {
         title: 'What is priority ranking and verified icon?',
         description:
           'Your company is exposed on top of our search results. We would like to give a difference between free user and membership user on the search result page.',
@@ -35,15 +40,14 @@ export default {
         img: 'https://s3-us-west-1.amazonaws.com/factoryhunt.com/img/pricing/pricing-faqs-2.png'
       },
       {
-        title: 'What is free display marketing?',
+        title: 'Do you have a paid membership for buyers?',
         description:
-          'Lorem ipsum dolor sit amet consectetur adipisicing elit. Tenetur, laudantium veritatis sit culpa, id voluptates eos quibusdam veniam perferendis et quo vero rem alias blanditiis molestias mollitia reprehenderit magni rerum?'
+          'Currently, all services are completely free for buyers on Factoryhunt.com. Please feel free to sign up to reach and find out reliable suppliers for your business. '
       }
     ]
   })
 }
 </script>
-
 
 <style lang="less" scoped>
 @import '~assets/css/index';

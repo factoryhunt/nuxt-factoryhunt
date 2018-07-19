@@ -1,7 +1,7 @@
 <template>
   <div class="wrapper">
     <div class="cards">
-      <div class="card" v-for="index in 8" :key="index">
+      <div class="card" v-for="index in 6" :key="index">
         <div class="animated-background img"></div>
         <div class="animated-background category"></div>
         <div class="animated-background company"></div>
@@ -19,10 +19,10 @@
   padding: 0;
 }
 .cards {
-  @gap: 12px;
+  @gap: 18px;
 
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr;
   grid-column-gap: @gap;
   grid-row-gap: @gap;
 }
