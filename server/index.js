@@ -4,6 +4,7 @@ require('./middleware/spawn')
 const app = require('express')()
 const server = require('http').createServer(app)
 
+require('dotenv').config()
 const forcedomain = require('./middleware/forcedomain')
 const session = require('express-session')
 const redis = require('./middleware/redis/.config')(session)

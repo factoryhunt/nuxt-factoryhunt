@@ -85,7 +85,9 @@
       </div>
 
       <!-- Contact Form -->
-      <div class="right-container">
+      <div 
+        class="right-container"
+        v-show="lead.email">
         <form 
           @submit.prevent="sendInquiry" 
           class="form-container">

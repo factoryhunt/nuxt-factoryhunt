@@ -1,6 +1,6 @@
 <template>
   <div class="wrapper">
-    <h2>Wholesalers in {{suppliers[0].mailing_country}}</h2>
+    <h2>Suppliers in {{suppliers[0].mailing_country}}</h2>
     <div class="cards">
       <div 
         class="card"

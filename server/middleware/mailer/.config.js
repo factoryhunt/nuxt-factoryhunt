@@ -1,7 +1,9 @@
-const host = process.env.DAUM_HOST || 'smtp.daum.net'
-const port = process.env.DAUM_PORT || 465
+const { DAUM_HOST, DAUM_PORT, DAUM_PASSWORD, MAIL_INFO, MAIL_NO_REPLY, MAIL_CEO } = process.env
+
+const host = DAUM_HOST || 'smtp.daum.net'
+const port = DAUM_PORT || 465
 const secure = true // true for 465, false for other ports
-const password = process.env.DAUM_PASSWORD || 'YOUR_DAUM_SMTP_PASSWORD'
+const password = DAUM_PASSWORD || 'YOUR_DAUM_SMTP_PASSWORD'
 
 module.exports = {
   info: {
@@ -9,7 +11,7 @@ module.exports = {
     port: port,
     secure: secure,
     auth: {
-      user: process.env.MAIL_INFO || 'YOUR_INFO_EMAIL',
+      user: MAIL_INFO || 'YOUR_INFO_EMAIL',
       pass: password
     }
   },
@@ -18,7 +20,7 @@ module.exports = {
     port: port,
     secure: secure,
     auth: {
-      user: process.env.MAIL_NO_REPLY || 'YOUR_NO_REPLY_EMAIL',
+      user: MAIL_NO_REPLY || 'YOUR_NO_REPLY_EMAIL',
       pass: password
     }
   },
@@ -27,7 +29,7 @@ module.exports = {
     port: port,
     secure: secure,
     auth: {
-      user: process.env.MAIL_CEO || 'YOUR_CEO_EMAIL',
+      user: MAIL_CEO || 'YOUR_CEO_EMAIL',
       pass: password
     }
   }

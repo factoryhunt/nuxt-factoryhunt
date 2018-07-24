@@ -25,7 +25,10 @@
         </div>
       </div>
     </div>
-    <div class="card membership">
+    <!-- Account Details -->
+    <div 
+      class="card membership"
+      v-show="isUserSupplier">
       <span class="title">Account Details</span>
       <dl class="contents">
         <dt>Membership Type</dt>

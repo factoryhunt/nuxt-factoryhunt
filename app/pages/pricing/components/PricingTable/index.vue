@@ -15,6 +15,7 @@
           <ul>
             <li>Modern Company Webpage</li>
             <li>Online Product Catalog</li>
+            <li>Priority Ranking (3rd)</li>
             <li>Product Posting (Limited)</li>
             <li>Submit Quotes for Buying Leads (Limited)</li>
           </ul>
@@ -24,8 +25,8 @@
           class="table-item">
           <h2 class="title">Standard</h2>
           <div class="price-wrapper">
-            <p class="line"><i>$ 500/year</i></p>
-            <p class="sale"><span>$ 0/year</span><i class="promotion">Limited Promotion</i> </p>
+            <p class="line"><i>$ 1,000/year</i></p>
+            <p class="sale"><span>Free</span><i class="promotion">for Early Bird Registration</i> </p>
           </div>
           <a 
             class="button standard" 
@@ -34,7 +35,7 @@
           <ul>
             <li>Modern Company Webpage</li>
             <li>Online Product Catalog</li>
-            <li>Priority Ranking</li>
+            <li>Priority Ranking (2nd)</li>
             <li>Verified Icon</li>
             <li>Product Posting (Unlimited)</li>
             <li>Submit Quotes for Buying Leads (Unlimited)</li>
@@ -166,6 +167,12 @@ export default {
 }
 .sale {
   font-size: 18px;
+  margin-top: 6px;
+
+  span {
+    text-transform: uppercase;
+    font-weight: 500;
+  }
 }
 .small {
   font-size: 20px;
