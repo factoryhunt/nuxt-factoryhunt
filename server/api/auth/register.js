@@ -122,7 +122,9 @@ module.exports = async (req, res) => {
       INSERT INTO 
         ${CONFIG_MYSQL.TABLE_ACCOUNTS} 
       SET 
-        ?
+        ?,
+        membership_start_date = NOW(),
+        membership_valid_until = DATE_ADD(NOW(), INTERVAL 365 DAY)
       `
       mysql.query(SQL, account, (err, rows) => {
         if (err)

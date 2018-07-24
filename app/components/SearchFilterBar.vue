@@ -45,14 +45,14 @@
 import { addComma } from '~/utils/text'
 export default {
   props: {
-      countries: {
-        type: Array,
-        default: () => {
-          return []
-        }
+    countries: {
+      type: Array,
+      default: () => {
+        return []
       }
-    },
-  data () {
+    }
+  },
+  data() {
     return {
       buttons: [
         {
@@ -64,7 +64,7 @@ export default {
           title: 'Country',
           type: 'dropdown',
           onClick: this.toggleCountry
-        },
+        }
       ],
       toggle: {
         country: false
@@ -72,22 +72,22 @@ export default {
     }
   },
   computed: {
-    getToggle (buttonIndex) { 
+    getToggle(buttonIndex) {
       switch (buttonIndex) {
         case 0:
-        return 
-        break
+          return
+          break
         default:
-        break
+          break
       }
       return this.toggle.country
     }
   },
   methods: {
-    getCountryCount (string) {
+    getCountryCount(string) {
       return addComma(string)
     },
-    highlightButton () {
+    highlightButton() {
       const query = this.$route.query
 
       if (!query.category && !query.country) {
@@ -99,12 +99,12 @@ export default {
         document.getElementById('button-1').className = 'highlight'
       }
     },
-    onClickAllButton (event, index) {
+    onClickAllButton(event, index) {
       let input = this.$route.query.q || ''
-      
+
       location.href = `/search?q=${input}`
     },
-    onClickCountry (value, index) {
+    onClickCountry(value, index) {
       let href = location.href
       const query = `country=${value}`
       const reg = /country=([^&]*)/g
@@ -112,21 +112,21 @@ export default {
 
       if (result) href = href.replace(reg, query)
       else href = `${href}&${query}`
-      
+
       location.href = href
     },
-    toggleCountry () {
+    toggleCountry() {
       this.toggle.country = !this.toggle.country
     }
   },
-  mounted () {
+  mounted() {
     this.highlightButton()
   }
 }
 </script>
 
 <style lang="less" scoped>
-@import "~assets/css/index";
+@import '~assets/css/index';
 
 #filter-bar {
   margin-bottom: 14px;
@@ -146,6 +146,7 @@ export default {
   display: table-cell;
   padding: 0 9px;
   vertical-align: middle;
+  height: 100%;
 
   button {
     border: 0;
@@ -188,7 +189,7 @@ li {
   font-size: 17px;
   font-weight: 400;
   min-width: 198px;
-  transition: background-color linear .2s;
+  transition: background-color linear 0.2s;
 
   &.selected {
     font-weight: bolder;
@@ -200,7 +201,7 @@ li {
   }
 
   #country-count {
-    float:right;
+    float: right;
     color: gray;
     font-size: 13px;
     text-align: right;

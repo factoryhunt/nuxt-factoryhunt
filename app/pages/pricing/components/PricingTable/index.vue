@@ -25,9 +25,12 @@
           <h2 class="title">Standard</h2>
           <div class="price-wrapper">
             <p class="line"><i>$ 500/year</i></p>
-            <p class="sale"><span>$ 100/year</span><i class="promotion">Limited Promotion</i> </p>
+            <p class="sale"><span>$ 0/year</span><i class="promotion">Limited Promotion</i> </p>
           </div>
-          <paypal-payment/>
+          <a 
+            class="button standard" 
+            href="/signup">Get started</a>
+          <!-- <paypal-payment/> -->
           <ul>
             <li>Modern Company Webpage</li>
             <li>Online Product Catalog</li>

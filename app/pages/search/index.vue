@@ -68,19 +68,9 @@
       <div class="supplier-outer-container each-container">
         <loader id="loader"/>
         <div v-if="account_count > 0">
+          <!-- Search Results -->
           <div class="flex">
             <div class="supplier-container">
-              <!-- Sponsored -->
-              <!-- <div class="supplier-wrapper">
-                <h1 class="company-name">INUNI Co., Ltd.</h1>
-                <div class="tag-wrapper">
-                  <span class="tag verified">Sponsored</span>
-                </div>
-                <h3 class="website">www.ullala.kr</h3>
-                <h2 class="product">Underwear, Pajamas, Lounge, Cross-curve Drawers, Hidden pocket Drawers, 3D solid Volume Bra</h2>
-                <h3 class="phone">+82-2-2233-5540</h3>
-                <h3 class="address">South Korea</h3>
-              </div> -->
               <div 
                 class="supplier-wrapper" 
                 v-for="(account,index) in accounts" 
@@ -96,9 +86,9 @@
                       v-if="account._source.membership_left_time">
                       <img 
                         class="tag verified"
-                        src="~assets/icons/check_white.svg" 
+                        src="~assets/icons/star.svg" 
                         alt="verified">
-                      <div class="tooltip-label">Membership User</div>
+                      <div class="tooltip-label">Paid Membership User</div>
                     </div>
                     <!-- Powered -->
                     <span 
@@ -114,11 +104,13 @@
                 <h3 class="address">{{account._source.mailing_country}}</h3>
               </div>
             </div>
+
             <!-- Promotion -->
             <div class="promotion-container">
               <promotion/>
             </div>
           </div>
+          <!-- Pagination -->
           <ul class="pagination" role="navigation" >
             <li v-show="page !== 0" @click="movePreviousPage"><i class="fa fa-angle-left"></i></li>
             <li
@@ -510,12 +502,13 @@ export default {
             }
           }
           .verified {
-            background-color: @color-link;
+            border: 0;
+            background-color: @color-white;
             border-radius: 50%;
-            padding: 3px;
+            // padding: 3px;
             overflow: hidden;
-            width: 14px;
-            height: 14px;
+            width: 24px;
+            height: 24px;
           }
           .tooltip-label {
             visibility: hidden;

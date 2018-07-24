@@ -36,7 +36,7 @@
         Get Started
       </a>
     </div>
-    <!-- <div 
+    <div 
       class="card"
       v-if="!isUserBuyer && !isUserSupplier">
       <h2 class="title">Business Type</h2>
@@ -46,7 +46,7 @@
         href="/signup/step1">
         Get Started
       </a>
-    </div> -->
+    </div>
   </div>
 </template>
 

@@ -64,9 +64,9 @@ export default {
       return this.account.domain
     },
     getAccountType() {
-      const { membership_left_time } = this.account
+      const { membership_type, membership_left_time } = this.account
 
-      const type = membership_left_time ? 'Standard' : 'Free'
+      const type = membership_left_time ? membership_type : 'Free'
 
       return type
     },

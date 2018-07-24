@@ -23,26 +23,34 @@ export default {
   data: _ => ({
     cards: [
       {
-        title: 'What is paid Supplier Membership on Factoryhunt.com?',
+        title: 'Do you have a paid membership for buyers?',
         description:
-          'Suppliers with paid membership are provided with comprehensive ways to promote their products and to maximize business exposure to potential buyers.'
+          'Currently, all services are completely free for buyers on Factoryhunt.com. Please feel free to sign up as a buyer to discover reliable suppliers and new business opportunities. ',
+        img: ''
       },
       {
-        title: 'What is priority ranking and verified icon?',
+        title: 'What is paid Supplier Membership on Factoryhunt.com?',
         description:
-          'Your company is exposed on top of our search results. We would like to give a difference between free user and membership user on the search result page.',
+          'Suppliers with paid membership are provided with comprehensive ways to promote their products and to maximize business exposure to potential buyers.',
+        img: ''
+      },
+      {
+        title: 'What is Priority Ranking?',
+        description:
+          "Company profile with paid membership will have a better chance of appearing at the top of a buyer's search results.",
+        img: ''
+      },
+      {
+        title: 'What is Paid Membership Icon?',
+        description:
+          "Your company profile will get recognized for being an outstanding supplier with Paid Membership icon in buyer's search results.",
         img: 'https://s3-us-west-1.amazonaws.com/factoryhunt.com/img/pricing/pricing-faqs-1.png'
       },
       {
-        title: 'How can I access to buyer information?',
+        title: 'What is Free Display Marketing?',
         description:
-          "It is worked on buying lead page. You can see the buyer's information when your quote is not accepted yet. You don't need to leave your time to get the details of buyer.",
-        img: 'https://s3-us-west-1.amazonaws.com/factoryhunt.com/img/pricing/pricing-faqs-2.png'
-      },
-      {
-        title: 'Do you have a paid membership for buyers?',
-        description:
-          'Currently, all services are completely free for buyers on Factoryhunt.com. Please feel free to sign up to reach and find out reliable suppliers for your business. '
+          "Free Display Marketing highlights your products and company profile within both Suggested Suppliers section and in a buyer's search results.",
+        img: ''
       }
     ]
   })
