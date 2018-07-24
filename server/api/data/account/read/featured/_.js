@@ -59,6 +59,7 @@ module.exports = async (req, res) => {
     })
   }
 
+  // Deprecated - Getting Featured Supplier Before Version 1.0
   const getAccountsByRandom = () => {
     return new Promise((resolve, reject) => {
       mysql.query(

@@ -75,7 +75,7 @@ module.exports = {
     ],
     script: [
       {
-        src: 'https://maps.googleapis.com/maps/api/js?key=AIzaSyBFBRWKvq4CUEkq5XqbGaSAkajRuEfg25M'
+        src: process.env.GOOGLE_MAP_API || 'YOUR_GOOGLE_MAP_API'
       },
       { src: 'https://cdn.quilljs.com/1.0.0/quill.js' },
       { type: 'application/ld+json', innerHTML: JSON.stringify(structuredData) }
@@ -91,7 +91,7 @@ module.exports = {
     [
       '@nuxtjs/google-analytics',
       {
-        id: 'UA-103072288-1'
+        id: process.env.GOOGLE_ANALYTICS || 'YOUR_KEY'
       }
     ]
     // ['@nuxtjs/sitemap']
@@ -125,11 +125,6 @@ module.exports = {
   //   // }
   // },
   plugins: [{ src: '~plugins/i18n', injectAs: 'i18n' }, { src: '~plugins/jquery', ssr: false }],
-  router: {
-    middleware: [
-      // 'i18n'
-    ]
-  },
   build: {
     vendor: ['vue-i18n', 'axios', '~/plugins/jquery.js'],
     extend(config, { isDev, isClient }) {

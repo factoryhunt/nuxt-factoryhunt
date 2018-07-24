@@ -38,7 +38,7 @@
     </div>
     <div 
       class="card"
-      v-if="!isUserBuyer && !isUserSupplier">
+      v-if="!isUserBuyer && !isUserSupplier && isLoggedIn">
       <h2 class="title">Business Type</h2>
       <p class="description">Please let us know if you are a buyer or supplier.</p>
       <a 

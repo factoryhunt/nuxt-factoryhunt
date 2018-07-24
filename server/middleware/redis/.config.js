@@ -1,15 +1,15 @@
-module.exports = (session) => {
+module.exports = session => {
   const connectRedis = require('connect-redis')
   const RedisStore = connectRedis(session)
 
   return {
     resave: false,
     saveUninitialized: false,
-    secret: 'cOm.FaCtOrYhUnT.wWw',
+    secret: process.env.REDIS_SECRET || 'YOUR_SECRET',
     name: 'redisStore',
     cookie: {
       httpOnly: true,
-      secure: false,
+      secure: false
     },
     store: new RedisStore({
       host: 'localhost',

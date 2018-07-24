@@ -44,7 +44,7 @@ export default {
         title: 'What is Paid Membership Icon?',
         description:
           "Your company profile will get recognized for being an outstanding supplier with Paid Membership icon in buyer's search results.",
-        img: 'https://s3-us-west-1.amazonaws.com/factoryhunt.com/img/pricing/pricing-faqs-1.png'
+        img: ''
       },
       {
         title: 'What is Free Display Marketing?',

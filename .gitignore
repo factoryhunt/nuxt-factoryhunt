@@ -21,3 +21,6 @@ dump.rdb
 .idea
 .editorconfig
 .vscode
+
+# process.env
+.env
