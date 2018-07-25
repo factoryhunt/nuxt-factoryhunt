@@ -28,7 +28,7 @@
               class="recipient-title">
               <span v-show="recipient.contact_title">{{recipient.contact_title}}<br></span>
               <span>@ <a 
-                :href="`/${recipient.account_domain}`"
+                :href="getRecipientDomain"
                 target="_blank">{{recipient.account_name}}</a></span>
             </span>
             <a 
@@ -200,7 +200,7 @@ export default {
       const { conversation_id } = this.$route.params
       return {
         sender_id: this.contact.contact_id,
-        recipient_id: this.recipient.contact_id,
+        recipient_id: this.recipient.contact_id || `${this.recipient.lead_id}L`,
         conversation_id: conversation_id,
         body: this.msg.trim()
       }
@@ -214,6 +214,13 @@ export default {
       if (last_name) return last_name
 
       return ''
+    },
+    getRecipientDomain() {
+      const { lead_id, account_domain } = this.recipient
+
+      if (lead_id) return `/supplier/${account_domain}`
+
+      return `/${account_domain}`
     },
     getRecipientWebsite() {
       return validateURL(this.recipient.website)
@@ -244,8 +251,16 @@ export default {
       return logo_url ? logo_url : require('~/assets/img/temp-logo-image_english_512.png')
     },
     getReportData() {
+      const { lead_id, contact_id } = this.recipient
+
+      if (lead_id)
+        return {
+          id: lead_id,
+          table: 'leads'
+        }
+
       return {
-        id: this.recipient.contact_id,
+        id: contact_id,
         table: 'contacts'
       }
     },
@@ -284,7 +299,7 @@ export default {
         this.changeTitle()
       } catch (err) {
         console.log('err', err)
-        // this.redirectInbox()
+        this.redirectInbox()
       }
     },
     async sendMessage() {

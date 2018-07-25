@@ -129,6 +129,26 @@ module.exports = async (req, res) => {
     })
   }
 
+  const convertInbox = (lead_id, contact_id) => {
+    return new Promise((resolve, reject) => {
+      const ERR_QUERY = 'Malformed converting inbox query.'
+      const SQL = `
+      UPDATE
+        inbox
+      SET
+        conversation_id = REPLACE(conversation_id, "${lead_id}L", "${contact_id}"),
+        recipient_id = REPLACE(recipient_id, "${lead_id}L", "${contact_id}")
+      WHERE
+        conversation_id LIKE "%${lead_id}L%"
+      `
+      mysql.query(SQL, [lead_id], err => {
+        if (err) reject(onError(1007, ERR_QUERY))
+
+        resolve()
+      })
+    })
+  }
+
   try {
     await checkEmail(email)
     const { password, password_salt } = await encryptPassword(raw_password)
@@ -136,6 +156,7 @@ module.exports = async (req, res) => {
     const contact_id = await createContact(account_id, email, password, password_salt)
     await convertLead(account_id, lead_id)
     await convertBuyingLeads(lead_id, account_id, contact_id)
+    await convertInbox(lead_id, contact_id)
     res.status(200).json({ msg: 'Converting lead to account as a buyer successfully.' })
   } catch (err) {
     res.status(403).json(err)

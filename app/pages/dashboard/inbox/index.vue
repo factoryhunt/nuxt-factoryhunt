@@ -95,9 +95,10 @@ export default {
     }
   },
   methods: {
-    getUserName(message) {
-      const { first_name, last_name } = message
-
+    isLead(conversation_id) {
+      return conversation_id.indexOf('L') !== -1
+    },
+    getName(first_name, last_name) {
       if (first_name && last_name) return `${first_name} ${last_name}`
 
       if (first_name) return first_name
@@ -105,14 +106,27 @@ export default {
 
       return ''
     },
+    getUserName(message) {
+      const { first_name, last_name, conversation_id, lead_first_name, lead_last_name } = message
+
+      if (this.isLead(conversation_id)) return this.getName(lead_first_name, lead_last_name)
+
+      return this.getName(first_name, last_name)
+    },
     getLogoUrl(message) {
-      const { logo_url } = message
+      const { logo_url, conversation_id } = message
+
+      if (this.isLead(conversation_id))
+        return require('~/assets/img/temp-logo-image_english_512.png')
 
       return logo_url ? logo_url : require('~/assets/img/temp-logo-image_english_512.png')
     },
     getUserTitle(message) {
-      const { account_name } = message
-      return account_name
+      const { account_name, lead_account_name, conversation_id } = message
+
+      if (this.isLead(conversation_id)) return '@ ' + lead_account_name
+
+      return '@ ' + account_name
     },
     getCreatedDate(message) {
       const payload = {

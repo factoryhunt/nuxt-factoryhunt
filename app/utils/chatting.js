@@ -3,37 +3,30 @@ import axios from '~/plugins/axios'
 export const createChatRoom = (sender_id, recipient_id, msg, is_lead) => {
   if (!sender_id || !recipient_id || !msg) return 'Not enough datas.'
 
-  const getConversationId = () => {
-    let id
-    if (sender_id > recipient_id) id = `${recipient_id}_${sender_id}`
-    else id = `${sender_id}_${recipient_id}`
+  const api = `/api/data/inbox`
 
-    return id
+  if (is_lead) recipient_id = recipient_id + 'L'
+
+  const getConversationId = () => {
+    if (is_lead) return `${sender_id}_${recipient_id}`
+    else
+      return sender_id > recipient_id
+        ? `${recipient_id}_${sender_id}`
+        : `${sender_id}_${recipient_id}`
   }
 
-  const API = `/api/data/inbox`
-  let body
-  if (is_lead) {
-    body = {
-      sender_id,
-      temp_recipient_id: recipient_id,
-      temp_conversation_id: getConversationId(),
-      body: msg
-    }
-  } else {
-    body = {
-      sender_id,
-      recipient_id,
-      conversation_id: getConversationId(),
-      body: msg
-    }
+  const body = {
+    sender_id,
+    recipient_id,
+    conversation_id: getConversationId(),
+    body: msg
   }
 
   let chatRoomURL = `/dashboard/inbox/${getConversationId()}`
 
   return new Promise(async (resolve, reject) => {
     try {
-      await axios.post(API, { body })
+      await axios.post(api, { body })
       resolve(chatRoomURL)
     } catch (err) {
       console.log('on chat error', err)

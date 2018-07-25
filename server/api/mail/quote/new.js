@@ -81,7 +81,7 @@ module.exports = async (req, res) => {
       from: 'Factory Hunt <info@factoryhunt.com>',
       to: data.contact_email,
       bcc: 'info@factoryhunt.com',
-      subject: 'You have got a new quote from a supplier.',
+      subject: 'You received a new quote from a supplier.',
       html: getEmailTemplate(data)
     }
 

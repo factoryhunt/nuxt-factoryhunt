@@ -4,7 +4,9 @@ const { onError } = require('../../../../../utils/error')
 
 // GET /api/data/inbox/conversation_id/:conversation_id/:recipient_id
 module.exports = async (req, res) => {
-  const { conversation_id, recipient_id } = req.params
+  let { conversation_id, recipient_id } = req.params
+  const is_lead = recipient_id.indexOf('L') !== -1
+  recipient_id = recipient_id.replace(/L/g, '')
 
   const getRecipient = () => {
     return new Promise((resolve, reject) => {
@@ -34,7 +36,7 @@ module.exports = async (req, res) => {
         a.mailing_street_address,
         a.mailing_street_address_2,
         a.mailing_postal_code,
-        a.domain as account_domain,
+        a.domain AS account_domain,
         a.logo_url
       FROM
         contacts c
@@ -45,10 +47,48 @@ module.exports = async (req, res) => {
       WHERE
         contact_id = ?
       `
-      mysql.query(SQL, [recipient_id], (err, rows) => {
+      mysql.query(SQL, recipient_id, (err, rows) => {
         if (err) reject(err)
 
-        if (!rows.length) resolve([])
+        if (!rows.length) resolve({})
+        resolve(rows[0])
+      })
+    })
+  }
+
+  const getLeadRecipient = () => {
+    return new Promise((resolve, reject) => {
+      const sql = `
+      SELECT
+        lead_id,
+        company AS account_name,
+        email AS contact_email,
+        business_type,
+        products,
+        domain AS account_domain,
+        number_of_employees,
+        first_name,
+        last_name,
+        contact_title,
+        salutation,
+        phone,
+        website,
+        established_date,
+        languages,
+        mailing_country,
+        mailing_state,
+        mailing_city,
+        mailing_street_address,
+        mailing_street_address_2
+      FROM
+        leads
+      WHERE
+        lead_id = ?
+    `
+      mysql.query(sql, recipient_id, (err, rows) => {
+        if (err) reject(err)
+
+        if (!rows.length) resolve({})
         resolve(rows[0])
       })
     })
@@ -71,7 +111,7 @@ module.exports = async (req, res) => {
 				TIMESTAMPDIFF(MINUTE, created_date, NOW()) as minute_diff,
         TIMESTAMPDIFF(SECOND, created_date, NOW()) as second_diff
       FROM 
-        ${CONFIG_MYSQL.TABLE_INBOX}
+        inbox
       WHERE 
         conversation_id = ?
       ORDER BY
@@ -86,7 +126,10 @@ module.exports = async (req, res) => {
   }
 
   try {
-    const datas = await Promise.all([getRecipient(), getMessages()])
+    let datas
+    if (is_lead) datas = await Promise.all([getLeadRecipient(), getMessages()])
+    else datas = await Promise.all([getRecipient(), getMessages()])
+
     const result = {
       recipient: datas[0],
       messages: datas[1]
