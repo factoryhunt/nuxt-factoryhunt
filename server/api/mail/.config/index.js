@@ -1,7 +1,7 @@
 const host = 'smtp.daum.net'
 const port = 465
 const secure = true // true for 465, false for other ports
-const password = 'Ycombinator2017'
+const password = process.env.DAUM_PASSWORD || 'YOUR_PASSWORD'
 module.exports = {
   info: {
     host: host,
