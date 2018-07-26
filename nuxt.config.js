@@ -3,6 +3,8 @@ const structuredData = require('./server/middleware/nuxt/config/structured_data'
 
 const { GOOGLE_ANALYTICS, GOOGLE_MAP_API } = process.env
 
+console.log(process.env)
+
 module.exports = {
   srcDir: './app',
   head: {
