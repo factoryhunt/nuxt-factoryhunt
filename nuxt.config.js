@@ -77,7 +77,9 @@ module.exports = {
     ],
     script: [
       {
-        src: GOOGLE_MAP_API || 'YOUR_GOOGLE_MAP_API'
+        src:
+          'https://maps.googleapis.com/maps/api/js?key=AIzaSyBFBRWKvq4CUEkq5XqbGaSAkajRuEfg25M' ||
+          'YOUR_GOOGLE_MAP_API'
       },
       { src: 'https://cdn.quilljs.com/1.0.0/quill.js' },
       { type: 'application/ld+json', innerHTML: JSON.stringify(structuredData) }
@@ -93,7 +95,7 @@ module.exports = {
     [
       '@nuxtjs/google-analytics',
       {
-        id: GOOGLE_ANALYTICS || 'YOUR_KEY'
+        id: 'UA-103072288-1' || 'YOUR_KEY'
       }
     ]
     // ['@nuxtjs/sitemap']
