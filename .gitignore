@@ -14,6 +14,9 @@ dist
 yarn.lock
 yarn-error.log
 
+# npm packages
+package-lock.json
+
 # redis
 dump.rdb
 
