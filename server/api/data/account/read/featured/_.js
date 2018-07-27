@@ -11,6 +11,7 @@ module.exports = async (req, res) => {
         a.account_name,
         a.domain,
         a.products,
+        a.customer_priority,
         a.cover_image_url_1,
         a.mailing_country,
         TIMESTAMPDIFF(SECOND, NOW(), a.membership_valid_until) AS membership_left_time,

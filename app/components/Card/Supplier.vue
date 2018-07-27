@@ -12,7 +12,7 @@
           <div class="products-wrapper">
             <span 
               class="verified" 
-              v-show="supplier.membership_left_time">Featured</span>
+              v-show="supplier.membership_left_time && supplier.customer_priority > 3">Featured</span>
             <span
               class="products">{{supplier.products}}</span>
           </div>

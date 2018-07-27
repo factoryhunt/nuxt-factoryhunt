@@ -1,7 +1,7 @@
 // const axios = require('axios')
 const structuredData = require('./server/middleware/nuxt/config/structured_data')
 
-const { GOOGLE_ANALYTICS, GOOGLE_MAP_API } = process.env
+const { GOOGLE_ANALYTICS, GOOGLE_MAP_API_KEY } = process.env
 
 module.exports = {
   srcDir: './app',
@@ -78,7 +78,7 @@ module.exports = {
     script: [
       {
         src:
-          'https://maps.googleapis.com/maps/api/js?key=AIzaSyBFBRWKvq4CUEkq5XqbGaSAkajRuEfg25M' ||
+          `https://maps.googleapis.com/maps/api/js?key=${GOOGLE_MAP_API_KEY}` ||
           'YOUR_GOOGLE_MAP_API'
       },
       { src: 'https://cdn.quilljs.com/1.0.0/quill.js' },
