@@ -88,7 +88,7 @@
                         class="tag verified"
                         src="~assets/icons/star.svg" 
                         alt="verified">
-                      <div class="tooltip-label">Paid Membership User</div>
+                      <div class="tooltip-label">Premium Supplier</div>
                     </div>
                     <!-- Powered -->
                     <span 
