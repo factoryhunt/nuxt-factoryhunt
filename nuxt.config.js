@@ -1,4 +1,5 @@
 // const axios = require('axios')
+const axios = require('axios')
 const structuredData = require('./server/middleware/nuxt/config/structured_data')
 
 const { GOOGLE_ANALYTICS, GOOGLE_MAP_API_KEY } = process.env
@@ -77,9 +78,7 @@ module.exports = {
     ],
     script: [
       {
-        src:
-          `https://maps.googleapis.com/maps/api/js?key=${GOOGLE_MAP_API_KEY}` ||
-          'YOUR_GOOGLE_MAP_API'
+        src: 'https://maps.googleapis.com/maps/api/js?key=AIzaSyBFBRWKvq4CUEkq5XqbGaSAkajRuEfg25M'
       },
       { src: 'https://cdn.quilljs.com/1.0.0/quill.js' },
       { type: 'application/ld+json', innerHTML: JSON.stringify(structuredData) }
@@ -92,42 +91,39 @@ module.exports = {
     { src: '~assets/css/index.less', lang: 'less' }
   ],
   modules: [
+    '@nuxtjs/sitemap',
     [
       '@nuxtjs/google-analytics',
       {
-        id: 'UA-103072288-1' || 'YOUR_KEY'
+        id: 'UA-103072288-1'
       }
     ]
-    // ['@nuxtjs/sitemap']
   ],
-  // sitemap: {
-  //   path: '/sitemap.xml',
-  //   hostname: 'https://www.factoryhunt.com',
-  //   cacheTime: 1000 * 60 * 15, // 15 mins
-  //   generate: false,
-  //   exclude: [
-  //     '/404',
-  //     '/pricing',
-  //     '/dashboard',
-  //     '/dashboard/**',
-  //     '/for-supplier/**',
-  //     '/search',
-  //     '/supplier',
-  //     '/inquiry',
-  //     '/verification',
-  //     '/verification/**',
-  //   ],
-  //   // async routes () {
-  //   //   return await axios.get('http://127.0.0.1:3000/api/data/sitemap')
-  //   //     .then(res => res.data.map(account => {
-  //   //       if (account.account_status === 'approved') {
-  //   //         return '/' + account.domain
-  //   //       } else {
-  //   //         return '/supplier/' + account.domain
-  //   //       }
-  //   //     }))
-  //   // }
-  // },
+  sitemap: {
+    path: '/sitemap.xml',
+    hostname: 'https://www.factoryhunt.com',
+    cacheTime: 1000 * 60 * 15,
+    gzip: true,
+    generate: false, // Enable me when using nuxt generate
+    exclude: [
+      '/404',
+      '/pricing',
+      '/dashboard',
+      '/dashboard/**',
+      '/for-supplier/**',
+      '/search',
+      '/supplier',
+      '/inquiry',
+      '/verification',
+      '/verification/**'
+    ],
+    routes: async () => {
+      const api = 'http://127.0.0.1:3000/api/data/sitemap'
+
+      const { data } = await axios.get(api)
+      return data
+    }
+  },
   plugins: [{ src: '~plugins/i18n', injectAs: 'i18n' }, { src: '~plugins/jquery', ssr: false }],
   build: {
     vendor: ['vue-i18n', 'axios', '~/plugins/jquery.js'],

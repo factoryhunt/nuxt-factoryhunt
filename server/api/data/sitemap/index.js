@@ -1,32 +1,31 @@
 const router = require('express').Router()
 const mysql = require('../../mysql')
-const CONFIG_MYSQL = require('../../mysql/model')
 
-router.get('/', async (req, res) => {
-
+// GET /api/data/sitemap
+router.get('/', async (_, res) => {
   const getDomain = () => {
     return new Promise((resolve, reject) => {
-      mysql.query(`
-      (
-      SELECT 
-      domain, 
-      account_status,
-      billing_country
-      FROM ${CONFIG_MYSQL.TABLE_ACCOUNTS}
-      WHERE account_status = "approved"
-      )
-      UNION ALL
-      (
+      const sql = `
       SELECT
-      domain, 
-      lead_status,
-      languages
-      FROM ${CONFIG_MYSQL.TABLE_LEADS}
-      WHERE lead_status != "Closed - Converted" 
-      )
-      ORDER BY billing_country != "Korean" DESC`, (err, rows) => {
+        account_id,
+        domain
+      FROM
+        accounts
+      WHERE
+        isDeleted != 1 AND
+        account_status = "approved"
+      ORDER BY 
+        factory_country != "Korean" DESC
+      `
+
+      mysql.query(sql, (err, rows) => {
         if (err) reject(err)
-        resolve(rows)
+
+        const sitelinks = rows.map(({ domain }) => {
+          return `/${domain}`
+        })
+
+        resolve(sitelinks)
       })
     })
   }
@@ -35,7 +34,8 @@ router.get('/', async (req, res) => {
     const domain = await getDomain()
     res.status(200).json(domain)
   } catch (err) {
-    res.status(403).json({})
+    console.error(err)
+    res.sendStatus(404)
   }
 })
 
